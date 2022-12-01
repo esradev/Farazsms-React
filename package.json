@@ -1,9 +1,11 @@
 {
-  "name": "faraz-sms-plugin",
+  "name": "farazsms-plugin",
   "version": "2.0.0",
   "description": "By using the Faraz SMS plugin, you can professionally equip your site with a powerful SMS tool for information and marketing. Saving customers numbers in the phone book, sending welcome SMS, sending reply SMS to comments, etc. are part of the features of this powerful SMS plugin.",
   "main": "index.js",
   "scripts": {
+    "preview": "npm-run-all --parallel sync start",
+    "sync": "browser-sync start -p 'faraz-sms.local' --files '**/*.php' 'build/*.js' 'build/*.css'",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "wp-scripts build",
     "start": "wp-scripts start"
@@ -19,6 +21,8 @@
   },
   "homepage": "https://github.com/esradev/FarazSmsPlugin#readme",
   "devDependencies": {
-    "@wordpress/scripts": "^24.6.0"
+    "@wordpress/scripts": "^24.6.0",
+    "browser-sync": "^2.27.10",
+    "npm-run-all": "^4.1.5"
   }
 }

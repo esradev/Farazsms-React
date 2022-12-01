@@ -51,7 +51,7 @@ class Farazsms_Settings
      */
     public function farazsms_admin_page()
     {
-        require_once FARAZSMS_DIR . 'templates/app.php';
+        require_once FARAZSMS_INC_PATH . 'farazsms-admin.php';
     }
 
     /**

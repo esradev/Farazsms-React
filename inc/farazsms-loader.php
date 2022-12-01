@@ -3,12 +3,10 @@
 /**
  * Farazsms Loader.
  *
- * @package Farazsms
  */
 
-if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly.
-}
+defined('ABSPATH') || exit; // Exit if accessed directly.
+
 
 if (!class_exists('Farazsms_Loader')) {
 
@@ -54,32 +52,20 @@ if (!class_exists('Farazsms_Loader')) {
         public function __construct()
         {
 
-            $this->define_constants();
-
             // Activation hook.
             register_activation_hook(FARAZSMS_FILE, array($this, 'activation_reset'));
+
+            // Redirect after plugin is activated.
+            add_action('admin_init', array($this, 'farazsms_activation_redirect'));
 
             // deActivation hook.
             register_deactivation_hook(FARAZSMS_FILE, array($this, 'deactivation_reset'));
 
+            // Load core files of the plugin
             add_action('plugins_loaded', array($this, 'load_plugin'), 99);
 
-            /* add_action('plugins_loaded', array($this, 'load_faraz_textdomain')); */
-        }
-
-        /**
-         * Defines all constants
-         *
-         * @since 1.0.0
-         */
-        public function define_constants()
-        {
-            define('FARAZSMS_BASE', plugin_basename(FARAZSMS_FILE));
-            define('FARAZSMS_DIR', plugin_dir_path(FARAZSMS_FILE));
-            define('FARAZSMS_URL', plugins_url('/', FARAZSMS_FILE));
-            define('FARAZSMS_VER', '2.0.0');
-
-            define('FARAZSMS_SLUG', 'farazsms');
+            // load faraz textdomain..
+            add_action('plugins_loaded', array($this, 'load_farazsms_textdomain'));
         }
 
         /**
@@ -107,9 +93,11 @@ if (!class_exists('Farazsms_Loader')) {
          */
         public function load_core_files()
         {
-            /* Load Farazsms Sttings. */
+            /* Load Farazsms Options. */
+            include_once FARAZSMS_INC_PATH . 'farazsms-options.php';
 
-            include_once FARAZSMS_DIR . 'inc/farazsms-settings.php';
+            /* Load Farazsms Sttings. */
+            include_once FARAZSMS_INC_PATH . 'farazsms-settings.php';
         }
 
         /**
@@ -118,6 +106,7 @@ if (!class_exists('Farazsms_Loader')) {
         public function activation_reset()
         {
             $this->create_default_tabls();
+            add_option('farazsms_do_activation_redirect', true);
         }
 
         /**
@@ -147,11 +136,74 @@ if (!class_exists('Farazsms_Loader')) {
             dbDelta($query2);
         }
 
+
+
+        /**
+         * Redirect user to faraz settings page after plugin activated.
+         */
+        public function farazsms_activation_redirect($plugin)
+        {
+            if (get_option('farazsms_do_activation_redirect', false)) {
+                delete_option('farazsms_do_activation_redirect');
+                exit(wp_redirect(admin_url('admin.php?page=farazsms-plugin-react')));
+            }
+        }
+
+
+
         /**
          * Deactivation Reset
          */
         public function deactivation_reset()
         {
+        }
+
+        public function load_farazsms_textdomain()
+        {
+
+            // Default languages directory for Farazsms.
+            $lang_dir = FARAZSMS_PATH . 'languages/';
+
+            /**
+             * Filters the languages directory path to use for Farazsms.
+             *
+             * @param string $lang_dir The languages directory path.
+             */
+            $lang_dir = apply_filters('farazsms_languages_directory', $lang_dir);
+
+            // Traditional WordPress plugin locale filter.
+            global $wp_version;
+
+            $get_locale = get_locale();
+
+            if ($wp_version >= 4.7) {
+                $get_locale = get_user_locale();
+            }
+
+            /**
+             * Language Locale for Farazsms
+             *
+             * @var $get_locale The locale to use.
+             * Uses get_user_locale()` in WordPress 4.7 or greater,
+             * otherwise uses `get_locale()`.
+             */
+            $locale = apply_filters('plugin_locale', $get_locale, 'farazsms');
+            $mofile = sprintf('%1$s-%2$s.mo', 'farazsms', $locale);
+
+            // Setup paths to current locale file.
+            $mofile_local  = $lang_dir . $mofile;
+            $mofile_global = WP_LANG_DIR . '/plugins/' . $mofile;
+
+            if (file_exists($mofile_global)) {
+                // Look in global /wp-content/languages/%plugin-folder-name%/ folder.
+                load_textdomain('farazsms', $mofile_global);
+            } elseif (file_exists($mofile_local)) {
+                // Look in local /wp-content/plugins/%plugin-folder-name%/languages/ folder.
+                load_textdomain('farazsms', $mofile_local);
+            } else {
+                // Load the default language files.
+                load_plugin_textdomain('farazsms', false, $lang_dir);
+            }
         }
     }
 
