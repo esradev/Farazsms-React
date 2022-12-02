@@ -17,15 +17,44 @@
  *
  */
 
+/**
+ *
+ * Released under the GPL license
+ * http://www.opensource.org/licenses/gpl-license.php
+ *
+ * This is an add-on for WordPress
+ * http://wordpress.org/
+ *
+ * **********************************************************************
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * **********************************************************************
+ */
+
 defined('ABSPATH') || exit; // Exit if accessed directly
 
 /**
  * Set defines.
  */
 
-define('FARAZSMS_VER',               '3.11.3');
+define('FARAZSMS_VER',                   '3.11.3');
+define('FARAZSMS_PLUGIN_NAME',           plugin_basename(__FILE__));
+define('FARAZSMS_SLUG',                  'farazsms_settings');
+define('FARAZSMS_SETTINGS_LINK',         admin_url('admin.php?page=' . FARAZSMS_SLUG));
 
 define('FARAZSMS_WEB_MAIN',              'https://farazsms.com/');
+define('FARAZSMS_WEB_MAIN_DOC',          'https://farazsms.com/farazsms-wordpress-plugin/');
 define('FARAZSMS_WEB_API',               FARAZSMS_WEB_MAIN . 'api/wp-faraz/');
 define('FARAZSMS_WEB_CHECK',             FARAZSMS_WEB_MAIN . 'check_update.php');
 define('FARAZSMS_WEB_VALID',             FARAZSMS_WEB_MAIN . 'valid_key.php');
@@ -60,18 +89,18 @@ define('FARAZSMS_ASSETS_IMG_URL',        FARAZSMS_ASSETS_URL . 'img/');
  *
  * @return void
  */
-function faraz_load_textdomain()
+function farazsms_load_textdomain()
 {
     // Load translations from the languages directory.
     $locale = get_locale();
 
     // This filter is documented in /wp-includes/l10n.php.
-    $locale = apply_filters('plugin_locale', $locale, 'faraz'); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
-    load_textdomain('faraz', WP_LANG_DIR . '/plugins/wp-faraz-' . $locale . '.mo');
+    $locale = apply_filters('plugin_locale', $locale, 'farazsms'); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals
+    load_textdomain('farazsms', WP_LANG_DIR . '/plugins/wp-farazsms-' . $locale . '.mo');
 
-    load_plugin_textdomain('faraz', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+    load_plugin_textdomain('farazsms', false, dirname(plugin_basename(__FILE__)) . '/languages/');
 }
-add_action('plugins_loaded', 'faraz_load_textdomain');
+add_action('plugins_loaded', 'farazsms_load_textdomain');
 
 
 require FARAZSMS_INC_PATH . 'farazsms-loader.php';

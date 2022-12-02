@@ -30,8 +30,9 @@ class Farazsms_Settings
      */
     public function __construct()
     {
-        add_action('admin_menu', array($this, 'farazsms_init_menu'));
-        add_action('admin_enqueue_scripts', array($this, 'farazsms_admin_enqueue_scripts'));
+        add_action('admin_menu', array($this, 'init_menu'));
+        add_filter('plugin_action_links_' . FARAZSMS_PLUGIN_NAME, array($this, 'settings_link'));
+        add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
     }
 
     /**
@@ -39,9 +40,9 @@ class Farazsms_Settings
      *
      * @return void
      */
-    public function farazsms_init_menu()
+    public function init_menu()
     {
-        add_menu_page(__('Farazsms', 'farazsms'), __('Farazsms', 'farazsms'), 'manage_options', 'farazsms-plugin-react', array($this, 'farazsms_admin_page'), 'dashicons-testimonial', 100);
+        add_menu_page(__('Farazsms', 'farazsms'), __('Farazsms', 'farazsms'), 'manage_options', FARAZSMS_SLUG, array($this, 'admin_page'), 'dashicons-testimonial', 100);
     }
 
     /**
@@ -49,7 +50,7 @@ class Farazsms_Settings
      *
      * @return void
      */
-    public function farazsms_admin_page()
+    public function admin_page()
     {
         require_once FARAZSMS_INC_PATH . 'farazsms-admin.php';
     }
@@ -59,10 +60,25 @@ class Farazsms_Settings
      *
      * @return void
      */
-    public function farazsms_admin_enqueue_scripts()
+    public function admin_enqueue_scripts()
     {
         wp_enqueue_style('farazsms-style', FARAZSMS_URL . 'build/index.css');
         wp_enqueue_script('farazsms-script', FARAZSMS_URL . 'build/index.js', array('wp-element'), '1.0.0', true);
+    }
+
+    /**
+     * Plguin settings link on all plugins page.
+     */
+
+    public function settings_link($links)
+    {
+        // Add settings link
+        $settings_link = '<a href="' . FARAZSMS_SETTINGS_LINK . '">Settings</a>';
+
+        // Add document link
+        $doc_link = '<a href="' . FARAZSMS_WEB_MAIN_DOC . '" target="_blank" rel="noopener noreferrer">Docs</a>';
+        array_push($links, $settings_link, $doc_link);
+        return $links;
     }
 
     /**

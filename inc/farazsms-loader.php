@@ -51,7 +51,6 @@ if (!class_exists('Farazsms_Loader')) {
          */
         public function __construct()
         {
-
             // Activation hook.
             register_activation_hook(FARAZSMS_FILE, array($this, 'activation_reset'));
 
@@ -110,6 +109,17 @@ if (!class_exists('Farazsms_Loader')) {
         }
 
         /**
+         * Redirect user to faraz settings page after plugin activated.
+         */
+        public function farazsms_activation_redirect($plugin)
+        {
+            if (get_option('farazsms_do_activation_redirect', false)) {
+                delete_option('farazsms_do_activation_redirect');
+                exit(wp_redirect(FARAZSMS_SETTINGS_LINK));
+            }
+        }
+
+        /**
          *  Set the default Farazsms newsletter Table.
          */
         public function create_default_tabls()
@@ -135,21 +145,6 @@ if (!class_exists('Farazsms_Loader')) {
             dbDelta($query);
             dbDelta($query2);
         }
-
-
-
-        /**
-         * Redirect user to faraz settings page after plugin activated.
-         */
-        public function farazsms_activation_redirect($plugin)
-        {
-            if (get_option('farazsms_do_activation_redirect', false)) {
-                delete_option('farazsms_do_activation_redirect');
-                exit(wp_redirect(admin_url('admin.php?page=farazsms-plugin-react')));
-            }
-        }
-
-
 
         /**
          * Deactivation Reset

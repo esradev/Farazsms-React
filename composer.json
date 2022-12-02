@@ -1,0 +1,16 @@
+{
+    "name": "admin/farazsms-react",
+    "description": "Farazsms plugin for wordpress",
+    "type": "project",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Wpstorm",
+            "email": "wpstormdev@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "ippanel/php-rest-sdk": "dev-master"
+    }
+}

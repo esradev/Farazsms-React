@@ -15,7 +15,7 @@
  * 
  */
 
-require FARAZSMS_INC_PATH . 'vendor/autoload.php';
+require FARAZSMS_PATH . 'vendor/autoload.php';
 
 use IPPanel\Errors\Error;
 use IPPanel\Errors\HttpException;
