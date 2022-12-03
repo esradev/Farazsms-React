@@ -54,27 +54,55 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-// Authentication IPPanel user
-// Optionally the request above could also be done as
-const authentication_data = {
-  headers: {
-    Authorization: "AccessKey LWqlmg6mE2zdxATLB4s8sd0cQdG0a4mmXIh9mfE1GNU="
-  }
-};
-axios__WEBPACK_IMPORTED_MODULE_2__["default"].get("http://rest.ippanel.com/v1/user", authentication_data).then(function (response) {
-  console.log(response);
-}).catch(function (error) {
-  console.log(error);
-}).finally(function () {
-  // always executed
-});
 function Settings() {
+  // Authentication IPPanel user
+  const [apikey, setApikey] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)();
+  const [usercredit, setUsercredit] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)();
+  const authentication_data = {
+    headers: {
+      Authorization: "AccessKey " + [apikey]
+    }
+  };
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      const response = await axios__WEBPACK_IMPORTED_MODULE_2__["default"].get("http://rest.ippanel.com/v1/user", authentication_data);
+      if (response.data) {
+        console.log(response.data.data.user);
+      } else {
+        console.log("there was an error");
+      }
+      const credit = await axios__WEBPACK_IMPORTED_MODULE_2__["default"].get("http://rest.ippanel.com/v1/credit", authentication_data);
+      setUsercredit(credit.data.data.credit);
+    } catch (e) {
+      console.log(e);
+    }
+  }
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "Settings"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "card"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Settings"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Edit Settings component at ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("code", null, "src/components/Dashboard.jsx"))));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Settings"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "col-lg-5 pl-lg-5 pb-3 py-lg-5"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("form", {
+    onSubmit: handleSubmit
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "form-group"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "faraz-apikey",
+    className: "text-muted mb-1"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, "Apikey")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    onChange: e => setApikey(e.target.value),
+    id: "faraz-apikey",
+    name: "apikey",
+    className: "form-control",
+    type: "text",
+    placeholder: "your apikey",
+    autoComplete: "off"
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "your credit is ", usercredit)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    type: "submit",
+    className: "py-3 mt-4 btn btn-lg btn-success btn-block"
+  }, "Sign up for ComplexApp")))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Settings);
 
