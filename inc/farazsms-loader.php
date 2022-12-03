@@ -93,7 +93,7 @@ if (!class_exists('Farazsms_Loader')) {
         public function load_core_files()
         {
             /* Load Farazsms Options. */
-            include_once FARAZSMS_INC_PATH . 'farazsms-options.php';
+            // include_once FARAZSMS_INC_PATH . 'farazsms-options.php';
 
             /* Load Farazsms Sttings. */
             include_once FARAZSMS_INC_PATH . 'farazsms-settings.php';
