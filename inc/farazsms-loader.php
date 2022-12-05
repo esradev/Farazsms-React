@@ -2,18 +2,20 @@
 
 /**
  * Farazsms Loader.
+ * 
+ * @package Farazsms
  *
  */
 
 defined('ABSPATH') || exit; // Exit if accessed directly.
 
 
-if (!class_exists('Farazsms_Loader')) {
+if (!class_exists('FARAZSMS_Loader')) {
 
     /**
-     * Class Farazsms_Loader.
+     * Class FARAZSMS_Loader.
      */
-    final class Farazsms_Loader
+    final class FARAZSMS_Loader
     {
 
         /**
@@ -70,21 +72,27 @@ if (!class_exists('Farazsms_Loader')) {
         /**
          * Loads plugin files.
          *
-         * @since 1.0.0
+         * @since 2.0.0
          *
          * @return void
          */
         public function load_plugin()
         {
             $this->load_core_files();
-            /**
-             * Farazsms Init.
-             *
-             * Fires when Farazsms is instantiated.
-             *
-             * @since 2.0.0
-             */
-            do_action('farazsms_init');
+        }
+
+        /**
+         * Create new database tables for plugin updates.
+         *
+         * @since 1.0.0
+         *
+         * @return void
+         */
+        public function initialize_farazsms_tables()
+        {
+            include_once FARAZSMS_PATH . 'modules/farazsms/classes/class-farazsms-database.php';
+            $db = Farazsms_Database::get_instance();
+            $db->create_tables();
         }
 
         /**
@@ -92,10 +100,10 @@ if (!class_exists('Farazsms_Loader')) {
          */
         public function load_core_files()
         {
-            /* Load Farazsms Options. */
-            // include_once FARAZSMS_INC_PATH . 'farazsms-options.php';
+            // Load Farazsms Options.
+            include_once FARAZSMS_INC_PATH . 'farazsms-options.php';
 
-            /* Load Farazsms Sttings. */
+            // Load Farazsms Sttings.
             include_once FARAZSMS_INC_PATH . 'farazsms-settings.php';
         }
 
@@ -104,7 +112,8 @@ if (!class_exists('Farazsms_Loader')) {
          */
         public function activation_reset()
         {
-            $this->create_default_tabls();
+            $this->define_default_options();
+            $this->initialize_farazsms_tables();
             add_option('farazsms_do_activation_redirect', true);
         }
 
@@ -120,39 +129,21 @@ if (!class_exists('Farazsms_Loader')) {
         }
 
         /**
-         *  Set the default Farazsms newsletter Table.
-         */
-        public function create_default_tabls()
-        {
-            global $wpdb;
-            $collate = $wpdb->get_charset_collate();
-            $newsletter_table_name = $wpdb->prefix . 'farazsms_newsletter';
-            $verify_code_table_name = $wpdb->prefix . 'farazsms_vcode';
-            $query   = "CREATE TABLE IF NOT EXISTS `$newsletter_table_name` (
-					 `id` int(10) NOT NULL AUTO_INCREMENT,
-					 `phone` BIGINT(10) UNSIGNED NOT NULL ,
-					 `name` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-					 `phone_book` int(10) DEFAULT NULL,
-					 PRIMARY KEY (`id`)
-					) $collate";
-            $query2   = "CREATE TABLE IF NOT EXISTS `$verify_code_table_name` (
-					 `id` int(10) NOT NULL AUTO_INCREMENT,
-					 `phone` BIGINT(10) UNSIGNED NOT NULL ,
-					 `code` int(4) DEFAULT NULL,
-					 PRIMARY KEY (`id`)
-					) $collate";
-            require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-            dbDelta($query);
-            dbDelta($query2);
-        }
-
-        /**
          * Deactivation Reset
          */
         public function deactivation_reset()
         {
         }
 
+        /**
+         * Load Farazsms Text Domain.
+         * This will load the translation textdomain depending on the file priorities.
+         *      1. Global Languages /wp-content/languages/%plugin-folder-name%/ folder
+         *      2. Local dorectory /wp-content/plugins/%plugin-folder-name%/languages/ folder
+         *
+         * @since  2.0.0
+         * @return void
+         */
         public function load_farazsms_textdomain()
         {
 
@@ -206,7 +197,7 @@ if (!class_exists('Farazsms_Loader')) {
      *  Prepare if class 'Farazsms_Loader' exist.
      *  Kicking this off by calling 'get_instance()' method
      */
-    Farazsms_Loader::get_instance();
+    FARAZSMS_Loader::get_instance();
 }
 
 
@@ -218,6 +209,6 @@ if (!function_exists('farazsms')) {
      */
     function farazsms()
     {
-        return Farazsms_Loader::get_instance();
+        return FARAZSMS_Loader::get_instance();
     }
 }

@@ -1,0 +1,3 @@
+Version 2.0.0 - Tuesday, 22th Nov 2022
+- Fix Bugs and performance stability.
+- Internationalize the new version of Farazsms plguin.

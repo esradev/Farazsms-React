@@ -31,7 +31,7 @@ class Farazsms_Settings
     public function __construct()
     {
         add_action('admin_menu', array($this, 'init_menu'));
-        add_filter('plugin_action_links_' . FARAZSMS_PLUGIN_NAME, array($this, 'settings_link'));
+        add_filter('plugin_action_links_' . FARAZSMS_BASE, array($this, 'settings_link'));
         add_action('admin_enqueue_scripts', array($this, 'admin_enqueue_scripts'));
     }
 
