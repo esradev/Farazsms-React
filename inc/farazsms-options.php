@@ -7,30 +7,21 @@
 function farazsms_register_settings()
 {
 
-    $farazsms_general_options = [
+    $credentials_option = [
         'show_in_rest' => [
             'schema' => [
                 'type' => 'object',
-                'properties' => [
-                    'apikey' => [
-                        'type' => 'string',
-                        'default' => 'LWqlmg6mE2zdxATLB4s8sd0cQdG0a4mmXIh9mfE1GNU=',
-                    ],
-                    'username' => [
-                        'type' => 'string',
-                        'default' => 'farazsms',
-                    ]
-                ],
+                'properties' => [],
             ],
         ],
     ];
 
-    add_option('farazsms_general_options', $farazsms_general_options);
+    add_option('credentials_option', $credentials_option);
 }
 
 add_action('init', 'farazsms_register_settings');
 
-add_option('username', 'farazsms_general_options');
+add_option('username', 'credentials_option');
 
 
 /**
@@ -38,30 +29,31 @@ add_option('username', 'farazsms_general_options');
  */
 function farazsms_get_options()
 {
-    return get_option('farazsms_general_options');
+    return get_option('credentials_option');
 }
 
-// function farazsms_add_option($data)
-// {
-//     $option      = array(
-//         'key1' => $data['key1'],
-//         'key2' => $data['key2'],
-//     );
-//     $option_json = wp_json_encode($option);
-//     $result      = update_option('farazsms_general_options', $option_json);
-//     return $result;
-// }
+function farazsms_add_option($data)
+{
+    $option      = array(
+        'username' => $data['username'] ? $data['username'] : '',
+        'password' => $data['password'] ? $data['password'] : '',
+
+    );
+    $option_json = wp_json_encode($option);
+    $result      = update_option('credentials_option', $option_json);
+    return $result;
+}
 
 function farazsms_regsiter_api()
 {
-    register_rest_route('farazsms/v1', '/options', array(
+    register_rest_route('farazsms/v1', '/credentials_options', array(
         'methods' => 'GET',
         'callback' => 'farazsms_get_options',
     ));
-    // register_rest_route('farazsms/v1', '/options', array(
-    //     'methods' => 'POST',
-    //     'callback' => array('farazsms_add_option'),
-    // ));
+    register_rest_route('farazsms/v1', '/credentials_options', array(
+        'methods' => 'POST',
+        'callback' => 'farazsms_add_option',
+    ));
 }
 
 
