@@ -1,1 +1,0 @@
-{"version":3,"file":"index.css","mappings":";;;AACE;EACE;EACA;EACA;AAAJ,C","sources":["webpack://farazsms-plugin/./src/index.scss"],"sourcesContent":["#farazsms-app-php {\r\n  .app-title {\r\n    font-size: 1.5em;\r\n    font-weight: bold;\r\n    margin-bottom: 1em;\r\n  }\r\n}\r\n"],"names":[],"sourceRoot":""}

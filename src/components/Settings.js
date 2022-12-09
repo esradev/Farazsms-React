@@ -2,33 +2,58 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 
 function Settings() {
-  // Authentication IPPanel user
-  const [apikey, setApikey] = useState();
   const [usercredit, setUsercredit] = useState();
+
+  const [apikeyOption, setApikeyOption] = useState();
+  const [usernameOption, setUsernameOption] = useState();
+  const [passwordOption, setPasswordOption] = useState();
+
+  const post_credentials_options = {
+    apikey: apikeyOption,
+    username: usernameOption,
+    password: passwordOption,
+  };
 
   const authentication_data = {
     headers: {
-      Authorization: "AccessKey " + [apikey],
+      Authorization: "AccessKey " + [apikeyOption],
     },
   };
+
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response = await Axios.get(
+      // Post Options to site DB Options table
+      const postOptions = await Axios.post(
+        "http://faraz-sms.local/wp-json/farazsms/v1/credentials_options",
+        post_credentials_options
+      );
+
+      // Get Options from site DB Options table
+      const getOptions = await Axios.get(
+        "http://faraz-sms.local/wp-json/farazsms/v1/credentials_options"
+      );
+      if (getOptions.data) {
+        const optsionsJson = JSON.parse(getOptions.data);
+      }
+
+      // Get user info from IPPanel REST API
+      const ippanelData = await Axios.get(
         "http://rest.ippanel.com/v1/user",
         authentication_data
       );
-      if (response.data) {
-        console.log(response.data.data.user);
+      if (ippanelData.data) {
+        console.log(ippanelData.data.data.user);
       } else {
         console.log("there was an error");
       }
 
-      const credit = await Axios.get(
+      // Get credit from IPPanel REST API
+      const ippanelCredit = await Axios.get(
         "http://rest.ippanel.com/v1/credit",
         authentication_data
       );
-      setUsercredit(credit.data.data.credit);
+      setUsercredit(ippanelCredit.data.data.credit);
     } catch (e) {
       console.log(e);
     }
@@ -42,10 +67,10 @@ function Settings() {
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="faraz-apikey" className="text-muted mb-1">
-                <small>Apikey</small>
+                <small>You Apikey:</small>
               </label>
               <input
-                onChange={(e) => setApikey(e.target.value)}
+                onChange={(e) => setApikeyOption(e.target.value)}
                 id="faraz-apikey"
                 name="apikey"
                 className="form-control"
@@ -54,39 +79,42 @@ function Settings() {
                 autoComplete="off"
               />
             </div>
-            <div>
-              <p>your credit is {usercredit}</p>
-            </div>
-            {/* <div className="form-group">
-              <label htmlFor="email-register" className="text-muted mb-1">
-                <small>Email</small>
+
+            <div className="form-group">
+              <label htmlFor="faraz-username" className="text-muted mb-1">
+                <small>You username:</small>
               </label>
               <input
-                id="email-register"
-                name="email"
+                onChange={(e) => setUsernameOption(e.target.value)}
+                id="faraz-username"
+                name="username"
                 className="form-control"
                 type="text"
-                placeholder="you@example.com"
+                placeholder="your username"
                 autoComplete="off"
               />
             </div>
+
             <div className="form-group">
-              <label htmlFor="password-register" className="text-muted mb-1">
-                <small>Password</small>
+              <label htmlFor="faraz-password" className="text-muted mb-1">
+                <small>You password:</small>
               </label>
               <input
-                id="password-register"
+                onChange={(e) => setPasswordOption(e.target.value)}
+                id="faraz-password"
                 name="password"
                 className="form-control"
-                type="password"
-                placeholder="Create a password"
+                type="text"
+                placeholder="your password"
+                autoComplete="off"
               />
-            </div> */}
+            </div>
+
             <button
               type="submit"
               className="py-3 mt-4 btn btn-lg btn-success btn-block"
             >
-              Sign up for ComplexApp
+              Save Settings
             </button>
           </form>
         </div>

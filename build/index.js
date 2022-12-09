@@ -55,25 +55,43 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Settings() {
-  // Authentication IPPanel user
-  const [apikey, setApikey] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)();
   const [usercredit, setUsercredit] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)();
+  const [apikeyOption, setApikeyOption] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)();
+  const [usernameOption, setUsernameOption] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)();
+  const [passwordOption, setPasswordOption] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)();
+  const post_credentials_options = {
+    apikey: apikeyOption,
+    username: usernameOption,
+    password: passwordOption
+  };
   const authentication_data = {
     headers: {
-      Authorization: "AccessKey " + [apikey]
+      Authorization: "AccessKey " + [apikeyOption]
     }
   };
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      const response = await axios__WEBPACK_IMPORTED_MODULE_2__["default"].get("http://rest.ippanel.com/v1/user", authentication_data);
-      if (response.data) {
-        console.log(response.data.data.user);
+      // Post Options to site DB Options table
+      const postOptions = await axios__WEBPACK_IMPORTED_MODULE_2__["default"].post("http://faraz-sms.local/wp-json/farazsms/v1/credentials_options", post_credentials_options);
+
+      // Get Options from site DB Options table
+      const getOptions = await axios__WEBPACK_IMPORTED_MODULE_2__["default"].get("http://faraz-sms.local/wp-json/farazsms/v1/credentials_options");
+      if (getOptions.data) {
+        const optsionsJson = JSON.parse(getOptions.data);
+      }
+
+      // Get user info from IPPanel REST API
+      const ippanelData = await axios__WEBPACK_IMPORTED_MODULE_2__["default"].get("http://rest.ippanel.com/v1/user", authentication_data);
+      if (ippanelData.data) {
+        console.log(ippanelData.data.data.user);
       } else {
         console.log("there was an error");
       }
-      const credit = await axios__WEBPACK_IMPORTED_MODULE_2__["default"].get("http://rest.ippanel.com/v1/credit", authentication_data);
-      setUsercredit(credit.data.data.credit);
+
+      // Get credit from IPPanel REST API
+      const ippanelCredit = await axios__WEBPACK_IMPORTED_MODULE_2__["default"].get("http://rest.ippanel.com/v1/credit", authentication_data);
+      setUsercredit(ippanelCredit.data.data.credit);
     } catch (e) {
       console.log(e);
     }
@@ -91,18 +109,44 @@ function Settings() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
     htmlFor: "faraz-apikey",
     className: "text-muted mb-1"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, "Apikey")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    onChange: e => setApikey(e.target.value),
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, "You Apikey:")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    onChange: e => setApikeyOption(e.target.value),
     id: "faraz-apikey",
     name: "apikey",
     className: "form-control",
     type: "text",
     placeholder: "your apikey",
     autoComplete: "off"
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "your credit is ", usercredit)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "form-group"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "faraz-username",
+    className: "text-muted mb-1"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, "You username:")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    onChange: e => setUsernameOption(e.target.value),
+    id: "faraz-username",
+    name: "username",
+    className: "form-control",
+    type: "text",
+    placeholder: "your username",
+    autoComplete: "off"
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "form-group"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "faraz-password",
+    className: "text-muted mb-1"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, "You password:")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    onChange: e => setPasswordOption(e.target.value),
+    id: "faraz-password",
+    name: "password",
+    className: "form-control",
+    type: "text",
+    placeholder: "your password",
+    autoComplete: "off"
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     type: "submit",
     className: "py-3 mt-4 btn btn-lg btn-success btn-block"
-  }, "Sign up for ComplexApp")))));
+  }, "Save Settings")))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Settings);
 

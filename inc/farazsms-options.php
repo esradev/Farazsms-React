@@ -11,7 +11,7 @@ function farazsms_register_settings()
         'show_in_rest' => [
             'schema' => [
                 'type' => 'object',
-                'properties' => [],
+                'properties' => array(),
             ],
         ],
     ];
@@ -29,15 +29,19 @@ add_option('username', 'credentials_option');
  */
 function farazsms_get_options()
 {
-    return get_option('credentials_option');
+    $credentials_option = get_option('credentials_option');
+    if (empty($credentials_option)) {
+        return new WP_Error('no_option', 'Invalid options', array('status' => 404));
+    }
+    return $credentials_option;
 }
 
 function farazsms_add_option($data)
 {
     $option      = array(
+        'apikey' => $data['apikey'] ? $data['apikey'] : '',
         'username' => $data['username'] ? $data['username'] : '',
         'password' => $data['password'] ? $data['password'] : '',
-
     );
     $option_json = wp_json_encode($option);
     $result      = update_option('credentials_option', $option_json);
