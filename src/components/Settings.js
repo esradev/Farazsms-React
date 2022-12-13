@@ -171,12 +171,12 @@ function Settings() {
   } */
 
   return (
-    <div className="plugin-settings">
-      <h3>Settings</h3>
+    <div>
+      <h3>Settings:</h3>
       <div>
         <form onSubmit={submitHandler}>
           <div className="form-group">
-            <label htmlFor="faraz-apikey" className="text-muted mb-1">
+            <label htmlFor="apikey" className="text-muted mb-1">
               Your Apikey:
             </label>
             <input
@@ -187,7 +187,7 @@ function Settings() {
                 dispatch({ type: "apikeyChange", value: e.target.value })
               }
               value={state.apikey.value}
-              id="faraz-apikey"
+              id="apikey"
               name="apikey"
               className="form-control form-control-lg form-control-title"
               type="text"
@@ -202,7 +202,7 @@ function Settings() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="faraz-username" className="text-muted mb-1">
+            <label htmlFor="username" className="text-muted mb-1">
               Your Username:
             </label>
             <input
@@ -213,7 +213,7 @@ function Settings() {
                 dispatch({ type: "usernameChange", value: e.target.value })
               }
               value={state.username.value}
-              id="faraz-username"
+              id="username"
               name="username"
               className="form-control form-control-lg form-control-title"
               type="text"
@@ -228,7 +228,7 @@ function Settings() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="faraz-password" className="text-muted mb-1">
+            <label htmlFor="password" className="text-muted mb-1">
               Your Password:
             </label>
             <input
@@ -239,7 +239,7 @@ function Settings() {
                 dispatch({ type: "passwordChange", value: e.target.value })
               }
               value={state.password.value}
-              id="faraz-password"
+              id="password"
               name="password"
               className="form-control form-control-lg form-control-title"
               type="text"
