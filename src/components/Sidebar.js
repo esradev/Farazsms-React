@@ -43,7 +43,7 @@ function Sidebar({ children }) {
     },
   ];
   return (
-    <div className="container">
+    <div className="container faraz-sidebar">
       <div style={{ width: "250px" }} className="sidebar">
         {menuItem.map((item, index) => (
           <NavLink

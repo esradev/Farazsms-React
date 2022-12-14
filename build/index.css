@@ -10947,22 +10947,22 @@ main {
   padding: 20px;
 }
 
-.sidebar {
+.faraz-sidebar .sidebar {
   background: #000;
   color: #fff;
   width: 250px;
   transition: all 0.5s;
 }
-.sidebar .top_section {
+.faraz-sidebar .top_section {
   display: flex;
   align-items: center;
   padding: 20px 15px;
 }
-.sidebar .logo {
+.faraz-sidebar .logo {
   font-size: 30px;
   color: #fff;
 }
-.sidebar .link {
+.faraz-sidebar .link {
   display: flex;
   color: #fff;
   padding: 10px 15px;
@@ -10970,17 +10970,17 @@ main {
   transition: all 0.5s;
   text-decoration: none;
 }
-.sidebar .link:hover {
+.faraz-sidebar .link:hover {
   background: #695cfe;
   color: #000;
   transition: all 0.5s;
 }
-.sidebar .active {
+.faraz-sidebar .active {
   background: #695cfe;
   color: #000;
 }
-.sidebar .icon,
-.sidebar .link_text {
+.faraz-sidebar .icon,
+.faraz-sidebar .link_text {
   font-size: 18px;
 }
 

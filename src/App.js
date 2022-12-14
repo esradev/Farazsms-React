@@ -1,6 +1,6 @@
 import React, { useState, useReducer } from "react";
 import { useImmerReducer } from "use-immer";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 
 // Plugin Context
 import StateContext from "./StateContext";
@@ -9,8 +9,8 @@ import DispatchContext from "./DispatchContext";
 // Plugin Components
 import Header from "./components/Header";
 import FlashMessages from "./components/FlashMessages";
-import Settings from "./components/Settings";
 import Sidebar from "./components/Sidebar";
+import SettingsRoutes from "./components/SettingsRoutes";
 
 import Footer from "./components/Footer";
 
@@ -30,20 +30,26 @@ function App() {
   const [state, dispatch] = useImmerReducer(ourReducer, initialState);
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <StateContext.Provider value={state}>
         <DispatchContext.Provider value={dispatch}>
           <Header />
           <FlashMessages messages={state.flashMessages} />
           <Sidebar>
             <Routes>
-              <Route path="/" element={<Settings />} />
+              {SettingsRoutes.map((route, index) => (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={<route.element />}
+                />
+              ))}
             </Routes>
           </Sidebar>
           <Footer />
         </DispatchContext.Provider>
       </StateContext.Provider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
