@@ -112,7 +112,6 @@ if (!class_exists('FARAZSMS_Loader')) {
          */
         public function activation_reset()
         {
-            $this->define_default_options();
             $this->initialize_farazsms_tables();
             add_option('farazsms_do_activation_redirect', true);
         }

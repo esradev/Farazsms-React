@@ -27,6 +27,7 @@
     "bootstrap": "^5.2.3",
     "popper.js": "^1.16.1",
     "react-bootstrap": "^2.7.0",
+    "react-icons": "^4.7.1",
     "react-router-dom": "^6.4.5",
     "react-transition-group": "^4.4.5",
     "use-immer": "^0.8.1",

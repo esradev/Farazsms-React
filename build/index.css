@@ -10822,105 +10822,23 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+/* ===== Colors ===== */
+#farazsms-app-php {
+  height: 100vh;
+  background: #e4e9f7;
+}
 #farazsms-app-php .app-title {
   font-size: 1.5em;
   font-weight: bold;
   margin-bottom: 1em;
 }
 
-.faraz-header .header-bar {
-  background-color: #292929;
-}
-.faraz-header .container--narrow {
-  max-width: 732px;
-}
-.faraz-header .header-search-icon {
-  position: relative;
-  top: 3px;
-}
-.faraz-header .header-chat-icon {
-  cursor: pointer;
-  position: relative;
-  top: 3px;
-}
-.faraz-header .chat-count-badge {
-  text-align: center;
-  position: absolute;
-  top: 2px;
-  left: 0px;
-  width: 16px;
-  font-size: 0.6rem;
-  font-weight: bold;
-}
-.faraz-header .avatar-small {
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-  margin-right: 5px;
-  position: relative;
-  top: -3px;
-}
-.faraz-header .avatar-tiny {
-  width: 24px;
-  height: 24px;
-  border-radius: 12px;
-  margin-right: 4px;
-  position: relative;
-  top: -1px;
-}
-.faraz-header .body-content {
-  font-size: 1.2rem;
-  line-height: 1.75;
-  color: #292929;
-}
-.faraz-header .body-content p,
-.faraz-header .body-content ul,
-.faraz-header .body-content ol {
-  margin-bottom: 1.75rem;
-}
-.faraz-header .input-dark {
-  background-color: #444;
-  border-color: transparent;
-  color: #ffffff;
-}
-.faraz-header .input-dark:focus {
-  color: #ffffff;
-  background-color: #555;
-  border-color: #80bdff;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-.faraz-header .input-dark::-webkit-input-placeholder {
-  color: #888;
-}
-.faraz-header .input-dark::-moz-placeholder {
-  color: #888;
-}
-.faraz-header .input-dark:-ms-input-placeholder {
-  color: #888;
-}
-.faraz-header .input-dark:-moz-placeholder {
-  color: #888;
-}
-@media (min-width: 768px) {
-  .faraz-header .input-dark {
-    width: auto;
-  }
-}
-.faraz-header .display-3 {
-  font-size: 4.2rem;
-}
-@media (max-width: 1199px) {
-  .faraz-header .display-3 {
-    font-size: 3.4rem;
-  }
-}
-@media (max-width: 768px) {
-  .faraz-header .display-3 {
-    font-size: 2.5rem;
-  }
+/* ===== Header ===== */
+.faraz-header {
+  background: #000;
 }
 
+/* ===== Settings page form ===== */
 .form-group {
   position: relative;
   margin-bottom: 20px;
@@ -10941,6 +10859,7 @@ textarea.form-control-lg {
   font-weight: 700;
 }
 
+/* ===== Floating Alert ===== */
 .floating-alert {
   display: none;
   position: absolute;
@@ -10978,6 +10897,7 @@ textarea.form-control-lg {
     transform: translateX(-50%) scale(1.2);
   }
 }
+/* ===== Live Validate Message ===== */
 .liveValidateMessage {
   top: -6px;
   position: absolute;
@@ -11013,6 +10933,55 @@ textarea.form-control-lg {
   opacity: 0;
   transform: translateY(100%);
   transition: 0.33s opacity ease-in-out, 0.33s transform ease-in-out;
+}
+
+/* ===== Sidebar ===== */
+.container {
+  display: flex;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+main {
+  width: 100%;
+  padding: 20px;
+}
+
+.sidebar {
+  background: #000;
+  color: #fff;
+  width: 250px;
+  transition: all 0.5s;
+}
+.sidebar .top_section {
+  display: flex;
+  align-items: center;
+  padding: 20px 15px;
+}
+.sidebar .logo {
+  font-size: 30px;
+  color: #fff;
+}
+.sidebar .link {
+  display: flex;
+  color: #fff;
+  padding: 10px 15px;
+  gap: 15px;
+  transition: all 0.5s;
+  text-decoration: none;
+}
+.sidebar .link:hover {
+  background: #695cfe;
+  color: #000;
+  transition: all 0.5s;
+}
+.sidebar .active {
+  background: #695cfe;
+  color: #000;
+}
+.sidebar .icon,
+.sidebar .link_text {
+  font-size: 18px;
 }
 
 /*# sourceMappingURL=index.css.map*/

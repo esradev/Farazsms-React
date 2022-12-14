@@ -2,7 +2,7 @@ import React from "react";
 
 function Footer() {
   return (
-    <footer class="border-top text-center small text-muted py-3">
+    <footer class="border-top text-center small text-muted py-3 container">
       <p>
         <a href="/" class="mx-1">
           Home
@@ -17,9 +17,9 @@ function Footer() {
         </a>
       </p>
       <p class="m-0">
-        Copyright &copy; 2020{" "}
+        Copyright &copy; 2022{" "}
         <a href="/" class="text-muted">
-          ComplexApp
+          FarazSMS
         </a>
         . All rights reserved.
       </p>
