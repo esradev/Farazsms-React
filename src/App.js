@@ -1,6 +1,7 @@
 import React, { useState, useReducer } from "react";
 import { useImmerReducer } from "use-immer";
 import { HashRouter, Route, Routes } from "react-router-dom";
+const __ = wp.i18n.__;
 
 // Plugin Context
 import StateContext from "./StateContext";

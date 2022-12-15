@@ -1,0 +1,17 @@
+/* ===== Settings page form ===== */
+.form-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+.form-group input,
+.form-group textarea {
+  position: relative;
+  z-index: 2;
+}
+.form-control {
+  width: 100%;
+}
+.form-control-title {
+  font-size: 20px;
+  font-weight: 700;
+}

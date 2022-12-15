@@ -65,7 +65,7 @@ if (!class_exists('FARAZSMS_Loader')) {
             // Load core files of the plugin
             add_action('plugins_loaded', array($this, 'load_plugin'), 99);
 
-            // load faraz textdomain..
+            // load farazsms textdomain.
             add_action('plugins_loaded', array($this, 'load_farazsms_textdomain'));
         }
 
@@ -147,7 +147,7 @@ if (!class_exists('FARAZSMS_Loader')) {
         {
 
             // Default languages directory for Farazsms.
-            $lang_dir = FARAZSMS_PATH . 'languages/';
+            $lang_dir = dirname(plugin_basename(__File__)) . '/languages';
 
             /**
              * Filters the languages directory path to use for Farazsms.

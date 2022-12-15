@@ -10,7 +10,7 @@
  * Author: Farazsms
  * Author URI: https://farazsms.com/
  * Text Domain: farazsms
- * Domain Path: languages
+ * Domain Path: /languages
  * 
  * WC requires at least: 3.0
  * WC tested up to: 7.1

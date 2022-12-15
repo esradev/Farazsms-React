@@ -10822,41 +10822,159 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-/* ===== Colors ===== */
-#farazsms-app-php {
-  height: 100vh;
-  background: #e4e9f7;
-}
-#farazsms-app-php .app-title {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin-bottom: 1em;
-}
-
-/* ===== Header ===== */
+/* ===== Variables ===== */
+/* ===== Colors ===== */ /* ===== Header ===== */
 .faraz-header {
-  background: #000;
+  display: flex;
+  align-items: center;
+  height: 80px;
+  border-bottom: 1px solid #eff1f6;
+  background-color: #ffffff;
 }
-
-/* ===== Settings page form ===== */
-.form-group {
+.faraz-header .responsive-wrapper {
+  width: 90%;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.faraz-header .header-content {
+  display: flex;
+  align-items: center;
+}
+.faraz-header .header-content > a {
+  display: none;
+}
+@media (max-width: 1200px) {
+  .faraz-header .header-content {
+    justify-content: space-between;
+  }
+  .faraz-header .header-content > a {
+    display: inline-flex;
+  }
+}
+.faraz-header .header-logo {
+  margin-right: 2.5rem;
+}
+.faraz-header .header-logo a {
+  display: flex;
+  align-items: center;
+}
+.faraz-header .header-logo a div {
+  flex-shrink: 0;
   position: relative;
-  margin-bottom: 20px;
 }
-
-.form-group input,
-.form-group textarea {
-  position: relative;
-  z-index: 2;
+.faraz-header .header-logo a div:after {
+  display: block;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: auto;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  height: 50%;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
-
-.form-control {
-  width: 100%;
+.faraz-header .header-logo img {
+  width: 60px;
 }
-
-.form-control-title {
-  font-size: 20px;
-  font-weight: 700;
+.faraz-header .header-navigation {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: space-between;
+}
+@media (max-width: 1200px) {
+  .faraz-header .header-navigation {
+    display: none;
+  }
+}
+.faraz-header .header-navigation-links {
+  display: flex;
+  align-items: center;
+}
+.faraz-header .header-navigation-links a {
+  text-decoration: none;
+  color: #404089;
+  font-weight: 500;
+  transition: 0.15s ease;
+}
+.faraz-header .header-navigation-links a + * {
+  margin-left: 1.5rem;
+}
+.faraz-header .header-navigation-links a:hover, .faraz-header .header-navigation-links a:focus {
+  color: #434ce8;
+}
+.faraz-header .header-navigation-actions {
+  display: flex;
+  align-items: center;
+}
+.faraz-header .header-navigation-actions > .avatar {
+  margin-left: 0.75rem;
+}
+.faraz-header .header-navigation-actions > .icon-button + .icon-button {
+  margin-left: 0.25rem;
+}
+.faraz-header .header-navigation-actions > .button + .icon-button {
+  margin-left: 1rem;
+}
+.faraz-header .button {
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1em;
+  height: 40px;
+  border-radius: 8px;
+  line-height: 1;
+  border: 2px solid #eff1f6;
+  color: #404089;
+  font-size: 0.875rem;
+  transition: 0.15s ease;
+  background-color: #ffffff;
+}
+.faraz-header .button i {
+  margin-right: 0.5rem;
+  font-size: 1.25em;
+}
+.faraz-header .button span {
+  font-weight: 500;
+}
+.faraz-header .button:hover, .faraz-header .button:focus {
+  border-color: #434ce8;
+  color: #434ce8;
+}
+.faraz-header .icon-button {
+  font: inherit;
+  color: inherit;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  color: #404089;
+  transition: 0.15s ease;
+}
+.faraz-header .icon-button i {
+  font-size: 1.25em;
+}
+.faraz-header .icon-button:focus, .faraz-header .icon-button:hover {
+  background-color: #ecf3fe;
+  color: #434ce8;
+}
+.faraz-header .avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
 /* ===== Floating Alert ===== */
@@ -10897,6 +11015,70 @@ textarea.form-control-lg {
     transform: translateX(-50%) scale(1.2);
   }
 }
+/* ===== Variables ===== */
+/* ===== Colors ===== */
+/* ===== Variables ===== */
+/* ===== Colors ===== */ /* ===== Sidebar ===== */
+.container {
+  display: flex;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+main {
+  width: 100%;
+  padding: 20px;
+}
+
+.faraz-sidebar .link {
+  display: flex;
+  align-items: center;
+  padding: 0.75em 1em;
+  background-color: transparent;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  gap: 15px;
+  color: #404089;
+  transition: all 0.5s;
+}
+.faraz-sidebar .link:hover, .faraz-sidebar .link:focus, .faraz-sidebar .link.active {
+  background-color: #ecf3fe;
+  color: #434ce8;
+}
+.faraz-sidebar .link + * {
+  margin-top: 0.25rem;
+}
+.faraz-sidebar .active {
+  background: #ecf3fe;
+  color: #434ce8;
+}
+.faraz-sidebar .icon,
+.faraz-sidebar .link_text {
+  font-size: 18px;
+}
+
+/* ===== Settings page form ===== */
+.form-group {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.form-group input,
+.form-group textarea {
+  position: relative;
+  z-index: 2;
+}
+
+.form-control {
+  width: 100%;
+}
+
+.form-control-title {
+  font-size: 20px;
+  font-weight: 700;
+}
+
 /* ===== Live Validate Message ===== */
 .liveValidateMessage {
   top: -6px;
@@ -10935,53 +11117,14 @@ textarea.form-control-lg {
   transition: 0.33s opacity ease-in-out, 0.33s transform ease-in-out;
 }
 
-/* ===== Sidebar ===== */
-.container {
-  display: flex;
-  padding-left: 0;
-  padding-right: 0;
+#farazsms-app-php {
+  height: 100vh;
+  background: #fff;
 }
-
-main {
-  width: 100%;
-  padding: 20px;
-}
-
-.faraz-sidebar .sidebar {
-  background: #000;
-  color: #fff;
-  width: 250px;
-  transition: all 0.5s;
-}
-.faraz-sidebar .top_section {
-  display: flex;
-  align-items: center;
-  padding: 20px 15px;
-}
-.faraz-sidebar .logo {
-  font-size: 30px;
-  color: #fff;
-}
-.faraz-sidebar .link {
-  display: flex;
-  color: #fff;
-  padding: 10px 15px;
-  gap: 15px;
-  transition: all 0.5s;
-  text-decoration: none;
-}
-.faraz-sidebar .link:hover {
-  background: #695cfe;
-  color: #000;
-  transition: all 0.5s;
-}
-.faraz-sidebar .active {
-  background: #695cfe;
-  color: #000;
-}
-.faraz-sidebar .icon,
-.faraz-sidebar .link_text {
-  font-size: 18px;
+#farazsms-app-php .app-title {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 1em;
 }
 
 /*# sourceMappingURL=index.css.map*/

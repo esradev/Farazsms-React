@@ -1,0 +1,42 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Farazsms-React\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-12-15 07:51+0000\n"
+"PO-Revision-Date: 2022-12-15 07:51+0000\n"
+"Last-Translator: \n"
+"Language-Team: Persian\n"
+"Language: fa_IR\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.3; wp-6.1.1\n"
+"X-Domain: farazsms"
+
+#: src/components/Settings.js:182
+msgid "API Key:"
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"By using the Farazsms plugin, you can professionally equip your site with a "
+"powerful SMS tool for information and marketing. Saving customers numbers in "
+"the phone book, sending welcome SMS, sending reply SMS to comments, etc. are "
+"part of the features of this powerful SMS plugin."
+msgstr ""
+
+#. Author of the plugin
+#: inc/farazsms-settings.php:45
+msgid "Farazsms"
+msgstr ""
+
+#. Name of the plugin
+msgid "Farazsms-React"
+msgstr ""
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "https://farazsms.com/"
+msgstr ""

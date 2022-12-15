@@ -3549,6 +3549,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const __ = wp.i18n.__;
 
 // Plugin Context
 
@@ -3698,16 +3699,51 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _images_farazsms_logo_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../images/farazsms-logo.png */ "./src/images/farazsms-logo.png");
+
 
 
 function Header() {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("header", {
-    className: "faraz-header container mt-4"
+    class: "faraz-header container mt-4"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "container d-flex flex-column flex-md-row align-items-center p-3"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", {
-    className: "my-0 mr-md-auto font-weight-normal text-white"
-  }, "FarazSMS")));
+    class: "header-content responsive-wrapper"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "header-logo"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "#"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: _images_farazsms_logo_png__WEBPACK_IMPORTED_MODULE_2__
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "FarazSMS"))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "header-navigation"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("nav", {
+    class: "header-navigation-links"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "#"
+  }, " Dashboard ")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "header-navigation-actions"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "#",
+    class: "button"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    class: "ph-lightning-bold"
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "Contact Us")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "#",
+    class: "icon-button"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    class: "ph-gear-bold"
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "#",
+    class: "icon-button"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("i", {
+    class: "ph-bell-bold"
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "#",
+    class: "avatar"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: "https://assets.codepen.io/285131/hat-man.png",
+    alt: ""
+  }))))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Header);
 
@@ -3732,6 +3768,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const __ = wp.i18n.__;
 
 function Settings() {
   const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
@@ -3910,7 +3947,7 @@ function Settings() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
     htmlFor: "apikey",
     className: "text-muted mb-1"
-  }, "Your Apikey:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+  }, __("API Key:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
     onBlur: e => dispatch({
       type: "apikeyRules",
       value: e.target.value
@@ -14505,6 +14542,17 @@ function i(f){var u=(0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(function(){r
 
 /***/ }),
 
+/***/ "./src/images/farazsms-logo.png":
+/*!**************************************!*\
+  !*** ./src/images/farazsms-logo.png ***!
+  \**************************************/
+/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+
+"use strict";
+module.exports = __webpack_require__.p + "images/farazsms-logo.c3f4f877.png";
+
+/***/ }),
+
 /***/ "react":
 /*!************************!*\
   !*** external "React" ***!
@@ -18439,6 +18487,18 @@ function n(n){for(var r=arguments.length,t=Array(r>1?r-1:0),e=1;e<r;e++)t[e-1]=a
 /******/ 		};
 /******/ 	}();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	!function() {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	}();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	!function() {
 /******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
@@ -18453,6 +18513,26 @@ function n(n){for(var r=arguments.length,t=Array(r>1?r-1:0),e=1;e<r;e++)t[e-1]=a
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	!function() {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
 /******/ 	}();
 /******/ 	
 /************************************************************************/
@@ -18470,6 +18550,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.scss */ "./src/index.scss");
 
 
+const __ = wp.i18n.__;
 
 // Plugin stylesheet.
 

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
 import Axios from "axios";
+const __ = wp.i18n.__;
+
 import DispatchContext from "../DispatchContext";
 
 function Settings() {
@@ -177,7 +179,7 @@ function Settings() {
         <form onSubmit={submitHandler}>
           <div className="form-group">
             <label htmlFor="apikey" className="text-muted mb-1">
-              Your Apikey:
+              {__("API Key:", "farazsms")}
             </label>
             <input
               onBlur={(e) =>

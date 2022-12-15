@@ -1,0 +1,170 @@
+@import "./variables.scss";
+
+/* ===== Header ===== */
+.faraz-header {
+  display: flex;
+  align-items: center;
+  height: 80px;
+  border-bottom: 1px solid $c-border-primary;
+  background-color: $c-background-primary;
+
+  .responsive-wrapper {
+    width: 90%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .header-content {
+    display: flex;
+    align-items: center;
+    & > a {
+      display: none;
+    }
+    @media (max-width: 1200px) {
+      justify-content: space-between;
+      & > a {
+        display: inline-flex;
+      }
+    }
+  }
+
+  .header-logo {
+    margin-right: 2.5rem;
+    a {
+      display: flex;
+      align-items: center;
+      div {
+        // outline: 2px solid;
+        flex-shrink: 0;
+        position: relative;
+        &:after {
+          display: block;
+          content: "";
+          position: absolute;
+          left: 0;
+          top: auto;
+          right: 0;
+          bottom: 0;
+          overflow: hidden;
+          height: 50%;
+          border-bottom-left-radius: 8px;
+          border-bottom-right-radius: 8px;
+        }
+      }
+    }
+    img {
+      width: 60px;
+    }
+  }
+
+  .header-navigation {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: space-between;
+    @media (max-width: 1200px) {
+      display: none;
+    }
+  }
+
+  .header-navigation-links {
+    display: flex;
+    align-items: center;
+
+    a {
+      text-decoration: none;
+      color: $c-text-action;
+      font-weight: 500;
+      transition: 0.15s ease;
+      & + * {
+        margin-left: 1.5rem;
+      }
+
+      &:hover,
+      &:focus {
+        color: $c-accent-primary;
+      }
+    }
+  }
+
+  .header-navigation-actions {
+    display: flex;
+    align-items: center;
+    & > .avatar {
+      margin-left: 0.75rem;
+    }
+    & > .icon-button + .icon-button {
+      margin-left: 0.25rem;
+    }
+
+    & > .button + .icon-button {
+      margin-left: 1rem;
+    }
+  }
+
+  .button {
+    font: inherit;
+    color: inherit;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1em;
+    height: 40px;
+    border-radius: 8px;
+    line-height: 1;
+    border: 2px solid $c-border-primary;
+    color: $c-text-action;
+    font-size: 0.875rem;
+    transition: 0.15s ease;
+    background-color: $c-background-primary;
+
+    i {
+      margin-right: 0.5rem;
+      font-size: 1.25em;
+    }
+
+    span {
+      font-weight: 500;
+    }
+
+    &:hover,
+    &:focus {
+      border-color: $c-accent-primary;
+      color: $c-accent-primary;
+    }
+  }
+
+  .icon-button {
+    font: inherit;
+    color: inherit;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    color: $c-text-action;
+    transition: 0.15s ease;
+    i {
+      font-size: 1.25em;
+    }
+
+    &:focus,
+    &:hover {
+      background-color: $c-background-tertiary;
+      color: $c-accent-primary;
+    }
+  }
+
+  .avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+}
