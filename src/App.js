@@ -11,7 +11,7 @@ import DispatchContext from "./DispatchContext";
 import Header from "./components/Header";
 import FlashMessages from "./components/FlashMessages";
 import Sidebar from "./components/Sidebar";
-import SettingsRoutes from "./components/SettingsRoutes";
+import PuginRoutes from "./components/PuginRoutes";
 
 import Footer from "./components/Footer";
 
@@ -38,7 +38,7 @@ function App() {
           <FlashMessages messages={state.flashMessages} />
           <Sidebar>
             <Routes>
-              {SettingsRoutes.map((route, index) => (
+              {PuginRoutes.map((route, index) => (
                 <Route
                   key={index}
                   path={route.path}

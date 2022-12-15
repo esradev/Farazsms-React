@@ -1,12 +1,17 @@
 import React from "react";
+
 import {
-  FaUserAlt,
-  FaRegChartBar,
-  FaCommentAlt,
-  FaShoppingBag,
-  FaThList,
-} from "react-icons/fa";
-import { FiSettings } from "react-icons/fi";
+  AiOutlineSend,
+  AiOutlineNotification,
+  AiOutlinePhone,
+  AiOutlineAppstore,
+  AiOutlineSetting,
+  AiOutlineSync,
+  AiOutlineComment,
+  AiOutlineShoppingCart,
+  AiOutlineCloudDownload,
+} from "react-icons/ai";
+
 import { NavLink } from "react-router-dom";
 
 function Sidebar({ children }) {
@@ -14,32 +19,47 @@ function Sidebar({ children }) {
     {
       path: "/",
       name: "Settings",
-      icon: <FiSettings />,
+      icon: <AiOutlineSetting />,
     },
     {
-      path: "/about",
-      name: "About",
-      icon: <FaUserAlt />,
+      path: "/phonebook",
+      name: "Phonebook",
+      icon: <AiOutlinePhone />,
     },
     {
-      path: "/analytics",
-      name: "Analytics",
-      icon: <FaRegChartBar />,
+      path: "/synchronization",
+      name: "Synchronization",
+      icon: <AiOutlineSync />,
     },
     {
-      path: "/comment",
-      name: "Comment",
-      icon: <FaCommentAlt />,
+      path: "/comments",
+      name: "Comments",
+      icon: <AiOutlineComment />,
     },
     {
-      path: "/product",
-      name: "Product",
-      icon: <FaShoppingBag />,
+      path: "/sendsms",
+      name: "Send SMS",
+      icon: <AiOutlineSend />,
     },
     {
-      path: "/productList",
-      name: "Product List",
-      icon: <FaThList />,
+      path: "/woocommerce",
+      name: "WooCommerce",
+      icon: <AiOutlineShoppingCart />,
+    },
+    {
+      path: "/edd",
+      name: "Edd",
+      icon: <AiOutlineCloudDownload />,
+    },
+    {
+      path: "/newsletters",
+      name: "Newsletters",
+      icon: <AiOutlineNotification />,
+    },
+    {
+      path: "/otherplugins",
+      name: "Other Plugins",
+      icon: <AiOutlineAppstore />,
     },
   ];
   return (
