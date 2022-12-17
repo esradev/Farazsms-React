@@ -36,7 +36,7 @@ class Farazsms_Settings
     }
 
     /**
-     * Init Admin Menu.
+     * Add Admin Menu.
      *
      * @return void
      */
@@ -60,10 +60,12 @@ class Farazsms_Settings
      *
      * @return void
      */
-    public function admin_enqueue_scripts()
+    public function  admin_enqueue_scripts()
     {
         wp_enqueue_style('farazsms-style', FARAZSMS_URL . 'build/index.css');
-        wp_enqueue_script('farazsms-script', FARAZSMS_URL . 'build/index.js', array('wp-element'), '1.0.0', true);
+        wp_enqueue_script('farazsms-script', FARAZSMS_URL . 'build/index.js', array('wp-element', 'wp-i18n'), '1.0.0', true);
+        //Load Farazsms languages for JavaScript files.
+        wp_set_script_translations('farazsms-script', 'farazsms', FARAZSMS_PATH . '/languages');
     }
 
     /**

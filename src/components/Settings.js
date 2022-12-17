@@ -174,7 +174,7 @@ function Settings() {
 
   return (
     <div>
-      <h3>Settings:</h3>
+      <h3>{__("Settings:", "farazsms")}</h3>
       <div>
         <form onSubmit={submitHandler}>
           <div className="form-group">

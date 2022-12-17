@@ -2,10 +2,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Farazsms-React\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-12-15 07:51+0000\n"
-"PO-Revision-Date: 2022-12-15 07:51+0000\n"
+"POT-Creation-Date: 2022-12-17 18:28+0000\n"
+"PO-Revision-Date: 2022-12-17 19:38+0000\n"
 "Last-Translator: \n"
-"Language-Team: Persian\n"
+"Language-Team: فارسی\n"
 "Language: fa_IR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
@@ -15,9 +15,9 @@ msgstr ""
 "X-Loco-Version: 2.6.3; wp-6.1.1\n"
 "X-Domain: farazsms"
 
-#: src/components/Settings.js:182
+#: build/index.js:4156 src/components/Settings.js:182
 msgid "API Key:"
-msgstr "کلید API:"
+msgstr "کلید دسترسی:"
 
 #. Description of the plugin
 msgid ""
@@ -26,13 +26,9 @@ msgid ""
 "the phone book, sending welcome SMS, sending reply SMS to comments, etc. are "
 "part of the features of this powerful SMS plugin."
 msgstr ""
-"با استفاده از افزونه فراز اس ام اس می توانید به صورت حرفه ای سایت خود را به "
-"یک ابزار قدرتمند پیامکی برای اطلاع رسانی و بازاریابی مجهز کنید. ذخیره شماره "
-"مشتریان در دفترچه تلفن، ارسال پیامک خوش آمد گویی، ارسال پیامک پاسخ به نظرات "
-"و ... بخشی از امکانات این افزونه قدرتمند پیامکی است.\n"
 
 #. Author of the plugin
-#: inc/farazsms-settings.php:45
+#: inc/farazsms-settings.php:46
 msgid "Farazsms"
 msgstr "فراز اس ام اس"
 

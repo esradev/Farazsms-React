@@ -24,6 +24,7 @@
     "browser-sync-webpack-plugin": "^2.3.0"
   },
   "dependencies": {
+    "@wordpress/i18n": "^4.23.0",
     "bootstrap": "^5.2.3",
     "popper.js": "^1.16.1",
     "react-bootstrap": "^2.7.0",
