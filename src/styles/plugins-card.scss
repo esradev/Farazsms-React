@@ -1,0 +1,120 @@
+@import "./variables.scss";
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  column-gap: 1.5rem;
+  row-gap: 1.5rem;
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.plugins-card {
+  .card {
+    background-color: $c-background-primary;
+    box-shadow: 0 3px 3px 0 rgba(#000, 0.05), 0 5px 15px 0 rgba(#000, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1.5rem 1.25rem 1rem 1.25rem;
+    div {
+      display: flex;
+      align-items: center;
+
+      span {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        img {
+          // max-width: 85%;
+          max-height: 100%;
+        }
+      }
+
+      h3 {
+        margin-left: 0.75rem;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .toggle {
+    span {
+      display: block;
+      width: 40px;
+      height: 24px;
+      border-radius: 99em;
+      background-color: $c-background-quaternary;
+      box-shadow: inset 1px 1px 1px 0 rgba(#000, 0.05);
+      position: relative;
+      transition: 0.15s ease;
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 3px;
+        top: 3px;
+        height: 18px;
+        width: 18px;
+        background-color: $c-background-primary;
+        border-radius: 50%;
+        box-shadow: 0 1px 3px 0 rgba(#000, 0.15);
+        transition: 0.15s ease;
+      }
+    }
+
+    input {
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      overflow: hidden;
+      position: absolute;
+      white-space: nowrap;
+      width: 1px;
+      &:checked + span {
+        background-color: $c-accent-primary;
+        &:before {
+          transform: translateX(calc(100% - 2px));
+        }
+      }
+
+      &:focus + span {
+        box-shadow: 0 0 0 4px $c-background-tertiary;
+      }
+    }
+  }
+
+  .card-body {
+    padding: 1rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .card-footer {
+    margin-top: auto;
+    padding: 1rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-top: 1px solid $c-border-primary;
+    a {
+      color: $c-text-action;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.875rem;
+    }
+  }
+}

@@ -29,7 +29,7 @@ defined('ABSPATH') || exit; // Exit if accessed directly
 define('FARAZSMS_VER',                   '3.11.3');
 define('FARAZSMS_FILE',                  __FILE__);
 define('FARAZSMS_PATH',                  plugin_dir_path(FARAZSMS_FILE));
-define('FARAZSMS_BASE', plugin_basename(FARAZSMS_FILE));
+define('FARAZSMS_BASE',                  plugin_basename(FARAZSMS_FILE));
 define('FARAZSMS_SLUG',                  'farazsms_settings');
 define('FARAZSMS_SETTINGS_LINK',         admin_url('admin.php?page=' . FARAZSMS_SLUG));
 define('FARAZSMS_INC_PATH',              FARAZSMS_PATH . 'inc/');
@@ -37,6 +37,6 @@ define('FARAZSMS_URL',                   plugins_url('/', FARAZSMS_FILE));
 define('FARAZSMS_INC_URL',               FARAZSMS_URL . 'inc/');
 define('FARAZSMS_ADMIN_URL',             FARAZSMS_INC_URL . 'admin/');
 define('FARAZSMS_WEB_MAIN',              'https://farazsms.com/');
-define('FARAZSMS_WEB_MAIN_DOC', FARAZSMS_WEB_MAIN . 'farazsms-wordpress-plugin/');
+define('FARAZSMS_WEB_MAIN_DOC',          FARAZSMS_WEB_MAIN . 'farazsms-wordpress-plugin/');
 
 require FARAZSMS_INC_PATH . 'farazsms-loader.php';

@@ -3871,6 +3871,46 @@ function Phonebook() {
 
 /***/ }),
 
+/***/ "./src/components/PluginsCard.js":
+/*!***************************************!*\
+  !*** ./src/components/PluginsCard.js ***!
+  \***************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function PluginsCard() {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "plugins-card card-grid"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("article", {
+    className: "card"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "card-header"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+    src: "https://assets.codepen.io/285131/zeplin.svg"
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Zeplin")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    className: "toggle"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    type: "checkbox",
+    checked: true
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "card-body"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Collaboration between designers and developers.")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "card-footer"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "#"
+  }, "View integration"))));
+}
+/* harmony default export */ __webpack_exports__["default"] = (PluginsCard);
+
+/***/ }),
+
 /***/ "./src/components/PuginRoutes.js":
 /*!***************************************!*\
   !*** ./src/components/PuginRoutes.js ***!
@@ -3963,36 +4003,105 @@ function SendSms() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SettingsFormInput */ "./src/components/SettingsFormInput.js");
+
 
 
 
 
 const __ = wp.i18n.__;
 
+
 function Settings() {
-  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  // Init States
   const originalState = {
-    apikey: {
-      value: "",
-      hasErrors: false,
-      message: ""
-    },
-    username: {
-      value: "",
-      hasErrors: false,
-      message: ""
-    },
-    password: {
-      value: "",
-      hasErrors: false,
-      message: ""
+    inputs: {
+      apikey: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "apikeyChange",
+        id: "apikey",
+        name: "apikey",
+        type: "text",
+        placeholder: __("API key", "farazsms"),
+        label: __("Your API key:", "farazsms"),
+        required: true,
+        rules: "apikeyRules"
+      },
+      username: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "usernameChange",
+        id: "username",
+        name: "username",
+        type: "text",
+        placeholder: __("Your Username", "farazsms"),
+        label: __("Username:", "farazsms"),
+        required: true,
+        rules: "usernameRules"
+      },
+      password: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "passwordChange",
+        id: "password",
+        name: "password",
+        type: "text",
+        placeholder: __("Password", "farazsms"),
+        label: __("Your Password:", "farazsms"),
+        required: true,
+        rules: "passwordRules"
+      },
+      admin_number: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "admin_numberChange",
+        id: "admin_number",
+        name: "admin_number",
+        type: "text",
+        placeholder: __("Admin Number", "farazsms"),
+        label: __("Admin Number:", "farazsms"),
+        required: true,
+        rules: "admin_numberRules"
+      },
+      from_number: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "from_numberChange",
+        id: "from_number",
+        name: "from_number",
+        type: "text",
+        placeholder: __("Service sender number", "farazsms"),
+        label: __("Service sender number:", "farazsms"),
+        required: true,
+        rules: "from_numberRules"
+      },
+      from_number_adver: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "from_number_adverChange",
+        id: "from_number_adver",
+        name: "from_number_adver",
+        type: "text",
+        placeholder: __("Advertising sender number", "farazsms"),
+        label: __("Advertising sender number:", "farazsms"),
+        rules: "from_number_adverRules"
+      }
     },
     isFetching: true,
     isSaving: false,
@@ -4001,25 +4110,40 @@ function Settings() {
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
-        draft.apikey.value = action.value.apikey;
-        draft.username.value = action.value.username;
-        draft.password.value = action.value.password;
+        draft.inputs.apikey.value = action.value.apikey;
+        draft.inputs.username.value = action.value.username;
+        draft.inputs.password.value = action.value.password;
+        draft.inputs.admin_number.value = action.value.admin_number;
+        draft.inputs.from_number.value = action.value.from_number;
+        draft.inputs.from_number_adver.value = action.value.from_number_adver;
         draft.isFetching = false;
         return;
       case "apikeyChange":
-        draft.apikey.hasErrors = false;
-        draft.apikey.value = action.value;
+        draft.inputs.apikey.hasErrors = false;
+        draft.inputs.apikey.value = action.value;
         return;
       case "usernameChange":
-        draft.username.hasErrors = false;
-        draft.username.value = action.value;
+        draft.inputs.username.hasErrors = false;
+        draft.inputs.username.value = action.value;
         return;
       case "passwordChange":
-        draft.password.hasErrors = false;
-        draft.password.value = action.value;
+        draft.inputs.password.hasErrors = false;
+        draft.inputs.password.value = action.value;
+        return;
+      case "admin_numberChange":
+        draft.inputs.admin_number.hasErrors = false;
+        draft.inputs.admin_number.value = action.value;
+        return;
+      case "from_numberChange":
+        draft.inputs.from_number.hasErrors = false;
+        draft.inputs.from_number.value = action.value;
+        return;
+      case "from_number_adverChange":
+        draft.inputs.from_number_adver.hasErrors = false;
+        draft.inputs.from_number_adver.value = action.value;
         return;
       case "submitOptions":
-        if (!draft.apikey.hasErrors && !draft.username.hasErrors && !draft.password.hasErrors) {
+        if (!draft.inputs.apikey.hasErrors && !draft.inputs.username.hasErrors && !draft.inputs.password.hasErrors && !draft.inputs.admin_number.hasErrors && !draft.inputs.from_number.hasErrors) {
           draft.sendCount++;
         }
         return;
@@ -4031,48 +4155,72 @@ function Settings() {
         return;
       case "apikeyRules":
         if (!action.value.trim()) {
-          draft.apikey.hasErrors = true;
-          draft.apikey.message = "You must provide an API Key.";
+          draft.inputs.apikey.hasErrors = true;
+          draft.inputs.apikey.errorMessage = "You must provide an API Key.";
         }
         return;
       case "usernameRules":
         if (!action.value.trim()) {
-          draft.username.hasErrors = true;
-          draft.username.message = "You must provide a Username.";
+          draft.inputs.username.hasErrors = true;
+          draft.inputs.username.errorMessage = "You must provide a Username.";
         }
         return;
       case "passwordRules":
         if (!action.value.trim()) {
-          draft.password.hasErrors = true;
-          draft.password.message = "You must provide a Password.";
+          draft.inputs.password.hasErrors = true;
+          draft.inputs.password.errorMessage = "You must provide a Password.";
+        }
+        return;
+      case "admin_numberRules":
+        if (!action.value.trim()) {
+          draft.inputs.admin_number.hasErrors = true;
+          draft.inputs.admin_number.errorMessage = "You must provide a admin_number.";
+        }
+        return;
+      case "from_numberRules":
+        if (!action.value.trim()) {
+          draft.inputs.from_number.hasErrors = true;
+          draft.inputs.from_number.errorMessage = "You must provide a from_number.";
         }
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_3__.useImmerReducer)(ourReduser, originalState);
-  function submitHandler(e) {
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_5__.useImmerReducer)(ourReduser, originalState);
+  function handleSubmit(e) {
     e.preventDefault();
     dispatch({
       type: "apikeyRules",
-      value: state.apikey.value
+      value: state.inputs.apikey.value
     });
     dispatch({
       type: "usernameRules",
-      value: state.username.value
+      value: state.inputs.username.value
     });
     dispatch({
       type: "passwordRules",
-      value: state.password.value
+      value: state.inputs.password.value
+    });
+    dispatch({
+      type: "admin_numberRules",
+      value: state.inputs.admin_number.value
+    });
+    dispatch({
+      type: "from_numberRules",
+      value: state.inputs.from_number.value
+    });
+    dispatch({
+      type: "from_number_adverRules",
+      value: state.inputs.from_number_adver.value
     });
     dispatch({
       type: "submitOptions"
     });
   }
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getOptions() {
       try {
         // Get Options from site DB Options table
-        const getOptions = await axios__WEBPACK_IMPORTED_MODULE_4__["default"].get("http://faraz-sms.local/wp-json/farazsms/v1/credentials_options");
+        const getOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].get("http://faraz-sms.local/wp-json/farazsms/v1/credentials_options");
         if (getOptions.data) {
           const optsionsJson = JSON.parse(getOptions.data);
           console.log(optsionsJson);
@@ -4087,7 +4235,7 @@ function Settings() {
     }
     getOptions();
   }, []);
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
       dispatch({
         type: "saveRequestStarted"
@@ -4095,10 +4243,13 @@ function Settings() {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await axios__WEBPACK_IMPORTED_MODULE_4__["default"].post("http://faraz-sms.local/wp-json/farazsms/v1/credentials_options", {
-            apikey: state.apikey.value,
-            username: state.username.value,
-            password: state.password.value
+          const postOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].post("http://faraz-sms.local/wp-json/farazsms/v1/credentials_options", {
+            apikey: state.inputs.apikey.value,
+            username: state.inputs.username.value,
+            password: state.inputs.password.value,
+            admin_number: state.inputs.admin_number.value,
+            from_number: state.inputs.from_number.value,
+            from_number_adver: state.inputs.from_number_adver.value
           });
           dispatch({
             type: "saveRequestFininshed"
@@ -4114,116 +4265,93 @@ function Settings() {
       postOptions();
     }
   }, [state.sendCount]);
-  const [usercredit, setUsercredit] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)();
-  const authentication_data = {
-    headers: {
-      Authorization: "AccessKey " + [state.apikey.value]
-    }
-  };
 
-  /* async function handleSubmit(e) {
-    e.preventDefault();
-    try {
-      
-      // Get user info from IPPanel REST API
-      const ippanelData = await Axios.get(
-        "http://rest.ippanel.com/v1/user",
-        authentication_data
-      );
-      if (ippanelData.data) {
-        console.log(ippanelData.data.data.user);
-      } else {
-        console.log("there was an error");
-      }
-        // Get credit from IPPanel REST API
-      const ippanelCredit = await Axios.get(
-        "http://rest.ippanel.com/v1/credit",
-        authentication_data
-      );
-      setUsercredit(ippanelCredit.data.data.credit);
-    } catch (e) {
-      console.log(e);
-    }
-  } */
+  /**
+   * The settings form created by maping over originalState as the main state.
+   * For every value on inputs rendered a SettingsFormInput.
+   *
+   * @since 2.0.0
+   */
 
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, __("Settings:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("form", {
-    onSubmit: submitHandler
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, __("Settings:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
+    onSubmit: handleSubmit
+  }, Object.values(state.inputs).map(value => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    key: value.id,
     className: "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: "apikey",
-    className: "text-muted mb-1"
-  }, __("API Key:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    className: "form-control form-control-lg form-control-title"
+  }, value, {
+    value: value.value,
+    onChange: e => {
+      dispatch({
+        type: value.onChange,
+        value: e.target.value
+      });
+    },
     onBlur: e => dispatch({
-      type: "apikeyRules",
+      type: value.rules,
       value: e.target.value
-    }),
-    onChange: e => dispatch({
-      type: "apikeyChange",
-      value: e.target.value
-    }),
-    value: state.apikey.value,
-    id: "apikey",
-    name: "apikey",
-    className: "form-control form-control-lg form-control-title",
-    type: "text",
-    placeholder: "your apikey",
-    autoComplete: "off"
-  }), state.apikey.hasErrors && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    })
+  })), value.hasErrors && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "alert alert-danger small liveValidateMessage"
-  }, state.apikey.message)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: "username",
-    className: "text-muted mb-1"
-  }, "Your Username:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    onBlur: e => dispatch({
-      type: "usernameRules",
-      value: e.target.value
-    }),
-    onChange: e => dispatch({
-      type: "usernameChange",
-      value: e.target.value
-    }),
-    value: state.username.value,
-    id: "username",
-    name: "username",
-    className: "form-control form-control-lg form-control-title",
-    type: "text",
-    placeholder: "Your Username",
-    autoComplete: "off"
-  }), state.username.hasErrors && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "alert alert-danger small liveValidateMessage"
-  }, state.username.message)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
-    htmlFor: "password",
-    className: "text-muted mb-1"
-  }, "Your Password:"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
-    onBlur: e => dispatch({
-      type: "passwordRules",
-      value: e.target.value
-    }),
-    onChange: e => dispatch({
-      type: "passwordChange",
-      value: e.target.value
-    }),
-    value: state.password.value,
-    id: "password",
-    name: "password",
-    className: "form-control form-control-lg form-control-title",
-    type: "text",
-    placeholder: "Your Password",
-    autoComplete: "off"
-  }), state.password.hasErrors && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "alert alert-danger small liveValidateMessage"
-  }, state.password.message)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }, value.errorMessage))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
     type: "submit",
     className: "btn btn-primary",
     disabled: state.isSaving
   }, "Save Settings"))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Settings);
+
+/***/ }),
+
+/***/ "./src/components/SettingsFormInput.js":
+/*!*********************************************!*\
+  !*** ./src/components/SettingsFormInput.js ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+
+/**
+ * This component power the settings component.
+ *
+ * @since 2.0.0
+ */
+
+const SettingsFormInput = props => {
+  const {
+    label,
+    htmlFor,
+    errorMessage,
+    onChange,
+    onBlur,
+    id,
+    value,
+    ...inputProps
+  } = props;
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    className: "formInput"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("label", {
+    htmlFor: id,
+    className: "mb-1 form-control-label"
+  }, label), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    id: id,
+    value: value,
+    onChange: onChange,
+    onBlur: onBlur,
+    autoComplete: "off"
+  }, inputProps)));
+};
+/* harmony default export */ __webpack_exports__["default"] = (SettingsFormInput);
 
 /***/ }),
 
@@ -4346,12 +4474,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _PluginsCard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PluginsCard */ "./src/components/PluginsCard.js");
+
 
 
 function WooCommerce() {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "container"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "This is WooCommerce section"));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "here is WooCommerce section."));
 }
 /* harmony default export */ __webpack_exports__["default"] = (WooCommerce);
 
@@ -18754,6 +18884,34 @@ module.exports = window["React"];
 
 "use strict";
 module.exports = window["wp"]["element"];
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/extends.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/extends.js ***!
+  \************************************************************/
+/***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ _extends; }
+/* harmony export */ });
+function _extends() {
+  _extends = Object.assign ? Object.assign.bind() : function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+    return target;
+  };
+  return _extends.apply(this, arguments);
+}
 
 /***/ }),
 

@@ -39,9 +39,25 @@ function farazsms_get_options()
 function farazsms_add_option($data)
 {
     $option      = array(
-        'apikey' => $data['apikey'] ? $data['apikey'] : '',
-        'username' => $data['username'] ? $data['username'] : '',
-        'password' => $data['password'] ? $data['password'] : '',
+        'apikey' =>                     $data['apikey'] ? $data['apikey'] : '',
+        'username' =>                   $data['username'] ? $data['username'] : '',
+        'password' =>                   $data['password'] ? $data['password'] : '',
+        'admin_number' =>               $data['admin_number'] ? $data['admin_number'] : '',
+        'from_number' =>                $data['from_number'] ? $data['from_number'] : '3000505',
+        'from_number_adver' =>          $data['from_number_adver'] ? $data['from_number_adver'] : '',
+        'welcome_sms' =>                $data['welcome_sms'] ? $data['welcome_sms'] : '',
+        'welcome_sms_with_pattern' =>   $data['welcome_sms_with_pattern'] ? $data['welcome_sms_with_pattern'] : '',
+        'welcome_sms_pattern' =>        $data['welcome_sms_pattern'] ? $data['welcome_sms_pattern'] : '',
+        'admin_login_notify' =>         $data['admin_login_notify'] ? $data['admin_login_notify'] : '',
+        'admin_login_notify_roles' =>   $data['admin_login_notify_roles'] ? $data['admin_login_notify_roles'] : '',
+        'admin_login_notify_pattern' => $data['admin_login_notify_pattern'] ? $data['admin_login_notify_pattern'] : '',
+        'add_mobile_field' =>           $data['add_mobile_field'] ? $data['add_mobile_field'] : '',
+        'required_mobile_field' =>      $data['required_mobile_field'] ? $data['required_mobile_field'] : false,
+        'notify_admin_for_comment' =>   $data['notify_admin_for_comment'] ? $data['notify_admin_for_comment'] : false,
+        'comment_pattern' =>            $data['comment_pattern'] ? $data['comment_pattern'] : '',
+        'notify_admin_pattern' =>       $data['notify_admin_pattern'] ? $data['notify_admin_pattern'] : '',
+        'approved_comment_pattern' =>   $data['approved_comment_pattern'] ? $data['approved_comment_pattern'] : '',
+
     );
     $option_json = wp_json_encode($option);
     $result      = update_option('credentials_option', $option_json);
