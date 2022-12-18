@@ -1,8 +1,10 @@
 import React from "react";
-import FarazsmsLogo from "../images/farazsms-logo.png";
+import FarazsmsLogo from "../assets/images/farazsms-logo.png";
 import { IoSettingsOutline } from "react-icons/io5";
 import { AiOutlineBell } from "react-icons/ai";
 import { BiSupport } from "react-icons/bi";
+// Used as const not import, for Loco translate plugin compatibility.
+const __ = wp.i18n.__;
 
 function Header() {
   return (
@@ -13,31 +15,29 @@ function Header() {
             <div>
               <img src={FarazsmsLogo} />
             </div>
-            <h2>FarazSMS</h2>
+            <h2>{__("FarazSMS", "farazsms")}</h2>
           </a>
         </div>
         <div class="header-navigation">
           <nav class="header-navigation-links">
             <a href="https://farazsms.com/" target="_blank">
-              Official Website
+              {__("Official Website", "farazsms")}
             </a>
             <a
               href="https://farazsms.com/farazsms-wordpress-plugin/"
               target="_blank"
-            >
-              Documentation
-            </a>
+            ></a>
             <a
               href="https://github.com/esradev/Farazsms-React/issues"
               target="_blank"
             >
-              Report Issues
+              {__("Report Issues", "farazsms")}
             </a>
           </nav>
           <div class="header-navigation-actions">
             <a href="#" class="button">
               <BiSupport />
-              <span>Support</span>
+              <span>{__("Support", "farazsms")}</span>
             </a>
             <a href="#" class="icon-button">
               <IoSettingsOutline />

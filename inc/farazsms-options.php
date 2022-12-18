@@ -45,7 +45,7 @@ function farazsms_add_option($data)
         'admin_number' =>               $data['admin_number'] ? $data['admin_number'] : '',
         'from_number' =>                $data['from_number'] ? $data['from_number'] : '3000505',
         'from_number_adver' =>          $data['from_number_adver'] ? $data['from_number_adver'] : '',
-        'welcome_sms' =>                $data['welcome_sms'] ? $data['welcome_sms'] : '',
+        'welcome_sms' =>                $data['welcome_sms'] ? $data['welcome_sms'] : false,
         'welcome_sms_with_pattern' =>   $data['welcome_sms_with_pattern'] ? $data['welcome_sms_with_pattern'] : '',
         'welcome_sms_pattern' =>        $data['welcome_sms_pattern'] ? $data['welcome_sms_pattern'] : '',
         'admin_login_notify' =>         $data['admin_login_notify'] ? $data['admin_login_notify'] : '',

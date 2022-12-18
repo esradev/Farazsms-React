@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { propTypes } from "react-bootstrap/esm/Image";
 
 function FlashMessages(props) {
   return (

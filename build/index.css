@@ -10983,7 +10983,7 @@ textarea.form-control-lg {
   display: none;
   position: absolute;
   z-index: 999;
-  top: 38px;
+  top: 50%;
   left: 50%;
   transform: translateX(-50%);
   animation: floatingAlert ease-in 5s forwards;
@@ -11056,23 +11056,53 @@ main {
   font-size: 18px;
 }
 
-/* ===== Settings page form ===== */
+/* ===== Variables ===== */
+/* ===== Colors ===== */ /* ===== Settings page form ===== */
 .form-group {
   position: relative;
   margin-bottom: 20px;
 }
-.form-group input,
+.form-group input[type=checkbox] {
+  margin: 0.2em;
+  cursor: pointer;
+}
+.form-group input[type=text],
 .form-group textarea {
   position: relative;
   z-index: 2;
-  padding: 5px 15px;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  display: inline-flex;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #eff1f6;
+  color: #404089;
+  font-size: 0.875rem;
+  transition: 0.15s ease;
+  width: 100%;
+  line-height: 1;
+}
+.form-group input[type=text]::-moz-placeholder, .form-group textarea::-moz-placeholder {
+  color: #404089;
+}
+.form-group input[type=text]::placeholder,
+.form-group textarea::placeholder {
+  color: #404089;
+}
+.form-group input[type=text]:focus, .form-group input[type=text]:hover,
+.form-group textarea:focus,
+.form-group textarea:hover {
+  border-color: #434ce8;
 }
 .form-group .form-control {
   width: 100%;
 }
 .form-group .form-control-label {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
 }
 
 /* ===== Live Validate Message ===== */

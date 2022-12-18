@@ -1,8 +1,14 @@
+/**
+ * External dependencies
+ */
 import React, { useState, useReducer } from "react";
 import { useImmerReducer } from "use-immer";
 import { HashRouter, Route, Routes } from "react-router-dom";
 const __ = wp.i18n.__;
 
+/**
+ * Internal dependencies
+ */
 // Plugin Context
 import StateContext from "./StateContext";
 import DispatchContext from "./DispatchContext";
@@ -11,8 +17,7 @@ import DispatchContext from "./DispatchContext";
 import Header from "./components/Header";
 import FlashMessages from "./components/FlashMessages";
 import Sidebar from "./components/Sidebar";
-import PuginRoutes from "./components/PuginRoutes";
-
+import SidebarItems from "./components/SidebarItems";
 import Footer from "./components/Footer";
 
 function App() {
@@ -38,11 +43,11 @@ function App() {
           <FlashMessages messages={state.flashMessages} />
           <Sidebar>
             <Routes>
-              {PuginRoutes.map((route, index) => (
+              {SidebarItems.map((item, index) => (
                 <Route
                   key={index}
-                  path={route.path}
-                  element={<route.element />}
+                  path={item.path}
+                  element={<item.element />}
                 />
               ))}
             </Routes>

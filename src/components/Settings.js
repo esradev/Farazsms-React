@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
 import Axios from "axios";
+// Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
 import DispatchContext from "../DispatchContext";
@@ -88,6 +89,17 @@ function Settings() {
         label: __("Advertising sender number:", "farazsms"),
         rules: "from_number_adverRules",
       },
+      welcome_sms: {
+        value: false,
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "welcome_smsChange",
+        id: "welcome_sms",
+        name: "welcome_sms",
+        type: "checkbox",
+        label: __("Send a welcome SMS to the user?", "farazsms"),
+        rules: "welcome_smsRules",
+      },
     },
     isFetching: true,
     isSaving: false,
@@ -97,6 +109,7 @@ function Settings() {
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
+        //Init state values by action.value
         draft.inputs.apikey.value = action.value.apikey;
         draft.inputs.username.value = action.value.username;
         draft.inputs.password.value = action.value.password;
@@ -131,6 +144,7 @@ function Settings() {
         return;
       case "submitOptions":
         if (
+          //Check is any input hasErrors, and prevent form submit on that case.
           !draft.inputs.apikey.hasErrors &&
           !draft.inputs.username.hasErrors &&
           !draft.inputs.password.hasErrors &&
@@ -146,36 +160,50 @@ function Settings() {
       case "saveRequestFininshed":
         draft.isSaving = false;
         return;
+      //Input Rules and logic validations, and set errorMessages.
       case "apikeyRules":
         if (!action.value.trim()) {
           draft.inputs.apikey.hasErrors = true;
-          draft.inputs.apikey.errorMessage = "You must provide an API Key.";
+          draft.inputs.apikey.errorMessage = __(
+            "You must provide an API Key.",
+            "farazsms"
+          );
         }
         return;
       case "usernameRules":
         if (!action.value.trim()) {
           draft.inputs.username.hasErrors = true;
-          draft.inputs.username.errorMessage = "You must provide a Username.";
+          draft.inputs.username.errorMessage = __(
+            "You must provide a Username.",
+            "farazsms"
+          );
         }
         return;
       case "passwordRules":
         if (!action.value.trim()) {
           draft.inputs.password.hasErrors = true;
-          draft.inputs.password.errorMessage = "You must provide a Password.";
+          draft.inputs.password.errorMessage = __(
+            "You must provide a Password.",
+            "farazsms"
+          );
         }
         return;
       case "admin_numberRules":
         if (!action.value.trim()) {
           draft.inputs.admin_number.hasErrors = true;
-          draft.inputs.admin_number.errorMessage =
-            "You must provide a admin_number.";
+          draft.inputs.admin_number.errorMessage = __(
+            "You must provide your admin number.",
+            "farazsms"
+          );
         }
         return;
       case "from_numberRules":
         if (!action.value.trim()) {
           draft.inputs.from_number.hasErrors = true;
-          draft.inputs.from_number.errorMessage =
-            "You must provide a from_number.";
+          draft.inputs.from_number.errorMessage = __(
+            "You must provide a service sender number.",
+            "farazsms"
+          );
         }
         return;
     }
@@ -185,21 +213,10 @@ function Settings() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch({ type: "apikeyRules", value: state.inputs.apikey.value });
-    dispatch({ type: "usernameRules", value: state.inputs.username.value });
-    dispatch({ type: "passwordRules", value: state.inputs.password.value });
-    dispatch({
-      type: "admin_numberRules",
-      value: state.inputs.admin_number.value,
-    });
-    dispatch({
-      type: "from_numberRules",
-      value: state.inputs.from_number.value,
-    });
-    dispatch({
-      type: "from_number_adverRules",
-      value: state.inputs.from_number_adver.value,
-    });
+    //Set every input to the state with dispatch function.
+    Object.values(state.inputs).map((input) =>
+      dispatch({ type: input.rules, value: input.value })
+    );
     dispatch({ type: "submitOptions" });
   }
 
@@ -224,23 +241,31 @@ function Settings() {
 
   useEffect(() => {
     if (state.sendCount) {
+      /**
+       * Get options values and set "name: value" in an array.
+       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * @return Object with arrays.
+       */
+
+      const optsionsArray = Object.values(state.inputs).map(
+        ({ value, name }) => [name, value]
+      );
+      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      console.log(optionsJsonForPost);
+
       dispatch({ type: "saveRequestStarted" });
       async function postOptions() {
         try {
           // Post Options from site DB Options table
           const postOptions = await Axios.post(
             "http://faraz-sms.local/wp-json/farazsms/v1/credentials_options",
-            {
-              apikey: state.inputs.apikey.value,
-              username: state.inputs.username.value,
-              password: state.inputs.password.value,
-              admin_number: state.inputs.admin_number.value,
-              from_number: state.inputs.from_number.value,
-              from_number_adver: state.inputs.from_number_adver.value,
-            }
+            optionsJsonForPost
           );
           dispatch({ type: "saveRequestFininshed" });
-          appDispatch({ type: "flashMessage", value: "Form was updated." });
+          appDispatch({
+            type: "flashMessage",
+            value: __("Congrats. Form was updated successfully.", "farazsms"),
+          });
         } catch (e) {
           console.log(e);
         }
@@ -261,25 +286,24 @@ function Settings() {
       <h3>{__("Settings:", "farazsms")}</h3>
       <div>
         <form onSubmit={handleSubmit}>
-          {Object.values(state.inputs).map((value) => (
-            <div key={value.id} className="form-group">
+          {Object.values(state.inputs).map((input) => (
+            <div key={input.id} className="form-group">
               <SettingsFormInput
-                className="form-control form-control-lg form-control-title"
-                {...value}
-                value={value.value}
+                {...input}
+                value={input.value}
                 onChange={(e) => {
                   dispatch({
-                    type: value.onChange,
+                    type: input.onChange,
                     value: e.target.value,
                   });
                 }}
                 onBlur={(e) =>
-                  dispatch({ type: value.rules, value: e.target.value })
+                  dispatch({ type: input.rules, value: e.target.value })
                 }
               />
-              {value.hasErrors && (
+              {input.hasErrors && (
                 <div className="alert alert-danger small liveValidateMessage">
-                  {value.errorMessage}
+                  {input.errorMessage}
                 </div>
               )}
             </div>
@@ -289,7 +313,7 @@ function Settings() {
             className="btn btn-primary"
             disabled={state.isSaving}
           >
-            Save Settings
+            {__("Save Settings", "farazsms")}
           </button>
         </form>
       </div>

@@ -1,18 +1,48 @@
+@import "./variables.scss";
+
 /* ===== Settings page form ===== */
 .form-group {
   position: relative;
   margin-bottom: 20px;
-  input,
+
+  input[type="checkbox"] {
+    margin: 0.2em;
+    cursor: pointer;
+  }
+
+  input[type="text"],
   textarea {
     position: relative;
     z-index: 2;
-    padding: 5px 15px;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    display: inline-flex;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid $c-border-primary;
+    color: $c-text-action;
+    font-size: 0.875rem;
+    transition: 0.15s ease;
+    width: 100%;
+    line-height: 1;
+
+    &::placeholder {
+      color: $c-text-action;
+    }
+
+    &:focus,
+    &:hover {
+      border-color: $c-accent-primary;
+    }
   }
   .form-control {
     width: 100%;
   }
   .form-control-label {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
   }
 }

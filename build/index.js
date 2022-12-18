@@ -3543,14 +3543,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Header */ "./src/components/Header.js");
 /* harmony import */ var _components_FlashMessages__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/FlashMessages */ "./src/components/FlashMessages.js");
 /* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Sidebar */ "./src/components/Sidebar.js");
-/* harmony import */ var _components_PuginRoutes__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/PuginRoutes */ "./src/components/PuginRoutes.js");
+/* harmony import */ var _components_SidebarItems__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/SidebarItems */ "./src/components/SidebarItems.js");
 /* harmony import */ var _components_Footer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Footer */ "./src/components/Footer.js");
 
+/**
+ * External dependencies
+ */
 
 
 
 const __ = wp.i18n.__;
 
+/**
+ * Internal dependencies
+ */
 // Plugin Context
 
 
@@ -3579,10 +3585,10 @@ function App() {
     value: dispatch
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Header__WEBPACK_IMPORTED_MODULE_4__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_FlashMessages__WEBPACK_IMPORTED_MODULE_5__["default"], {
     messages: state.flashMessages
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Routes, null, _components_PuginRoutes__WEBPACK_IMPORTED_MODULE_7__["default"].map((route, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Routes, null, _components_SidebarItems__WEBPACK_IMPORTED_MODULE_7__["default"].map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     key: index,
-    path: route.path,
-    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(route.element, null)
+    path: item.path,
+    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(item.element, null)
   })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Footer__WEBPACK_IMPORTED_MODULE_8__["default"], null))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (App);
@@ -3681,7 +3687,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
 
-
 function FlashMessages(props) {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "floating-alerts"
@@ -3710,24 +3715,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
 
+
+// Used as const not import, for Loco translate plugin compatibility.
+const __ = wp.i18n.__;
 function Footer() {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("footer", {
     class: "border-top text-center small text-muted py-3 container"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    href: "/",
-    class: "mx-1"
-  }, "Home"), " ", "|", " ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     class: "mx-1",
-    href: "/about-us"
-  }, "About Us"), " ", "|", " ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "https://farazsms.com/about/",
+    target: "_blank"
+  }, __("About Us", "farazsms")), " ", "|", " ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     class: "mx-1",
-    href: "/terms"
-  }, "Terms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    href: "https://farazsms.com/faq/",
+    target: "_blank"
+  }, __("Terms", "farazsms"))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     class: "m-0"
-  }, "Copyright \xA9 2022", " ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    href: "/",
+  }, __("Copyright", "farazsms"), " \xA9 ", __("2022", "farazsms"), " ", (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "https://farazsms.com/",
+    target: "_blank",
     class: "text-muted"
-  }, "FarazSMS"), ". All rights reserved."));
+  }, __("FarazSMS", "farazsms")), __(". All rights reserved.", "farazsms")));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Footer);
 
@@ -3745,7 +3753,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _images_farazsms_logo_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../images/farazsms-logo.png */ "./src/images/farazsms-logo.png");
+/* harmony import */ var _assets_images_farazsms_logo_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../assets/images/farazsms-logo.png */ "./src/assets/images/farazsms-logo.png");
 /* harmony import */ var react_icons_io5__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-icons/io5 */ "./node_modules/react-icons/io5/index.esm.js");
 /* harmony import */ var react_icons_ai__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-icons/ai */ "./node_modules/react-icons/ai/index.esm.js");
 /* harmony import */ var react_icons_bi__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-icons/bi */ "./node_modules/react-icons/bi/index.esm.js");
@@ -3755,6 +3763,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// Used as const not import, for Loco translate plugin compatibility.
+const __ = wp.i18n.__;
 function Header() {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("header", {
     class: "faraz-header container mt-4"
@@ -3765,26 +3775,26 @@ function Header() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "#"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-    src: _images_farazsms_logo_png__WEBPACK_IMPORTED_MODULE_2__
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "FarazSMS"))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    src: _assets_images_farazsms_logo_png__WEBPACK_IMPORTED_MODULE_2__
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, __("FarazSMS", "farazsms")))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "header-navigation"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("nav", {
     class: "header-navigation-links"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "https://farazsms.com/",
     target: "_blank"
-  }, "Official Website"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+  }, __("Official Website", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "https://farazsms.com/farazsms-wordpress-plugin/",
     target: "_blank"
-  }, "Documentation"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "https://github.com/esradev/Farazsms-React/issues",
     target: "_blank"
-  }, "Report Issues")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, __("Report Issues", "farazsms"))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "header-navigation-actions"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "#",
     class: "button"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_bi__WEBPACK_IMPORTED_MODULE_3__.BiSupport, null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, "Support")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_bi__WEBPACK_IMPORTED_MODULE_3__.BiSupport, null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, __("Support", "farazsms"))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "#",
     class: "icon-button"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_io5__WEBPACK_IMPORTED_MODULE_4__.IoSettingsOutline, null)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
@@ -3911,67 +3921,6 @@ function PluginsCard() {
 
 /***/ }),
 
-/***/ "./src/components/PuginRoutes.js":
-/*!***************************************!*\
-  !*** ./src/components/PuginRoutes.js ***!
-  \***************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Settings */ "./src/components/Settings.js");
-/* harmony import */ var _Phonebook__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Phonebook */ "./src/components/Phonebook.js");
-/* harmony import */ var _Synchronization__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Synchronization */ "./src/components/Synchronization.js");
-/* harmony import */ var _Comments__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Comments */ "./src/components/Comments.js");
-/* harmony import */ var _SendSms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SendSms */ "./src/components/SendSms.js");
-/* harmony import */ var _WooCommerce__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./WooCommerce */ "./src/components/WooCommerce.js");
-/* harmony import */ var _Edd__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Edd */ "./src/components/Edd.js");
-/* harmony import */ var _Newsletters__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Newsletters */ "./src/components/Newsletters.js");
-/* harmony import */ var _OtherPlugins__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./OtherPlugins */ "./src/components/OtherPlugins.js");
-/**
- * Internal dependencies
- */
-
-
-
-
-
-
-
-
-
-const PuginRoutes = [{
-  path: "/",
-  element: _Settings__WEBPACK_IMPORTED_MODULE_0__["default"]
-}, {
-  path: "/phonebook",
-  element: _Phonebook__WEBPACK_IMPORTED_MODULE_1__["default"]
-}, {
-  path: "/synchronization",
-  element: _Synchronization__WEBPACK_IMPORTED_MODULE_2__["default"]
-}, {
-  path: "/comments",
-  element: _Comments__WEBPACK_IMPORTED_MODULE_3__["default"]
-}, {
-  path: "/sendsms",
-  element: _SendSms__WEBPACK_IMPORTED_MODULE_4__["default"]
-}, {
-  path: "/woocommerce",
-  element: _WooCommerce__WEBPACK_IMPORTED_MODULE_5__["default"]
-}, {
-  path: "/edd",
-  element: _Edd__WEBPACK_IMPORTED_MODULE_6__["default"]
-}, {
-  path: "/newsletters",
-  element: _Newsletters__WEBPACK_IMPORTED_MODULE_7__["default"]
-}, {
-  path: "/otherplugins",
-  element: _OtherPlugins__WEBPACK_IMPORTED_MODULE_8__["default"]
-}];
-/* harmony default export */ __webpack_exports__["default"] = (PuginRoutes);
-
-/***/ }),
-
 /***/ "./src/components/SendSms.js":
 /*!***********************************!*\
   !*** ./src/components/SendSms.js ***!
@@ -4017,6 +3966,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
 
@@ -4101,6 +4051,17 @@ function Settings() {
         placeholder: __("Advertising sender number", "farazsms"),
         label: __("Advertising sender number:", "farazsms"),
         rules: "from_number_adverRules"
+      },
+      welcome_sms: {
+        value: false,
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "welcome_smsChange",
+        id: "welcome_sms",
+        name: "welcome_sms",
+        type: "checkbox",
+        label: __("Send a welcome SMS to the user?", "farazsms"),
+        rules: "welcome_smsRules"
       }
     },
     isFetching: true,
@@ -4110,6 +4071,7 @@ function Settings() {
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
+        //Init state values by action.value
         draft.inputs.apikey.value = action.value.apikey;
         draft.inputs.username.value = action.value.username;
         draft.inputs.password.value = action.value.password;
@@ -4143,7 +4105,9 @@ function Settings() {
         draft.inputs.from_number_adver.value = action.value;
         return;
       case "submitOptions":
-        if (!draft.inputs.apikey.hasErrors && !draft.inputs.username.hasErrors && !draft.inputs.password.hasErrors && !draft.inputs.admin_number.hasErrors && !draft.inputs.from_number.hasErrors) {
+        if (
+        //Check is any input hasErrors, and prevent form submit on that case.
+        !draft.inputs.apikey.hasErrors && !draft.inputs.username.hasErrors && !draft.inputs.password.hasErrors && !draft.inputs.admin_number.hasErrors && !draft.inputs.from_number.hasErrors) {
           draft.sendCount++;
         }
         return;
@@ -4153,34 +4117,35 @@ function Settings() {
       case "saveRequestFininshed":
         draft.isSaving = false;
         return;
+      //Input Rules and logic validations, and set errorMessages.
       case "apikeyRules":
         if (!action.value.trim()) {
           draft.inputs.apikey.hasErrors = true;
-          draft.inputs.apikey.errorMessage = "You must provide an API Key.";
+          draft.inputs.apikey.errorMessage = __("You must provide an API Key.", "farazsms");
         }
         return;
       case "usernameRules":
         if (!action.value.trim()) {
           draft.inputs.username.hasErrors = true;
-          draft.inputs.username.errorMessage = "You must provide a Username.";
+          draft.inputs.username.errorMessage = __("You must provide a Username.", "farazsms");
         }
         return;
       case "passwordRules":
         if (!action.value.trim()) {
           draft.inputs.password.hasErrors = true;
-          draft.inputs.password.errorMessage = "You must provide a Password.";
+          draft.inputs.password.errorMessage = __("You must provide a Password.", "farazsms");
         }
         return;
       case "admin_numberRules":
         if (!action.value.trim()) {
           draft.inputs.admin_number.hasErrors = true;
-          draft.inputs.admin_number.errorMessage = "You must provide a admin_number.";
+          draft.inputs.admin_number.errorMessage = __("You must provide your admin number.", "farazsms");
         }
         return;
       case "from_numberRules":
         if (!action.value.trim()) {
           draft.inputs.from_number.hasErrors = true;
-          draft.inputs.from_number.errorMessage = "You must provide a from_number.";
+          draft.inputs.from_number.errorMessage = __("You must provide a service sender number.", "farazsms");
         }
         return;
     }
@@ -4188,30 +4153,11 @@ function Settings() {
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_5__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch({
-      type: "apikeyRules",
-      value: state.inputs.apikey.value
-    });
-    dispatch({
-      type: "usernameRules",
-      value: state.inputs.username.value
-    });
-    dispatch({
-      type: "passwordRules",
-      value: state.inputs.password.value
-    });
-    dispatch({
-      type: "admin_numberRules",
-      value: state.inputs.admin_number.value
-    });
-    dispatch({
-      type: "from_numberRules",
-      value: state.inputs.from_number.value
-    });
-    dispatch({
-      type: "from_number_adverRules",
-      value: state.inputs.from_number_adver.value
-    });
+    //Set every input to the state with dispatch function.
+    Object.values(state.inputs).map(input => dispatch({
+      type: input.rules,
+      value: input.value
+    }));
     dispatch({
       type: "submitOptions"
     });
@@ -4237,26 +4183,34 @@ function Settings() {
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
+      /**
+       * Get options values and set "name: value" in an array.
+       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * @return Object with arrays.
+       */
+
+      const optsionsArray = Object.values(state.inputs).map(_ref => {
+        let {
+          value,
+          name
+        } = _ref;
+        return [name, value];
+      });
+      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      console.log(optionsJsonForPost);
       dispatch({
         type: "saveRequestStarted"
       });
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].post("http://faraz-sms.local/wp-json/farazsms/v1/credentials_options", {
-            apikey: state.inputs.apikey.value,
-            username: state.inputs.username.value,
-            password: state.inputs.password.value,
-            admin_number: state.inputs.admin_number.value,
-            from_number: state.inputs.from_number.value,
-            from_number_adver: state.inputs.from_number_adver.value
-          });
+          const postOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].post("http://faraz-sms.local/wp-json/farazsms/v1/credentials_options", optionsJsonForPost);
           dispatch({
             type: "saveRequestFininshed"
           });
           appDispatch({
             type: "flashMessage",
-            value: "Form was updated."
+            value: __("Congrats. Form was updated successfully.", "farazsms")
           });
         } catch (e) {
           console.log(e);
@@ -4275,30 +4229,28 @@ function Settings() {
 
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, __("Settings:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
-  }, Object.values(state.inputs).map(value => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: value.id,
+  }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    key: input.id,
     className: "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    className: "form-control form-control-lg form-control-title"
-  }, value, {
-    value: value.value,
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+    value: input.value,
     onChange: e => {
       dispatch({
-        type: value.onChange,
+        type: input.onChange,
         value: e.target.value
       });
     },
     onBlur: e => dispatch({
-      type: value.rules,
+      type: input.rules,
       value: e.target.value
     })
-  })), value.hasErrors && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  })), input.hasErrors && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "alert alert-danger small liveValidateMessage"
-  }, value.errorMessage))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
+  }, input.errorMessage))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
     type: "submit",
     className: "btn btn-primary",
     disabled: state.isSaving
-  }, "Save Settings"))));
+  }, __("Save Settings", "farazsms")))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Settings);
 
@@ -4367,53 +4319,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_icons_ai__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-icons/ai */ "./node_modules/react-icons/ai/index.esm.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var _SidebarItems__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SidebarItems */ "./src/components/SidebarItems.js");
+
+/**
+ * External dependencies
+ */
 
 
 
+/**
+ * Internal dependencies
+ */
 
 function Sidebar(_ref) {
   let {
     children
   } = _ref;
-  const menuItem = [{
-    path: "/",
-    name: "Settings",
-    icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_2__.AiOutlineSetting, null)
-  }, {
-    path: "/phonebook",
-    name: "Phonebook",
-    icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_2__.AiOutlinePhone, null)
-  }, {
-    path: "/synchronization",
-    name: "Synchronization",
-    icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_2__.AiOutlineSync, null)
-  }, {
-    path: "/comments",
-    name: "Comments",
-    icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_2__.AiOutlineComment, null)
-  }, {
-    path: "/sendsms",
-    name: "Send SMS",
-    icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_2__.AiOutlineSend, null)
-  }, {
-    path: "/woocommerce",
-    name: "WooCommerce",
-    icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_2__.AiOutlineShoppingCart, null)
-  }, {
-    path: "/edd",
-    name: "Edd",
-    icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_2__.AiOutlineCloudDownload, null)
-  }, {
-    path: "/newsletters",
-    name: "Newsletters",
-    icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_2__.AiOutlineNotification, null)
-  }, {
-    path: "/otherplugins",
-    name: "Other Plugins",
-    icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_2__.AiOutlineAppstore, null)
-  }];
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "container faraz-sidebar"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -4421,7 +4343,7 @@ function Sidebar(_ref) {
       width: "250px"
     },
     className: "sidebar"
-  }, menuItem.map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.NavLink, {
+  }, _SidebarItems__WEBPACK_IMPORTED_MODULE_2__["default"].map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.NavLink, {
     to: item.path,
     key: index,
     className: "link",
@@ -4436,6 +4358,98 @@ function Sidebar(_ref) {
   }, item.name)))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("main", null, children));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Sidebar);
+
+/***/ }),
+
+/***/ "./src/components/SidebarItems.js":
+/*!****************************************!*\
+  !*** ./src/components/SidebarItems.js ***!
+  \****************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_icons_ai__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-icons/ai */ "./node_modules/react-icons/ai/index.esm.js");
+/* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Settings */ "./src/components/Settings.js");
+/* harmony import */ var _Phonebook__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Phonebook */ "./src/components/Phonebook.js");
+/* harmony import */ var _Synchronization__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Synchronization */ "./src/components/Synchronization.js");
+/* harmony import */ var _Comments__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Comments */ "./src/components/Comments.js");
+/* harmony import */ var _SendSms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SendSms */ "./src/components/SendSms.js");
+/* harmony import */ var _WooCommerce__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./WooCommerce */ "./src/components/WooCommerce.js");
+/* harmony import */ var _Edd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Edd */ "./src/components/Edd.js");
+/* harmony import */ var _Newsletters__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Newsletters */ "./src/components/Newsletters.js");
+/* harmony import */ var _OtherPlugins__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./OtherPlugins */ "./src/components/OtherPlugins.js");
+
+/**
+ * External dependencies
+ */
+
+const __ = wp.i18n.__; // Used as const not import, for Loco translate plugin compatibility.
+// Import Icons
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+
+
+
+
+const SidebarItems = [{
+  path: "/",
+  element: _Settings__WEBPACK_IMPORTED_MODULE_2__["default"],
+  name: __("Settings", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineSetting, null)
+}, {
+  path: "/phonebook",
+  element: _Phonebook__WEBPACK_IMPORTED_MODULE_3__["default"],
+  name: __("Phonebook", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlinePhone, null)
+}, {
+  path: "/synchronization",
+  element: _Synchronization__WEBPACK_IMPORTED_MODULE_4__["default"],
+  name: __("Synchronization", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineSync, null)
+}, {
+  path: "/comments",
+  element: _Comments__WEBPACK_IMPORTED_MODULE_5__["default"],
+  name: __("Comments", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineComment, null)
+}, {
+  path: "/sendsms",
+  element: _SendSms__WEBPACK_IMPORTED_MODULE_6__["default"],
+  name: __("Send SMS", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineSend, null)
+}, {
+  path: "/woocommerce",
+  element: _WooCommerce__WEBPACK_IMPORTED_MODULE_7__["default"],
+  name: __("WooCommerce", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineShoppingCart, null)
+}, {
+  path: "/edd",
+  element: _Edd__WEBPACK_IMPORTED_MODULE_8__["default"],
+  name: __("Edd settings", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineCloudDownload, null)
+}, {
+  path: "/newsletters",
+  element: _Newsletters__WEBPACK_IMPORTED_MODULE_9__["default"],
+  name: __("Newsletters", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineNotification, null)
+}, {
+  path: "/otherplugins",
+  element: _OtherPlugins__WEBPACK_IMPORTED_MODULE_10__["default"],
+  name: __("Other Plugins", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineAppstore, null)
+}];
+/* harmony default export */ __webpack_exports__["default"] = (SidebarItems);
 
 /***/ }),
 
@@ -18854,10 +18868,10 @@ function i(f){var u=(0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(function(){r
 
 /***/ }),
 
-/***/ "./src/images/farazsms-logo.png":
-/*!**************************************!*\
-  !*** ./src/images/farazsms-logo.png ***!
-  \**************************************/
+/***/ "./src/assets/images/farazsms-logo.png":
+/*!*********************************************!*\
+  !*** ./src/assets/images/farazsms-logo.png ***!
+  \*********************************************/
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 "use strict";
