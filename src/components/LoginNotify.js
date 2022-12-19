@@ -110,6 +110,7 @@ function Settings() {
         draft.inputs.admin_login_notify.value = action.value.admin_login_notify;
         draft.inputs.admin_login_notify_p.value =
           action.value.admin_login_notify_p;
+        draft.inputs.select_roles.value = action.value.select_roles;
 
         draft.isFetching = false;
         return;
@@ -134,6 +135,14 @@ function Settings() {
       case "admin_login_notifyChange":
         draft.inputs.admin_login_notify.hasErrors = false;
         draft.inputs.admin_login_notify.value = action.value;
+        return;
+      case "admin_login_notify_pChange":
+        draft.inputs.admin_login_notify_p.hasErrors = false;
+        draft.inputs.admin_login_notify_p.value = action.value;
+        return;
+      case "select_rolesChange":
+        draft.inputs.select_roles.hasErrors = false;
+        draft.inputs.select_roles.value = action.value;
         return;
 
       case "submitOptions":
@@ -166,7 +175,7 @@ function Settings() {
       try {
         // Get Options from site DB Options table
         const getOptions = await Axios.get(
-          "http://faraz-sms.local/wp-json/farazsms/v1/credentials_options"
+          "http://faraz-sms.local/wp-json/farazsms/v1/farazsms_login_notify_options"
         );
         if (getOptions.data) {
           const optsionsJson = JSON.parse(getOptions.data);
@@ -199,7 +208,7 @@ function Settings() {
         try {
           // Post Options from site DB Options table
           const postOptions = await Axios.post(
-            "http://faraz-sms.local/wp-json/farazsms/v1/credentials_options",
+            "http://faraz-sms.local/wp-json/farazsms/v1/farazsms_login_notify_options",
             optionsJsonForPost
           );
           dispatch({ type: "saveRequestFininshed" });

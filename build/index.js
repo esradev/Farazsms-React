@@ -3635,16 +3635,235 @@ const StateContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)();
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SettingsFormInput */ "./src/components/SettingsFormInput.js");
+
+
+
+
+
+// Used as const not import, for Loco translate plugin compatibility.
+const __ = wp.i18n.__;
 
 
 function Comments() {
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "container"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "This is Comments section"));
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  // Init States
+  const originalState = {
+    inputs: {
+      add_mobile_field: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "add_mobile_fieldChange",
+        id: "add_mobile_field",
+        name: "add_mobile_field",
+        type: "checkbox",
+        label: __("Add the mobile field to the comment submmition form?", "farazsms"),
+        rules: "add_mobile_fieldRules"
+      },
+      required_mobile_field: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "required_mobile_fieldChange",
+        id: "required_mobile_field",
+        name: "required_mobile_field",
+        type: "checkbox",
+        label: __("Is the mobile number field in comments mandatory?", "farazsms"),
+        rules: "required_mobile_fieldRules"
+      },
+      comment_p: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "comment_pChange",
+        id: "comment_p",
+        name: "comment_p",
+        type: "text",
+        label: __("Comment submit pattern code:", "farazsms"),
+        rules: "comment_pRules"
+      },
+      approved_comment_p: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "approved_comment_pChange",
+        id: "approved_comment_p",
+        name: "approved_comment_p",
+        type: "text",
+        label: __("Comment response pattern code:", "farazsms"),
+        rules: "approved_comment_pRules"
+      },
+      notify_admin_for_comment: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "notify_admin_for_commentChange",
+        id: "notify_admin_for_comment",
+        name: "notify_admin_for_comment",
+        type: "checkbox",
+        label: __("Send notification SMS to admin when a comment add to site?", "farazsms"),
+        rules: "notify_admin_for_commentRules"
+      }
+    },
+    isFetching: true,
+    isSaving: false,
+    sendCount: 0
+  };
+  function ourReduser(draft, action) {
+    switch (action.type) {
+      case "fetchComplete":
+        //Init state values by action.value
+        draft.inputs.add_mobile_field.value = action.value.add_mobile_field;
+        draft.inputs.required_mobile_field.value = action.value.required_mobile_field;
+        draft.inputs.comment_p.value = action.value.comment_p;
+        draft.inputs.approved_comment_p.value = action.value.approved_comment_p;
+        draft.inputs.notify_admin_for_comment.value = action.value.notify_admin_for_comment;
+        draft.isFetching = false;
+        return;
+      case "add_mobile_fieldChange":
+        draft.inputs.add_mobile_field.hasErrors = false;
+        draft.inputs.add_mobile_field.value = action.value;
+        return;
+      case "required_mobile_fieldChange":
+        draft.inputs.required_mobile_field.hasErrors = false;
+        draft.inputs.required_mobile_field.value = action.value;
+        return;
+      case "comment_pChange":
+        draft.inputs.comment_p.hasErrors = false;
+        draft.inputs.comment_p.value = action.value;
+        return;
+      case "approved_comment_pChange":
+        draft.inputs.approved_comment_p.hasErrors = false;
+        draft.inputs.approved_comment_p.value = action.value;
+        return;
+      case "notify_admin_for_commentChange":
+        draft.inputs.notify_admin_for_comment.hasErrors = false;
+        draft.inputs.notify_admin_for_comment.value = action.value;
+        return;
+      case "submitOptions":
+        draft.sendCount++;
+        return;
+      case "saveRequestStarted":
+        draft.isSaving = true;
+        return;
+      case "saveRequestFininshed":
+        draft.isSaving = false;
+        return;
+    }
+  }
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_5__.useImmerReducer)(ourReduser, originalState);
+  function handleSubmit(e) {
+    e.preventDefault();
+    //Set every input to the state with dispatch function.
+    Object.values(state.inputs).map(input => {
+      dispatch({
+        type: input.rules,
+        value: input.value
+      });
+    });
+    dispatch({
+      type: "submitOptions"
+    });
+  }
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getOptions() {
+      try {
+        // Get Options from site DB Options table
+        const getOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].get("http://faraz-sms.local/wp-json/farazsms/v1/farazsms_comments_options");
+        if (getOptions.data) {
+          const optsionsJson = JSON.parse(getOptions.data);
+          console.log(optsionsJson);
+          dispatch({
+            type: "fetchComplete",
+            value: optsionsJson
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getOptions();
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (state.sendCount) {
+      /**
+       * Get options values and set "name: value" in an array.
+       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * @return Object with arrays.
+       */
+
+      const optsionsArray = Object.values(state.inputs).map(_ref => {
+        let {
+          value,
+          name
+        } = _ref;
+        return [name, value];
+      });
+      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      console.log(optionsJsonForPost);
+      dispatch({
+        type: "saveRequestStarted"
+      });
+      async function postOptions() {
+        try {
+          // Post Options from site DB Options table
+          const postOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].post("http://faraz-sms.local/wp-json/farazsms/v1/farazsms_comments_options", optionsJsonForPost);
+          dispatch({
+            type: "saveRequestFininshed"
+          });
+          appDispatch({
+            type: "flashMessage",
+            value: __("Congrats. Form was updated successfully.", "farazsms")
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      postOptions();
+    }
+  }, [state.sendCount]);
+
+  /**
+   * The settings form created by maping over originalState as the main state.
+   * For every value on inputs rendered a SettingsFormInput.
+   *
+   * @since 2.0.0
+   */
+
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, __("Login Notify Settings:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
+    onSubmit: handleSubmit
+  }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    key: input.id,
+    className: input.type === "checkbox" ? "toggle-control" : "form-group"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+    value: input.value,
+    checked: input.value,
+    onChange: e => {
+      dispatch({
+        type: input.onChange,
+        value: input.type === "checkbox" ? e.target.checked : e.target.value
+      });
+    },
+    onBlur: e => dispatch({
+      type: input.rules,
+      value: e.target.value
+    })
+  })), input.hasErrors && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    className: "alert alert-danger small liveValidateMessage"
+  }, input.errorMessage))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
+    type: "submit",
+    className: "btn btn-primary faraz-btn",
+    disabled: state.isSaving
+  }, __("Save Settings", "farazsms")))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Comments);
 
@@ -3935,6 +4154,7 @@ function Settings() {
         draft.inputs.welcome_sms_message.value = action.value.welcome_sms_message;
         draft.inputs.admin_login_notify.value = action.value.admin_login_notify;
         draft.inputs.admin_login_notify_p.value = action.value.admin_login_notify_p;
+        draft.inputs.select_roles.value = action.value.select_roles;
         draft.isFetching = false;
         return;
       case "welcome_smsChange":
@@ -3956,6 +4176,14 @@ function Settings() {
       case "admin_login_notifyChange":
         draft.inputs.admin_login_notify.hasErrors = false;
         draft.inputs.admin_login_notify.value = action.value;
+        return;
+      case "admin_login_notify_pChange":
+        draft.inputs.admin_login_notify_p.hasErrors = false;
+        draft.inputs.admin_login_notify_p.value = action.value;
+        return;
+      case "select_rolesChange":
+        draft.inputs.select_roles.hasErrors = false;
+        draft.inputs.select_roles.value = action.value;
         return;
       case "submitOptions":
         draft.sendCount++;
@@ -3986,7 +4214,7 @@ function Settings() {
     async function getOptions() {
       try {
         // Get Options from site DB Options table
-        const getOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].get("http://faraz-sms.local/wp-json/farazsms/v1/credentials_options");
+        const getOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].get("http://faraz-sms.local/wp-json/farazsms/v1/farazsms_login_notify_options");
         if (getOptions.data) {
           const optsionsJson = JSON.parse(getOptions.data);
           console.log(optsionsJson);
@@ -4024,7 +4252,7 @@ function Settings() {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].post("http://faraz-sms.local/wp-json/farazsms/v1/credentials_options", optionsJsonForPost);
+          const postOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].post("http://faraz-sms.local/wp-json/farazsms/v1/farazsms_login_notify_options", optionsJsonForPost);
           dispatch({
             type: "saveRequestFininshed"
           });
@@ -4137,10 +4365,24 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
 
+// Used as const not import, for Loco translate plugin compatibility.
+const __ = wp.i18n.__;
 function Phonebook() {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "container"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "This is phonebook section"));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "card bg-light mb-3"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "card-body"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", {
+    className: "card-title"
+  }, "Light card title"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "card-text"
+  }, __("Special Offer: If you have a physical store, use the mobile number storage device to collect your customers mobile numbers. Click on the link below to see the details", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "https://farazsms.com/pos/",
+    className: "btn btn-success",
+    target: "_blank"
+  }, __("Buying a mobile number storage device", "farazsms")))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Phonebook);
 
@@ -4422,7 +4664,7 @@ function Settings() {
     async function getOptions() {
       try {
         // Get Options from site DB Options table
-        const getOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].get("http://faraz-sms.local/wp-json/farazsms/v1/credentials_options");
+        const getOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].get("http://faraz-sms.local/wp-json/farazsms/v1/farazsms_settings_options");
         if (getOptions.data) {
           const optsionsJson = JSON.parse(getOptions.data);
           console.log(optsionsJson);
@@ -4460,7 +4702,7 @@ function Settings() {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].post("http://faraz-sms.local/wp-json/farazsms/v1/credentials_options", optionsJsonForPost);
+          const postOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].post("http://faraz-sms.local/wp-json/farazsms/v1/farazsms_settings_options", optionsJsonForPost);
           dispatch({
             type: "saveRequestFininshed"
           });
@@ -4675,7 +4917,7 @@ const SidebarItems = [{
   path: "/login_notify",
   element: _LoginNotify__WEBPACK_IMPORTED_MODULE_3__["default"],
   name: __("Login Notify", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineSetting, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineLogin, null)
 }, {
   path: "/phonebook",
   element: _Phonebook__WEBPACK_IMPORTED_MODULE_4__["default"],
@@ -4757,6 +4999,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _PluginsCard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PluginsCard */ "./src/components/PluginsCard.js");
+
 
 
 

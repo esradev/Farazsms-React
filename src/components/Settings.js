@@ -217,7 +217,7 @@ function Settings() {
       try {
         // Get Options from site DB Options table
         const getOptions = await Axios.get(
-          "http://faraz-sms.local/wp-json/farazsms/v1/credentials_options"
+          "http://faraz-sms.local/wp-json/farazsms/v1/farazsms_settings_options"
         );
         if (getOptions.data) {
           const optsionsJson = JSON.parse(getOptions.data);
@@ -250,7 +250,7 @@ function Settings() {
         try {
           // Post Options from site DB Options table
           const postOptions = await Axios.post(
-            "http://faraz-sms.local/wp-json/farazsms/v1/credentials_options",
+            "http://faraz-sms.local/wp-json/farazsms/v1/farazsms_settings_options",
             optionsJsonForPost
           );
           dispatch({ type: "saveRequestFininshed" });

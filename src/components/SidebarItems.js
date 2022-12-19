@@ -14,6 +14,7 @@ import {
   AiOutlineComment,
   AiOutlineShoppingCart,
   AiOutlineCloudDownload,
+  AiOutlineLogin,
 } from "react-icons/ai";
 /**
  * Internal dependencies
@@ -40,7 +41,7 @@ const SidebarItems = [
     path: "/login_notify",
     element: LoginNotify,
     name: __("Login Notify", "farazsms"),
-    icon: <AiOutlineSetting />,
+    icon: <AiOutlineLogin />,
   },
   {
     path: "/phonebook",
