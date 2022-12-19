@@ -23,16 +23,17 @@ const SettingsFormInput = (props) => {
     <div className="formInput">
       <label htmlFor={id} className="mb-1 form-control-label">
         {label}
+        <input
+          id={id}
+          value={value}
+          type={type}
+          onChange={onChange}
+          onBlur={onBlur}
+          autoComplete="off"
+          {...inputProps}
+        />
+        {type === "checkbox" && <span className="control"></span>}
       </label>
-      <input
-        id={id}
-        value={value}
-        type={type}
-        onChange={onChange}
-        onBlur={onBlur}
-        autoComplete="off"
-        {...inputProps}
-      />
     </div>
   );
 };

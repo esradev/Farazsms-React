@@ -3812,6 +3812,271 @@ function Header() {
 
 /***/ }),
 
+/***/ "./src/components/LoginNotify.js":
+/*!***************************************!*\
+  !*** ./src/components/LoginNotify.js ***!
+  \***************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SettingsFormInput */ "./src/components/SettingsFormInput.js");
+
+
+
+
+
+// Used as const not import, for Loco translate plugin compatibility.
+const __ = wp.i18n.__;
+
+
+function Settings() {
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  // Init States
+  const originalState = {
+    inputs: {
+      welcome_sms: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "welcome_smsChange",
+        id: "welcome_sms",
+        name: "welcome_sms",
+        type: "checkbox",
+        label: __("Send a welcome sms to the user?", "farazsms"),
+        rules: "welcome_smsRules"
+      },
+      welcome_sms_use_p: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "welcome_sms_use_pChange",
+        id: "welcome_sms_use_p",
+        name: "welcome_sms_use_p",
+        type: "checkbox",
+        label: __("Send welcome sms via pattern?", "farazsms"),
+        rules: "welcome_sms_use_pRules"
+      },
+      welcome_sms_p: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "welcome_sms_pChange",
+        id: "welcome_sms_p",
+        name: "welcome_sms_p",
+        type: "text",
+        label: __("Welcome sms pattern code:", "farazsms"),
+        rules: "welcome_sms_pRules"
+      },
+      welcome_sms_message: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "welcome_sms_messageChange",
+        id: "welcome_sms_message",
+        name: "welcome_sms_message",
+        type: "text",
+        label: __("welcome message:", "farazsms"),
+        rules: "welcome_sms_messageRules"
+      },
+      admin_login_notify: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "admin_login_notifyChange",
+        id: "admin_login_notify",
+        name: "admin_login_notify",
+        type: "checkbox",
+        label: __("Notify admin when a user from selected rule(s) Login to the site?", "farazsms"),
+        rules: "admin_login_notifyRules"
+      },
+      select_roles: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "select_rolesChange",
+        id: "select_roles",
+        name: "select_roles",
+        type: "select",
+        label: __("Selecte rule(s):", "farazsms"),
+        rules: "select_rolesRules"
+      },
+      admin_login_notify_p: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "admin_login_notify_pChange",
+        id: "admin_login_notify_p",
+        name: "admin_login_notify_p",
+        type: "text",
+        label: __("Notify admin pattern code:", "farazsms"),
+        rules: "admin_login_notify_pRules"
+      }
+    },
+    isFetching: true,
+    isSaving: false,
+    sendCount: 0
+  };
+  function ourReduser(draft, action) {
+    switch (action.type) {
+      case "fetchComplete":
+        //Init state values by action.value
+        draft.inputs.welcome_sms.value = action.value.welcome_sms;
+        draft.inputs.welcome_sms_use_p.value = action.value.welcome_sms_use_p;
+        draft.inputs.welcome_sms_p.value = action.value.welcome_sms_p;
+        draft.inputs.welcome_sms_message.value = action.value.welcome_sms_message;
+        draft.inputs.admin_login_notify.value = action.value.admin_login_notify;
+        draft.inputs.admin_login_notify_p.value = action.value.admin_login_notify_p;
+        draft.isFetching = false;
+        return;
+      case "welcome_smsChange":
+        draft.inputs.welcome_sms.hasErrors = false;
+        draft.inputs.welcome_sms.value = action.value;
+        return;
+      case "welcome_sms_use_pChange":
+        draft.inputs.welcome_sms_use_p.hasErrors = false;
+        draft.inputs.welcome_sms_use_p.value = action.value;
+        return;
+      case "welcome_sms_pChange":
+        draft.inputs.welcome_sms_p.hasErrors = false;
+        draft.inputs.welcome_sms_p.value = action.value;
+        return;
+      case "welcome_sms_messageChange":
+        draft.inputs.welcome_sms_message.hasErrors = false;
+        draft.inputs.welcome_sms_message.value = action.value;
+        return;
+      case "admin_login_notifyChange":
+        draft.inputs.admin_login_notify.hasErrors = false;
+        draft.inputs.admin_login_notify.value = action.value;
+        return;
+      case "submitOptions":
+        draft.sendCount++;
+        return;
+      case "saveRequestStarted":
+        draft.isSaving = true;
+        return;
+      case "saveRequestFininshed":
+        draft.isSaving = false;
+        return;
+    }
+  }
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_5__.useImmerReducer)(ourReduser, originalState);
+  function handleSubmit(e) {
+    e.preventDefault();
+    //Set every input to the state with dispatch function.
+    Object.values(state.inputs).map(input => {
+      dispatch({
+        type: input.rules,
+        value: input.value
+      });
+    });
+    dispatch({
+      type: "submitOptions"
+    });
+  }
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getOptions() {
+      try {
+        // Get Options from site DB Options table
+        const getOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].get("http://faraz-sms.local/wp-json/farazsms/v1/credentials_options");
+        if (getOptions.data) {
+          const optsionsJson = JSON.parse(getOptions.data);
+          console.log(optsionsJson);
+          dispatch({
+            type: "fetchComplete",
+            value: optsionsJson
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getOptions();
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (state.sendCount) {
+      /**
+       * Get options values and set "name: value" in an array.
+       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * @return Object with arrays.
+       */
+
+      const optsionsArray = Object.values(state.inputs).map(_ref => {
+        let {
+          value,
+          name
+        } = _ref;
+        return [name, value];
+      });
+      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      console.log(optionsJsonForPost);
+      dispatch({
+        type: "saveRequestStarted"
+      });
+      async function postOptions() {
+        try {
+          // Post Options from site DB Options table
+          const postOptions = await axios__WEBPACK_IMPORTED_MODULE_6__["default"].post("http://faraz-sms.local/wp-json/farazsms/v1/credentials_options", optionsJsonForPost);
+          dispatch({
+            type: "saveRequestFininshed"
+          });
+          appDispatch({
+            type: "flashMessage",
+            value: __("Congrats. Form was updated successfully.", "farazsms")
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      postOptions();
+    }
+  }, [state.sendCount]);
+
+  /**
+   * The settings form created by maping over originalState as the main state.
+   * For every value on inputs rendered a SettingsFormInput.
+   *
+   * @since 2.0.0
+   */
+
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, __("Login Notify Settings:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
+    onSubmit: handleSubmit
+  }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    key: input.id,
+    className: input.type === "checkbox" ? "toggle-control" : "form-group"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+    value: input.value,
+    checked: input.value,
+    onChange: e => {
+      dispatch({
+        type: input.onChange,
+        value: input.type === "checkbox" ? e.target.checked : e.target.value
+      });
+    },
+    onBlur: e => dispatch({
+      type: input.rules,
+      value: e.target.value
+    })
+  })), input.hasErrors && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    className: "alert alert-danger small liveValidateMessage"
+  }, input.errorMessage))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
+    type: "submit",
+    className: "btn btn-primary faraz-btn",
+    disabled: state.isSaving
+  }, __("Save Settings", "farazsms")))));
+}
+/* harmony default export */ __webpack_exports__["default"] = (Settings);
+
+/***/ }),
+
 /***/ "./src/components/Newsletters.js":
 /*!***************************************!*\
   !*** ./src/components/Newsletters.js ***!
@@ -4051,17 +4316,6 @@ function Settings() {
         placeholder: __("Advertising sender number", "farazsms"),
         label: __("Advertising sender number:", "farazsms"),
         rules: "from_number_adverRules"
-      },
-      welcome_sms: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "welcome_smsChange",
-        id: "welcome_sms",
-        name: "welcome_sms",
-        type: "checkbox",
-        label: __("Send a welcome SMS to the user?", "farazsms"),
-        rules: "welcome_smsRules"
       }
     },
     isFetching: true,
@@ -4078,7 +4332,6 @@ function Settings() {
         draft.inputs.admin_number.value = action.value.admin_number;
         draft.inputs.from_number.value = action.value.from_number;
         draft.inputs.from_number_adver.value = action.value.from_number_adver;
-        draft.inputs.welcome_sms.value = action.value.welcome_sms;
         draft.isFetching = false;
         return;
       case "apikeyChange":
@@ -4104,10 +4357,6 @@ function Settings() {
       case "from_number_adverChange":
         draft.inputs.from_number_adver.hasErrors = false;
         draft.inputs.from_number_adver.value = action.value;
-        return;
-      case "welcome_smsChange":
-        draft.inputs.welcome_sms.hasErrors = false;
-        draft.inputs.welcome_sms.value = action.value;
         return;
       case "submitOptions":
         if (
@@ -4238,7 +4487,7 @@ function Settings() {
     onSubmit: handleSubmit
   }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.id,
-    className: "form-group"
+    className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
     value: input.value,
     checked: input.value,
@@ -4304,14 +4553,16 @@ const SettingsFormInput = props => {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("label", {
     htmlFor: id,
     className: "mb-1 form-control-label"
-  }, label), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  }, label, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     id: id,
     value: value,
     type: type,
     onChange: onChange,
     onBlur: onBlur,
     autoComplete: "off"
-  }, inputProps)));
+  }, inputProps)), type === "checkbox" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("span", {
+    className: "control"
+  })));
 };
 /* harmony default export */ __webpack_exports__["default"] = (SettingsFormInput);
 
@@ -4383,16 +4634,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_icons_ai__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-icons/ai */ "./node_modules/react-icons/ai/index.esm.js");
+/* harmony import */ var react_icons_ai__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-icons/ai */ "./node_modules/react-icons/ai/index.esm.js");
 /* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Settings */ "./src/components/Settings.js");
-/* harmony import */ var _Phonebook__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Phonebook */ "./src/components/Phonebook.js");
-/* harmony import */ var _Synchronization__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Synchronization */ "./src/components/Synchronization.js");
-/* harmony import */ var _Comments__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Comments */ "./src/components/Comments.js");
-/* harmony import */ var _SendSms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SendSms */ "./src/components/SendSms.js");
-/* harmony import */ var _WooCommerce__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./WooCommerce */ "./src/components/WooCommerce.js");
-/* harmony import */ var _Edd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Edd */ "./src/components/Edd.js");
-/* harmony import */ var _Newsletters__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Newsletters */ "./src/components/Newsletters.js");
-/* harmony import */ var _OtherPlugins__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./OtherPlugins */ "./src/components/OtherPlugins.js");
+/* harmony import */ var _LoginNotify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./LoginNotify */ "./src/components/LoginNotify.js");
+/* harmony import */ var _Phonebook__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Phonebook */ "./src/components/Phonebook.js");
+/* harmony import */ var _Synchronization__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Synchronization */ "./src/components/Synchronization.js");
+/* harmony import */ var _Comments__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Comments */ "./src/components/Comments.js");
+/* harmony import */ var _SendSms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SendSms */ "./src/components/SendSms.js");
+/* harmony import */ var _WooCommerce__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./WooCommerce */ "./src/components/WooCommerce.js");
+/* harmony import */ var _Edd__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Edd */ "./src/components/Edd.js");
+/* harmony import */ var _Newsletters__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Newsletters */ "./src/components/Newsletters.js");
+/* harmony import */ var _OtherPlugins__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./OtherPlugins */ "./src/components/OtherPlugins.js");
 
 /**
  * External dependencies
@@ -4413,51 +4665,57 @@ const __ = wp.i18n.__; // Used as const not import, for Loco translate plugin co
 
 
 
+
 const SidebarItems = [{
   path: "/",
   element: _Settings__WEBPACK_IMPORTED_MODULE_2__["default"],
   name: __("Settings", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineSetting, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineSetting, null)
+}, {
+  path: "/login_notify",
+  element: _LoginNotify__WEBPACK_IMPORTED_MODULE_3__["default"],
+  name: __("Login Notify", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineSetting, null)
 }, {
   path: "/phonebook",
-  element: _Phonebook__WEBPACK_IMPORTED_MODULE_3__["default"],
+  element: _Phonebook__WEBPACK_IMPORTED_MODULE_4__["default"],
   name: __("Phonebook", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlinePhone, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlinePhone, null)
 }, {
   path: "/synchronization",
-  element: _Synchronization__WEBPACK_IMPORTED_MODULE_4__["default"],
+  element: _Synchronization__WEBPACK_IMPORTED_MODULE_5__["default"],
   name: __("Synchronization", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineSync, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineSync, null)
 }, {
   path: "/comments",
-  element: _Comments__WEBPACK_IMPORTED_MODULE_5__["default"],
+  element: _Comments__WEBPACK_IMPORTED_MODULE_6__["default"],
   name: __("Comments", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineComment, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineComment, null)
 }, {
   path: "/sendsms",
-  element: _SendSms__WEBPACK_IMPORTED_MODULE_6__["default"],
+  element: _SendSms__WEBPACK_IMPORTED_MODULE_7__["default"],
   name: __("Send SMS", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineSend, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineSend, null)
 }, {
   path: "/woocommerce",
-  element: _WooCommerce__WEBPACK_IMPORTED_MODULE_7__["default"],
+  element: _WooCommerce__WEBPACK_IMPORTED_MODULE_8__["default"],
   name: __("WooCommerce", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineShoppingCart, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineShoppingCart, null)
 }, {
   path: "/edd",
-  element: _Edd__WEBPACK_IMPORTED_MODULE_8__["default"],
-  name: __("Edd settings", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineCloudDownload, null)
+  element: _Edd__WEBPACK_IMPORTED_MODULE_9__["default"],
+  name: __("Edd Settings", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineCloudDownload, null)
 }, {
   path: "/newsletters",
-  element: _Newsletters__WEBPACK_IMPORTED_MODULE_9__["default"],
+  element: _Newsletters__WEBPACK_IMPORTED_MODULE_10__["default"],
   name: __("Newsletters", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineNotification, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineNotification, null)
 }, {
   path: "/otherplugins",
-  element: _OtherPlugins__WEBPACK_IMPORTED_MODULE_10__["default"],
+  element: _OtherPlugins__WEBPACK_IMPORTED_MODULE_11__["default"],
   name: __("Other Plugins", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_11__.AiOutlineAppstore, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineAppstore, null)
 }];
 /* harmony default export */ __webpack_exports__["default"] = (SidebarItems);
 

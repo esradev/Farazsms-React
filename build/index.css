@@ -1,10 +1,6 @@
 /*!***************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./src/index.scss ***!
   \***************************************************************************************************************************************************************************************************************************************/
-@import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200);
-/*!*******************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./src/index.scss (1) ***!
-  \*******************************************************************************************************************************************************************************************************************************************/
 @charset "UTF-8";
 /*!
  * Bootstrap  v5.2.3 (https://getbootstrap.com/)
@@ -11074,57 +11070,95 @@ main {
   position: relative;
   margin-bottom: 20px;
 }
-.form-group input[type=checkbox] {
-  -moz-appearance: none;
-       appearance: none;
-  -webkit-appearance: none;
-  height: 24px;
-  width: 24px;
-  background-color: #d5d5d5;
-  background-repeat: 5px;
-  color: #000;
-  cursor: pointer;
-}
-.form-group input[type=text],
-.form-group textarea {
+.form-group input[type=text] {
   position: relative;
   z-index: 2;
-  padding: 0.5em 1em;
+  padding: 5px 10px;
   text-decoration: none;
   display: inline-flex;
   height: 40px;
   border-radius: 8px;
   border: 1px solid #eff1f6;
-  color: #404089;
+  color: #282a32;
   font-size: 0.875rem;
   transition: 0.15s ease;
   width: 100%;
   line-height: 1;
+  margin-top: 10px;
 }
-.form-group input[type=text]::-moz-placeholder, .form-group textarea::-moz-placeholder {
-  color: #404089;
+.form-group input[type=text]::-moz-placeholder {
+  color: #b3b5c6;
 }
-.form-group input[type=text]::placeholder,
-.form-group textarea::placeholder {
-  color: #404089;
+.form-group input[type=text]::placeholder {
+  color: #b3b5c6;
 }
-.form-group input[type=text]:focus, .form-group input[type=text]:hover,
-.form-group textarea:focus,
-.form-group textarea:hover {
+.form-group input[type=text]:focus::-moz-placeholder {
+  color: transparent;
+}
+.form-group input[type=text]:focus::placeholder {
+  color: transparent;
+}
+.form-group input[type=text]:focus, .form-group input[type=text]:hover {
   border-color: #434ce8;
 }
 .form-group .form-control {
   width: 100%;
 }
 .form-group .form-control-label {
+  width: 100%;
+}
+
+.form-control-label {
   font-size: 16px;
   font-weight: 600;
-  border-radius: 8px;
-  padding: 8px;
   cursor: pointer;
 }
-.form-group .faraz-btn {
-  font-family: IRANSans;
+
+.toggle-control {
+  display: block;
+  position: relative;
+  margin-bottom: 12px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.toggle-control input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.toggle-control input:checked ~ .control {
+  background-color: #434ce8;
+}
+
+.toggle-control input:checked ~ .control:after {
+  left: 2px;
+}
+
+.toggle-control .control {
+  position: absolute;
+  height: 20px;
+  width: 40px;
+  margin: 0 20px;
+  border-radius: 10px;
+  background-color: #b3b5c6;
+  transition: background-color 0.15s ease-in;
+}
+
+.toggle-control .control:after {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 10px;
+  background: white;
+  transition: left 0.15s ease-in;
 }
 
 /* ===== Live Validate Message ===== */

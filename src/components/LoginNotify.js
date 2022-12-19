@@ -12,82 +12,85 @@ function Settings() {
   // Init States
   const originalState = {
     inputs: {
-      apikey: {
+      welcome_sms: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "apikeyChange",
-        id: "apikey",
-        name: "apikey",
-        type: "text",
-        placeholder: __("API key", "farazsms"),
-        label: __("Your API key:", "farazsms"),
-        required: true,
-        rules: "apikeyRules",
+        onChange: "welcome_smsChange",
+        id: "welcome_sms",
+        name: "welcome_sms",
+        type: "checkbox",
+        label: __("Send a welcome sms to the user?", "farazsms"),
+        rules: "welcome_smsRules",
       },
-      username: {
+      welcome_sms_use_p: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "usernameChange",
-        id: "username",
-        name: "username",
-        type: "text",
-        placeholder: __("Your Username", "farazsms"),
-        label: __("Username:", "farazsms"),
-        required: true,
-        rules: "usernameRules",
+        onChange: "welcome_sms_use_pChange",
+        id: "welcome_sms_use_p",
+        name: "welcome_sms_use_p",
+        type: "checkbox",
+        label: __("Send welcome sms via pattern?", "farazsms"),
+        rules: "welcome_sms_use_pRules",
       },
-      password: {
+      welcome_sms_p: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "passwordChange",
-        id: "password",
-        name: "password",
+        onChange: "welcome_sms_pChange",
+        id: "welcome_sms_p",
+        name: "welcome_sms_p",
         type: "text",
-        placeholder: __("Password", "farazsms"),
-        label: __("Your Password:", "farazsms"),
-        required: true,
-        rules: "passwordRules",
+        label: __("Welcome sms pattern code:", "farazsms"),
+        rules: "welcome_sms_pRules",
       },
-      admin_number: {
+      welcome_sms_message: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "admin_numberChange",
-        id: "admin_number",
-        name: "admin_number",
+        onChange: "welcome_sms_messageChange",
+        id: "welcome_sms_message",
+        name: "welcome_sms_message",
         type: "text",
-        placeholder: __("Admin Number", "farazsms"),
-        label: __("Admin Number:", "farazsms"),
-        required: true,
-        rules: "admin_numberRules",
+        label: __("welcome message:", "farazsms"),
+        rules: "welcome_sms_messageRules",
       },
-      from_number: {
+      admin_login_notify: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "from_numberChange",
-        id: "from_number",
-        name: "from_number",
-        type: "text",
-        placeholder: __("Service sender number", "farazsms"),
-        label: __("Service sender number:", "farazsms"),
-        required: true,
-        rules: "from_numberRules",
+        onChange: "admin_login_notifyChange",
+        id: "admin_login_notify",
+        name: "admin_login_notify",
+        type: "checkbox",
+        label: __(
+          "Notify admin when a user from selected rule(s) Login to the site?",
+          "farazsms"
+        ),
+        rules: "admin_login_notifyRules",
       },
-      from_number_adver: {
+      select_roles: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "from_number_adverChange",
-        id: "from_number_adver",
-        name: "from_number_adver",
+        onChange: "select_rolesChange",
+        id: "select_roles",
+        name: "select_roles",
+        type: "select",
+        label: __("Selecte rule(s):", "farazsms"),
+        rules: "select_rolesRules",
+      },
+      admin_login_notify_p: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "admin_login_notify_pChange",
+        id: "admin_login_notify_p",
+        name: "admin_login_notify_p",
         type: "text",
-        placeholder: __("Advertising sender number", "farazsms"),
-        label: __("Advertising sender number:", "farazsms"),
-        rules: "from_number_adverRules",
+        label: __("Notify admin pattern code:", "farazsms"),
+        rules: "admin_login_notify_pRules",
       },
     },
     isFetching: true,
@@ -99,103 +102,49 @@ function Settings() {
     switch (action.type) {
       case "fetchComplete":
         //Init state values by action.value
-        draft.inputs.apikey.value = action.value.apikey;
-        draft.inputs.username.value = action.value.username;
-        draft.inputs.password.value = action.value.password;
-        draft.inputs.admin_number.value = action.value.admin_number;
-        draft.inputs.from_number.value = action.value.from_number;
-        draft.inputs.from_number_adver.value = action.value.from_number_adver;
+        draft.inputs.welcome_sms.value = action.value.welcome_sms;
+        draft.inputs.welcome_sms_use_p.value = action.value.welcome_sms_use_p;
+        draft.inputs.welcome_sms_p.value = action.value.welcome_sms_p;
+        draft.inputs.welcome_sms_message.value =
+          action.value.welcome_sms_message;
+        draft.inputs.admin_login_notify.value = action.value.admin_login_notify;
+        draft.inputs.admin_login_notify_p.value =
+          action.value.admin_login_notify_p;
 
         draft.isFetching = false;
         return;
-      case "apikeyChange":
-        draft.inputs.apikey.hasErrors = false;
-        draft.inputs.apikey.value = action.value;
+
+      case "welcome_smsChange":
+        draft.inputs.welcome_sms.hasErrors = false;
+        draft.inputs.welcome_sms.value = action.value;
         return;
-      case "usernameChange":
-        draft.inputs.username.hasErrors = false;
-        draft.inputs.username.value = action.value;
+      case "welcome_sms_use_pChange":
+        draft.inputs.welcome_sms_use_p.hasErrors = false;
+        draft.inputs.welcome_sms_use_p.value = action.value;
+
         return;
-      case "passwordChange":
-        draft.inputs.password.hasErrors = false;
-        draft.inputs.password.value = action.value;
+      case "welcome_sms_pChange":
+        draft.inputs.welcome_sms_p.hasErrors = false;
+        draft.inputs.welcome_sms_p.value = action.value;
         return;
-      case "admin_numberChange":
-        draft.inputs.admin_number.hasErrors = false;
-        draft.inputs.admin_number.value = action.value;
+      case "welcome_sms_messageChange":
+        draft.inputs.welcome_sms_message.hasErrors = false;
+        draft.inputs.welcome_sms_message.value = action.value;
         return;
-      case "from_numberChange":
-        draft.inputs.from_number.hasErrors = false;
-        draft.inputs.from_number.value = action.value;
-        return;
-      case "from_number_adverChange":
-        draft.inputs.from_number_adver.hasErrors = false;
-        draft.inputs.from_number_adver.value = action.value;
+      case "admin_login_notifyChange":
+        draft.inputs.admin_login_notify.hasErrors = false;
+        draft.inputs.admin_login_notify.value = action.value;
         return;
 
       case "submitOptions":
-        if (
-          //Check is any input hasErrors, and prevent form submit on that case.
-          !draft.inputs.apikey.hasErrors &&
-          !draft.inputs.username.hasErrors &&
-          !draft.inputs.password.hasErrors &&
-          !draft.inputs.admin_number.hasErrors &&
-          !draft.inputs.from_number.hasErrors
-        ) {
-          draft.sendCount++;
-        }
+        draft.sendCount++;
+
         return;
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
       case "saveRequestFininshed":
         draft.isSaving = false;
-        return;
-      //Input Rules and logic validations, and set errorMessages.
-      case "apikeyRules":
-        if (!action.value.trim()) {
-          draft.inputs.apikey.hasErrors = true;
-          draft.inputs.apikey.errorMessage = __(
-            "You must provide an API Key.",
-            "farazsms"
-          );
-        }
-        return;
-      case "usernameRules":
-        if (!action.value.trim()) {
-          draft.inputs.username.hasErrors = true;
-          draft.inputs.username.errorMessage = __(
-            "You must provide a Username.",
-            "farazsms"
-          );
-        }
-        return;
-      case "passwordRules":
-        if (!action.value.trim()) {
-          draft.inputs.password.hasErrors = true;
-          draft.inputs.password.errorMessage = __(
-            "You must provide a Password.",
-            "farazsms"
-          );
-        }
-        return;
-      case "admin_numberRules":
-        if (!action.value.trim()) {
-          draft.inputs.admin_number.hasErrors = true;
-          draft.inputs.admin_number.errorMessage = __(
-            "You must provide your admin number.",
-            "farazsms"
-          );
-        }
-        return;
-      case "from_numberRules":
-        if (!action.value.trim()) {
-          draft.inputs.from_number.hasErrors = true;
-          draft.inputs.from_number.errorMessage = __(
-            "You must provide a service sender number.",
-            "farazsms"
-          );
-        }
         return;
     }
   }
@@ -275,7 +224,7 @@ function Settings() {
 
   return (
     <div>
-      <h3>{__("Settings:", "farazsms")}</h3>
+      <h3>{__("Login Notify Settings:", "farazsms")}</h3>
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (

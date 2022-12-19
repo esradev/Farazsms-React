@@ -6,35 +6,27 @@
   position: relative;
   margin-bottom: 20px;
 
-  input[type="checkbox"] {
-    appearance: none;
-    -webkit-appearance: none;
-    height: 24px;
-    width: 24px;
-    background-color: #d5d5d5;
-    background-repeat: 5px;
-    color: #000;
-    cursor: pointer;
-  }
-
-  input[type="text"],
-  textarea {
+  input[type="text"] {
     position: relative;
     z-index: 2;
-    padding: 0.5em 1em;
+    padding: 5px 10px;
     text-decoration: none;
     display: inline-flex;
     height: 40px;
     border-radius: 8px;
     border: 1px solid $c-border-primary;
-    color: $c-text-action;
+    color: $c-text-primary;
     font-size: 0.875rem;
     transition: 0.15s ease;
     width: 100%;
     line-height: 1;
+    margin-top: 10px;
 
     &::placeholder {
-      color: $c-text-action;
+      color: $c-text-secondary;
+    }
+    &:focus::placeholder {
+      color: transparent;
     }
 
     &:focus,
@@ -42,17 +34,58 @@
       border-color: $c-accent-primary;
     }
   }
+
   .form-control {
     width: 100%;
   }
   .form-control-label {
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 8px;
-    padding: 8px;
-    cursor: pointer;
+    width: 100%;
   }
-  .faraz-btn {
-    font-family: IRANSans;
-  }
+}
+.form-control-label {
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.toggle-control {
+  display: block;
+  position: relative;
+  margin-bottom: 12px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.toggle-control input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.toggle-control input:checked ~ .control {
+  background-color: $c-accent-primary;
+}
+.toggle-control input:checked ~ .control:after {
+  left: 2px;
+}
+.toggle-control .control {
+  position: absolute;
+  height: 20px;
+  width: 40px;
+  margin: 0 20px;
+  border-radius: 10px;
+  background-color: $c-text-secondary;
+  transition: background-color 0.15s ease-in;
+}
+.toggle-control .control:after {
+  content: "";
+  position: absolute;
+  left: 22px;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 10px;
+  background: white;
+  transition: left 0.15s ease-in;
 }

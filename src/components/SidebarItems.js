@@ -19,6 +19,7 @@ import {
  * Internal dependencies
  */
 import Settings from "./Settings";
+import LoginNotify from "./LoginNotify";
 import Phonebook from "./Phonebook";
 import Synchronization from "./Synchronization";
 import Comments from "./Comments";
@@ -33,6 +34,12 @@ const SidebarItems = [
     path: "/",
     element: Settings,
     name: __("Settings", "farazsms"),
+    icon: <AiOutlineSetting />,
+  },
+  {
+    path: "/login_notify",
+    element: LoginNotify,
+    name: __("Login Notify", "farazsms"),
     icon: <AiOutlineSetting />,
   },
   {
@@ -68,7 +75,7 @@ const SidebarItems = [
   {
     path: "/edd",
     element: Edd,
-    name: __("Edd settings", "farazsms"),
+    name: __("Edd Settings", "farazsms"),
     icon: <AiOutlineCloudDownload />,
   },
   {
