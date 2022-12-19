@@ -2,6 +2,7 @@
 
 /* ===== Header ===== */
 .faraz-header {
+  font-family: IRANSans;
   display: flex;
   align-items: center;
   height: 80px;
@@ -29,6 +30,8 @@
   .header-logo {
     margin-right: 2.5rem;
     a {
+      font-family: IRANSans;
+      text-decoration: none;
       display: flex;
       align-items: center;
       div {

@@ -3,9 +3,9 @@ msgstr ""
 "Project-Id-Version: Farazsms-React\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-17 18:28+0000\n"
-"PO-Revision-Date: 2022-12-19 04:05+0000\n"
+"PO-Revision-Date: 2022-12-18 19:49+0000\n"
 "Last-Translator: \n"
-"Language-Team: Persian\n"
+"Language-Team: فارسی\n"
 "Language: fa_IR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr "شماره ارسال کننده پیامک تبلیغاتی:"
 #: build/index.js:3986 src/components/Settings.js:23
 #| msgid "API Key:"
 msgid "API key"
-msgstr "کلید API"
+msgstr ""
 
 #. Description of the plugin
 msgid ""
@@ -63,34 +63,30 @@ msgid ""
 "the phone book, sending welcome SMS, sending reply SMS to comments, etc. are "
 "part of the features of this powerful SMS plugin."
 msgstr ""
-"با استفاده از افزونه فراز اس ام اس می توانید به صورت حرفه ای سایت خود را به "
-"یک ابزار قدرتمند پیامکی برای اطلاع رسانی و بازاریابی مجهز کنید. ذخیره شماره "
-"مشتریان در دفترچه تلفن، ارسال پیامک خوش آمد گویی، ارسال پیامک پاسخ به نظرات "
-"و ... بخشی از امکانات این افزونه قدرتمند پیامکی است.\n"
 
 #: inc/farazsms-settings.php:50
 msgid "Comment Settings"
-msgstr "تنظیمات نظرات"
+msgstr ""
 
 #: build/index.js:4424 src/components/SidebarItems.js:53
 msgid "Comments"
-msgstr "نظرات"
+msgstr ""
 
 #: build/index.js:4213 src/components/Settings.js:267
 msgid "Congrats. Form was updated successfully."
-msgstr "تبریک، فرم با موفقیت بروزرسانی گردید."
+msgstr ""
 
 #: build/index.js:3734 src/components/Footer.js:19
 msgid "Copyright"
-msgstr "حق کپی رایت برای"
+msgstr ""
 
 #: inc/farazsms-settings.php:52
 msgid "Edd Settings"
-msgstr "تنظیمات EDD"
+msgstr ""
 
 #: build/index.js:4439 src/components/SidebarItems.js:71
 msgid "Edd settings"
-msgstr "تنظیمات EDD"
+msgstr ""
 
 #: inc/farazsms-settings.php:47 inc/farazsms-settings.php:48
 #: inc/farazsms-settings.php:49 inc/farazsms-settings.php:50
@@ -99,11 +95,11 @@ msgstr "تنظیمات EDD"
 #: inc/farazsms-settings.php:55 build/index.js:3738 build/index.js:3779
 #: src/components/Footer.js:21 src/components/Header.js:18
 msgid "FarazSMS"
-msgstr "فراز اس ام اس"
+msgstr ""
 
 #: inc/farazsms-settings.php:81
 msgid "FarazSms"
-msgstr "فراز اس ام اس"
+msgstr ""
 
 #. Author of the plugin
 #: inc/farazsms-settings.php:46
@@ -112,15 +108,15 @@ msgstr "فراز اس ام اس"
 
 #: inc/farazsms-settings.php:72
 msgid "FarazSms "
-msgstr "فراز اس ام اس"
+msgstr ""
 
 #: inc/farazsms-settings.php:134
 msgid "FarazSMS latest news"
-msgstr "آخرین اخبار فراز اس ام اس"
+msgstr ""
 
 #. Name of the plugin
 msgid "Farazsms-React"
-msgstr "فراز اس ام اس - React"
+msgstr ""
 
 #. URI of the plugin
 #. Author URI of the plugin
@@ -129,124 +125,124 @@ msgstr ""
 
 #: inc/farazsms-settings.php:53
 msgid "Newslatter Settings"
-msgstr "تنظیمات خبرنامه"
+msgstr ""
 
 #: build/index.js:4444 src/components/SidebarItems.js:77
 msgid "Newsletters"
-msgstr "خبرنامه"
+msgstr ""
 
 #: build/index.js:3786 src/components/Header.js:24
 msgid "Official Website"
-msgstr "سایت شرکت"
+msgstr ""
 
 #: inc/farazsms-settings.php:54 build/index.js:4449
 #: src/components/SidebarItems.js:83
 msgid "Other Plugins"
-msgstr "دیگر افزونه ها"
+msgstr ""
 
 #: build/index.js:4012 src/components/Settings.js:49
 msgid "Password"
-msgstr "رمز عبور"
+msgstr ""
 
 #: inc/farazsms-settings.php:48
 msgid "Phone Book"
-msgstr "دفترچه تلفن"
+msgstr ""
 
 #: build/index.js:4414 src/components/SidebarItems.js:41
 msgid "Phonebook"
-msgstr "دفترچه تلفن"
+msgstr ""
 
 #: build/index.js:3792 src/components/Header.js:34
 msgid "Report Issues"
-msgstr "گزارش مشکل"
+msgstr ""
 
 #: build/index.js:4253 src/components/Settings.js:316
 msgid "Save Settings"
-msgstr "ذخیره تنظیمات"
+msgstr ""
 
 #: build/index.js:4063 src/components/Settings.js:100
 msgid "Send a welcome SMS to the user?"
-msgstr "آیا می خواهید به کاربر جدید پیامک خوشامدگویی ارسال کنید؟"
+msgstr ""
 
 #: inc/farazsms-settings.php:55 build/index.js:4429
 #: src/components/SidebarItems.js:59
 msgid "Send SMS"
-msgstr "ارسال پیامک"
+msgstr ""
 
 #: inc/farazsms-settings.php:80
 msgid "Send Sms"
-msgstr "ارسال پیامک"
+msgstr ""
 
 #: build/index.js:4038 src/components/Settings.js:75
 msgid "Service sender number"
-msgstr "خط ارسال کننده پیامک خدماتی"
+msgstr ""
 
 #: build/index.js:4039 src/components/Settings.js:76
 msgid "Service sender number:"
-msgstr "خط ارسال کننده پیامک خدماتی:"
+msgstr ""
 
 #: inc/farazsms-settings.php:47 build/index.js:4409
 #: src/components/SidebarItems.js:35
 msgid "Settings"
-msgstr "تنظیمات"
+msgstr ""
 
 #: build/index.js:4230 src/components/Settings.js:286
 msgid "Settings:"
-msgstr "تنظیمات"
+msgstr ""
 
 #: build/index.js:3797 src/components/Header.js:40
 msgid "Support"
-msgstr "پشتیبانی"
+msgstr ""
 
 #: inc/farazsms-settings.php:49 build/index.js:4419
 #: src/components/SidebarItems.js:47
 msgid "Synchronization"
-msgstr "هماهنگ سازی "
+msgstr ""
 
 #: build/index.js:3732 src/components/Footer.js:15
 msgid "Terms"
-msgstr "شرایط"
+msgstr ""
 
 #: build/index.js:4000 src/components/Settings.js:37
 msgid "Username:"
-msgstr "نام کاربری:"
+msgstr ""
 
 #: build/index.js:4434 src/components/SidebarItems.js:65
 msgid "WooCommerce"
-msgstr "ووکامرس"
+msgstr ""
 
 #: inc/farazsms-settings.php:51
 msgid "Woocommerce Settings"
-msgstr "تنظیمات ووکامرس"
+msgstr ""
 
 #: build/index.js:4136 src/components/Settings.js:185
 msgid "You must provide a Password."
-msgstr "باید پسورد را وارد کنید."
+msgstr ""
 
 #: build/index.js:4148 src/components/Settings.js:203
 msgid "You must provide a service sender number."
-msgstr "باید خط ارسال کننده پیامک خدماتی را وارد کنید."
+msgstr ""
 
 #: build/index.js:4130 src/components/Settings.js:176
 msgid "You must provide a Username."
-msgstr "باید نام کاربری را وارد کنید."
+msgstr ""
 
 #: build/index.js:4124 src/components/Settings.js:167
 msgid "You must provide an API Key."
-msgstr "باید کلید API را وارد کنید."
+msgstr ""
 
 #: build/index.js:4142 src/components/Settings.js:194
 msgid "You must provide your admin number."
-msgstr "باید شماره همراه ادمین را وارد کنید."
+msgstr ""
 
 #: build/index.js:3987 src/components/Settings.js:24
 msgid "Your API key:"
-msgstr "کلید API شما"
+msgstr ""
 
 #: build/index.js:4013 src/components/Settings.js:50
 msgid "Your Password:"
-msgstr "پسورد شما"
+msgstr ""
 
 #: build/index.js:3999 src/components/Settings.js:36
 msgid "Your Username"
-msgstr "نام کاربری شما"
+msgstr ""

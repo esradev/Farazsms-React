@@ -2,17 +2,20 @@
 
 /* ===== Sidebar ===== */
 .container {
+  font-family: IRANSans;
   display: flex;
   padding-left: 0;
   padding-right: 0;
 }
 main {
+  font-family: IRANSans;
   width: 100%;
   padding: 20px;
   background-color: $c-background-tertiary;
 }
 .faraz-sidebar {
   .link {
+    font-family: IRANSans;
     display: flex;
     align-items: center;
     padding: 0.75em 1em;

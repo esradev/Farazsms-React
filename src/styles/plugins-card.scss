@@ -1,6 +1,7 @@
 @import "./variables.scss";
 
 .card-grid {
+  font-family: IRANSans;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   column-gap: 1.5rem;
@@ -15,6 +16,7 @@
 
 .plugins-card {
   .card {
+    font-family: IRANSans;
     background-color: $c-background-primary;
     box-shadow: 0 3px 3px 0 rgba(#000, 0.05), 0 5px 15px 0 rgba(#000, 0.05);
     border-radius: 8px;

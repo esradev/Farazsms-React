@@ -15,6 +15,7 @@ const SettingsFormInput = (props) => {
     onBlur,
     id,
     value,
+    type,
     ...inputProps
   } = props;
 
@@ -26,6 +27,7 @@ const SettingsFormInput = (props) => {
       <input
         id={id}
         value={value}
+        type={type}
         onChange={onChange}
         onBlur={onBlur}
         autoComplete="off"

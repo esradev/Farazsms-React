@@ -1,6 +1,10 @@
 /*!***************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./src/index.scss ***!
   \***************************************************************************************************************************************************************************************************************************************/
+@import url(https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200);
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[3].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[3].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[3].use[3]!./src/index.scss (1) ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
 @charset "UTF-8";
 /*!
  * Bootstrap  v5.2.3 (https://getbootstrap.com/)
@@ -10825,6 +10829,7 @@ textarea.form-control-lg {
 /* ===== Variables ===== */
 /* ===== Colors ===== */ /* ===== Header ===== */
 .faraz-header {
+  font-family: IRANSans;
   display: flex;
   align-items: center;
   height: 80px;
@@ -10854,6 +10859,8 @@ textarea.form-control-lg {
   margin-right: 2.5rem;
 }
 .faraz-header .header-logo a {
+  font-family: IRANSans;
+  text-decoration: none;
   display: flex;
   align-items: center;
 }
@@ -10980,6 +10987,7 @@ textarea.form-control-lg {
 
 /* ===== Floating Alert ===== */
 .floating-alert {
+  font-family: IRANSans;
   display: none;
   position: absolute;
   z-index: 999;
@@ -11021,18 +11029,21 @@ textarea.form-control-lg {
 /* ===== Variables ===== */
 /* ===== Colors ===== */ /* ===== Sidebar ===== */
 .container {
+  font-family: IRANSans;
   display: flex;
   padding-left: 0;
   padding-right: 0;
 }
 
 main {
+  font-family: IRANSans;
   width: 100%;
   padding: 20px;
   background-color: #ecf3fe;
 }
 
 .faraz-sidebar .link {
+  font-family: IRANSans;
   display: flex;
   align-items: center;
   padding: 0.75em 1em;
@@ -11059,11 +11070,19 @@ main {
 /* ===== Variables ===== */
 /* ===== Colors ===== */ /* ===== Settings page form ===== */
 .form-group {
+  font-family: IRANSans;
   position: relative;
   margin-bottom: 20px;
 }
 .form-group input[type=checkbox] {
-  margin: 0.2em;
+  -moz-appearance: none;
+       appearance: none;
+  -webkit-appearance: none;
+  height: 24px;
+  width: 24px;
+  background-color: #d5d5d5;
+  background-repeat: 5px;
+  color: #000;
   cursor: pointer;
 }
 .form-group input[type=text],
@@ -11104,9 +11123,13 @@ main {
   padding: 8px;
   cursor: pointer;
 }
+.form-group .faraz-btn {
+  font-family: IRANSans;
+}
 
 /* ===== Live Validate Message ===== */
 .liveValidateMessage {
+  font-family: IRANSans;
   top: -6px;
   position: absolute;
   z-index: 1;
@@ -11146,6 +11169,7 @@ main {
 /* ===== Variables ===== */
 /* ===== Colors ===== */
 .card-grid {
+  font-family: IRANSans;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   -moz-column-gap: 1.5rem;
@@ -11164,6 +11188,7 @@ main {
 }
 
 .plugins-card .card {
+  font-family: IRANSans;
   background-color: #ffffff;
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.05), 0 5px 15px 0 rgba(0, 0, 0, 0.05);
   border-radius: 8px;
@@ -11257,7 +11282,14 @@ main {
   font-size: 0.875rem;
 }
 
+@font-face {
+  font-family: IRANSans;
+  font-style: normal;
+  font-weight: normal;
+  src: url(fonts/IRANSansWeb.9ffdcda0.woff) format("woff");
+}
 #farazsms-app-php {
+  font-family: IRANSans, Tahoma, sans-serif;
   height: 100vh;
   background: #fff;
 }

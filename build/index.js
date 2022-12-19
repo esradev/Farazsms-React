@@ -4053,7 +4053,7 @@ function Settings() {
         rules: "from_number_adverRules"
       },
       welcome_sms: {
-        value: false,
+        value: "",
         hasErrors: false,
         errorMessage: "",
         onChange: "welcome_smsChange",
@@ -4078,6 +4078,7 @@ function Settings() {
         draft.inputs.admin_number.value = action.value.admin_number;
         draft.inputs.from_number.value = action.value.from_number;
         draft.inputs.from_number_adver.value = action.value.from_number_adver;
+        draft.inputs.welcome_sms.value = action.value.welcome_sms;
         draft.isFetching = false;
         return;
       case "apikeyChange":
@@ -4103,6 +4104,10 @@ function Settings() {
       case "from_number_adverChange":
         draft.inputs.from_number_adver.hasErrors = false;
         draft.inputs.from_number_adver.value = action.value;
+        return;
+      case "welcome_smsChange":
+        draft.inputs.welcome_sms.hasErrors = false;
+        draft.inputs.welcome_sms.value = action.value;
         return;
       case "submitOptions":
         if (
@@ -4154,10 +4159,12 @@ function Settings() {
   function handleSubmit(e) {
     e.preventDefault();
     //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map(input => dispatch({
-      type: input.rules,
-      value: input.value
-    }));
+    Object.values(state.inputs).map(input => {
+      dispatch({
+        type: input.rules,
+        value: input.value
+      });
+    });
     dispatch({
       type: "submitOptions"
     });
@@ -4234,10 +4241,11 @@ function Settings() {
     className: "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
     value: input.value,
+    checked: input.value,
     onChange: e => {
       dispatch({
         type: input.onChange,
-        value: e.target.value
+        value: input.type === "checkbox" ? e.target.checked : e.target.value
       });
     },
     onBlur: e => dispatch({
@@ -4248,7 +4256,7 @@ function Settings() {
     className: "alert alert-danger small liveValidateMessage"
   }, input.errorMessage))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
     type: "submit",
-    className: "btn btn-primary",
+    className: "btn btn-primary faraz-btn",
     disabled: state.isSaving
   }, __("Save Settings", "farazsms")))));
 }
@@ -4288,6 +4296,7 @@ const SettingsFormInput = props => {
     onBlur,
     id,
     value,
+    type,
     ...inputProps
   } = props;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
@@ -4298,6 +4307,7 @@ const SettingsFormInput = props => {
   }, label), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     id: id,
     value: value,
+    type: type,
     onChange: onChange,
     onBlur: onBlur,
     autoComplete: "off"

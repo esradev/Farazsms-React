@@ -2,11 +2,18 @@
 
 /* ===== Settings page form ===== */
 .form-group {
+  font-family: IRANSans;
   position: relative;
   margin-bottom: 20px;
 
   input[type="checkbox"] {
-    margin: 0.2em;
+    appearance: none;
+    -webkit-appearance: none;
+    height: 24px;
+    width: 24px;
+    background-color: #d5d5d5;
+    background-repeat: 5px;
+    color: #000;
     cursor: pointer;
   }
 
@@ -44,5 +51,8 @@
     border-radius: 8px;
     padding: 8px;
     cursor: pointer;
+  }
+  .faraz-btn {
+    font-family: IRANSans;
   }
 }

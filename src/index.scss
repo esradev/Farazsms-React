@@ -7,7 +7,15 @@
 @import "./styles/live-validate-message.scss";
 @import "./styles/plugins-card.scss";
 
+@font-face {
+  font-family: IRANSans;
+  font-style: normal;
+  font-weight: normal;
+  src: url("./assets/fonts/IRANSansWeb.woff") format("woff");
+}
+
 #farazsms-app-php {
+  font-family: IRANSans, Tahoma, sans-serif;
   height: 100vh;
   background: #fff;
   .app-title {
