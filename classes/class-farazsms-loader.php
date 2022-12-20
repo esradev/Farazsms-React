@@ -10,12 +10,12 @@
 defined('ABSPATH') || exit; // Exit if accessed directly.
 
 
-if (!class_exists('FARAZSMS_Loader')) {
+if (!class_exists('Farazsms_Loader')) {
 
     /**
-     * Class FARAZSMS_Loader.
+     * Class Farazsms_Loader.
      */
-    final class FARAZSMS_Loader
+    class Farazsms_Loader
     {
 
         /**
@@ -90,7 +90,7 @@ if (!class_exists('FARAZSMS_Loader')) {
          */
         public function initialize_farazsms_tables()
         {
-            include_once FARAZSMS_PATH . 'modules/farazsms/classes/class-farazsms-database.php';
+            include_once FARAZSMS_CLASSES_PATH . 'class-farazsms-database.php';
             $db = Farazsms_Database::get_instance();
             $db->create_tables();
         }
@@ -100,11 +100,14 @@ if (!class_exists('FARAZSMS_Loader')) {
          */
         public function load_core_files()
         {
-            // Load Farazsms Options.
-            include_once FARAZSMS_INC_PATH . 'farazsms-options.php';
+            // Load Farazsms options.
+            include_once FARAZSMS_CLASSES_PATH . 'class-farazsms-options.php';
+
+            // Load Farazsms Routes.
+            include_once FARAZSMS_CLASSES_PATH . 'class-farazsms-routes.php';
 
             // Load Farazsms Sttings.
-            include_once FARAZSMS_INC_PATH . 'farazsms-settings.php';
+            include_once FARAZSMS_CLASSES_PATH . 'class-farazsms-settings.php';
         }
 
         /**
@@ -155,7 +158,7 @@ if (!class_exists('FARAZSMS_Loader')) {
      *  Prepare if class 'Farazsms_Loader' exist.
      *  Kicking this off by calling 'get_instance()' method
      */
-    FARAZSMS_Loader::get_instance();
+    Farazsms_Loader::get_instance();
 }
 
 
@@ -167,6 +170,6 @@ if (!function_exists('farazsms')) {
      */
     function farazsms()
     {
-        return FARAZSMS_Loader::get_instance();
+        return Farazsms_Loader::get_instance();
     }
 }

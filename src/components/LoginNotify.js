@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
-import Axios from "axios";
+
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
 import DispatchContext from "../DispatchContext";
 import SettingsFormInput from "./SettingsFormInput";
+import AxiosWp from "./AxiosWp";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);
@@ -174,8 +175,8 @@ function Settings() {
     async function getOptions() {
       try {
         // Get Options from site DB Options table
-        const getOptions = await Axios.get(
-          "http://faraz-sms.local/wp-json/farazsms/v1/farazsms_login_notify_options"
+        const getOptions = await AxiosWp.get(
+          "/farazsms/v1/login_notify_options"
         );
         if (getOptions.data) {
           const optsionsJson = JSON.parse(getOptions.data);
@@ -207,8 +208,8 @@ function Settings() {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await Axios.post(
-            "http://faraz-sms.local/wp-json/farazsms/v1/farazsms_login_notify_options",
+          const postOptions = await AxiosWp.post(
+            "/farazsms/v1/login_notify_options",
             optionsJsonForPost
           );
           dispatch({ type: "saveRequestFininshed" });

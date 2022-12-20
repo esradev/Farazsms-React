@@ -56,39 +56,13 @@ class Farazsms_Settings
     }
 
     /**
-     * Add bar menu. show some links for farazsms plugin on the admin bar.
-     *
-     * @since    1.0.0
-     */
-
-    public function fsms_admin_add_bar_menu()
-    {
-        $fsms_base = class_farazsms_base::getInstance();
-        global $wp_admin_bar;
-        if (!is_super_admin() || !is_admin_bar_showing()) {
-            return;
-        }
-        $wp_admin_bar->add_menu(array(
-            'id' => 'farazsms', 'parent' => null, 'group' => null, 'title' => __('FarazSms ', 'farazsms') . '<img style="padding-top: 10px" src="' . plugin_dir_url(__FILE__) . '/img/logo.png"/>', 'href' => get_bloginfo('url') . '/wp-admin/admin.php?farazsms', 'meta' => [
-                'title' => __('FarazSms', 'textdomain'), //This title will show on hover
-            ]
-        ));
-        $credit = $fsms_base::get_credit();
-        if ($credit) {
-            $wp_admin_bar->add_menu(array('parent' => 'farazsms', 'id'     => 'farazsms-admin-bar-credit', 'title' => __('Account credit: ', 'farazsms') . number_format($credit) . __(' $IR_T', 'farazsms'), 'href' => get_bloginfo('url') . '/wp-admin/admin.php?farazsms'));
-        }
-        $wp_admin_bar->add_menu(array('parent' => 'farazsms', 'title' => __('Send Sms', 'farazsms'), 'id' => 'farazsms-admin-bar-send-sms', 'href' => get_bloginfo('url') . '/wp-admin/admin.php?page=farazsms&tab=tab-5'));
-        $wp_admin_bar->add_menu(array('parent' => 'farazsms', 'title' => __('FarazSms', 'farazsms'), 'id' => 'farazsms-admin-bar-go-to-site', 'href' => 'https://farazsms.com/'));
-    }
-
-    /**
      * Init Admin Page.
      *
      * @return void
      */
     public function admin_page()
     {
-        require_once FARAZSMS_INC_PATH . 'farazsms-admin.php';
+        require_once FARAZSMS_MODULES_PATH . 'farazsms-admin.php';
     }
 
     /**
@@ -100,7 +74,15 @@ class Farazsms_Settings
     {
         wp_enqueue_style('farazsms-style', FARAZSMS_URL . 'build/index.css');
         wp_enqueue_script('farazsms-script', FARAZSMS_URL . 'build/index.js', array('wp-element', 'wp-i18n'), '1.0.0', true);
-        //Load Farazsms languages for JavaScript files.
+        /**
+         * Add a localization object ,The base rest api url and a security nonce
+         * @see https://since1979.dev/snippet-014-setup-axios-for-the-wordpress-rest-api/
+         * */
+        wp_localize_script('farazsms-script', 'farazsmsJsObject', array(
+            'rootapiurl' => esc_url_raw(rest_url()),
+            'nonce' => wp_create_nonce('wp_rest')
+        ));
+        //Load Farazsms languages for JavaScript files. 
         wp_set_script_translations('farazsms-script', 'farazsms', FARAZSMS_PATH . '/languages');
     }
 

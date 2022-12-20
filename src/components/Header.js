@@ -8,14 +8,14 @@ const __ = wp.i18n.__;
 
 function Header() {
   return (
-    <header class="faraz-header container mt-4">
+    <header class="faraz-header container">
       <div class="header-content responsive-wrapper">
         <div class="header-logo">
           <a href="#">
             <div>
               <img src={FarazsmsLogo} />
             </div>
-            <h2>{__("FarazSMS", "farazsms")}</h2>
+            <h2>{__("FarazSms", "farazsms")}</h2>
           </a>
         </div>
         <div class="header-navigation">

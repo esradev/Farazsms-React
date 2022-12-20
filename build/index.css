@@ -10987,7 +10987,7 @@ textarea.form-control-lg {
   display: none;
   position: absolute;
   z-index: 999;
-  top: 50%;
+  top: 50vh;
   left: 50%;
   transform: translateX(-50%);
   animation: floatingAlert ease-in 5s forwards;
@@ -11221,7 +11221,7 @@ main {
   }
 }
 
-.plugins-card .card {
+.plugins-card .plugins-card {
   font-family: IRANSans;
   background-color: #ffffff;
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.05), 0 5px 15px 0 rgba(0, 0, 0, 0.05);

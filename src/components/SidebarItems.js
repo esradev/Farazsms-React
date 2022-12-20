@@ -28,7 +28,7 @@ import SendSms from "./SendSms";
 import WooCommerce from "./WooCommerce";
 import Edd from "./Edd";
 import Newsletters from "./Newsletters";
-import OtherPlugins from "./OtherPlugins";
+import Integrations from "./Integrations";
 
 const SidebarItems = [
   {
@@ -86,8 +86,8 @@ const SidebarItems = [
     icon: <AiOutlineNotification />,
   },
   {
-    path: "/otherplugins",
-    element: OtherPlugins,
+    path: "/integrations",
+    element: Integrations,
     name: __("Other Plugins", "farazsms"),
     icon: <AiOutlineAppstore />,
   },

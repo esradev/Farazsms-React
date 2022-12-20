@@ -5,12 +5,12 @@ const __ = wp.i18n.__;
 function Phonebook() {
   return (
     <div className="container">
-      <div className="card bg-light mb-3">
+      <div className="container card bg-light mb-3">
         <div className="card-body">
-          <h5 className="card-title">Light card title</h5>
+          <h5 className="card-title">{__("Special Offer:", "farazsms")}</h5>
           <p className="card-text">
             {__(
-              "Special Offer: If you have a physical store, use the mobile number storage device to collect your customers mobile numbers. Click on the link below to see the details",
+              "If you have a physical store, use the mobile number storage device to collect your customers mobile numbers. Click on the link below to see the details",
               "farazsms"
             )}
           </p>
