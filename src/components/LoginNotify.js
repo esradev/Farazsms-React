@@ -46,16 +46,16 @@ function Settings() {
         label: __("Welcome sms pattern code:", "farazsms"),
         rules: "welcome_sms_pRules",
       },
-      welcome_sms_message: {
+      welcome_sms_msg: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "welcome_sms_messageChange",
-        id: "welcome_sms_message",
-        name: "welcome_sms_message",
+        onChange: "welcome_sms_msgChange",
+        id: "welcome_sms_msg",
+        name: "welcome_sms_msg",
         type: "text",
         label: __("welcome message:", "farazsms"),
-        rules: "welcome_sms_messageRules",
+        rules: "welcome_sms_msgRules",
       },
       admin_login_notify: {
         value: "",
@@ -106,8 +106,7 @@ function Settings() {
         draft.inputs.welcome_sms.value = action.value.welcome_sms;
         draft.inputs.welcome_sms_use_p.value = action.value.welcome_sms_use_p;
         draft.inputs.welcome_sms_p.value = action.value.welcome_sms_p;
-        draft.inputs.welcome_sms_message.value =
-          action.value.welcome_sms_message;
+        draft.inputs.welcome_sms_msg.value = action.value.welcome_sms_msg;
         draft.inputs.admin_login_notify.value = action.value.admin_login_notify;
         draft.inputs.admin_login_notify_p.value =
           action.value.admin_login_notify_p;
@@ -129,9 +128,9 @@ function Settings() {
         draft.inputs.welcome_sms_p.hasErrors = false;
         draft.inputs.welcome_sms_p.value = action.value;
         return;
-      case "welcome_sms_messageChange":
-        draft.inputs.welcome_sms_message.hasErrors = false;
-        draft.inputs.welcome_sms_message.value = action.value;
+      case "welcome_sms_msgChange":
+        draft.inputs.welcome_sms_msg.hasErrors = false;
+        draft.inputs.welcome_sms_msg.value = action.value;
         return;
       case "admin_login_notifyChange":
         draft.inputs.admin_login_notify.hasErrors = false;

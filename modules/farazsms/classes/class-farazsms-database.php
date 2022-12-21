@@ -28,9 +28,18 @@ class Farazsms_Database
      */
     public static function get_instance()
     {
-        if (!isset(self::$instance)) {
+        if (is_null(self::$instance)) {
+
             self::$instance = new self();
+
+            /**
+             * Farazsms Database.
+             *
+             * @since 1.0.0
+             */
+            do_action('farazsms_database');
         }
+
         return self::$instance;
     }
 

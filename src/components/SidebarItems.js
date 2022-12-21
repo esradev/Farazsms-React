@@ -8,7 +8,7 @@ import {
   AiOutlineSend,
   AiOutlineNotification,
   AiOutlinePhone,
-  AiOutlineAppstore,
+  AiOutlineApartment,
   AiOutlineSetting,
   AiOutlineSync,
   AiOutlineComment,
@@ -27,7 +27,7 @@ import Comments from "./Comments";
 import SendSms from "./SendSms";
 import WooCommerce from "./WooCommerce";
 import Edd from "./Edd";
-import Newsletters from "./Newsletters";
+import Newsletter from "./Newsletter";
 import Integrations from "./Integrations";
 
 const SidebarItems = [
@@ -80,16 +80,16 @@ const SidebarItems = [
     icon: <AiOutlineCloudDownload />,
   },
   {
-    path: "/newsletters",
-    element: Newsletters,
-    name: __("Newsletters", "farazsms"),
+    path: "/newsletter",
+    element: Newsletter,
+    name: __("Newsletter", "farazsms"),
     icon: <AiOutlineNotification />,
   },
   {
     path: "/integrations",
     element: Integrations,
-    name: __("Other Plugins", "farazsms"),
-    icon: <AiOutlineAppstore />,
+    name: __("Integrations", "farazsms"),
+    icon: <AiOutlineApartment />,
   },
 ];
 

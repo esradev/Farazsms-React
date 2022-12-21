@@ -7,7 +7,7 @@ import DispatchContext from "../DispatchContext";
 import SettingsFormInput from "./SettingsFormInput";
 import AxiosWp from "./AxiosWp";
 
-function Newsletters() {
+function Newsletter() {
   const appDispatch = useContext(DispatchContext);
   // Init States
   const originalState = {
@@ -73,49 +73,49 @@ function Newsletters() {
         label: __("Welcome SMS pattern code", "farazsms"),
         rules: "news_welcome_pRules",
       },
-      news_post_notification: {
+      news_post_notify: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "news_post_notificationChange",
-        id: "news_post_notification",
-        name: "news_post_notification",
+        onChange: "news_post_notifyChange",
+        id: "news_post_notify",
+        name: "news_post_notify",
         type: "checkbox",
         label: __("Send new posts to newsletter members?", "farazsms"),
-        rules: "news_post_notificationRules",
+        rules: "news_post_notifyRules",
       },
-      news_post_notification_message: {
+      news_post_notify_msg: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "news_post_notification_messageChange",
-        id: "news_post_notification_message",
-        name: "news_post_notification_message",
+        onChange: "news_post_notify_msgChange",
+        id: "news_post_notify_msg",
+        name: "news_post_notify_msg",
         type: "text",
         label: __("Message content for new post", "farazsms"),
-        rules: "news_post_notification_messageRules",
+        rules: "news_post_notify_msgRules",
       },
-      news_product_notification: {
+      news_product_notify: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "news_product_notificationChange",
-        id: "news_product_notification",
-        name: "news_product_notification",
+        onChange: "news_product_notifyChange",
+        id: "news_product_notify",
+        name: "news_product_notify",
         type: "checkbox",
         label: __("Send new product to newsletter members?", "farazsms"),
-        rules: "news_product_notificationRules",
+        rules: "news_product_notifyRules",
       },
-      news_product_notification_message: {
+      news_product_notify_msg: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "news_product_notification_messageChange",
-        id: "news_product_notification_message",
-        name: "news_product_notification_message",
+        onChange: "news_product_notify_msgChange",
+        id: "news_product_notify_msg",
+        name: "news_product_notify_msg",
         type: "text",
         label: __("Message content for new product", "farazsms"),
-        rules: "news_product_notification_messageRules",
+        rules: "news_product_notify_msgRules",
       },
     },
     isFetching: true,
@@ -127,23 +127,64 @@ function Newsletters() {
     switch (action.type) {
       case "fetchComplete":
         //Init state values by action.value
-        draft.inputs.add_mobile_field.value = action.value.add_mobile_field;
+        draft.inputs.news_phonebooks.value = action.value.news_phonebooks;
+        draft.inputs.news_send_verify_code.value =
+          action.value.news_send_verify_code;
+        draft.inputs.news_send_verify_code_p.value =
+          action.value.news_send_verify_code_p;
+        draft.inputs.news_welcome.value = action.value.news_welcome;
+        draft.inputs.news_welcome_p.value = action.value.news_welcome_p;
+        draft.inputs.news_post_notify.value = action.value.news_post_notify;
+        draft.inputs.news_post_notify_msg.value =
+          action.value.news_post_notify_msg;
+        draft.inputs.news_product_notify.value =
+          action.value.news_product_notify;
+        draft.inputs.news_product_notify_msg.value =
+          action.value.news_product_notify_msg;
 
         draft.isFetching = false;
         return;
 
-      case "add_mobile_fieldChange":
-        draft.inputs.add_mobile_field.hasErrors = false;
-        draft.inputs.add_mobile_field.value = action.value;
+      case "news_phonebooksChange":
+        draft.inputs.news_phonebooks.hasErrors = false;
+        draft.inputs.news_phonebooks.value = action.value;
+        return;
+      case "news_send_verify_codeChange":
+        draft.inputs.news_send_verify_code.hasErrors = false;
+        draft.inputs.news_send_verify_code.value = action.value;
+        return;
+      case "news_send_verify_code_pChange":
+        draft.inputs.news_send_verify_code_p.hasErrors = false;
+        draft.inputs.news_send_verify_code_p.value = action.value;
+        return;
+      case "news_welcomeChange":
+        draft.inputs.news_welcome.hasErrors = false;
+        draft.inputs.news_welcome.value = action.value;
+        return;
+      case "news_welcome_pChange":
+        draft.inputs.news_welcome_p.hasErrors = false;
+        draft.inputs.news_welcome_p.value = action.value;
+        return;
+      case "news_post_notifyChange":
+        draft.inputs.news_post_notify.hasErrors = false;
+        draft.inputs.news_post_notify.value = action.value;
+        return;
+      case "news_post_notify_msgChange":
+        draft.inputs.news_post_notify_msg.hasErrors = false;
+        draft.inputs.news_post_notify_msg.value = action.value;
+        return;
+      case "news_product_notifyChange":
+        draft.inputs.news_product_notify.hasErrors = false;
+        draft.inputs.news_product_notify.value = action.value;
+        return;
+      case "news_product_notify_msgChange":
+        draft.inputs.news_product_notify_msg.hasErrors = false;
+        draft.inputs.news_product_notify_msg.value = action.value;
         return;
 
       case "submitOptions":
-        if (
-          //Check is any input hasErrors, and prevent form submit on that case.
-          !draft.inputs.apikey.hasErrors
-        ) {
-          draft.sendCount++;
-        }
+        draft.sendCount++;
+
         return;
       case "saveRequestStarted":
         draft.isSaving = true;
@@ -180,7 +221,7 @@ function Newsletters() {
     async function getOptions() {
       try {
         // Get Options from site DB Options table
-        const getOptions = await AxiosWp.get("/farazsms/v1/comments_options");
+        const getOptions = await AxiosWp.get("/farazsms/v1/newsletter_options");
         if (getOptions.data) {
           const optsionsJson = JSON.parse(getOptions.data);
           console.log(optsionsJson);
@@ -212,7 +253,7 @@ function Newsletters() {
         try {
           // Post Options from site DB Options table
           const postOptions = await AxiosWp.post(
-            "/farazsms/v1/comments_options",
+            "/farazsms/v1/newsletter_options",
             optionsJsonForPost
           );
           dispatch({ type: "saveRequestFininshed" });
@@ -284,4 +325,4 @@ function Newsletters() {
   );
 }
 
-export default Newsletters;
+export default Newsletter;

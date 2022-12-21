@@ -90,7 +90,7 @@ if (!class_exists('Farazsms_Loader')) {
          */
         public function initialize_farazsms_tables()
         {
-            include_once FARAZSMS_CLASSES_PATH . 'class-farazsms-database.php';
+            include_once FARAZSMS_MODULES_PATH . 'farazsms/classes/class-farazsms-database.php';
             $db = Farazsms_Database::get_instance();
             $db->create_tables();
         }
