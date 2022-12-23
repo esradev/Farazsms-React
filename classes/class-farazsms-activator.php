@@ -60,7 +60,7 @@ class Farazsms_Activator
 			copy(WP_CONTENT_DIR . '/plugins/farazsms/includes/bookly_files/ippanel.js', WP_CONTENT_DIR . '/plugins/bookly-responsive-appointment-booking-tool/lib/cloud/ippanel.js');
 		}
 
-		// This option added for reditect after activation
+		// This option added for redirect after activation
 		add_option('farazsms_do_activation_redirect', true);
 	}
 }
