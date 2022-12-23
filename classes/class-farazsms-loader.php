@@ -1,175 +1,131 @@
 <?php
 
 /**
- * Farazsms Loader.
- * 
- * @package Farazsms
+ * Register all actions and filters for the plugin
  *
+ * @link       https://farazsms.com/
+ * @since      1.0.0
+ *
+ * @package    Farazsms
+ * @subpackage Farazsms/includes
  */
 
-defined('ABSPATH') || exit; // Exit if accessed directly.
-
-
-if (!class_exists('Farazsms_Loader')) {
+/**
+ * Register all actions and filters for the plugin.
+ *
+ * Maintain a list of all hooks that are registered throughout
+ * the plugin, and register them with the WordPress API. Call the
+ * run function to execute the list of actions and filters.
+ *
+ * @package    Farazsms
+ * @subpackage Farazsms/includes
+ * @author     FarazSMS <info@farazsms.com>
+ */
+class Farazsms_Loader
+{
 
     /**
-     * Class Farazsms_Loader.
+     * The array of actions registered with WordPress.
+     *
+     * @since    1.0.0
+     * @access   protected
+     * @var      array    $actions    The actions registered with WordPress to fire when the plugin loads.
      */
-    class Farazsms_Loader
+    protected $actions;
+
+    /**
+     * The array of filters registered with WordPress.
+     *
+     * @since    1.0.0
+     * @access   protected
+     * @var      array    $filters    The filters registered with WordPress to fire when the plugin loads.
+     */
+    protected $filters;
+
+    /**
+     * Initialize the collections used to maintain the actions and filters.
+     *
+     * @since    1.0.0
+     */
+    public function __construct()
     {
 
-        /**
-         * Member Variable
-         *
-         * @var instance
-         */
-        private static $instance = null;
-
-        /**
-         *  Initiator
-         */
-        public static function get_instance()
-        {
-
-            if (is_null(self::$instance)) {
-
-                self::$instance = new self();
-
-                /**
-                 * Farazsms loaded.
-                 *
-                 * Fires when Farazsms was fully loaded and instantiated.
-                 *
-                 * @since 1.0.0
-                 */
-                do_action('farazsms_loaded');
-            }
-
-            return self::$instance;
-        }
-
-        /**
-         * Constructor
-         */
-        public function __construct()
-        {
-            // Activation hook.
-            register_activation_hook(FARAZSMS_FILE, array($this, 'activation_reset'));
-
-            // Redirect after plugin is activated.
-            add_action('admin_init', array($this, 'farazsms_activation_redirect'));
-
-            // deActivation hook.
-            register_deactivation_hook(FARAZSMS_FILE, array($this, 'deactivation_reset'));
-
-            // Load core files of the plugin
-            add_action('plugins_loaded', array($this, 'load_plugin'), 99);
-
-            // Load farazsms textdomain.
-            add_action('init', array($this, 'load_farazsms_textdomain'));
-        }
-
-        /**
-         * Loads plugin files.
-         *
-         * @since 2.0.0
-         *
-         * @return void
-         */
-        public function load_plugin()
-        {
-            $this->load_core_files();
-        }
-
-        /**
-         * Create new database tables for plugin updates.
-         *
-         * @since 1.0.0
-         *
-         * @return void
-         */
-        public function initialize_farazsms_tables()
-        {
-            include_once FARAZSMS_MODULES_PATH . 'farazsms/classes/class-farazsms-database.php';
-            $db = Farazsms_Database::get_instance();
-            $db->create_tables();
-        }
-
-        /**
-         * Load core files.
-         */
-        public function load_core_files()
-        {
-            // Load Farazsms options.
-            include_once FARAZSMS_CLASSES_PATH . 'class-farazsms-options.php';
-
-            // Load Farazsms Routes.
-            include_once FARAZSMS_CLASSES_PATH . 'class-farazsms-routes.php';
-
-            // Load Farazsms Sttings.
-            include_once FARAZSMS_CLASSES_PATH . 'class-farazsms-settings.php';
-        }
-
-        /**
-         * Activation Reset
-         */
-        public function activation_reset()
-        {
-            $this->initialize_farazsms_tables();
-            add_option('farazsms_do_activation_redirect', true);
-        }
-
-        /**
-         * Redirect user to faraz settings page after plugin activated.
-         */
-        public function farazsms_activation_redirect($plugin)
-        {
-            if (get_option('farazsms_do_activation_redirect', false)) {
-                delete_option('farazsms_do_activation_redirect');
-                exit(wp_redirect(FARAZSMS_SETTINGS_LINK));
-            }
-        }
-
-        /**
-         * Deactivation Reset
-         */
-        public function deactivation_reset()
-        {
-        }
-
-        /**
-         * Load Farazsms Text Domain.
-         * 
-         * @since  2.0.0
-         * @return void
-         */
-
-        public function load_farazsms_textdomain()
-        {
-            // Default languages directory for Farazsms.
-            $lang_dir = dirname(FARAZSMS_BASE) . '/languages';
-
-            //Load Farazsms languages for PHP files.
-            load_plugin_textdomain('farazsms', false, $lang_dir);
-        }
+        $this->actions = array();
+        $this->filters = array();
     }
 
     /**
-     *  Prepare if class 'Farazsms_Loader' exist.
-     *  Kicking this off by calling 'get_instance()' method
-     */
-    Farazsms_Loader::get_instance();
-}
-
-
-if (!function_exists('farazsms')) {
-    /**
-     * Get global class.
+     * Add a new action to the collection to be registered with WordPress.
      *
-     * @return object
+     * @since    1.0.0
+     * @param    string               $hook             The name of the WordPress action that is being registered.
+     * @param    object               $component        A reference to the instance of the object on which the action is defined.
+     * @param    string               $callback         The name of the function definition on the $component.
+     * @param    int                  $priority         Optional. The priority at which the function should be fired. Default is 10.
+     * @param    int                  $accepted_args    Optional. The number of arguments that should be passed to the $callback. Default is 1.
      */
-    function farazsms()
+    public function add_action($hook, $component, $callback, $priority = 10, $accepted_args = 1)
     {
-        return Farazsms_Loader::get_instance();
+        $this->actions = $this->add($this->actions, $hook, $component, $callback, $priority, $accepted_args);
+    }
+
+    /**
+     * Add a new filter to the collection to be registered with WordPress.
+     *
+     * @since    1.0.0
+     * @param    string               $hook             The name of the WordPress filter that is being registered.
+     * @param    object               $component        A reference to the instance of the object on which the filter is defined.
+     * @param    string               $callback         The name of the function definition on the $component.
+     * @param    int                  $priority         Optional. The priority at which the function should be fired. Default is 10.
+     * @param    int                  $accepted_args    Optional. The number of arguments that should be passed to the $callback. Default is 1
+     */
+    public function add_filter($hook, $component, $callback, $priority = 10, $accepted_args = 1)
+    {
+        $this->filters = $this->add($this->filters, $hook, $component, $callback, $priority, $accepted_args);
+    }
+
+    /**
+     * A utility function that is used to register the actions and hooks into a single
+     * collection.
+     *
+     * @since    1.0.0
+     * @access   private
+     * @param    array                $hooks            The collection of hooks that is being registered (that is, actions or filters).
+     * @param    string               $hook             The name of the WordPress filter that is being registered.
+     * @param    object               $component        A reference to the instance of the object on which the filter is defined.
+     * @param    string               $callback         The name of the function definition on the $component.
+     * @param    int                  $priority         The priority at which the function should be fired.
+     * @param    int                  $accepted_args    The number of arguments that should be passed to the $callback.
+     * @return   array                                  The collection of actions and filters registered with WordPress.
+     */
+    private function add($hooks, $hook, $component, $callback, $priority, $accepted_args)
+    {
+
+        $hooks[] = array(
+            'hook'          => $hook,
+            'component'     => $component,
+            'callback'      => $callback,
+            'priority'      => $priority,
+            'accepted_args' => $accepted_args
+        );
+
+        return $hooks;
+    }
+
+    /**
+     * Register the filters and actions with WordPress.
+     *
+     * @since    1.0.0
+     */
+    public function run()
+    {
+
+        foreach ($this->filters as $hook) {
+            add_filter($hook['hook'], array($hook['component'], $hook['callback']), $hook['priority'], $hook['accepted_args']);
+        }
+
+        foreach ($this->actions as $hook) {
+            add_action($hook['hook'], array($hook['component'], $hook['callback']), $hook['priority'], $hook['accepted_args']);
+        }
     }
 }
