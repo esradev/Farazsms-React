@@ -226,9 +226,9 @@ function Settings() {
           {}
         );
         if (getOptions.data) {
-          const optsionsJson = JSON.parse(getOptions.data);
-          console.log(optsionsJson);
-          dispatch({ type: "fetchComplete", value: optsionsJson });
+          const optionsJson = JSON.parse(getOptions.data);
+          console.log(optionsJson);
+          dispatch({ type: "fetchComplete", value: optionsJson });
         }
       } catch (e) {
         console.log(e);

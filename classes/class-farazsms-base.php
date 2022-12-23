@@ -58,28 +58,21 @@ class class_farazsms_base
          * 
          */
 
-        $credentials_option = get_option('fsms_credentials');
+        $credentials_option = json_decode(get_option('farazsms_settings_options'), true);
         if ($credentials_option) {
-            $fsms_uname = $credentials_option['fsms_uname'];
-            $fsms_password = $credentials_option['fsms_password'];
-            $admin_number = $credentials_option['fsms_admin_notify_number'];
-            $fsms_apikey = $credentials_option['fsms_api_key'];
-            $fsms_fromnum = $credentials_option['fsms_fromnum'];
-            $fsms_fromnum_adver = $credentials_option['fsms_fromnum_adver'];
-            $fsms_sendwm = $credentials_option['fsms_sendwm'];
-            $fsms_welcomep = $credentials_option['fsms_welcomep'];
-            $fsms_sendwm_with_pattern = $credentials_option['fsms_sendwm_with_pattern'];
-            $fsms_welcome_message = $credentials_option['fsms_welcome_message'];
+            $fsms_uname = $credentials_option['username'];
+            $fsms_password = $credentials_option['password'];
+            $admin_number = $credentials_option['admin_number'];
+            $fsms_apikey = $credentials_option['apikey'];
+            $fsms_fromnum = $credentials_option['from_number'];
+            $fsms_fromnum_adver = $credentials_option['from_number_adver'];
+
             if ($fsms_uname && $fsms_password && $fsms_fromnum) {
                 self::$username = self::fsms_tr_num($fsms_uname);
                 self::$password = self::fsms_tr_num($fsms_password);
                 self::$admin_number = self::fsms_tr_num($admin_number);
                 self::$fromNum = self::fsms_tr_num($fsms_fromnum);
                 self::$fromNumAdver = self::fsms_tr_num($fsms_fromnum_adver);
-                self::$sendwm = $fsms_sendwm === 'true';
-                self::$welcomep = self::fsms_tr_num($fsms_welcomep);
-                self::$sendwm_with_pattern = $fsms_sendwm_with_pattern === 'true';
-                self::$welcome_message = self::fsms_tr_num($fsms_welcome_message);
             }
             self::$apiKey = $fsms_apikey;
         }

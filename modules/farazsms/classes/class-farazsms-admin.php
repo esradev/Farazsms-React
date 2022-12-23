@@ -120,16 +120,16 @@ class Farazsms_Admin extends class_farazsms_base
             return;
         }
         $wp_admin_bar->add_menu(array(
-            'id' => 'farazsms', 'parent' => null, 'group' => null, 'title' => __('FarazSms ', 'farazsms') . '<img style="padding-top: 10px" src="' . plugin_dir_url(__FILE__) . '/img/logo.png"/>', 'href' => get_bloginfo('url') . '/wp-admin/admin.php?farazsms', 'meta' => [
-                'title' => __('FarazSms', 'textdomain'), //This title will show on hover
+            'id' => 'farazsms', 'parent' => null, 'group' => null, 'title' => __('FarazSms ', 'farazsms'), 'meta' => [
+                'title' => __('FarazSMS', 'textdomain'), //This title will show on hover
             ]
         ));
         $credit = $fsms_base::get_credit();
         if ($credit) {
-            $wp_admin_bar->add_menu(array('parent' => 'farazsms', 'id'     => 'farazsms-admin-bar-credit', 'title' => __('Account credit: ', 'farazsms') . number_format($credit) . __(' $IR_T', 'farazsms'), 'href' => get_bloginfo('url') . '/wp-admin/admin.php?farazsms'));
+            $wp_admin_bar->add_menu(array('parent' => 'farazsms', 'id'     => 'farazsms-admin-bar-credit', 'title' => __('Account credit: ', 'farazsms') . number_format($credit) . __(' $IR_T', 'farazsms'), 'href' => get_bloginfo('url') . '/wp-admin/admin.php?page=farazsms_settings'));
         }
         $wp_admin_bar->add_menu(array('parent' => 'farazsms', 'title' => __('Send Sms', 'farazsms'), 'id' => 'farazsms-admin-bar-send-sms', 'href' => get_bloginfo('url') . '/wp-admin/admin.php?page=farazsms_settings#/sendsms'));
-        $wp_admin_bar->add_menu(array('parent' => 'farazsms', 'title' => __('FarazSms', 'farazsms'), 'id' => 'farazsms-admin-bar-go-to-site', 'href' => 'https://farazsms.com/'));
+        $wp_admin_bar->add_menu(array('parent' => 'farazsms', 'title' => __('FarazSMS', 'farazsms'), 'id' => 'farazsms-admin-bar-go-to-site', 'href' => 'https://farazsms.com/'));
     }
 
     /**

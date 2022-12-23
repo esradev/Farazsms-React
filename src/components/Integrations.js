@@ -11,7 +11,7 @@ import PluginsCardCheckbox from "./PluginsCardCheckbox";
 import AxiosWp from "./AxiosWp";
 import DispatchContext from "../DispatchContext";
 
-import WoocommerceLogo from "../assets/images/woocommerce-logo.png";
+import WoocommerceLogo from "../../modules/farazsms/assets/images/woocommerce-logo.png";
 
 function Integrations() {
   /**
