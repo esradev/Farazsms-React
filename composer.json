@@ -11,6 +11,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "ippanel/php-rest-sdk": "dev-master"
+        "ippanel/php-rest-sdk": "dev-master",
+        "squizlabs/php_codesniffer": "3.7.1",
+        "wp-coding-standards/wpcs": "2.3.0"
     }
 }

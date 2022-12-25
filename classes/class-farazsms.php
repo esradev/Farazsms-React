@@ -132,13 +132,13 @@ class Farazsms
         /**
          * The class responsible for defining all actions that occur in the admin area.
          */
-        require_once FARAZSMS_MODULES_PATH . 'farazsms/classes/class-farazsms-admin.php';
+        require_once FARAZSMS_MODULES_PATH . 'farazsms/classes/admin/class-farazsms-admin.php';
 
         /**
          * The class responsible for defining all actions that occur in the public-facing
          * side of the site.
          */
-        require_once FARAZSMS_MODULES_PATH . 'farazsms/classes/class-farazsms-public.php';
+        require_once FARAZSMS_MODULES_PATH . 'farazsms/classes/public/class-farazsms-public.php';
 
         //		$active_plugins_gv = apply_filters('active_plugins', get_option( 'active_plugins' ) );
         //		if ( in_array('gravityforms/gravityforms.php', $active_plugins_gv ) && !in_array('ippanel-sms-pro-gv/ippanel_sms_pro_gv.php', $active_plugins_gv)) {
@@ -215,7 +215,7 @@ class Farazsms
         $plugin_admin = new Farazsms_Admin($this->get_plugin_name(), $this->get_version());
 
         // $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
-        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts');
+        $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'admin_enqueue_scripts');
         $this->loader->add_action('admin_menu', $plugin_admin, 'init_menu');
         $this->loader->add_action('admin_bar_menu', $plugin_admin, 'admin_bar_menu', 60);
         $this->loader->add_filter('plugin_action_links_' . FARAZSMS_BASE, $plugin_admin, 'settings_link');

@@ -402,7 +402,7 @@ class class_farazsms_base
      * 
      * Check if credentials is valid.
      * 
-     * Only place that we need faraz username and password.
+     * Only place that we need farazsms username and password.
      * 
      */
 
