@@ -3713,6 +3713,17 @@ function Comments() {
         label: __("Is the mobile number field in comments mandatory?", "farazsms"),
         rules: "required_mobile_fieldRules"
       },
+      comment_phone_book: {
+        value: [],
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "comment_phone_bookChange",
+        id: "comment_phone_book",
+        name: "comment_phone_book",
+        type: "select",
+        label: __("Save the phone number in the phone book?", "farazsms"),
+        rules: "comment_phone_bookRules"
+      },
       comment_p: {
         value: "",
         hasErrors: false,
@@ -3745,6 +3756,17 @@ function Comments() {
         type: "checkbox",
         label: __("Send notification SMS to admin when a comment add to site?", "farazsms"),
         rules: "notify_admin_for_commentRules"
+      },
+      notify_admin_for_comment_p: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "notify_admin_for_comment_pChange",
+        id: "notify_admin_for_comment_p",
+        name: "notify_admin_for_comment_p",
+        type: "text",
+        label: __("Admin pattern code:", "farazsms"),
+        rules: "notify_admin_for_comment_pRules"
       }
     },
     isFetching: true,
@@ -3757,9 +3779,11 @@ function Comments() {
         //Init state values by action.value
         draft.inputs.add_mobile_field.value = action.value.add_mobile_field;
         draft.inputs.required_mobile_field.value = action.value.required_mobile_field;
+        draft.inputs.comment_phone_book.value = action.value.comment_phone_book;
         draft.inputs.comment_p.value = action.value.comment_p;
         draft.inputs.approved_comment_p.value = action.value.approved_comment_p;
         draft.inputs.notify_admin_for_comment.value = action.value.notify_admin_for_comment;
+        draft.inputs.notify_admin_for_comment_p.value = action.value.notify_admin_for_comment_p;
         draft.isFetching = false;
         return;
       case "add_mobile_fieldChange":
@@ -3769,6 +3793,10 @@ function Comments() {
       case "required_mobile_fieldChange":
         draft.inputs.required_mobile_field.hasErrors = false;
         draft.inputs.required_mobile_field.value = action.value;
+        return;
+      case "comment_phone_bookChange":
+        draft.inputs.comment_phone_book.hasErrors = false;
+        draft.inputs.comment_phone_book.value = action.value;
         return;
       case "comment_pChange":
         draft.inputs.comment_p.hasErrors = false;
@@ -3781,6 +3809,10 @@ function Comments() {
       case "notify_admin_for_commentChange":
         draft.inputs.notify_admin_for_comment.hasErrors = false;
         draft.inputs.notify_admin_for_comment.value = action.value;
+        return;
+      case "notify_admin_for_comment_pChange":
+        draft.inputs.notify_admin_for_comment_p.hasErrors = false;
+        draft.inputs.notify_admin_for_comment_p.value = action.value;
         return;
       case "submitOptions":
         draft.sendCount++;
@@ -5493,18 +5525,253 @@ function Synchronization() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SettingsFormInput */ "./src/components/SettingsFormInput.js");
+/* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 
 
-function WooCommerce() {
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "container"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "here is WooCommerce section."));
+
+
+// Used as const not import, for Loco translate plugin compatibility.
+const __ = wp.i18n.__;
+
+
+
+function Woocommerce() {
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  // Init States
+  const originalState = {
+    inputs: {
+      woo_checkout_otp: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "woo_checkout_otpChange",
+        id: "woo_checkout_otp",
+        name: "woo_checkout_otp",
+        type: "checkbox",
+        label: __("Mobile number confirmation on the account checkout page?", "farazsms"),
+        rules: "woo_checkout_otpRules"
+      },
+      woo_checkout_otp_pattern: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "woo_checkout_otp_patternChange",
+        id: "woo_checkout_otp_pattern",
+        name: "woo_checkout_otp_pattern",
+        type: "text",
+        label: __("Mobile number verification pattern code:", "farazsms"),
+        rules: "woo_checkout_otp_patternRules"
+      },
+      woo_poll: {
+        value: [],
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "woo_pollChange",
+        id: "woo_poll",
+        name: "woo_poll",
+        type: "checkbox",
+        label: __("Sending a timed survey SMS for WooCommerce?", "farazsms"),
+        rules: "woo_pollRules"
+      },
+      woo_poll_time: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "woo_poll_timeChange",
+        id: "woo_poll_time",
+        name: "woo_poll_time",
+        type: "text",
+        label: __("Days of sending SMS after placing the order:", "farazsms"),
+        rules: "woo_poll_timeRules"
+      },
+      woo_poll_msg: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "woo_poll_msgChange",
+        id: "woo_poll_msg",
+        name: "woo_poll_msg",
+        type: "text",
+        label: __("message content:", "farazsms"),
+        rules: "woo_poll_msgRules"
+      },
+      woo_tracking_p: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "woo_tracking_pChange",
+        id: "woo_tracking_p",
+        name: "woo_tracking_p",
+        type: "text",
+        label: __("Pattern code to send tracking code:", "farazsms"),
+        rules: "woo_tracking_pRules"
+      }
+    },
+    isFetching: true,
+    isSaving: false,
+    sendCount: 0
+  };
+  function ourReduser(draft, action) {
+    switch (action.type) {
+      case "fetchComplete":
+        //Init state values by action.value
+        draft.inputs.woo_checkout_otp.value = action.value.woo_checkout_otp;
+        draft.inputs.woo_checkout_otp_pattern.value = action.value.woo_checkout_otp_pattern;
+        draft.inputs.woo_poll.value = action.value.woo_poll;
+        draft.inputs.woo_poll_time.value = action.value.woo_poll_time;
+        draft.inputs.woo_poll_msg.value = action.value.woo_poll_msg;
+        draft.inputs.woo_tracking_p.value = action.value.woo_tracking_p;
+        draft.isFetching = false;
+        return;
+      case "woo_checkout_otpChange":
+        draft.inputs.woo_checkout_otp.hasErrors = false;
+        draft.inputs.woo_checkout_otp.value = action.value;
+        return;
+      case "woo_checkout_otp_patternChange":
+        draft.inputs.woo_checkout_otp_pattern.hasErrors = false;
+        draft.inputs.woo_checkout_otp_pattern.value = action.value;
+        return;
+      case "woo_pollChange":
+        draft.inputs.woo_poll.hasErrors = false;
+        draft.inputs.woo_poll.value = action.value;
+        return;
+      case "woo_poll_timeChange":
+        draft.inputs.woo_poll_time.hasErrors = false;
+        draft.inputs.woo_poll_time.value = action.value;
+        return;
+      case "woo_poll_msgChange":
+        draft.inputs.woo_poll_msg.hasErrors = false;
+        draft.inputs.woo_poll_msg.value = action.value;
+        return;
+      case "woo_tracking_pChange":
+        draft.inputs.woo_tracking_p.hasErrors = false;
+        draft.inputs.woo_tracking_p.value = action.value;
+        return;
+      case "submitOptions":
+        draft.sendCount++;
+        return;
+      case "saveRequestStarted":
+        draft.isSaving = true;
+        return;
+      case "saveRequestFininshed":
+        draft.isSaving = false;
+        return;
+    }
+  }
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_6__.useImmerReducer)(ourReduser, originalState);
+  function handleSubmit(e) {
+    e.preventDefault();
+    //Set every input to the state with dispatch function.
+    Object.values(state.inputs).map(input => {
+      dispatch({
+        type: input.rules,
+        value: input.value
+      });
+    });
+    dispatch({
+      type: "submitOptions"
+    });
+  }
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getOptions() {
+      try {
+        // Get Options from site DB Options table
+        const getOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].get("/farazsms/v1/woocommerce_options");
+        if (getOptions.data) {
+          const optsionsJson = JSON.parse(getOptions.data);
+          console.log(optsionsJson);
+          dispatch({
+            type: "fetchComplete",
+            value: optsionsJson
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getOptions();
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (state.sendCount) {
+      /**
+       * Get options values and set "name: value" in an array.
+       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * @return Object with arrays.
+       */
+
+      const optsionsArray = Object.values(state.inputs).map(_ref => {
+        let {
+          value,
+          name
+        } = _ref;
+        return [name, value];
+      });
+      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      console.log(optionsJsonForPost);
+      dispatch({
+        type: "saveRequestStarted"
+      });
+      async function postOptions() {
+        try {
+          // Post Options from site DB Options table
+          const postOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/woocommerce_options", optionsJsonForPost);
+          dispatch({
+            type: "saveRequestFininshed"
+          });
+          appDispatch({
+            type: "flashMessage",
+            value: __("Congrats. Form was updated successfully.", "farazsms")
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      postOptions();
+    }
+  }, [state.sendCount]);
+
+  /**
+   * The settings form created by maping over originalState as the main state.
+   * For every value on inputs rendered a SettingsFormInput.
+   *
+   * @since 2.0.0
+   */
+
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, __("Woocommerce Settings:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
+    onSubmit: handleSubmit
+  }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    key: input.id,
+    className: input.type === "checkbox" ? "toggle-control" : "form-group"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+    value: input.value,
+    checked: input.value,
+    onChange: e => {
+      dispatch({
+        type: input.onChange,
+        value: input.type === "checkbox" ? e.target.checked : e.target.value
+      });
+    },
+    onBlur: e => dispatch({
+      type: input.rules,
+      value: e.target.value
+    })
+  })), input.hasErrors && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    className: "alert alert-danger small liveValidateMessage"
+  }, input.errorMessage))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
+    type: "submit",
+    className: "btn btn-primary faraz-btn",
+    disabled: state.isSaving
+  }, __("Save Settings", "farazsms")))));
 }
-/* harmony default export */ __webpack_exports__["default"] = (WooCommerce);
+/* harmony default export */ __webpack_exports__["default"] = (Woocommerce);
 
 /***/ }),
 

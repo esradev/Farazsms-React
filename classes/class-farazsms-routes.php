@@ -66,6 +66,20 @@ class Farazsms_Routes
                 'permission_callback' => array($this, 'permissions_check'),
             ),
         ));
+
+        //Register woocommerce_options rest route
+        register_rest_route($namespace, '/' . 'woocommerce_options', array(
+            array(
+                'methods'             => 'GET',
+                'callback'            => array($this, 'get_woocommerce_options'),
+                'permission_callback' => array($this, 'permissions_check'),
+            ),
+            array(
+                'methods'             => 'POST',
+                'callback'            => array($this, 'add_woocommerce_options'),
+                'permission_callback' => array($this, 'permissions_check'),
+            ),
+        ));
     }
 
     /**
@@ -124,8 +138,8 @@ class Farazsms_Routes
     public function add_login_notify_options($data)
     {
         $option = array(
-            'welcome_sms'          => $data['welcome_sms'] ? $data['welcome_sms'] : false,
-            'welcome_sms_use_p'    => $data['welcome_sms_use_p'] ? $data['welcome_sms_use_p'] : false,
+            'welcome_sms'          => $data['welcome_sms'] ? $data['welcome_sms'] : '',
+            'welcome_sms_use_p'    => $data['welcome_sms_use_p'] ? $data['welcome_sms_use_p'] : '',
             'welcome_sms_p'        => $data['welcome_sms_p'] ? $data['welcome_sms_p'] : '',
             'welcome_sms_msg'      => $data['welcome_sms_msg'] ? $data['welcome_sms_msg'] : '',
             'admin_login_notify'   => $data['admin_login_notify'] ? $data['admin_login_notify'] : '',
@@ -160,8 +174,8 @@ class Farazsms_Routes
     {
         $option = array(
             'add_mobile_field'            => $data['add_mobile_field'] ? $data['add_mobile_field'] : '',
-            'required_mobile_field'       => $data['required_mobile_field'] ? $data['required_mobile_field'] : false,
-            'notify_admin_for_comment'    => $data['notify_admin_for_comment'] ? $data['notify_admin_for_comment'] : false,
+            'required_mobile_field'       => $data['required_mobile_field'] ? $data['required_mobile_field'] : '',
+            'notify_admin_for_comment'    => $data['notify_admin_for_comment'] ? $data['notify_admin_for_comment'] : '',
             'approved_comment_p'          => $data['approved_comment_p'] ? $data['approved_comment_p'] : '',
             'comment_p'                   => $data['comment_p'] ? $data['comment_p'] : '',
             'notify_admin_for_comment_p'  => $data['notify_admin_for_comment_p'] ? $data['notify_admin_for_comment_p'] : '',
@@ -196,8 +210,8 @@ class Farazsms_Routes
     {
         $option = array(
             'news_phonebooks'         => $data['news_phonebooks'] ? $data['news_phonebooks'] : [],
-            'news_send_verify_code'   => $data['news_send_verify_code'] ? $data['news_send_verify_code'] : false,
-            'news_send_verify_code_p' => $data['news_send_verify_code_p'] ? $data['news_send_verify_code_p'] : false,
+            'news_send_verify_code'   => $data['news_send_verify_code'] ? $data['news_send_verify_code'] : '',
+            'news_send_verify_code_p' => $data['news_send_verify_code_p'] ? $data['news_send_verify_code_p'] : '',
             'news_welcome'            => $data['news_welcome'] ? $data['news_welcome'] : '',
             'news_welcome_p'          => $data['news_welcome_p'] ? $data['news_welcome_p'] : '',
             'news_post_notify'        => $data['news_post_notify'] ? $data['news_post_notify'] : '',
@@ -211,7 +225,45 @@ class Farazsms_Routes
     }
 
     /**
-     * Check if a given request has access to options
+     * Get woocommerce options.
+     * 
+     * @since 2.0.0
+     */
+    public function get_woocommerce_options()
+    {
+        $farazsms_woocommerce_options = get_option('farazsms_woocommerce_options');
+        if (empty($farazsms_woocommerce_options)) {
+            return new WP_Error('no_option', 'Invalid options', array('status' => 404));
+        }
+        return $farazsms_woocommerce_options;
+    }
+
+    /**
+     * Add woocommerce options.
+     * 
+     * @since 2.0.0
+     */
+    public function add_woocommerce_options($data)
+    {
+        $option = array(
+            'woo_checkout_otp'                 => $data['woo_checkout_otp'] ? $data['woo_checkout_otp'] : '',
+            'woo_checkout_otp_pattern'         => $data['woo_checkout_otp_pattern'] ? $data['woo_checkout_otp_pattern'] : '',
+            'woo_poll'                         => $data['woo_poll'] ? $data['woo_poll'] : '',
+            'woo_poll_time'                    => $data['woo_poll_time'] ? $data['woo_poll_time'] : '',
+            'woo_poll_msg'                     => $data['woo_poll_msg'] ? $data['woo_poll_msg'] : '',
+            'woo_tracking_p'                   => $data['woo_tracking_p'] ? $data['woo_tracking_p'] : '',
+            'woo_retention_order_no'           => $data['woo_retention_order_no'] ? $data['woo_retention_order_no'] : '',
+            'woo_retention_order_month'        => $data['woo_retention_order_month'] ? $data['woo_retention_order_month'] : '',
+            'woo_retention_message'            => $data['woo_retention_message'] ? $data['woo_retention_message'] : '',
+        );
+        $option_json = wp_json_encode($option);
+        $result = update_option('farazsms_woocommerce_options', $option_json);
+        return $result;
+    }
+
+
+    /**
+     * Check if a given request has permissions
      *
      * @return WP_Error|bool
      */

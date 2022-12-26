@@ -40,6 +40,17 @@ function Comments() {
         ),
         rules: "required_mobile_fieldRules",
       },
+      comment_phone_book: {
+        value: [],
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "comment_phone_bookChange",
+        id: "comment_phone_book",
+        name: "comment_phone_book",
+        type: "select",
+        label: __("Save the phone number in the phone book?", "farazsms"),
+        rules: "comment_phone_bookRules",
+      },
       comment_p: {
         value: "",
         hasErrors: false,
@@ -76,6 +87,17 @@ function Comments() {
         ),
         rules: "notify_admin_for_commentRules",
       },
+      notify_admin_for_comment_p: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "notify_admin_for_comment_pChange",
+        id: "notify_admin_for_comment_p",
+        name: "notify_admin_for_comment_p",
+        type: "text",
+        label: __("Admin pattern code:", "farazsms"),
+        rules: "notify_admin_for_comment_pRules",
+      },
     },
     isFetching: true,
     isSaving: false,
@@ -89,10 +111,13 @@ function Comments() {
         draft.inputs.add_mobile_field.value = action.value.add_mobile_field;
         draft.inputs.required_mobile_field.value =
           action.value.required_mobile_field;
+        draft.inputs.comment_phone_book.value = action.value.comment_phone_book;
         draft.inputs.comment_p.value = action.value.comment_p;
         draft.inputs.approved_comment_p.value = action.value.approved_comment_p;
         draft.inputs.notify_admin_for_comment.value =
           action.value.notify_admin_for_comment;
+        draft.inputs.notify_admin_for_comment_p.value =
+          action.value.notify_admin_for_comment_p;
 
         draft.isFetching = false;
         return;
@@ -105,6 +130,10 @@ function Comments() {
         draft.inputs.required_mobile_field.hasErrors = false;
         draft.inputs.required_mobile_field.value = action.value;
         return;
+      case "comment_phone_bookChange":
+        draft.inputs.comment_phone_book.hasErrors = false;
+        draft.inputs.comment_phone_book.value = action.value;
+        return;
       case "comment_pChange":
         draft.inputs.comment_p.hasErrors = false;
         draft.inputs.comment_p.value = action.value;
@@ -116,6 +145,10 @@ function Comments() {
       case "notify_admin_for_commentChange":
         draft.inputs.notify_admin_for_comment.hasErrors = false;
         draft.inputs.notify_admin_for_comment.value = action.value;
+        return;
+      case "notify_admin_for_comment_pChange":
+        draft.inputs.notify_admin_for_comment_p.hasErrors = false;
+        draft.inputs.notify_admin_for_comment_p.value = action.value;
         return;
       case "submitOptions":
         draft.sendCount++;

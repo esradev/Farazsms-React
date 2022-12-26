@@ -233,13 +233,13 @@ class Farazsms_Public extends class_farazsms_base
 
     public function add_mobile_field_to_comment_form()
     {
-        if (self::$fsms_addmf === 0) {
+        if (!self::$fsms_addmf === true) {
             return;
         }
         $r = '';
         $res = '<p class="comment-form-phone">'
             . '<label for="mobile">شماره موبایل';
-        if (self::$fsms_requiredmf === 1) {
+        if (self::$fsms_requiredmf === true) {
             $res .= ' <span class="required">*</span></label>';
             $r = 'required="required"';
         }
@@ -260,7 +260,7 @@ class Farazsms_Public extends class_farazsms_base
     // Verify comment input
     public function verify_comment_input($commentdata)
     {
-        if (empty($commentdata['comment_parent']) && self::$fsms_requiredmf === 1) {
+        if (empty($commentdata['comment_parent']) && self::$fsms_requiredmf === true) {
             if (!isset($_POST['mobile']) or empty($_POST['mobile'])) wp_die(__('Error: Mobile number is required.', 'farazsms'));
         }
         return $commentdata;
@@ -509,11 +509,11 @@ class Farazsms_Public extends class_farazsms_base
     {
         //print_r(wp_get_shortlink(50));
         return;
-        //$fsms_base = class_farazsms_base::getInstance();
-        //$fsms_base::save_to_phonebook(['09132789372','09038430716','09145236589'], '300536');
-        //$this->fsms_first_notification_before_expire(FALSE, 5, null, 'before_expire');
-        //$this->monitor_update_user_metadata(null, 5,'digits_phone', "09132789372");
-        //$this->fsms_first_notification_before_expire(false, 5,'', "before_expire");
+        // $fsms_base = class_farazsms_base::getInstance();
+        // $fsms_base::save_to_phonebook(['09132789372','09038430716','09145236589'], '300536');
+        // $this->fsms_first_notification_before_expire(FALSE, 5, null, 'before_expire');
+        // $this->monitor_update_user_metadata(null, 5,'digits_phone', "09132789372");
+        // $this->fsms_first_notification_before_expire(false, 5,'', "before_expire");
         $fsms_base = class_farazsms_base::getInstance();
         $fsms_base::send_welcome_message("09038430716", 31);
     }

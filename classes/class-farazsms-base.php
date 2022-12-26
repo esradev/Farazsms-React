@@ -50,6 +50,8 @@ class class_farazsms_base
     private static $_uap_installed = false;
     private static $_wcaf_installed = false;
 
+    private static $comment_phone_book;
+
     public function __construct()
     {
         /**
@@ -89,6 +91,11 @@ class class_farazsms_base
                 self::$sendwm_with_pattern = $fsms_sendwm_with_pattern === 'true';
                 self::$welcome_message = self::fsms_tr_num($fsms_welcome_message);
             }
+        }
+
+        $comments_options = json_decode(get_option('farazsms_comments_options'), true);
+        if ($comments_options) {
+            self::$comment_phone_book = $comments_options['comment_phone_book'];
         }
 
         /**
@@ -605,10 +612,7 @@ class class_farazsms_base
         if (empty(self::$admin_number)) {
             return;
         }
-        $message = __('Dear user
-The charge for your SMS panel is less than 10 thousand tomans, and your sites SMS may not be sent soon and your site may be blocked. I will charge the SMS system as soon as possible.
-www.farazsms.com
-+982171333036', 'farazsms');
+        $message = __('Dear user, The charge for your SMS panel is less than 10 thousand tomans, and your sites SMS may not be sent soon and your site may be blocked. I will charge the SMS system as soon as possible. www.farazsms.com, +982171333036', 'farazsms');
         if (!empty(self::$apiKey)) {
             try {
                 $client = new \IPPanel\Client(self::$apiKey);
@@ -762,8 +766,7 @@ www.farazsms.com
     public function save_comment_mobile_to_phonebook($phone)
     {
         $phone = self::fsms_tr_num($phone);
-        $comment_phone_book = get_option('fsms_comment_phone_book', []);
-        foreach ($comment_phone_book as $phone_bookId) {
+        foreach (self::$comment_phone_book as $phone_bookId) {
             $this->save_to_phonebook($phone, $phone_bookId);
         }
     }
