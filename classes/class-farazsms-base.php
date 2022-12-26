@@ -77,6 +77,20 @@ class class_farazsms_base
             self::$apiKey = $fsms_apikey;
         }
 
+        $login_notify_options = json_decode(get_option('farazsms_login_notify_options'), true);
+        if ($login_notify_options) {
+            $fsms_sendwm = $login_notify_options['welcome_sms'];
+            $fsms_welcomep = $login_notify_options['welcome_sms_p'];
+            $fsms_sendwm_with_pattern = $login_notify_options['welcome_sms_use_p'];
+            $fsms_welcome_message = $login_notify_options['welcome_sms_msg'];
+            if ($fsms_uname && $fsms_password && $fsms_fromnum) {
+                self::$sendwm = $fsms_sendwm === 'true';
+                self::$welcomep = self::fsms_tr_num($fsms_welcomep);
+                self::$sendwm_with_pattern = $fsms_sendwm_with_pattern === 'true';
+                self::$welcome_message = self::fsms_tr_num($fsms_welcome_message);
+            }
+        }
+
         /**
          * 
          * Check is Woocommerce, Digits, Bookly and some other plugins are installed and activated.

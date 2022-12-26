@@ -41,6 +41,14 @@ class Farazsms_Public extends class_farazsms_base
     private $_woo_installed = false;
     private $_digits_installed = false;
 
+    private static $fsms_addmf;
+    private static $fsms_requiredmf;
+    private static $fsms_notify_admin;
+    private static $approved_commentp;
+    private static $user_pattern;
+    private static $admin_pattern;
+    private $comment_phone_book;
+
     /**
      * Initialize the class and set its properties.
      *
@@ -54,6 +62,17 @@ class Farazsms_Public extends class_farazsms_base
         $this->plugin_name = $plugin_name;
         $this->version = $version;
         add_shortcode('farazsms', [$this, 'farazsms_newsletter']);
+
+        $comments_options = json_decode(get_option('farazsms_comments_options'), true);
+        if ($comments_options) {
+            self::$fsms_addmf = $comments_options['add_mobile_field'];
+            self::$fsms_requiredmf = $comments_options['required_mobile_field'];
+            self::$fsms_notify_admin = $comments_options['notify_admin_for_comment'];
+            self::$approved_commentp = $comments_options['approved_comment_p'];
+            self::$user_pattern = $comments_options['comment_p'];
+            self::$admin_pattern = $comments_options['notify_admin_for_comment_p'];
+            // $fsms_sendwm_with_pattern = $comments_options['comment_phone_book'];
+        }
     }
 
     /**
@@ -214,15 +233,13 @@ class Farazsms_Public extends class_farazsms_base
 
     public function add_mobile_field_to_comment_form()
     {
-        $fsms_addmf = get_option('fsms_add_mobile_field', 'false');
-        if ($fsms_addmf === "false") {
+        if (self::$fsms_addmf === 0) {
             return;
         }
-        $fsms_requiredmf = get_option('fsms_required_mobile_field', 'false');
         $r = '';
         $res = '<p class="comment-form-phone">'
             . '<label for="mobile">شماره موبایل';
-        if ($fsms_requiredmf === "true") {
+        if (self::$fsms_requiredmf === 1) {
             $res .= ' <span class="required">*</span></label>';
             $r = 'required="required"';
         }
@@ -243,8 +260,7 @@ class Farazsms_Public extends class_farazsms_base
     // Verify comment input
     public function verify_comment_input($commentdata)
     {
-        $fsms_requiredmf = get_option('fsms_required_mobile_field', 'false');
-        if (empty($commentdata['comment_parent']) && $fsms_requiredmf === "true") {
+        if (empty($commentdata['comment_parent']) && self::$fsms_requiredmf === 1) {
             if (!isset($_POST['mobile']) or empty($_POST['mobile'])) wp_die(__('Error: Mobile number is required.', 'farazsms'));
         }
         return $commentdata;
@@ -259,27 +275,23 @@ class Farazsms_Public extends class_farazsms_base
         $mobile = get_comment_meta($data['parent'])['mobile'][0] ?? '';
         $user = get_user_by('id', $comment->user_id);
         $is_admin = in_array('administrator', (array) $user->roles);
-        $fsms_notify_admin = get_option('fsms_notify_admin', 'false');
         if ($comment->comment_parent == 0) {
-            $approved_commentp = get_option('fsms_approved_comment_pattern', '');
             $mobile = get_comment_meta($comment_id)['mobile'][0] ?? '';
-            if (!empty($approved_commentp) || !empty($mobile)) {
-                $fsms_base::send_comment_reply_sms($mobile, $approved_commentp, $data);
+            if (!empty(self::$approved_commentp) || !empty($mobile)) {
+                $fsms_base::send_comment_reply_sms($mobile, self::$approved_commentp, $data);
             }
         }
-        if ($fsms_notify_admin == 'true' && !$is_admin) {
-            $admin_pattern = get_option('fsms_admin_notify_pcode', '');
-            $fsms_base::send_comment_reply_sms($fsms_base::getAdminNumber(), $admin_pattern, $data);
+        if (self::$fsms_notify_admin == 1 && !$is_admin) {
+            $fsms_base::send_comment_reply_sms($fsms_base::getAdminNumber(), self::$admin_pattern, $data);
         }
         if ($is_admin) {
             if (empty($mobile)) return false;
-            $user_pattern = get_option('fsms_comment_pattern', '');
             if ($comment->comment_parent == 0) {
                 return false;
             }
             $comment = get_comment($comment->comment_parent);
             $data = $this->comments_farazsms_shortcode($comment, $comment_id);
-            $fsms_base::send_comment_reply_sms($mobile, $user_pattern, $data);
+            $fsms_base::send_comment_reply_sms($mobile, self::$user_pattern, $data);
             $fsms_base::save_comment_mobile_to_phonebook($mobile);
         }
     }

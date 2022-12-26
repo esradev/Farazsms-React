@@ -56,13 +56,28 @@ class Farazsms_Admin extends class_farazsms_base
     }
 
     /**
-     * Enqueue scripts and styles for admin area.
+     * Register the stylesheets for the admin area.
      *
-     * @return void
+     * @since    1.0.0
+     */
+    public function admin_enqueue_styles($page)
+    {
+        wp_enqueue_style('farazsms-style', FARAZSMS_URL . 'build/index.css');
+        if ($page !== 'toplevel_page_farazsms') {
+            return;
+        }
+        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/farazsms-admin.css', [], $this->version, 'all');
+        wp_register_style('select2css', '//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', false, '1.0', 'all');
+        wp_enqueue_style('select2css');
+    }
+
+    /**
+     * Register the JavaScript for the admin area.
+     *
+     * @since    1.0.0
      */
     public function admin_enqueue_scripts($hook)
     {
-        wp_enqueue_style('farazsms-style', FARAZSMS_URL . 'build/index.css');
         wp_enqueue_script('farazsms-script', FARAZSMS_URL . 'build/index.js', array('wp-element', 'wp-i18n'), '1.0.0', true);
         /**
          * Add a localization object ,The base rest api url and a security nonce
@@ -74,10 +89,6 @@ class Farazsms_Admin extends class_farazsms_base
         ));
         //Load Farazsms languages for JavaScript files. 
         wp_set_script_translations('farazsms-script', 'farazsms', FARAZSMS_PATH . '/languages');
-        //Register the stylesheets for the admin area.
-        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/farazsms-admin.css', [], $this->version, 'all');
-        wp_register_style('select2css', '//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', false, '1.0', 'all');
-        wp_enqueue_style('select2css');
 
         global $post;
 
@@ -85,7 +96,7 @@ class Farazsms_Admin extends class_farazsms_base
         wp_enqueue_script('select2', '//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', array('jquery-validate'), '1.0', true);
         wp_enqueue_script($this->plugin_name, plugin_dir_url(__FILE__) . 'js/farazsms-admin.js', ['select2'], $this->version, TRUE);
         //wp_enqueue_script( 'select2' );
-        //Register the JavaScript for the admin area.
+
         if ($hook == 'post-new.php' || $hook == 'post.php') {
             if ('shop_order' === $post->post_type) {
                 wp_enqueue_style('farazsms-tracking-code', plugin_dir_url(__FILE__) . 'css/farazsms-tracking-code.css', [], $this->version, 'all');
