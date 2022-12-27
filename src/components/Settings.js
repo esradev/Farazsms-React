@@ -289,13 +289,16 @@ function Settings() {
   }, [state.sendCount]);
 
   /**
+   *
    * Validarte Apikey
+   *
+   * @since 2.0.0
    */
   useEffect(() => {
     if (state.inputs.apikey.value) {
       const delay = setTimeout(
         () => dispatch({ type: "apikeyAfterDelay" }),
-        300
+        700
       );
       return () => clearTimeout(delay);
     }

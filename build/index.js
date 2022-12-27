@@ -4179,70 +4179,159 @@ function Integrations() {
    * Define plugins state.
    */
   const originalState = {
-    plugins: {
-      woocommerce: {
-        id: 1,
-        name: "WooCommerce",
-        info: "",
-        imgUrl: {
-          WoocommerceLogo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_5__
-        },
-        slug: "woocommerce",
-        status: "",
-        isInstalled: false,
-        use: false,
-        install: false,
-        activate: false,
-        smsSettings: "/woocommerce",
-        onChange: "wooChange",
-        hasErrors: false
-      }
+    woocommerce: {
+      name: "WooCommerce",
+      use: false,
+      isInstalled: false,
+      isActivated: false,
+      info: "",
+      imgUrl: {
+        WoocommerceLogo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_5__
+      },
+      slug: "woocommerce",
+      status: "",
+      onChange: "wooChange"
     },
-    isFetching: true,
-    isSaving: false,
-    sendCount: 0
+    digits: {
+      name: "digits",
+      use: false,
+      isInstalled: false,
+      isActivated: false,
+      info: "",
+      imgUrl: {
+        WoocommerceLogo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_5__
+      },
+      slug: "digits/digits",
+      status: "",
+      onChange: "digitsChange"
+    },
+    edd: {
+      name: "WooCommerce",
+      use: false,
+      isInstalled: false,
+      isActivated: false,
+      info: "",
+      imgUrl: {
+        WoocommerceLogo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_5__
+      },
+      slug: "easy-digital-downloads",
+      status: "",
+      onChange: "eddChange"
+    },
+    bookly: {
+      name: "bookly",
+      use: false,
+      isInstalled: false,
+      isActivated: false,
+      info: "",
+      imgUrl: {
+        WoocommerceLogo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_5__
+      },
+      slug: "bookly-responsive-appointment-booking-tool",
+      status: "",
+      onChange: "booklyChange"
+    },
+    gravityforms: {
+      name: "gravityforms",
+      use: false,
+      isInstalled: false,
+      isActivated: false,
+      info: "",
+      imgUrl: {
+        WoocommerceLogo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_5__
+      },
+      slug: "gravityforms",
+      status: "",
+      onChange: "gfChange"
+    },
+    indeedMembershipPro: {
+      name: "indeed-membership-pro",
+      use: false,
+      isInstalled: false,
+      isActivated: false,
+      info: "",
+      imgUrl: {
+        WoocommerceLogo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_5__
+      },
+      slug: "indeed-membership-pro",
+      status: "",
+      onChange: "impChange"
+    },
+    paidMembershipsPro: {
+      name: "paid-memberships-pro",
+      use: false,
+      isInstalled: false,
+      isActivated: false,
+      info: "",
+      imgUrl: {
+        WoocommerceLogo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_5__
+      },
+      slug: "paid-memberships-pro",
+      status: "",
+      onChange: "pmpChange"
+    },
+    affiliateWp: {
+      name: "affiliate-wp",
+      use: false,
+      isInstalled: false,
+      isActivated: false,
+      info: "",
+      imgUrl: {
+        WoocommerceLogo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_5__
+      },
+      slug: "affiliate-wp",
+      status: "",
+      onChange: "affChange"
+    },
+    indeedAffiliatePro: {
+      name: "indeed-affiliate-pro",
+      use: false,
+      isInstalled: false,
+      isActivated: false,
+      info: "",
+      imgUrl: {
+        WoocommerceLogo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_5__
+      },
+      slug: "indeed-affiliate-pro",
+      status: "",
+      onChange: "uapChange"
+    },
+    yithWoocommerceAffiliates: {
+      name: "yith-woocommerce-affiliates",
+      use: false,
+      isInstalled: false,
+      isActivated: false,
+      info: "",
+      imgUrl: {
+        WoocommerceLogo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_5__
+      },
+      slug: "yith-woocommerce-affiliates",
+      status: "",
+      onChange: "ywaChange"
+    }
   };
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
-        //Init state values by action.value
-        draft.plugins.woocommerce.use = action.value.apikey;
-        draft.isFetching = false;
+        //Init state use params by action.value
+        draft.woocommerce.use = action.value.woocommerce;
         return;
       case "wooChange":
-        draft.plugins.apikey.hasErrors = false;
-        draft.plugins.apikey.value = action.value;
-        return;
-      case "submitOptions":
-        draft.sendCount++;
-        return;
-      case "saveRequestStarted":
-        draft.isSaving = true;
-        return;
-      case "saveRequestFininshed":
-        draft.isSaving = false;
+        draft.woocommerce.use = action.value;
         return;
     }
   }
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_6__.useImmerReducer)(ourReduser, originalState);
-  function handleSubmit(e) {
-    e.preventDefault();
-    //Set every input to the state with dispatch function.
-    const plugins = Object.plugins(state.plugins);
-    dispatch({
-      type: "submitOptions"
-    });
-  }
+  function handleClick(e) {}
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     async function getPlugins() {
       try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_settings_options
-         * endpoint and retrieve the 10 latest posts.
-         */
-        const getPlugins = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/wp/v2/plugins/woocommerce/woocommerce", {});
+        const getPlugins = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/wp/v2/plugins", {});
         if (getPlugins.data) {
           console.log(getPlugins.data);
+          const plugins = getPlugins.data;
+          const findPlugin = plugins.find(element => element.plugin === "woocommerce/woocommerce");
+          console.log(findPlugin);
         }
       } catch (e) {
         console.log(e);
@@ -5267,13 +5356,16 @@ function Settings() {
   }, [state.sendCount]);
 
   /**
+   *
    * Validarte Apikey
+   *
+   * @since 2.0.0
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.inputs.apikey.value) {
       const delay = setTimeout(() => dispatch({
         type: "apikeyAfterDelay"
-      }), 300);
+      }), 700);
       return () => clearTimeout(delay);
     }
   }, [state.inputs.apikey.value]);
