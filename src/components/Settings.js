@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
+import { CSSTransition } from "react-transition-group";
 import Axios from "axios";
 
 // Used as const not import, for Loco translate plugin compatibility.
@@ -26,6 +27,8 @@ function Settings() {
         label: __("Your API key:", "farazsms"),
         required: true,
         rules: "apikeyRules",
+        isValid: false,
+        checkCount: 0,
       },
       username: {
         value: "",
@@ -113,6 +116,18 @@ function Settings() {
       case "apikeyChange":
         draft.inputs.apikey.hasErrors = false;
         draft.inputs.apikey.value = action.value;
+        return;
+      case "apikeyAfterDelay":
+        draft.inputs.apikey.checkCount++;
+        return;
+      case "apikeyIsValidResults":
+        if (action.value) {
+          draft.inputs.apikey.hasErrors = true;
+          draft.inputs.apikey.isValid = false;
+          draft.inputs.apikey.errorMessage = "That apikey is not valid.";
+        } else {
+          draft.inputs.apikey.isValid = true;
+        }
         return;
       case "usernameChange":
         draft.inputs.username.hasErrors = false;
@@ -252,29 +267,7 @@ function Settings() {
       console.log(optionsJsonForPost);
 
       dispatch({ type: "saveRequestStarted" });
-      // async function validateApikey() {
-      //   try {
-      //     // Validate Apikey function
-      //     const apikey = optionsJsonForPost["apikey"];
-      //     const authentication_data = {
-      //       headers: {
-      //         Authorization: "AccessKey " + apikey,
-      //       },
-      //     };
-      //     const ippanelData = await Axios.get(
-      //       "http://rest.ippanel.com/v1/user",
-      //       authentication_data
-      //     ).then((res) => {
-      //       if (res.response.status === "401") {
-      //         console.log(ippanelData);
-      //         dispatch({ type: "apikeyRules", value: "notValidApikey" });
-      //       }
-      //     });
-      //   } catch (e) {
-      //     console.log(e);
-      //   }
-      // }
-      // validateApikey();
+
       async function postOptions() {
         try {
           // Post Options from site DB Options table
@@ -294,6 +287,44 @@ function Settings() {
       postOptions();
     }
   }, [state.sendCount]);
+
+  /**
+   * Validarte Apikey
+   */
+  useEffect(() => {
+    if (state.inputs.apikey.value) {
+      const delay = setTimeout(
+        () => dispatch({ type: "apikeyAfterDelay" }),
+        300
+      );
+      return () => clearTimeout(delay);
+    }
+  }, [state.inputs.apikey.value]);
+
+  useEffect(() => {
+    if (state.inputs.apikey.checkCount) {
+      async function validateApikey() {
+        const authentication_data = {
+          headers: {
+            Authorization: "AccessKey " + state.inputs.apikey.value,
+          },
+        };
+        try {
+          const ippanelData = await Axios.get(
+            "http://rest.ippanel.com/v1/user",
+            authentication_data
+          );
+        } catch (e) {
+          dispatch({
+            type: "apikeyIsValidResults",
+            value: true,
+          });
+          console.log(e);
+        }
+      }
+      validateApikey();
+    }
+  }, [state.inputs.apikey.checkCount]);
 
   /**
    * The settings form created by maping over originalState as the main state.
@@ -331,11 +362,16 @@ function Settings() {
                   dispatch({ type: input.rules, value: e.target.value })
                 }
               />
-              {input.hasErrors && (
+              <CSSTransition
+                in={input.hasErrors}
+                timeout={330}
+                classNames="liveValidateMessage"
+                unmountOnExit
+              >
                 <div className="alert alert-danger small liveValidateMessage">
                   {input.errorMessage}
                 </div>
-              )}
+              </CSSTransition>
             </div>
           ))}
           <button

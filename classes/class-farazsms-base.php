@@ -455,23 +455,6 @@ class class_farazsms_base
 
     /**
      * 
-     * Check if API key is valid.
-     * 
-     */
-
-
-    public function check_if_apikey_is_valid($apiKey)
-    {
-        try {
-            $client = new \IPPanel\Client($apiKey);
-            return $client->validateApiKey();
-        } catch (Error | HttpException $e) {
-            return FALSE;
-        }
-    }
-
-    /**
-     * 
      * Get phonebooks.
      * 
      */
