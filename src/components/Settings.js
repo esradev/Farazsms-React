@@ -252,6 +252,29 @@ function Settings() {
       console.log(optionsJsonForPost);
 
       dispatch({ type: "saveRequestStarted" });
+      // async function validateApikey() {
+      //   try {
+      //     // Validate Apikey function
+      //     const apikey = optionsJsonForPost["apikey"];
+      //     const authentication_data = {
+      //       headers: {
+      //         Authorization: "AccessKey " + apikey,
+      //       },
+      //     };
+      //     const ippanelData = await Axios.get(
+      //       "http://rest.ippanel.com/v1/user",
+      //       authentication_data
+      //     ).then((res) => {
+      //       if (res.response.status === "401") {
+      //         console.log(ippanelData);
+      //         dispatch({ type: "apikeyRules", value: "notValidApikey" });
+      //       }
+      //     });
+      //   } catch (e) {
+      //     console.log(e);
+      //   }
+      // }
+      // validateApikey();
       async function postOptions() {
         try {
           // Post Options from site DB Options table

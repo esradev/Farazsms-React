@@ -3904,7 +3904,7 @@ function Comments() {
    * @since 2.0.0
    */
 
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, __("Login Notify Settings:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", null, __("Comments Settings:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
   }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.id,
@@ -5230,6 +5230,29 @@ function Settings() {
       dispatch({
         type: "saveRequestStarted"
       });
+      // async function validateApikey() {
+      //   try {
+      //     // Validate Apikey function
+      //     const apikey = optionsJsonForPost["apikey"];
+      //     const authentication_data = {
+      //       headers: {
+      //         Authorization: "AccessKey " + apikey,
+      //       },
+      //     };
+      //     const ippanelData = await Axios.get(
+      //       "http://rest.ippanel.com/v1/user",
+      //       authentication_data
+      //     ).then((res) => {
+      //       if (res.response.status === "401") {
+      //         console.log(ippanelData);
+      //         dispatch({ type: "apikeyRules", value: "notValidApikey" });
+      //       }
+      //     });
+      //   } catch (e) {
+      //     console.log(e);
+      //   }
+      // }
+      // validateApikey();
       async function postOptions() {
         try {
           // Post Options from site DB Options table

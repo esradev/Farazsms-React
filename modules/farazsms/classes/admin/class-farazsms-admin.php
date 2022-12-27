@@ -60,15 +60,9 @@ class Farazsms_Admin extends class_farazsms_base
      *
      * @since    1.0.0
      */
-    public function admin_enqueue_styles($page)
+    public function admin_enqueue_styles()
     {
         wp_enqueue_style('farazsms-style', FARAZSMS_URL . 'build/index.css');
-        if ($page !== 'toplevel_page_farazsms') {
-            return;
-        }
-        wp_enqueue_style($this->plugin_name, plugin_dir_url(__FILE__) . 'css/farazsms-admin.css', [], $this->version, 'all');
-        wp_register_style('select2css', '//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css', false, '1.0', 'all');
-        wp_enqueue_style('select2css');
     }
 
     /**
@@ -164,6 +158,8 @@ class Farazsms_Admin extends class_farazsms_base
 
     /**
      * Plugin settings link on all plugins page.
+     * 
+     * @since 2.0.0
      */
 
     public function settings_link($links)

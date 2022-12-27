@@ -236,7 +236,7 @@ function Comments() {
 
   return (
     <div>
-      <h3>{__("Login Notify Settings:", "farazsms")}</h3>
+      <h3>{__("Comments Settings:", "farazsms")}</h3>
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
