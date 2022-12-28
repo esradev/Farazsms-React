@@ -42,6 +42,8 @@ function Settings() {
         label: __("Username:", "farazsms"),
         required: true,
         rules: "usernameRules",
+        isValid: false,
+        checkCount: 0,
       },
       password: {
         value: "",
@@ -55,6 +57,8 @@ function Settings() {
         label: __("Your Password:", "farazsms"),
         required: true,
         rules: "passwordRules",
+        isValid: false,
+        checkCount: 0,
       },
       admin_number: {
         value: "",
@@ -129,13 +133,57 @@ function Settings() {
           draft.inputs.apikey.isValid = true;
         }
         return;
+      case "apikeyIsEmpty":
+        if (action.value) {
+          draft.inputs.apikey.hasErrors = true;
+          draft.inputs.apikey.isValid = false;
+          draft.inputs.apikey.errorMessage = "Please fill API key filed first";
+        } else {
+          draft.inputs.apikey.isValid = true;
+        }
+        return;
       case "usernameChange":
         draft.inputs.username.hasErrors = false;
         draft.inputs.username.value = action.value;
         return;
+      case "usernameAfterDelay":
+        draft.inputs.username.checkCount++;
+        return;
+      case "usernameIsValid":
+        if (action.value) {
+          draft.inputs.username.hasErrors = true;
+          draft.inputs.username.isValid = false;
+          draft.inputs.username.errorMessage = "That username is not valid.";
+        } else {
+          draft.inputs.username.isValid = true;
+        }
+        return;
+      case "usernameNotAccessApikey":
+        if (action.value) {
+          draft.inputs.username.hasErrors = true;
+          draft.inputs.username.isValid = false;
+          draft.inputs.username.errorMessage =
+            "That username is not access to the provided apikey.";
+        } else {
+          draft.inputs.username.isValid = true;
+        }
+        return;
       case "passwordChange":
         draft.inputs.password.hasErrors = false;
         draft.inputs.password.value = action.value;
+        return;
+      case "passwordAfterDelay":
+        draft.inputs.password.checkCount++;
+        return;
+      case "passwordIsValid":
+        if (action.value) {
+          draft.inputs.password.hasErrors = true;
+          draft.inputs.password.isValid = false;
+          draft.inputs.password.errorMessage =
+            "That password is not valid, check that agian correctly.";
+        } else {
+          draft.inputs.password.isValid = true;
+        }
         return;
       case "admin_numberChange":
         draft.inputs.admin_number.hasErrors = false;
@@ -219,6 +267,12 @@ function Settings() {
 
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
 
+  /**
+   *
+   * HandelSubmit function
+   *
+   * @since 2.0.0
+   */
   function handleSubmit(e) {
     e.preventDefault();
     //Set every input to the state with dispatch function.
@@ -229,6 +283,12 @@ function Settings() {
     dispatch({ type: "submitOptions" });
   }
 
+  /**
+   *
+   * Get settings options from DB on settings component loaded
+   *
+   * @since 2.0.0
+   */
   useEffect(() => {
     async function getOptions() {
       try {
@@ -252,6 +312,12 @@ function Settings() {
     getOptions();
   }, []);
 
+  /**
+   *
+   * Save settings options on DB when saveRequestFininshed = true
+   *
+   * @since 2.0.0
+   */
   useEffect(() => {
     if (state.sendCount) {
       /**
@@ -290,7 +356,7 @@ function Settings() {
 
   /**
    *
-   * Validarte Apikey
+   * Validate Apikey, check if the Apikey is exist on Ippanel.
    *
    * @since 2.0.0
    */
@@ -298,7 +364,7 @@ function Settings() {
     if (state.inputs.apikey.value) {
       const delay = setTimeout(
         () => dispatch({ type: "apikeyAfterDelay" }),
-        700
+        800
       );
       return () => clearTimeout(delay);
     }
@@ -330,12 +396,102 @@ function Settings() {
   }, [state.inputs.apikey.checkCount]);
 
   /**
+   *
+   * Validarte username, check if the username has access to provided apikey.
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    if (state.inputs.username.value) {
+      const delay = setTimeout(
+        () => dispatch({ type: "usernameAfterDelay" }),
+        800
+      );
+      return () => clearTimeout(delay);
+    }
+  }, [state.inputs.username.value]);
+
+  useEffect(() => {
+    if (state.inputs.username.checkCount) {
+      async function validateUsername() {
+        if (!state.inputs.apikey.value) {
+          dispatch({
+            type: "apikeyIsEmpty",
+            value: true,
+          });
+        } else {
+          const authentication_data = {
+            headers: {
+              Authorization: "AccessKey " + state.inputs.apikey.value,
+            },
+          };
+          try {
+            const ippanelData = await Axios.get(
+              "http://rest.ippanel.com/v1/user",
+              authentication_data
+            );
+            console.log(ippanelData);
+            const ippanelResponseUsername = ippanelData.data.data.user.username;
+            console.log(ippanelResponseUsername);
+            if (state.inputs.username.value == ippanelResponseUsername) {
+              dispatch({ type: "usernameNotAccessApikey", value: false });
+            } else {
+              dispatch({ type: "usernameNotAccessApikey", value: true });
+            }
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      }
+      validateUsername();
+    }
+  }, [state.inputs.username.checkCount]);
+
+  /**
+   *
+   * Validarte username and password, check if the username and password are correct.
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    if (state.inputs.password.value) {
+      const delay = setTimeout(
+        () => dispatch({ type: "passwordAfterDelay" }),
+        800
+      );
+      return () => clearTimeout(delay);
+    }
+  }, [state.inputs.password.value]);
+
+  // useEffect(() => {
+  //   if (state.inputs.password.checkCount) {
+  //     async function validateUser() {
+  //       const authentication_data = {
+  //         body: {
+  //           username: state.inputs.username.value,
+  //           password: state.inputs.password.value,
+  //         },
+  //       };
+  //       try {
+  //         const ippanelData = await Axios.post(
+  //           "http://reg.ippanel.com/parent/farazsms",
+  //           authentication_data
+  //         );
+  //         console.log(ippanelData);
+  //       } catch (e) {
+  //         console.log(e);
+  //       }
+  //     }
+  //     validateUser();
+  //   }
+  // }, [state.inputs.password.checkCount]);
+
+  /**
    * The settings form created by maping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
    */
-
   return (
     <div>
       <h3>{__("Settings:", "farazsms")}</h3>

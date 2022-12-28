@@ -427,11 +427,11 @@ class class_farazsms_base
      * 
      */
 
-    public function check_if_credentials_is_valid($uname, $pass)
+    public function check_if_credentials_is_valid()
     {
         $body = array(
-            'username'       => self::fsms_tr_num($uname),
-            'password'       => self::fsms_tr_num($pass),
+            'username'       => '9300410381',
+            'password'       => 'Faraz@2282037154',
         );
 
         $response = wp_remote_post(
@@ -445,10 +445,12 @@ class class_farazsms_base
                 'body'        => json_encode($body)
             )
         );
+        var_dump($response);
         $response = json_decode($response['body']);
         if ($response->message == 1) {
             return true;
         }
+
 
         return false;
     }
