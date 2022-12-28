@@ -236,23 +236,6 @@ class Farazsms_Admin extends class_farazsms_base
         $admin_login_noti_p = $_POST['admin_login_noti_p'] ?? '';
 
         /**
-         * Validation of API key
-         *
-         * @since    1.0.0
-         */
-
-        if (!empty($fsms_apikey)) {
-            $apikey_is_valid = $fsms_base::check_if_apikey_is_valid($fsms_apikey);
-            if (!$apikey_is_valid) {
-                $has_error = __('Invalid API key', 'farazsms');
-            } else {
-                update_option('fsms_panel_expire_date', $apikey_is_valid->expire);
-            }
-        } else {
-            delete_option('fsms_panel_expire_date');
-        }
-
-        /**
          * Update option of credentials, if credentials is valid.
          *
          * @since    1.0.0
@@ -441,89 +424,6 @@ class Farazsms_Admin extends class_farazsms_base
             return "error_happened";
         }
         return true;
-    }
-
-    /**
-     * Save Cemment settings.
-     *
-     * @since    1.0.0
-     */
-
-    public function ajax_save_comment_settings()
-    {
-        $add_mobile_field = $_POST['add_mobile_field'] ?? '';
-        $required_mobile_field = $_POST['required_mobile_field'] ?? '';
-        $approved_comment_pattern = $_POST['approved_comment_pattern'] ?? '';
-        $comment_pattern = $_POST['comment_pattern'] ?? '';
-        $comment_phone_book = $_POST['comment_phone_book'] ?? [];
-        $notify_admin = $_POST['notify_admin'] ?? '';
-        $fsms_admin_notify_pcode = $_POST['fsms_admin_notify_pcode'] ?? '';
-        update_option('fsms_add_mobile_field', $add_mobile_field);
-        update_option('fsms_required_mobile_field', $required_mobile_field);
-        update_option('fsms_notify_admin', $notify_admin);
-        update_option('fsms_admin_notify_pcode', $fsms_admin_notify_pcode);
-        update_option('fsms_approved_comment_pattern', $approved_comment_pattern);
-        update_option('fsms_comment_pattern', $comment_pattern);
-        update_option('fsms_comment_phone_book', $comment_phone_book);
-        wp_send_json_success();
-    }
-
-    /**
-     * Save EDD settings.
-     *
-     * @since    1.0.0
-     */
-
-    public function ajax_save_edd_settings()
-    {
-        $edd_phonebooks_choice = $_POST['edd_phonebooks_choice'] ?? [];
-        $edd_send_to_user = $_POST['edd_send_to_user'] ?? '';
-        $edd_user_pcode = $_POST['edd_user_pcode'] ?? '';
-        $edd_send_to_admin = $_POST['edd_send_to_admin'] ?? '';
-        $edd_admin_pcode = $_POST['edd_admin_pcode'] ?? '';
-        if ($edd_send_to_user == 'true' && empty($edd_user_pcode)) {
-            wp_send_json_error(__('Please enter User pattern code', 'farazsms'));
-            wp_die();
-        }
-        if ($edd_send_to_admin == 'true' && empty($edd_admin_pcode)) {
-            wp_send_json_error(__('Please enter Admin pattern code', 'farazsms'));
-            wp_die();
-        }
-        update_option('edd_phonebooks_choice', $edd_phonebooks_choice);
-        update_option('edd_send_to_user', $edd_send_to_user);
-        update_option('edd_user_pcode', $edd_user_pcode);
-        update_option('edd_send_to_admin', $edd_send_to_admin);
-        update_option('edd_admin_pcode', $edd_admin_pcode);
-        wp_send_json_success();
-    }
-
-    /**
-     * Save Woocommerce settings.
-     *
-     * @since    1.0.0
-     */
-
-    public function ajax_save_woo_settings()
-    {
-        $woo_checkout_otp = $_POST['woo_checkout_otp'] ?? 'false';
-        $woo_checkout_otp_pattern = $_POST['woo_checkout_otp_pattern'] ?? '';
-        $woo_poll = $_POST['woo_poll'] ?? 'false';
-        $woo_poll_time = $_POST['woo_poll_time'] ?? '';
-        $woo_poll_message = $_POST['woo_poll_message'] ?? '';
-        $woo_tracking_code_pattern = $_POST['woo_tracking_code_pattern'] ?? '';
-        $woo_retention_order_no = $_POST['woo_retention_order_no'] ?? '';
-        $woo_retention_order_month = $_POST['woo_retention_order_month'] ?? '';
-        $woo_retention_message = $_POST['woo_retention_message'] ?? '';
-        update_option('fsms_woo_checkout_otp', $woo_checkout_otp);
-        update_option('fsms_woo_checkout_otp_pattern', $woo_checkout_otp_pattern);
-        update_option('fsms_woo_poll', $woo_poll);
-        update_option('fsms_woo_poll_time', $woo_poll_time);
-        update_option('fsms_woo_poll_message', $woo_poll_message);
-        update_option('fsms_woo_tracking_code_pattern', $woo_tracking_code_pattern);
-        update_option('fsms_woo_retention_order_no', $woo_retention_order_no);
-        update_option('fsms_woo_retention_order_month', $woo_retention_order_month);
-        update_option('fsms_woo_retention_message', $woo_retention_message);
-        wp_send_json_success();
     }
 
     /**

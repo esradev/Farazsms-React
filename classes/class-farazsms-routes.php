@@ -39,6 +39,21 @@ class Farazsms_Routes
             ),
         ));
 
+        //Register phonebook_options rest route
+        register_rest_route($namespace, '/' . 'phonebook_options', array(
+            array(
+                'methods'             => 'GET',
+                'callback'            => array($this, 'get_phonebook_options'),
+                'permission_callback' => array($this, 'permissions_check'),
+
+            ),
+            array(
+                'methods'             => 'POST',
+                'callback'            => array($this, 'add_phonebook_options'),
+                'permission_callback' => array($this, 'permissions_check'),
+            ),
+        ));
+
         //Register comments_options rest route
         register_rest_route($namespace, '/' . 'comments_options', array(
             array(
@@ -77,6 +92,19 @@ class Farazsms_Routes
             array(
                 'methods'             => 'POST',
                 'callback'            => array($this, 'add_woocommerce_options'),
+                'permission_callback' => array($this, 'permissions_check'),
+            ),
+        ));
+        //Register edd_options rest route
+        register_rest_route($namespace, '/' . 'edd_options', array(
+            array(
+                'methods'             => 'GET',
+                'callback'            => array($this, 'get_edd_options'),
+                'permission_callback' => array($this, 'permissions_check'),
+            ),
+            array(
+                'methods'             => 'POST',
+                'callback'            => array($this, 'add_edd_options'),
                 'permission_callback' => array($this, 'permissions_check'),
             ),
         ));
@@ -152,6 +180,41 @@ class Farazsms_Routes
     }
 
     /**
+     * Get login notify options.
+     * 
+     * @since 2.0.0
+     */
+    public function get_phonebook_options()
+    {
+        $farazsms_phonebook_options = get_option('farazsms_phonebook_options');
+        if (empty($farazsms_phonebook_options)) {
+            return new WP_Error('no_option', 'Invalid options', array('status' => 404));
+        }
+        return $farazsms_phonebook_options;
+    }
+
+    /**
+     * Add login notify options.
+     * 
+     * @since 2.0.0
+     */
+    public function add_phonebook_options($data)
+    {
+        $option = array(
+            'custom_phonebook'          => $data['custom_phonebook'] ? $data['custom_phonebook'] : [],
+            'custom_phone_meta_keys'     => $data['custom_phone_meta_keys'] ? $data['custom_phone_meta_keys'] : [],
+            'digits_phonebook'          => $data['digits_phonebook'] ? $data['digits_phonebook'] : [],
+            'woo_phonebook'             => $data['woo_phonebook'] ? $data['woo_phonebook'] : [],
+            'bookly_phonebook'          => $data['bookly_phonebook'] ? $data['bookly_phonebook'] : [],
+            'gf_phonebook'              => $data['gf_phonebook'] ? $data['gf_phonebook'] : [],
+            'gf_selected_field'          => $data['gf_selected_field'] ? $data['gf_selected_field'] : [],
+        );
+        $option_json = wp_json_encode($option);
+        $result = update_option('farazsms_phonebook_options', $option_json);
+        return $result;
+    }
+
+    /**
      * Get comments options.
      * 
      * @since 2.0.0
@@ -176,10 +239,10 @@ class Farazsms_Routes
             'add_mobile_field'            => $data['add_mobile_field'] ? $data['add_mobile_field'] : '',
             'required_mobile_field'       => $data['required_mobile_field'] ? $data['required_mobile_field'] : '',
             'notify_admin_for_comment'    => $data['notify_admin_for_comment'] ? $data['notify_admin_for_comment'] : '',
-            'approved_comment_p'          => $data['approved_comment_p'] ? $data['approved_comment_p'] : '',
-            'comment_p'                   => $data['comment_p'] ? $data['comment_p'] : '',
             'notify_admin_for_comment_p'  => $data['notify_admin_for_comment_p'] ? $data['notify_admin_for_comment_p'] : '',
-            'comment_phone_book'          => $data['comment_phone_book'] ? $data['comment_phone_book'] : [],
+            'comment_p'                   => $data['comment_p'] ? $data['comment_p'] : '',
+            'approved_comment_p'          => $data['approved_comment_p'] ? $data['approved_comment_p'] : '',
+            'comment_phonebook'          => $data['comment_phonebook'] ? $data['comment_phonebook'] : [],
         );
         $option_json = wp_json_encode($option);
         $result = update_option('farazsms_comments_options', $option_json);
@@ -254,10 +317,43 @@ class Farazsms_Routes
             'woo_tracking_p'                   => $data['woo_tracking_p'] ? $data['woo_tracking_p'] : '',
             'woo_retention_order_no'           => $data['woo_retention_order_no'] ? $data['woo_retention_order_no'] : '',
             'woo_retention_order_month'        => $data['woo_retention_order_month'] ? $data['woo_retention_order_month'] : '',
-            'woo_retention_message'            => $data['woo_retention_message'] ? $data['woo_retention_message'] : '',
+            'woo_retention_msg'                => $data['woo_retention_msg'] ? $data['woo_retention_msg'] : '',
         );
         $option_json = wp_json_encode($option);
         $result = update_option('farazsms_woocommerce_options', $option_json);
+        return $result;
+    }
+
+    /**
+     * Get woocommerce options.
+     * 
+     * @since 2.0.0
+     */
+    public function get_edd_options()
+    {
+        $farazsms_edd_options = get_option('farazsms_edd_options');
+        if (empty($farazsms_edd_options)) {
+            return new WP_Error('no_option', 'Invalid options', array('status' => 404));
+        }
+        return $farazsms_edd_options;
+    }
+
+    /**
+     * Add edd options.
+     * 
+     * @since 2.0.0
+     */
+    public function add_edd_options($data)
+    {
+        $option = array(
+            'edd_phonebooks_choice'    => $data['edd_phonebooks_choice'] ? $data['edd_phonebooks_choice'] : '',
+            'edd_send_to_user'         => $data['edd_send_to_user'] ? $data['edd_send_to_user'] : '',
+            'edd_user_pattern'         => $data['edd_user_pattern'] ? $data['edd_user_pattern'] : '',
+            'edd_send_to_admin'        => $data['edd_send_to_admin'] ? $data['edd_send_to_admin'] : '',
+            'edd_admin_pattern'        => $data['edd_admin_pattern'] ? $data['edd_admin_pattern'] : '',
+        );
+        $option_json = wp_json_encode($option);
+        $result = update_option('farazsms_edd_options', $option_json);
         return $result;
     }
 
