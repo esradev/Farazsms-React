@@ -23,33 +23,33 @@ function Newsletter() {
         label: __("Select phone book for newsletter", "farazsms"),
         rules: "news_phonebooksRules",
       },
-      news_send_verify_code: {
+      news_send_verify_pattern: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "news_send_verify_codeChange",
-        id: "news_send_verify_code",
-        name: "news_send_verify_code",
+        onChange: "news_send_verify_patternChange",
+        id: "news_send_verify_pattern",
+        name: "news_send_verify_pattern",
         type: "checkbox",
         label: __(
           "Confirm subscription by sending verification code?",
           "farazsms"
         ),
-        rules: "news_send_verify_codeRules",
+        rules: "news_send_verify_patternRules",
       },
-      news_send_verify_code_p: {
+      news_send_verify_pattern: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "news_send_verify_code_pChange",
-        id: "news_send_verify_code_p",
-        name: "news_send_verify_code_p",
+        onChange: "news_send_verify_patternChange",
+        id: "news_send_verify_pattern",
+        name: "news_send_verify_pattern",
         type: "text",
         label: __(
           "Newsletter membership verification pattern code:",
           "farazsms"
         ),
-        rules: "news_send_verify_code_pRules",
+        rules: "news_send_verify_patternRules",
       },
       news_welcome: {
         value: "",
@@ -62,16 +62,16 @@ function Newsletter() {
         label: __("Welcome SMS to subscriber of the newsletter?", "farazsms"),
         rules: "news_welcomeRules",
       },
-      news_welcome_p: {
+      news_welcome_pattern: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "news_welcome_pChange",
-        id: "news_welcome_p",
-        name: "news_welcome_p",
+        onChange: "news_welcome_patternChange",
+        id: "news_welcome_pattern",
+        name: "news_welcome_pattern",
         type: "text",
         label: __("Welcome SMS pattern code", "farazsms"),
-        rules: "news_welcome_pRules",
+        rules: "news_welcome_patternRules",
       },
       news_post_notify: {
         value: "",
@@ -128,12 +128,13 @@ function Newsletter() {
       case "fetchComplete":
         //Init state values by action.value
         draft.inputs.news_phonebooks.value = action.value.news_phonebooks;
-        draft.inputs.news_send_verify_code.value =
-          action.value.news_send_verify_code;
-        draft.inputs.news_send_verify_code_p.value =
-          action.value.news_send_verify_code_p;
+        draft.inputs.news_send_verify_pattern.value =
+          action.value.news_send_verify_pattern;
+        draft.inputs.news_send_verify_pattern.value =
+          action.value.news_send_verify_pattern;
         draft.inputs.news_welcome.value = action.value.news_welcome;
-        draft.inputs.news_welcome_p.value = action.value.news_welcome_p;
+        draft.inputs.news_welcome_pattern.value =
+          action.value.news_welcome_pattern;
         draft.inputs.news_post_notify.value = action.value.news_post_notify;
         draft.inputs.news_post_notify_msg.value =
           action.value.news_post_notify_msg;
@@ -149,21 +150,21 @@ function Newsletter() {
         draft.inputs.news_phonebooks.hasErrors = false;
         draft.inputs.news_phonebooks.value = action.value;
         return;
-      case "news_send_verify_codeChange":
-        draft.inputs.news_send_verify_code.hasErrors = false;
-        draft.inputs.news_send_verify_code.value = action.value;
+      case "news_send_verify_patternChange":
+        draft.inputs.news_send_verify_pattern.hasErrors = false;
+        draft.inputs.news_send_verify_pattern.value = action.value;
         return;
-      case "news_send_verify_code_pChange":
-        draft.inputs.news_send_verify_code_p.hasErrors = false;
-        draft.inputs.news_send_verify_code_p.value = action.value;
+      case "news_send_verify_patternChange":
+        draft.inputs.news_send_verify_pattern.hasErrors = false;
+        draft.inputs.news_send_verify_pattern.value = action.value;
         return;
       case "news_welcomeChange":
         draft.inputs.news_welcome.hasErrors = false;
         draft.inputs.news_welcome.value = action.value;
         return;
-      case "news_welcome_pChange":
-        draft.inputs.news_welcome_p.hasErrors = false;
-        draft.inputs.news_welcome_p.value = action.value;
+      case "news_welcome_patternChange":
+        draft.inputs.news_welcome_pattern.hasErrors = false;
+        draft.inputs.news_welcome_pattern.value = action.value;
         return;
       case "news_post_notifyChange":
         draft.inputs.news_post_notify.hasErrors = false;

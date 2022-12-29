@@ -19,14 +19,15 @@ class Farazsms_Options
      */
     public function register_settings_options()
     {
-        $farazsms_settings_options = [
-            'show_in_rest' => [
-                'schema' => [
-                    'type' => 'object',
-                    'properties' => array(),
-                ],
-            ],
-        ];
+        $farazsms_settings_options = '';
+        // [
+        //     'show_in_rest' => [
+        //         'schema' => [
+        //             'type' => 'object',
+        //             'properties' => array(),
+        //         ],
+        //     ],
+        // ];
         add_option('farazsms_settings_options', $farazsms_settings_options);
     }
 
@@ -37,14 +38,7 @@ class Farazsms_Options
      */
     public function register_login_notify_options()
     {
-        $farazsms_login_notify_options = [
-            'show_in_rest' => [
-                'schema' => [
-                    'type' => 'object',
-                    'properties' => array(),
-                ],
-            ],
-        ];
+        $farazsms_login_notify_options = '';
         add_option('farazsms_login_notify_options', $farazsms_login_notify_options);
     }
 
@@ -55,14 +49,7 @@ class Farazsms_Options
      */
     public function register_phonebook_options()
     {
-        $farazsms_phonebook_options = [
-            'show_in_rest' => [
-                'schema' => [
-                    'type' => 'object',
-                    'properties' => array(),
-                ],
-            ],
-        ];
+        $farazsms_phonebook_options = '';
         add_option('farazsms_phonebook_options', $farazsms_phonebook_options);
     }
 
@@ -73,14 +60,7 @@ class Farazsms_Options
      */
     public function register_comments_options()
     {
-        $farazsms_comments_options = [
-            'show_in_rest' => [
-                'schema' => [
-                    'type' => 'object',
-                    'properties' => array(),
-                ],
-            ],
-        ];
+        $farazsms_comments_options = '';
         add_option('farazsms_comments_options', $farazsms_comments_options);
     }
 
@@ -91,14 +71,7 @@ class Farazsms_Options
      */
     public function register_newsletter_options()
     {
-        $farazsms_newsletter_options = [
-            'show_in_rest' => [
-                'schema' => [
-                    'type' => 'object',
-                    'properties' => array(),
-                ],
-            ],
-        ];
+        $farazsms_newsletter_options = '';
         add_option('farazsms_newsletter_options', $farazsms_newsletter_options);
     }
     /**
@@ -108,14 +81,7 @@ class Farazsms_Options
      */
     public function register_woocommerce_options()
     {
-        $farazsms_woocommerce_options = [
-            'show_in_rest' => [
-                'schema' => [
-                    'type' => 'object',
-                    'properties' => array(),
-                ],
-            ],
-        ];
+        $farazsms_woocommerce_options = '';
         add_option('farazsms_woocommerce_options', $farazsms_woocommerce_options);
     }
     /**
@@ -125,14 +91,7 @@ class Farazsms_Options
      */
     public function register_edd_options()
     {
-        $farazsms_edd_options = [
-            'show_in_rest' => [
-                'schema' => [
-                    'type' => 'object',
-                    'properties' => array(),
-                ],
-            ],
-        ];
+        $farazsms_edd_options = '';
         add_option('farazsms_edd_options', $farazsms_edd_options);
     }
 }

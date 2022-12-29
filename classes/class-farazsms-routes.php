@@ -272,15 +272,15 @@ class Farazsms_Routes
     public function add_newsletter_options($data)
     {
         $option = array(
-            'news_phonebooks'         => $data['news_phonebooks'] ? $data['news_phonebooks'] : [],
-            'news_send_verify_code'   => $data['news_send_verify_code'] ? $data['news_send_verify_code'] : '',
-            'news_send_verify_code_p' => $data['news_send_verify_code_p'] ? $data['news_send_verify_code_p'] : '',
-            'news_welcome'            => $data['news_welcome'] ? $data['news_welcome'] : '',
-            'news_welcome_p'          => $data['news_welcome_p'] ? $data['news_welcome_p'] : '',
-            'news_post_notify'        => $data['news_post_notify'] ? $data['news_post_notify'] : '',
-            'news_post_notify_msg'    => $data['news_post_notify_msg'] ? $data['news_post_notify_msg'] : '',
-            'news_product_notify'     => $data['news_product_notify'] ? $data['news_product_notify'] : '',
-            'news_product_notify_msg' => $data['news_product_notify_msg'] ? $data['news_product_notify_msg'] : '',
+            'news_phonebooks'          => $data['news_phonebooks'] ? $data['news_phonebooks'] : [],
+            'news_send_verify_pattern' => $data['news_send_verify_pattern'] ? $data['news_send_verify_pattern'] : '',
+            'news_send_verify_pattern' => $data['news_send_verify_pattern'] ? $data['news_send_verify_pattern'] : '',
+            'news_welcome'             => $data['news_welcome'] ? $data['news_welcome'] : '',
+            'news_welcome_pattern'     => $data['news_welcome_pattern'] ? $data['news_welcome_pattern'] : '',
+            'news_post_notify'         => $data['news_post_notify'] ? $data['news_post_notify'] : '',
+            'news_post_notify_msg'     => $data['news_post_notify_msg'] ? $data['news_post_notify_msg'] : '',
+            'news_product_notify'      => $data['news_product_notify'] ? $data['news_product_notify'] : '',
+            'news_product_notify_msg'  => $data['news_product_notify_msg'] ? $data['news_product_notify_msg'] : '',
         );
         $option_json = wp_json_encode($option);
         $result = update_option('farazsms_newsletter_options', $option_json);

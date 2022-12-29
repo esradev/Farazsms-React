@@ -411,43 +411,6 @@ class Farazsms_Admin extends class_farazsms_base
     }
 
     /**
-     * Save Newsletter settings.
-     *
-     * @since    1.0.0
-     */
-
-    public function fsms_save_newsletter_settings()
-    {
-        $newsletter_phonebooks = $_POST['newsletter_phonebooks'] ?? [];
-        $newsletter_send_ver_code = $_POST['newsletter_send_ver_code'] ?? '';
-        $newsletter_pcode = $_POST['newsletter_pcode'] ?? '';
-        $newsletter_welcome = $_POST['newsletter_welcome'] ?? '';
-        $newsletter_welcomep = $_POST['newsletter_welcomep'] ?? '';
-        $newsletter_new_post_notification = $_POST['newsletter_new_post_notification'] ?? '';
-        $newsletter_post_notification_message = $_POST['newsletter_post_notification_message'] ?? '';
-        $newsletter_new_product_notification = $_POST['newsletter_new_product_notification'] ?? '';
-        $newsletter_product_notification_message = $_POST['newsletter_product_notification_message'] ?? '';
-        if ($newsletter_send_ver_code == 'true' && empty($newsletter_pcode)) {
-            wp_send_json_error(__('Please enter the pattern code', 'farazsms'));
-            wp_die();
-        }
-        if ($newsletter_welcome == 'true' && empty($newsletter_welcomep)) {
-            wp_send_json_error(__('Please enter the pattern code of the welcome SMS', 'farazsms'));
-            wp_die();
-        }
-        update_option('fsms_newsletter_phonebooks', $newsletter_phonebooks);
-        update_option('fsms_newsletter_send_ver_code', $newsletter_send_ver_code);
-        update_option('fsms_newsletter_newsletter_pcode', $newsletter_pcode);
-        update_option('fsms_newsletter_welcome', $newsletter_welcome);
-        update_option('fsms_newsletter_welcomep', $newsletter_welcomep);
-        update_option('fsms_newsletter_new_post_notification', $newsletter_new_post_notification);
-        update_option('fsms_newsletter_post_notification_message', $newsletter_post_notification_message);
-        update_option('fsms_newsletter_new_product_notification', $newsletter_new_product_notification);
-        update_option('fsms_newsletter_product_notification_message', $newsletter_product_notification_message);
-        wp_send_json_success();
-    }
-
-    /**
      * Delete user from subscribers.
      *
      * @since    1.0.0

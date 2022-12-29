@@ -47,7 +47,7 @@ class Farazsms_Public extends class_farazsms_base
     private static $approved_commentp;
     private static $user_pattern;
     private static $admin_pattern;
-    private $comment_phone_book;
+    private static $comment_phone_book;
 
     /**
      * Initialize the class and set its properties.
