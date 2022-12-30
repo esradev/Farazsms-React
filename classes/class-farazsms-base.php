@@ -445,7 +445,7 @@ class class_farazsms_base
                 'body'        => json_encode($body)
             )
         );
-        var_dump($response);
+        // var_dump($response);
         $response = json_decode($response['body']);
         if ($response->message == 1) {
             return true;

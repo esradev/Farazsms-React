@@ -481,7 +481,7 @@ function Settings() {
   //       try {
   //         const ippanelData = await Axios.post(
   //           "http://reg.ippanel.com/parent/farazsms",
-  //           { username: "9300410381", password: "Faraz@2282037154" }
+  //           { username: "9300410381", password: "Faraz@2282037154" },
   //         );
   //         console.log(ippanelData);
   //       } catch (e) {

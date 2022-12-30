@@ -5,7 +5,6 @@ import React from "react";
 const __ = wp.i18n.__; // Used as const not import, for Loco translate plugin compatibility.
 // Import Icons
 import {
-  AiOutlineSend,
   AiOutlineNotification,
   AiOutlinePhone,
   AiOutlineApartment,
@@ -16,6 +15,7 @@ import {
   AiOutlineCloudDownload,
   AiOutlineLogin,
 } from "react-icons/ai";
+import { TbAffiliate } from "react-icons/tb";
 /**
  * Internal dependencies
  */
@@ -24,10 +24,10 @@ import LoginNotify from "./LoginNotify";
 import Phonebook from "./Phonebook";
 import Synchronization from "./Synchronization";
 import Comments from "./Comments";
-
 import WooCommerce from "./WooCommerce";
 import Edd from "./Edd";
 import Newsletter from "./Newsletter";
+import Aff from "./Aff";
 import Integrations from "./Integrations";
 
 const SidebarItems = [
@@ -78,6 +78,12 @@ const SidebarItems = [
     element: Newsletter,
     name: __("Newsletter", "farazsms"),
     icon: <AiOutlineNotification />,
+  },
+  {
+    path: "/aff",
+    element: Aff,
+    name: __("Affiliate", "farazsms"),
+    icon: <TbAffiliate />,
   },
   {
     path: "/integrations",

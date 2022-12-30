@@ -110,7 +110,7 @@ class Farazsms_Admin extends class_farazsms_base
         add_menu_page(__('Farazsms', 'farazsms'), __('Farazsms', 'farazsms'), 'manage_options', FARAZSMS_SLUG, array($this, 'admin_page'), 'dashicons-testimonial', 100);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Settings', 'farazsms'), 'manage_options', FARAZSMS_SLUG, [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Login Notify', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/login_notify', [$this, 'admin_page']);
-        add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Phone Book', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/phonebook', [$this, 'admin_page']);
+        add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('PhoneBook', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/phonebook', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Synchronization', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/synchronization', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Comments', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/comments', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Woocommerce', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/woocommerce', [$this, 'admin_page']);
@@ -211,7 +211,7 @@ class Farazsms_Admin extends class_farazsms_base
     }
 
     /**
-     * Synchronization Operator whit a phone book.
+     * Synchronization Operator whit a phonebook.
      *
      * @since    1.0.0
      */
@@ -240,7 +240,7 @@ class Farazsms_Admin extends class_farazsms_base
     }
 
     /**
-     * Digits Synchronization whit a phone book.
+     * Digits Synchronization whit a phonebook.
      *
      * @since    1.0.0
      */
@@ -276,7 +276,7 @@ class Farazsms_Admin extends class_farazsms_base
     }
 
     /**
-     * Woocommerce Synchronization whit a phone book.
+     * Woocommerce Synchronization whit a phonebook.
      *
      * @since    1.0.0
      */
@@ -311,7 +311,7 @@ class Farazsms_Admin extends class_farazsms_base
     }
 
     /**
-     * Bookly Synchronization whit a phone book.
+     * Bookly Synchronization whit a phonebook.
      *
      * @since    1.0.0
      */
@@ -521,21 +521,6 @@ class Farazsms_Admin extends class_farazsms_base
 
         update_option('fsms_pmp_send_expire_noti_sms', $_POST['pmp_send_expire_noti_sms'] ?? '');
         update_option('fsms_pmp_expire_noti_sms_message', $_POST['pmp_expire_noti_sms_message'] ?? '');
-
-        update_option('fsms_aff_user_mobile_field', $_POST['aff_user_mobile_field'] ?? '');
-        update_option('fsms_aff_user_register', $_POST['aff_user_register'] ?? '');
-        update_option('fsms_aff_user_register_message', $_POST['aff_user_register_message'] ?? '');
-        update_option('fsms_aff_user_new_ref', $_POST['aff_user_new_ref'] ?? '');
-        update_option('fsms_aff_user_new_ref_message', $_POST['aff_user_new_ref_message'] ?? '');
-        update_option('fsms_aff_user_on_approval', $_POST['aff_user_on_approval'] ?? '');
-        update_option('fsms_aff_user_on_approval_message', $_POST['aff_user_on_approval_message'] ?? '');
-        update_option('fsms_aff_admin_user_register', $_POST['aff_admin_user_register'] ?? '');
-        update_option('fsms_aff_admin_user_register_message', $_POST['aff_admin_user_register_message'] ?? '');
-        update_option('fsms_aff_admin_user_new_ref', $_POST['aff_admin_user_new_ref'] ?? '');
-        update_option('fsms_aff_admin_user_new_ref_message', $_POST['aff_admin_user_new_ref_message'] ?? '');
-        update_option('fsms_aff_admin_user_on_approval', $_POST['aff_admin_user_on_approval'] ?? '');
-        update_option('fsms_aff_admin_user_on_approval_message', $_POST['aff_admin_user_on_approval_message'] ?? '');
-        wp_send_json_success();
     }
 
     /**

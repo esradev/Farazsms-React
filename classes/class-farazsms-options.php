@@ -94,4 +94,15 @@ class Farazsms_Options
         $farazsms_edd_options = '';
         add_option('farazsms_edd_options', $farazsms_edd_options);
     }
+
+    /**
+     * Register Aff options.
+     *
+     * @since 2.0.0
+     */
+    public function register_aff_options()
+    {
+        $farazsms_aff_options = '';
+        add_option('farazsms_aff_options', $farazsms_aff_options);
+    }
 }

@@ -48,7 +48,7 @@ function Comments() {
         id: "comment_phone_book",
         name: "comment_phone_book",
         type: "select",
-        label: __("Save the phone number in the phone book?", "farazsms"),
+        label: __("Save the phone number in the phonebook?", "farazsms"),
         rules: "comment_phone_bookRules",
       },
       comment_pattern: {

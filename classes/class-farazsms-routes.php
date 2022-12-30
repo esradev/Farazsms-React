@@ -108,6 +108,19 @@ class Farazsms_Routes
                 'permission_callback' => array($this, 'permissions_check'),
             ),
         ));
+        //Register aff_options rest route
+        register_rest_route($namespace, '/' . 'aff_options', array(
+            array(
+                'methods'             => 'GET',
+                'callback'            => array($this, 'get_aff_options'),
+                'permission_callback' => array($this, 'permissions_check'),
+            ),
+            array(
+                'methods'             => 'POST',
+                'callback'            => array($this, 'add_aff_options'),
+                'permission_callback' => array($this, 'permissions_check'),
+            ),
+        ));
     }
 
     /**
@@ -325,7 +338,7 @@ class Farazsms_Routes
     }
 
     /**
-     * Get woocommerce options.
+     * Get Edd options.
      * 
      * @since 2.0.0
      */
@@ -339,7 +352,7 @@ class Farazsms_Routes
     }
 
     /**
-     * Add edd options.
+     * Add Edd options.
      * 
      * @since 2.0.0
      */
@@ -354,6 +367,46 @@ class Farazsms_Routes
         );
         $option_json = wp_json_encode($option);
         $result = update_option('farazsms_edd_options', $option_json);
+        return $result;
+    }
+    /**
+     * Get aff options.
+     * 
+     * @since 2.0.0
+     */
+    public function get_aff_options()
+    {
+        $farazsms_aff_options = get_option('farazsms_aff_options');
+        if (empty($farazsms_aff_options)) {
+            return new WP_Error('no_option', 'Invalid options', array('status' => 404));
+        }
+        return $farazsms_aff_options;
+    }
+
+    /**
+     * Add aff options.
+     * 
+     * @since 2.0.0
+     */
+    public function add_aff_options($data)
+    {
+        $option = array(
+            'aff_user_mobile_field'               => $data['aff_user_mobile_field'] ? $data['aff_user_mobile_field'] : '',
+            'aff_user_register'                   => $data['aff_user_register'] ? $data['aff_user_register'] : '',
+            'aff_user_register_pattern'           => $data['aff_user_register_pattern'] ? $data['aff_user_register_pattern'] : '',
+            'aff_user_new_ref'                    => $data['aff_user_new_ref'] ? $data['aff_user_new_ref'] : '',
+            'aff_user_new_ref_pattern'            => $data['aff_user_new_ref_pattern'] ? $data['aff_user_new_ref_pattern'] : '',
+            'aff_user_on_approval'                => $data['aff_user_on_approval'] ? $data['aff_user_on_approval'] : '',
+            'aff_user_on_approval_pattern'        => $data['aff_user_on_approval_pattern'] ? $data['aff_user_on_approval_pattern'] : '',
+            'aff_admin_user_register'             => $data['aff_admin_user_register'] ? $data['aff_admin_user_register'] : '',
+            'aff_admin_user_register_pattern'     => $data['aff_admin_user_register_pattern'] ? $data['aff_admin_user_register_pattern'] : '',
+            'aff_admin_user_new_ref'              => $data['aff_admin_user_new_ref'] ? $data['aff_admin_user_new_ref'] : '',
+            'aff_admin_user_new_ref_pattern'      => $data['aff_admin_user_new_ref_pattern'] ? $data['aff_admin_user_new_ref_pattern'] : '',
+            'aff_admin_user_on_approval'          => $data['aff_admin_user_on_approval'] ? $data['aff_admin_user_on_approval'] : '',
+            'aff_admin_user_on_approval_pattern'  => $data['aff_admin_user_on_approval_pattern'] ? $data['aff_admin_user_on_approval_pattern'] : '',
+        );
+        $option_json = wp_json_encode($option);
+        $result = update_option('farazsms_aff_options', $option_json);
         return $result;
     }
 
