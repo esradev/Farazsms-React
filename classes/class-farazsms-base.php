@@ -237,27 +237,9 @@ class class_farazsms_base
 
     /**
      * 
-     * Validate mobile number.
-     * 
-     */
-
-    public static function validate_mobile_number($phone)
-    {
-        $phone = self::fsms_tr_num($phone);
-        $mobile_pattern = "/^(\s)*(\+98|0098|98|0)?(9\d{9})(\s*|$)/";
-        preg_match($mobile_pattern, $phone, $matches);
-        if (sizeof($matches) !== 5) {
-            return FALSE;
-        }
-        return $matches[3];
-    }
-
-    /**
-     * 
      * Farazsms send pattern function.
      * 
      */
-
     public function farazsms_send_pattern($pattern, $phone, $input_data)
     {
         if (!empty(self::$apiKey)) {

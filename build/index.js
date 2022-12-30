@@ -10189,7 +10189,8 @@ function Settings() {
         placeholder: __("Admin Number", "farazsms"),
         label: __("Admin Number:", "farazsms"),
         required: true,
-        rules: "admin_numberRules"
+        rules: "admin_numberRules",
+        checkCount: 0
       },
       from_number: {
         value: "",
@@ -10245,7 +10246,7 @@ function Settings() {
         if (action.value) {
           draft.inputs.apikey.hasErrors = true;
           draft.inputs.apikey.isValid = false;
-          draft.inputs.apikey.errorMessage = "That apikey is not valid.";
+          draft.inputs.apikey.errorMessage = __("That apikey is not valid.", "farazsms");
         } else {
           draft.inputs.apikey.isValid = true;
         }
@@ -10254,7 +10255,7 @@ function Settings() {
         if (action.value) {
           draft.inputs.apikey.hasErrors = true;
           draft.inputs.apikey.isValid = false;
-          draft.inputs.apikey.errorMessage = "Please fill API key filed first";
+          draft.inputs.apikey.errorMessage = __("Please fill API key filed first", "farazsms");
         } else {
           draft.inputs.apikey.isValid = true;
         }
@@ -10270,7 +10271,7 @@ function Settings() {
         if (action.value) {
           draft.inputs.username.hasErrors = true;
           draft.inputs.username.isValid = false;
-          draft.inputs.username.errorMessage = "That username is not valid.";
+          draft.inputs.username.errorMessage = __("That username is not valid.", "farazsms");
         } else {
           draft.inputs.username.isValid = true;
         }
@@ -10279,7 +10280,7 @@ function Settings() {
         if (action.value) {
           draft.inputs.username.hasErrors = true;
           draft.inputs.username.isValid = false;
-          draft.inputs.username.errorMessage = "That username is not access to the provided apikey.";
+          draft.inputs.username.errorMessage = __("That username is not access to the provided apikey.", "farazsms");
         } else {
           draft.inputs.username.isValid = true;
         }
@@ -10295,7 +10296,7 @@ function Settings() {
         if (action.value) {
           draft.inputs.password.hasErrors = true;
           draft.inputs.password.isValid = false;
-          draft.inputs.password.errorMessage = "That password is not valid, check that agian correctly.";
+          draft.inputs.password.errorMessage = __("That password is not valid, check that agian correctly.", "farazsms");
         } else {
           draft.inputs.password.isValid = true;
         }
@@ -10303,6 +10304,13 @@ function Settings() {
       case "admin_numberChange":
         draft.inputs.admin_number.hasErrors = false;
         draft.inputs.admin_number.value = action.value;
+        return;
+      case "admin_numberAfterDelay":
+        if (!/^(0|0098|\+98)9(0[1-5]|[1 3]\d|2[0-2]|98)\d{7}$/.test(draft.inputs.admin_number.value)) {
+          draft.inputs.admin_number.hasErrors = true;
+          draft.inputs.admin_number.errorMessage = __("You must provide a valid phone number for admin.", "farazsms");
+        }
+        draft.inputs.admin_number.checkCount++;
         return;
       case "from_numberChange":
         draft.inputs.from_number.hasErrors = false;
@@ -10492,7 +10500,7 @@ function Settings() {
 
   /**
    *
-   * Validarte username, check if the username has access to provided apikey.
+   * Validate username, check if the username has access to provided apikey.
    *
    * @since 2.0.0
    */
@@ -10545,7 +10553,7 @@ function Settings() {
 
   /**
    *
-   * Validarte username and password, check if the username and password are correct.
+   * Validate username and password, check if the username and password are correct.
    *
    * @since 2.0.0
    */
@@ -10574,6 +10582,21 @@ function Settings() {
   //     validateUser();
   //   }
   // }, [state.inputs.password.checkCount]);
+
+  /**
+   *
+   * init admin_numberAfterDelay on admin_number.value
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (state.inputs.admin_number.value) {
+      const delay = setTimeout(() => dispatch({
+        type: "admin_numberAfterDelay"
+      }), 800);
+      return () => clearTimeout(delay);
+    }
+  }, [state.inputs.admin_number.value]);
 
   /**
    * The settings form created by maping over originalState as the main state.

@@ -3,16 +3,6 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       https://farazsms.com/
- * @since      1.0.0
- *
- * @package    Farazsms
- * @subpackage Farazsms/admin
- */
-
-/**
- * The admin-specific functionality of the plugin.
- *
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
@@ -116,6 +106,7 @@ class Farazsms_Admin extends class_farazsms_base
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Woocommerce', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/woocommerce', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Edd', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/edd', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Newslatter', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/newsletter', [$this, 'admin_page']);
+        add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Affiliate', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/aff', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Integrations', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/integrations', [$this, 'admin_page']);
     }
 
