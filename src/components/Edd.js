@@ -66,6 +66,11 @@ function Edd() {
         type: "text",
         label: __("SMS pattern code for the admin:", "farazsms"),
         rules: "edd_admin_patternRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __(
+          "mobile number: %phone% | Email: %email% | Name: %first_name% | Last name: %last_name% | Purchased products: %product% | Total amount (not including discount): %price% | Total discount amount: %discount% | Paid amount (including discount): %total_price% | Direct download link (not encrypted): %link% | Order number: %payment_id%",
+          "farazsms"
+        ),
       },
     },
     isFetching: true,
@@ -194,7 +199,9 @@ function Edd() {
 
   return (
     <div>
-      <h3>{__("EDD Settings:", "farazsms")}</h3>
+      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
+        {__("EDD Settings:", "farazsms")}
+      </h3>
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
@@ -236,21 +243,6 @@ function Edd() {
             {__("Save Settings", "farazsms")}
           </button>
         </form>
-      </div>
-      <div className="container">
-        <div className="container card bg-info mb-3">
-          <div className="card-body">
-            <h5 className="card-title">
-              {__("Usable variables:", "farazsms")}
-            </h5>
-            <p className="card-text">
-              {__(
-                "mobile number: %phone% | Email: %email% | Name: %first_name% | Last name: %last_name% | Purchased products: %product% | Total amount (not including discount): %price% | Total discount amount: %discount% | Paid amount (including discount): %total_price% | Direct download link (not encrypted): %link% | Order number: %payment_id%",
-                "farazsms"
-              )}
-            </p>
-          </div>
-        </div>
       </div>
     </div>
   );

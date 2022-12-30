@@ -10858,7 +10858,7 @@ textarea.form-control-lg {
   font-family: IRANSans;
   text-decoration: none;
   display: flex;
-  align-items: center;
+  align-items: end;
 }
 .faraz-header .header-logo a div {
   flex-shrink: 0;
@@ -10876,6 +10876,10 @@ textarea.form-control-lg {
   height: 50%;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
+}
+.faraz-header .header-logo a h2, .faraz-header .header-logo a .h2 {
+  font-size: 30px;
+  font-weight: bold;
 }
 .faraz-header .header-logo img {
   width: 60px;
@@ -11064,11 +11068,16 @@ main {
 }
 
 /* ===== Variables ===== */
-/* ===== Colors ===== */ /* ===== Settings page form ===== */
+/* ===== Colors ===== */ /* ===== Style all forms in setting pages ===== */
 .form-group {
   font-family: IRANSans;
   position: relative;
   margin-bottom: 20px;
+}
+.form-group input[type=textarea] {
+  font-size: 1.2rem;
+  line-height: 1.75;
+  color: #292929;
 }
 .form-group input[type=text] {
   position: relative;
@@ -11316,6 +11325,51 @@ main {
   font-size: 0.875rem;
 }
 
+/* Dots Loading Animation */
+.dots-loading {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.dots-loading::before,
+.dots-loading::after {
+  content: " ";
+}
+
+.dots-loading div,
+.dots-loading::before,
+.dots-loading::after {
+  margin: 35px 5px;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #c4c4c4;
+  opacity: 0;
+}
+
+.dots-loading::before {
+  animation: opacitychange 1s ease-in-out infinite;
+}
+
+.dots-loading div {
+  animation: opacitychange 1s ease-in-out 0.33s infinite;
+  animation-fill-mode: infinite;
+}
+
+.dots-loading::after {
+  animation: opacitychange 1s ease-in-out 0.66s infinite;
+  animation-fill-mode: infinite;
+}
+
+@keyframes opacitychange {
+  0%, 100% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+}
 @font-face {
   font-family: IRANSans;
   font-style: normal;

@@ -33,7 +33,7 @@
       font-family: IRANSans;
       text-decoration: none;
       display: flex;
-      align-items: center;
+      align-items: end;
       div {
         // outline: 2px solid;
         flex-shrink: 0;
@@ -51,6 +51,10 @@
           border-bottom-left-radius: 8px;
           border-bottom-right-radius: 8px;
         }
+      }
+      h2 {
+        font-size: 30px;
+        font-weight: bold;
       }
     }
     img {

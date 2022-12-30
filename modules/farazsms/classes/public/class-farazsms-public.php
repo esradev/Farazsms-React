@@ -71,7 +71,7 @@ class Farazsms_Public extends class_farazsms_base
             self::$approved_commentp = $comments_options['approved_comment_p'];
             self::$user_pattern = $comments_options['comment_p'];
             self::$admin_pattern = $comments_options['notify_admin_for_comment_p'];
-            // $fsms_sendwm_with_pattern = $comments_options['comment_phone_book'];
+            self::$comment_phone_book = $comments_options['comment_phonebook'];
         }
     }
 
@@ -748,25 +748,25 @@ class Farazsms_Public extends class_farazsms_base
 
     public function fsms_admin_roles_login_action($user_login, $user)
     {
-        $credentials_option = get_option('fsms_credentials');
-        $admin_login_noti_roles = $credentials_option['fsms_admin_login_noti_roles'];
-        if (empty($admin_login_noti_roles)) {
-            return;
-        }
-        if (empty(array_intersect($admin_login_noti_roles, $user->roles))) {
-            return;
-        }
-        $credentials_option = get_option('fsms_credentials');
-        $admin_login_noti = $credentials_option['fsms_admin_login_noti'];
-        $admin_login_noti_p = $credentials_option['fsms_admin_login_noti_p'];
-        if ($admin_login_noti == "false" || empty($admin_login_noti_p)) {
-            return;
-        }
-        $data['date'] = date_i18n('H:i:s d-m-Y');
-        $data['user_login'] = $user->user_login;
-        $data['display_name'] = $user->display_name;
-        $fsms_base = class_farazsms_base::getInstance();
-        $fsms_base::send_admins_login_notification_to_superadmin($admin_login_noti_p, $data);
+        //     $credentials_option = get_option('fsms_credentials');
+        //     $admin_login_noti_roles = $credentials_option['fsms_admin_login_noti_roles'];
+        //     if (empty($admin_login_noti_roles)) {
+        //         return;
+        //     }
+        //     if (empty(array_intersect($admin_login_noti_roles, $user->roles))) {
+        //         return;
+        //     }
+        //     $credentials_option = get_option('fsms_credentials');
+        //     $admin_login_noti = $credentials_option['fsms_admin_login_noti'];
+        //     $admin_login_noti_p = $credentials_option['fsms_admin_login_noti_p'];
+        //     if ($admin_login_noti == "false" || empty($admin_login_noti_p)) {
+        //         return;
+        //     }
+        //     $data['date'] = date_i18n('H:i:s d-m-Y');
+        //     $data['user_login'] = $user->user_login;
+        //     $data['display_name'] = $user->display_name;
+        //     $fsms_base = class_farazsms_base::getInstance();
+        //     $fsms_base::send_admins_login_notification_to_superadmin($admin_login_noti_p, $data);
     }
 
     /**

@@ -5,6 +5,10 @@ const __ = wp.i18n.__;
 function Synchronization() {
   return (
     <>
+      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
+        {__("Synchronization settings:", "farazsms")}
+      </h3>
+
       <div className="card bg-light mb-3">
         <div className="card-body">
           <h5 className="card-title">

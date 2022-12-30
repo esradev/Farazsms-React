@@ -24,7 +24,7 @@ import LoginNotify from "./LoginNotify";
 import Phonebook from "./Phonebook";
 import Synchronization from "./Synchronization";
 import Comments from "./Comments";
-import SendSms from "./SendSms";
+
 import WooCommerce from "./WooCommerce";
 import Edd from "./Edd";
 import Newsletter from "./Newsletter";
@@ -60,12 +60,6 @@ const SidebarItems = [
     element: Comments,
     name: __("Comments", "farazsms"),
     icon: <AiOutlineComment />,
-  },
-  {
-    path: "/sendsms",
-    element: SendSms,
-    name: __("Send SMS", "farazsms"),
-    icon: <AiOutlineSend />,
   },
   {
     path: "/woocommerce",

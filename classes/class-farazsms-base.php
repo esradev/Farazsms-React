@@ -95,7 +95,7 @@ class class_farazsms_base
 
         $comments_options = json_decode(get_option('farazsms_comments_options'), true);
         if ($comments_options) {
-            self::$comment_phone_book = $comments_options['comment_phone_book'];
+            self::$comment_phone_book = $comments_options['comment_phonebook'];
         }
 
         /**

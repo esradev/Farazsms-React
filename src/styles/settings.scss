@@ -1,10 +1,15 @@
 @import "./variables.scss";
 
-/* ===== Settings page form ===== */
+/* ===== Style all forms in setting pages ===== */
 .form-group {
   font-family: IRANSans;
   position: relative;
   margin-bottom: 20px;
+  input[type="textarea"] {
+    font-size: 1.2rem;
+    line-height: 1.75;
+    color: #292929;
+  }
 
   input[type="text"] {
     position: relative;

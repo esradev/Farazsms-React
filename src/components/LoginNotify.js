@@ -24,27 +24,27 @@ function Settings() {
         label: __("Send a welcome sms to the user?", "farazsms"),
         rules: "welcome_smsRules",
       },
-      welcome_sms_use_p: {
+      welcome_sms_use_pattern: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "welcome_sms_use_pChange",
-        id: "welcome_sms_use_p",
-        name: "welcome_sms_use_p",
+        onChange: "welcome_sms_use_patternChange",
+        id: "welcome_sms_use_pattern",
+        name: "welcome_sms_use_pattern",
         type: "checkbox",
         label: __("Send welcome sms via pattern?", "farazsms"),
-        rules: "welcome_sms_use_pRules",
+        rules: "welcome_sms_use_patternRules",
       },
-      welcome_sms_p: {
+      welcome_sms_pattern: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "welcome_sms_pChange",
-        id: "welcome_sms_p",
-        name: "welcome_sms_p",
+        onChange: "welcome_sms_patternChange",
+        id: "welcome_sms_pattern",
+        name: "welcome_sms_pattern",
         type: "text",
         label: __("Welcome sms pattern code:", "farazsms"),
-        rules: "welcome_sms_pRules",
+        rules: "welcome_sms_patternRules",
       },
       welcome_sms_msg: {
         value: "",
@@ -56,6 +56,8 @@ function Settings() {
         type: "text",
         label: __("welcome message:", "farazsms"),
         rules: "welcome_sms_msgRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __("%display_name% and %username%", "farazsms"),
       },
       admin_login_notify: {
         value: "",
@@ -82,16 +84,21 @@ function Settings() {
         label: __("Selecte rule(s):", "farazsms"),
         rules: "select_rolesRules",
       },
-      admin_login_notify_p: {
+      admin_login_notify_pattern: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "admin_login_notify_pChange",
-        id: "admin_login_notify_p",
-        name: "admin_login_notify_p",
+        onChange: "admin_login_notify_patternChange",
+        id: "admin_login_notify_pattern",
+        name: "admin_login_notify_pattern",
         type: "text",
         label: __("Notify admin pattern code:", "farazsms"),
-        rules: "admin_login_notify_pRules",
+        rules: "admin_login_notify_patternRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __(
+          "username %user_login% and user name %display_name% and login date %date%",
+          "farazsms"
+        ),
       },
     },
     isFetching: true,
@@ -104,12 +111,14 @@ function Settings() {
       case "fetchComplete":
         //Init state values by action.value
         draft.inputs.welcome_sms.value = action.value.welcome_sms;
-        draft.inputs.welcome_sms_use_p.value = action.value.welcome_sms_use_p;
-        draft.inputs.welcome_sms_p.value = action.value.welcome_sms_p;
+        draft.inputs.welcome_sms_use_pattern.value =
+          action.value.welcome_sms_use_pattern;
+        draft.inputs.welcome_sms_pattern.value =
+          action.value.welcome_sms_pattern;
         draft.inputs.welcome_sms_msg.value = action.value.welcome_sms_msg;
         draft.inputs.admin_login_notify.value = action.value.admin_login_notify;
-        draft.inputs.admin_login_notify_p.value =
-          action.value.admin_login_notify_p;
+        draft.inputs.admin_login_notify_pattern.value =
+          action.value.admin_login_notify_pattern;
         draft.inputs.select_roles.value = action.value.select_roles;
 
         draft.isFetching = false;
@@ -119,14 +128,14 @@ function Settings() {
         draft.inputs.welcome_sms.hasErrors = false;
         draft.inputs.welcome_sms.value = action.value;
         return;
-      case "welcome_sms_use_pChange":
-        draft.inputs.welcome_sms_use_p.hasErrors = false;
-        draft.inputs.welcome_sms_use_p.value = action.value;
+      case "welcome_sms_use_patternChange":
+        draft.inputs.welcome_sms_use_pattern.hasErrors = false;
+        draft.inputs.welcome_sms_use_pattern.value = action.value;
 
         return;
-      case "welcome_sms_pChange":
-        draft.inputs.welcome_sms_p.hasErrors = false;
-        draft.inputs.welcome_sms_p.value = action.value;
+      case "welcome_sms_patternChange":
+        draft.inputs.welcome_sms_pattern.hasErrors = false;
+        draft.inputs.welcome_sms_pattern.value = action.value;
         return;
       case "welcome_sms_msgChange":
         draft.inputs.welcome_sms_msg.hasErrors = false;
@@ -136,9 +145,9 @@ function Settings() {
         draft.inputs.admin_login_notify.hasErrors = false;
         draft.inputs.admin_login_notify.value = action.value;
         return;
-      case "admin_login_notify_pChange":
-        draft.inputs.admin_login_notify_p.hasErrors = false;
-        draft.inputs.admin_login_notify_p.value = action.value;
+      case "admin_login_notify_patternChange":
+        draft.inputs.admin_login_notify_pattern.hasErrors = false;
+        draft.inputs.admin_login_notify_pattern.value = action.value;
         return;
       case "select_rolesChange":
         draft.inputs.select_roles.hasErrors = false;
@@ -233,7 +242,9 @@ function Settings() {
 
   return (
     <div>
-      <h3>{__("Login Notify Settings:", "farazsms")}</h3>
+      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
+        {__("Login Notify Settings:", "farazsms")}
+      </h3>
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (

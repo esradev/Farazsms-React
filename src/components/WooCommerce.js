@@ -36,6 +36,8 @@ function Woocommerce() {
         type: "text",
         label: __("Mobile number verification pattern code:", "farazsms"),
         rules: "woo_checkout_otp_patternRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __("The verification code variable is %code%", "farazsms"),
       },
       woo_poll: {
         value: [],
@@ -66,20 +68,30 @@ function Woocommerce() {
         onChange: "woo_poll_msgChange",
         id: "woo_poll_msg",
         name: "woo_poll_msg",
-        type: "text",
+        type: "textarea",
         label: __("message content:", "farazsms"),
         rules: "woo_poll_msgRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __(
+          "time %time% | store name %sitename% | product name %item% | product link %item_link%",
+          "farazsms"
+        ),
       },
-      woo_tracking_p: {
+      woo_tracking_pattern: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "woo_tracking_pChange",
-        id: "woo_tracking_p",
-        name: "woo_tracking_p",
+        onChange: "woo_tracking_patternChange",
+        id: "woo_tracking_pattern",
+        name: "woo_tracking_pattern",
         type: "text",
         label: __("Pattern code to send tracking code:", "farazsms"),
-        rules: "woo_tracking_pRules",
+        rules: "woo_tracking_patternRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __(
+          "tracking code %tracking_code% (required) | order number %order_id% | order status %order_status% | full name in billing address %billing_full_name% | full name in shipping address %shipping_full_name%",
+          "farazsms"
+        ),
       },
     },
     isFetching: true,
@@ -97,7 +109,8 @@ function Woocommerce() {
         draft.inputs.woo_poll.value = action.value.woo_poll;
         draft.inputs.woo_poll_time.value = action.value.woo_poll_time;
         draft.inputs.woo_poll_msg.value = action.value.woo_poll_msg;
-        draft.inputs.woo_tracking_p.value = action.value.woo_tracking_p;
+        draft.inputs.woo_tracking_pattern.value =
+          action.value.woo_tracking_pattern;
 
         draft.isFetching = false;
         return;
@@ -122,9 +135,9 @@ function Woocommerce() {
         draft.inputs.woo_poll_msg.hasErrors = false;
         draft.inputs.woo_poll_msg.value = action.value;
         return;
-      case "woo_tracking_pChange":
-        draft.inputs.woo_tracking_p.hasErrors = false;
-        draft.inputs.woo_tracking_p.value = action.value;
+      case "woo_tracking_patternChange":
+        draft.inputs.woo_tracking_pattern.hasErrors = false;
+        draft.inputs.woo_tracking_pattern.value = action.value;
         return;
 
       case "submitOptions":
@@ -215,7 +228,9 @@ function Woocommerce() {
 
   return (
     <div>
-      <h3>{__("Woocommerce Settings:", "farazsms")}</h3>
+      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
+        {__("Woocommerce Settings:", "farazsms")}
+      </h3>
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (

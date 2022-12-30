@@ -166,13 +166,13 @@ class Farazsms_Routes
     public function add_login_notify_options($data)
     {
         $option = array(
-            'welcome_sms'          => $data['welcome_sms'] ? $data['welcome_sms'] : '',
-            'welcome_sms_use_p'    => $data['welcome_sms_use_p'] ? $data['welcome_sms_use_p'] : '',
-            'welcome_sms_p'        => $data['welcome_sms_p'] ? $data['welcome_sms_p'] : '',
-            'welcome_sms_msg'      => $data['welcome_sms_msg'] ? $data['welcome_sms_msg'] : '',
-            'admin_login_notify'   => $data['admin_login_notify'] ? $data['admin_login_notify'] : '',
-            'admin_login_notify_p' => $data['admin_login_notify_p'] ? $data['admin_login_notify_p'] : '',
-            'select_roles'         => $data['select_roles'] ? $data['select_roles'] : '',
+            'welcome_sms'                => $data['welcome_sms'] ? $data['welcome_sms'] : '',
+            'welcome_sms_use_pattern'    => $data['welcome_sms_use_pattern'] ? $data['welcome_sms_use_pattern'] : '',
+            'welcome_sms_pattern'        => $data['welcome_sms_pattern'] ? $data['welcome_sms_pattern'] : '',
+            'welcome_sms_msg'            => $data['welcome_sms_msg'] ? $data['welcome_sms_msg'] : '',
+            'admin_login_notify'         => $data['admin_login_notify'] ? $data['admin_login_notify'] : '',
+            'admin_login_notify_pattern' => $data['admin_login_notify_pattern'] ? $data['admin_login_notify_pattern'] : '',
+            'select_roles'               => $data['select_roles'] ? $data['select_roles'] : '',
         );
         $option_json = wp_json_encode($option);
         $result = update_option('farazsms_login_notify_options', $option_json);
@@ -236,13 +236,13 @@ class Farazsms_Routes
     public function add_comments_options($data)
     {
         $option = array(
-            'add_mobile_field'            => $data['add_mobile_field'] ? $data['add_mobile_field'] : '',
-            'required_mobile_field'       => $data['required_mobile_field'] ? $data['required_mobile_field'] : '',
-            'notify_admin_for_comment'    => $data['notify_admin_for_comment'] ? $data['notify_admin_for_comment'] : '',
-            'notify_admin_for_comment_p'  => $data['notify_admin_for_comment_p'] ? $data['notify_admin_for_comment_p'] : '',
-            'comment_p'                   => $data['comment_p'] ? $data['comment_p'] : '',
-            'approved_comment_p'          => $data['approved_comment_p'] ? $data['approved_comment_p'] : '',
-            'comment_phonebook'          => $data['comment_phonebook'] ? $data['comment_phonebook'] : [],
+            'add_mobile_field'                  => $data['add_mobile_field'] ? $data['add_mobile_field'] : '',
+            'required_mobile_field'             => $data['required_mobile_field'] ? $data['required_mobile_field'] : '',
+            'notify_admin_for_comment'          => $data['notify_admin_for_comment'] ? $data['notify_admin_for_comment'] : '',
+            'notify_admin_for_comment_pattern'  => $data['notify_admin_for_comment_pattern'] ? $data['notify_admin_for_comment_pattern'] : '',
+            'comment_pattern'                   => $data['comment_pattern'] ? $data['comment_pattern'] : '',
+            'approved_comment_pattern'          => $data['approved_comment_pattern'] ? $data['approved_comment_pattern'] : '',
+            'comment_phonebook'                 => $data['comment_phonebook'] ? $data['comment_phonebook'] : [],
         );
         $option_json = wp_json_encode($option);
         $result = update_option('farazsms_comments_options', $option_json);
@@ -314,7 +314,7 @@ class Farazsms_Routes
             'woo_poll'                         => $data['woo_poll'] ? $data['woo_poll'] : '',
             'woo_poll_time'                    => $data['woo_poll_time'] ? $data['woo_poll_time'] : '',
             'woo_poll_msg'                     => $data['woo_poll_msg'] ? $data['woo_poll_msg'] : '',
-            'woo_tracking_p'                   => $data['woo_tracking_p'] ? $data['woo_tracking_p'] : '',
+            'woo_tracking_pattern'             => $data['woo_tracking_pattern'] ? $data['woo_tracking_pattern'] : '',
             'woo_retention_order_no'           => $data['woo_retention_order_no'] ? $data['woo_retention_order_no'] : '',
             'woo_retention_order_month'        => $data['woo_retention_order_month'] ? $data['woo_retention_order_month'] : '',
             'woo_retention_msg'                => $data['woo_retention_msg'] ? $data['woo_retention_msg'] : '',

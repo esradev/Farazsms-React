@@ -174,7 +174,9 @@ function Integrations() {
 
   return (
     <div>
-      <h3>{__("Integrations:", "farazsms")}</h3>
+      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
+        {__("Integrations:", "farazsms")}
+      </h3>
 
       <div className="plugins-card card-grid">
         <article className="plugins-card">

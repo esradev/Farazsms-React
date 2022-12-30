@@ -21,7 +21,7 @@ function Phonebook() {
         id: "custom_phonebook",
         name: "custom_phonebook",
         type: "select",
-        label: __("Select the custom field phone book:", "farazsms"),
+        label: __("Select the custom field phonebook:", "farazsms"),
       },
       custom_phone_meta_keys: {
         value: "",
@@ -37,7 +37,7 @@ function Phonebook() {
         id: "digits_phonebook",
         name: "digits_phonebook",
         type: "select",
-        label: __("Select phone book for Digits:", "farazsms"),
+        label: __("Select phonebook for Digits:", "farazsms"),
       },
       woo_phonebook: {
         value: "",
@@ -45,7 +45,7 @@ function Phonebook() {
         id: "woo_phonebook",
         name: "woo_phonebook",
         type: "select",
-        label: __("Choosing a phone book for WooCommerce:", "farazsms"),
+        label: __("select a phonebook for WooCommerce:", "farazsms"),
       },
       bookly_phonebook: {
         value: "",
@@ -53,7 +53,7 @@ function Phonebook() {
         id: "bookly_phonebook",
         name: "bookly_phonebook",
         type: "select",
-        label: __("Choosing a phone book for Bookley:", "farazsms"),
+        label: __("Choosing a phonebook for Bookley:", "farazsms"),
       },
       gf_phonebook: {
         value: "",
@@ -61,7 +61,7 @@ function Phonebook() {
         id: "gf_phonebook",
         name: "gf_phonebook",
         type: "select",
-        label: __("Select phone book for Gravity Form:", "farazsms"),
+        label: __("Select phonebook for Gravity Form:", "farazsms"),
       },
       gf_selected_field: {
         value: "",
@@ -70,6 +70,10 @@ function Phonebook() {
         name: "gf_selected_field",
         type: "select",
         label: __("Gravity Form Settings:", "farazsms"),
+        tooltip: __(
+          "In this section, you can specify the fields you want to register in the Gravity Form phonebook",
+          "farazsms"
+        ),
       },
     },
     isFetching: true,
@@ -197,9 +201,11 @@ function Phonebook() {
 
   return (
     <>
-      <h3>{__("Phonebook settings:", "farazsms")}</h3>
+      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
+        {__("Phonebook settings:", "farazsms")}
+      </h3>
       <div className="container">
-        <div className="container card bg-light mb-3">
+        <div className="container card bg-light mb-3 mt-1">
           <div className="card-body">
             <h5 className="card-title">{__("Special Offer:", "farazsms")}</h5>
             <p className="card-text">

@@ -23,19 +23,19 @@ function Newsletter() {
         label: __("Select phone book for newsletter", "farazsms"),
         rules: "news_phonebooksRules",
       },
-      news_send_verify_pattern: {
+      news_send_verify_via_pattern: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "news_send_verify_patternChange",
-        id: "news_send_verify_pattern",
-        name: "news_send_verify_pattern",
+        onChange: "news_send_verify_via_patternChange",
+        id: "news_send_verify_via_pattern",
+        name: "news_send_verify_via_pattern",
         type: "checkbox",
         label: __(
           "Confirm subscription by sending verification code?",
           "farazsms"
         ),
-        rules: "news_send_verify_patternRules",
+        rules: "news_send_verify_via_patternRules",
       },
       news_send_verify_pattern: {
         value: "",
@@ -50,6 +50,8 @@ function Newsletter() {
           "farazsms"
         ),
         rules: "news_send_verify_patternRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __("%name% and confirmation code: %code%", "farazsms"),
       },
       news_welcome: {
         value: "",
@@ -72,6 +74,8 @@ function Newsletter() {
         type: "text",
         label: __("Welcome SMS pattern code", "farazsms"),
         rules: "news_welcome_patternRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __("%name%", "farazsms"),
       },
       news_post_notify: {
         value: "",
@@ -91,9 +95,14 @@ function Newsletter() {
         onChange: "news_post_notify_msgChange",
         id: "news_post_notify_msg",
         name: "news_post_notify_msg",
-        type: "text",
+        type: "textarea",
         label: __("Message content for new post", "farazsms"),
         rules: "news_post_notify_msgRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __(
+          "the title of the article %title% and the address of the article %url%",
+          "farazsms"
+        ),
       },
       news_product_notify: {
         value: "",
@@ -113,9 +122,14 @@ function Newsletter() {
         onChange: "news_product_notify_msgChange",
         id: "news_product_notify_msg",
         name: "news_product_notify_msg",
-        type: "text",
+        type: "textarea",
         label: __("Message content for new product", "farazsms"),
         rules: "news_product_notify_msgRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __(
+          "site title %site_title% product name %product_name% price %price% and product link %url%",
+          "farazsms"
+        ),
       },
     },
     isFetching: true,
@@ -128,8 +142,8 @@ function Newsletter() {
       case "fetchComplete":
         //Init state values by action.value
         draft.inputs.news_phonebooks.value = action.value.news_phonebooks;
-        draft.inputs.news_send_verify_pattern.value =
-          action.value.news_send_verify_pattern;
+        draft.inputs.news_send_verify_via_pattern.value =
+          action.value.news_send_verify_via_pattern;
         draft.inputs.news_send_verify_pattern.value =
           action.value.news_send_verify_pattern;
         draft.inputs.news_welcome.value = action.value.news_welcome;
@@ -150,9 +164,9 @@ function Newsletter() {
         draft.inputs.news_phonebooks.hasErrors = false;
         draft.inputs.news_phonebooks.value = action.value;
         return;
-      case "news_send_verify_patternChange":
-        draft.inputs.news_send_verify_pattern.hasErrors = false;
-        draft.inputs.news_send_verify_pattern.value = action.value;
+      case "news_send_verify_via_patternChange":
+        draft.inputs.news_send_verify_via_pattern.hasErrors = false;
+        draft.inputs.news_send_verify_via_pattern.value = action.value;
         return;
       case "news_send_verify_patternChange":
         draft.inputs.news_send_verify_pattern.hasErrors = false;
@@ -279,7 +293,9 @@ function Newsletter() {
 
   return (
     <div>
-      <h3>{__("Login Notify Settings:", "farazsms")}</h3>
+      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
+        {__("Login Notify Settings:", "farazsms")}
+      </h3>
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (

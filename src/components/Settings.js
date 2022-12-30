@@ -2,17 +2,21 @@ import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
 import { CSSTransition } from "react-transition-group";
 import Axios from "axios";
-
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
 import AxiosWp from "./AxiosWp";
 import DispatchContext from "../DispatchContext";
 import SettingsFormInput from "./SettingsFormInput";
+import LoadingDotsIcon from "./LoadingDotsIcon";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);
-  // Init States
+  /**
+   *
+   * First init state.
+   *
+   */
   const originalState = {
     inputs: {
       apikey: {
@@ -29,6 +33,10 @@ function Settings() {
         rules: "apikeyRules",
         isValid: false,
         checkCount: 0,
+        tooltip: __(
+          "To get the access key in your farazsms panel, refer to the web service menu in the access keys section",
+          "farazsms"
+        ),
       },
       username: {
         value: "",
@@ -97,6 +105,10 @@ function Settings() {
         placeholder: __("Advertising sender number", "farazsms"),
         label: __("Advertising sender number:", "farazsms"),
         rules: "from_number_adverRules",
+        tooltip: __(
+          "If you have Enamad, it is suggested that you purchase a dedicated 9000 line for sending web service SMS and sending SMS to customers. Send a support ticket for this.",
+          "farazsms"
+        ),
       },
     },
     isFetching: true,
@@ -466,16 +478,10 @@ function Settings() {
   // useEffect(() => {
   //   if (state.inputs.password.checkCount) {
   //     async function validateUser() {
-  //       const authentication_data = {
-  //         body: {
-  //           username: state.inputs.username.value,
-  //           password: state.inputs.password.value,
-  //         },
-  //       };
   //       try {
   //         const ippanelData = await Axios.post(
   //           "http://reg.ippanel.com/parent/farazsms",
-  //           authentication_data
+  //           { username: "9300410381", password: "Faraz@2282037154" }
   //         );
   //         console.log(ippanelData);
   //       } catch (e) {
@@ -494,7 +500,9 @@ function Settings() {
    */
   return (
     <div>
-      <h3>{__("Settings:", "farazsms")}</h3>
+      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
+        {__("Settings:", "farazsms")}
+      </h3>
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (

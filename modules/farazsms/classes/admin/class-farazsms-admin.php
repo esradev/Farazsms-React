@@ -113,7 +113,6 @@ class Farazsms_Admin extends class_farazsms_base
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Phone Book', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/phonebook', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Synchronization', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/synchronization', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Comments', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/comments', [$this, 'admin_page']);
-        add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Send SMS', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/sendsms', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Woocommerce', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/woocommerce', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Edd', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/edd', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Newslatter', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/newsletter', [$this, 'admin_page']);

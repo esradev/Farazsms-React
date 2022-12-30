@@ -51,27 +51,27 @@ function Comments() {
         label: __("Save the phone number in the phone book?", "farazsms"),
         rules: "comment_phone_bookRules",
       },
-      comment_p: {
+      comment_pattern: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "comment_pChange",
-        id: "comment_p",
-        name: "comment_p",
+        onChange: "comment_patternChange",
+        id: "comment_pattern",
+        name: "comment_pattern",
         type: "text",
         label: __("Comment submit pattern code:", "farazsms"),
-        rules: "comment_pRules",
+        rules: "comment_patternRules",
       },
-      approved_comment_p: {
+      approved_comment_pattern: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "approved_comment_pChange",
-        id: "approved_comment_p",
-        name: "approved_comment_p",
+        onChange: "approved_comment_patternChange",
+        id: "approved_comment_pattern",
+        name: "approved_comment_pattern",
         type: "text",
         label: __("Comment response pattern code:", "farazsms"),
-        rules: "approved_comment_pRules",
+        rules: "approved_comment_patternRules",
       },
       notify_admin_for_comment: {
         value: "",
@@ -87,16 +87,21 @@ function Comments() {
         ),
         rules: "notify_admin_for_commentRules",
       },
-      notify_admin_for_comment_p: {
+      notify_admin_for_comment_pattern: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "notify_admin_for_comment_pChange",
-        id: "notify_admin_for_comment_p",
-        name: "notify_admin_for_comment_p",
+        onChange: "notify_admin_for_comment_patternChange",
+        id: "notify_admin_for_comment_pattern",
+        name: "notify_admin_for_comment_pattern",
         type: "text",
         label: __("Admin pattern code:", "farazsms"),
-        rules: "notify_admin_for_comment_pRules",
+        rules: "notify_admin_for_comment_patternRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __(
+          "Post title: %title% Comment authors name: %name% Comment authors email: %email% Comment link: %link% Comment text: %content%",
+          "farazsms"
+        ),
       },
     },
     isFetching: true,
@@ -112,12 +117,13 @@ function Comments() {
         draft.inputs.required_mobile_field.value =
           action.value.required_mobile_field;
         draft.inputs.comment_phone_book.value = action.value.comment_phone_book;
-        draft.inputs.comment_p.value = action.value.comment_p;
-        draft.inputs.approved_comment_p.value = action.value.approved_comment_p;
+        draft.inputs.comment_pattern.value = action.value.comment_pattern;
+        draft.inputs.approved_comment_pattern.value =
+          action.value.approved_comment_pattern;
         draft.inputs.notify_admin_for_comment.value =
           action.value.notify_admin_for_comment;
-        draft.inputs.notify_admin_for_comment_p.value =
-          action.value.notify_admin_for_comment_p;
+        draft.inputs.notify_admin_for_comment_pattern.value =
+          action.value.notify_admin_for_comment_pattern;
 
         draft.isFetching = false;
         return;
@@ -130,25 +136,25 @@ function Comments() {
         draft.inputs.required_mobile_field.hasErrors = false;
         draft.inputs.required_mobile_field.value = action.value;
         return;
-      case "comment_phone_bookChange":
-        draft.inputs.comment_phone_book.hasErrors = false;
-        draft.inputs.comment_phone_book.value = action.value;
+      case "comment_patternhone_bookChange":
+        draft.inputs.comment_patternhone_book.hasErrors = false;
+        draft.inputs.comment_patternhone_book.value = action.value;
         return;
-      case "comment_pChange":
-        draft.inputs.comment_p.hasErrors = false;
-        draft.inputs.comment_p.value = action.value;
+      case "comment_patternChange":
+        draft.inputs.comment_pattern.hasErrors = false;
+        draft.inputs.comment_pattern.value = action.value;
         return;
-      case "approved_comment_pChange":
-        draft.inputs.approved_comment_p.hasErrors = false;
-        draft.inputs.approved_comment_p.value = action.value;
+      case "approved_comment_patternChange":
+        draft.inputs.approved_comment_pattern.hasErrors = false;
+        draft.inputs.approved_comment_pattern.value = action.value;
         return;
       case "notify_admin_for_commentChange":
         draft.inputs.notify_admin_for_comment.hasErrors = false;
         draft.inputs.notify_admin_for_comment.value = action.value;
         return;
-      case "notify_admin_for_comment_pChange":
-        draft.inputs.notify_admin_for_comment_p.hasErrors = false;
-        draft.inputs.notify_admin_for_comment_p.value = action.value;
+      case "notify_admin_for_comment_patternChange":
+        draft.inputs.notify_admin_for_comment_pattern.hasErrors = false;
+        draft.inputs.notify_admin_for_comment_pattern.value = action.value;
         return;
       case "submitOptions":
         draft.sendCount++;
@@ -236,7 +242,9 @@ function Comments() {
 
   return (
     <div>
-      <h3>{__("Comments Settings:", "farazsms")}</h3>
+      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
+        {__("Comments Settings:", "farazsms")}
+      </h3>
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
