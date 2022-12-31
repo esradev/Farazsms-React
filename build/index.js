@@ -11295,6 +11295,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
@@ -11443,7 +11444,14 @@ function Settings() {
         return;
       case "select_rolesChange":
         draft.inputs.select_roles.hasErrors = false;
-        draft.inputs.select_roles.value = action.value;
+        //Work for notMulti select
+        // draft.inputs.select_roles.value = [];
+        // draft.inputs.select_roles.value.push(action.value);
+
+        //Work for isMulti select
+        if (!draft.inputs.select_roles.value.includes(action.value)) {
+          draft.inputs.select_roles.value.push(action.value);
+        }
         return;
       case "submitOptions":
         draft.sendCount++;
@@ -11470,12 +11478,23 @@ function Settings() {
       type: "submitOptions"
     });
   }
+  function handleSelect(selectedOptions) {
+    //Work for notMulti select
+    // console.log(selectedOptions);
+    // dispatch({
+    //   type: "select_rolesChange",
+    //   value: selectedOptions.value,
+    // });
 
-  // function handleSelect(selectedOption) {
-  //   draft.inputs.select_roles.value = selectedOption;
-  //   console.log(`Option selected:`, selectedOption);
-  // }
-
+    // Work for isMulti select
+    selectedOptions.map(selectedOption => {
+      console.log(selectedOption.value);
+      dispatch({
+        type: "select_rolesChange",
+        value: selectedOption.value
+      });
+    });
+  }
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getOptions() {
       try {
@@ -11548,12 +11567,13 @@ function Settings() {
     key: input.id,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+    isMulti: true,
     value: input.value,
     checked: input.value,
-    onChange: e => {
+    onChange: input.type === "select" ? handleSelect : e => {
       dispatch({
         type: input.onChange,
-        value: input.type === "checkbox" ? e.target.checked : input.type === "select" ? input.value : e.target.value
+        value: input.type === "checkbox" ? e.target.checked : e.target.value
       });
     },
     onBlur: e => dispatch({
@@ -11909,7 +11929,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/CSSTransition.js");
+/* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/CSSTransition.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _SettingsFormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SettingsFormInput */ "./src/components/SettingsFormInput.js");
@@ -11936,7 +11957,8 @@ function Phonebook() {
         id: "custom_phonebook",
         name: "custom_phonebook",
         type: "select",
-        label: __("Select the custom field phonebook:", "farazsms")
+        label: __("Select the custom field phonebook:", "farazsms"),
+        options: []
       },
       custom_phone_meta_keys: {
         value: "",
@@ -11944,7 +11966,8 @@ function Phonebook() {
         id: "custom_phone_meta_keys",
         name: "custom_phone_meta_keys",
         type: "select",
-        label: __("Select the mobile number custom field:", "farazsms")
+        label: __("Select the mobile number custom field:", "farazsms"),
+        options: []
       },
       digits_phonebook: {
         value: "",
@@ -11952,7 +11975,8 @@ function Phonebook() {
         id: "digits_phonebook",
         name: "digits_phonebook",
         type: "select",
-        label: __("Select phonebook for Digits:", "farazsms")
+        label: __("Select phonebook for Digits:", "farazsms"),
+        options: []
       },
       woo_phonebook: {
         value: "",
@@ -11960,7 +11984,8 @@ function Phonebook() {
         id: "woo_phonebook",
         name: "woo_phonebook",
         type: "select",
-        label: __("select a phonebook for WooCommerce:", "farazsms")
+        label: __("select a phonebook for WooCommerce:", "farazsms"),
+        options: []
       },
       bookly_phonebook: {
         value: "",
@@ -11968,7 +11993,8 @@ function Phonebook() {
         id: "bookly_phonebook",
         name: "bookly_phonebook",
         type: "select",
-        label: __("Choosing a phonebook for Bookley:", "farazsms")
+        label: __("Choosing a phonebook for Bookley:", "farazsms"),
+        options: []
       },
       gf_phonebook: {
         value: "",
@@ -11976,7 +12002,8 @@ function Phonebook() {
         id: "gf_phonebook",
         name: "gf_phonebook",
         type: "select",
-        label: __("Select phonebook for Gravity Form:", "farazsms")
+        label: __("Select phonebook for Gravity Form:", "farazsms"),
+        options: []
       },
       gf_selected_field: {
         value: "",
@@ -11985,7 +12012,8 @@ function Phonebook() {
         name: "gf_selected_field",
         type: "select",
         label: __("Gravity Form Settings:", "farazsms"),
-        tooltip: __("In this section, you can specify the fields you want to register in the Gravity Form phonebook", "farazsms")
+        tooltip: __("In this section, you can specify the fields you want to register in the Gravity Form phonebook", "farazsms"),
+        options: []
       }
     },
     isFetching: true,
@@ -12005,6 +12033,15 @@ function Phonebook() {
         draft.inputs.gf_selected_field.value = action.value.gf_selected_field;
         draft.isFetching = false;
         return;
+      case "all_phonebookOptions":
+        draft.inputs.custom_phonebook.options = action.value;
+        return;
+      case "custom_phone_meta_keysOptions":
+        draft.inputs.custom_phone_meta_keys.options = action.value;
+        return;
+      case "gf_selected_fieldOptions":
+        draft.inputs.gf_selected_field.options = action.value;
+        return;
       case "custom_phonebookChange":
         draft.inputs.custom_phonebook.value = action.value;
         return;
@@ -12020,8 +12057,8 @@ function Phonebook() {
       case "bookly_phonebookChange":
         draft.inputs.bookly_phonebook.value = action.value;
         return;
-      case "gf_selected_fieldChange":
-        draft.inputs.gf_selected_field.value = action.value;
+      case "gf_phonebookChange":
+        draft.inputs.gf_field.value = action.value;
         return;
       case "gf_selected_fieldChange":
         draft.inputs.gf_selected_field.value = action.value;
@@ -12072,6 +12109,57 @@ function Phonebook() {
       }
     }
     getOptions();
+  }, []);
+
+  /**
+   * Get usermeta keys from DB rest routes
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getUsermeta() {
+      try {
+        /*
+         * Use the AxiosWp object to call the /farazsms/v1/farazsms_usermeta
+         * endpoint and retrieve the 10 latest posts.
+         */
+        const getUsermeta = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/usermeta", {});
+        console.log(getUsermeta.data);
+        const usermetaArrayObject = Object.keys(getUsermeta.data).map(key => ({
+          value: getUsermeta.data[key].meta_key,
+          label: getUsermeta.data[key].meta_key
+        }));
+        dispatch({
+          type: "custom_phone_meta_keysOptions",
+          value: usermetaArrayObject
+        });
+        console.log(usermetaArrayObject);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getUsermeta();
+  }, []);
+
+  /**
+   * Get phonebooks.
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getPhonebooks() {
+      try {
+        const phonebooks = await axios__WEBPACK_IMPORTED_MODULE_7__["default"].post("http://ippanel.com/api/select", {
+          uname: "9300410381",
+          pass: "Faraz@2282037154",
+          op: "booklist"
+        });
+        console.log(phonebooks);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getPhonebooks();
   }, []);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
@@ -12155,7 +12243,7 @@ function Phonebook() {
       type: input.rules,
       value: e.target.value
     })
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_transition_group__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_transition_group__WEBPACK_IMPORTED_MODULE_8__["default"], {
     in: input.hasErrors,
     timeout: 330,
     classNames: "liveValidateMessage",
@@ -12775,11 +12863,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
-/* harmony import */ var react_icons_ai__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-icons/ai */ "./node_modules/react-icons/ai/index.esm.js");
-/* harmony import */ var react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-bootstrap/Button */ "./node_modules/react-bootstrap/esm/Button.js");
-/* harmony import */ var react_bootstrap_OverlayTrigger__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-bootstrap/OverlayTrigger */ "./node_modules/react-bootstrap/esm/OverlayTrigger.js");
-/* harmony import */ var react_bootstrap_Tooltip__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-bootstrap/Tooltip */ "./node_modules/react-bootstrap/esm/Tooltip.js");
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
+/* harmony import */ var react_select_animated__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-select/animated */ "./node_modules/react-select/animated/dist/react-select-animated.esm.js");
+/* harmony import */ var react_icons_ai__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-icons/ai */ "./node_modules/react-icons/ai/index.esm.js");
+/* harmony import */ var react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-bootstrap/Button */ "./node_modules/react-bootstrap/esm/Button.js");
+/* harmony import */ var react_bootstrap_OverlayTrigger__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-bootstrap/OverlayTrigger */ "./node_modules/react-bootstrap/esm/OverlayTrigger.js");
+/* harmony import */ var react_bootstrap_Tooltip__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-bootstrap/Tooltip */ "./node_modules/react-bootstrap/esm/Tooltip.js");
+
 
 
 
@@ -12790,6 +12880,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
+const animatedComponents = (0,react_select_animated__WEBPACK_IMPORTED_MODULE_3__["default"])();
 
 /**
  * This component power the settings component.
@@ -12811,7 +12902,7 @@ const SettingsFormInput = props => {
     infoTitle,
     infoBody,
     options,
-    selectedOptions,
+    onSelect,
     ...inputProps
   } = props;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
@@ -12819,14 +12910,14 @@ const SettingsFormInput = props => {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("label", {
     htmlFor: id,
     className: "mb-1 form-control-label"
-  }, label, tooltip && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_bootstrap_OverlayTrigger__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  }, label, tooltip && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_bootstrap_OverlayTrigger__WEBPACK_IMPORTED_MODULE_4__["default"], {
     placement: "top",
-    overlay: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_bootstrap_Tooltip__WEBPACK_IMPORTED_MODULE_4__["default"], null, tooltip)
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    overlay: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_bootstrap_Tooltip__WEBPACK_IMPORTED_MODULE_5__["default"], null, tooltip)
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_6__["default"], {
     variant: "outline-dark",
     size: "sm",
     className: "mx-2"
-  }, __("Info ", "farazsms"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_6__.AiOutlineExclamationCircle, null))), type === "text" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  }, __("Info ", "farazsms"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_7__.AiOutlineExclamationCircle, null))), type === "text" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     id: id,
     value: value,
     type: type,
@@ -12834,7 +12925,6 @@ const SettingsFormInput = props => {
     onBlur: onBlur,
     autoComplete: "off"
   }, inputProps)), type === "checkbox" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    id: id,
     value: value,
     type: type,
     onChange: onChange,
@@ -12843,7 +12933,6 @@ const SettingsFormInput = props => {
   }, inputProps)), type === "checkbox" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("span", {
     className: "control"
   }), type === "textarea" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("textarea", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    id: id,
     value: value,
     type: type,
     onChange: onChange,
@@ -12852,17 +12941,13 @@ const SettingsFormInput = props => {
   }, inputProps, {
     className: "form-control",
     rows: "5"
-  })), type === "select" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_7__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  })), type === "select" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_8__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     placeholder: "Select...",
-    id: id,
-    type: type,
     options: options,
     onChange: onChange,
-    autoFocus: true
-  }, inputProps, {
-    noOptionsMessage: () => __("No options is avilable", "farazsms"),
-    isMulti: true
-  })))), infoTitle && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    components: animatedComponents,
+    noOptionsMessage: () => __("No options is avilable", "farazsms")
+  }, inputProps)))), infoTitle && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "container"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "container card bg-light mb-3 p-1"
@@ -30512,6 +30597,334 @@ function createMemoryRouter(routes, opts) {
 
 /***/ }),
 
+/***/ "./node_modules/react-select/animated/dist/react-select-animated.esm.js":
+/*!******************************************************************************!*\
+  !*** ./node_modules/react-select/animated/dist/react-select-animated.esm.js ***!
+  \******************************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Input": function() { return /* binding */ Input; },
+/* harmony export */   "MultiValue": function() { return /* binding */ MultiValue; },
+/* harmony export */   "Placeholder": function() { return /* binding */ Placeholder; },
+/* harmony export */   "SingleValue": function() { return /* binding */ SingleValue; },
+/* harmony export */   "ValueContainer": function() { return /* binding */ ValueContainer; }
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread2 */ "./node_modules/@babel/runtime/helpers/esm/objectSpread2.js");
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
+/* harmony import */ var memoize_one__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! memoize-one */ "./node_modules/memoize-one/dist/memoize-one.esm.js");
+/* harmony import */ var _dist_index_a86253bb_esm_js__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../dist/index-a86253bb.esm.js */ "./node_modules/react-select/dist/index-a86253bb.esm.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/esm/slicedToArray */ "./node_modules/@babel/runtime/helpers/esm/slicedToArray.js");
+/* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/Transition.js");
+/* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/TransitionGroup.js");
+/* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @babel/runtime/helpers/typeof */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
+/* harmony import */ var _babel_runtime_helpers_taggedTemplateLiteral__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @babel/runtime/helpers/taggedTemplateLiteral */ "./node_modules/@babel/runtime/helpers/esm/taggedTemplateLiteral.js");
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/esm/defineProperty.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-dom */ "react-dom");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var use_isomorphic_layout_effect__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-isomorphic-layout-effect */ "./node_modules/use-isomorphic-layout-effect/dist/use-isomorphic-layout-effect.browser.esm.js");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _excluded$4 = ["in", "onExited", "appear", "enter", "exit"];
+// strip transition props off before spreading onto select component
+var AnimatedInput = function AnimatedInput(WrappedComponent) {
+  return function (_ref) {
+    _ref.in;
+      _ref.onExited;
+      _ref.appear;
+      _ref.enter;
+      _ref.exit;
+      var props = (0,_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, _excluded$4);
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(WrappedComponent, props);
+  };
+};
+
+var _excluded$3 = ["component", "duration", "in", "onExited"];
+var Fade = function Fade(_ref) {
+  var Tag = _ref.component,
+    _ref$duration = _ref.duration,
+    duration = _ref$duration === void 0 ? 1 : _ref$duration,
+    inProp = _ref.in;
+    _ref.onExited;
+    var props = (0,_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, _excluded$3);
+  var nodeRef = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(null);
+  var transition = {
+    entering: {
+      opacity: 0
+    },
+    entered: {
+      opacity: 1,
+      transition: "opacity ".concat(duration, "ms")
+    },
+    exiting: {
+      opacity: 0
+    },
+    exited: {
+      opacity: 0
+    }
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(react_transition_group__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    mountOnEnter: true,
+    unmountOnExit: true,
+    in: inProp,
+    timeout: duration,
+    nodeRef: nodeRef
+  }, function (state) {
+    var innerProps = {
+      style: (0,_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_0__["default"])({}, transition[state]),
+      ref: nodeRef
+    };
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(Tag, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_3__["default"])({
+      innerProps: innerProps
+    }, props));
+  });
+};
+
+// ==============================
+// Collapse Transition
+// ==============================
+
+var collapseDuration = 260;
+// wrap each MultiValue with a collapse transition; decreases width until
+// finally removing from DOM
+var Collapse = function Collapse(_ref2) {
+  var children = _ref2.children,
+    _in = _ref2.in,
+    _onExited = _ref2.onExited;
+  var ref = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(null);
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)('auto'),
+    _useState2 = (0,_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_4__["default"])(_useState, 2),
+    width = _useState2[0],
+    setWidth = _useState2[1];
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    var el = ref.current;
+    if (!el) return;
+
+    /*
+      Here we're invoking requestAnimationFrame with a callback invoking our
+      call to getBoundingClientRect and setState in order to resolve an edge case
+      around portalling. Certain portalling solutions briefly remove children from the DOM
+      before appending them to the target node. This is to avoid us trying to call getBoundingClientrect
+      while the Select component is in this state.
+    */
+    // cannot use `offsetWidth` because it is rounded
+    var rafId = window.requestAnimationFrame(function () {
+      return setWidth(el.getBoundingClientRect().width);
+    });
+    return function () {
+      return window.cancelAnimationFrame(rafId);
+    };
+  }, []);
+  var getStyleFromStatus = function getStyleFromStatus(status) {
+    switch (status) {
+      default:
+        return {
+          width: width
+        };
+      case 'exiting':
+        return {
+          width: 0,
+          transition: "width ".concat(collapseDuration, "ms ease-out")
+        };
+      case 'exited':
+        return {
+          width: 0
+        };
+    }
+  };
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(react_transition_group__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    enter: false,
+    mountOnEnter: true,
+    unmountOnExit: true,
+    in: _in,
+    onExited: function onExited() {
+      var el = ref.current;
+      if (!el) return;
+      _onExited === null || _onExited === void 0 ? void 0 : _onExited(el);
+    },
+    timeout: collapseDuration,
+    nodeRef: ref
+  }, function (status) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement("div", {
+      ref: ref,
+      style: (0,_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_0__["default"])({
+        overflow: 'hidden',
+        whiteSpace: 'nowrap'
+      }, getStyleFromStatus(status))
+    }, children);
+  });
+};
+
+var _excluded$2 = ["in", "onExited"];
+// strip transition props off before spreading onto actual component
+
+var AnimatedMultiValue = function AnimatedMultiValue(WrappedComponent) {
+  return function (_ref) {
+    var inProp = _ref.in,
+      onExited = _ref.onExited,
+      props = (0,_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, _excluded$2);
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(Collapse, {
+      in: inProp,
+      onExited: onExited
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(WrappedComponent, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_3__["default"])({
+      cropWithEllipsis: inProp
+    }, props)));
+  };
+};
+
+// fade in when last multi-value removed, otherwise instant
+var AnimatedPlaceholder = function AnimatedPlaceholder(WrappedComponent) {
+  return function (props) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(Fade, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_3__["default"])({
+      component: WrappedComponent,
+      duration: props.isMulti ? collapseDuration : 1
+    }, props));
+  };
+};
+
+// instant fade; all transition-group children must be transitions
+
+var AnimatedSingleValue = function AnimatedSingleValue(WrappedComponent) {
+  return function (props) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(Fade, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_3__["default"])({
+      component: WrappedComponent
+    }, props));
+  };
+};
+
+var _excluded$1 = ["component"],
+  _excluded2 = ["children"];
+// make ValueContainer a transition group
+var AnimatedValueContainer = function AnimatedValueContainer(WrappedComponent) {
+  return function (props) {
+    return props.isMulti ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(IsMultiValueContainer, (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_3__["default"])({
+      component: WrappedComponent
+    }, props)) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(react_transition_group__WEBPACK_IMPORTED_MODULE_11__["default"], (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_3__["default"])({
+      component: WrappedComponent
+    }, props));
+  };
+};
+var IsMultiValueContainer = function IsMultiValueContainer(_ref) {
+  var component = _ref.component,
+    restProps = (0,_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref, _excluded$1);
+  var multiProps = useIsMultiValueContainer(restProps);
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.createElement(react_transition_group__WEBPACK_IMPORTED_MODULE_11__["default"], (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_3__["default"])({
+    component: component
+  }, multiProps));
+};
+var useIsMultiValueContainer = function useIsMultiValueContainer(_ref2) {
+  var children = _ref2.children,
+    props = (0,_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(_ref2, _excluded2);
+  var isMulti = props.isMulti,
+    hasValue = props.hasValue,
+    innerProps = props.innerProps,
+    _props$selectProps = props.selectProps,
+    components = _props$selectProps.components,
+    controlShouldRenderValue = _props$selectProps.controlShouldRenderValue;
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(isMulti && controlShouldRenderValue && hasValue),
+    _useState2 = (0,_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_4__["default"])(_useState, 2),
+    cssDisplayFlex = _useState2[0],
+    setCssDisplayFlex = _useState2[1];
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(false),
+    _useState4 = (0,_babel_runtime_helpers_esm_slicedToArray__WEBPACK_IMPORTED_MODULE_4__["default"])(_useState3, 2),
+    removingValue = _useState4[0],
+    setRemovingValue = _useState4[1];
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    if (hasValue && !cssDisplayFlex) {
+      setCssDisplayFlex(true);
+    }
+  }, [hasValue, cssDisplayFlex]);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(function () {
+    if (removingValue && !hasValue && cssDisplayFlex) {
+      setCssDisplayFlex(false);
+    }
+    setRemovingValue(false);
+  }, [removingValue, hasValue, cssDisplayFlex]);
+  var onExited = function onExited() {
+    return setRemovingValue(true);
+  };
+  var childMapper = function childMapper(child) {
+    if (isMulti && /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.isValidElement(child)) {
+      // Add onExited callback to MultiValues
+      if (child.type === components.MultiValue) {
+        return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_2__.cloneElement(child, {
+          onExited: onExited
+        });
+      }
+      // While container flexed, Input cursor is shown after Placeholder text,
+      // so remove Placeholder until display is set back to grid
+      if (child.type === components.Placeholder && cssDisplayFlex) {
+        return null;
+      }
+    }
+    return child;
+  };
+  var newInnerProps = (0,_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_0__["default"])((0,_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_0__["default"])({}, innerProps), {}, {
+    style: (0,_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_0__["default"])((0,_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_0__["default"])({}, innerProps === null || innerProps === void 0 ? void 0 : innerProps.style), {}, {
+      display: isMulti && hasValue || cssDisplayFlex ? 'flex' : 'grid'
+    })
+  });
+  var newProps = (0,_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_0__["default"])((0,_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_0__["default"])({}, props), {}, {
+    innerProps: newInnerProps,
+    children: react__WEBPACK_IMPORTED_MODULE_2__.Children.toArray(children).map(childMapper)
+  });
+  return newProps;
+};
+
+var _excluded = ["Input", "MultiValue", "Placeholder", "SingleValue", "ValueContainer"];
+var makeAnimated = function makeAnimated() {
+  var externalComponents = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var components = (0,_dist_index_a86253bb_esm_js__WEBPACK_IMPORTED_MODULE_12__.F)({
+    components: externalComponents
+  });
+  var Input = components.Input,
+    MultiValue = components.MultiValue,
+    Placeholder = components.Placeholder,
+    SingleValue = components.SingleValue,
+    ValueContainer = components.ValueContainer,
+    rest = (0,_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_1__["default"])(components, _excluded);
+  return (0,_babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    Input: AnimatedInput(Input),
+    MultiValue: AnimatedMultiValue(MultiValue),
+    Placeholder: AnimatedPlaceholder(Placeholder),
+    SingleValue: AnimatedSingleValue(SingleValue),
+    ValueContainer: AnimatedValueContainer(ValueContainer)
+  }, rest);
+};
+var AnimatedComponents = makeAnimated();
+var Input = AnimatedComponents.Input;
+var MultiValue = AnimatedComponents.MultiValue;
+var Placeholder = AnimatedComponents.Placeholder;
+var SingleValue = AnimatedComponents.SingleValue;
+var ValueContainer = AnimatedComponents.ValueContainer;
+var index = (0,memoize_one__WEBPACK_IMPORTED_MODULE_13__["default"])(makeAnimated);
+
+/* harmony default export */ __webpack_exports__["default"] = (index);
+
+
+
+/***/ }),
+
 /***/ "./node_modules/react-select/dist/Select-40119e12.esm.js":
 /*!***************************************************************!*\
   !*** ./node_modules/react-select/dist/Select-40119e12.esm.js ***!
@@ -35821,6 +36234,216 @@ Transition.EXITING = EXITING;
 
 /***/ }),
 
+/***/ "./node_modules/react-transition-group/esm/TransitionGroup.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/react-transition-group/esm/TransitionGroup.js ***!
+  \********************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectWithoutPropertiesLoose */ "./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
+/* harmony import */ var _babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/esm/assertThisInitialized */ "./node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js");
+/* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _TransitionGroupContext__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./TransitionGroupContext */ "./node_modules/react-transition-group/esm/TransitionGroupContext.js");
+/* harmony import */ var _utils_ChildMapping__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils/ChildMapping */ "./node_modules/react-transition-group/esm/utils/ChildMapping.js");
+
+
+
+
+
+
+
+
+
+var values = Object.values || function (obj) {
+  return Object.keys(obj).map(function (k) {
+    return obj[k];
+  });
+};
+
+var defaultProps = {
+  component: 'div',
+  childFactory: function childFactory(child) {
+    return child;
+  }
+};
+/**
+ * The `<TransitionGroup>` component manages a set of transition components
+ * (`<Transition>` and `<CSSTransition>`) in a list. Like with the transition
+ * components, `<TransitionGroup>` is a state machine for managing the mounting
+ * and unmounting of components over time.
+ *
+ * Consider the example below. As items are removed or added to the TodoList the
+ * `in` prop is toggled automatically by the `<TransitionGroup>`.
+ *
+ * Note that `<TransitionGroup>`  does not define any animation behavior!
+ * Exactly _how_ a list item animates is up to the individual transition
+ * component. This means you can mix and match animations across different list
+ * items.
+ */
+
+var TransitionGroup = /*#__PURE__*/function (_React$Component) {
+  (0,_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_3__["default"])(TransitionGroup, _React$Component);
+
+  function TransitionGroup(props, context) {
+    var _this;
+
+    _this = _React$Component.call(this, props, context) || this;
+
+    var handleExited = _this.handleExited.bind((0,_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_2__["default"])(_this)); // Initial children should all be entering, dependent on appear
+
+
+    _this.state = {
+      contextValue: {
+        isMounting: true
+      },
+      handleExited: handleExited,
+      firstRender: true
+    };
+    return _this;
+  }
+
+  var _proto = TransitionGroup.prototype;
+
+  _proto.componentDidMount = function componentDidMount() {
+    this.mounted = true;
+    this.setState({
+      contextValue: {
+        isMounting: false
+      }
+    });
+  };
+
+  _proto.componentWillUnmount = function componentWillUnmount() {
+    this.mounted = false;
+  };
+
+  TransitionGroup.getDerivedStateFromProps = function getDerivedStateFromProps(nextProps, _ref) {
+    var prevChildMapping = _ref.children,
+        handleExited = _ref.handleExited,
+        firstRender = _ref.firstRender;
+    return {
+      children: firstRender ? (0,_utils_ChildMapping__WEBPACK_IMPORTED_MODULE_5__.getInitialChildMapping)(nextProps, handleExited) : (0,_utils_ChildMapping__WEBPACK_IMPORTED_MODULE_5__.getNextChildMapping)(nextProps, prevChildMapping, handleExited),
+      firstRender: false
+    };
+  } // node is `undefined` when user provided `nodeRef` prop
+  ;
+
+  _proto.handleExited = function handleExited(child, node) {
+    var currentChildMapping = (0,_utils_ChildMapping__WEBPACK_IMPORTED_MODULE_5__.getChildMapping)(this.props.children);
+    if (child.key in currentChildMapping) return;
+
+    if (child.props.onExited) {
+      child.props.onExited(node);
+    }
+
+    if (this.mounted) {
+      this.setState(function (state) {
+        var children = (0,_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_1__["default"])({}, state.children);
+
+        delete children[child.key];
+        return {
+          children: children
+        };
+      });
+    }
+  };
+
+  _proto.render = function render() {
+    var _this$props = this.props,
+        Component = _this$props.component,
+        childFactory = _this$props.childFactory,
+        props = (0,_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(_this$props, ["component", "childFactory"]);
+
+    var contextValue = this.state.contextValue;
+    var children = values(this.state.children).map(childFactory);
+    delete props.appear;
+    delete props.enter;
+    delete props.exit;
+
+    if (Component === null) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement(_TransitionGroupContext__WEBPACK_IMPORTED_MODULE_6__["default"].Provider, {
+        value: contextValue
+      }, children);
+    }
+
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement(_TransitionGroupContext__WEBPACK_IMPORTED_MODULE_6__["default"].Provider, {
+      value: contextValue
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_4___default().createElement(Component, props, children));
+  };
+
+  return TransitionGroup;
+}((react__WEBPACK_IMPORTED_MODULE_4___default().Component));
+
+TransitionGroup.propTypes =  true ? {
+  /**
+   * `<TransitionGroup>` renders a `<div>` by default. You can change this
+   * behavior by providing a `component` prop.
+   * If you use React v16+ and would like to avoid a wrapping `<div>` element
+   * you can pass in `component={null}`. This is useful if the wrapping div
+   * borks your css styles.
+   */
+  component: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().any),
+
+  /**
+   * A set of `<Transition>` components, that are toggled `in` and out as they
+   * leave. the `<TransitionGroup>` will inject specific transition props, so
+   * remember to spread them through if you are wrapping the `<Transition>` as
+   * with our `<Fade>` example.
+   *
+   * While this component is meant for multiple `Transition` or `CSSTransition`
+   * children, sometimes you may want to have a single transition child with
+   * content that you want to be transitioned out and in when you change it
+   * (e.g. routes, images etc.) In that case you can change the `key` prop of
+   * the transition child as you change its content, this will cause
+   * `TransitionGroup` to transition the child out and back in.
+   */
+  children: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().node),
+
+  /**
+   * A convenience prop that enables or disables appear animations
+   * for all children. Note that specifying this will override any defaults set
+   * on individual children Transitions.
+   */
+  appear: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().bool),
+
+  /**
+   * A convenience prop that enables or disables enter animations
+   * for all children. Note that specifying this will override any defaults set
+   * on individual children Transitions.
+   */
+  enter: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().bool),
+
+  /**
+   * A convenience prop that enables or disables exit animations
+   * for all children. Note that specifying this will override any defaults set
+   * on individual children Transitions.
+   */
+  exit: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().bool),
+
+  /**
+   * You may need to apply reactive updates to a child as it is exiting.
+   * This is generally done by using `cloneElement` however in the case of an exiting
+   * child the element has already been removed and not accessible to the consumer.
+   *
+   * If you do need to update a child as it leaves you can provide a `childFactory`
+   * to wrap every child, even the ones that are leaving.
+   *
+   * @type Function(child: ReactElement) -> ReactElement
+   */
+  childFactory: (prop_types__WEBPACK_IMPORTED_MODULE_7___default().func)
+} : 0;
+TransitionGroup.defaultProps = defaultProps;
+/* harmony default export */ __webpack_exports__["default"] = (TransitionGroup);
+
+/***/ }),
+
 /***/ "./node_modules/react-transition-group/esm/TransitionGroupContext.js":
 /*!***************************************************************************!*\
   !*** ./node_modules/react-transition-group/esm/TransitionGroupContext.js ***!
@@ -35847,6 +36470,165 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   disabled: false
 });
+
+/***/ }),
+
+/***/ "./node_modules/react-transition-group/esm/utils/ChildMapping.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/react-transition-group/esm/utils/ChildMapping.js ***!
+  \***********************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getChildMapping": function() { return /* binding */ getChildMapping; },
+/* harmony export */   "getInitialChildMapping": function() { return /* binding */ getInitialChildMapping; },
+/* harmony export */   "getNextChildMapping": function() { return /* binding */ getNextChildMapping; },
+/* harmony export */   "mergeChildMappings": function() { return /* binding */ mergeChildMappings; }
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+/**
+ * Given `this.props.children`, return an object mapping key to child.
+ *
+ * @param {*} children `this.props.children`
+ * @return {object} Mapping of key to child
+ */
+
+function getChildMapping(children, mapFn) {
+  var mapper = function mapper(child) {
+    return mapFn && (0,react__WEBPACK_IMPORTED_MODULE_0__.isValidElement)(child) ? mapFn(child) : child;
+  };
+
+  var result = Object.create(null);
+  if (children) react__WEBPACK_IMPORTED_MODULE_0__.Children.map(children, function (c) {
+    return c;
+  }).forEach(function (child) {
+    // run the map function here instead so that the key is the computed one
+    result[child.key] = mapper(child);
+  });
+  return result;
+}
+/**
+ * When you're adding or removing children some may be added or removed in the
+ * same render pass. We want to show *both* since we want to simultaneously
+ * animate elements in and out. This function takes a previous set of keys
+ * and a new set of keys and merges them with its best guess of the correct
+ * ordering. In the future we may expose some of the utilities in
+ * ReactMultiChild to make this easy, but for now React itself does not
+ * directly have this concept of the union of prevChildren and nextChildren
+ * so we implement it here.
+ *
+ * @param {object} prev prev children as returned from
+ * `ReactTransitionChildMapping.getChildMapping()`.
+ * @param {object} next next children as returned from
+ * `ReactTransitionChildMapping.getChildMapping()`.
+ * @return {object} a key set that contains all keys in `prev` and all keys
+ * in `next` in a reasonable order.
+ */
+
+function mergeChildMappings(prev, next) {
+  prev = prev || {};
+  next = next || {};
+
+  function getValueForKey(key) {
+    return key in next ? next[key] : prev[key];
+  } // For each key of `next`, the list of keys to insert before that key in
+  // the combined list
+
+
+  var nextKeysPending = Object.create(null);
+  var pendingKeys = [];
+
+  for (var prevKey in prev) {
+    if (prevKey in next) {
+      if (pendingKeys.length) {
+        nextKeysPending[prevKey] = pendingKeys;
+        pendingKeys = [];
+      }
+    } else {
+      pendingKeys.push(prevKey);
+    }
+  }
+
+  var i;
+  var childMapping = {};
+
+  for (var nextKey in next) {
+    if (nextKeysPending[nextKey]) {
+      for (i = 0; i < nextKeysPending[nextKey].length; i++) {
+        var pendingNextKey = nextKeysPending[nextKey][i];
+        childMapping[nextKeysPending[nextKey][i]] = getValueForKey(pendingNextKey);
+      }
+    }
+
+    childMapping[nextKey] = getValueForKey(nextKey);
+  } // Finally, add the keys which didn't appear before any key in `next`
+
+
+  for (i = 0; i < pendingKeys.length; i++) {
+    childMapping[pendingKeys[i]] = getValueForKey(pendingKeys[i]);
+  }
+
+  return childMapping;
+}
+
+function getProp(child, prop, props) {
+  return props[prop] != null ? props[prop] : child.props[prop];
+}
+
+function getInitialChildMapping(props, onExited) {
+  return getChildMapping(props.children, function (child) {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.cloneElement)(child, {
+      onExited: onExited.bind(null, child),
+      in: true,
+      appear: getProp(child, 'appear', props),
+      enter: getProp(child, 'enter', props),
+      exit: getProp(child, 'exit', props)
+    });
+  });
+}
+function getNextChildMapping(nextProps, prevChildMapping, onExited) {
+  var nextChildMapping = getChildMapping(nextProps.children);
+  var children = mergeChildMappings(prevChildMapping, nextChildMapping);
+  Object.keys(children).forEach(function (key) {
+    var child = children[key];
+    if (!(0,react__WEBPACK_IMPORTED_MODULE_0__.isValidElement)(child)) return;
+    var hasPrev = (key in prevChildMapping);
+    var hasNext = (key in nextChildMapping);
+    var prevChild = prevChildMapping[key];
+    var isLeaving = (0,react__WEBPACK_IMPORTED_MODULE_0__.isValidElement)(prevChild) && !prevChild.props.in; // item is new (entering)
+
+    if (hasNext && (!hasPrev || isLeaving)) {
+      // console.log('entering', key)
+      children[key] = (0,react__WEBPACK_IMPORTED_MODULE_0__.cloneElement)(child, {
+        onExited: onExited.bind(null, child),
+        in: true,
+        exit: getProp(child, 'exit', nextProps),
+        enter: getProp(child, 'enter', nextProps)
+      });
+    } else if (!hasNext && hasPrev && !isLeaving) {
+      // item is old (exiting)
+      // console.log('leaving', key)
+      children[key] = (0,react__WEBPACK_IMPORTED_MODULE_0__.cloneElement)(child, {
+        in: false
+      });
+    } else if (hasNext && hasPrev && (0,react__WEBPACK_IMPORTED_MODULE_0__.isValidElement)(prevChild)) {
+      // item hasn't changed transition states
+      // copy over the last transition props;
+      // console.log('unchanged', key)
+      children[key] = (0,react__WEBPACK_IMPORTED_MODULE_0__.cloneElement)(child, {
+        onExited: onExited.bind(null, child),
+        in: prevChild.props.in,
+        exit: getProp(child, 'exit', nextProps),
+        enter: getProp(child, 'enter', nextProps)
+      });
+    }
+  });
+  return children;
+}
 
 /***/ }),
 

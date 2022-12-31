@@ -22,6 +22,7 @@ function Phonebook() {
         name: "custom_phonebook",
         type: "select",
         label: __("Select the custom field phonebook:", "farazsms"),
+        options: [],
       },
       custom_phone_meta_keys: {
         value: "",
@@ -30,6 +31,7 @@ function Phonebook() {
         name: "custom_phone_meta_keys",
         type: "select",
         label: __("Select the mobile number custom field:", "farazsms"),
+        options: [],
       },
       digits_phonebook: {
         value: "",
@@ -38,6 +40,7 @@ function Phonebook() {
         name: "digits_phonebook",
         type: "select",
         label: __("Select phonebook for Digits:", "farazsms"),
+        options: [],
       },
       woo_phonebook: {
         value: "",
@@ -46,6 +49,7 @@ function Phonebook() {
         name: "woo_phonebook",
         type: "select",
         label: __("select a phonebook for WooCommerce:", "farazsms"),
+        options: [],
       },
       bookly_phonebook: {
         value: "",
@@ -54,6 +58,7 @@ function Phonebook() {
         name: "bookly_phonebook",
         type: "select",
         label: __("Choosing a phonebook for Bookley:", "farazsms"),
+        options: [],
       },
       gf_phonebook: {
         value: "",
@@ -62,6 +67,7 @@ function Phonebook() {
         name: "gf_phonebook",
         type: "select",
         label: __("Select phonebook for Gravity Form:", "farazsms"),
+        options: [],
       },
       gf_selected_field: {
         value: "",
@@ -74,6 +80,7 @@ function Phonebook() {
           "In this section, you can specify the fields you want to register in the Gravity Form phonebook",
           "farazsms"
         ),
+        options: [],
       },
     },
     isFetching: true,
@@ -95,6 +102,15 @@ function Phonebook() {
         draft.inputs.gf_selected_field.value = action.value.gf_selected_field;
         draft.isFetching = false;
         return;
+      case "all_phonebookOptions":
+        draft.inputs.custom_phonebook.options = action.value;
+        return;
+      case "custom_phone_meta_keysOptions":
+        draft.inputs.custom_phone_meta_keys.options = action.value;
+        return;
+      case "gf_selected_fieldOptions":
+        draft.inputs.gf_selected_field.options = action.value;
+        return;
       case "custom_phonebookChange":
         draft.inputs.custom_phonebook.value = action.value;
         return;
@@ -110,8 +126,8 @@ function Phonebook() {
       case "bookly_phonebookChange":
         draft.inputs.bookly_phonebook.value = action.value;
         return;
-      case "gf_selected_fieldChange":
-        draft.inputs.gf_selected_field.value = action.value;
+      case "gf_phonebookChange":
+        draft.inputs.gf_field.value = action.value;
         return;
       case "gf_selected_fieldChange":
         draft.inputs.gf_selected_field.value = action.value;
@@ -161,6 +177,59 @@ function Phonebook() {
       }
     }
     getOptions();
+  }, []);
+
+  /**
+   * Get usermeta keys from DB rest routes
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function getUsermeta() {
+      try {
+        /*
+         * Use the AxiosWp object to call the /farazsms/v1/farazsms_usermeta
+         * endpoint and retrieve the 10 latest posts.
+         */
+        const getUsermeta = await AxiosWp.get("/farazsms/v1/usermeta", {});
+        console.log(getUsermeta.data);
+        const usermetaArrayObject = Object.keys(getUsermeta.data).map(
+          (key) => ({
+            value: getUsermeta.data[key].meta_key,
+            label: getUsermeta.data[key].meta_key,
+          })
+        );
+        dispatch({
+          type: "custom_phone_meta_keysOptions",
+          value: usermetaArrayObject,
+        });
+        console.log(usermetaArrayObject);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getUsermeta();
+  }, []);
+
+  /**
+   * Get phonebooks.
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function getPhonebooks() {
+      try {
+        const phonebooks = await Axios.post("http://ippanel.com/api/select", {
+          uname: "9300410381",
+          pass: "Faraz@2282037154",
+          op: "booklist",
+        });
+        console.log(phonebooks);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getPhonebooks();
   }, []);
 
   useEffect(() => {

@@ -53,6 +53,15 @@ class Farazsms_Routes
                 'permission_callback' => array($this, 'permissions_check'),
             ),
         ));
+        //Register usermeta rest route
+        register_rest_route($namespace, '/' . 'usermeta', array(
+            array(
+                'methods'             => 'GET',
+                'callback'            => array($this, 'get_usermeta'),
+                'permission_callback' => array($this, 'permissions_check'),
+
+            ),
+        ));
 
         //Register comments_options rest route
         register_rest_route($namespace, '/' . 'comments_options', array(
@@ -228,7 +237,19 @@ class Farazsms_Routes
     }
 
     /**
-     * Get comments options.
+     * Get usermeta.
+     * 
+     * @since 2.0.0
+     */
+    public function get_usermeta()
+    {
+        global $wpdb;
+        $farazsms_usermeta_keys = $wpdb->get_results("SELECT DISTINCT meta_key FROM `" . $wpdb->prefix . "usermeta`");
+        return $farazsms_usermeta_keys;
+    }
+
+    /**
+     * Get comments.
      * 
      * @since 2.0.0
      */

@@ -11169,6 +11169,10 @@ main {
   transition: left 0.15s ease-in;
 }
 
+.select-control input {
+  width: 100%;
+}
+
 /* ===== Live Validate Message ===== */
 .liveValidateMessage {
   font-family: IRANSans;

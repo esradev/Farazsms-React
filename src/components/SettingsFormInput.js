@@ -1,11 +1,14 @@
 import React from "react";
 import Select from "react-select";
+import makeAnimated from "react-select/animated";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import Button from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
+
+const animatedComponents = makeAnimated();
 
 /**
  * This component power the settings component.
@@ -27,7 +30,7 @@ const SettingsFormInput = (props) => {
     infoTitle,
     infoBody,
     options,
-    selectedOptions,
+    onSelect,
     ...inputProps
   } = props;
 
@@ -62,7 +65,6 @@ const SettingsFormInput = (props) => {
 
           {type === "checkbox" && (
             <input
-              id={id}
               value={value}
               type={type}
               onChange={onChange}
@@ -75,7 +77,6 @@ const SettingsFormInput = (props) => {
 
           {type === "textarea" && (
             <textarea
-              id={id}
               value={value}
               type={type}
               onChange={onChange}
@@ -89,14 +90,11 @@ const SettingsFormInput = (props) => {
           {type === "select" && (
             <Select
               placeholder="Select..."
-              id={id}
-              type={type}
               options={options}
               onChange={onChange}
-              autoFocus={true}
-              {...inputProps}
+              components={animatedComponents}
               noOptionsMessage={() => __("No options is avilable", "farazsms")}
-              isMulti
+              {...inputProps}
             />
           )}
         </label>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
+import Select from "react-select";
 
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
@@ -163,7 +164,15 @@ function Settings() {
         return;
       case "select_rolesChange":
         draft.inputs.select_roles.hasErrors = false;
-        draft.inputs.select_roles.value = action.value;
+        //Work for notMulti select
+        // draft.inputs.select_roles.value = [];
+        // draft.inputs.select_roles.value.push(action.value);
+
+        //Work for isMulti select
+        if (!draft.inputs.select_roles.value.includes(action.value)) {
+          draft.inputs.select_roles.value.push(action.value);
+        }
+
         return;
 
       case "submitOptions":
@@ -191,10 +200,20 @@ function Settings() {
     dispatch({ type: "submitOptions" });
   }
 
-  // function handleSelect(selectedOption) {
-  //   draft.inputs.select_roles.value = selectedOption;
-  //   console.log(`Option selected:`, selectedOption);
-  // }
+  function handleSelect(selectedOptions) {
+    //Work for notMulti select
+    // console.log(selectedOptions);
+    // dispatch({
+    //   type: "select_rolesChange",
+    //   value: selectedOptions.value,
+    // });
+
+    // Work for isMulti select
+    selectedOptions.map((selectedOption) => {
+      console.log(selectedOption.value);
+      dispatch({ type: "select_rolesChange", value: selectedOption.value });
+    });
+  }
 
   useEffect(() => {
     async function getOptions() {
@@ -272,19 +291,22 @@ function Settings() {
             >
               <SettingsFormInput
                 {...input}
+                isMulti
                 value={input.value}
                 checked={input.value}
-                onChange={(e) => {
-                  dispatch({
-                    type: input.onChange,
-                    value:
-                      input.type === "checkbox"
-                        ? e.target.checked
-                        : input.type === "select"
-                        ? input.value
-                        : e.target.value,
-                  });
-                }}
+                onChange={
+                  input.type === "select"
+                    ? handleSelect
+                    : (e) => {
+                        dispatch({
+                          type: input.onChange,
+                          value:
+                            input.type === "checkbox"
+                              ? e.target.checked
+                              : e.target.value,
+                        });
+                      }
+                }
                 onBlur={(e) =>
                   dispatch({ type: input.rules, value: e.target.value })
                 }
