@@ -1,4 +1,5 @@
 import React from "react";
+import Select from "react-select";
 import { AiOutlineExclamationCircle } from "react-icons/ai";
 import Button from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
@@ -25,6 +26,8 @@ const SettingsFormInput = (props) => {
     tooltip,
     infoTitle,
     infoBody,
+    options,
+    selectedOptions,
     ...inputProps
   } = props;
 
@@ -44,6 +47,7 @@ const SettingsFormInput = (props) => {
               </Button>
             </OverlayTrigger>
           )}
+
           {type === "text" && (
             <input
               id={id}
@@ -55,6 +59,7 @@ const SettingsFormInput = (props) => {
               {...inputProps}
             />
           )}
+
           {type === "checkbox" && (
             <input
               id={id}
@@ -67,6 +72,7 @@ const SettingsFormInput = (props) => {
             />
           )}
           {type === "checkbox" && <span className="control"></span>}
+
           {type === "textarea" && (
             <textarea
               id={id}
@@ -81,15 +87,16 @@ const SettingsFormInput = (props) => {
             />
           )}
           {type === "select" && (
-            <select
+            <Select
+              placeholder="Select..."
               id={id}
-              value={value}
               type={type}
+              options={options}
               onChange={onChange}
-              onBlur={onBlur}
-              autoComplete="off"
+              autoFocus={true}
               {...inputProps}
-              className="form-select mt-2"
+              noOptionsMessage={() => __("No options is avilable", "farazsms")}
+              isMulti
             />
           )}
         </label>

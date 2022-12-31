@@ -56,8 +56,8 @@ class Farazsms_Activator
 
 		//copy bookly specific files to bookly plugin directory
 		if (in_array('bookly-responsive-appointment-booking-tool/main.php', apply_filters('active_plugins', get_option('active_plugins')))) {
-			copy(WP_CONTENT_DIR . '/plugins/farazsms/includes/bookly_files/SMS.php', WP_CONTENT_DIR . '/plugins/bookly-responsive-appointment-booking-tool/lib/cloud/SMS.php');
-			copy(WP_CONTENT_DIR . '/plugins/farazsms/includes/bookly_files/ippanel.js', WP_CONTENT_DIR . '/plugins/bookly-responsive-appointment-booking-tool/lib/cloud/ippanel.js');
+			copy(WP_CONTENT_DIR . '/plugins/farazsms/classes/bookly_files/SMS.php', WP_CONTENT_DIR . '/plugins/bookly-responsive-appointment-booking-tool/lib/cloud/SMS.php');
+			copy(WP_CONTENT_DIR . '/plugins/farazsms/classes/bookly_files/ippanel.js', WP_CONTENT_DIR . '/plugins/bookly-responsive-appointment-booking-tool/lib/cloud/ippanel.js');
 		}
 
 		// This option added for redirect after activation

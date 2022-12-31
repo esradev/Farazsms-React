@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import FarazsmsLogo from "../../modules/farazsms/assets/images/farazsms-logo.png";
-import Axios from "axios";
 import {
   AiOutlineBell,
   AiOutlineDollar,
@@ -9,12 +8,7 @@ import {
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
-import AxiosWp from "./AxiosWp";
-import DispatchContext from "../DispatchContext";
-
 function Header() {
-  const appDispatch = useContext(DispatchContext);
-
   return (
     <header class="faraz-header container">
       <div class="header-content responsive-wrapper">

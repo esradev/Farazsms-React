@@ -71,6 +71,13 @@ class Farazsms_Admin extends class_farazsms_base
             'rootapiurl' => esc_url_raw(rest_url()),
             'nonce' => wp_create_nonce('wp_rest')
         ));
+
+        /**
+         * Add a localization object ,The global options 
+         * */
+        wp_localize_script('farazsms-script', 'farazsmsWordpress', array(
+            'wproules' => wp_roles(),
+        ));
         //Load Farazsms languages for JavaScript files. 
         wp_set_script_translations('farazsms-script', 'farazsms', FARAZSMS_PATH . '/languages');
 

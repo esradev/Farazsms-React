@@ -30,6 +30,7 @@
     "react-bootstrap": "^2.7.0",
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.4.5",
+    "react-select": "^5.7.0",
     "react-transition-group": "^4.4.5",
     "use-immer": "^0.8.1",
     "webpack": "^5.75.0"

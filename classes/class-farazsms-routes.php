@@ -193,7 +193,7 @@ class Farazsms_Routes
     }
 
     /**
-     * Get login notify options.
+     * Get phonebook options.
      * 
      * @since 2.0.0
      */

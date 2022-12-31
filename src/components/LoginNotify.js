@@ -53,7 +53,7 @@ function Settings() {
         onChange: "welcome_sms_msgChange",
         id: "welcome_sms_msg",
         name: "welcome_sms_msg",
-        type: "text",
+        type: "textarea",
         label: __("welcome message:", "farazsms"),
         rules: "welcome_sms_msgRules",
         infoTitle: __("Usable variables:", "farazsms"),
@@ -74,7 +74,7 @@ function Settings() {
         rules: "admin_login_notifyRules",
       },
       select_roles: {
-        value: "",
+        value: [],
         hasErrors: false,
         errorMessage: "",
         onChange: "select_rolesChange",
@@ -83,6 +83,7 @@ function Settings() {
         type: "select",
         label: __("Selecte rule(s):", "farazsms"),
         rules: "select_rolesRules",
+        options: [],
       },
       admin_login_notify_pattern: {
         value: "",
@@ -106,6 +107,18 @@ function Settings() {
     sendCount: 0,
   };
 
+  /**
+   * Get the global $wp_roles; and make it work for Select react
+   *
+   * @since 2.0.0
+   */
+  const roulesObject = farazsmsWordpress.wproules.role_names;
+  const roulesArrayObject = Object.keys(roulesObject).map((key) => ({
+    value: key,
+    label: roulesObject[key],
+  }));
+  console.log(roulesArrayObject);
+
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
@@ -119,8 +132,7 @@ function Settings() {
         draft.inputs.admin_login_notify.value = action.value.admin_login_notify;
         draft.inputs.admin_login_notify_pattern.value =
           action.value.admin_login_notify_pattern;
-        draft.inputs.select_roles.value = action.value.select_roles;
-
+        draft.inputs.select_roles.options = roulesArrayObject;
         draft.isFetching = false;
         return;
 
@@ -179,6 +191,11 @@ function Settings() {
     dispatch({ type: "submitOptions" });
   }
 
+  // function handleSelect(selectedOption) {
+  //   draft.inputs.select_roles.value = selectedOption;
+  //   console.log(`Option selected:`, selectedOption);
+  // }
+
   useEffect(() => {
     async function getOptions() {
       try {
@@ -205,7 +222,6 @@ function Settings() {
        * Then Convert array to key: value pair for send Axios.post request to DB.
        * @return Object with arrays.
        */
-
       const optsionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
@@ -264,6 +280,8 @@ function Settings() {
                     value:
                       input.type === "checkbox"
                         ? e.target.checked
+                        : input.type === "select"
+                        ? input.value
                         : e.target.value,
                   });
                 }}

@@ -142,7 +142,7 @@ class Farazsms
 
         //		$active_plugins_gv = apply_filters('active_plugins', get_option( 'active_plugins' ) );
         //		if ( in_array('gravityforms/gravityforms.php', $active_plugins_gv ) && !in_array('ippanel-sms-pro-gv/ippanel_sms_pro_gv.php', $active_plugins_gv)) {
-        //			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/farazsms-ippanel-sms-pro-gv/ippanel_sms_pro_gv.php';
+        //			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'classes/farazsms-ippanel-sms-pro-gv/ippanel_sms_pro_gv.php';
         //		}
 
         $this->loader = new Farazsms_Loader();
