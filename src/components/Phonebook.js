@@ -9,6 +9,7 @@ const __ = wp.i18n.__;
 import AxiosWp from "./AxiosWp";
 import DispatchContext from "../DispatchContext";
 import SettingsFormInput from "./SettingsFormInput";
+import AxiosIppanel from "./AxiosIppanel";
 
 function Phonebook() {
   const appDispatch = useContext(DispatchContext);
@@ -16,7 +17,7 @@ function Phonebook() {
   const originalState = {
     inputs: {
       custom_phonebook: {
-        value: "",
+        value: [],
         onChange: "custom_phonebookChange",
         id: "custom_phonebook",
         name: "custom_phonebook",
@@ -25,7 +26,7 @@ function Phonebook() {
         options: [],
       },
       custom_phone_meta_keys: {
-        value: "",
+        value: [],
         onChange: "custom_phone_meta_keysChange",
         id: "custom_phone_meta_keys",
         name: "custom_phone_meta_keys",
@@ -34,7 +35,7 @@ function Phonebook() {
         options: [],
       },
       digits_phonebook: {
-        value: "",
+        value: [],
         onChange: "digits_phonebookChange",
         id: "digits_phonebook",
         name: "digits_phonebook",
@@ -43,7 +44,7 @@ function Phonebook() {
         options: [],
       },
       woo_phonebook: {
-        value: "",
+        value: [],
         onChange: "woo_phonebookChange",
         id: "woo_phonebook",
         name: "woo_phonebook",
@@ -52,7 +53,7 @@ function Phonebook() {
         options: [],
       },
       bookly_phonebook: {
-        value: "",
+        value: [],
         onChange: "bookly_phonebookChange",
         id: "bookly_phonebook",
         name: "bookly_phonebook",
@@ -61,7 +62,7 @@ function Phonebook() {
         options: [],
       },
       gf_phonebook: {
-        value: "",
+        value: [],
         onChange: "gf_phonebookChange",
         id: "gf_phonebook",
         name: "gf_phonebook",
@@ -70,7 +71,7 @@ function Phonebook() {
         options: [],
       },
       gf_selected_field: {
-        value: "",
+        value: [],
         onChange: "gf_selected_fieldChange",
         id: "gf_selected_field",
         name: "gf_selected_field",
@@ -104,6 +105,10 @@ function Phonebook() {
         return;
       case "all_phonebookOptions":
         draft.inputs.custom_phonebook.options = action.value;
+        draft.inputs.digits_phonebook.options = action.value;
+        draft.inputs.woo_phonebook.options = action.value;
+        draft.inputs.bookly_phonebook.options = action.value;
+        draft.inputs.gf_phonebook.options = action.value;
         return;
       case "custom_phone_meta_keysOptions":
         draft.inputs.custom_phone_meta_keys.options = action.value;
@@ -112,22 +117,27 @@ function Phonebook() {
         draft.inputs.gf_selected_field.options = action.value;
         return;
       case "custom_phonebookChange":
-        draft.inputs.custom_phonebook.value = action.value;
+        draft.inputs.custom_phonebook.value = [];
+        draft.inputs.custom_phonebook.value.push(action.value);
         return;
       case "custom_phone_meta_keysChange":
         draft.inputs.custom_phone_meta_keys.value = action.value;
         return;
       case "digits_phonebookChange":
-        draft.inputs.digits_phonebook.value = action.value;
+        draft.inputs.digits_phonebook.value = [];
+        draft.inputs.digits_phonebook.value.push(action.value);
         return;
       case "woo_phonebookChange":
-        draft.inputs.woo_phonebook.value = action.value;
+        draft.inputs.woo_phonebook.value = [];
+        draft.inputs.woo_phonebook.value.push(action.value);
         return;
       case "bookly_phonebookChange":
-        draft.inputs.bookly_phonebook.value = action.value;
+        draft.inputs.bookly_phonebook.value = [];
+        draft.inputs.bookly_phonebook.value.push(action.value);
         return;
       case "gf_phonebookChange":
-        draft.inputs.gf_field.value = action.value;
+        draft.inputs.gf_phonebook.value = [];
+        draft.inputs.gf_phonebook.value.push(action.value);
         return;
       case "gf_selected_fieldChange":
         draft.inputs.gf_selected_field.value = action.value;
@@ -213,18 +223,26 @@ function Phonebook() {
 
   /**
    * Get phonebooks.
+   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
+   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
    *
    * @since 2.0.0
    */
   useEffect(() => {
     async function getPhonebooks() {
       try {
-        const phonebooks = await Axios.post("http://ippanel.com/api/select", {
-          uname: "9300410381",
-          pass: "Faraz@2282037154",
-          op: "booklist",
-        });
+        //farazsmsJsObject is declared on class-farazsms-admin.php under admin_enqueue_scripts function
+        const phonebooks = await farazsmsJsObject.getphonebooks;
         console.log(phonebooks);
+        const phonebooksArrayObject = phonebooks.map(({ id, title }) => ({
+          label: title,
+          value: id,
+        }));
+        dispatch({
+          type: "all_phonebookOptions",
+          value: phonebooksArrayObject,
+        });
+        console.log(phonebooksArrayObject);
       } catch (e) {
         console.log(e);
       }
@@ -319,15 +337,25 @@ function Phonebook() {
                 {...input}
                 value={input.value}
                 checked={input.value}
-                onChange={(e) => {
-                  dispatch({
-                    type: input.onChange,
-                    value:
-                      input.type === "checkbox"
-                        ? e.target.checked
-                        : e.target.value,
-                  });
-                }}
+                onChange={
+                  input.type === "select"
+                    ? (e) => {
+                        dispatch({
+                          type: input.onChange,
+                          value: e.value,
+                        });
+                        console.log(e.value);
+                      }
+                    : (e) => {
+                        dispatch({
+                          type: input.onChange,
+                          value:
+                            input.type === "checkbox"
+                              ? e.target.checked
+                              : e.target.value,
+                        });
+                      }
+                }
                 onBlur={(e) =>
                   dispatch({ type: input.rules, value: e.target.value })
                 }

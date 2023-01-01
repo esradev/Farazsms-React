@@ -10,7 +10,7 @@
  * @subpackage Farazsms/admin
  * @author     FarazSMS <info@farazsms.com>
  */
-class Farazsms_Admin extends class_farazsms_base
+class Farazsms_Admin extends Farazsms_Base
 {
     /**
      * The ID of this plugin.
@@ -63,13 +63,16 @@ class Farazsms_Admin extends class_farazsms_base
     public function admin_enqueue_scripts($hook)
     {
         wp_enqueue_script('farazsms-script', FARAZSMS_URL . 'build/index.js', array('wp-element', 'wp-i18n'), '1.0.0', true);
+
         /**
          * Add a localization object ,The base rest api url and a security nonce
          * @see https://since1979.dev/snippet-014-setup-axios-for-the-wordpress-rest-api/
          * */
+
         wp_localize_script('farazsms-script', 'farazsmsJsObject', array(
             'rootapiurl' => esc_url_raw(rest_url()),
-            'nonce' => wp_create_nonce('wp_rest')
+            'nonce' => wp_create_nonce('wp_rest'),
+            'getphonebooks' => self::get_phonebooks(),
         ));
 
         //Load Farazsms languages for JavaScript files. 
@@ -90,6 +93,7 @@ class Farazsms_Admin extends class_farazsms_base
             }
         }
     }
+
 
     /**
      * Add Admin Menu.
@@ -129,7 +133,7 @@ class Farazsms_Admin extends class_farazsms_base
 
     public function admin_bar_menu()
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::get_instance();
         global $wp_admin_bar;
         if (!is_super_admin() || !is_admin_bar_showing()) {
             return;
@@ -139,7 +143,7 @@ class Farazsms_Admin extends class_farazsms_base
                 'title' => __('FarazSMS', 'textdomain'), //This title will show on hover
             ]
         ));
-        $credit = $fsms_base::get_credit();
+        $credit = $fsms_base->get_credit();
         if ($credit) {
             $wp_admin_bar->add_menu(array('parent' => 'farazsms', 'id'     => 'farazsms-admin-bar-credit', 'title' => __('Account credit: ', 'farazsms') . number_format($credit) . __(' $IR_T', 'farazsms'), 'href' => get_bloginfo('url') . '/wp-admin/admin.php?page=farazsms_settings'));
         }
@@ -239,7 +243,7 @@ class Farazsms_Admin extends class_farazsms_base
 
     private function sync_digits()
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::get_instance();
         $users = get_users(array('fields' =>  'ID'));
         $digits_phone_books = get_option('fsms_digits_phone_books', []);
         if (empty($digits_phone_books)) {
@@ -259,7 +263,7 @@ class Farazsms_Admin extends class_farazsms_base
                 $number_info["phonebook_id"] = (int) $phone_bookId;
                 array_push($data, $number_info);
             }
-            $result = $fsms_base::save_to_phonebookv3($data);
+            $result = $fsms_base->save_to_phonebookv3($data);
         }
         if (!$result) {
             return "error_happened";
@@ -275,7 +279,7 @@ class Farazsms_Admin extends class_farazsms_base
 
     private function sync_woo()
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::get_instance();
         $query = new WC_Order_Query(array('limit' => 9999, 'type' => 'shop_order', 'return' => 'ids'));
         $order_ids = $query->get_orders();
         $woo_phone_books = get_option('fsms_woo_phone_books', []);
@@ -294,7 +298,7 @@ class Farazsms_Admin extends class_farazsms_base
                 $number_info["phonebook_id"] = (int)$phone_bookId;
                 array_push($data, $number_info);
             }
-            $result = $fsms_base::save_to_phonebookv3($data);
+            $result = $fsms_base->save_to_phonebookv3($data);
         }
         if (!$result) {
             return "error_happened";
@@ -310,7 +314,7 @@ class Farazsms_Admin extends class_farazsms_base
 
     private function sync_bookly()
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::get_instance();
         global $wpdb;
         $bookly_customers = $wpdb->get_results("SELECT phone,full_name FROM " . $wpdb->prefix . "bookly_customers");
         $bookly_phone_books     = get_option('fsms_bookly_phone_books', []);
@@ -326,7 +330,7 @@ class Farazsms_Admin extends class_farazsms_base
                 $number_info["phonebook_id"] = (int)$phone_bookId;
                 array_push($data, $number_info);
             }
-            $result = $fsms_base::save_to_phonebookv3($data);
+            $result = $fsms_base->save_to_phonebookv3($data);
         }
         if (!$result) {
             return "error_happened";
@@ -368,7 +372,7 @@ class Farazsms_Admin extends class_farazsms_base
 
     public function ajax_send_message_to_phonebooks()
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::get_instance();
         $message = $_POST['message'] ?? '';
         $phonebooks = $_POST['phonebooks'] ?? [];
         $send_to_subscribers = $_POST['send_to_subscribers'] ?? '';
@@ -377,14 +381,14 @@ class Farazsms_Admin extends class_farazsms_base
             wp_send_json_error(__('Please enter manual numbers in the correct format', 'farazsms'));
         }
         if ($send_formnum_choice == '1') {
-            $send_formnum_choice = $fsms_base::get_service_sender_number();
+            $send_formnum_choice = $fsms_base->get_service_sender_number();
         } else {
-            $send_formnum_choice = $fsms_base::get_adver_sender_number();
+            $send_formnum_choice = $fsms_base->get_adver_sender_number();
         }
         $phones = explode(',', $_POST['phones'] ?? '');
         foreach ($phones as $phone) {
-            if ($fsms_base::validate_mobile_number($phone)) {
-                $fixed_phones[] = $fsms_base::validate_mobile_number($phone);
+            if ($fsms_base->validate_mobile_number($phone)) {
+                $fixed_phones[] = $fsms_base->validate_mobile_number($phone);
             }
         }
         if (empty($phonebooks) && empty($fixed_phones) && $send_to_subscribers == "false") {
@@ -392,11 +396,11 @@ class Farazsms_Admin extends class_farazsms_base
             wp_die();
         }
         if (!empty($fixed_phones)) {
-            $fsms_base::send_message($fixed_phones, $message, $send_formnum_choice);
+            $fsms_base->send_message($fixed_phones, $message, $send_formnum_choice);
         }
         foreach ($phonebooks as $phonebook) {
-            $phonebook_numbers = $fsms_base::get_phonebook_numbers($phonebook);
-            $fsms_base::send_message($phonebook_numbers, $message, $send_formnum_choice);
+            $phonebook_numbers = $fsms_base->get_phonebook_numbers($phonebook);
+            $fsms_base->send_message($phonebook_numbers, $message, $send_formnum_choice);
         }
         wp_send_json_success();
     }
@@ -409,7 +413,7 @@ class Farazsms_Admin extends class_farazsms_base
 
     public function fsms_delete_user_from_subscribers()
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::get_instance();
         $subscriber_id = $_POST['subscriber_id'] ?? '';
         $fsms_base::delete_subscriber($subscriber_id);
         wp_send_json_success();
@@ -423,7 +427,7 @@ class Farazsms_Admin extends class_farazsms_base
 
     public function send_message_to_subscribers()
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::get_instance();
         $message = $_POST['message'] ?? '';
         $subscribers = $fsms_base::get_subscribers();
         if (!$fsms_base::isAPIKeyEntered()) {
@@ -435,14 +439,14 @@ class Farazsms_Admin extends class_farazsms_base
         if (strpos($message, '%name%') !== false) {
             foreach ($subscribers as $subscriber) {
                 $message_fixed = str_replace('%name%', $subscriber->name, $message);
-                $fsms_base::send_message([$subscriber->phone], $message_fixed, "+98club");
+                $fsms_base->send_message([$subscriber->phone], $message_fixed, "+98club");
             }
         } else {
             $phones = [];
             foreach ($subscribers as $subscriber) {
                 $phones[] = $subscriber->phone;
             }
-            $fsms_base::send_message($phones, $message, "+98club");
+            $fsms_base->send_message($phones, $message, "+98club");
         }
         wp_send_json_success();
     }
@@ -475,7 +479,7 @@ class Farazsms_Admin extends class_farazsms_base
 
     public function fsms_send_tracking_code_sms()
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::get_instance();
         $tacking_code = $_POST['tacking_code'] ?? '';
         $order_id = $_POST['order_id'] ?? '';
         try {
@@ -491,7 +495,7 @@ class Farazsms_Admin extends class_farazsms_base
             $order_date['order_status'] = wc_get_order_status_name($order->get_status());
             $order_date['billing_full_name'] = $order->get_formatted_billing_full_name();
             $order_date['shipping_full_name'] = $order->get_formatted_shipping_full_name();
-            $fsms_base::send_tracking_code($phone, $tacking_code, $order_date);
+            $fsms_base->send_tracking_code($phone, $tacking_code, $order_date);
             wp_send_json_success();
         } catch (Exception $e) {
             wp_send_json_error($e->getMessage());
@@ -523,12 +527,12 @@ class Farazsms_Admin extends class_farazsms_base
 
     public function fsms_send_feedback()
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::get_instance();
         $feedback_message = $_POST['feedback_message'];
         if (empty($feedback_message)) {
             wp_send_json_error(__('Message text must not be empty', 'farazsms'));
         }
-        $result = $fsms_base::send_feedback_message_to_server($feedback_message);
+        $result = $fsms_base->send_feedback_message_to_server($feedback_message);
         if ($result) {
             wp_send_json_success();
         } else {

@@ -14,7 +14,7 @@
  * @subpackage Farazsms/public
  * @author     FarazSMS <info@farazsms.com>
  */
-class Farazsms_Public extends class_farazsms_base
+class Farazsms_Public extends Farazsms_Base
 {
 
     /**
@@ -35,11 +35,11 @@ class Farazsms_Public extends class_farazsms_base
      */
     private $version;
 
-    private $username;
-    private $password;
-    private $fromNum;
-    private $_woo_installed = false;
-    private $_digits_installed = false;
+    // private $username;
+    // private $password;
+    // private $fromNum;
+    // private $_woo_installed = false;
+    // private $_digits_installed = false;
 
     private static $fsms_addmf;
     private static $fsms_requiredmf;
@@ -123,7 +123,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function monitor_update_user_metadata($check, $object_id, $meta_key, $meta_value)
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $selected_meta_keys = get_option('fsms_custom_phone_meta_keys', []);
         if (!in_array($meta_key, $selected_meta_keys)) {
             return $check;
@@ -162,7 +162,7 @@ class Farazsms_Public extends class_farazsms_base
         if (empty($digits_phone)) {
             return;
         }
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $digits_phone_books = get_option('fsms_digits_phone_books', []);
         //if(empty($digits_phone_books)){return;}
         $user_info = get_userdata($user_id);
@@ -203,7 +203,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function woo_payment_finished($id)
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $order = wc_get_order($id);
         $phone = $order->get_billing_phone();
         $name = $order->get_formatted_billing_full_name() ?? '';
@@ -251,7 +251,7 @@ class Farazsms_Public extends class_farazsms_base
     public function save_mobile_field($comment_id)
     {
         if (isset($_POST['mobile'])) {
-            $mobile = class_farazsms_base::validate_mobile_number(esc_attr($_POST['mobile']));
+            $mobile = Farazsms_Base::validate_mobile_number(esc_attr($_POST['mobile']));
             update_comment_meta($comment_id, 'mobile', $mobile);
         }
         $this->response_to_comment($comment_id);
@@ -269,7 +269,7 @@ class Farazsms_Public extends class_farazsms_base
     // Response to comment
     public function response_to_comment($comment_id)
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $comment = get_comment($comment_id);
         $data = $this->comments_farazsms_shortcode($comment, $comment_id);
         $mobile = get_comment_meta($data['parent'])['mobile'][0] ?? '';
@@ -338,7 +338,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function fsms_edd_complete_purchase_action($payment_id, $payment, $customer)
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $payment_meta = edd_get_payment_meta($payment_id);
         $mobile = $payment_meta['phone'];
         $data = $this->fsms_get_edd_order_data($payment_meta);
@@ -465,7 +465,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function fsms_club_gform_post_update_entry($entry)
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $fsc_gravity_forms_fields = get_option('fsms_gf_selected_field', []);
         $form_ids = array();
         $field_ids = array();
@@ -509,12 +509,12 @@ class Farazsms_Public extends class_farazsms_base
     {
         //print_r(wp_get_shortlink(50));
         return;
-        // $fsms_base = class_farazsms_base::getInstance();
+        // $fsms_base = Farazsms_Base::getInstance();
         // $fsms_base::save_to_phonebook(['09132789372','09038430716','09145236589'], '300536');
         // $this->fsms_first_notification_before_expire(FALSE, 5, null, 'before_expire');
         // $this->monitor_update_user_metadata(null, 5,'digits_phone', "09132789372");
         // $this->fsms_first_notification_before_expire(false, 5,'', "before_expire");
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $fsms_base::send_welcome_message("09038430716", 31);
     }
 
@@ -567,7 +567,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function fsms_newsletter_send_verification_code()
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $mobile = $_POST['mobile'];
         $name = $_POST['name'];
         $newsletter_send_ver_code = get_option('fsms_newsletter_send_ver_code', 'false');
@@ -612,7 +612,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function fsms_add_phone_to_newsletter()
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $code = $_POST['code'];
         $name = $_POST['name'];
         $mobile = $_POST['mobile'];
@@ -660,7 +660,7 @@ class Farazsms_Public extends class_farazsms_base
             get_the_title($post_id),
             wp_get_shortlink($post_id)
         ), $newsletter_post_notification_message);
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $subscribers = $fsms_base::get_subscribers();
         $phones = [];
         foreach ($subscribers as $subscriber) {
@@ -700,7 +700,7 @@ class Farazsms_Public extends class_farazsms_base
                 $product->get_price(),
                 wp_get_shortlink($post->ID)
             ), $newsletter_prodcut_notification_message);
-            $fsms_base = class_farazsms_base::getInstance();
+            $fsms_base = Farazsms_Base::getInstance();
             $subscribers = $fsms_base::get_subscribers();
             $phones = [];
             foreach ($subscribers as $subscriber) {
@@ -728,7 +728,7 @@ class Farazsms_Public extends class_farazsms_base
                 return;
             }
         }
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $credit = $fsms_base::get_credit();
         if (!$credit) {
             return;
@@ -765,7 +765,7 @@ class Farazsms_Public extends class_farazsms_base
         //     $data['date'] = date_i18n('H:i:s d-m-Y');
         //     $data['user_login'] = $user->user_login;
         //     $data['display_name'] = $user->display_name;
-        //     $fsms_base = class_farazsms_base::getInstance();
+        //     $fsms_base = Farazsms_Base::getInstance();
         //     $fsms_base::send_admins_login_notification_to_superadmin($admin_login_noti_p, $data);
     }
 
@@ -778,7 +778,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function woo_send_timed_message($order_id)
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $order = wc_get_order($order_id);
         $phone = $order->get_billing_phone();
         $products = [];
@@ -810,7 +810,7 @@ class Farazsms_Public extends class_farazsms_base
         if (empty($retention_order_no) || empty($retention_order_month) || empty($retention_message)) {
             return;
         }
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         global $wpdb;
         $customer_ids = $wpdb->get_col("SELECT DISTINCT meta_value  FROM $wpdb->postmeta WHERE meta_key = '_customer_user' AND meta_value > 0");
         if (sizeof($customer_ids) > 0) {
@@ -869,7 +869,7 @@ class Farazsms_Public extends class_farazsms_base
             return $sent;
         }
         $user = get_userdata($uid);
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $message = str_replace(array(
             '%name%',
             '%time%',
@@ -889,7 +889,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function fsms_affwp_register_user($affiliate_id, $status, $args)
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $user_id = affwp_get_affiliate_user_id($affiliate_id);
         $user = get_user_by('id', $user_id);
         $user_mobile = $_POST['affs-user-mobile'] ?? '';
@@ -920,7 +920,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function fsms_yith_wcaf_register_user($id)
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
 
         $affiliate_info = get_affiliate_by_id($id);
         $user = get_user_by('id', $affiliate_info->user_id);
@@ -931,7 +931,7 @@ class Farazsms_Public extends class_farazsms_base
         if (empty($mobile) && !empty($field_custom)) {
             foreach ($field_custom as $mobile_field) {
                 $mobile = get_user_meta($user->ID, $mobile_field, TRUE);
-                if (!empty($mobile) && class_farazsms_base::validate_mobile_number($mobile)) {
+                if (!empty($mobile) && Farazsms_Base::validate_mobile_number($mobile)) {
                     break;
                 }
             }
@@ -963,7 +963,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function fsms_uap_register_user($user_id)
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
 
         $user = get_user_by('id', $user_id);
         $mobile = get_user_meta($user_id, 'digits_phone_no')[0] ?? '';
@@ -972,7 +972,7 @@ class Farazsms_Public extends class_farazsms_base
         if (empty($mobile) && !empty($field_custom)) {
             foreach ($field_custom as $mobile_field) {
                 $mobile = get_user_meta($user_id, $mobile_field, TRUE);
-                if (!empty($mobile) && class_farazsms_base::validate_mobile_number($mobile)) {
+                if (!empty($mobile) && Farazsms_Base::validate_mobile_number($mobile)) {
                     break;
                 }
             }
@@ -1006,7 +1006,7 @@ class Farazsms_Public extends class_farazsms_base
     {
         if (doing_action('affwp_add_affiliate')) return;
         if (doing_action('affwp_affiliate_register')) return;
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $user_id = affwp_get_affiliate_user_id($affiliate_id);
         $user = get_user_by('id', $user_id);
         $data['user_login'] = $user->user_login;
@@ -1020,7 +1020,7 @@ class Farazsms_Public extends class_farazsms_base
         if (empty($mobile) && !empty($field_custom)) {
             foreach ($field_custom as $mobile_field) {
                 $mobile = get_user_meta($user_id, $mobile_field, TRUE);
-                if (!empty($mobile) && class_farazsms_base::validate_mobile_number($mobile)) {
+                if (!empty($mobile) && Farazsms_Base::validate_mobile_number($mobile)) {
                     break;
                 }
             }
@@ -1053,7 +1053,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function fsms_yith_wcaf_set_affiliate_status($affiliate_id)
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $affiliate_info = get_affiliate_by_id($affiliate_id);
         $user = get_user_by('id', $affiliate_info->user_id);
         $data['user_login'] = $user->user_login;
@@ -1067,7 +1067,7 @@ class Farazsms_Public extends class_farazsms_base
         if (empty($mobile) && !empty($field_custom)) {
             foreach ($field_custom as $mobile_field) {
                 $mobile = get_user_meta($affiliate_info->user_id, $mobile_field, TRUE);
-                if (!empty($mobile) && class_farazsms_base::validate_mobile_number($mobile)) {
+                if (!empty($mobile) && Farazsms_Base::validate_mobile_number($mobile)) {
                     break;
                 }
             }
@@ -1100,7 +1100,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function fsms_affwp_referral_accepted($affiliate_id, $referral)
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $referral = (array)$referral;
         $user_id = affwp_get_affiliate_user_id($affiliate_id);
         $user = get_user_by('id', $user_id);
@@ -1115,7 +1115,7 @@ class Farazsms_Public extends class_farazsms_base
         if (empty($mobile) && !empty($field_custom)) {
             foreach ($field_custom as $mobile_field) {
                 $mobile = get_user_meta($user_id, $mobile_field, TRUE);
-                if (!empty($mobile) && class_farazsms_base::validate_mobile_number($mobile)) {
+                if (!empty($mobile) && Farazsms_Base::validate_mobile_number($mobile)) {
                     break;
                 }
             }
@@ -1256,7 +1256,7 @@ class Farazsms_Public extends class_farazsms_base
     public function fsms_gf_pre_submission($form)
     {
         foreach ($_POST as $name => $value) {
-            $_POST[$name] = class_farazsms_base::fsms_tr_num($value);
+            $_POST[$name] = Farazsms_Base::fsms_tr_num($value);
         }
     }
 
@@ -1268,7 +1268,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function fsms_digits_filter_mobile($mobile)
     {
-        return class_farazsms_base::fsms_tr_num($mobile);
+        return Farazsms_Base::fsms_tr_num($mobile);
     }
 
     /**
@@ -1300,7 +1300,7 @@ class Farazsms_Public extends class_farazsms_base
             if ($already_sent === '1') {
                 return;
             }
-            $fsms_base = class_farazsms_base::getInstance();
+            $fsms_base = Farazsms_Base::getInstance();
             $admin_mobile_number = $fsms_base::getAdminNumber();
             $message = __('Dear user, your panel will expire less than a month from now. To renew your SMS panel, contact Faraz SMS', 'farazsms');
             $fsms_base::send_message([$admin_mobile_number], $message, '+98club');
@@ -1310,7 +1310,7 @@ class Farazsms_Public extends class_farazsms_base
             if ($already_sent == '1') {
                 return;
             }
-            $fsms_base = class_farazsms_base::getInstance();
+            $fsms_base = Farazsms_Base::getInstance();
             $admin_mobile_number = $fsms_base::getAdminNumber();
             $message = __('Dear user, your panel will expire less than a week from now. To renew your SMS panel, contact Faraz SMS.', 'farazsms');
             $result = $fsms_base::send_message([$admin_mobile_number], $message, '+98club');
@@ -1331,7 +1331,7 @@ class Farazsms_Public extends class_farazsms_base
         if ($pmp_send_expire_noti_sms === 'false' || empty($expire_noti_sms_message)) {
             return;
         }
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $phone = get_user_meta($user_id, "digits_phone", TRUE);
         $selected_meta_keys = get_option('fsms_custom_phone_meta_keys', []);
         if (empty($phone) && !empty($selected_meta_keys)) {
@@ -1415,7 +1415,7 @@ class Farazsms_Public extends class_farazsms_base
 
         if (!$_POST['billing_phone_otp']) wc_add_notice(__('Please confirm your phone number first', 'farazsms'), 'error');
         $otp = $_POST['billing_phone_otp'];
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $is_valid = $fsms_base::check_if_code_is_valid_for_woo($_POST['billing_phone'], $otp);
         if (!$is_valid) {
             wc_add_notice(__('The verification code entered is not valid', 'farazsms'), 'error');
@@ -1430,7 +1430,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function fsms_send_otp_code()
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $mobile = $_POST['mobile'];
         if (!isset($mobile)) {
             wp_send_json_error(__('Please enter phone number.', 'farazsms'));
@@ -1456,7 +1456,7 @@ class Farazsms_Public extends class_farazsms_base
 
     public function fsms_delete_otp_code($order_id)
     {
-        $fsms_base = class_farazsms_base::getInstance();
+        $fsms_base = Farazsms_Base::getInstance();
         $order = wc_get_order($order_id);
         $fsms_base::delete_code_for_woo($order->get_billing_phone());
     }

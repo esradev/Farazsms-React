@@ -10327,6 +10327,56 @@ function Aff() {
 
 /***/ }),
 
+/***/ "./src/components/AxiosIppanel.js":
+/*!****************************************!*\
+  !*** ./src/components/AxiosIppanel.js ***!
+  \****************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/*
+ * Import remote dependencies.
+ */
+
+const AxiosIppanel = axios__WEBPACK_IMPORTED_MODULE_0__["default"].create();
+AxiosIppanel.defaults.headers.common["Content-Type"] = "application/json";
+/* harmony default export */ __webpack_exports__["default"] = (AxiosIppanel);
+
+// const authentication_data = {
+//   headers: {
+//     Authorization: "AccessKey " + [state.apikey.value],
+//   },
+// };
+
+// async function handleSubmit(e) {
+//   e.preventDefault();
+//   try {
+//     // Get user info from IPPanel REST API
+//     const ippanelData = await Axios.get(
+//       "http://rest.ippanel.com/v1/user",
+//       authentication_data
+//     );
+//     if (ippanelData.data) {
+//       console.log(ippanelData.data.data.user);
+//     } else {
+//       console.log("there was an error");
+//     }
+
+//     // Get credit from IPPanel REST API
+//     const ippanelCredit = await Axios.get(
+//       "http://rest.ippanel.com/v1/credit",
+//       authentication_data
+//     );
+//     setUsercredit(ippanelCredit.data.data.credit);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }
+
+/***/ }),
+
 /***/ "./src/components/AxiosWp.js":
 /*!***********************************!*\
   !*** ./src/components/AxiosWp.js ***!
@@ -11928,12 +11978,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/CSSTransition.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _SettingsFormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SettingsFormInput */ "./src/components/SettingsFormInput.js");
+/* harmony import */ var _AxiosIppanel__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./AxiosIppanel */ "./src/components/AxiosIppanel.js");
 
 
 
@@ -11946,13 +11996,14 @@ const __ = wp.i18n.__;
 
 
 
+
 function Phonebook() {
   const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_4__["default"]);
   // Init States
   const originalState = {
     inputs: {
       custom_phonebook: {
-        value: "",
+        value: [],
         onChange: "custom_phonebookChange",
         id: "custom_phonebook",
         name: "custom_phonebook",
@@ -11961,7 +12012,7 @@ function Phonebook() {
         options: []
       },
       custom_phone_meta_keys: {
-        value: "",
+        value: [],
         onChange: "custom_phone_meta_keysChange",
         id: "custom_phone_meta_keys",
         name: "custom_phone_meta_keys",
@@ -11970,7 +12021,7 @@ function Phonebook() {
         options: []
       },
       digits_phonebook: {
-        value: "",
+        value: [],
         onChange: "digits_phonebookChange",
         id: "digits_phonebook",
         name: "digits_phonebook",
@@ -11979,7 +12030,7 @@ function Phonebook() {
         options: []
       },
       woo_phonebook: {
-        value: "",
+        value: [],
         onChange: "woo_phonebookChange",
         id: "woo_phonebook",
         name: "woo_phonebook",
@@ -11988,7 +12039,7 @@ function Phonebook() {
         options: []
       },
       bookly_phonebook: {
-        value: "",
+        value: [],
         onChange: "bookly_phonebookChange",
         id: "bookly_phonebook",
         name: "bookly_phonebook",
@@ -11997,7 +12048,7 @@ function Phonebook() {
         options: []
       },
       gf_phonebook: {
-        value: "",
+        value: [],
         onChange: "gf_phonebookChange",
         id: "gf_phonebook",
         name: "gf_phonebook",
@@ -12006,7 +12057,7 @@ function Phonebook() {
         options: []
       },
       gf_selected_field: {
-        value: "",
+        value: [],
         onChange: "gf_selected_fieldChange",
         id: "gf_selected_field",
         name: "gf_selected_field",
@@ -12035,6 +12086,10 @@ function Phonebook() {
         return;
       case "all_phonebookOptions":
         draft.inputs.custom_phonebook.options = action.value;
+        draft.inputs.digits_phonebook.options = action.value;
+        draft.inputs.woo_phonebook.options = action.value;
+        draft.inputs.bookly_phonebook.options = action.value;
+        draft.inputs.gf_phonebook.options = action.value;
         return;
       case "custom_phone_meta_keysOptions":
         draft.inputs.custom_phone_meta_keys.options = action.value;
@@ -12043,22 +12098,27 @@ function Phonebook() {
         draft.inputs.gf_selected_field.options = action.value;
         return;
       case "custom_phonebookChange":
-        draft.inputs.custom_phonebook.value = action.value;
+        draft.inputs.custom_phonebook.value = [];
+        draft.inputs.custom_phonebook.value.push(action.value);
         return;
       case "custom_phone_meta_keysChange":
         draft.inputs.custom_phone_meta_keys.value = action.value;
         return;
       case "digits_phonebookChange":
-        draft.inputs.digits_phonebook.value = action.value;
+        draft.inputs.digits_phonebook.value = [];
+        draft.inputs.digits_phonebook.value.push(action.value);
         return;
       case "woo_phonebookChange":
-        draft.inputs.woo_phonebook.value = action.value;
+        draft.inputs.woo_phonebook.value = [];
+        draft.inputs.woo_phonebook.value.push(action.value);
         return;
       case "bookly_phonebookChange":
-        draft.inputs.bookly_phonebook.value = action.value;
+        draft.inputs.bookly_phonebook.value = [];
+        draft.inputs.bookly_phonebook.value.push(action.value);
         return;
       case "gf_phonebookChange":
-        draft.inputs.gf_field.value = action.value;
+        draft.inputs.gf_phonebook.value = [];
+        draft.inputs.gf_phonebook.value.push(action.value);
         return;
       case "gf_selected_fieldChange":
         draft.inputs.gf_selected_field.value = action.value;
@@ -12074,7 +12134,7 @@ function Phonebook() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_6__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_7__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     //Set every input to the state with dispatch function.
@@ -12143,18 +12203,32 @@ function Phonebook() {
 
   /**
    * Get phonebooks.
+   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
+   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
    *
    * @since 2.0.0
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getPhonebooks() {
       try {
-        const phonebooks = await axios__WEBPACK_IMPORTED_MODULE_7__["default"].post("http://ippanel.com/api/select", {
-          uname: "9300410381",
-          pass: "Faraz@2282037154",
-          op: "booklist"
-        });
+        //farazsmsJsObject is declared on class-farazsms-admin.php under admin_enqueue_scripts function
+        const phonebooks = await farazsmsJsObject.getphonebooks;
         console.log(phonebooks);
+        const phonebooksArrayObject = phonebooks.map(_ref => {
+          let {
+            id,
+            title
+          } = _ref;
+          return {
+            label: title,
+            value: id
+          };
+        });
+        dispatch({
+          type: "all_phonebookOptions",
+          value: phonebooksArrayObject
+        });
+        console.log(phonebooksArrayObject);
       } catch (e) {
         console.log(e);
       }
@@ -12169,11 +12243,11 @@ function Phonebook() {
        * @return Object with arrays.
        */
 
-      const optsionsArray = Object.values(state.inputs).map(_ref => {
+      const optsionsArray = Object.values(state.inputs).map(_ref2 => {
         let {
           value,
           name
-        } = _ref;
+        } = _ref2;
         return [name, value];
       });
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
@@ -12233,7 +12307,13 @@ function Phonebook() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
     value: input.value,
     checked: input.value,
-    onChange: e => {
+    onChange: input.type === "select" ? e => {
+      dispatch({
+        type: input.onChange,
+        value: e.value
+      });
+      console.log(e.value);
+    } : e => {
       dispatch({
         type: input.onChange,
         value: input.type === "checkbox" ? e.target.checked : e.target.value
