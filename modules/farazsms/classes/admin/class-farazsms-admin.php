@@ -73,6 +73,7 @@ class Farazsms_Admin extends Farazsms_Base
             'rootapiurl' => esc_url_raw(rest_url()),
             'nonce' => wp_create_nonce('wp_rest'),
             'getphonebooks' => self::get_phonebooks(),
+            'wproules' => wp_roles(),
         ));
 
         //Load Farazsms languages for JavaScript files. 

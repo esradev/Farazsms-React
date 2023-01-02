@@ -65,6 +65,7 @@ const SettingsFormInput = (props) => {
 
           {type === "checkbox" && (
             <input
+              id={id}
               value={value}
               type={type}
               onChange={onChange}

@@ -11449,7 +11449,7 @@ function Settings() {
    *
    * @since 2.0.0
    */
-  const roulesObject = farazsmsWordpress.wproules.role_names;
+  const roulesObject = farazsmsJsObject.wproules.role_names;
   const roulesArrayObject = Object.keys(roulesObject).map(key => ({
     value: key,
     label: roulesObject[key]
@@ -13005,6 +13005,7 @@ const SettingsFormInput = props => {
     onBlur: onBlur,
     autoComplete: "off"
   }, inputProps)), type === "checkbox" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    id: id,
     value: value,
     type: type,
     onChange: onChange,

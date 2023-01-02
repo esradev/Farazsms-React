@@ -113,7 +113,7 @@ function Settings() {
    *
    * @since 2.0.0
    */
-  const roulesObject = farazsmsWordpress.wproules.role_names;
+  const roulesObject = farazsmsJsObject.wproules.role_names;
   const roulesArrayObject = Object.keys(roulesObject).map((key) => ({
     value: key,
     label: roulesObject[key],
