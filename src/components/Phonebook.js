@@ -1,15 +1,18 @@
+/**
+ * Import remote dependencies.
+ */
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
 import { CSSTransition } from "react-transition-group";
-import Axios from "axios";
-
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
+/**
+ * Import local dependencies
+ */
 import AxiosWp from "./AxiosWp";
 import DispatchContext from "../DispatchContext";
 import SettingsFormInput from "./SettingsFormInput";
-import AxiosIppanel from "./AxiosIppanel";
 
 function Phonebook() {
   const appDispatch = useContext(DispatchContext);
@@ -24,6 +27,7 @@ function Phonebook() {
         type: "select",
         label: __("Select the custom field phonebook:", "farazsms"),
         options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms"),
       },
       custom_phone_meta_keys: {
         value: [],
@@ -33,6 +37,7 @@ function Phonebook() {
         type: "select",
         label: __("Select the mobile number custom field:", "farazsms"),
         options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms"),
       },
       digits_phonebook: {
         value: [],
@@ -42,6 +47,7 @@ function Phonebook() {
         type: "select",
         label: __("Select phonebook for Digits:", "farazsms"),
         options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms"),
       },
       woo_phonebook: {
         value: [],
@@ -51,6 +57,7 @@ function Phonebook() {
         type: "select",
         label: __("select a phonebook for WooCommerce:", "farazsms"),
         options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms"),
       },
       bookly_phonebook: {
         value: [],
@@ -60,6 +67,7 @@ function Phonebook() {
         type: "select",
         label: __("Choosing a phonebook for Bookley:", "farazsms"),
         options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms"),
       },
       gf_phonebook: {
         value: [],
@@ -69,6 +77,7 @@ function Phonebook() {
         type: "select",
         label: __("Select phonebook for Gravity Form:", "farazsms"),
         options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms"),
       },
       gf_selected_field: {
         value: [],
@@ -82,6 +91,7 @@ function Phonebook() {
           "farazsms"
         ),
         options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms"),
       },
     },
     isFetching: true,
@@ -117,27 +127,22 @@ function Phonebook() {
         draft.inputs.gf_selected_field.options = action.value;
         return;
       case "custom_phonebookChange":
-        draft.inputs.custom_phonebook.value = [];
-        draft.inputs.custom_phonebook.value.push(action.value);
+        draft.inputs.custom_phonebook.value = action.value;
         return;
       case "custom_phone_meta_keysChange":
         draft.inputs.custom_phone_meta_keys.value = action.value;
         return;
       case "digits_phonebookChange":
-        draft.inputs.digits_phonebook.value = [];
-        draft.inputs.digits_phonebook.value.push(action.value);
+        draft.inputs.digits_phonebook.value = action.value;
         return;
       case "woo_phonebookChange":
-        draft.inputs.woo_phonebook.value = [];
-        draft.inputs.woo_phonebook.value.push(action.value);
+        draft.inputs.woo_phonebook.value = action.value;
         return;
       case "bookly_phonebookChange":
-        draft.inputs.bookly_phonebook.value = [];
-        draft.inputs.bookly_phonebook.value.push(action.value);
+        draft.inputs.bookly_phonebook.value = action.value;
         return;
       case "gf_phonebookChange":
-        draft.inputs.gf_phonebook.value = [];
-        draft.inputs.gf_phonebook.value.push(action.value);
+        draft.inputs.gf_phonebook.value = action.value;
         return;
       case "gf_selected_fieldChange":
         draft.inputs.gf_selected_field.value = action.value;
@@ -166,6 +171,11 @@ function Phonebook() {
     dispatch({ type: "submitOptions" });
   }
 
+  /**
+   * Get options from DB rest routes
+   *
+   * @since 2.0.0
+   */
   useEffect(() => {
     async function getOptions() {
       try {
@@ -286,6 +296,14 @@ function Phonebook() {
     }
   }, [state.sendCount]);
 
+  // useEffect(() => {
+  //   function getSelectValue() {
+  //     const selectValue = Object.values(state.inputs).map((input) =>
+  //       console.log(input.value)
+  //     );
+  //     console.log(selectValue);
+  //   }
+  // }, []);
   return (
     <>
       <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
@@ -335,6 +353,7 @@ function Phonebook() {
             >
               <SettingsFormInput
                 {...input}
+                // value={input.type !== "select" ? input.value : getSelectValue()}
                 value={input.value}
                 checked={input.value}
                 onChange={
@@ -342,9 +361,8 @@ function Phonebook() {
                     ? (e) => {
                         dispatch({
                           type: input.onChange,
-                          value: e.value,
+                          value: e,
                         });
-                        console.log(e.value);
                       }
                     : (e) => {
                         dispatch({

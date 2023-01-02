@@ -1,27 +1,39 @@
+/**
+ * Import remote dependencies.
+ */
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
+/**
+ * Import local dependencies
+ */
 import DispatchContext from "../DispatchContext";
 import SettingsFormInput from "./SettingsFormInput";
 import AxiosWp from "./AxiosWp";
 
 function Edd() {
   const appDispatch = useContext(DispatchContext);
-  // Init States
+  /**
+   *
+   * First init state.
+   *
+   */
   const originalState = {
     inputs: {
-      edd_phonebooks_choice: {
+      edd_phonebook: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "edd_phonebooks_choiceChange",
-        id: "edd_phonebooks_choice",
-        name: "edd_phonebooks_choice",
+        onChange: "edd_phonebookChange",
+        id: "edd_phonebook",
+        name: "edd_phonebook",
         type: "select",
         label: __("Save the phone number in the phonebook?", "farazsms"),
-        rules: "edd_phonebooks_choiceRules",
+        rules: "edd_phonebookRules",
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms"),
       },
       edd_send_to_user: {
         value: "",
@@ -82,8 +94,7 @@ function Edd() {
     switch (action.type) {
       case "fetchComplete":
         //Init state values by action.value
-        draft.inputs.edd_phonebooks_choice.value =
-          action.value.edd_phonebooks_choice;
+        draft.inputs.edd_phonebook.value = action.value.edd_phonebook;
         draft.inputs.edd_send_to_user.value = action.value.edd_send_to_user;
         draft.inputs.edd_user_pattern.value = action.value.edd_user_pattern;
         draft.inputs.edd_send_to_admin.value = action.value.edd_send_to_admin;
@@ -92,9 +103,12 @@ function Edd() {
         draft.isFetching = false;
         return;
 
-      case "edd_phonebooks_choiceChange":
-        draft.inputs.edd_phonebooks_choice.hasErrors = false;
-        draft.inputs.edd_phonebooks_choice.value = action.value;
+      case "edd_phonebookChange":
+        draft.inputs.edd_phonebook.hasErrors = false;
+        draft.inputs.edd_phonebook.value = action.value;
+        return;
+      case "edd_phonebookOptions":
+        draft.inputs.edd_phonebook.options = action.value;
         return;
       case "edd_send_to_userChange":
         draft.inputs.edd_send_to_user.hasErrors = false;
@@ -138,6 +152,40 @@ function Edd() {
     dispatch({ type: "submitOptions" });
   }
 
+  /**
+   * Get phonebooks.
+   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
+   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function getPhonebooks() {
+      try {
+        //farazsmsJsObject is declared on class-farazsms-admin.php under admin_enqueue_scripts function
+        const phonebooks = await farazsmsJsObject.getphonebooks;
+        console.log(phonebooks);
+        const phonebooksArrayObject = phonebooks.map(({ id, title }) => ({
+          label: title,
+          value: id,
+        }));
+        dispatch({
+          type: "edd_phonebookOptions",
+          value: phonebooksArrayObject,
+        });
+        console.log(phonebooksArrayObject);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getPhonebooks();
+  }, []);
+
+  /**
+   * Get options from DB rest routes
+   *
+   * @since 2.0.0
+   */
   useEffect(() => {
     async function getOptions() {
       try {
@@ -215,15 +263,24 @@ function Edd() {
                 {...input}
                 value={input.value}
                 checked={input.value}
-                onChange={(e) => {
-                  dispatch({
-                    type: input.onChange,
-                    value:
-                      input.type === "checkbox"
-                        ? e.target.checked
-                        : e.target.value,
-                  });
-                }}
+                onChange={
+                  input.type === "select"
+                    ? (e) => {
+                        dispatch({
+                          type: input.onChange,
+                          value: e,
+                        });
+                      }
+                    : (e) => {
+                        dispatch({
+                          type: input.onChange,
+                          value:
+                            input.type === "checkbox"
+                              ? e.target.checked
+                              : e.target.value,
+                        });
+                      }
+                }
                 onBlur={(e) =>
                   dispatch({ type: input.rules, value: e.target.value })
                 }

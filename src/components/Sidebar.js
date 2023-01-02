@@ -1,11 +1,11 @@
 /**
- * External dependencies
+ * Import remote dependencies.
  */
 import React from "react";
 import { NavLink } from "react-router-dom";
 
 /**
- * Internal dependencies
+ * Import local dependencies
  */
 import SidebarItems from "./SidebarItems";
 

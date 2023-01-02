@@ -1,9 +1,9 @@
 /**
- * External dependencies
+ * Import remote dependencies.
  */
 import React from "react";
-const __ = wp.i18n.__; // Used as const not import, for Loco translate plugin compatibility.
-// Import Icons
+// Used as const not import, for Loco translate plugin compatibility.
+const __ = wp.i18n.__;
 import {
   AiOutlineNotification,
   AiOutlinePhone,
@@ -16,8 +16,9 @@ import {
   AiOutlineLogin,
 } from "react-icons/ai";
 import { TbAffiliate } from "react-icons/tb";
+
 /**
- * Internal dependencies
+ * Import local dependencies
  */
 import Settings from "./Settings";
 import LoginNotify from "./LoginNotify";

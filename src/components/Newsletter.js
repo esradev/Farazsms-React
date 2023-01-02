@@ -1,27 +1,39 @@
+/**
+ * Import remote dependencies.
+ */
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
+/**
+ * Import local dependencies
+ */
 import DispatchContext from "../DispatchContext";
 import SettingsFormInput from "./SettingsFormInput";
 import AxiosWp from "./AxiosWp";
 
 function Newsletter() {
   const appDispatch = useContext(DispatchContext);
-  // Init States
+  /**
+   *
+   * First init state.
+   *
+   */
   const originalState = {
     inputs: {
-      news_phonebooks: {
+      news_phonebook: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "news_phonebooksChange",
-        id: "news_phonebooks",
-        name: "news_phonebooks",
+        onChange: "news_phonebookChange",
+        id: "news_phonebook",
+        name: "news_phonebook",
         type: "select",
         label: __("Select phone book for newsletter", "farazsms"),
-        rules: "news_phonebooksRules",
+        rules: "news_phonebookRules",
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms"),
       },
       news_send_verify_via_pattern: {
         value: "",
@@ -141,7 +153,7 @@ function Newsletter() {
     switch (action.type) {
       case "fetchComplete":
         //Init state values by action.value
-        draft.inputs.news_phonebooks.value = action.value.news_phonebooks;
+        draft.inputs.news_phonebook.value = action.value.news_phonebook;
         draft.inputs.news_send_verify_via_pattern.value =
           action.value.news_send_verify_via_pattern;
         draft.inputs.news_send_verify_pattern.value =
@@ -160,9 +172,12 @@ function Newsletter() {
         draft.isFetching = false;
         return;
 
-      case "news_phonebooksChange":
-        draft.inputs.news_phonebooks.hasErrors = false;
-        draft.inputs.news_phonebooks.value = action.value;
+      case "news_phonebookChange":
+        draft.inputs.news_phonebook.hasErrors = false;
+        draft.inputs.news_phonebook.value = action.value;
+        return;
+      case "news_phonebookOptions":
+        draft.inputs.news_phonebook.options = action.value;
         return;
       case "news_send_verify_via_patternChange":
         draft.inputs.news_send_verify_via_pattern.hasErrors = false;
@@ -222,6 +237,12 @@ function Newsletter() {
 
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
 
+  /**
+   *
+   * HandelSubmit function
+   *
+   * @since 2.0.0
+   */
   function handleSubmit(e) {
     e.preventDefault();
     //Set every input to the state with dispatch function.
@@ -232,6 +253,40 @@ function Newsletter() {
     dispatch({ type: "submitOptions" });
   }
 
+  /**
+   * Get phonebooks.
+   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
+   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function getPhonebooks() {
+      try {
+        //farazsmsJsObject is declared on class-farazsms-admin.php under admin_enqueue_scripts function
+        const phonebooks = await farazsmsJsObject.getphonebooks;
+        console.log(phonebooks);
+        const phonebooksArrayObject = phonebooks.map(({ id, title }) => ({
+          label: title,
+          value: id,
+        }));
+        dispatch({
+          type: "news_phonebookOptions",
+          value: phonebooksArrayObject,
+        });
+        console.log(phonebooksArrayObject);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getPhonebooks();
+  }, []);
+
+  /**
+   * Get options from DB rest routes
+   *
+   * @since 2.0.0
+   */
   useEffect(() => {
     async function getOptions() {
       try {
@@ -309,15 +364,24 @@ function Newsletter() {
                 {...input}
                 value={input.value}
                 checked={input.value}
-                onChange={(e) => {
-                  dispatch({
-                    type: input.onChange,
-                    value:
-                      input.type === "checkbox"
-                        ? e.target.checked
-                        : e.target.value,
-                  });
-                }}
+                onChange={
+                  input.type === "select"
+                    ? (e) => {
+                        dispatch({
+                          type: input.onChange,
+                          value: e,
+                        });
+                      }
+                    : (e) => {
+                        dispatch({
+                          type: input.onChange,
+                          value:
+                            input.type === "checkbox"
+                              ? e.target.checked
+                              : e.target.value,
+                        });
+                      }
+                }
                 onBlur={(e) =>
                   dispatch({ type: input.rules, value: e.target.value })
                 }

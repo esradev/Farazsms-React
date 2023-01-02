@@ -1,3 +1,6 @@
+/**
+ * Import remote dependencies.
+ */
 import React, { useEffect } from "react";
 
 function FlashMessages(props) {

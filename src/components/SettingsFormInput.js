@@ -1,3 +1,6 @@
+/**
+ * Import remote dependencies.
+ */
 import React from "react";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
@@ -31,6 +34,7 @@ const SettingsFormInput = (props) => {
     infoBody,
     options,
     onSelect,
+    noOptionsMessage,
     ...inputProps
   } = props;
 
@@ -94,7 +98,7 @@ const SettingsFormInput = (props) => {
               options={options}
               onChange={onChange}
               components={animatedComponents}
-              noOptionsMessage={() => __("No options is avilable", "farazsms")}
+              noOptionsMessage={() => noOptionsMessage}
               {...inputProps}
             />
           )}

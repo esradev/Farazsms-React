@@ -1,3 +1,6 @@
+/**
+ * Import remote dependencies.
+ */
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
 import { CSSTransition } from "react-transition-group";
@@ -5,10 +8,12 @@ import Axios from "axios";
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
+/**
+ * Import local dependencies
+ */
 import AxiosWp from "./AxiosWp";
 import DispatchContext from "../DispatchContext";
 import SettingsFormInput from "./SettingsFormInput";
-import LoadingDotsIcon from "./LoadingDotsIcon";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);

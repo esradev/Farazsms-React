@@ -1,3 +1,6 @@
+/**
+ * Import remote dependencies.
+ */
 import React, { useState, useEffect, useContext } from "react";
 import FarazsmsLogo from "../../modules/farazsms/assets/images/farazsms-logo.png";
 import {

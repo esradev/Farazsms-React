@@ -224,12 +224,12 @@ class Farazsms_Routes
     {
         $option = array(
             'custom_phonebook'          => $data['custom_phonebook'] ? $data['custom_phonebook'] : [],
-            'custom_phone_meta_keys'     => $data['custom_phone_meta_keys'] ? $data['custom_phone_meta_keys'] : [],
+            'custom_phone_meta_keys'    => $data['custom_phone_meta_keys'] ? $data['custom_phone_meta_keys'] : [],
             'digits_phonebook'          => $data['digits_phonebook'] ? $data['digits_phonebook'] : [],
             'woo_phonebook'             => $data['woo_phonebook'] ? $data['woo_phonebook'] : [],
             'bookly_phonebook'          => $data['bookly_phonebook'] ? $data['bookly_phonebook'] : [],
             'gf_phonebook'              => $data['gf_phonebook'] ? $data['gf_phonebook'] : [],
-            'gf_selected_field'          => $data['gf_selected_field'] ? $data['gf_selected_field'] : [],
+            'gf_selected_field'         => $data['gf_selected_field'] ? $data['gf_selected_field'] : [],
         );
         $option_json = wp_json_encode($option);
         $result = update_option('farazsms_phonebook_options', $option_json);
@@ -306,7 +306,7 @@ class Farazsms_Routes
     public function add_newsletter_options($data)
     {
         $option = array(
-            'news_phonebooks'              => $data['news_phonebooks'] ? $data['news_phonebooks'] : [],
+            'news_phonebook'               => $data['news_phonebook'] ? $data['news_phonebook'] : [],
             'news_send_verify_via_pattern' => $data['news_send_verify_via_pattern'] ? $data['news_send_verify_via_pattern'] : '',
             'news_send_verify_pattern'     => $data['news_send_verify_pattern'] ? $data['news_send_verify_pattern'] : '',
             'news_welcome'                 => $data['news_welcome'] ? $data['news_welcome'] : '',
@@ -380,7 +380,7 @@ class Farazsms_Routes
     public function add_edd_options($data)
     {
         $option = array(
-            'edd_phonebooks_choice'    => $data['edd_phonebooks_choice'] ? $data['edd_phonebooks_choice'] : '',
+            'edd_phonebook'            => $data['edd_phonebook'] ? $data['edd_phonebook'] : '',
             'edd_send_to_user'         => $data['edd_send_to_user'] ? $data['edd_send_to_user'] : '',
             'edd_user_pattern'         => $data['edd_user_pattern'] ? $data['edd_user_pattern'] : '',
             'edd_send_to_admin'        => $data['edd_send_to_admin'] ? $data['edd_send_to_admin'] : '',

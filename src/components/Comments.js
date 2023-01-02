@@ -1,15 +1,25 @@
+/**
+ * Import remote dependencies.
+ */
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
+/**
+ * Import local dependencies
+ */
 import DispatchContext from "../DispatchContext";
 import SettingsFormInput from "./SettingsFormInput";
 import AxiosWp from "./AxiosWp";
 
 function Comments() {
   const appDispatch = useContext(DispatchContext);
-  // Init States
+  /**
+   *
+   * First init state.
+   *
+   */
   const originalState = {
     inputs: {
       add_mobile_field: {
@@ -40,16 +50,18 @@ function Comments() {
         ),
         rules: "required_mobile_fieldRules",
       },
-      comment_phone_book: {
+      comment_phonebook: {
         value: [],
         hasErrors: false,
         errorMessage: "",
-        onChange: "comment_phone_bookChange",
-        id: "comment_phone_book",
-        name: "comment_phone_book",
+        onChange: "comment_phonebookChange",
+        id: "comment_phonebook",
+        name: "comment_phonebook",
         type: "select",
         label: __("Save the phone number in the phonebook?", "farazsms"),
-        rules: "comment_phone_bookRules",
+        rules: "comment_phonebookRules",
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms"),
       },
       comment_pattern: {
         value: "",
@@ -116,7 +128,7 @@ function Comments() {
         draft.inputs.add_mobile_field.value = action.value.add_mobile_field;
         draft.inputs.required_mobile_field.value =
           action.value.required_mobile_field;
-        draft.inputs.comment_phone_book.value = action.value.comment_phone_book;
+        draft.inputs.comment_phonebook.value = action.value.comment_phonebook;
         draft.inputs.comment_pattern.value = action.value.comment_pattern;
         draft.inputs.approved_comment_pattern.value =
           action.value.approved_comment_pattern;
@@ -136,9 +148,12 @@ function Comments() {
         draft.inputs.required_mobile_field.hasErrors = false;
         draft.inputs.required_mobile_field.value = action.value;
         return;
-      case "comment_patternhone_bookChange":
-        draft.inputs.comment_patternhone_book.hasErrors = false;
-        draft.inputs.comment_patternhone_book.value = action.value;
+      case "comment_phonebookChange":
+        draft.inputs.comment_phonebook.hasErrors = false;
+        draft.inputs.comment_phonebook.value = action.value;
+        return;
+      case "comment_phonebookOptions":
+        draft.inputs.comment_phonebook.options = action.value;
         return;
       case "comment_patternChange":
         draft.inputs.comment_pattern.hasErrors = false;
@@ -181,6 +196,40 @@ function Comments() {
     dispatch({ type: "submitOptions" });
   }
 
+  /**
+   * Get phonebooks.
+   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
+   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function getPhonebooks() {
+      try {
+        //farazsmsJsObject is declared on class-farazsms-admin.php under admin_enqueue_scripts function
+        const phonebooks = await farazsmsJsObject.getphonebooks;
+        console.log(phonebooks);
+        const phonebooksArrayObject = phonebooks.map(({ id, title }) => ({
+          label: title,
+          value: id,
+        }));
+        dispatch({
+          type: "comment_phonebookOptions",
+          value: phonebooksArrayObject,
+        });
+        console.log(phonebooksArrayObject);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getPhonebooks();
+  }, []);
+
+  /**
+   * Get options from DB rest routes
+   *
+   * @since 2.0.0
+   */
   useEffect(() => {
     async function getOptions() {
       try {
@@ -258,15 +307,24 @@ function Comments() {
                 {...input}
                 value={input.value}
                 checked={input.value}
-                onChange={(e) => {
-                  dispatch({
-                    type: input.onChange,
-                    value:
-                      input.type === "checkbox"
-                        ? e.target.checked
-                        : e.target.value,
-                  });
-                }}
+                onChange={
+                  input.type === "select"
+                    ? (e) => {
+                        dispatch({
+                          type: input.onChange,
+                          value: e,
+                        });
+                      }
+                    : (e) => {
+                        dispatch({
+                          type: input.onChange,
+                          value:
+                            input.type === "checkbox"
+                              ? e.target.checked
+                              : e.target.value,
+                        });
+                      }
+                }
                 onBlur={(e) =>
                   dispatch({ type: input.rules, value: e.target.value })
                 }

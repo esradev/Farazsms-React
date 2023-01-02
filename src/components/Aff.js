@@ -1,10 +1,15 @@
+/**
+ * Import remote dependencies.
+ */
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
 import { CSSTransition } from "react-transition-group";
-import Axios from "axios";
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
+/**
+ * Import local dependencies
+ */
 import AxiosWp from "./AxiosWp";
 import DispatchContext from "../DispatchContext";
 import SettingsFormInput from "./SettingsFormInput";
@@ -28,6 +33,8 @@ function Aff() {
         type: "select",
         label: __("Select the mobile number custom field:", "farazsms"),
         rules: "aff_user_mobile_fieldRules",
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms"),
       },
       aff_user_register: {
         value: "",
@@ -184,6 +191,12 @@ function Aff() {
     sendCount: 0,
   };
 
+  /**
+   *
+   * ourReduser function to switch bettwen cases.
+   *
+   * @since 2.0.0
+   */
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
@@ -300,17 +313,14 @@ function Aff() {
 
   /**
    *
-   * Get aff options from DB on aff component loaded
+   * Get Aff options from DB on Aff component loaded
    *
    * @since 2.0.0
    */
   useEffect(() => {
     async function getOptions() {
       try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_aff_options
-         * endpoint and retrieve the 10 latest posts.
-         */
+        // Use the AxiosWp object to call the /farazsms/v1/farazsms_aff_options
         const getOptions = await AxiosWp.get("/farazsms/v1/aff_options", {});
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
@@ -326,18 +336,19 @@ function Aff() {
 
   /**
    *
-   * Save aff options on DB when saveRequestFininshed = true
+   * Save Aff options on DB when saveRequestFininshed = true
    *
    * @since 2.0.0
    */
   useEffect(() => {
     if (state.sendCount) {
       /**
+       *
        * Get options values and set "name: value" in an array.
        * Then Convert array to key: value pair for send Axios.post request to DB.
+       *
        * @return Object with arrays.
        */
-
       const optsionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
@@ -345,7 +356,7 @@ function Aff() {
       console.log(optionsJsonForPost);
 
       dispatch({ type: "saveRequestStarted" });
-
+      // postOptions function for save options on DB
       async function postOptions() {
         try {
           // Post Options from site DB Options table
@@ -367,7 +378,8 @@ function Aff() {
   }, [state.sendCount]);
 
   /**
-   * The settings form created by maping over originalState as the main state.
+   *
+   * The Aff form created by maping over originalState.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0

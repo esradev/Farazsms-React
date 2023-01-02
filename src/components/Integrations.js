@@ -1,6 +1,8 @@
+/**
+ * Import remote dependencies.
+ */
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
-
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
@@ -10,7 +12,6 @@ const __ = wp.i18n.__;
 import PluginsCardCheckbox from "./PluginsCardCheckbox";
 import AxiosWp from "./AxiosWp";
 import DispatchContext from "../DispatchContext";
-
 import WoocommerceLogo from "../../modules/farazsms/assets/images/woocommerce-logo.png";
 
 function Integrations() {

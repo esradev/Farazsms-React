@@ -1,8 +1,14 @@
+/**
+ * Import remote dependencies.
+ */
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
+/**
+ * Import local dependencies
+ */
 import DispatchContext from "../DispatchContext";
 import SettingsFormInput from "./SettingsFormInput";
 import AxiosWp from "./AxiosWp";

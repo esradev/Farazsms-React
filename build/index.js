@@ -9938,12 +9938,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SettingsFormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SettingsFormInput */ "./src/components/SettingsFormInput.js");
 
 
-
+/**
+ * Import remote dependencies.
+ */
 
 
 
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
+
+/**
+ * Import local dependencies
+ */
 
 
 
@@ -9965,7 +9971,9 @@ function Aff() {
         name: "aff_user_mobile_field",
         type: "select",
         label: __("Select the mobile number custom field:", "farazsms"),
-        rules: "aff_user_mobile_fieldRules"
+        rules: "aff_user_mobile_fieldRules",
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms")
       },
       aff_user_register: {
         value: "",
@@ -10106,6 +10114,13 @@ function Aff() {
     isSaving: false,
     sendCount: 0
   };
+
+  /**
+   *
+   * ourReduser function to switch bettwen cases.
+   *
+   * @since 2.0.0
+   */
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
@@ -10212,17 +10227,14 @@ function Aff() {
 
   /**
    *
-   * Get aff options from DB on aff component loaded
+   * Get Aff options from DB on Aff component loaded
    *
    * @since 2.0.0
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getOptions() {
       try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_aff_options
-         * endpoint and retrieve the 10 latest posts.
-         */
+        // Use the AxiosWp object to call the /farazsms/v1/farazsms_aff_options
         const getOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/aff_options", {});
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
@@ -10241,18 +10253,19 @@ function Aff() {
 
   /**
    *
-   * Save aff options on DB when saveRequestFininshed = true
+   * Save Aff options on DB when saveRequestFininshed = true
    *
    * @since 2.0.0
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
       /**
+       *
        * Get options values and set "name: value" in an array.
        * Then Convert array to key: value pair for send Axios.post request to DB.
+       *
        * @return Object with arrays.
        */
-
       const optsionsArray = Object.values(state.inputs).map(_ref => {
         let {
           value,
@@ -10265,6 +10278,7 @@ function Aff() {
       dispatch({
         type: "saveRequestStarted"
       });
+      // postOptions function for save options on DB
       async function postOptions() {
         try {
           // Post Options from site DB Options table
@@ -10285,7 +10299,8 @@ function Aff() {
   }, [state.sendCount]);
 
   /**
-   * The settings form created by maping over originalState as the main state.
+   *
+   * The Aff form created by maping over originalState.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
@@ -10327,56 +10342,6 @@ function Aff() {
 
 /***/ }),
 
-/***/ "./src/components/AxiosIppanel.js":
-/*!****************************************!*\
-  !*** ./src/components/AxiosIppanel.js ***!
-  \****************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/*
- * Import remote dependencies.
- */
-
-const AxiosIppanel = axios__WEBPACK_IMPORTED_MODULE_0__["default"].create();
-AxiosIppanel.defaults.headers.common["Content-Type"] = "application/json";
-/* harmony default export */ __webpack_exports__["default"] = (AxiosIppanel);
-
-// const authentication_data = {
-//   headers: {
-//     Authorization: "AccessKey " + [state.apikey.value],
-//   },
-// };
-
-// async function handleSubmit(e) {
-//   e.preventDefault();
-//   try {
-//     // Get user info from IPPanel REST API
-//     const ippanelData = await Axios.get(
-//       "http://rest.ippanel.com/v1/user",
-//       authentication_data
-//     );
-//     if (ippanelData.data) {
-//       console.log(ippanelData.data.data.user);
-//     } else {
-//       console.log("there was an error");
-//     }
-
-//     // Get credit from IPPanel REST API
-//     const ippanelCredit = await Axios.get(
-//       "http://rest.ippanel.com/v1/credit",
-//       authentication_data
-//     );
-//     setUsercredit(ippanelCredit.data.data.credit);
-//   } catch (e) {
-//     console.log(e);
-//   }
-// }
-
-/***/ }),
-
 /***/ "./src/components/AxiosWp.js":
 /*!***********************************!*\
   !*** ./src/components/AxiosWp.js ***!
@@ -10386,19 +10351,22 @@ AxiosIppanel.defaults.headers.common["Content-Type"] = "application/json";
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/*
+/**
  * Import remote dependencies.
  */
 
 
-/*
- * Create a Api object with Axios and
- * configure it for the WordPRess Rest Api.
+/**
  *
- * The 'mynamespace' object is injected into the page
+ * Create a Api object with Axios and
+ * configure it for the WordPress Rest Api.
+ *
+ * The 'farazsmsJsObject' object is injected into the page
  * using the WordPress wp_localize_script function.
+ *
+ * @see https://since1979.dev/snippet-014-setup-axios-for-the-wordpress-rest-api/
+ * @since 2.0.0
  */
-
 const AxiosWp = axios__WEBPACK_IMPORTED_MODULE_0__["default"].create({
   baseURL: farazsmsJsObject.rootapiurl,
   headers: {
@@ -10429,16 +10397,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 
 
+/**
+ * Import remote dependencies.
+ */
 
 
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
+/**
+ * Import local dependencies
+ */
+
 
 
 function Comments() {
   const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
-  // Init States
+  /**
+   *
+   * First init state.
+   *
+   */
   const originalState = {
     inputs: {
       add_mobile_field: {
@@ -10463,16 +10442,18 @@ function Comments() {
         label: __("Is the mobile number field in comments mandatory?", "farazsms"),
         rules: "required_mobile_fieldRules"
       },
-      comment_phone_book: {
+      comment_phonebook: {
         value: [],
         hasErrors: false,
         errorMessage: "",
-        onChange: "comment_phone_bookChange",
-        id: "comment_phone_book",
-        name: "comment_phone_book",
+        onChange: "comment_phonebookChange",
+        id: "comment_phonebook",
+        name: "comment_phonebook",
         type: "select",
         label: __("Save the phone number in the phonebook?", "farazsms"),
-        rules: "comment_phone_bookRules"
+        rules: "comment_phonebookRules",
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms")
       },
       comment_pattern: {
         value: "",
@@ -10531,7 +10512,7 @@ function Comments() {
         //Init state values by action.value
         draft.inputs.add_mobile_field.value = action.value.add_mobile_field;
         draft.inputs.required_mobile_field.value = action.value.required_mobile_field;
-        draft.inputs.comment_phone_book.value = action.value.comment_phone_book;
+        draft.inputs.comment_phonebook.value = action.value.comment_phonebook;
         draft.inputs.comment_pattern.value = action.value.comment_pattern;
         draft.inputs.approved_comment_pattern.value = action.value.approved_comment_pattern;
         draft.inputs.notify_admin_for_comment.value = action.value.notify_admin_for_comment;
@@ -10546,9 +10527,12 @@ function Comments() {
         draft.inputs.required_mobile_field.hasErrors = false;
         draft.inputs.required_mobile_field.value = action.value;
         return;
-      case "comment_patternhone_bookChange":
-        draft.inputs.comment_patternhone_book.hasErrors = false;
-        draft.inputs.comment_patternhone_book.value = action.value;
+      case "comment_phonebookChange":
+        draft.inputs.comment_phonebook.hasErrors = false;
+        draft.inputs.comment_phonebook.value = action.value;
+        return;
+      case "comment_phonebookOptions":
+        draft.inputs.comment_phonebook.options = action.value;
         return;
       case "comment_patternChange":
         draft.inputs.comment_pattern.hasErrors = false;
@@ -10591,6 +10575,47 @@ function Comments() {
       type: "submitOptions"
     });
   }
+
+  /**
+   * Get phonebooks.
+   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
+   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getPhonebooks() {
+      try {
+        //farazsmsJsObject is declared on class-farazsms-admin.php under admin_enqueue_scripts function
+        const phonebooks = await farazsmsJsObject.getphonebooks;
+        console.log(phonebooks);
+        const phonebooksArrayObject = phonebooks.map(_ref => {
+          let {
+            id,
+            title
+          } = _ref;
+          return {
+            label: title,
+            value: id
+          };
+        });
+        dispatch({
+          type: "comment_phonebookOptions",
+          value: phonebooksArrayObject
+        });
+        console.log(phonebooksArrayObject);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getPhonebooks();
+  }, []);
+
+  /**
+   * Get options from DB rest routes
+   *
+   * @since 2.0.0
+   */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getOptions() {
       try {
@@ -10618,11 +10643,11 @@ function Comments() {
        * @return Object with arrays.
        */
 
-      const optsionsArray = Object.values(state.inputs).map(_ref => {
+      const optsionsArray = Object.values(state.inputs).map(_ref2 => {
         let {
           value,
           name
-        } = _ref;
+        } = _ref2;
         return [name, value];
       });
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
@@ -10666,7 +10691,12 @@ function Comments() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
     value: input.value,
     checked: input.value,
-    onChange: e => {
+    onChange: input.type === "select" ? e => {
+      dispatch({
+        type: input.onChange,
+        value: e
+      });
+    } : e => {
       dispatch({
         type: input.onChange,
         value: input.type === "checkbox" ? e.target.checked : e.target.value
@@ -10707,28 +10737,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 
 
+/**
+ * Import remote dependencies.
+ */
 
 
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
+/**
+ * Import local dependencies
+ */
+
 
 
 function Edd() {
   const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
-  // Init States
+  /**
+   *
+   * First init state.
+   *
+   */
   const originalState = {
     inputs: {
-      edd_phonebooks_choice: {
+      edd_phonebook: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "edd_phonebooks_choiceChange",
-        id: "edd_phonebooks_choice",
-        name: "edd_phonebooks_choice",
+        onChange: "edd_phonebookChange",
+        id: "edd_phonebook",
+        name: "edd_phonebook",
         type: "select",
         label: __("Save the phone number in the phonebook?", "farazsms"),
-        rules: "edd_phonebooks_choiceRules"
+        rules: "edd_phonebookRules",
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms")
       },
       edd_send_to_user: {
         value: "",
@@ -10785,16 +10828,19 @@ function Edd() {
     switch (action.type) {
       case "fetchComplete":
         //Init state values by action.value
-        draft.inputs.edd_phonebooks_choice.value = action.value.edd_phonebooks_choice;
+        draft.inputs.edd_phonebook.value = action.value.edd_phonebook;
         draft.inputs.edd_send_to_user.value = action.value.edd_send_to_user;
         draft.inputs.edd_user_pattern.value = action.value.edd_user_pattern;
         draft.inputs.edd_send_to_admin.value = action.value.edd_send_to_admin;
         draft.inputs.edd_admin_pattern.value = action.value.edd_admin_pattern;
         draft.isFetching = false;
         return;
-      case "edd_phonebooks_choiceChange":
-        draft.inputs.edd_phonebooks_choice.hasErrors = false;
-        draft.inputs.edd_phonebooks_choice.value = action.value;
+      case "edd_phonebookChange":
+        draft.inputs.edd_phonebook.hasErrors = false;
+        draft.inputs.edd_phonebook.value = action.value;
+        return;
+      case "edd_phonebookOptions":
+        draft.inputs.edd_phonebook.options = action.value;
         return;
       case "edd_send_to_userChange":
         draft.inputs.edd_send_to_user.hasErrors = false;
@@ -10837,6 +10883,47 @@ function Edd() {
       type: "submitOptions"
     });
   }
+
+  /**
+   * Get phonebooks.
+   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
+   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getPhonebooks() {
+      try {
+        //farazsmsJsObject is declared on class-farazsms-admin.php under admin_enqueue_scripts function
+        const phonebooks = await farazsmsJsObject.getphonebooks;
+        console.log(phonebooks);
+        const phonebooksArrayObject = phonebooks.map(_ref => {
+          let {
+            id,
+            title
+          } = _ref;
+          return {
+            label: title,
+            value: id
+          };
+        });
+        dispatch({
+          type: "edd_phonebookOptions",
+          value: phonebooksArrayObject
+        });
+        console.log(phonebooksArrayObject);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getPhonebooks();
+  }, []);
+
+  /**
+   * Get options from DB rest routes
+   *
+   * @since 2.0.0
+   */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getOptions() {
       try {
@@ -10864,11 +10951,11 @@ function Edd() {
        * @return Object with arrays.
        */
 
-      const optsionsArray = Object.values(state.inputs).map(_ref => {
+      const optsionsArray = Object.values(state.inputs).map(_ref2 => {
         let {
           value,
           name
-        } = _ref;
+        } = _ref2;
         return [name, value];
       });
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
@@ -10912,7 +10999,12 @@ function Edd() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
     value: input.value,
     checked: input.value,
-    onChange: e => {
+    onChange: input.type === "select" ? e => {
+      dispatch({
+        type: input.onChange,
+        value: e
+      });
+    } : e => {
       dispatch({
         type: input.onChange,
         value: input.type === "checkbox" ? e.target.checked : e.target.value
@@ -10947,6 +11039,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
+/**
+ * Import remote dependencies.
+ */
 
 function FlashMessages(props) {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -10975,7 +11070,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
-
+/**
+ * Import remote dependencies.
+ */
 
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
@@ -11017,6 +11114,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_farazsms_assets_images_farazsms_logo_png__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../modules/farazsms/assets/images/farazsms-logo.png */ "./modules/farazsms/assets/images/farazsms-logo.png");
 /* harmony import */ var react_icons_ai__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-icons/ai */ "./node_modules/react-icons/ai/index.esm.js");
 
+/**
+ * Import remote dependencies.
+ */
 
 
 
@@ -11081,7 +11181,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../modules/farazsms/assets/images/woocommerce-logo.png */ "./modules/farazsms/assets/images/woocommerce-logo.png");
 
-
+/**
+ * Import remote dependencies.
+ */
 
 
 // Used as const not import, for Loco translate plugin compatibility.
@@ -11300,29 +11402,6 @@ function Integrations() {
 
 /***/ }),
 
-/***/ "./src/components/LoadingDotsIcon.js":
-/*!*******************************************!*\
-  !*** ./src/components/LoadingDotsIcon.js ***!
-  \*******************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-
-
-function LoadingDotsIcon() {
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "dots-loading"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null));
-}
-/* harmony default export */ __webpack_exports__["default"] = (LoadingDotsIcon);
-
-/***/ }),
-
 /***/ "./src/components/LoginNotify.js":
 /*!***************************************!*\
   !*** ./src/components/LoginNotify.js ***!
@@ -11342,18 +11421,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 
 
-
-
+/**
+ * Import remote dependencies.
+ */
 
 
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
+/**
+ * Import local dependencies
+ */
+
 
 
 function Settings() {
   const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
-  // Init States
+  /**
+   *
+   * First init state.
+   *
+   */
   const originalState = {
     inputs: {
       welcome_sms: {
@@ -11423,7 +11511,8 @@ function Settings() {
         type: "select",
         label: __("Selecte rule(s):", "farazsms"),
         rules: "select_rolesRules",
-        options: []
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms")
       },
       admin_login_notify_pattern: {
         value: "",
@@ -11661,28 +11750,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 
 
+/**
+ * Import remote dependencies.
+ */
 
 
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
+/**
+ * Import local dependencies
+ */
+
 
 
 function Newsletter() {
   const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
-  // Init States
+  /**
+   *
+   * First init state.
+   *
+   */
   const originalState = {
     inputs: {
-      news_phonebooks: {
+      news_phonebook: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "news_phonebooksChange",
-        id: "news_phonebooks",
-        name: "news_phonebooks",
+        onChange: "news_phonebookChange",
+        id: "news_phonebook",
+        name: "news_phonebook",
         type: "select",
         label: __("Select phone book for newsletter", "farazsms"),
-        rules: "news_phonebooksRules"
+        rules: "news_phonebookRules",
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms")
       },
       news_send_verify_via_pattern: {
         value: "",
@@ -11789,7 +11891,7 @@ function Newsletter() {
     switch (action.type) {
       case "fetchComplete":
         //Init state values by action.value
-        draft.inputs.news_phonebooks.value = action.value.news_phonebooks;
+        draft.inputs.news_phonebook.value = action.value.news_phonebook;
         draft.inputs.news_send_verify_via_pattern.value = action.value.news_send_verify_via_pattern;
         draft.inputs.news_send_verify_pattern.value = action.value.news_send_verify_pattern;
         draft.inputs.news_welcome.value = action.value.news_welcome;
@@ -11800,9 +11902,12 @@ function Newsletter() {
         draft.inputs.news_product_notify_msg.value = action.value.news_product_notify_msg;
         draft.isFetching = false;
         return;
-      case "news_phonebooksChange":
-        draft.inputs.news_phonebooks.hasErrors = false;
-        draft.inputs.news_phonebooks.value = action.value;
+      case "news_phonebookChange":
+        draft.inputs.news_phonebook.hasErrors = false;
+        draft.inputs.news_phonebook.value = action.value;
+        return;
+      case "news_phonebookOptions":
+        draft.inputs.news_phonebook.options = action.value;
         return;
       case "news_send_verify_via_patternChange":
         draft.inputs.news_send_verify_via_pattern.hasErrors = false;
@@ -11855,6 +11960,13 @@ function Newsletter() {
     }
   }
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_6__.useImmerReducer)(ourReduser, originalState);
+
+  /**
+   *
+   * HandelSubmit function
+   *
+   * @since 2.0.0
+   */
   function handleSubmit(e) {
     e.preventDefault();
     //Set every input to the state with dispatch function.
@@ -11868,6 +11980,47 @@ function Newsletter() {
       type: "submitOptions"
     });
   }
+
+  /**
+   * Get phonebooks.
+   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
+   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getPhonebooks() {
+      try {
+        //farazsmsJsObject is declared on class-farazsms-admin.php under admin_enqueue_scripts function
+        const phonebooks = await farazsmsJsObject.getphonebooks;
+        console.log(phonebooks);
+        const phonebooksArrayObject = phonebooks.map(_ref => {
+          let {
+            id,
+            title
+          } = _ref;
+          return {
+            label: title,
+            value: id
+          };
+        });
+        dispatch({
+          type: "news_phonebookOptions",
+          value: phonebooksArrayObject
+        });
+        console.log(phonebooksArrayObject);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getPhonebooks();
+  }, []);
+
+  /**
+   * Get options from DB rest routes
+   *
+   * @since 2.0.0
+   */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getOptions() {
       try {
@@ -11895,11 +12048,11 @@ function Newsletter() {
        * @return Object with arrays.
        */
 
-      const optsionsArray = Object.values(state.inputs).map(_ref => {
+      const optsionsArray = Object.values(state.inputs).map(_ref2 => {
         let {
           value,
           name
-        } = _ref;
+        } = _ref2;
         return [name, value];
       });
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
@@ -11943,7 +12096,12 @@ function Newsletter() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
     value: input.value,
     checked: input.value,
-    onChange: e => {
+    onChange: input.type === "select" ? e => {
+      dispatch({
+        type: input.onChange,
+        value: e
+      });
+    } : e => {
       dispatch({
         type: input.onChange,
         value: input.type === "checkbox" ? e.target.checked : e.target.value
@@ -11978,22 +12136,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/CSSTransition.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/CSSTransition.js");
 /* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _SettingsFormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SettingsFormInput */ "./src/components/SettingsFormInput.js");
-/* harmony import */ var _AxiosIppanel__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./AxiosIppanel */ "./src/components/AxiosIppanel.js");
 
 
-
-
+/**
+ * Import remote dependencies.
+ */
 
 
 
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
+/**
+ * Import local dependencies
+ */
 
 
 
@@ -12009,7 +12170,8 @@ function Phonebook() {
         name: "custom_phonebook",
         type: "select",
         label: __("Select the custom field phonebook:", "farazsms"),
-        options: []
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms")
       },
       custom_phone_meta_keys: {
         value: [],
@@ -12018,7 +12180,8 @@ function Phonebook() {
         name: "custom_phone_meta_keys",
         type: "select",
         label: __("Select the mobile number custom field:", "farazsms"),
-        options: []
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms")
       },
       digits_phonebook: {
         value: [],
@@ -12027,7 +12190,8 @@ function Phonebook() {
         name: "digits_phonebook",
         type: "select",
         label: __("Select phonebook for Digits:", "farazsms"),
-        options: []
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms")
       },
       woo_phonebook: {
         value: [],
@@ -12036,7 +12200,8 @@ function Phonebook() {
         name: "woo_phonebook",
         type: "select",
         label: __("select a phonebook for WooCommerce:", "farazsms"),
-        options: []
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms")
       },
       bookly_phonebook: {
         value: [],
@@ -12045,7 +12210,8 @@ function Phonebook() {
         name: "bookly_phonebook",
         type: "select",
         label: __("Choosing a phonebook for Bookley:", "farazsms"),
-        options: []
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms")
       },
       gf_phonebook: {
         value: [],
@@ -12054,7 +12220,8 @@ function Phonebook() {
         name: "gf_phonebook",
         type: "select",
         label: __("Select phonebook for Gravity Form:", "farazsms"),
-        options: []
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms")
       },
       gf_selected_field: {
         value: [],
@@ -12064,7 +12231,8 @@ function Phonebook() {
         type: "select",
         label: __("Gravity Form Settings:", "farazsms"),
         tooltip: __("In this section, you can specify the fields you want to register in the Gravity Form phonebook", "farazsms"),
-        options: []
+        options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms")
       }
     },
     isFetching: true,
@@ -12098,27 +12266,22 @@ function Phonebook() {
         draft.inputs.gf_selected_field.options = action.value;
         return;
       case "custom_phonebookChange":
-        draft.inputs.custom_phonebook.value = [];
-        draft.inputs.custom_phonebook.value.push(action.value);
+        draft.inputs.custom_phonebook.value = action.value;
         return;
       case "custom_phone_meta_keysChange":
         draft.inputs.custom_phone_meta_keys.value = action.value;
         return;
       case "digits_phonebookChange":
-        draft.inputs.digits_phonebook.value = [];
-        draft.inputs.digits_phonebook.value.push(action.value);
+        draft.inputs.digits_phonebook.value = action.value;
         return;
       case "woo_phonebookChange":
-        draft.inputs.woo_phonebook.value = [];
-        draft.inputs.woo_phonebook.value.push(action.value);
+        draft.inputs.woo_phonebook.value = action.value;
         return;
       case "bookly_phonebookChange":
-        draft.inputs.bookly_phonebook.value = [];
-        draft.inputs.bookly_phonebook.value.push(action.value);
+        draft.inputs.bookly_phonebook.value = action.value;
         return;
       case "gf_phonebookChange":
-        draft.inputs.gf_phonebook.value = [];
-        draft.inputs.gf_phonebook.value.push(action.value);
+        draft.inputs.gf_phonebook.value = action.value;
         return;
       case "gf_selected_fieldChange":
         draft.inputs.gf_selected_field.value = action.value;
@@ -12134,7 +12297,7 @@ function Phonebook() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_7__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_6__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     //Set every input to the state with dispatch function.
@@ -12148,6 +12311,12 @@ function Phonebook() {
       type: "submitOptions"
     });
   }
+
+  /**
+   * Get options from DB rest routes
+   *
+   * @since 2.0.0
+   */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getOptions() {
       try {
@@ -12273,6 +12442,15 @@ function Phonebook() {
       postOptions();
     }
   }, [state.sendCount]);
+
+  // useEffect(() => {
+  //   function getSelectValue() {
+  //     const selectValue = Object.values(state.inputs).map((input) =>
+  //       console.log(input.value)
+  //     );
+  //     console.log(selectValue);
+  //   }
+  // }, []);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", {
     className: "p-3 mb-4 border-bottom border-dark bg-light rounded"
   }, __("Phonebook settings:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
@@ -12305,14 +12483,14 @@ function Phonebook() {
     key: input.id,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+    // value={input.type !== "select" ? input.value : getSelectValue()}
     value: input.value,
     checked: input.value,
     onChange: input.type === "select" ? e => {
       dispatch({
         type: input.onChange,
-        value: e.value
+        value: e
       });
-      console.log(e.value);
     } : e => {
       dispatch({
         type: input.onChange,
@@ -12323,7 +12501,7 @@ function Phonebook() {
       type: input.rules,
       value: e.target.value
     })
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_transition_group__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_transition_group__WEBPACK_IMPORTED_MODULE_7__["default"], {
     in: input.hasErrors,
     timeout: 330,
     classNames: "liveValidateMessage",
@@ -12353,7 +12531,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
-
+/**
+ * Import remote dependencies.
+ */
 
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
@@ -12363,7 +12543,6 @@ const __ = wp.i18n.__;
  *
  * @since 2.0.0
  */
-
 const PluginsCardCheckbox = props => {
   const {
     use,
@@ -12393,15 +12572,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/CSSTransition.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/CSSTransition.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _SettingsFormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SettingsFormInput */ "./src/components/SettingsFormInput.js");
-/* harmony import */ var _LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./LoadingDotsIcon */ "./src/components/LoadingDotsIcon.js");
 
 
+/**
+ * Import remote dependencies.
+ */
 
 
 
@@ -12409,6 +12590,9 @@ __webpack_require__.r(__webpack_exports__);
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
+/**
+ * Import local dependencies
+ */
 
 
 
@@ -12655,7 +12839,7 @@ function Settings() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_7__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_6__.useImmerReducer)(ourReduser, originalState);
 
   /**
    *
@@ -12774,7 +12958,7 @@ function Settings() {
           }
         };
         try {
-          const ippanelData = await axios__WEBPACK_IMPORTED_MODULE_8__["default"].get("http://rest.ippanel.com/v1/user", authentication_data);
+          const ippanelData = await axios__WEBPACK_IMPORTED_MODULE_7__["default"].get("http://rest.ippanel.com/v1/user", authentication_data);
         } catch (e) {
           dispatch({
             type: "apikeyIsValidResults",
@@ -12816,7 +13000,7 @@ function Settings() {
             }
           };
           try {
-            const ippanelData = await axios__WEBPACK_IMPORTED_MODULE_8__["default"].get("http://rest.ippanel.com/v1/user", authentication_data);
+            const ippanelData = await axios__WEBPACK_IMPORTED_MODULE_7__["default"].get("http://rest.ippanel.com/v1/user", authentication_data);
             console.log(ippanelData);
             const ippanelResponseUsername = ippanelData.data.data.user.username;
             console.log(ippanelResponseUsername);
@@ -12913,7 +13097,7 @@ function Settings() {
       type: input.rules,
       value: e.target.value
     })
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_transition_group__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_transition_group__WEBPACK_IMPORTED_MODULE_8__["default"], {
     in: input.hasErrors,
     timeout: 330,
     classNames: "liveValidateMessage",
@@ -12951,6 +13135,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_bootstrap_Tooltip__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-bootstrap/Tooltip */ "./node_modules/react-bootstrap/esm/Tooltip.js");
 
 
+/**
+ * Import remote dependencies.
+ */
 
 
 
@@ -12983,6 +13170,7 @@ const SettingsFormInput = props => {
     infoBody,
     options,
     onSelect,
+    noOptionsMessage,
     ...inputProps
   } = props;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
@@ -13027,7 +13215,7 @@ const SettingsFormInput = props => {
     options: options,
     onChange: onChange,
     components: animatedComponents,
-    noOptionsMessage: () => __("No options is avilable", "farazsms")
+    noOptionsMessage: () => noOptionsMessage
   }, inputProps)))), infoTitle && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "container"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
@@ -13060,13 +13248,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _SidebarItems__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SidebarItems */ "./src/components/SidebarItems.js");
 
 /**
- * External dependencies
+ * Import remote dependencies.
  */
 
 
 
 /**
- * Internal dependencies
+ * Import local dependencies
  */
 
 function Sidebar(_ref) {
@@ -13124,15 +13312,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Integrations__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Integrations */ "./src/components/Integrations.js");
 
 /**
- * External dependencies
+ * Import remote dependencies.
  */
 
-const __ = wp.i18n.__; // Used as const not import, for Loco translate plugin compatibility.
-// Import Icons
+// Used as const not import, for Loco translate plugin compatibility.
+const __ = wp.i18n.__;
+
 
 
 /**
- * Internal dependencies
+ * Import local dependencies
  */
 
 
@@ -13212,6 +13401,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 
+/**
+ * Import remote dependencies.
+ */
 
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
@@ -13270,10 +13462,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 
 
+/**
+ * Import remote dependencies.
+ */
 
 
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
+
+/**
+ * Import local dependencies
+ */
 
 
 

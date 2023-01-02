@@ -1,17 +1,25 @@
+/**
+ * Import remote dependencies.
+ */
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
-import Select from "react-select";
-
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
+/**
+ * Import local dependencies
+ */
 import DispatchContext from "../DispatchContext";
 import SettingsFormInput from "./SettingsFormInput";
 import AxiosWp from "./AxiosWp";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);
-  // Init States
+  /**
+   *
+   * First init state.
+   *
+   */
   const originalState = {
     inputs: {
       welcome_sms: {
@@ -85,6 +93,7 @@ function Settings() {
         label: __("Selecte rule(s):", "farazsms"),
         rules: "select_rolesRules",
         options: [],
+        noOptionsMessage: __("No options is avilable", "farazsms"),
       },
       admin_login_notify_pattern: {
         value: "",
