@@ -10144,6 +10144,9 @@ function Aff() {
         draft.inputs.aff_user_mobile_field.hasErrors = false;
         draft.inputs.aff_user_mobile_field.value = action.value;
         return;
+      case "aff_user_mobile_fieldOptions":
+        draft.inputs.aff_user_mobile_field.options = action.value;
+        return;
       case "aff_user_registerChange":
         draft.inputs.aff_user_register.hasErrors = false;
         draft.inputs.aff_user_register.value = action.value;
@@ -10299,6 +10302,36 @@ function Aff() {
   }, [state.sendCount]);
 
   /**
+   * Get usermeta keys from DB rest routes
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getUsermeta() {
+      try {
+        /*
+         * Use the AxiosWp object to call the /farazsms/v1/farazsms_usermeta
+         * endpoint and retrieve the 10 latest posts.
+         */
+        const getUsermeta = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/usermeta", {});
+        console.log(getUsermeta.data);
+        const usermetaArrayObject = Object.keys(getUsermeta.data).map(key => ({
+          value: getUsermeta.data[key].meta_key,
+          label: getUsermeta.data[key].meta_key
+        }));
+        dispatch({
+          type: "aff_user_mobile_fieldOptions",
+          value: usermetaArrayObject
+        });
+        console.log(usermetaArrayObject);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getUsermeta();
+  }, []);
+
+  /**
    *
    * The Aff form created by maping over originalState.
    * For every value on inputs rendered a SettingsFormInput.
@@ -10313,9 +10346,10 @@ function Aff() {
     key: input.id,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
-    value: input.value,
-    checked: input.value,
-    onChange: e => {
+    onChange: input.type === "select" ? selectedOption => dispatch({
+      type: input.onChange,
+      value: selectedOption
+    }) : e => {
       dispatch({
         type: input.onChange,
         value: input.type === "checkbox" ? e.target.checked : e.target.value
@@ -10689,14 +10723,10 @@ function Comments() {
     key: input.id,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
-    value: input.value,
-    checked: input.value,
-    onChange: input.type === "select" ? e => {
-      dispatch({
-        type: input.onChange,
-        value: e
-      });
-    } : e => {
+    onChange: input.type === "select" ? selectedOption => dispatch({
+      type: input.onChange,
+      value: selectedOption
+    }) : e => {
       dispatch({
         type: input.onChange,
         value: input.type === "checkbox" ? e.target.checked : e.target.value
@@ -10997,14 +11027,10 @@ function Edd() {
     key: input.id,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
-    value: input.value,
-    checked: input.value,
-    onChange: input.type === "select" ? e => {
-      dispatch({
-        type: input.onChange,
-        value: e
-      });
-    } : e => {
+    onChange: input.type === "select" ? selectedOption => dispatch({
+      type: input.onChange,
+      value: selectedOption
+    }) : e => {
       dispatch({
         type: input.onChange,
         value: input.type === "checkbox" ? e.target.checked : e.target.value
@@ -11532,18 +11558,6 @@ function Settings() {
     isSaving: false,
     sendCount: 0
   };
-
-  /**
-   * Get the global $wp_roles; and make it work for Select react
-   *
-   * @since 2.0.0
-   */
-  const roulesObject = farazsmsJsObject.wproules.role_names;
-  const roulesArrayObject = Object.keys(roulesObject).map(key => ({
-    value: key,
-    label: roulesObject[key]
-  }));
-  console.log(roulesArrayObject);
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
@@ -11554,7 +11568,7 @@ function Settings() {
         draft.inputs.welcome_sms_msg.value = action.value.welcome_sms_msg;
         draft.inputs.admin_login_notify.value = action.value.admin_login_notify;
         draft.inputs.admin_login_notify_pattern.value = action.value.admin_login_notify_pattern;
-        draft.inputs.select_roles.options = roulesArrayObject;
+        draft.inputs.select_roles.value = action.value.select_roles;
         draft.isFetching = false;
         return;
       case "welcome_smsChange":
@@ -11583,14 +11597,10 @@ function Settings() {
         return;
       case "select_rolesChange":
         draft.inputs.select_roles.hasErrors = false;
-        //Work for notMulti select
-        // draft.inputs.select_roles.value = [];
-        // draft.inputs.select_roles.value.push(action.value);
-
-        //Work for isMulti select
-        if (!draft.inputs.select_roles.value.includes(action.value)) {
-          draft.inputs.select_roles.value.push(action.value);
-        }
+        draft.inputs.select_roles.value = action.value;
+        return;
+      case "select_rolesOptions":
+        draft.inputs.select_roles.options = action.value;
         return;
       case "submitOptions":
         draft.sendCount++;
@@ -11615,23 +11625,6 @@ function Settings() {
     });
     dispatch({
       type: "submitOptions"
-    });
-  }
-  function handleSelect(selectedOptions) {
-    //Work for notMulti select
-    // console.log(selectedOptions);
-    // dispatch({
-    //   type: "select_rolesChange",
-    //   value: selectedOptions.value,
-    // });
-
-    // Work for isMulti select
-    selectedOptions.map(selectedOption => {
-      console.log(selectedOption.value);
-      dispatch({
-        type: "select_rolesChange",
-        value: selectedOption.value
-      });
     });
   }
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
@@ -11692,6 +11685,29 @@ function Settings() {
   }, [state.sendCount]);
 
   /**
+   * Get user roules keys from DB
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    /**
+     * Get the global $wp_roles; and make it work for Select react
+     *
+     * @since 2.0.0
+     */
+    const roulesObject = farazsmsJsObject.wproules.role_names;
+    const roulesArrayObject = Object.keys(roulesObject).map(key => ({
+      value: key,
+      label: roulesObject[key]
+    }));
+    console.log(roulesArrayObject);
+    dispatch({
+      type: "select_rolesOptions",
+      value: roulesArrayObject
+    });
+  }, []);
+
+  /**
    * The settings form created by maping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
@@ -11707,9 +11723,10 @@ function Settings() {
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
     isMulti: true,
-    value: input.value,
-    checked: input.value,
-    onChange: input.type === "select" ? handleSelect : e => {
+    onChange: input.type === "select" ? selectedOption => dispatch({
+      type: input.onChange,
+      value: selectedOption
+    }) : e => {
       dispatch({
         type: input.onChange,
         value: input.type === "checkbox" ? e.target.checked : e.target.value
@@ -12094,14 +12111,10 @@ function Newsletter() {
     key: input.id,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
-    value: input.value,
-    checked: input.value,
-    onChange: input.type === "select" ? e => {
-      dispatch({
-        type: input.onChange,
-        value: e
-      });
-    } : e => {
+    onChange: input.type === "select" ? selectedOption => dispatch({
+      type: input.onChange,
+      value: selectedOption
+    }) : e => {
       dispatch({
         type: input.onChange,
         value: input.type === "checkbox" ? e.target.checked : e.target.value
@@ -12442,15 +12455,6 @@ function Phonebook() {
       postOptions();
     }
   }, [state.sendCount]);
-
-  // useEffect(() => {
-  //   function getSelectValue() {
-  //     const selectValue = Object.values(state.inputs).map((input) =>
-  //       console.log(input.value)
-  //     );
-  //     console.log(selectValue);
-  //   }
-  // }, []);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", {
     className: "p-3 mb-4 border-bottom border-dark bg-light rounded"
   }, __("Phonebook settings:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
@@ -12483,15 +12487,10 @@ function Phonebook() {
     key: input.id,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
-    // value={input.type !== "select" ? input.value : getSelectValue()}
-    value: input.value,
-    checked: input.value,
-    onChange: input.type === "select" ? e => {
-      dispatch({
-        type: input.onChange,
-        value: e
-      });
-    } : e => {
+    onChange: input.type === "select" ? selectedOption => dispatch({
+      type: input.onChange,
+      value: selectedOption
+    }) : e => {
       dispatch({
         type: input.onChange,
         value: input.type === "checkbox" ? e.target.checked : e.target.value
@@ -13169,7 +13168,6 @@ const SettingsFormInput = props => {
     infoTitle,
     infoBody,
     options,
-    onSelect,
     noOptionsMessage,
     ...inputProps
   } = props;
@@ -13195,6 +13193,7 @@ const SettingsFormInput = props => {
   }, inputProps)), type === "checkbox" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     id: id,
     value: value,
+    checked: value,
     type: type,
     onChange: onChange,
     onBlur: onBlur,
@@ -13211,6 +13210,8 @@ const SettingsFormInput = props => {
     className: "form-control",
     rows: "5"
   })), type === "select" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_8__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    value: value,
+    type: type,
     placeholder: "Select...",
     options: options,
     onChange: onChange,

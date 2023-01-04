@@ -296,14 +296,6 @@ function Phonebook() {
     }
   }, [state.sendCount]);
 
-  // useEffect(() => {
-  //   function getSelectValue() {
-  //     const selectValue = Object.values(state.inputs).map((input) =>
-  //       console.log(input.value)
-  //     );
-  //     console.log(selectValue);
-  //   }
-  // }, []);
   return (
     <>
       <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
@@ -353,17 +345,13 @@ function Phonebook() {
             >
               <SettingsFormInput
                 {...input}
-                // value={input.type !== "select" ? input.value : getSelectValue()}
-                value={input.value}
-                checked={input.value}
                 onChange={
                   input.type === "select"
-                    ? (e) => {
+                    ? (selectedOption) =>
                         dispatch({
                           type: input.onChange,
-                          value: e,
-                        });
-                      }
+                          value: selectedOption,
+                        })
                     : (e) => {
                         dispatch({
                           type: input.onChange,

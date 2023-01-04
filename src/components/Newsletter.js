@@ -362,16 +362,13 @@ function Newsletter() {
             >
               <SettingsFormInput
                 {...input}
-                value={input.value}
-                checked={input.value}
                 onChange={
                   input.type === "select"
-                    ? (e) => {
+                    ? (selectedOption) =>
                         dispatch({
                           type: input.onChange,
-                          value: e,
-                        });
-                      }
+                          value: selectedOption,
+                        })
                     : (e) => {
                         dispatch({
                           type: input.onChange,

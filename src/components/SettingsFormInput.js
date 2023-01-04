@@ -33,7 +33,6 @@ const SettingsFormInput = (props) => {
     infoTitle,
     infoBody,
     options,
-    onSelect,
     noOptionsMessage,
     ...inputProps
   } = props;
@@ -71,6 +70,7 @@ const SettingsFormInput = (props) => {
             <input
               id={id}
               value={value}
+              checked={value}
               type={type}
               onChange={onChange}
               onBlur={onBlur}
@@ -94,6 +94,8 @@ const SettingsFormInput = (props) => {
           )}
           {type === "select" && (
             <Select
+              value={value}
+              type={type}
               placeholder="Select..."
               options={options}
               onChange={onChange}

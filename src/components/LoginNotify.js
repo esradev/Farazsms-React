@@ -117,18 +117,6 @@ function Settings() {
     sendCount: 0,
   };
 
-  /**
-   * Get the global $wp_roles; and make it work for Select react
-   *
-   * @since 2.0.0
-   */
-  const roulesObject = farazsmsJsObject.wproules.role_names;
-  const roulesArrayObject = Object.keys(roulesObject).map((key) => ({
-    value: key,
-    label: roulesObject[key],
-  }));
-  console.log(roulesArrayObject);
-
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
@@ -142,7 +130,7 @@ function Settings() {
         draft.inputs.admin_login_notify.value = action.value.admin_login_notify;
         draft.inputs.admin_login_notify_pattern.value =
           action.value.admin_login_notify_pattern;
-        draft.inputs.select_roles.options = roulesArrayObject;
+        draft.inputs.select_roles.value = action.value.select_roles;
         draft.isFetching = false;
         return;
 
@@ -173,15 +161,10 @@ function Settings() {
         return;
       case "select_rolesChange":
         draft.inputs.select_roles.hasErrors = false;
-        //Work for notMulti select
-        // draft.inputs.select_roles.value = [];
-        // draft.inputs.select_roles.value.push(action.value);
-
-        //Work for isMulti select
-        if (!draft.inputs.select_roles.value.includes(action.value)) {
-          draft.inputs.select_roles.value.push(action.value);
-        }
-
+        draft.inputs.select_roles.value = action.value;
+        return;
+      case "select_rolesOptions":
+        draft.inputs.select_roles.options = action.value;
         return;
 
       case "submitOptions":
@@ -207,21 +190,6 @@ function Settings() {
     });
 
     dispatch({ type: "submitOptions" });
-  }
-
-  function handleSelect(selectedOptions) {
-    //Work for notMulti select
-    // console.log(selectedOptions);
-    // dispatch({
-    //   type: "select_rolesChange",
-    //   value: selectedOptions.value,
-    // });
-
-    // Work for isMulti select
-    selectedOptions.map((selectedOption) => {
-      console.log(selectedOption.value);
-      dispatch({ type: "select_rolesChange", value: selectedOption.value });
-    });
   }
 
   useEffect(() => {
@@ -278,6 +246,29 @@ function Settings() {
   }, [state.sendCount]);
 
   /**
+   * Get user roules keys from DB
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    /**
+     * Get the global $wp_roles; and make it work for Select react
+     *
+     * @since 2.0.0
+     */
+    const roulesObject = farazsmsJsObject.wproules.role_names;
+    const roulesArrayObject = Object.keys(roulesObject).map((key) => ({
+      value: key,
+      label: roulesObject[key],
+    }));
+    console.log(roulesArrayObject);
+    dispatch({
+      type: "select_rolesOptions",
+      value: roulesArrayObject,
+    });
+  }, []);
+
+  /**
    * The settings form created by maping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
@@ -301,11 +292,13 @@ function Settings() {
               <SettingsFormInput
                 {...input}
                 isMulti
-                value={input.value}
-                checked={input.value}
                 onChange={
                   input.type === "select"
-                    ? handleSelect
+                    ? (selectedOption) =>
+                        dispatch({
+                          type: input.onChange,
+                          value: selectedOption,
+                        })
                     : (e) => {
                         dispatch({
                           type: input.onChange,

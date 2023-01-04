@@ -232,6 +232,9 @@ function Aff() {
         draft.inputs.aff_user_mobile_field.hasErrors = false;
         draft.inputs.aff_user_mobile_field.value = action.value;
         return;
+      case "aff_user_mobile_fieldOptions":
+        draft.inputs.aff_user_mobile_field.options = action.value;
+        return;
       case "aff_user_registerChange":
         draft.inputs.aff_user_register.hasErrors = false;
         draft.inputs.aff_user_register.value = action.value;
@@ -378,6 +381,38 @@ function Aff() {
   }, [state.sendCount]);
 
   /**
+   * Get usermeta keys from DB rest routes
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function getUsermeta() {
+      try {
+        /*
+         * Use the AxiosWp object to call the /farazsms/v1/farazsms_usermeta
+         * endpoint and retrieve the 10 latest posts.
+         */
+        const getUsermeta = await AxiosWp.get("/farazsms/v1/usermeta", {});
+        console.log(getUsermeta.data);
+        const usermetaArrayObject = Object.keys(getUsermeta.data).map(
+          (key) => ({
+            value: getUsermeta.data[key].meta_key,
+            label: getUsermeta.data[key].meta_key,
+          })
+        );
+        dispatch({
+          type: "aff_user_mobile_fieldOptions",
+          value: usermetaArrayObject,
+        });
+        console.log(usermetaArrayObject);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getUsermeta();
+  }, []);
+
+  /**
    *
    * The Aff form created by maping over originalState.
    * For every value on inputs rendered a SettingsFormInput.
@@ -403,17 +438,23 @@ function Aff() {
             >
               <SettingsFormInput
                 {...input}
-                value={input.value}
-                checked={input.value}
-                onChange={(e) => {
-                  dispatch({
-                    type: input.onChange,
-                    value:
-                      input.type === "checkbox"
-                        ? e.target.checked
-                        : e.target.value,
-                  });
-                }}
+                onChange={
+                  input.type === "select"
+                    ? (selectedOption) =>
+                        dispatch({
+                          type: input.onChange,
+                          value: selectedOption,
+                        })
+                    : (e) => {
+                        dispatch({
+                          type: input.onChange,
+                          value:
+                            input.type === "checkbox"
+                              ? e.target.checked
+                              : e.target.value,
+                        });
+                      }
+                }
                 onBlur={(e) =>
                   dispatch({ type: input.rules, value: e.target.value })
                 }

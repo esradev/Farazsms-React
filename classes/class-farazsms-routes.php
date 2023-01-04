@@ -283,7 +283,6 @@ class Farazsms_Routes
         return $result;
     }
 
-
     /**
      * Get newsletter options.
      * 
