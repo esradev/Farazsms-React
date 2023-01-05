@@ -201,21 +201,6 @@ function Settings() {
         draft.inputs.password.hasErrors = false;
         draft.inputs.password.value = action.value;
         return;
-      case "passwordAfterDelay":
-        draft.inputs.password.checkCount++;
-        return;
-      case "passwordIsValid":
-        if (action.value) {
-          draft.inputs.password.hasErrors = true;
-          draft.inputs.password.isValid = false;
-          draft.inputs.password.errorMessage = __(
-            "That password is not valid, check that agian correctly.",
-            "farazsms"
-          );
-        } else {
-          draft.inputs.password.isValid = true;
-        }
-        return;
       case "admin_numberChange":
         draft.inputs.admin_number.hasErrors = false;
         draft.inputs.admin_number.value = action.value;
@@ -417,6 +402,17 @@ function Settings() {
 
   useEffect(() => {
     if (state.inputs.apikey.checkCount) {
+      // Used this methode for avoid mixed content error in browsers for requested insecure http.
+      // const checkifapikeyisvalid = farazsmsJsObject.checkifapikeyisvalid;
+      // if (checkifapikeyisvalid) {
+      //   console.log(checkifapikeyisvalid);
+      // } else {
+      //   dispatch({
+      //     type: "apikeyIsValidResults",
+      //     value: true,
+      //   });
+      // }
+
       async function validateApikey() {
         const authentication_data = {
           headers: {
@@ -428,6 +424,7 @@ function Settings() {
             "http://rest.ippanel.com/v1/user",
             authentication_data
           );
+          console.log(ippanelData);
         } catch (e) {
           dispatch({
             type: "apikeyIsValidResults",
@@ -491,39 +488,6 @@ function Settings() {
       validateUsername();
     }
   }, [state.inputs.username.checkCount]);
-
-  /**
-   *
-   * Validate username and password, check if the username and password are correct.
-   *
-   * @since 2.0.0
-   */
-  useEffect(() => {
-    if (state.inputs.password.value) {
-      const delay = setTimeout(
-        () => dispatch({ type: "passwordAfterDelay" }),
-        800
-      );
-      return () => clearTimeout(delay);
-    }
-  }, [state.inputs.password.value]);
-
-  // useEffect(() => {
-  //   if (state.inputs.password.checkCount) {
-  //     async function validateUser() {
-  //       try {
-  //         const ippanelData = await Axios.post(
-  //           "http://reg.ippanel.com/parent/farazsms",
-  //           { username: "9300410381", password: "Faraz@2282037154" },
-  //         );
-  //         console.log(ippanelData);
-  //       } catch (e) {
-  //         console.log(e);
-  //       }
-  //     }
-  //     validateUser();
-  //   }
-  // }, [state.inputs.password.checkCount]);
 
   /**
    *

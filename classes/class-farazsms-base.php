@@ -165,13 +165,13 @@ if (!class_exists('Farazsms_Base')) {
                 self::$instance = new self();
 
                 /**
-                 * CartFlows CA loaded.
+                 * Farazsms loaded.
                  *
-                 * Fires when Cartflows CA was fully loaded and instantiated.
+                 * Fires when Farazsms was fully loaded and instantiated.
                  *
                  * @since 1.0.0
                  */
-                do_action('cartflows_ca_loaded');
+                do_action('farazsms_loaded');
             }
 
             return self::$instance;
@@ -322,6 +322,23 @@ if (!class_exists('Farazsms_Base')) {
                 }
 
                 return true;
+            }
+        }
+
+        /**
+         * 
+         * Check if API key is valid.
+         * 
+         */
+
+
+        public function check_if_apikey_is_valid($apiKey)
+        {
+            try {
+                $client = new \IPPanel\Client($apiKey);
+                return $client->validateApiKey();
+            } catch (Error | HttpException $e) {
+                return FALSE;
             }
         }
 

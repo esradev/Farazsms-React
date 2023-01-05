@@ -13,6 +13,15 @@ import PluginsCardCheckbox from "./PluginsCardCheckbox";
 import AxiosWp from "./AxiosWp";
 import DispatchContext from "../DispatchContext";
 import WoocommerceLogo from "../../modules/farazsms/assets/images/woocommerce-logo.png";
+import DigitsLogo from "../../modules/farazsms/assets/images/digits-logo.png";
+import EddLogo from "../../modules/farazsms/assets/images/edd-logo.png";
+import BooklyLogo from "../../modules/farazsms/assets/images/bookly-logo.png";
+import GravityFormsLogo from "../../modules/farazsms/assets/images/gravity-logo.png";
+import IndeedMembershipProLogo from "../../modules/farazsms/assets/images/ultimatemembershippro-logo.png";
+import PaidMembershipsProLogo from "../../modules/farazsms/assets/images/paidmembershipspro-logo.png";
+import AffiliateWpLogo from "../../modules/farazsms/assets/images/affiliatewp-logo.png";
+import IndeedAffiliateProLogo from "../../modules/farazsms/assets/images/ultimateaffiliatepro-logo.png";
+import YithWoocommerceAffiliatesLogo from "../../modules/farazsms/assets/images/yithwoocommerceaffiliates-logo.png";
 
 function Integrations() {
   /**
@@ -25,10 +34,11 @@ function Integrations() {
       isInstalled: false,
       isActivated: false,
       info: "",
-      imgUrl: { WoocommerceLogo },
+      imgUrl: { logo: WoocommerceLogo },
       slug: "woocommerce",
       status: "",
       onChange: "wooChange",
+      plugin: "woocommerce/woocommerce",
     },
     digits: {
       name: "digits",
@@ -36,98 +46,107 @@ function Integrations() {
       isInstalled: false,
       isActivated: false,
       info: "",
-      imgUrl: { WoocommerceLogo },
+      imgUrl: { logo: DigitsLogo },
       slug: "digits/digits",
       status: "",
       onChange: "digitsChange",
+      plugin: "digits/digits",
     },
     edd: {
-      name: "WooCommerce",
+      name: "Edd",
       use: false,
       isInstalled: false,
       isActivated: false,
       info: "",
-      imgUrl: { WoocommerceLogo },
+      imgUrl: { logo: EddLogo },
       slug: "easy-digital-downloads",
       status: "",
       onChange: "eddChange",
+      plugin: "easy-digital-downloads/easy-digital-downloads",
     },
     bookly: {
-      name: "bookly",
+      name: "Bookly",
       use: false,
       isInstalled: false,
       isActivated: false,
       info: "",
-      imgUrl: { WoocommerceLogo },
+      imgUrl: { logo: BooklyLogo },
       slug: "bookly-responsive-appointment-booking-tool",
       status: "",
       onChange: "booklyChange",
+      plugin: "bookly-responsive-appointment-booking-tool/main",
     },
-    gravityforms: {
-      name: "gravityforms",
+    gravityForms: {
+      name: "Gravity Forms",
       use: false,
       isInstalled: false,
       isActivated: false,
       info: "",
-      imgUrl: { WoocommerceLogo },
+      imgUrl: { logo: GravityFormsLogo },
       slug: "gravityforms",
       status: "",
       onChange: "gfChange",
+      plugin: "gravityforms/gravityforms",
     },
     indeedMembershipPro: {
-      name: "indeed-membership-pro",
+      name: "Indeed Membership Pro",
       use: false,
       isInstalled: false,
       isActivated: false,
       info: "",
-      imgUrl: { WoocommerceLogo },
+      imgUrl: { logo: IndeedMembershipProLogo },
       slug: "indeed-membership-pro",
       status: "",
       onChange: "impChange",
+      plugin: "indeed-membership-pro/indeed-membership-pro",
     },
     paidMembershipsPro: {
-      name: "paid-memberships-pro",
+      name: "Paid Memberships Pro",
       use: false,
       isInstalled: false,
       isActivated: false,
       info: "",
-      imgUrl: { WoocommerceLogo },
+      imgUrl: { logo: PaidMembershipsProLogo },
       slug: "paid-memberships-pro",
       status: "",
       onChange: "pmpChange",
+      plugin: "paid-memberships-pro/paid-memberships-pro",
     },
     affiliateWp: {
-      name: "affiliate-wp",
+      name: "Affiliate Wp",
       use: false,
       isInstalled: false,
       isActivated: false,
       info: "",
-      imgUrl: { WoocommerceLogo },
+      imgUrl: { logo: AffiliateWpLogo },
       slug: "affiliate-wp",
       status: "",
       onChange: "affChange",
+      plugin: "affiliate-wp/affiliate-wp",
     },
     indeedAffiliatePro: {
-      name: "indeed-affiliate-pro",
+      name: "Indeed Affiliate Pro",
       use: false,
       isInstalled: false,
       isActivated: false,
       info: "",
-      imgUrl: { WoocommerceLogo },
+      imgUrl: { logo: IndeedAffiliateProLogo },
       slug: "indeed-affiliate-pro",
       status: "",
       onChange: "uapChange",
+      plugin: "indeed-affiliate-pro/indeed-affiliate-pro",
     },
     yithWoocommerceAffiliates: {
-      name: "yith-woocommerce-affiliates",
+      name: "Yith Woocommerce Affiliates",
       use: false,
       isInstalled: false,
       isActivated: false,
       info: "",
-      imgUrl: { WoocommerceLogo },
+      imgUrl: { logo: YithWoocommerceAffiliatesLogo },
       slug: "yith-woocommerce-affiliates",
       status: "",
       onChange: "ywaChange",
+      plugin: "yith-woocommerce-affiliates/init",
     },
   };
 
@@ -145,18 +164,17 @@ function Integrations() {
 
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
 
-  function handleClick(e) {}
-
-  useEffect(() => {
+  /* useEffect(() => {
     async function getPlugins() {
       try {
         const getPlugins = await AxiosWp.get("/wp/v2/plugins", {});
         if (getPlugins.data) {
-          console.log(getPlugins.data);
           const plugins = getPlugins.data;
-          const findPlugin = plugins.find(
-            (element) => element.plugin === "woocommerce/woocommerce"
-          );
+          console.log(plugins);
+
+          const findPlugin = Object.values(state).map((plugin) => {
+            plugins.find((item) => item.plugin === plugin.plugin);
+          });
           console.log(findPlugin);
         }
       } catch (e) {
@@ -164,7 +182,7 @@ function Integrations() {
       }
     }
     getPlugins();
-  }, []);
+  }, []); */
 
   /**
    * The settings form created by maping over originalState as the main state.
@@ -178,39 +196,36 @@ function Integrations() {
       <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
         {__("Integrations:", "farazsms")}
       </h3>
-
       <div className="plugins-card card-grid">
-        <article className="plugins-card">
-          <div className="card-header">
-            <div>
-              <span>
-                <img src="https://ps.w.org/woocommerce/assets/icon-128x128.png?rev=2366418" />
-              </span>
-              <h3>{__("WooCommerce", "farazsms")}</h3>
+        {Object.values(state).map((plugin) => (
+          <article key={plugin.name} className="plugins-card">
+            <div className="card-header">
+              <div>
+                <span className="mx-1">
+                  <img src={plugin.imgUrl.logo} />
+                </span>
+                <h5>{plugin.name}</h5>
+              </div>
+              <PluginsCardCheckbox />
             </div>
-            <PluginsCardCheckbox />
-          </div>
-          <div className="card-body">
-            <p>{__("Send sms after X days of any purchase", "farazsms")}</p>
-          </div>
-          <div className="card-footer">
-            <a href="#">{__("View settings", "farazsms")}</a>
-          </div>
-        </article>
+            <div className="card-body">
+              <p>{plugin.info}</p>
+            </div>
+            <div className="card-footer">
+              <a href="#">{plugin.slug}</a>
+            </div>
+          </article>
+        ))}
       </div>
+      <button
+        type="submit"
+        className="btn btn-primary faraz-btn"
+        disabled={state.isSaving}
+      >
+        {__("Save Settings", "farazsms")}
+      </button>
     </div>
   );
-
-  /*
-   * Use the Axios Api object to call the /wp/v2/plugins
-   * endpoint.
-   */
-  AxiosWp.post("/wp/v2/plugins", {
-    slug: "woocommerce",
-    status: "active",
-  }).then(function (response) {
-    console.log(response.data);
-  });
 }
 
 export default Integrations;

@@ -25,7 +25,7 @@ function Header() {
         </div>
         <div class="header-navigation">
           <nav class="header-navigation-links">
-            <a href="https://farazsms.com/" target="_blank">
+            {/* <a href="https://farazsms.com/" target="_blank">
               {__("Official Website", "farazsms")}
             </a>
             <a
@@ -37,16 +37,16 @@ function Header() {
               target="_blank"
             >
               {__("Report Issues", "farazsms")}
-            </a>
+            </a> */}
           </nav>
           <div class="header-navigation-actions">
             <a href="#" class="button">
               <AiOutlineDollar />
               <span>{__("Account credit: ", "farazsms")}</span>
             </a>
-            <a href="#" class="icon-button">
+            {/* <a href="#" class="icon-button">
               <AiOutlineSetting />
-            </a>
+            </a> */}
             <a href="#" class="icon-button">
               <AiOutlineBell />
             </a>

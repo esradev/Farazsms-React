@@ -130,6 +130,19 @@ class Farazsms_Routes
                 'permission_callback' => array($this, 'permissions_check'),
             ),
         ));
+        //Register integrations_options rest route
+        register_rest_route($namespace, '/' . 'integrations_options', array(
+            array(
+                'methods'             => 'GET',
+                'callback'            => array($this, 'get_integrations_options'),
+                'permission_callback' => array($this, 'permissions_check'),
+            ),
+            array(
+                'methods'             => 'POST',
+                'callback'            => array($this, 'add_integrations_options'),
+                'permission_callback' => array($this, 'permissions_check'),
+            ),
+        ));
     }
 
     /**
@@ -427,6 +440,44 @@ class Farazsms_Routes
         );
         $option_json = wp_json_encode($option);
         $result = update_option('farazsms_aff_options', $option_json);
+        return $result;
+    }
+
+    /**
+     * Get integrations options.
+     * 
+     * @since 2.0.0
+     */
+    public function get_integrations_options()
+    {
+        $farazsms_integrations_options = get_option('farazsms_integrations_options');
+        if (empty($farazsms_integrations_options)) {
+            return new WP_Error('no_option', 'Invalid options', array('status' => 404));
+        }
+        return $farazsms_integrations_options;
+    }
+
+    /**
+     * Add integrations options.
+     * 
+     * @since 2.0.0
+     */
+    public function add_integrations_options($data)
+    {
+        $option = array(
+            'woocommerce'     => $data['woocommerce'] ? $data['woocommerce'] : '',
+            'digits'  => $data['digits'] ? $data['digits'] : '',
+            'edd'     => $data['edd'] ? $data['edd'] : '',
+            'bookly'  => $data['bookly'] ? $data['bookly'] : '',
+            'gravityForms' => $data['gravityForms'] ? $data['gravityForms'] : '',
+            'indeedMembershipPro'     => $data['indeedMembershipPro'] ? $data['indeedMembershipPro'] : '',
+            'paidMembershipsPro'     => $data['paidMembershipsPro'] ? $data['paidMembershipsPro'] : '',
+            'affiliateWp'     => $data['affiliateWp'] ? $data['affiliateWp'] : '',
+            'indeedAffiliatePro'     => $data['indeedAffiliatePro'] ? $data['indeedAffiliatePro'] : '',
+            'yithWoocommerceAffiliates'    => $data['yithWoocommerceAffiliates'] ? $data['yithWoocommerceAffiliates'] : '',
+        );
+        $option_json = wp_json_encode($option);
+        $result = update_option('farazsms_integrations_options', $option_json);
         return $result;
     }
 

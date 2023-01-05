@@ -6,11 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "wp-scripts build",
-    "start": "wp-scripts start"
+    "start": "wp-scripts start",
+    "plugin-zip": "wp-scripts plugin-zip"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/esradev/FarazSmsPlugin.git"
+    "url": "git+https://github.com/esradev/Farazsms-React.git"
   },
   "author": "wpstorm",
   "license": "GPL-2.0-or-later",

@@ -345,6 +345,7 @@ function Phonebook() {
             >
               <SettingsFormInput
                 {...input}
+                isMulti
                 onChange={
                   input.type === "select"
                     ? (selectedOption) =>

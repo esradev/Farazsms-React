@@ -105,4 +105,14 @@ class Farazsms_Options
         $farazsms_aff_options = '';
         add_option('farazsms_aff_options', $farazsms_aff_options);
     }
+    /**
+     * Register Integrations options.
+     *
+     * @since 2.0.0
+     */
+    public function register_integrations_options()
+    {
+        $farazsms_integrations_options = '';
+        add_option('farazsms_integrations_options', $farazsms_integrations_options);
+    }
 }

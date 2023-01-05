@@ -14,7 +14,7 @@ const PluginsCardCheckbox = (props) => {
   const { use, ...inputProps } = props;
   return (
     <label className="toggle">
-      <input type="checkbox" checked={use} />
+      <input type="checkbox" checked={use} {...inputProps} />
       <span></span>
     </label>
   );
