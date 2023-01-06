@@ -392,7 +392,7 @@ class Farazsms_Routes
     public function add_edd_options($data)
     {
         $option = array(
-            'edd_phonebook'            => $data['edd_phonebook'] ? $data['edd_phonebook'] : '',
+            'edd_phonebook'            => $data['edd_phonebook'] ? $data['edd_phonebook'] : [],
             'edd_send_to_user'         => $data['edd_send_to_user'] ? $data['edd_send_to_user'] : '',
             'edd_user_pattern'         => $data['edd_user_pattern'] ? $data['edd_user_pattern'] : '',
             'edd_send_to_admin'        => $data['edd_send_to_admin'] ? $data['edd_send_to_admin'] : '',

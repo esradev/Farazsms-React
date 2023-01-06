@@ -41,13 +41,63 @@ class Farazsms_Public extends Farazsms_Base
     // private $_woo_installed = false;
     // private $_digits_installed = false;
 
-    private static $fsms_addmf;
-    private static $fsms_requiredmf;
-    private static $fsms_notify_admin;
-    private static $approved_commentp;
-    private static $user_pattern;
-    private static $admin_pattern;
-    private static $comment_phone_book;
+    private static $add_mobile_field;
+    private static $required_mobile_field;
+    private static $notify_admin_for_comment;
+    private static $approved_comment_pattern;
+    private static $comment_pattern;
+    private static $notify_admin_for_comment_pattern;
+    private static $comment_phonebook;
+
+
+    private static $admin_login_notify;
+    private static $admin_login_notify_pattern;
+    private static $select_roles;
+
+
+
+    private static $woo_checkout_otp;
+    private static $woo_retention_order_no;
+    private static $woo_retention_order_month;
+    private static $woo_retention_msg;
+
+
+    private static $custom_phonebook;
+    private static $custom_phone_meta_keys;
+    private static $digits_phonebook;
+    private static $woo_phonebook;
+    private static $gf_phonebook;
+    private static $gf_selected_field;
+
+    private static $edd_phonebook;
+    private static $edd_send_to_user;
+    private static $edd_user_pattern;
+    private static $edd_send_to_admin;
+    private static $edd_admin_pattern;
+
+    private static $news_phonebook;
+    private static $news_send_verify_via_pattern;
+    private static $news_post_notify;
+    private static $news_post_notify_msg;
+    private static $news_product_notify;
+    private static $news_product_notify_msg;
+
+    private static $aff_user_mobile_field;
+    private static $aff_user_register;
+    private static $aff_user_register_pattern;
+    private static $aff_user_new_ref;
+    private static $aff_user_new_ref_pattern;
+    private static $aff_user_on_approval;
+    private static $aff_user_on_approval_pattern;
+    private static $aff_admin_user_register;
+    private static $aff_admin_user_register_pattern;
+    private static $aff_admin_user_new_ref;
+    private static $aff_admin_user_new_ref_pattern;
+    private static $aff_admin_user_on_approval;
+    private static $aff_admin_user_on_approval_pattern;
+
+
+
 
     /**
      * Initialize the class and set its properties.
@@ -63,15 +113,77 @@ class Farazsms_Public extends Farazsms_Base
         $this->version = $version;
         add_shortcode('farazsms', [$this, 'farazsms_newsletter']);
 
+        $login_notify_options = json_decode(get_option('farazsms_login_notify_options'), true);
+        if ($login_notify_options) {
+
+            self::$admin_login_notify = $login_notify_options['admin_login_notify'];
+            self::$admin_login_notify_pattern = $login_notify_options['admin_login_notify_pattern'];
+            self::$select_roles = $login_notify_options['select_roles'];
+        }
+
         $comments_options = json_decode(get_option('farazsms_comments_options'), true);
         if ($comments_options) {
-            self::$fsms_addmf = $comments_options['add_mobile_field'];
-            self::$fsms_requiredmf = $comments_options['required_mobile_field'];
-            self::$fsms_notify_admin = $comments_options['notify_admin_for_comment'];
-            self::$approved_commentp = $comments_options['approved_comment_pattern'];
+            self::$add_mobile_field = $comments_options['add_mobile_field'];
+            self::$required_mobile_field = $comments_options['required_mobile_field'];
+            self::$notify_admin_for_comment = $comments_options['notify_admin_for_comment'];
+            self::$approved_comment_pattern = $comments_options['approved_comment_pattern'];
             self::$user_pattern = $comments_options['comment_pattern'];
             self::$admin_pattern = $comments_options['notify_admin_for_comment_pattern'];
-            self::$comment_phone_book = $comments_options['comment_phonebook'];
+            self::$comment_phonebook = $comments_options['comment_phonebook'];
+        }
+
+        $woocommerce_options = json_decode(get_option('farazsms_woocommerce_options'), true);
+        if ($woocommerce_options) {
+            self::$woo_checkout_otp = $woocommerce_options['woo_checkout_otp'];
+            self::$woo_retention_order_no = $woocommerce_options['woo_retention_order_no'];
+            self::$woo_retention_order_month = $woocommerce_options['woo_retention_order_month'];
+            self::$woo_retention_msg = $woocommerce_options['woo_retention_msg'];
+        }
+
+        $phonebook_options = json_decode(get_option('farazsms_phonebook_options'), true);
+        if ($phonebook_options) {
+            self::$custom_phonebook = $phonebook_options['custom_phonebook'];
+            self::$custom_phone_meta_keys = $phonebook_options['custom_phone_meta_keys'];
+            self::$digits_phonebook = $phonebook_options['digits_phonebook'];
+            self::$woo_phonebook = $phonebook_options['woo_phonebook'];
+            self::$gf_phonebook = $phonebook_options['gf_phonebook'];
+            self::$gf_selected_field = $phonebook_options['gf_selected_field'];
+        }
+
+        $edd_options = json_decode(get_option('farazsms_edd_options'), true);
+        if ($edd_options) {
+            self::$edd_phonebook = $edd_options['edd_phonebook'];
+            self::$edd_send_to_user = $edd_options['edd_send_to_user'];
+            self::$edd_user_pattern = $edd_options['edd_user_pattern'];
+            self::$edd_send_to_admin = $edd_options['edd_send_to_admin'];
+            self::$edd_admin_pattern = $edd_options['edd_admin_pattern'];
+        }
+
+        $newsletter_options = json_decode(get_option('farazsms_newsletter_options'), true);
+        if ($newsletter_options) {
+            self::$news_phonebook = $newsletter_options['news_phonebook'];
+            self::$news_send_verify_via_pattern = $newsletter_options['news_send_verify_via_pattern'];
+            self::$news_post_notify = $newsletter_options['news_post_notify'];
+            self::$news_post_notify_msg = $newsletter_options['news_post_notify_msg'];
+            self::$news_product_notify = $newsletter_options['news_product_notify'];
+            self::$news_product_notify_msg = $newsletter_options['news_product_notify_msg'];
+        }
+
+        $aff_options = json_decode(get_option('farazsms_aff_options'), true);
+        if ($aff_options) {
+            self::$aff_user_mobile_field = $aff_options['aff_user_mobile_field'];
+            self::$aff_user_register = $aff_options['aff_user_register'];
+            self::$aff_user_register_pattern = $aff_options['aff_user_register_pattern'];
+            self::$aff_user_new_ref = $aff_options['aff_user_new_ref'];
+            self::$aff_user_new_ref_pattern = $aff_options['aff_user_new_ref_pattern'];
+            self::$aff_user_on_approval = $aff_options['aff_user_on_approval'];
+            self::$aff_user_on_approval_pattern = $aff_options['aff_user_on_approval_pattern'];
+            self::$aff_admin_user_register = $aff_options['aff_admin_user_register'];
+            self::$aff_admin_user_register_pattern = $aff_options['aff_admin_user_register_pattern'];
+            self::$aff_admin_user_new_ref = $aff_options['aff_admin_user_new_ref'];
+            self::$aff_admin_user_new_ref_pattern = $aff_options['aff_admin_user_new_ref_pattern'];
+            self::$aff_admin_user_on_approval = $aff_options['aff_admin_user_on_approval'];
+            self::$aff_admin_user_on_approval_pattern = $aff_options['aff_admin_user_on_approval_pattern'];
         }
     }
 
@@ -86,7 +198,7 @@ class Farazsms_Public extends Farazsms_Base
         //wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'assets/css/farazsms-public.css', array(), $this->version, 'all' );
         wp_register_style("farazsms-newsletter", plugin_dir_url(__FILE__) . 'assets/css/farazsms-newsletter.css', array(), $this->version, 'all');
 
-        $woo_checkout_otp = get_option('fsms_woo_checkout_otp', 'false');
+        $woo_checkout_otp = self::$woo_checkout_otp;
         if ($woo_checkout_otp === 'true' && is_checkout()) {
             wp_enqueue_style("farazsms-woo-otp", plugin_dir_url(__FILE__) . 'assets/css/farazsms-woo-otp.css', array(), $this->version, 'all');
         }
@@ -103,7 +215,7 @@ class Farazsms_Public extends Farazsms_Base
         //wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/farazsms-public.js', array( 'jquery' ), $this->version, false );
         wp_register_script("farazsms-newsletter", plugin_dir_url(__FILE__) . 'js/farazsms-newsletter.js', array('jquery'), $this->version, false);
 
-        $woo_checkout_otp = get_option('fsms_woo_checkout_otp', 'false');
+        $woo_checkout_otp = self::$woo_checkout_otp;
         if ($woo_checkout_otp === 'true' && is_checkout()) {
             wp_enqueue_script("farazsms-woo-otp", plugin_dir_url(__FILE__) . 'js/farazsms-woo-otp.js', array('jquery'), $this->version, TRUE);
             wp_localize_script(
@@ -124,7 +236,7 @@ class Farazsms_Public extends Farazsms_Base
     public function monitor_update_user_metadata($check, $object_id, $meta_key, $meta_value)
     {
         $fsms_base = Farazsms_Base::get_instance();
-        $selected_meta_keys = get_option('fsms_custom_phone_meta_keys', []);
+        $selected_meta_keys = self::$custom_phone_meta_keys;
         if (!in_array($meta_key, $selected_meta_keys)) {
             return $check;
         }
@@ -132,21 +244,21 @@ class Farazsms_Public extends Farazsms_Base
         if (!$phone) {
             return $check;
         }
-        $custom_phone_books = get_option('fsms_custom_phone_books', []);
-        if (empty($custom_phone_books)) {
+        $custom_phonebooks = self::$custom_phonebook;
+        if (empty($custom_phonebooks)) {
             return $check;
         }
         $user_info = get_userdata($object_id);
-        foreach ($custom_phone_books as $phone_bookId) {
-            //$fsms_base::save_to_phonebook($phone, $phone_bookId);
+        foreach ($custom_phonebooks as $phonebookId) {
+            //$fsms_base::save_to_phonebook($phone, $phonebookId);
             $data[] = [
                 "number" => $phone,
                 "name"   => $user_info->display_name ?? '',
-                "phonebook_id" => (int) $phone_bookId
+                "phonebook_id" => (int) $phonebookId
             ];
-            $fsms_base::save_to_phonebookv3($data);
+            $fsms_base->save_to_phonebookv3($data);
         }
-        $fsms_base::send_welcome_message($phone, $object_id);
+        $fsms_base->send_welcome_message($phone, $object_id);
         return $check;
     }
 
@@ -163,23 +275,23 @@ class Farazsms_Public extends Farazsms_Base
             return;
         }
         $fsms_base = Farazsms_Base::get_instance();
-        $digits_phone_books = get_option('fsms_digits_phone_books', []);
-        //if(empty($digits_phone_books)){return;}
+        $digits_phonebooks = self::$digits_phonebook;
+        //if(empty($digits_phonebooks)){return;}
         $user_info = get_userdata($user_id);
-        foreach ($digits_phone_books as $phone_bookId) {
-            //$fsms_base::save_to_phonebook($phone, $phone_bookId);
+        foreach ($digits_phonebooks as $phonebookId) {
+            //$fsms_base::save_to_phonebook($phone, $phonebookId);
             $data[] = [
                 "number" => $digits_phone,
                 "name"   => $user_info->display_name ?? '',
-                "phonebook_id" => (int) $phone_bookId
+                "phonebook_id" => (int) $phonebookId
             ];
-            $fsms_base::save_to_phonebookv3($data);
+            $fsms_base->save_to_phonebookv3($data);
         }
         $already_sent_one = get_user_meta($user_id, 'sent_welcome_message', TRUE);
         if (!empty($already_sent_one) && $already_sent_one == '1') {
             return;
         }
-        $fsms_base::send_welcome_message($digits_phone, $user_id);
+        $fsms_base->send_welcome_message($digits_phone, $user_id);
         update_user_meta($user_id, 'sent_welcome_message', '1');
     }
 
@@ -211,15 +323,15 @@ class Farazsms_Public extends Farazsms_Base
             return;
         }
         //		$phone = substr($phone,-10);
-        $woo_phone_books = get_option('fsms_woo_phone_books', []);
-        foreach ($woo_phone_books as $phone_bookId) {
-            //$fsms_base::save_to_phonebook($phone, $phone_bookId);
+        $woo_phonebooks = self::$woo_phonebook;
+        foreach ($woo_phonebooks as $phonebookId) {
+            //$fsms_base::save_to_phonebook($phone, $phonebookId);
             $data[] = [
                 "number" => $phone,
                 "name"   => $name,
-                "phonebook_id" => (int) $phone_bookId
+                "phonebook_id" => (int) $phonebookId
             ];
-            $fsms_base::save_to_phonebookv3($data);
+            $fsms_base->save_to_phonebookv3($data);
         }
         //$fsms_base::send_welcome_message($phone, $order->get_billing_first_name().' '.$order->get_billing_last_name());
         return true;
@@ -233,13 +345,13 @@ class Farazsms_Public extends Farazsms_Base
 
     public function add_mobile_field_to_comment_form()
     {
-        if (!self::$fsms_addmf === true) {
+        if (!self::$add_mobile_field === true) {
             return;
         }
         $r = '';
         $res = '<p class="comment-form-phone">'
             . '<label for="mobile">شماره موبایل';
-        if (self::$fsms_requiredmf === true) {
+        if (self::$required_mobile_field === true) {
             $res .= ' <span class="required">*</span></label>';
             $r = 'required="required"';
         }
@@ -260,7 +372,7 @@ class Farazsms_Public extends Farazsms_Base
     // Verify comment input
     public function verify_comment_input($commentdata)
     {
-        if (empty($commentdata['comment_parent']) && self::$fsms_requiredmf === true) {
+        if (empty($commentdata['comment_parent']) && self::$required_mobile_field === true) {
             if (!isset($_POST['mobile']) or empty($_POST['mobile'])) wp_die(__('Error: Mobile number is required.', 'farazsms'));
         }
         return $commentdata;
@@ -277,12 +389,12 @@ class Farazsms_Public extends Farazsms_Base
         $is_admin = in_array('administrator', (array) $user->roles);
         if ($comment->comment_parent == 0) {
             $mobile = get_comment_meta($comment_id)['mobile'][0] ?? '';
-            if (!empty(self::$approved_commentp) || !empty($mobile)) {
-                $fsms_base::send_comment_reply_sms($mobile, self::$approved_commentp, $data);
+            if (!empty(self::$approved_comment_pattern) || !empty($mobile)) {
+                $fsms_base->send_comment_reply_sms($mobile, self::$approved_comment_pattern, $data);
             }
         }
-        if (self::$fsms_notify_admin == 1 && !$is_admin) {
-            $fsms_base::send_comment_reply_sms($fsms_base::getAdminNumber(), self::$admin_pattern, $data);
+        if (self::$notify_admin_for_comment == 1 && !$is_admin) {
+            $fsms_base->send_comment_reply_sms($fsms_base::getAdminNumber(), self::$notify_admin_for_comment_pattern, $data);
         }
         if ($is_admin) {
             if (empty($mobile)) return false;
@@ -291,8 +403,8 @@ class Farazsms_Public extends Farazsms_Base
             }
             $comment = get_comment($comment->comment_parent);
             $data = $this->comments_farazsms_shortcode($comment, $comment_id);
-            $fsms_base::send_comment_reply_sms($mobile, self::$user_pattern, $data);
-            $fsms_base::save_comment_mobile_to_phonebook($mobile);
+            $fsms_base->send_comment_reply_sms($mobile, self::$comment_pattern, $data);
+            $fsms_base->save_comment_mobile_to_phonebook($mobile);
         }
     }
 
@@ -342,13 +454,13 @@ class Farazsms_Public extends Farazsms_Base
         $payment_meta = edd_get_payment_meta($payment_id);
         $mobile = $payment_meta['phone'];
         $data = $this->fsms_get_edd_order_data($payment_meta);
-        if (get_option('edd_send_to_user', 'false') === 'true') {
-            $fsms_base::send_edd_sms($mobile, get_option('edd_user_pcode', ''), $data);
+        if (self::$edd_send_to_user === 'true') {
+            $fsms_base->send_edd_sms($mobile, self::$edd_user_pattern, $data);
         }
-        if (get_option('edd_send_to_admin', 'false') === 'true') {
-            $fsms_base::send_edd_sms($fsms_base::getAdminNumber(), get_option('edd_admin_pcode', ''), $data);
+        if (self::$edd_send_to_admin === 'true') {
+            $fsms_base->send_edd_sms($fsms_base::getAdminNumber(), self::$edd_admin_pattern, $data);
         }
-        $edd_phonebooks = get_option('edd_phonebooks_choice', []);
+        $edd_phonebooks = self::$edd_phonebook;
         if (!empty($edd_phonebooks)) {
             foreach ($edd_phonebooks as $phonebookID) {
                 //$fsms_base::save_to_phonebook($mobile, $phonebookID);
@@ -357,7 +469,7 @@ class Farazsms_Public extends Farazsms_Base
                     "name"   => '',
                     "phonebook_id" => (int) $phonebookID
                 ];
-                $fsms_base::save_to_phonebookv3($datae);
+                $fsms_base->save_to_phonebookv3($datae);
             }
         }
     }
@@ -466,7 +578,7 @@ class Farazsms_Public extends Farazsms_Base
     public function fsms_club_gform_post_update_entry($entry)
     {
         $fsms_base = Farazsms_Base::get_instance();
-        $fsc_gravity_forms_fields = get_option('fsms_gf_selected_field', []);
+        $fsc_gravity_forms_fields = self::$gf_selected_field;
         $form_ids = array();
         $field_ids = array();
         foreach ($fsc_gravity_forms_fields as $field) {
@@ -485,15 +597,15 @@ class Farazsms_Public extends Farazsms_Base
                 return;
             }
             if ($value !== null) {
-                $woo_gf_books = get_option('fsms_gf_phone_books', []);
-                foreach ($woo_gf_books as $phone_bookId) {
-                    //$fsms_base::save_to_phonebook($phone, $phone_bookId);
+                $woo_gf_books = self::$gf_phonebook;
+                foreach ($woo_gf_books as $phonebookId) {
+                    //$fsms_base::save_to_phonebook($phone, $phonebookId);
                     $data[] = [
                         "number" => $phone,
                         "name"   => '',
-                        "phonebook_id" => (int) $phone_bookId
+                        "phonebook_id" => (int) $phonebookId
                     ];
-                    $fsms_base::save_to_phonebookv3($data);
+                    $fsms_base->save_to_phonebookv3($data);
                 }
             }
         }
@@ -515,7 +627,7 @@ class Farazsms_Public extends Farazsms_Base
         // $this->monitor_update_user_metadata(null, 5,'digits_phone', "09132789372");
         // $this->fsms_first_notification_before_expire(false, 5,'', "before_expire");
         $fsms_base = Farazsms_Base::get_instance();
-        $fsms_base::send_welcome_message("09038430716", 31);
+        $fsms_base->send_welcome_message("09038430716", 31);
     }
 
     /**
@@ -533,7 +645,7 @@ class Farazsms_Public extends Farazsms_Base
             'fsms_ajax_object',
             array('ajax_url' => admin_url('admin-ajax.php'))
         );
-        $newsletter_send_ver_code = get_option('fsms_newsletter_send_ver_code', 'false');
+        $newsletter_send_ver_code = self::$news_send_verify_via_pattern;
         return '<div id="fsms_newsletter">
                   <form id="fsms_newsletter_form">
                     <div class="fsms_newsletter_input a">
@@ -570,7 +682,7 @@ class Farazsms_Public extends Farazsms_Base
         $fsms_base = Farazsms_Base::get_instance();
         $mobile = $_POST['mobile'];
         $name = $_POST['name'];
-        $newsletter_send_ver_code = get_option('fsms_newsletter_send_ver_code', 'false');
+        $newsletter_send_ver_code = self::$news_send_verify_via_pattern;
         if ($fsms_base::check_if_phone_already_exist($mobile)) {
             wp_send_json_error();
         }
@@ -580,7 +692,7 @@ class Farazsms_Public extends Farazsms_Base
                 'name' => $name,
             );
             $fsms_base::save_subscriber_to_db($data);
-            $newsletter_phonebooks = get_option('fsms_newsletter_phonebooks', []);
+            $newsletter_phonebooks = self::$news_phonebook;
             foreach ($newsletter_phonebooks as $phonebookID) {
                 //$fsms_base::save_to_phonebook($mobile, $phonebookID);
                 $datap[] = [
@@ -588,7 +700,7 @@ class Farazsms_Public extends Farazsms_Base
                     "name"   => $name,
                     "phonebook_id" => (int) $phonebookID
                 ];
-                $fsms_base::save_to_phonebookv3($datap);
+                $fsms_base->save_to_phonebookv3($datap);
             }
             $fsms_base::send_newsletter_welcome_message($mobile, $name);
             wp_send_json_success();
@@ -599,7 +711,7 @@ class Farazsms_Public extends Farazsms_Base
                 "code" => $generated_code,
                 "name" => $name
             );
-            $fsms_base::send_newsletter_verification_code($mobile, $data);
+            $fsms_base->send_newsletter_verification_code($mobile, $data);
             wp_send_json_success();
         }
     }
@@ -623,7 +735,7 @@ class Farazsms_Public extends Farazsms_Base
                 'name' => $name
             );
             $fsms_base::save_subscriber_to_db($data);
-            $newsletter_phonebooks = get_option('fsms_newsletter_phonebooks', []);
+            $newsletter_phonebooks = self::$news_phonebook;
             foreach ($newsletter_phonebooks as $phonebookID) {
                 //$fsms_base::save_to_phonebook($mobile, $phonebookID);
                 $datap[] = [
@@ -631,7 +743,7 @@ class Farazsms_Public extends Farazsms_Base
                     "name"   => $name,
                     "phonebook_id" => (int) $phonebookID
                 ];
-                $fsms_base::save_to_phonebookv3($datap);
+                $fsms_base->save_to_phonebookv3($datap);
             }
             $fsms_base::send_newsletter_welcome_message($mobile, $name);
             wp_send_json_success();
@@ -648,8 +760,8 @@ class Farazsms_Public extends Farazsms_Base
 
     public function fsms_publish_post_notification($post_id)
     {
-        $newsletter_new_post_notification = get_option('fsms_newsletter_new_post_notification', 'false');
-        $newsletter_post_notification_message = get_option('fsms_newsletter_post_notification_message', '');
+        $newsletter_new_post_notification = self::$news_post_notify;
+        $newsletter_post_notification_message = self::$news_post_notify_msg;
         if ($newsletter_new_post_notification == "false" || empty($newsletter_post_notification_message)) {
             return;
         }
@@ -666,7 +778,7 @@ class Farazsms_Public extends Farazsms_Base
         foreach ($subscribers as $subscriber) {
             $phones[] = $subscriber->phone;
         }
-        $fsms_base::send_message($phones, $notification_message);
+        $fsms_base->send_message($phones, $notification_message);
         remove_action('publish_post', 'fsms_publish_post_notification', 10);
     }
 
@@ -683,8 +795,8 @@ class Farazsms_Public extends Farazsms_Base
             return;
         }
         if ($new_status === 'publish' && $new_status !== $old_status) {
-            $newsletter_new_prodcut_notification = get_option('fsms_newsletter_new_product_notification', 'false');
-            $newsletter_prodcut_notification_message = get_option('fsms_newsletter_product_notification_message', '');
+            $newsletter_new_prodcut_notification = self::$news_product_notify;
+            $newsletter_prodcut_notification_message = self::$news_product_notify_msg;
             if ($newsletter_new_prodcut_notification === "false" || empty($newsletter_prodcut_notification_message)) {
                 return;
             }
@@ -706,7 +818,7 @@ class Farazsms_Public extends Farazsms_Base
             foreach ($subscribers as $subscriber) {
                 $phones[] = $subscriber->phone;
             }
-            $fsms_base::send_message($phones, $notification_message);
+            $fsms_base->send_message($phones, $notification_message);
         }
     }
 
@@ -729,12 +841,12 @@ class Farazsms_Public extends Farazsms_Base
             }
         }
         $fsms_base = Farazsms_Base::get_instance();
-        $credit = $fsms_base::get_credit();
+        $credit = $fsms_base->get_credit();
         if (!$credit) {
             return;
         }
         if ((int)$credit < 10000) {
-            $fsms_base::send_admin_low_credit_to_admin();
+            $fsms_base->send_admin_low_credit_to_admin();
             update_user_meta($user->ID, 'faraz_low_credit_noti_sent_timestamp', time());
         }
     }
@@ -748,25 +860,23 @@ class Farazsms_Public extends Farazsms_Base
 
     public function fsms_admin_roles_login_action($user_login, $user)
     {
-        //     $credentials_option = get_option('fsms_credentials');
-        //     $admin_login_noti_roles = $credentials_option['fsms_admin_login_noti_roles'];
-        //     if (empty($admin_login_noti_roles)) {
-        //         return;
-        //     }
-        //     if (empty(array_intersect($admin_login_noti_roles, $user->roles))) {
-        //         return;
-        //     }
-        //     $credentials_option = get_option('fsms_credentials');
-        //     $admin_login_noti = $credentials_option['fsms_admin_login_noti'];
-        //     $admin_login_noti_p = $credentials_option['fsms_admin_login_noti_p'];
-        //     if ($admin_login_noti == "false" || empty($admin_login_noti_p)) {
-        //         return;
-        //     }
-        //     $data['date'] = date_i18n('H:i:s d-m-Y');
-        //     $data['user_login'] = $user->user_login;
-        //     $data['display_name'] = $user->display_name;
-        //     $fsms_base = Farazsms_Base::get_instance();
-        //     $fsms_base::send_admins_login_notification_to_superadmin($admin_login_noti_p, $data);
+        $admin_login_noti_roles = self::$select_roles;
+        if (empty($admin_login_noti_roles)) {
+            return;
+        }
+        if (empty(array_intersect($admin_login_noti_roles, $user->roles))) {
+            return;
+        }
+        $admin_login_noti = self::$admin_login_notify;
+        $admin_login_noti_p = self::$admin_login_notify_pattern;
+        if ($admin_login_noti == "false" || empty($admin_login_noti_p)) {
+            return;
+        }
+        $data['date'] = date_i18n('H:i:s d-m-Y');
+        $data['user_login'] = $user->user_login;
+        $data['display_name'] = $user->display_name;
+        $fsms_base = Farazsms_Base::get_instance();
+        $fsms_base->send_admins_login_notification_to_superadmin($admin_login_noti_p, $data);
     }
 
     /**
@@ -792,7 +902,7 @@ class Farazsms_Public extends Farazsms_Base
         $product = wc_get_product($most_expensive_product_id);
         $data["item"] = $product->get_title();
         $data["item_link"] = get_permalink($most_expensive_product_id);
-        $fsms_base::send_timed_message($phone, $data, $order->get_date_created());
+        $fsms_base->send_timed_message($phone, $data, $order->get_date_created());
     }
 
     /**
@@ -804,9 +914,9 @@ class Farazsms_Public extends Farazsms_Base
 
     public function fsms_woo_retention_action()
     {
-        $retention_order_no = get_option('fsms_woo_retention_order_no', '');
-        $retention_order_month = get_option('fsms_woo_retention_order_month', '');
-        $retention_message = get_option('fsms_woo_retention_message', '');
+        $retention_order_no = self::$woo_retention_order_no;
+        $retention_order_month = self::$woo_retention_order_month;
+        $retention_message = self::$woo_retention_msg;
         if (empty($retention_order_no) || empty($retention_order_month) || empty($retention_message)) {
             return;
         }
@@ -840,7 +950,7 @@ class Farazsms_Public extends Farazsms_Base
                             $last_order->get_formatted_billing_full_name(),
                             $last_order->get_formatted_shipping_full_name(),
                         ), $retention_message);
-                        $fsms_base::send_message([$last_order->get_billing_phone()], $message);
+                        $fsms_base->send_message([$last_order->get_billing_phone()], $message);
                         update_post_meta($last_order->get_id(), 'sent_retention_message', '1');
                     }
                 }
@@ -877,7 +987,7 @@ class Farazsms_Public extends Farazsms_Base
             $user->display_name,
             get_option("ihc_notification_before_time", "5"),
         ), $first_noti_sms_message);
-        $fsms_base::send_message([$phone], $message, "+98club");
+        $fsms_base->send_message([$phone], $message, "+98club");
         return $sent;
     }
 
@@ -897,14 +1007,14 @@ class Farazsms_Public extends Farazsms_Base
         $args['user_mobile'] = $user_mobile;
         if (!isset($args['user_nicename'])) $args['user_nicename'] = $user->nickname;
         //affs_add_mobile_book_number($user_mobile);
-        if (get_option('fsms_aff_user_register', 'false') == 'true') {
-            $user_register_pattern = get_option('fsms_aff_user_register_message', '');
+        if (self::$aff_user_register == 'true') {
+            $user_register_pattern = self::$aff_user_register_pattern;
             if (!empty($user_register_pattern)) {
                 $fsms_base::affs_send_sms($user_mobile, $user_register_pattern, $args);
             }
         }
-        if (get_option('fsms_aff_admin_user_register', 'false') == 'true') {
-            $user_register_pattern = get_option('fsms_aff_admin_user_register_message', '');
+        if (self::$aff_admin_user_register == 'true') {
+            $user_register_pattern = self::$aff_admin_user_register_pattern;
             $admin_mobile = $fsms_base::getAdminNumber();
             if (!empty($user_register_pattern) && !empty($admin_mobile)) {
                 $fsms_base::affs_send_sms($admin_mobile, $user_register_pattern, $args);
@@ -927,7 +1037,7 @@ class Farazsms_Public extends Farazsms_Base
 
         $mobile = get_user_meta($user->ID, 'digits_phone_no')[0] ?? '';
         if ($mobile == '') $mobile = get_user_meta($user->ID, 'wupp_mobile')[0] ?? '';
-        $field_custom = get_option('fsms_aff_user_mobile_field', []);
+        $field_custom = self::$aff_user_mobile_field;
         if (empty($mobile) && !empty($field_custom)) {
             foreach ($field_custom as $mobile_field) {
                 $mobile = get_user_meta($user->ID, $mobile_field, TRUE);
@@ -940,14 +1050,14 @@ class Farazsms_Public extends Farazsms_Base
         $args['user_mobile'] = $mobile;
 
         if (!isset($args['user_nicename'])) $args['user_nicename'] = $user->nickname;
-        if (get_option('fsms_aff_user_register', 'false') == 'true') {
-            $user_register_pattern = get_option('fsms_aff_user_register_message', '');
+        if (self::$aff_user_register == 'true') {
+            $user_register_pattern = self::$aff_user_register_pattern;
             if (!empty($user_register_pattern)) {
                 $fsms_base::affs_send_sms($mobile, $user_register_pattern, $args);
             }
         }
-        if (get_option('fsms_aff_admin_user_register', 'false') == 'true') {
-            $user_register_pattern = get_option('fsms_aff_admin_user_register_message', '');
+        if (self::$aff_admin_user_register == 'true') {
+            $user_register_pattern = self::$aff_admin_user_register_pattern;
             $admin_mobile = $fsms_base::getAdminNumber();
             if (!empty($user_register_pattern) && !empty($admin_mobile)) {
                 $fsms_base::affs_send_sms($admin_mobile, $user_register_pattern, $args);
@@ -968,7 +1078,7 @@ class Farazsms_Public extends Farazsms_Base
         $user = get_user_by('id', $user_id);
         $mobile = get_user_meta($user_id, 'digits_phone_no')[0] ?? '';
         if ($mobile == '') $mobile = get_user_meta($user_id, 'wupp_mobile')[0] ?? '';
-        $field_custom = get_option('fsms_aff_user_mobile_field', []);
+        $field_custom = self::$aff_user_mobile_field;
         if (empty($mobile) && !empty($field_custom)) {
             foreach ($field_custom as $mobile_field) {
                 $mobile = get_user_meta($user_id, $mobile_field, TRUE);
@@ -981,14 +1091,14 @@ class Farazsms_Public extends Farazsms_Base
         $args['user_mobile'] = $mobile;
 
         if (!isset($args['user_nicename'])) $args['user_nicename'] = $user->nickname;
-        if (get_option('fsms_aff_user_register', 'false') == 'true') {
-            $user_register_pattern = get_option('fsms_aff_user_register_message', '');
+        if (self::$aff_user_register == 'true') {
+            $user_register_pattern = self::$aff_user_register_pattern;
             if (!empty($user_register_pattern)) {
                 $fsms_base::affs_send_sms($mobile, $user_register_pattern, $args);
             }
         }
-        if (get_option('fsms_aff_admin_user_register', 'false') == 'true') {
-            $user_register_pattern = get_option('fsms_aff_admin_user_register_message', '');
+        if (self::$aff_admin_user_register == 'true') {
+            $user_register_pattern = self::$aff_admin_user_register_pattern;
             $admin_mobile = $fsms_base::getAdminNumber();
             if (!empty($user_register_pattern) && !empty($admin_mobile)) {
                 $fsms_base::affs_send_sms($admin_mobile, $user_register_pattern, $args);
@@ -1016,7 +1126,7 @@ class Farazsms_Public extends Farazsms_Base
         $mobile = get_user_meta($user_id, 'affs_mobile')[0] ?? '';
         if ($mobile == '') $mobile = get_user_meta($user_id, 'digits_phone_no')[0] ?? '';
         if ($mobile == '') $mobile = get_user_meta($user_id, 'wupp_mobile')[0] ?? '';
-        $field_custom = get_option('fsms_aff_user_mobile_field', []);
+        $field_custom = self::$aff_user_mobile_field;
         if (empty($mobile) && !empty($field_custom)) {
             foreach ($field_custom as $mobile_field) {
                 $mobile = get_user_meta($user_id, $mobile_field, TRUE);
@@ -1030,14 +1140,14 @@ class Farazsms_Public extends Farazsms_Base
         }
         if (substr($mobile, 0, 1) === '9') $mobile = '0' . $mobile;
         $data['user_mobile'] = $mobile;
-        if (get_option('fsms_aff_user_on_approval', 'false') == 'true') {
-            $aff_user_on_approval_pattern = get_option('fsms_aff_user_on_approval_message', '');
+        if (self::$aff_user_on_approval == 'true') {
+            $aff_user_on_approval_pattern = self::$aff_user_on_approval_pattern;
             if (!empty($user)) {
                 $fsms_base::affs_send_sms($mobile, $aff_user_on_approval_pattern, $data);
             }
         }
-        if (get_option('fsms_aff_admin_user_on_approval', 'false') == 'true') {
-            $aff_admin_user_on_approval_pattern = get_option('fsms_aff_admin_user_on_approval_message', '');
+        if (self::$aff_admin_user_on_approval == 'true') {
+            $aff_admin_user_on_approval_pattern = self::$aff_admin_user_on_approval_pattern;
             $admin_mobile = $fsms_base::getAdminNumber();
             if (!empty($aff_admin_user_on_approval_pattern) && !empty($admin_mobile)) {
                 $fsms_base::affs_send_sms($admin_mobile, $aff_admin_user_on_approval_pattern, $data);
@@ -1063,7 +1173,7 @@ class Farazsms_Public extends Farazsms_Base
         $mobile = get_user_meta($affiliate_info->user_id, 'affs_mobile')[0] ?? '';
         if ($mobile == '') $mobile = get_user_meta($affiliate_info->user_id, 'digits_phone_no')[0] ?? '';
         if ($mobile == '') $mobile = get_user_meta($affiliate_info->user_id, 'wupp_mobile')[0] ?? '';
-        $field_custom = get_option('fsms_aff_user_mobile_field', []);
+        $field_custom = self::$aff_user_mobile_field;
         if (empty($mobile) && !empty($field_custom)) {
             foreach ($field_custom as $mobile_field) {
                 $mobile = get_user_meta($affiliate_info->user_id, $mobile_field, TRUE);
@@ -1077,14 +1187,14 @@ class Farazsms_Public extends Farazsms_Base
         }
         if (substr($mobile, 0, 1) === '9') $mobile = '0' . $mobile;
         $data['user_mobile'] = $mobile;
-        if (get_option('fsms_aff_user_on_approval', 'false') == 'true') {
-            $aff_user_on_approval_pattern = get_option('fsms_aff_user_on_approval_message', '');
+        if (self::$aff_user_on_approval == 'true') {
+            $aff_user_on_approval_pattern = self::$aff_user_on_approval_pattern;
             if (!empty($user)) {
                 $fsms_base::affs_send_sms($mobile, $aff_user_on_approval_pattern, $data);
             }
         }
-        if (get_option('fsms_aff_admin_user_on_approval', 'false') == 'true') {
-            $aff_admin_user_on_approval_pattern = get_option('fsms_aff_admin_user_on_approval_message', '');
+        if (self::$aff_admin_user_on_approval == 'true') {
+            $aff_admin_user_on_approval_pattern = self::$aff_admin_user_on_approval_pattern;
             $admin_mobile = $fsms_base::getAdminNumber();
             if (!empty($aff_admin_user_on_approval_pattern) && !empty($admin_mobile)) {
                 $fsms_base::affs_send_sms($admin_mobile, $aff_admin_user_on_approval_pattern, $data);
@@ -1111,7 +1221,7 @@ class Farazsms_Public extends Farazsms_Base
         $mobile = get_user_meta($user_id, 'digits_phone_no')[0] ?? '';
         if ($mobile == '') $mobile = get_user_meta($user_id, 'wupp_mobile')[0] ?? '';
         if ($mobile == '') $mobile = get_user_meta($user_id, 'affs_mobile')[0] ?? '';
-        $field_custom = get_option('fsms_aff_user_mobile_field', []);
+        $field_custom = self::$aff_user_mobile_field;
         if (empty($mobile) && !empty($field_custom)) {
             foreach ($field_custom as $mobile_field) {
                 $mobile = get_user_meta($user_id, $mobile_field, TRUE);
@@ -1125,14 +1235,14 @@ class Farazsms_Public extends Farazsms_Base
         }
         $data['user_mobile'] = $mobile;
         $data['amount'] = $referral['amount'];
-        if (get_option('fsms_aff_user_new_ref', 'false') == 'true') {
-            $aff_user_new_ref_message = get_option('fsms_aff_user_new_ref_message', '');
+        if (self::$aff_user_new_ref == 'true') {
+            $aff_user_new_ref_message = self::$aff_user_new_ref_pattern;
             if (!empty($aff_user_new_ref_message)) {
                 $fsms_base::affs_send_sms($mobile, $aff_user_new_ref_message, $data);
             }
         }
-        if (get_option('fsms_aff_admin_user_new_ref', 'false') == 'true') {
-            $aff_admin_user_new_ref_message = get_option('fsms_aff_admin_user_new_ref_message', '');
+        if (self::$aff_admin_user_new_ref == 'true') {
+            $aff_admin_user_new_ref_message = self::$aff_admin_user_new_ref_pattern;
             $admin_mobile = $fsms_base::getAdminNumber();
             if (!empty($aff_admin_user_new_ref_message) && !empty($admin_mobile)) {
                 $fsms_base::affs_send_sms($admin_mobile, $aff_admin_user_new_ref_message, $data);
@@ -1303,7 +1413,7 @@ class Farazsms_Public extends Farazsms_Base
             $fsms_base = Farazsms_Base::get_instance();
             $admin_mobile_number = $fsms_base::getAdminNumber();
             $message = __('Dear user, your panel will expire less than a month from now. To renew your SMS panel, contact Faraz SMS', 'farazsms');
-            $fsms_base::send_message([$admin_mobile_number], $message, '+98club');
+            $fsms_base->send_message([$admin_mobile_number], $message, '+98club');
             update_option('sent_low_remaining_days_30', '1');
         } elseif ($daysleft > 1 && $daysleft < 7) {
             $already_sent = get_option('sent_low_remaining_days_7', '');
@@ -1313,7 +1423,7 @@ class Farazsms_Public extends Farazsms_Base
             $fsms_base = Farazsms_Base::get_instance();
             $admin_mobile_number = $fsms_base::getAdminNumber();
             $message = __('Dear user, your panel will expire less than a week from now. To renew your SMS panel, contact Faraz SMS.', 'farazsms');
-            $result = $fsms_base::send_message([$admin_mobile_number], $message, '+98club');
+            $result = $fsms_base->send_message([$admin_mobile_number], $message, '+98club');
             update_option('sent_low_remaining_days_7', '1');
         }
     }
@@ -1351,7 +1461,7 @@ class Farazsms_Public extends Farazsms_Base
         ), array(
             $user->display_name,
         ), $expire_noti_sms_message);
-        $fsms_base::send_message([$phone], $message, "+98club");
+        $fsms_base->send_message([$phone], $message, "+98club");
     }
 
     /**
@@ -1362,7 +1472,7 @@ class Farazsms_Public extends Farazsms_Base
 
     public function fsms_woocommerce_checkout_fields($fields)
     {
-        $woo_checkout_otp = get_option('fsms_woo_checkout_otp', 'false');
+        $woo_checkout_otp = self::$woo_checkout_otp;
 
         if ($woo_checkout_otp !== 'true') {
             return $fields;
@@ -1408,7 +1518,7 @@ class Farazsms_Public extends Farazsms_Base
 
     public function fsms_woocommerce_checkout_process()
     {
-        $woo_checkout_otp = get_option('fsms_woo_checkout_otp', 'false');
+        $woo_checkout_otp = self::$woo_checkout_otp;
         if ($woo_checkout_otp !== 'true') {
             return;
         }
@@ -1440,7 +1550,7 @@ class Farazsms_Public extends Farazsms_Base
         $data = array(
             "code" => $generated_code,
         );
-        $result = $fsms_base::send_woocommerce_verification_code($mobile, $data);
+        $result = $fsms_base->send_woocommerce_verification_code($mobile, $data);
         if (!$result) {
             wp_send_json_error(__('An error occurred', 'farazsms'));
         } else {

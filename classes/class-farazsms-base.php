@@ -41,10 +41,13 @@ if (!class_exists('Farazsms_Base')) {
         private static $fromNum;
         private static $fromNumAdver;
         private static $apiKey;
+
         private static $sendwm;
         private static $sendwm_with_pattern;
         private static $welcome_message;
         private static $welcomep;
+        private static $admin_login_notify_pattern;
+
         private static $_woo_installed = false;
         private static $_digits_installed = false;
         private static $_edd_installed = false;
@@ -56,7 +59,17 @@ if (!class_exists('Farazsms_Base')) {
         private static $_uap_installed = false;
         private static $_wcaf_installed = false;
 
-        private static $comment_phone_book;
+        private static $comment_phonebook;
+
+        private static $news_welcome;
+        private static $news_welcome_pattern;
+        private static $news_send_verify_pattern;
+
+        private static $woo_checkout_otp_pattern;
+        private static $woo_poll;
+        private static $woo_poll_time;
+        private static $woo_poll_msg;
+        private static $woo_tracking_pattern;
 
         public function __construct()
         {
@@ -91,17 +104,35 @@ if (!class_exists('Farazsms_Base')) {
                 $fsms_welcomep = $login_notify_options['welcome_sms_pattern'];
                 $fsms_sendwm_with_pattern = $login_notify_options['welcome_sms_use_pattern'];
                 $fsms_welcome_message = $login_notify_options['welcome_sms_msg'];
+                $admin_login_notify_pattern = $login_notify_options['admin_login_notify_pattern'];
                 if ($fsms_uname && $fsms_password && $fsms_fromnum) {
                     self::$sendwm = $fsms_sendwm === 'true';
                     self::$welcomep = self::fsms_tr_num($fsms_welcomep);
                     self::$sendwm_with_pattern = $fsms_sendwm_with_pattern === 'true';
                     self::$welcome_message = self::fsms_tr_num($fsms_welcome_message);
+                    self::$admin_login_notify_pattern = self::fsms_tr_num($admin_login_notify_pattern);
                 }
             }
 
             $comments_options = json_decode(get_option('farazsms_comments_options'), true);
             if ($comments_options) {
-                self::$comment_phone_book = $comments_options['comment_phonebook'];
+                self::$comment_phonebook = $comments_options['comment_phonebook'];
+            }
+
+            $newsletter_options = json_decode(get_option('farazsms_newsletter_options'), true);
+            if ($newsletter_options) {
+                self::$news_welcome = $newsletter_options['news_welcome'];
+                self::$news_welcome_pattern = $newsletter_options['news_welcome_pattern'];
+                self::$news_send_verify_pattern = $newsletter_options['news_send_verify_pattern'];
+            }
+
+            $woocommerce_options = json_decode(get_option('farazsms_woocommerce_options'), true);
+            if ($woocommerce_options) {
+                self::$woo_checkout_otp_pattern = $woocommerce_options['woo_checkout_otp_pattern'];
+                self::$woo_poll = $woocommerce_options['woo_poll'];
+                self::$woo_poll_time = $woocommerce_options['woo_poll_time'];
+                self::$woo_poll_msg = $woocommerce_options['woo_poll_msg'];
+                self::$woo_tracking_pattern = $woocommerce_options['woo_tracking_pattern'];
             }
 
             /**
@@ -348,14 +379,14 @@ if (!class_exists('Farazsms_Base')) {
          * 
          */
 
-        public function save_to_phonebook($phone, $phone_book)
+        public function save_to_phonebook($phone, $phonebook)
         {
             $phone = self::fsms_tr_num($phone);
             $body = array(
                 'uname'       => self::$username,
                 'pass'        => self::$password,
                 'op'          => 'phoneBookAdd',
-                'phoneBookId' => $phone_book,
+                'phoneBookId' => $phonebook,
                 'number'      => $phone
             );
 
@@ -378,14 +409,14 @@ if (!class_exists('Farazsms_Base')) {
             return true;
         }
 
-        public function save_to_phonebookv2($phone, $phone_book)
+        public function save_to_phonebookv2($phone, $phonebook)
         {
             $phone = self::fsms_tr_num($phone);
             $body = array(
                 'uname'       => self::$username,
                 'pass'        => self::$password,
                 'op'          => 'phoneBookAdd',
-                'phoneBookId' => $phone_book,
+                'phoneBookId' => $phonebook,
                 'number'      => $phone
             );
             $handler = curl_init("http://ippanel.com/api/select");
@@ -466,8 +497,8 @@ if (!class_exists('Farazsms_Base')) {
         public function check_if_credentials_is_valid()
         {
             $body = array(
-                'username'       => '9300410381',
-                'password'       => 'Faraz@2282037154',
+                'username'       => self::$username,
+                'password'       => self::$password,
             );
 
             $response = wp_remote_post(
@@ -753,7 +784,7 @@ if (!class_exists('Farazsms_Base')) {
 
         public function send_comment_reply_sms_to_admin($data)
         {
-            $fsms_admin_notify_pcode = self::fsms_tr_num(get_option('fsms_admin_notify_pcode'));
+            $fsms_admin_notify_pcode = self::fsms_tr_num(self::$admin_login_notify_pattern);
             if (empty($fsms_admin_notify_pcode) || empty(self::$admin_number)) {
                 return;
             }
@@ -790,8 +821,8 @@ if (!class_exists('Farazsms_Base')) {
         public function save_comment_mobile_to_phonebook($phone)
         {
             $phone = self::fsms_tr_num($phone);
-            foreach (self::$comment_phone_book as $phone_bookId) {
-                $this->save_to_phonebook($phone, $phone_bookId);
+            foreach (self::$comment_phonebook as $phonebookId) {
+                $this->save_to_phonebook($phone, $phonebookId);
             }
         }
 
@@ -946,7 +977,7 @@ if (!class_exists('Farazsms_Base')) {
         public function send_newsletter_verification_code($phone, $data)
         {
             $phone = self::fsms_tr_num($phone);
-            $pattern = get_option('fsms_newsletter_newsletter_pcode');
+            $pattern =  self::$news_send_verify_pattern;
             if (empty($phone) ||  empty($pattern) || empty($data)) {
                 return;
             }
@@ -973,7 +1004,7 @@ if (!class_exists('Farazsms_Base')) {
         public function send_woocommerce_verification_code($phone, $data)
         {
             $phone = self::fsms_tr_num($phone);
-            $pattern = get_option('fsms_woo_checkout_otp_pattern');
+            $pattern = self::$woo_checkout_otp_pattern;
             if (empty($phone) ||  empty($pattern) || empty($data)) {
                 return FALSE;
             }
@@ -1115,8 +1146,8 @@ if (!class_exists('Farazsms_Base')) {
 
         public static function send_newsletter_welcome_message($phone, $name)
         {
-            $newsletter_welcome = get_option('fsms_newsletter_welcome', 'false');
-            $newsletter_welcomep = get_option('fsms_newsletter_welcomep', '');
+            $newsletter_welcome = self::$news_welcome;
+            $newsletter_welcomep = self::$news_welcome_pattern;
             if (empty($phone) || empty($name) || $newsletter_welcome == "false" || empty($newsletter_welcomep)) {
                 return;
             }
@@ -1154,9 +1185,9 @@ if (!class_exists('Farazsms_Base')) {
 
         public function send_timed_message($phone, $data, $order_date)
         {
-            $fsms_woo_poll = get_option('fsms_woo_poll', 'false');
-            $fsms_woo_poll_time = get_option('fsms_woo_poll_time', '');
-            $fsms_woo_poll_message = get_option('fsms_woo_poll_message', '');
+            $fsms_woo_poll = self::$woo_poll;
+            $fsms_woo_poll_time = self::$woo_poll_time;
+            $fsms_woo_poll_message = self::$woo_poll_msg;
             if ($fsms_woo_poll == "false" || empty($fsms_woo_poll_time) || empty($fsms_woo_poll_message)) {
                 return;
             }
@@ -1208,15 +1239,15 @@ if (!class_exists('Farazsms_Base')) {
 
         public function send_tracking_code($phone, $tacking_code, $order_date)
         {
-            $tracking_code_pattern = get_option('fsms_woo_tracking_code_pattern', '');
+            $tracking_code_pattern = self::$woo_tracking_pattern;
             if (empty($tracking_code_pattern)) {
-                throw new Exception("پترن برای ارسال کد رهگیری وارد نشده است");
+                throw new Exception(__("Pattern not entered to send tracking code", "farazsms"));
             }
             $phone = self::fsms_tr_num($phone);
             $input_data = array();
             $patternMessage = self::get_registered_pattern_variables($tracking_code_pattern);
             if ($patternMessage === null) {
-                throw new Exception("احتمالا پترن شما تایید نشده است");
+                throw new Exception(__("Probably your pattern has not been approved", "farazsms"));
             }
 
             if (strpos($patternMessage, '%tracking_code%') !== false) {
@@ -1287,7 +1318,7 @@ if (!class_exists('Farazsms_Base')) {
             $body = array(
                 'uname'        => self::$username,
                 'pass'        => self::$password,
-                'subject'     => "بازخورد مستقیم از افزونه فراز اس ام اس",
+                'subject'     => __("Direct feedback from Faraz SMS plugin", "farazsms"),
                 'description' => $feedback_message . PHP_EOL . get_site_url(),
                 'type' => 'fiscal',   //'fiscal','webservice','problem','lineservices'
                 'importance' => 'low',  //'low','middle','quick','acute'
