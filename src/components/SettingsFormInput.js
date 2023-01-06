@@ -94,6 +94,7 @@ const SettingsFormInput = (props) => {
           )}
           {type === "select" && (
             <Select
+              isMulti
               value={value}
               type={type}
               placeholder="Select..."

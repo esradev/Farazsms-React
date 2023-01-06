@@ -291,7 +291,6 @@ function Settings() {
             >
               <SettingsFormInput
                 {...input}
-                isMulti
                 onChange={
                   input.type === "select"
                     ? (selectedOption) =>

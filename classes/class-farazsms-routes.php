@@ -465,15 +465,15 @@ class Farazsms_Routes
     public function add_integrations_options($data)
     {
         $option = array(
-            'woocommerce'     => $data['woocommerce'] ? $data['woocommerce'] : '',
-            'digits'  => $data['digits'] ? $data['digits'] : '',
-            'edd'     => $data['edd'] ? $data['edd'] : '',
-            'bookly'  => $data['bookly'] ? $data['bookly'] : '',
-            'gravityForms' => $data['gravityForms'] ? $data['gravityForms'] : '',
-            'indeedMembershipPro'     => $data['indeedMembershipPro'] ? $data['indeedMembershipPro'] : '',
-            'paidMembershipsPro'     => $data['paidMembershipsPro'] ? $data['paidMembershipsPro'] : '',
-            'affiliateWp'     => $data['affiliateWp'] ? $data['affiliateWp'] : '',
-            'indeedAffiliatePro'     => $data['indeedAffiliatePro'] ? $data['indeedAffiliatePro'] : '',
+            'woocommerce'                  => $data['woocommerce'] ? $data['woocommerce'] : '',
+            'digits'                       => $data['digits'] ? $data['digits'] : '',
+            'edd'                          => $data['edd'] ? $data['edd'] : '',
+            'bookly'                       => $data['bookly'] ? $data['bookly'] : '',
+            'gravityForms'                 => $data['gravityForms'] ? $data['gravityForms'] : '',
+            'indeedMembershipPro'          => $data['indeedMembershipPro'] ? $data['indeedMembershipPro'] : '',
+            'paidMembershipsPro'           => $data['paidMembershipsPro'] ? $data['paidMembershipsPro'] : '',
+            'affiliateWp'                  => $data['affiliateWp'] ? $data['affiliateWp'] : '',
+            'indeedAffiliatePro'           => $data['indeedAffiliatePro'] ? $data['indeedAffiliatePro'] : '',
             'yithWoocommerceAffiliates'    => $data['yithWoocommerceAffiliates'] ? $data['yithWoocommerceAffiliates'] : '',
         );
         $option_json = wp_json_encode($option);
