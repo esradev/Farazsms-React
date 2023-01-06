@@ -127,8 +127,8 @@ class Farazsms_Public extends Farazsms_Base
             self::$required_mobile_field = $comments_options['required_mobile_field'];
             self::$notify_admin_for_comment = $comments_options['notify_admin_for_comment'];
             self::$approved_comment_pattern = $comments_options['approved_comment_pattern'];
-            self::$user_pattern = $comments_options['comment_pattern'];
-            self::$admin_pattern = $comments_options['notify_admin_for_comment_pattern'];
+            self::$comment_pattern = $comments_options['comment_pattern'];
+            self::$notify_admin_for_comment_pattern = $comments_options['notify_admin_for_comment_pattern'];
             self::$comment_phonebook = $comments_options['comment_phonebook'];
         }
 
