@@ -3,9 +3,9 @@
 .floating-alert {
   font-family: IRANSans;
   display: none;
-  position: absolute;
+  position: fixed;
   z-index: 999;
-  top: 50vh;
+  top: 15%;
   left: 50%;
   transform: translateX(-50%);
   -moz-animation: floatingAlert ease-in 5s forwards;

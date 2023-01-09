@@ -11729,7 +11729,7 @@ function Settings() {
         rules: "admin_login_notifyRules"
       },
       select_roles: {
-        value: [],
+        value: "",
         hasErrors: false,
         errorMessage: "",
         onChange: "select_rolesChange",
@@ -12783,8 +12783,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/CSSTransition.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/CSSTransition.js");
 /* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _SettingsFormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SettingsFormInput */ "./src/components/SettingsFormInput.js");
@@ -13133,106 +13132,110 @@ function Settings() {
     }
   }, [state.sendCount]);
 
-  /**
-   *
-   * Validate Apikey, check if the Apikey is exist on Ippanel.
-   *
-   * @since 2.0.0
-   */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    if (state.inputs.apikey.value) {
-      const delay = setTimeout(() => dispatch({
-        type: "apikeyAfterDelay"
-      }), 800);
-      return () => clearTimeout(delay);
-    }
-  }, [state.inputs.apikey.value]);
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    if (state.inputs.apikey.checkCount) {
-      // Used this methode for avoid mixed content error in browsers for requested insecure http.
-      // const checkifapikeyisvalid = farazsmsJsObject.checkifapikeyisvalid;
-      // if (checkifapikeyisvalid) {
-      //   console.log(checkifapikeyisvalid);
-      // } else {
-      //   dispatch({
-      //     type: "apikeyIsValidResults",
-      //     value: true,
-      //   });
-      // }
+  // /**
+  //  *
+  //  * Validate Apikey, check if the Apikey is exist on Ippanel.
+  //  *
+  //  * @since 2.0.0
+  //  */
+  // useEffect(() => {
+  //   if (state.inputs.apikey.value) {
+  //     const delay = setTimeout(
+  //       () => dispatch({ type: "apikeyAfterDelay" }),
+  //       800
+  //     );
+  //     return () => clearTimeout(delay);
+  //   }
+  // }, [state.inputs.apikey.value]);
 
-      async function validateApikey() {
-        const authentication_data = {
-          headers: {
-            Authorization: "AccessKey " + state.inputs.apikey.value
-          }
-        };
-        try {
-          const ippanelData = await axios__WEBPACK_IMPORTED_MODULE_7__["default"].get("http://rest.ippanel.com/v1/user", authentication_data);
-          console.log(ippanelData);
-        } catch (e) {
-          dispatch({
-            type: "apikeyIsValidResults",
-            value: true
-          });
-          console.log(e);
-        }
-      }
-      validateApikey();
-    }
-  }, [state.inputs.apikey.checkCount]);
+  // useEffect(() => {
+  //   if (state.inputs.apikey.checkCount) {
+  //     // Used this methode for avoid mixed content error in browsers for requested insecure http.
+  //     // const checkifapikeyisvalid = farazsmsJsObject.checkifapikeyisvalid;
+  //     // if (checkifapikeyisvalid) {
+  //     //   console.log(checkifapikeyisvalid);
+  //     // } else {
+  //     //   dispatch({
+  //     //     type: "apikeyIsValidResults",
+  //     //     value: true,
+  //     //   });
+  //     // }
 
-  /**
-   *
-   * Validate username, check if the username has access to provided apikey.
-   *
-   * @since 2.0.0
-   */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    if (state.inputs.username.value) {
-      const delay = setTimeout(() => dispatch({
-        type: "usernameAfterDelay"
-      }), 800);
-      return () => clearTimeout(delay);
-    }
-  }, [state.inputs.username.value]);
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    if (state.inputs.username.checkCount) {
-      async function validateUsername() {
-        if (!state.inputs.apikey.value) {
-          dispatch({
-            type: "apikeyIsEmpty",
-            value: true
-          });
-        } else {
-          const authentication_data = {
-            headers: {
-              Authorization: "AccessKey " + state.inputs.apikey.value
-            }
-          };
-          try {
-            const ippanelData = await axios__WEBPACK_IMPORTED_MODULE_7__["default"].get("http://rest.ippanel.com/v1/user", authentication_data);
-            console.log(ippanelData);
-            const ippanelResponseUsername = ippanelData.data.data.user.username;
-            console.log(ippanelResponseUsername);
-            if (state.inputs.username.value == ippanelResponseUsername) {
-              dispatch({
-                type: "usernameNotAccessApikey",
-                value: false
-              });
-            } else {
-              dispatch({
-                type: "usernameNotAccessApikey",
-                value: true
-              });
-            }
-          } catch (e) {
-            console.log(e);
-          }
-        }
-      }
-      validateUsername();
-    }
-  }, [state.inputs.username.checkCount]);
+  //     async function validateApikey() {
+  //       const authentication_data = {
+  //         headers: {
+  //           Authorization: "AccessKey " + state.inputs.apikey.value,
+  //         },
+  //       };
+  //       try {
+  //         const ippanelData = await Axios.get(
+  //           "http://rest.ippanel.com/v1/user",
+  //           authentication_data
+  //         );
+  //         console.log(ippanelData);
+  //       } catch (e) {
+  //         dispatch({
+  //           type: "apikeyIsValidResults",
+  //           value: true,
+  //         });
+  //         console.log(e);
+  //       }
+  //     }
+  //     validateApikey();
+  //   }
+  // }, [state.inputs.apikey.checkCount]);
+
+  // /**
+  //  *
+  //  * Validate username, check if the username has access to provided apikey.
+  //  *
+  //  * @since 2.0.0
+  //  */
+  // useEffect(() => {
+  //   if (state.inputs.username.value) {
+  //     const delay = setTimeout(
+  //       () => dispatch({ type: "usernameAfterDelay" }),
+  //       800
+  //     );
+  //     return () => clearTimeout(delay);
+  //   }
+  // }, [state.inputs.username.value]);
+
+  // useEffect(() => {
+  //   if (state.inputs.username.checkCount) {
+  //     async function validateUsername() {
+  //       if (!state.inputs.apikey.value) {
+  //         dispatch({
+  //           type: "apikeyIsEmpty",
+  //           value: true,
+  //         });
+  //       } else {
+  //         const authentication_data = {
+  //           headers: {
+  //             Authorization: "AccessKey " + state.inputs.apikey.value,
+  //           },
+  //         };
+  //         try {
+  //           const ippanelData = await Axios.get(
+  //             "http://rest.ippanel.com/v1/user",
+  //             authentication_data
+  //           );
+  //           console.log(ippanelData);
+  //           const ippanelResponseUsername = ippanelData.data.data.user.username;
+  //           console.log(ippanelResponseUsername);
+  //           if (state.inputs.username.value == ippanelResponseUsername) {
+  //             dispatch({ type: "usernameNotAccessApikey", value: false });
+  //           } else {
+  //             dispatch({ type: "usernameNotAccessApikey", value: true });
+  //           }
+  //         } catch (e) {
+  //           console.log(e);
+  //         }
+  //       }
+  //     }
+  //     validateUsername();
+  //   }
+  // }, [state.inputs.username.checkCount]);
 
   /**
    *
@@ -13275,7 +13278,7 @@ function Settings() {
       type: input.rules,
       value: e.target.value
     })
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_transition_group__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_transition_group__WEBPACK_IMPORTED_MODULE_7__["default"], {
     in: input.hasErrors,
     timeout: 330,
     classNames: "liveValidateMessage",
@@ -13696,7 +13699,7 @@ function Woocommerce() {
         infoBody: __("The verification code variable is %code%", "farazsms")
       },
       woo_poll: {
-        value: [],
+        value: "",
         hasErrors: false,
         errorMessage: "",
         onChange: "woo_pollChange",

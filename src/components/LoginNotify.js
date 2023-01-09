@@ -83,7 +83,7 @@ function Settings() {
         rules: "admin_login_notifyRules",
       },
       select_roles: {
-        value: [],
+        value: "",
         hasErrors: false,
         errorMessage: "",
         onChange: "select_rolesChange",
@@ -188,7 +188,6 @@ function Settings() {
     Object.values(state.inputs).map((input) => {
       dispatch({ type: input.rules, value: input.value });
     });
-
     dispatch({ type: "submitOptions" });
   }
 

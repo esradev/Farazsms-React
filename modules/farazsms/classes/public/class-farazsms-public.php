@@ -236,7 +236,7 @@ class Farazsms_Public extends Farazsms_Base
     public function monitor_update_user_metadata($check, $object_id, $meta_key, $meta_value)
     {
         $fsms_base = Farazsms_Base::get_instance();
-        $selected_meta_keys = self::$custom_phone_meta_keys;
+        $selected_meta_keys = self::$custom_phone_meta_keys ?? [];
         if (!in_array($meta_key, $selected_meta_keys)) {
             return $check;
         }

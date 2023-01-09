@@ -46,7 +46,7 @@ function Woocommerce() {
         infoBody: __("The verification code variable is %code%", "farazsms"),
       },
       woo_poll: {
-        value: [],
+        value: "",
         hasErrors: false,
         errorMessage: "",
         onChange: "woo_pollChange",
