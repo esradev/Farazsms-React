@@ -12910,7 +12910,6 @@ function Phonebook() {
          * endpoint and retrieve the 10 latest posts.
          */
         const getUsermeta = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/usermeta", {});
-        console.log(getUsermeta.data);
         const usermetaArrayObject = Object.keys(getUsermeta.data).map(key => ({
           value: getUsermeta.data[key].meta_key,
           label: getUsermeta.data[key].meta_key
@@ -13029,20 +13028,11 @@ function Phonebook() {
     onSubmit: handleSubmit
   }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.id,
-    className: input.type === "checkbox" ? "toggle-control" : "form-group"
+    className: "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
-    onChange: input.type === "select" ? selectedOption => dispatch({
+    onChange: selectedOption => dispatch({
       type: input.onChange,
       value: selectedOption
-    }) : e => {
-      dispatch({
-        type: input.onChange,
-        value: input.type === "checkbox" ? e.target.checked : e.target.value
-      });
-    },
-    onBlur: e => dispatch({
-      type: input.rules,
-      value: e.target.value
     })
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_transition_group__WEBPACK_IMPORTED_MODULE_7__["default"], {
     in: input.hasErrors,

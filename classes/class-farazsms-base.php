@@ -822,7 +822,7 @@ if (!class_exists('Farazsms_Base')) {
         {
             $phone = self::fsms_tr_num($phone);
             foreach (self::$comment_phonebook as $phonebookId) {
-                $this->save_to_phonebook($phone, $phonebookId);
+                $this->save_to_phonebook($phone, $phonebookId['value']);
             }
         }
 

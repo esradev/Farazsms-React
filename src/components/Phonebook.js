@@ -212,7 +212,6 @@ function Phonebook() {
          * endpoint and retrieve the 10 latest posts.
          */
         const getUsermeta = await AxiosWp.get("/farazsms/v1/usermeta", {});
-        console.log(getUsermeta.data);
         const usermetaArrayObject = Object.keys(getUsermeta.data).map(
           (key) => ({
             value: getUsermeta.data[key].meta_key,
@@ -337,33 +336,14 @@ function Phonebook() {
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
-            <div
-              key={input.id}
-              className={
-                input.type === "checkbox" ? "toggle-control" : "form-group"
-              }
-            >
+            <div key={input.id} className={"form-group"}>
               <SettingsFormInput
                 {...input}
-                onChange={
-                  input.type === "select"
-                    ? (selectedOption) =>
-                        dispatch({
-                          type: input.onChange,
-                          value: selectedOption,
-                        })
-                    : (e) => {
-                        dispatch({
-                          type: input.onChange,
-                          value:
-                            input.type === "checkbox"
-                              ? e.target.checked
-                              : e.target.value,
-                        });
-                      }
-                }
-                onBlur={(e) =>
-                  dispatch({ type: input.rules, value: e.target.value })
+                onChange={(selectedOption) =>
+                  dispatch({
+                    type: input.onChange,
+                    value: selectedOption,
+                  })
                 }
               />
               <CSSTransition

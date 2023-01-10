@@ -272,7 +272,7 @@ class Farazsms_Public extends Farazsms_Base
             $data[] = [
                 "number" => $phone,
                 "name"   => $user_info->display_name ?? '',
-                "phonebook_id" => (int) $phonebookId
+                "phonebook_id" => (int) $phonebookId['value']
             ];
             $fsms_base->save_to_phonebookv3($data);
         }
@@ -301,7 +301,7 @@ class Farazsms_Public extends Farazsms_Base
             $data[] = [
                 "number" => $digits_phone,
                 "name"   => $user_info->display_name ?? '',
-                "phonebook_id" => (int) $phonebookId
+                "phonebook_id" => (int) $phonebookId['value']
             ];
             $fsms_base->save_to_phonebookv3($data);
         }
@@ -347,7 +347,7 @@ class Farazsms_Public extends Farazsms_Base
             $data[] = [
                 "number" => $phone,
                 "name"   => $name,
-                "phonebook_id" => (int) $phonebookId
+                "phonebook_id" => (int) $phonebookId['value']
             ];
             $fsms_base->save_to_phonebookv3($data);
         }
@@ -621,7 +621,7 @@ class Farazsms_Public extends Farazsms_Base
                     $data[] = [
                         "number" => $phone,
                         "name"   => '',
-                        "phonebook_id" => (int) $phonebookId
+                        "phonebook_id" => (int) $phonebookId['value']
                     ];
                     $fsms_base->save_to_phonebookv3($data);
                 }
