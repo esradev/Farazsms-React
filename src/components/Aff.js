@@ -35,6 +35,7 @@ function Aff() {
         rules: "aff_user_mobile_fieldRules",
         options: [],
         noOptionsMessage: __("No options is avilable", "farazsms"),
+        groupTitle: __("Users settings:", "farazsms"),
       },
       aff_user_register: {
         value: "",
@@ -118,6 +119,7 @@ function Aff() {
         type: "checkbox",
         label: __("Send sms to admin on registration:", "farazsms"),
         rules: "aff_admin_user_registerRules",
+        groupTitle: __("Admin settings:", "farazsms"),
       },
       aff_admin_user_register_pattern: {
         value: "",

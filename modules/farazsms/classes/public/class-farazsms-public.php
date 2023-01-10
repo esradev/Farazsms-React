@@ -96,6 +96,13 @@ class Farazsms_Public extends Farazsms_Base
     private static $aff_admin_user_on_approval;
     private static $aff_admin_user_on_approval_pattern;
 
+    private static $ihc_send_first_notify;
+    private static $ihc_send_second_notify;
+    private static $ihc_send_third_notify;
+    private static $ihc_first_notify_msg;
+    private static $ihc_notify_before_time;
+    private static $pmp_send_expire_notify;
+    private static $pmp_expire_notify_msg;
 
 
 
@@ -184,6 +191,17 @@ class Farazsms_Public extends Farazsms_Base
             self::$aff_admin_user_new_ref_pattern = $aff_options['aff_admin_user_new_ref_pattern'];
             self::$aff_admin_user_on_approval = $aff_options['aff_admin_user_on_approval'];
             self::$aff_admin_user_on_approval_pattern = $aff_options['aff_admin_user_on_approval_pattern'];
+        }
+
+        $membership_options = json_decode(get_option('farazsms_membership_options'), true);
+        if ($membership_options) {
+            self::$ihc_send_first_notify = $membership_options['ihc_send_first_notify'];
+            self::$ihc_send_second_notify = $membership_options['ihc_send_second_notify'];
+            self::$ihc_send_third_notify = $membership_options['ihc_send_third_notify'];
+            self::$ihc_first_notify_msg = $membership_options['ihc_first_notify_msg'];
+            self::$ihc_notify_before_time = $membership_options['ihc_notify_before_time'];
+            self::$pmp_send_expire_notify = $membership_options['pmp_send_expire_notify'];
+            self::$pmp_expire_notify_msg = $membership_options['pmp_expire_notify_msg'];
         }
     }
 
@@ -864,9 +882,9 @@ class Farazsms_Public extends Farazsms_Base
         if (empty($admin_login_noti_roles)) {
             return;
         }
-        if (empty(array_intersect($admin_login_noti_roles, $user->roles))) {
-            return;
-        }
+        // if (empty(array_intersect($admin_login_noti_roles, $user->roles))) {
+        //     return;
+        // }
         $admin_login_noti = self::$admin_login_notify;
         $admin_login_noti_p = self::$admin_login_notify_pattern;
         if ($admin_login_noti == "false" || empty($admin_login_noti_p)) {
@@ -967,10 +985,10 @@ class Farazsms_Public extends Farazsms_Base
     public function fsms_first_notification_before_expire($sent = false, $uid = 0, $lid = 0, $type = '')
     {
         $types = [];
-        $types[] = (get_option('fsms_ihc_send_first_noti_sms', 'false') == "true") ? 'before_expire' : '';
-        $types[] = (get_option('fsms_ihc_send_second_noti_sms', 'false') == "true") ? 'second_before_expire' : '';
-        $types[] = (get_option('fsms_ihc_send_third_noti_sms', 'false') == "true") ? 'third_before_expire' : '';
-        $first_noti_sms_message = get_option('fsms_first_noti_sms_message', '');
+        $types[] = (self::$ihc_send_first_notify == "true") ? 'before_expire' : '';
+        $types[] = (self::$ihc_send_second_notify == "true") ? 'second_before_expire' : '';
+        $types[] = (self::$ihc_send_third_notify == "true") ? 'third_before_expire' : '';
+        $first_noti_sms_message = self::$ihc_first_notify_msg;
         if (empty($first_noti_sms_message) || !in_array($type, $types)) {
             return $sent;
         }
@@ -985,7 +1003,7 @@ class Farazsms_Public extends Farazsms_Base
             '%time%',
         ), array(
             $user->display_name,
-            get_option("ihc_notification_before_time", "5"),
+            self::$ihc_notify_before_time,
         ), $first_noti_sms_message);
         $fsms_base->send_message([$phone], $message, "+98club");
         return $sent;
@@ -1436,14 +1454,14 @@ class Farazsms_Public extends Farazsms_Base
 
     public function fsms_pmp_membership_membership_expiry($user_id, $membership_id)
     {
-        $pmp_send_expire_noti_sms = get_option('fsms_pmp_send_expire_noti_sms', 'false');
-        $expire_noti_sms_message = get_option('fsms_pmp_expire_noti_sms_message', '');
+        $pmp_send_expire_noti_sms = self::$pmp_send_expire_notify;
+        $expire_noti_sms_message = self::$pmp_expire_notify_msg;
         if ($pmp_send_expire_noti_sms === 'false' || empty($expire_noti_sms_message)) {
             return;
         }
         $fsms_base = Farazsms_Base::get_instance();
         $phone = get_user_meta($user_id, "digits_phone", TRUE);
-        $selected_meta_keys = get_option('fsms_custom_phone_meta_keys', []);
+        $selected_meta_keys = self::$custom_phone_meta_keys ?? [];
         if (empty($phone) && !empty($selected_meta_keys)) {
             foreach ($selected_meta_keys as $meta) {
                 $phone = get_user_meta($user_id, $meta, TRUE);

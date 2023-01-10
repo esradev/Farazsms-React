@@ -14,6 +14,7 @@ import {
   AiOutlineShoppingCart,
   AiOutlineCloudDownload,
   AiOutlineLogin,
+  AiOutlineUserSwitch,
 } from "react-icons/ai";
 import { TbAffiliate } from "react-icons/tb";
 
@@ -29,6 +30,7 @@ import WooCommerce from "./WooCommerce";
 import Edd from "./Edd";
 import Newsletter from "./Newsletter";
 import Aff from "./Aff";
+import Membership from "./Membership";
 import Integrations from "./Integrations";
 
 const SidebarItems = [
@@ -85,6 +87,12 @@ const SidebarItems = [
     element: Aff,
     name: __("Affiliate", "farazsms"),
     icon: <TbAffiliate />,
+  },
+  {
+    path: "/membership",
+    element: Membership,
+    name: __("Membership", "farazsms"),
+    icon: <AiOutlineUserSwitch />,
   },
   {
     path: "/integrations",

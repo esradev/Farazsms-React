@@ -34,12 +34,14 @@ const SettingsFormInput = (props) => {
     infoBody,
     options,
     noOptionsMessage,
+    groupTitle,
     ...inputProps
   } = props;
 
   return (
     <>
       <div className="formInput">
+        <h4 className="mb-4 fw-bold">{groupTitle}</h4>
         <label htmlFor={id} className="mb-1 form-control-label">
           {label}
           {tooltip && (
@@ -109,11 +111,9 @@ const SettingsFormInput = (props) => {
       </div>
       {infoTitle && (
         <div className="container">
-          <div className="container card bg-light mb-3 p-1">
+          <div className="container card bg-info mb-3 p-0">
             <div className="card-body">
-              <h5 className="card-title">
-                <strong>{infoTitle}</strong>
-              </h5>
+              <h5 className="card-title">{infoTitle}</h5>
               <h6 className="card-text h6">{infoBody}</h6>
             </div>
           </div>

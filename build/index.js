@@ -9973,7 +9973,8 @@ function Aff() {
         label: __("Select the mobile number custom field:", "farazsms"),
         rules: "aff_user_mobile_fieldRules",
         options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms")
+        noOptionsMessage: __("No options is avilable", "farazsms"),
+        groupTitle: __("Users settings:", "farazsms")
       },
       aff_user_register: {
         value: "",
@@ -10050,7 +10051,8 @@ function Aff() {
         name: "aff_admin_user_register",
         type: "checkbox",
         label: __("Send sms to admin on registration:", "farazsms"),
-        rules: "aff_admin_user_registerRules"
+        rules: "aff_admin_user_registerRules",
+        groupTitle: __("Admin settings:", "farazsms")
       },
       aff_admin_user_register_pattern: {
         value: "",
@@ -11948,6 +11950,321 @@ function Settings() {
 
 /***/ }),
 
+/***/ "./src/components/Membership.js":
+/*!**************************************!*\
+  !*** ./src/components/Membership.js ***!
+  \**************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var react_transition_group__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-transition-group */ "./node_modules/react-transition-group/esm/CSSTransition.js");
+/* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _SettingsFormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SettingsFormInput */ "./src/components/SettingsFormInput.js");
+
+
+/**
+ * Import remote dependencies.
+ */
+
+
+
+// Used as const not import, for Loco translate plugin compatibility.
+const __ = wp.i18n.__;
+
+/**
+ * Import local dependencies
+ */
+
+
+
+function Membership() {
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_4__["default"]);
+  /**
+   *
+   * First init state.
+   *
+   */
+  const originalState = {
+    inputs: {
+      ihc_send_first_notify: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "ihc_send_first_notifyChange",
+        id: "ihc_send_first_notify",
+        name: "ihc_send_first_notify",
+        type: "checkbox",
+        label: __("Send the first SMS warning of membership expiration?", "farazsms"),
+        groupTitle: __("Ultimate Membership PRO plugin settings:", "farazsms"),
+        rules: "ihc_send_first_notifyRules"
+      },
+      ihc_send_second_notify: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "ihc_send_second_notifyChange",
+        id: "ihc_send_second_notify",
+        name: "ihc_send_second_notify",
+        type: "checkbox",
+        label: __("Send the second SMS warning of membership expiration?", "farazsms"),
+        rules: "ihc_send_second_notifyRules"
+      },
+      ihc_send_third_notify: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "ihc_send_third_notifyChange",
+        id: "ihc_send_third_notify",
+        name: "ihc_send_third_notify",
+        type: "checkbox",
+        label: __("Send the third SMS warning of membership expiration?", "farazsms"),
+        rules: "ihc_send_third_notifyRules"
+      },
+      ihc_first_notify_msg: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "ihc_first_notify_msgChange",
+        id: "ihc_first_notify_msg",
+        name: "ihc_first_notify_msg",
+        type: "textarea",
+        label: __("Membership expiration warning SMS text:", "farazsms"),
+        rules: "ihc_first_notify_msgRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __("username %name% | time remaining (to day) %time%", "farazsms")
+      },
+      pmp_send_expire_notify: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "pmp_send_expire_notifyChange",
+        id: "pmp_send_expire_notify",
+        name: "pmp_send_expire_notify",
+        type: "checkbox",
+        label: __("Send SMS membership expiration?", "farazsms"),
+        rules: "pmp_send_expire_notifyRules",
+        groupTitle: __("Paid Membership PRO plugin settings:", "farazsms")
+      },
+      pmp_expire_notify_msg: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "pmp_expire_notify_msgChange",
+        id: "pmp_expire_notify_msg",
+        name: "pmp_expire_notify_msg",
+        type: "textarea",
+        label: __("The text of the membership expiration SMS:", "farazsms"),
+        rules: "pmp_expire_notify_msgRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __("username %display_name%", "farazsms")
+      }
+    },
+    isFetching: true,
+    isSaving: false,
+    sendCount: 0
+  };
+
+  /**
+   *
+   * ourReduser function to switch bettwen cases.
+   *
+   * @since 2.0.0
+   */
+  function ourReduser(draft, action) {
+    switch (action.type) {
+      case "fetchComplete":
+        //Init state values by action.value
+        draft.inputs.ihc_send_first_notify.value = action.value.ihc_send_first_notify;
+        draft.inputs.ihc_send_second_notify.value = action.value.ihc_send_second_notify;
+        draft.inputs.ihc_send_third_notify.value = action.value.ihc_send_third_notify;
+        draft.inputs.ihc_first_notify_msg.value = action.value.ihc_first_notify_msg;
+        draft.inputs.pmp_send_expire_notify.value = action.value.pmp_send_expire_notify;
+        draft.inputs.pmp_expire_notify_msg.value = action.value.pmp_expire_notify_msg;
+        draft.isFetching = false;
+        return;
+      case "ihc_send_first_notifyChange":
+        draft.inputs.ihc_send_first_notify.hasErrors = false;
+        draft.inputs.ihc_send_first_notify.value = action.value;
+        return;
+      case "ihc_send_second_notifyChange":
+        draft.inputs.ihc_send_second_notify.hasErrors = false;
+        draft.inputs.ihc_send_second_notify.value = action.value;
+        return;
+      case "ihc_send_third_notifyChange":
+        draft.inputs.ihc_send_third_notify.hasErrors = false;
+        draft.inputs.ihc_send_third_notify.value = action.value;
+        return;
+      case "ihc_first_notify_msgChange":
+        draft.inputs.ihc_first_notify_msg.hasErrors = false;
+        draft.inputs.ihc_first_notify_msg.value = action.value;
+        return;
+      case "pmp_send_expire_notifyChange":
+        draft.inputs.pmp_send_expire_notify.hasErrors = false;
+        draft.inputs.pmp_send_expire_notify.value = action.value;
+        return;
+      case "pmp_expire_notify_msgChange":
+        draft.inputs.pmp_expire_notify_msg.hasErrors = false;
+        draft.inputs.pmp_expire_notify_msg.value = action.value;
+        return;
+      case "submitOptions":
+        draft.sendCount++;
+        return;
+      case "saveRequestStarted":
+        draft.isSaving = true;
+        return;
+      case "saveRequestFininshed":
+        draft.isSaving = false;
+        return;
+    }
+  }
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_6__.useImmerReducer)(ourReduser, originalState);
+
+  /**
+   *
+   * HandelSubmit function
+   *
+   * @since 2.0.0
+   */
+  function handleSubmit(e) {
+    e.preventDefault();
+    //Set every input to the state with dispatch function.
+    Object.values(state.inputs).map(input => {
+      dispatch({
+        type: input.rules,
+        value: input.value
+      });
+    });
+    dispatch({
+      type: "submitOptions"
+    });
+  }
+
+  /**
+   *
+   * Get Aff options from DB on Aff component loaded
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getOptions() {
+      try {
+        // Use the AxiosWp object to call the /farazsms/v1/farazsms_membership_options
+        const getOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/membership_options", {});
+        if (getOptions.data) {
+          const optionsJson = JSON.parse(getOptions.data);
+          console.log(optionsJson);
+          dispatch({
+            type: "fetchComplete",
+            value: optionsJson
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getOptions();
+  }, []);
+
+  /**
+   *
+   * Save Aff options on DB when saveRequestFininshed = true
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (state.sendCount) {
+      /**
+       *
+       * Get options values and set "name: value" in an array.
+       * Then Convert array to key: value pair for send Axios.post request to DB.
+       *
+       * @return Object with arrays.
+       */
+      const optsionsArray = Object.values(state.inputs).map(_ref => {
+        let {
+          value,
+          name
+        } = _ref;
+        return [name, value];
+      });
+      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      console.log(optionsJsonForPost);
+      dispatch({
+        type: "saveRequestStarted"
+      });
+      // postOptions function for save options on DB
+      async function postOptions() {
+        try {
+          // Post Options from site DB Options table
+          const postOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/membership_options", optionsJsonForPost);
+          dispatch({
+            type: "saveRequestFininshed"
+          });
+          appDispatch({
+            type: "flashMessage",
+            value: __("Congrats. Form was updated successfully.", "farazsms")
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      postOptions();
+    }
+  }, [state.sendCount]);
+
+  /**
+   *
+   * The Membership form created by maping over originalState.
+   * For every value on inputs rendered a SettingsFormInput.
+   *
+   * @since 2.0.0
+   */
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h3", {
+    className: "p-3 mb-4 border-bottom border-dark bg-light rounded"
+  }, __("Ultimate Membership Pro and Paid Memberships Pro:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
+    onSubmit: handleSubmit
+  }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    key: input.id,
+    className: input.type === "checkbox" ? "toggle-control" : "form-group"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SettingsFormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+    onChange: input.type === "select" ? selectedOption => dispatch({
+      type: input.onChange,
+      value: selectedOption
+    }) : e => {
+      dispatch({
+        type: input.onChange,
+        value: input.type === "checkbox" ? e.target.checked : e.target.value
+      });
+    },
+    onBlur: e => dispatch({
+      type: input.rules,
+      value: e.target.value
+    })
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_transition_group__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    in: input.hasErrors,
+    timeout: 330,
+    classNames: "liveValidateMessage",
+    unmountOnExit: true
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    className: "alert alert-danger small liveValidateMessage"
+  }, input.errorMessage)))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
+    type: "submit",
+    className: "btn btn-primary faraz-btn",
+    disabled: state.isSaving
+  }, __("Save Settings", "farazsms")))));
+}
+/* harmony default export */ __webpack_exports__["default"] = (Membership);
+
+/***/ }),
+
 /***/ "./src/components/Newsletter.js":
 /*!**************************************!*\
   !*** ./src/components/Newsletter.js ***!
@@ -13351,11 +13668,14 @@ const SettingsFormInput = props => {
     infoBody,
     options,
     noOptionsMessage,
+    groupTitle,
     ...inputProps
   } = props;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "formInput"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("label", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h4", {
+    className: "mb-4 fw-bold"
+  }, groupTitle), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("label", {
     htmlFor: id,
     className: "mb-1 form-control-label"
   }, label, tooltip && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_bootstrap_OverlayTrigger__WEBPACK_IMPORTED_MODULE_4__["default"], {
@@ -13403,12 +13723,12 @@ const SettingsFormInput = props => {
   }, inputProps)))), infoTitle && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "container"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    className: "container card bg-light mb-3 p-1"
+    className: "container card bg-info mb-3 p-0"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "card-body"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h5", {
     className: "card-title"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("strong", null, infoTitle)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h6", {
+  }, infoTitle), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h6", {
     className: "card-text h6"
   }, infoBody)))));
 };
@@ -13482,8 +13802,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_icons_ai__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-icons/ai */ "./node_modules/react-icons/ai/index.esm.js");
-/* harmony import */ var react_icons_tb__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-icons/tb */ "./node_modules/react-icons/tb/index.esm.js");
+/* harmony import */ var react_icons_ai__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-icons/ai */ "./node_modules/react-icons/ai/index.esm.js");
+/* harmony import */ var react_icons_tb__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-icons/tb */ "./node_modules/react-icons/tb/index.esm.js");
 /* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Settings */ "./src/components/Settings.js");
 /* harmony import */ var _LoginNotify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./LoginNotify */ "./src/components/LoginNotify.js");
 /* harmony import */ var _Phonebook__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Phonebook */ "./src/components/Phonebook.js");
@@ -13493,7 +13813,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Edd__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Edd */ "./src/components/Edd.js");
 /* harmony import */ var _Newsletter__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Newsletter */ "./src/components/Newsletter.js");
 /* harmony import */ var _Aff__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./Aff */ "./src/components/Aff.js");
-/* harmony import */ var _Integrations__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Integrations */ "./src/components/Integrations.js");
+/* harmony import */ var _Membership__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./Membership */ "./src/components/Membership.js");
+/* harmony import */ var _Integrations__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./Integrations */ "./src/components/Integrations.js");
 
 /**
  * Import remote dependencies.
@@ -13517,56 +13838,62 @@ const __ = wp.i18n.__;
 
 
 
+
 const SidebarItems = [{
   path: "/",
   element: _Settings__WEBPACK_IMPORTED_MODULE_2__["default"],
   name: __("Settings", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineSetting, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineSetting, null)
 }, {
   path: "/login_notify",
   element: _LoginNotify__WEBPACK_IMPORTED_MODULE_3__["default"],
   name: __("Login Notify", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineLogin, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineLogin, null)
 }, {
   path: "/phonebook",
   element: _Phonebook__WEBPACK_IMPORTED_MODULE_4__["default"],
   name: __("Phonebook", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlinePhone, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlinePhone, null)
 }, {
   path: "/synchronization",
   element: _Synchronization__WEBPACK_IMPORTED_MODULE_5__["default"],
   name: __("Synchronization", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineSync, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineSync, null)
 }, {
   path: "/comments",
   element: _Comments__WEBPACK_IMPORTED_MODULE_6__["default"],
   name: __("Comments", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineComment, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineComment, null)
 }, {
   path: "/woocommerce",
   element: _WooCommerce__WEBPACK_IMPORTED_MODULE_7__["default"],
   name: __("WooCommerce", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineShoppingCart, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineShoppingCart, null)
 }, {
   path: "/edd",
   element: _Edd__WEBPACK_IMPORTED_MODULE_8__["default"],
   name: __("Edd Settings", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineCloudDownload, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineCloudDownload, null)
 }, {
   path: "/newsletter",
   element: _Newsletter__WEBPACK_IMPORTED_MODULE_9__["default"],
   name: __("Newsletter", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineNotification, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineNotification, null)
 }, {
   path: "/aff",
   element: _Aff__WEBPACK_IMPORTED_MODULE_10__["default"],
   name: __("Affiliate", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_tb__WEBPACK_IMPORTED_MODULE_13__.TbAffiliate, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_tb__WEBPACK_IMPORTED_MODULE_14__.TbAffiliate, null)
+}, {
+  path: "/membership",
+  element: _Membership__WEBPACK_IMPORTED_MODULE_11__["default"],
+  name: __("Membership", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineUserSwitch, null)
 }, {
   path: "/integrations",
-  element: _Integrations__WEBPACK_IMPORTED_MODULE_11__["default"],
+  element: _Integrations__WEBPACK_IMPORTED_MODULE_12__["default"],
   name: __("Integrations", "farazsms"),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_12__.AiOutlineApartment, null)
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineApartment, null)
 }];
 /* harmony default export */ __webpack_exports__["default"] = (SidebarItems);
 

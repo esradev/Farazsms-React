@@ -105,6 +105,17 @@ class Farazsms_Options
         $farazsms_aff_options = '';
         add_option('farazsms_aff_options', $farazsms_aff_options);
     }
+
+    /**
+     * Register Membership options.
+     *
+     * @since 2.0.0
+     */
+    public function register_membership_options()
+    {
+        $farazsms_membership_options = '';
+        add_option('farazsms_membership_options', $farazsms_membership_options);
+    }
     /**
      * Register Integrations options.
      *

@@ -53,6 +53,7 @@ class Farazsms_Routes
                 'permission_callback' => array($this, 'permissions_check'),
             ),
         ));
+
         //Register usermeta rest route
         register_rest_route($namespace, '/' . 'usermeta', array(
             array(
@@ -104,6 +105,7 @@ class Farazsms_Routes
                 'permission_callback' => array($this, 'permissions_check'),
             ),
         ));
+
         //Register edd_options rest route
         register_rest_route($namespace, '/' . 'edd_options', array(
             array(
@@ -117,6 +119,7 @@ class Farazsms_Routes
                 'permission_callback' => array($this, 'permissions_check'),
             ),
         ));
+
         //Register aff_options rest route
         register_rest_route($namespace, '/' . 'aff_options', array(
             array(
@@ -130,6 +133,21 @@ class Farazsms_Routes
                 'permission_callback' => array($this, 'permissions_check'),
             ),
         ));
+
+        //Register membership_options rest route
+        register_rest_route($namespace, '/' . 'membership_options', array(
+            array(
+                'methods'             => 'GET',
+                'callback'            => array($this, 'get_membership_options'),
+                'permission_callback' => array($this, 'permissions_check'),
+            ),
+            array(
+                'methods'             => 'POST',
+                'callback'            => array($this, 'add_membership_options'),
+                'permission_callback' => array($this, 'permissions_check'),
+            ),
+        ));
+
         //Register integrations_options rest route
         register_rest_route($namespace, '/' . 'integrations_options', array(
             array(
@@ -440,6 +458,41 @@ class Farazsms_Routes
         );
         $option_json = wp_json_encode($option);
         $result = update_option('farazsms_aff_options', $option_json);
+        return $result;
+    }
+
+    /**
+     * Get membership options.
+     * 
+     * @since 2.0.0
+     */
+    public function get_membership_options()
+    {
+        $farazsms_membership_options = get_option('farazsms_membership_options');
+        if (empty($farazsms_membership_options)) {
+            return new WP_Error('no_option', 'Invalid options', array('status' => 404));
+        }
+        return $farazsms_membership_options;
+    }
+
+    /**
+     * Add membership options.
+     * 
+     * @since 2.0.0
+     */
+    public function add_membership_options($data)
+    {
+        $option = array(
+            'ihc_send_first_notify'     => $data['ihc_send_first_notify'] ? $data['ihc_send_first_notify'] : '',
+            'ihc_send_second_notify'    => $data['ihc_send_second_notify'] ? $data['ihc_send_second_notify'] : '',
+            'ihc_send_third_notify'     => $data['ihc_send_third_notify'] ? $data['ihc_send_third_notify'] : '',
+            'ihc_first_notify_msg'      => $data['ihc_first_notify_msg'] ? $data['ihc_first_notify_msg'] : '',
+            'ihc_notify_before_time'    => $data['ihc_notify_before_time'] ? $data['ihc_notify_before_time'] : '5',
+            'pmp_send_expire_notify'    => $data['pmp_send_expire_notify'] ? $data['pmp_send_expire_notify'] : '',
+            'pmp_expire_notify_msg'     => $data['pmp_expire_notify_msg'] ? $data['pmp_expire_notify_msg'] : '',
+        );
+        $option_json = wp_json_encode($option);
+        $result = update_option('farazsms_membership_options', $option_json);
         return $result;
     }
 
