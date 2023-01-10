@@ -39,11 +39,12 @@ function Integrations() {
         isActivated: false,
         imgUrl: { logo: WoocommerceLogo },
         onChange: "wooChange",
+        rules: "wooRules",
         id: "wooId",
         plugin: "woocommerce/woocommerce",
-        check: "wooCheck",
         hasErrors: false,
         errorMessage: "",
+        checkCount: 0,
       },
       digits: {
         use: false,
@@ -52,11 +53,12 @@ function Integrations() {
         isActivated: false,
         imgUrl: { logo: DigitsLogo },
         onChange: "digitsChange",
+        rules: "digitsRules",
         id: "digitsId",
         plugin: "digits/digits",
-        check: "digitsCheck",
         hasErrors: false,
         errorMessage: "",
+        checkCount: 0,
       },
       edd: {
         use: false,
@@ -65,11 +67,12 @@ function Integrations() {
         isActivated: false,
         imgUrl: { logo: EddLogo },
         onChange: "eddChange",
+        rules: "eddRules",
         id: "eddId",
         plugin: "easy-digital-downloads/easy-digital-downloads",
-        check: "eddCheck",
         hasErrors: false,
         errorMessage: "",
+        checkCount: 0,
       },
       bookly: {
         use: false,
@@ -78,11 +81,12 @@ function Integrations() {
         isActivated: false,
         imgUrl: { logo: BooklyLogo },
         onChange: "booklyChange",
+        rules: "booklyRules",
         id: "booklyId",
         plugin: "bookly-responsive-appointment-booking-tool/main",
-        check: "booklyCheck",
         hasErrors: false,
         errorMessage: "",
+        checkCount: 0,
       },
       gravityForms: {
         use: false,
@@ -91,11 +95,12 @@ function Integrations() {
         isActivated: false,
         imgUrl: { logo: GravityFormsLogo },
         onChange: "gfChange",
+        rules: "gfRules",
         id: "gfId",
         plugin: "gravityforms/gravityforms",
-        check: "gravityFormsCheck",
         hasErrors: false,
         errorMessage: "",
+        checkCount: 0,
       },
       indeedMembershipPro: {
         use: false,
@@ -104,11 +109,12 @@ function Integrations() {
         isActivated: false,
         imgUrl: { logo: IndeedMembershipProLogo },
         onChange: "impChange",
+        rules: "impRules",
         id: "impId",
         plugin: "indeed-membership-pro/indeed-membership-pro",
-        check: "indeedMembershipProCheck",
         hasErrors: false,
         errorMessage: "",
+        checkCount: 0,
       },
       paidMembershipsPro: {
         use: false,
@@ -117,11 +123,12 @@ function Integrations() {
         isActivated: false,
         imgUrl: { logo: PaidMembershipsProLogo },
         onChange: "pmpChange",
+        rules: "pmpRules",
         id: "pmpId",
         plugin: "paid-memberships-pro/paid-memberships-pro",
-        check: "paidMembershipsProCheck",
         hasErrors: false,
         errorMessage: "",
+        checkCount: 0,
       },
       affiliateWp: {
         use: false,
@@ -130,11 +137,12 @@ function Integrations() {
         isActivated: false,
         imgUrl: { logo: AffiliateWpLogo },
         onChange: "affChange",
+        rules: "affRules",
         id: "affId",
         plugin: "affiliate-wp/affiliate-wp",
-        check: "affiliateWpCheck",
         hasErrors: false,
         errorMessage: "",
+        checkCount: 0,
       },
       indeedAffiliatePro: {
         use: false,
@@ -143,11 +151,12 @@ function Integrations() {
         isActivated: false,
         imgUrl: { logo: IndeedAffiliateProLogo },
         onChange: "uapChange",
+        rules: "uapRules",
         id: "uapId",
         plugin: "indeed-affiliate-pro/indeed-affiliate-pro",
-        check: "indeedAffiliateProCheck",
         hasErrors: false,
         errorMessage: "",
+        checkCount: 0,
       },
       yithWoocommerceAffiliates: {
         use: false,
@@ -156,11 +165,12 @@ function Integrations() {
         isActivated: false,
         imgUrl: { logo: YithWoocommerceAffiliatesLogo },
         onChange: "ywaChange",
+        rules: "ywaRules",
         id: "ywaId",
         plugin: "yith-woocommerce-affiliates/init",
-        check: "yithWoocommerceAffiliatesCheck",
         hasErrors: false,
         errorMessage: "",
+        checkCount: 0,
       },
     },
     isFetching: true,
@@ -190,6 +200,19 @@ function Integrations() {
       case "wooChange":
         draft.plugins.woocommerce.hasErrors = false;
         draft.plugins.woocommerce.use = action.value;
+        draft.plugins.woocommerce.checkCount++;
+        return;
+      case "wooCheck":
+        if (action.value) {
+          draft.plugins.woocommerce.hasErrors = true;
+          draft.plugins.woocommerce.isActivated = false;
+          draft.plugins.woocommerce.errorMessage = __(
+            "First install | activate plugin.",
+            "farazsms"
+          );
+        } else {
+          draft.plugins.woocommerce.isActivated = true;
+        }
         return;
       case "digitsChange":
         draft.plugins.digits.hasErrors = false;
@@ -243,7 +266,6 @@ function Integrations() {
         ) {
           draft.sendCount++;
         }
-
         return;
       case "saveRequestStarted":
         draft.isSaving = true;
@@ -343,31 +365,39 @@ function Integrations() {
     }
   }, [state.sendCount]);
 
+  /**
+   *
+   * Check woocommerce, is installed and activated.
+   *
+   * @since 2.0.0
+   */
   useEffect(() => {
-    async function getPlugins() {
-      try {
-        const getPlugins = await AxiosWp.get("/wp/v2/plugins", {});
-        if (getPlugins.data) {
-          const plugins = getPlugins.data;
-          console.log(plugins);
-
-          const intPlugins = Object.values(state.plugins);
-          intPlugins.map((plugin) =>
-            plugins.find((item) => {
-              if (item.plugin === plugin.plugin) {
-                dispatch({ type: plugin.check, value: true });
-                console.log(plugin);
-              }
-            })
-          );
-          console.log(state);
+    if (state.plugins.woocommerce.checkCount) {
+      async function checkPlugin() {
+        try {
+          const getPlugins = await AxiosWp.get("/wp/v2/plugins", {});
+          if (getPlugins.data) {
+            const findPlugin = getPlugins.data.find(
+              (element) => element.plugin === "woocommerce/woocommerce"
+            );
+            if (findPlugin.status === "inactive") {
+              dispatch({
+                type: "wooCheck",
+                value: true,
+              });
+            }
+          }
+        } catch (e) {
+          console.log(e);
+          dispatch({
+            type: "wooCheck",
+            value: true,
+          });
         }
-      } catch (e) {
-        console.log(e);
       }
+      checkPlugin();
     }
-    getPlugins();
-  }, []);
+  }, [state.plugins.woocommerce.checkCount]);
 
   /**
    * The settings form created by maping over originalState as the main state.
@@ -406,9 +436,11 @@ function Integrations() {
               </div>
               <div className="card-body">
                 <p>{plugin.info}</p>
-              </div>
-              <div className="card-footer">
-                <p>Every things is fine</p>
+                {plugin.errorMessage && plugin.use === true && (
+                  <div className="alert alert-danger small m-0">
+                    {plugin.errorMessage}
+                  </div>
+                )}
               </div>
             </article>
           ))}

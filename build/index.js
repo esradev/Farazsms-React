@@ -11250,11 +11250,12 @@ function Integrations() {
           logo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_6__
         },
         onChange: "wooChange",
+        rules: "wooRules",
         id: "wooId",
         plugin: "woocommerce/woocommerce",
-        check: "wooCheck",
         hasErrors: false,
-        errorMessage: ""
+        errorMessage: "",
+        checkCount: 0
       },
       digits: {
         use: false,
@@ -11265,11 +11266,12 @@ function Integrations() {
           logo: _modules_farazsms_assets_images_digits_logo_png__WEBPACK_IMPORTED_MODULE_7__
         },
         onChange: "digitsChange",
+        rules: "digitsRules",
         id: "digitsId",
         plugin: "digits/digits",
-        check: "digitsCheck",
         hasErrors: false,
-        errorMessage: ""
+        errorMessage: "",
+        checkCount: 0
       },
       edd: {
         use: false,
@@ -11280,11 +11282,12 @@ function Integrations() {
           logo: _modules_farazsms_assets_images_edd_logo_png__WEBPACK_IMPORTED_MODULE_8__
         },
         onChange: "eddChange",
+        rules: "eddRules",
         id: "eddId",
         plugin: "easy-digital-downloads/easy-digital-downloads",
-        check: "eddCheck",
         hasErrors: false,
-        errorMessage: ""
+        errorMessage: "",
+        checkCount: 0
       },
       bookly: {
         use: false,
@@ -11295,11 +11298,12 @@ function Integrations() {
           logo: _modules_farazsms_assets_images_bookly_logo_png__WEBPACK_IMPORTED_MODULE_9__
         },
         onChange: "booklyChange",
+        rules: "booklyRules",
         id: "booklyId",
         plugin: "bookly-responsive-appointment-booking-tool/main",
-        check: "booklyCheck",
         hasErrors: false,
-        errorMessage: ""
+        errorMessage: "",
+        checkCount: 0
       },
       gravityForms: {
         use: false,
@@ -11310,11 +11314,12 @@ function Integrations() {
           logo: _modules_farazsms_assets_images_gravity_logo_png__WEBPACK_IMPORTED_MODULE_10__
         },
         onChange: "gfChange",
+        rules: "gfRules",
         id: "gfId",
         plugin: "gravityforms/gravityforms",
-        check: "gravityFormsCheck",
         hasErrors: false,
-        errorMessage: ""
+        errorMessage: "",
+        checkCount: 0
       },
       indeedMembershipPro: {
         use: false,
@@ -11325,11 +11330,12 @@ function Integrations() {
           logo: _modules_farazsms_assets_images_ultimatemembershippro_logo_png__WEBPACK_IMPORTED_MODULE_11__
         },
         onChange: "impChange",
+        rules: "impRules",
         id: "impId",
         plugin: "indeed-membership-pro/indeed-membership-pro",
-        check: "indeedMembershipProCheck",
         hasErrors: false,
-        errorMessage: ""
+        errorMessage: "",
+        checkCount: 0
       },
       paidMembershipsPro: {
         use: false,
@@ -11340,11 +11346,12 @@ function Integrations() {
           logo: _modules_farazsms_assets_images_paidmembershipspro_logo_png__WEBPACK_IMPORTED_MODULE_12__
         },
         onChange: "pmpChange",
+        rules: "pmpRules",
         id: "pmpId",
         plugin: "paid-memberships-pro/paid-memberships-pro",
-        check: "paidMembershipsProCheck",
         hasErrors: false,
-        errorMessage: ""
+        errorMessage: "",
+        checkCount: 0
       },
       affiliateWp: {
         use: false,
@@ -11355,11 +11362,12 @@ function Integrations() {
           logo: _modules_farazsms_assets_images_affiliatewp_logo_png__WEBPACK_IMPORTED_MODULE_13__
         },
         onChange: "affChange",
+        rules: "affRules",
         id: "affId",
         plugin: "affiliate-wp/affiliate-wp",
-        check: "affiliateWpCheck",
         hasErrors: false,
-        errorMessage: ""
+        errorMessage: "",
+        checkCount: 0
       },
       indeedAffiliatePro: {
         use: false,
@@ -11370,11 +11378,12 @@ function Integrations() {
           logo: _modules_farazsms_assets_images_ultimateaffiliatepro_logo_png__WEBPACK_IMPORTED_MODULE_14__
         },
         onChange: "uapChange",
+        rules: "uapRules",
         id: "uapId",
         plugin: "indeed-affiliate-pro/indeed-affiliate-pro",
-        check: "indeedAffiliateProCheck",
         hasErrors: false,
-        errorMessage: ""
+        errorMessage: "",
+        checkCount: 0
       },
       yithWoocommerceAffiliates: {
         use: false,
@@ -11385,11 +11394,12 @@ function Integrations() {
           logo: _modules_farazsms_assets_images_yithwoocommerceaffiliates_logo_png__WEBPACK_IMPORTED_MODULE_15__
         },
         onChange: "ywaChange",
+        rules: "ywaRules",
         id: "ywaId",
         plugin: "yith-woocommerce-affiliates/init",
-        check: "yithWoocommerceAffiliatesCheck",
         hasErrors: false,
-        errorMessage: ""
+        errorMessage: "",
+        checkCount: 0
       }
     },
     isFetching: true,
@@ -11415,6 +11425,16 @@ function Integrations() {
       case "wooChange":
         draft.plugins.woocommerce.hasErrors = false;
         draft.plugins.woocommerce.use = action.value;
+        draft.plugins.woocommerce.checkCount++;
+        return;
+      case "wooCheck":
+        if (action.value) {
+          draft.plugins.woocommerce.hasErrors = true;
+          draft.plugins.woocommerce.isActivated = false;
+          draft.plugins.woocommerce.errorMessage = __("First install | activate plugin.", "farazsms");
+        } else {
+          draft.plugins.woocommerce.isActivated = true;
+        }
         return;
       case "digitsChange":
         draft.plugins.digits.hasErrors = false;
@@ -11560,31 +11580,38 @@ function Integrations() {
       postOptions();
     }
   }, [state.sendCount]);
+
+  /**
+   *
+   * Check woocommerce, is installed and activated.
+   *
+   * @since 2.0.0
+   */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getPlugins() {
-      try {
-        const getPlugins = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/wp/v2/plugins", {});
-        if (getPlugins.data) {
-          const plugins = getPlugins.data;
-          console.log(plugins);
-          const intPlugins = Object.values(state.plugins);
-          intPlugins.map(plugin => plugins.find(item => {
-            if (item.plugin === plugin.plugin) {
+    if (state.plugins.woocommerce.checkCount) {
+      async function checkPlugin() {
+        try {
+          const getPlugins = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/wp/v2/plugins", {});
+          if (getPlugins.data) {
+            const findPlugin = getPlugins.data.find(element => element.plugin === "woocommerce/woocommerce");
+            if (findPlugin.status === "inactive") {
               dispatch({
-                type: plugin.check,
+                type: "wooCheck",
                 value: true
               });
-              console.log(plugin);
             }
-          }));
-          console.log(state);
+          }
+        } catch (e) {
+          console.log(e);
+          dispatch({
+            type: "wooCheck",
+            value: true
+          });
         }
-      } catch (e) {
-        console.log(e);
       }
+      checkPlugin();
     }
-    getPlugins();
-  }, []);
+  }, [state.plugins.woocommerce.checkCount]);
 
   /**
    * The settings form created by maping over originalState as the main state.
@@ -11619,9 +11646,9 @@ function Integrations() {
     }
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "card-body"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, plugin.info)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    className: "card-footer"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, "Every things is fine"))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, plugin.info), plugin.errorMessage && plugin.use === true && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    className: "alert alert-danger small m-0"
+  }, plugin.errorMessage))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
     type: "submit",
     className: "btn btn-primary faraz-btn",
     disabled: state.isSaving
