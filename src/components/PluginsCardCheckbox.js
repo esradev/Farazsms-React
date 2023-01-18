@@ -11,12 +11,12 @@ const __ = wp.i18n.__;
  * @since 2.0.0
  */
 const PluginsCardCheckbox = (props) => {
-  const { errorMessage, onChange, id, use, ...inputProps } = props;
+  const { errorMessage, onChange, name, use, ...inputProps } = props;
 
   return (
     <label className="toggle">
       <input
-        id={id}
+        id={name}
         value={use}
         checked={use}
         onChange={onChange}

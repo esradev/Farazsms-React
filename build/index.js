@@ -11213,8 +11213,6 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-
-
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
@@ -11245,13 +11243,11 @@ function Integrations() {
         use: false,
         name: "woocommerce",
         label: "WooCommerce",
-        isActivated: false,
         imgUrl: {
           logo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_6__
         },
         onChange: "wooChange",
-        rules: "wooRules",
-        id: "wooId",
+        check: "wooCheck",
         plugin: "woocommerce/woocommerce",
         hasErrors: false,
         errorMessage: "",
@@ -11261,13 +11257,11 @@ function Integrations() {
         use: false,
         name: "digits",
         label: "digits",
-        isActivated: false,
         imgUrl: {
           logo: _modules_farazsms_assets_images_digits_logo_png__WEBPACK_IMPORTED_MODULE_7__
         },
         onChange: "digitsChange",
-        rules: "digitsRules",
-        id: "digitsId",
+        check: "digitsCheck",
         plugin: "digits/digits",
         hasErrors: false,
         errorMessage: "",
@@ -11277,13 +11271,11 @@ function Integrations() {
         use: false,
         name: "edd",
         label: "Edd",
-        isActivated: false,
         imgUrl: {
           logo: _modules_farazsms_assets_images_edd_logo_png__WEBPACK_IMPORTED_MODULE_8__
         },
         onChange: "eddChange",
-        rules: "eddRules",
-        id: "eddId",
+        check: "eddCheck",
         plugin: "easy-digital-downloads/easy-digital-downloads",
         hasErrors: false,
         errorMessage: "",
@@ -11293,13 +11285,11 @@ function Integrations() {
         use: false,
         name: "bookly",
         label: "Bookly",
-        isActivated: false,
         imgUrl: {
           logo: _modules_farazsms_assets_images_bookly_logo_png__WEBPACK_IMPORTED_MODULE_9__
         },
         onChange: "booklyChange",
-        rules: "booklyRules",
-        id: "booklyId",
+        check: "booklyCheck",
         plugin: "bookly-responsive-appointment-booking-tool/main",
         hasErrors: false,
         errorMessage: "",
@@ -11309,13 +11299,11 @@ function Integrations() {
         use: false,
         name: "gravityForms",
         label: "Gravity Forms",
-        isActivated: false,
         imgUrl: {
           logo: _modules_farazsms_assets_images_gravity_logo_png__WEBPACK_IMPORTED_MODULE_10__
         },
         onChange: "gfChange",
-        rules: "gfRules",
-        id: "gfId",
+        check: "gfCheck",
         plugin: "gravityforms/gravityforms",
         hasErrors: false,
         errorMessage: "",
@@ -11325,13 +11313,11 @@ function Integrations() {
         use: false,
         name: "indeedMembershipPro",
         label: "Indeed Membership Pro",
-        isActivated: false,
         imgUrl: {
           logo: _modules_farazsms_assets_images_ultimatemembershippro_logo_png__WEBPACK_IMPORTED_MODULE_11__
         },
         onChange: "impChange",
-        rules: "impRules",
-        id: "impId",
+        check: "impCheck",
         plugin: "indeed-membership-pro/indeed-membership-pro",
         hasErrors: false,
         errorMessage: "",
@@ -11341,13 +11327,11 @@ function Integrations() {
         use: false,
         name: "paidMembershipsPro",
         label: "Paid Memberships Pro",
-        isActivated: false,
         imgUrl: {
           logo: _modules_farazsms_assets_images_paidmembershipspro_logo_png__WEBPACK_IMPORTED_MODULE_12__
         },
         onChange: "pmpChange",
-        rules: "pmpRules",
-        id: "pmpId",
+        check: "pmpCheck",
         plugin: "paid-memberships-pro/paid-memberships-pro",
         hasErrors: false,
         errorMessage: "",
@@ -11357,13 +11341,11 @@ function Integrations() {
         use: false,
         name: "affiliateWp",
         label: "Affiliate Wp",
-        isActivated: false,
         imgUrl: {
           logo: _modules_farazsms_assets_images_affiliatewp_logo_png__WEBPACK_IMPORTED_MODULE_13__
         },
         onChange: "affChange",
-        rules: "affRules",
-        id: "affId",
+        check: "affCheck",
         plugin: "affiliate-wp/affiliate-wp",
         hasErrors: false,
         errorMessage: "",
@@ -11373,13 +11355,11 @@ function Integrations() {
         use: false,
         name: "indeedAffiliatePro",
         label: "Indeed Affiliate Pro",
-        isActivated: false,
         imgUrl: {
           logo: _modules_farazsms_assets_images_ultimateaffiliatepro_logo_png__WEBPACK_IMPORTED_MODULE_14__
         },
         onChange: "uapChange",
-        rules: "uapRules",
-        id: "uapId",
+        check: "uapCheck",
         plugin: "indeed-affiliate-pro/indeed-affiliate-pro",
         hasErrors: false,
         errorMessage: "",
@@ -11389,13 +11369,11 @@ function Integrations() {
         use: false,
         name: "yithWoocommerceAffiliates",
         label: "Yith Woocommerce Affiliates",
-        isActivated: false,
         imgUrl: {
           logo: _modules_farazsms_assets_images_yithwoocommerceaffiliates_logo_png__WEBPACK_IMPORTED_MODULE_15__
         },
         onChange: "ywaChange",
-        rules: "ywaRules",
-        id: "ywaId",
+        check: "ywaCheck",
         plugin: "yith-woocommerce-affiliates/init",
         hasErrors: false,
         errorMessage: "",
@@ -11428,49 +11406,89 @@ function Integrations() {
         draft.plugins.woocommerce.checkCount++;
         return;
       case "wooCheck":
-        if (action.value) {
-          draft.plugins.woocommerce.hasErrors = true;
-          draft.plugins.woocommerce.isActivated = false;
-          draft.plugins.woocommerce.errorMessage = __("First install | activate plugin.", "farazsms");
-        } else {
-          draft.plugins.woocommerce.isActivated = true;
-        }
+        draft.plugins.woocommerce.hasErrors = true;
+        draft.plugins.woocommerce.errorMessage = __("First install & activate plugin.", "farazsms");
         return;
       case "digitsChange":
         draft.plugins.digits.hasErrors = false;
         draft.plugins.digits.use = action.value;
+        draft.plugins.digits.checkCount++;
+        return;
+      case "digitsCheck":
+        draft.plugins.digits.hasErrors = true;
+        draft.plugins.digits.errorMessage = __("First install & activate plugin.", "farazsms");
         return;
       case "eddChange":
         draft.plugins.edd.hasErrors = false;
         draft.plugins.edd.use = action.value;
+        draft.plugins.edd.checkCount++;
+        return;
+      case "eddCheck":
+        draft.plugins.edd.hasErrors = true;
+        draft.plugins.edd.errorMessage = __("First install & activate plugin.", "farazsms");
         return;
       case "booklyChange":
         draft.plugins.bookly.hasErrors = false;
         draft.plugins.bookly.use = action.value;
+        draft.plugins.bookly.checkCount++;
+        return;
+      case "booklyCheck":
+        draft.plugins.bookly.hasErrors = true;
+        draft.plugins.bookly.errorMessage = __("First install & activate plugin.", "farazsms");
         return;
       case "gfChange":
         draft.plugins.gravityForms.hasErrors = false;
         draft.plugins.gravityForms.use = action.value;
+        draft.plugins.gravityForms.checkCount++;
+        return;
+      case "gfCheck":
+        draft.plugins.gravityForms.hasErrors = true;
+        draft.plugins.gravityForms.errorMessage = __("First install & activate plugin.", "farazsms");
         return;
       case "impChange":
         draft.plugins.indeedMembershipPro.hasErrors = false;
         draft.plugins.indeedMembershipPro.use = action.value;
+        draft.plugins.indeedMembershipPro.checkCount++;
+        return;
+      case "impCheck":
+        draft.plugins.indeedMembershipPro.hasErrors = true;
+        draft.plugins.indeedMembershipPro.errorMessage = __("First install & activate plugin.", "farazsms");
         return;
       case "pmpChange":
         draft.plugins.paidMembershipsPro.hasErrors = false;
         draft.plugins.paidMembershipsPro.use = action.value;
+        draft.plugins.paidMembershipsPro.checkCount++;
+        return;
+      case "pmpCheck":
+        draft.plugins.paidMembershipsPro.hasErrors = true;
+        draft.plugins.paidMembershipsPro.errorMessage = __("First install & activate plugin.", "farazsms");
         return;
       case "affChange":
         draft.plugins.affiliateWp.hasErrors = false;
         draft.plugins.affiliateWp.use = action.value;
+        draft.plugins.affiliateWp.checkCount++;
+        return;
+      case "affCheck":
+        draft.plugins.affiliateWp.hasErrors = true;
+        draft.plugins.affiliateWp.errorMessage = __("First install & activate plugin.", "farazsms");
         return;
       case "uapChange":
         draft.plugins.indeedAffiliatePro.hasErrors = false;
         draft.plugins.indeedAffiliatePro.use = action.value;
+        draft.plugins.indeedAffiliatePro.checkCount++;
+        return;
+      case "uapCheck":
+        draft.plugins.indeedAffiliatePro.hasErrors = true;
+        draft.plugins.indeedAffiliatePro.errorMessage = __("First install & activate plugin.", "farazsms");
         return;
       case "ywaChange":
         draft.plugins.yithWoocommerceAffiliates.hasErrors = false;
         draft.plugins.yithWoocommerceAffiliates.use = action.value;
+        draft.plugins.yithWoocommerceAffiliates.checkCount++;
+        return;
+      case "ywaCheck":
+        draft.plugins.yithWoocommerceAffiliates.hasErrors = true;
+        draft.plugins.yithWoocommerceAffiliates.errorMessage = __("First install & activate plugin.", "farazsms");
         return;
       case "submitOptions":
         if (!draft.plugins.woocommerce.hasErrors && !draft.plugins.digits.hasErrors && !draft.plugins.edd.hasErrors && !draft.plugins.bookly.hasErrors && !draft.plugins.gravityForms.hasErrors && !draft.plugins.indeedMembershipPro.hasErrors && !draft.plugins.paidMembershipsPro.hasErrors && !draft.plugins.affiliateWp.hasErrors && !draft.plugins.indeedAffiliatePro.hasErrors && !draft.plugins.yithWoocommerceAffiliates.hasErrors) {
@@ -11583,35 +11601,42 @@ function Integrations() {
 
   /**
    *
-   * Check woocommerce, is installed and activated.
+   * Check user choosen plugin is installed and activated.
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    if (state.plugins.woocommerce.checkCount) {
-      async function checkPlugin() {
-        try {
-          const getPlugins = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/wp/v2/plugins", {});
-          if (getPlugins.data) {
-            const findPlugin = getPlugins.data.find(element => element.plugin === "woocommerce/woocommerce");
-            if (findPlugin.status === "inactive") {
-              dispatch({
-                type: "wooCheck",
-                value: true
-              });
+
+  const pluginsInt = Object.values(state.plugins);
+  pluginsInt.map(plugin => {
+    (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+      if (plugin.checkCount) {
+        if (plugin.use) {
+          async function checkPlugin() {
+            try {
+              const getPlugins = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/wp/v2/plugins", {});
+              if (getPlugins.data) {
+                const findPlugin = getPlugins.data.find(element => element.plugin === plugin.plugin);
+                if (findPlugin) {
+                  if (findPlugin.status === "inactive") {
+                    dispatch({
+                      type: plugin.check
+                    });
+                  }
+                } else {
+                  dispatch({
+                    type: plugin.check
+                  });
+                }
+              }
+            } catch (e) {
+              console.log(e);
             }
           }
-        } catch (e) {
-          console.log(e);
-          dispatch({
-            type: "wooCheck",
-            value: true
-          });
+          checkPlugin();
         }
       }
-      checkPlugin();
-    }
-  }, [state.plugins.woocommerce.checkCount]);
+    }, [plugin.checkCount]);
+  });
 
   /**
    * The settings form created by maping over originalState as the main state.
@@ -11627,7 +11652,7 @@ function Integrations() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "plugins-card card-grid"
   }, Object.values(state.plugins).map(plugin => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("article", {
-    key: plugin.id,
+    key: plugin.name,
     className: "plugins-card"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "card-header"
@@ -11646,8 +11671,8 @@ function Integrations() {
     }
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "card-body"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, plugin.info), plugin.errorMessage && plugin.use === true && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    className: "alert alert-danger small m-0"
+  }, plugin.errorMessage && plugin.use === true && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    className: "alert alert-danger small m-0 p-1 text-center"
   }, plugin.errorMessage))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
     type: "submit",
     className: "btn btn-primary faraz-btn",
@@ -13082,14 +13107,14 @@ const PluginsCardCheckbox = props => {
   const {
     errorMessage,
     onChange,
-    id,
+    name,
     use,
     ...inputProps
   } = props;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("label", {
     className: "toggle"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    id: id,
+    id: name,
     value: use,
     checked: use,
     onChange: onChange,

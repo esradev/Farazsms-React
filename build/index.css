@@ -10994,7 +10994,7 @@ textarea.form-control-lg {
   top: 15%;
   left: 50%;
   transform: translateX(-50%);
-  animation: floatingAlert ease-in 5s forwards;
+  animation: floatingAlert ease-in 3s forwards;
   animation-fill-mode: forwards;
 }
 
