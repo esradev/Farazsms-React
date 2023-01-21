@@ -145,6 +145,16 @@ class Farazsms
         //			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'classes/farazsms-ippanel-sms-pro-gv/ippanel_sms_pro_gv.php';
         //		}
 
+        $elementor_action = get_option('fsms_elementor_action_sms_active', []);
+        error_log('fsms_elementor_action_sms_active   ==>> ' . $elementor_action);
+        if ($elementor_action == 'true') {
+            add_action('elementor_pro/init', function () {
+
+                require_once plugin_dir_path(dirname(__FILE__)) . 'includes/elementor/farazsms-elementor-action.php';
+                $farazsms_action = new farazsms_elementor_action();
+                \ElementorPro\Plugin::instance()->modules_manager->get_modules('forms')->add_form_action($farazsms_action->get_name(), $farazsms_action);
+            });
+        }
         $this->loader = new Farazsms_Loader();
     }
 
