@@ -12,7 +12,9 @@ const __ = wp.i18n.__;
  */
 import AxiosWp from "./AxiosWp";
 import DispatchContext from "../DispatchContext";
-import SettingsFormInput from "./SettingsFormInput";
+import FormInput from "./FormInput";
+import SaveButton from "./SaveButton";
+import FormInputError from "./FormInputError";
 
 function Aff() {
   const appDispatch = useContext(DispatchContext);
@@ -438,7 +440,7 @@ function Aff() {
                 input.type === "checkbox" ? "toggle-control" : "form-group"
               }
             >
-              <SettingsFormInput
+              <FormInput
                 {...input}
                 onChange={
                   input.type === "select"
@@ -461,25 +463,10 @@ function Aff() {
                   dispatch({ type: input.rules, value: e.target.value })
                 }
               />
-              <CSSTransition
-                in={input.hasErrors}
-                timeout={330}
-                classNames="liveValidateMessage"
-                unmountOnExit
-              >
-                <div className="alert alert-danger small liveValidateMessage">
-                  {input.errorMessage}
-                </div>
-              </CSSTransition>
+              <FormInputError />
             </div>
           ))}
-          <button
-            type="submit"
-            className="btn btn-primary faraz-btn"
-            disabled={state.isSaving}
-          >
-            {__("Save Settings", "farazsms")}
-          </button>
+          <SaveButton />
         </form>
       </div>
     </div>

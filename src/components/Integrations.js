@@ -22,6 +22,7 @@ import PaidMembershipsProLogo from "../../modules/farazsms/assets/images/paidmem
 import AffiliateWpLogo from "../../modules/farazsms/assets/images/affiliatewp-logo.png";
 import IndeedAffiliateProLogo from "../../modules/farazsms/assets/images/ultimateaffiliatepro-logo.png";
 import YithWoocommerceAffiliatesLogo from "../../modules/farazsms/assets/images/yithwoocommerceaffiliates-logo.png";
+import SaveButton from "./SaveButton";
 
 function Integrations() {
   const appDispatch = useContext(DispatchContext);
@@ -496,13 +497,7 @@ function Integrations() {
             </article>
           ))}
         </div>
-        <button
-          type="submit"
-          className="btn btn-primary faraz-btn"
-          disabled={state.isSaving}
-        >
-          {__("Save Settings", "farazsms")}
-        </button>
+        <SaveButton />
       </form>
     </div>
   );

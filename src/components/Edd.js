@@ -10,7 +10,9 @@ const __ = wp.i18n.__;
  * Import local dependencies
  */
 import DispatchContext from "../DispatchContext";
-import SettingsFormInput from "./SettingsFormInput";
+import FormInput from "./FormInput";
+import SaveButton from "./SaveButton";
+import FormInputError from "./FormInputError";
 import AxiosWp from "./AxiosWp";
 
 function Edd() {
@@ -259,7 +261,7 @@ function Edd() {
                 input.type === "checkbox" ? "toggle-control" : "form-group"
               }
             >
-              <SettingsFormInput
+              <FormInput
                 {...input}
                 onChange={
                   input.type === "select"
@@ -282,20 +284,10 @@ function Edd() {
                   dispatch({ type: input.rules, value: e.target.value })
                 }
               />
-              {input.hasErrors && (
-                <div className="alert alert-danger small liveValidateMessage">
-                  {input.errorMessage}
-                </div>
-              )}
+              <FormInputError />
             </div>
           ))}
-          <button
-            type="submit"
-            className="btn btn-primary faraz-btn"
-            disabled={state.isSaving}
-          >
-            {__("Save Settings", "farazsms")}
-          </button>
+          <SaveButton />
         </form>
       </div>
     </div>
