@@ -15,6 +15,7 @@ import DispatchContext from "../DispatchContext";
 import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
 import FormInputError from "./FormInputError";
+import SectionHeader from "./SectionHeader";
 
 function Phonebook() {
   const appDispatch = useContext(DispatchContext);
@@ -99,6 +100,7 @@ function Phonebook() {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
+    sectionHeader: __("Phonebook settings:", "farazsms"),
   };
 
   function ourReduser(draft, action) {
@@ -299,9 +301,7 @@ function Phonebook() {
 
   return (
     <>
-      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
-        {__("Phonebook settings:", "farazsms")}
-      </h3>
+      <SectionHeader sectionHeader={state.sectionHeader} />
       <div className="container">
         <div className="container card bg-light mb-3 mt-1">
           <div className="card-body">
@@ -351,7 +351,7 @@ function Phonebook() {
               <FormInputError />
             </div>
           ))}
-          <SaveButton />
+          <SaveButton isSaving={state.isSaving} />
         </form>
       </div>
     </>

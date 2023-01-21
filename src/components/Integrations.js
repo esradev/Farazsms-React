@@ -23,6 +23,7 @@ import AffiliateWpLogo from "../../modules/farazsms/assets/images/affiliatewp-lo
 import IndeedAffiliateProLogo from "../../modules/farazsms/assets/images/ultimateaffiliatepro-logo.png";
 import YithWoocommerceAffiliatesLogo from "../../modules/farazsms/assets/images/yithwoocommerceaffiliates-logo.png";
 import SaveButton from "./SaveButton";
+import SectionHeader from "./SectionHeader";
 
 function Integrations() {
   const appDispatch = useContext(DispatchContext);
@@ -155,6 +156,7 @@ function Integrations() {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
+    sectionHeader: __("Integrations:", "farazsms"),
   };
 
   function ourReduser(draft, action) {
@@ -461,9 +463,7 @@ function Integrations() {
 
   return (
     <div>
-      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
-        {__("Integrations:", "farazsms")}
-      </h3>
+      <SectionHeader sectionHeader={state.sectionHeader} />
       <form onSubmit={handleSubmit}>
         <div className="plugins-card card-grid">
           {Object.values(state.plugins).map((plugin) => (
@@ -497,7 +497,7 @@ function Integrations() {
             </article>
           ))}
         </div>
-        <SaveButton />
+        <SaveButton isSaving={state.isSaving} />
       </form>
     </div>
   );

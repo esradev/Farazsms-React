@@ -14,6 +14,7 @@ import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
 import FormInputError from "./FormInputError";
 import AxiosWp from "./AxiosWp";
+import SectionHeader from "./SectionHeader";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);
@@ -117,6 +118,7 @@ function Settings() {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
+    sectionHeader: __("Login Notify Settings:", "farazsms"),
   };
 
   function ourReduser(draft, action) {
@@ -278,9 +280,7 @@ function Settings() {
 
   return (
     <div>
-      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
-        {__("Login Notify Settings:", "farazsms")}
-      </h3>
+      <SectionHeader sectionHeader={state.sectionHeader} />
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
@@ -316,7 +316,7 @@ function Settings() {
               <FormInputError />
             </div>
           ))}
-          <SaveButton />
+          <SaveButton isSaving={state.isSaving} />
         </form>
       </div>
     </div>

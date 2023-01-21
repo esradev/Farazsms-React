@@ -15,6 +15,7 @@ import DispatchContext from "../DispatchContext";
 import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
 import FormInputError from "./FormInputError";
+import SectionHeader from "./SectionHeader";
 
 function Membership() {
   const appDispatch = useContext(DispatchContext);
@@ -113,6 +114,10 @@ function Membership() {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
+    sectionHeader: __(
+      "Ultimate Membership Pro and Paid Memberships Pro:",
+      "farazsms"
+    ),
   };
 
   /**
@@ -271,9 +276,7 @@ function Membership() {
    */
   return (
     <div>
-      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
-        {__("Ultimate Membership Pro and Paid Memberships Pro:", "farazsms")}
-      </h3>
+      <SectionHeader sectionHeader={state.sectionHeader} />
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
@@ -309,7 +312,7 @@ function Membership() {
               <FormInputError />
             </div>
           ))}
-          <SaveButton />
+          <SaveButton isSaving={state.isSaving} />
         </form>
       </div>
     </div>

@@ -15,6 +15,7 @@ import DispatchContext from "../DispatchContext";
 import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
 import FormInputError from "./FormInputError";
+import SectionHeader from "./SectionHeader";
 
 function Aff() {
   const appDispatch = useContext(DispatchContext);
@@ -193,6 +194,10 @@ function Aff() {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
+    sectionHeader: __(
+      "Affiliate wp plugin or Ultimate Affiliate Pro or Yith Woocommerce Affiliate:",
+      "farazsms"
+    ),
   };
 
   /**
@@ -425,12 +430,7 @@ function Aff() {
    */
   return (
     <div>
-      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
-        {__(
-          "Affiliate wp plugin or Ultimate Affiliate Pro or Yith Woocommerce Affiliate:",
-          "farazsms"
-        )}
-      </h3>
+      <SectionHeader sectionHeader={state.sectionHeader} />
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
@@ -466,7 +466,7 @@ function Aff() {
               <FormInputError />
             </div>
           ))}
-          <SaveButton />
+          <SaveButton isSaving={state.isSaving} />
         </form>
       </div>
     </div>

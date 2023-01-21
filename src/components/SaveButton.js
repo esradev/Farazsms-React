@@ -2,7 +2,6 @@
  * Import remote dependencies.
  */
 import React from "react";
-import makeAnimated from "react-select/animated";
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 

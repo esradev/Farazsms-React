@@ -14,6 +14,7 @@ import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
 import FormInputError from "./FormInputError";
 import AxiosWp from "./AxiosWp";
+import SectionHeader from "./SectionHeader";
 
 function Edd() {
   const appDispatch = useContext(DispatchContext);
@@ -90,6 +91,7 @@ function Edd() {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
+    sectionHeader: __("EDD Settings:", "farazsms"),
   };
 
   function ourReduser(draft, action) {
@@ -249,9 +251,7 @@ function Edd() {
 
   return (
     <div>
-      <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
-        {__("EDD Settings:", "farazsms")}
-      </h3>
+      <SectionHeader sectionHeader={state.sectionHeader} />
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
@@ -287,7 +287,7 @@ function Edd() {
               <FormInputError />
             </div>
           ))}
-          <SaveButton />
+          <SaveButton isSaving={state.isSaving} />
         </form>
       </div>
     </div>
