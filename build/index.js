@@ -9826,9 +9826,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _StateContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StateContext */ "./src/StateContext.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Header */ "./src/components/Header.js");
@@ -9836,9 +9836,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Sidebar */ "./src/components/Sidebar.js");
 /* harmony import */ var _components_SidebarItems__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/SidebarItems */ "./src/components/SidebarItems.js");
 /* harmony import */ var _components_Footer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Footer */ "./src/components/Footer.js");
+/* harmony import */ var _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../modules/farazsms/assets/images/woocommerce-logo.png */ "./modules/farazsms/assets/images/woocommerce-logo.png");
+/* harmony import */ var _modules_farazsms_assets_images_digits_logo_png__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../modules/farazsms/assets/images/digits-logo.png */ "./modules/farazsms/assets/images/digits-logo.png");
+/* harmony import */ var _modules_farazsms_assets_images_edd_logo_png__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../modules/farazsms/assets/images/edd-logo.png */ "./modules/farazsms/assets/images/edd-logo.png");
+/* harmony import */ var _modules_farazsms_assets_images_bookly_logo_png__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../modules/farazsms/assets/images/bookly-logo.png */ "./modules/farazsms/assets/images/bookly-logo.png");
+/* harmony import */ var _modules_farazsms_assets_images_gravity_logo_png__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../modules/farazsms/assets/images/gravity-logo.png */ "./modules/farazsms/assets/images/gravity-logo.png");
+/* harmony import */ var _modules_farazsms_assets_images_ultimatemembershippro_logo_png__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../modules/farazsms/assets/images/ultimatemembershippro-logo.png */ "./modules/farazsms/assets/images/ultimatemembershippro-logo.png");
+/* harmony import */ var _modules_farazsms_assets_images_paidmembershipspro_logo_png__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../modules/farazsms/assets/images/paidmembershipspro-logo.png */ "./modules/farazsms/assets/images/paidmembershipspro-logo.png");
+/* harmony import */ var _modules_farazsms_assets_images_affiliatewp_logo_png__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../modules/farazsms/assets/images/affiliatewp-logo.png */ "./modules/farazsms/assets/images/affiliatewp-logo.png");
+/* harmony import */ var _modules_farazsms_assets_images_ultimateaffiliatepro_logo_png__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../modules/farazsms/assets/images/ultimateaffiliatepro-logo.png */ "./modules/farazsms/assets/images/ultimateaffiliatepro-logo.png");
+/* harmony import */ var _modules_farazsms_assets_images_yithwoocommerceaffiliates_logo_png__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../modules/farazsms/assets/images/yithwoocommerceaffiliates-logo.png */ "./modules/farazsms/assets/images/yithwoocommerceaffiliates-logo.png");
+/* harmony import */ var _modules_farazsms_assets_images_elementor_logo_png__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../modules/farazsms/assets/images/elementor-logo.png */ "./modules/farazsms/assets/images/elementor-logo.png");
 
 /**
- * External dependencies
+ * Import remote dependencies.
  */
 
 
@@ -9846,10 +9857,10 @@ __webpack_require__.r(__webpack_exports__);
 const __ = wp.i18n.__;
 
 /**
- * Internal dependencies
+ * Import local dependencies
  */
-// Plugin Context
 
+// Plugin Context
 
 
 // Plugin Components
@@ -9858,28 +9869,338 @@ const __ = wp.i18n.__;
 
 
 
+// Integration plugins logo
+
+
+
+
+
+
+
+
+
+
+
 function App() {
   const initialState = {
-    flashMessages: []
+    flashMessages: [],
+    plugins: {
+      woocommerce: {
+        use: false,
+        name: "woocommerce",
+        label: "WooCommerce",
+        imgUrl: {
+          logo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_9__
+        },
+        onChange: "wooChange",
+        check: "wooCheck",
+        plugin: "woocommerce/woocommerce",
+        hasErrors: false,
+        errorMessage: "",
+        info: "",
+        checkCount: 0
+      },
+      elementorPro: {
+        use: false,
+        name: "elementor-pro",
+        label: "Elementor Pro",
+        imgUrl: {
+          logo: _modules_farazsms_assets_images_elementor_logo_png__WEBPACK_IMPORTED_MODULE_19__
+        },
+        onChange: "elementorProChange",
+        check: "elementorProCheck",
+        plugin: "elementor-pro/elementor-pro",
+        hasErrors: false,
+        errorMessage: "",
+        info: __("Add action after elementor pro forms submitting.", "farazsms"),
+        checkCount: 0
+      },
+      digits: {
+        use: false,
+        name: "digits",
+        label: "digits",
+        imgUrl: {
+          logo: _modules_farazsms_assets_images_digits_logo_png__WEBPACK_IMPORTED_MODULE_10__
+        },
+        onChange: "digitsChange",
+        check: "digitsCheck",
+        plugin: "digits/digits",
+        hasErrors: false,
+        errorMessage: "",
+        info: "",
+        checkCount: 0
+      },
+      edd: {
+        use: false,
+        name: "edd",
+        label: "Edd",
+        imgUrl: {
+          logo: _modules_farazsms_assets_images_edd_logo_png__WEBPACK_IMPORTED_MODULE_11__
+        },
+        onChange: "eddChange",
+        check: "eddCheck",
+        plugin: "easy-digital-downloads/easy-digital-downloads",
+        hasErrors: false,
+        errorMessage: "",
+        info: "",
+        checkCount: 0
+      },
+      bookly: {
+        use: false,
+        name: "bookly",
+        label: "Bookly",
+        imgUrl: {
+          logo: _modules_farazsms_assets_images_bookly_logo_png__WEBPACK_IMPORTED_MODULE_12__
+        },
+        onChange: "booklyChange",
+        check: "booklyCheck",
+        plugin: "bookly-responsive-appointment-booking-tool/main",
+        hasErrors: false,
+        errorMessage: "",
+        info: "",
+        checkCount: 0
+      },
+      gravityForms: {
+        use: false,
+        name: "gravityForms",
+        label: "Gravity Forms",
+        imgUrl: {
+          logo: _modules_farazsms_assets_images_gravity_logo_png__WEBPACK_IMPORTED_MODULE_13__
+        },
+        onChange: "gfChange",
+        check: "gfCheck",
+        plugin: "gravityforms/gravityforms",
+        hasErrors: false,
+        errorMessage: "",
+        info: "",
+        checkCount: 0
+      },
+      indeedMembershipPro: {
+        use: false,
+        name: "indeedMembershipPro",
+        label: "Indeed Membership Pro",
+        imgUrl: {
+          logo: _modules_farazsms_assets_images_ultimatemembershippro_logo_png__WEBPACK_IMPORTED_MODULE_14__
+        },
+        onChange: "impChange",
+        check: "impCheck",
+        plugin: "indeed-membership-pro/indeed-membership-pro",
+        hasErrors: false,
+        errorMessage: "",
+        info: "",
+        checkCount: 0
+      },
+      paidMembershipsPro: {
+        use: false,
+        name: "paidMembershipsPro",
+        label: "Paid Memberships Pro",
+        imgUrl: {
+          logo: _modules_farazsms_assets_images_paidmembershipspro_logo_png__WEBPACK_IMPORTED_MODULE_15__
+        },
+        onChange: "pmpChange",
+        check: "pmpCheck",
+        plugin: "paid-memberships-pro/paid-memberships-pro",
+        hasErrors: false,
+        errorMessage: "",
+        info: "",
+        checkCount: 0
+      },
+      affiliateWp: {
+        use: false,
+        name: "affiliateWp",
+        label: "Affiliate Wp",
+        imgUrl: {
+          logo: _modules_farazsms_assets_images_affiliatewp_logo_png__WEBPACK_IMPORTED_MODULE_16__
+        },
+        onChange: "affChange",
+        check: "affCheck",
+        plugin: "affiliate-wp/affiliate-wp",
+        hasErrors: false,
+        errorMessage: "",
+        info: "",
+        checkCount: 0
+      },
+      indeedAffiliatePro: {
+        use: false,
+        name: "indeedAffiliatePro",
+        label: "Indeed Affiliate Pro",
+        imgUrl: {
+          logo: _modules_farazsms_assets_images_ultimateaffiliatepro_logo_png__WEBPACK_IMPORTED_MODULE_17__
+        },
+        onChange: "uapChange",
+        check: "uapCheck",
+        plugin: "indeed-affiliate-pro/indeed-affiliate-pro",
+        hasErrors: false,
+        errorMessage: "",
+        info: "",
+        checkCount: 0
+      },
+      yithWoocommerceAffiliates: {
+        use: false,
+        name: "yithWoocommerceAffiliates",
+        label: "Yith Woocommerce Affiliates",
+        imgUrl: {
+          logo: _modules_farazsms_assets_images_yithwoocommerceaffiliates_logo_png__WEBPACK_IMPORTED_MODULE_18__
+        },
+        onChange: "ywaChange",
+        check: "ywaCheck",
+        plugin: "yith-woocommerce-affiliates/init",
+        hasErrors: false,
+        errorMessage: "",
+        info: "",
+        checkCount: 0
+      }
+    },
+    isFetching: true,
+    isSaving: false,
+    sendCount: 0
   };
   function ourReducer(draft, action) {
     switch (action.type) {
       case "flashMessage":
         draft.flashMessages.push(action.value);
         return;
+      case "fetchComplete":
+        //Init state values by action.value
+        draft.plugins.woocommerce.use = action.value.woocommerce;
+        draft.plugins.elementorPro.use = action.value.elementorPro;
+        draft.plugins.digits.use = action.value.digits;
+        draft.plugins.edd.use = action.value.edd;
+        draft.plugins.bookly.use = action.value.bookly;
+        draft.plugins.gravityForms.use = action.value.gravityForms;
+        draft.plugins.indeedMembershipPro.use = action.value.indeedMembershipPro;
+        draft.plugins.paidMembershipsPro.use = action.value.paidMembershipsPro;
+        draft.plugins.affiliateWp.use = action.value.affiliateWp;
+        draft.plugins.indeedAffiliatePro.use = action.value.indeedAffiliatePro;
+        draft.plugins.yithWoocommerceAffiliates.use = action.value.yithWoocommerceAffiliates;
+        draft.isFetching = false;
+        return;
+      case "wooChange":
+        draft.plugins.woocommerce.hasErrors = false;
+        draft.plugins.woocommerce.use = action.value;
+        draft.plugins.woocommerce.checkCount++;
+        return;
+      case "wooCheck":
+        draft.plugins.woocommerce.hasErrors = true;
+        draft.plugins.woocommerce.errorMessage = __("First install & activate plugin.", "farazsms");
+        return;
+      case "elementorProChange":
+        draft.plugins.elementorPro.hasErrors = false;
+        draft.plugins.elementorPro.use = action.value;
+        draft.plugins.elementorPro.checkCount++;
+        return;
+      case "elementorProCheck":
+        draft.plugins.elementorPro.hasErrors = true;
+        draft.plugins.elementorPro.errorMessage = __("First install & activate plugin.", "farazsms");
+        return;
+      case "digitsChange":
+        draft.plugins.digits.hasErrors = false;
+        draft.plugins.digits.use = action.value;
+        draft.plugins.digits.checkCount++;
+        return;
+      case "digitsCheck":
+        draft.plugins.digits.hasErrors = true;
+        draft.plugins.digits.errorMessage = __("First install & activate plugin.", "farazsms");
+        return;
+      case "eddChange":
+        draft.plugins.edd.hasErrors = false;
+        draft.plugins.edd.use = action.value;
+        draft.plugins.edd.checkCount++;
+        return;
+      case "eddCheck":
+        draft.plugins.edd.hasErrors = true;
+        draft.plugins.edd.errorMessage = __("First install & activate plugin.", "farazsms");
+        return;
+      case "booklyChange":
+        draft.plugins.bookly.hasErrors = false;
+        draft.plugins.bookly.use = action.value;
+        draft.plugins.bookly.checkCount++;
+        return;
+      case "booklyCheck":
+        draft.plugins.bookly.hasErrors = true;
+        draft.plugins.bookly.errorMessage = __("First install & activate plugin.", "farazsms");
+        return;
+      case "gfChange":
+        draft.plugins.gravityForms.hasErrors = false;
+        draft.plugins.gravityForms.use = action.value;
+        draft.plugins.gravityForms.checkCount++;
+        return;
+      case "gfCheck":
+        draft.plugins.gravityForms.hasErrors = true;
+        draft.plugins.gravityForms.errorMessage = __("First install & activate plugin.", "farazsms");
+        return;
+      case "impChange":
+        draft.plugins.indeedMembershipPro.hasErrors = false;
+        draft.plugins.indeedMembershipPro.use = action.value;
+        draft.plugins.indeedMembershipPro.checkCount++;
+        return;
+      case "impCheck":
+        draft.plugins.indeedMembershipPro.hasErrors = true;
+        draft.plugins.indeedMembershipPro.errorMessage = __("First install & activate plugin.", "farazsms");
+        return;
+      case "pmpChange":
+        draft.plugins.paidMembershipsPro.hasErrors = false;
+        draft.plugins.paidMembershipsPro.use = action.value;
+        draft.plugins.paidMembershipsPro.checkCount++;
+        return;
+      case "pmpCheck":
+        draft.plugins.paidMembershipsPro.hasErrors = true;
+        draft.plugins.paidMembershipsPro.errorMessage = __("First install & activate plugin.", "farazsms");
+        return;
+      case "affChange":
+        draft.plugins.affiliateWp.hasErrors = false;
+        draft.plugins.affiliateWp.use = action.value;
+        draft.plugins.affiliateWp.checkCount++;
+        return;
+      case "affCheck":
+        draft.plugins.affiliateWp.hasErrors = true;
+        draft.plugins.affiliateWp.errorMessage = __("First install & activate plugin.", "farazsms");
+        return;
+      case "uapChange":
+        draft.plugins.indeedAffiliatePro.hasErrors = false;
+        draft.plugins.indeedAffiliatePro.use = action.value;
+        draft.plugins.indeedAffiliatePro.checkCount++;
+        return;
+      case "uapCheck":
+        draft.plugins.indeedAffiliatePro.hasErrors = true;
+        draft.plugins.indeedAffiliatePro.errorMessage = __("First install & activate plugin.", "farazsms");
+        return;
+      case "ywaChange":
+        draft.plugins.yithWoocommerceAffiliates.hasErrors = false;
+        draft.plugins.yithWoocommerceAffiliates.use = action.value;
+        draft.plugins.yithWoocommerceAffiliates.checkCount++;
+        return;
+      case "ywaCheck":
+        draft.plugins.yithWoocommerceAffiliates.hasErrors = true;
+        draft.plugins.yithWoocommerceAffiliates.errorMessage = __("First install & activate plugin.", "farazsms");
+        return;
+      case "submitOptions":
+        if (!draft.plugins.woocommerce.hasErrors && !draft.plugins.elementorPro.hasErrors && !draft.plugins.digits.hasErrors && !draft.plugins.edd.hasErrors && !draft.plugins.bookly.hasErrors && !draft.plugins.gravityForms.hasErrors && !draft.plugins.indeedMembershipPro.hasErrors && !draft.plugins.paidMembershipsPro.hasErrors && !draft.plugins.affiliateWp.hasErrors && !draft.plugins.indeedAffiliatePro.hasErrors && !draft.plugins.yithWoocommerceAffiliates.hasErrors) {
+          draft.sendCount++;
+        }
+        return;
+      case "saveRequestStarted":
+        draft.isSaving = true;
+        return;
+      case "saveRequestFininshed":
+        draft.isSaving = false;
+        return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_9__.useImmerReducer)(ourReducer, initialState);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.HashRouter, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_StateContext__WEBPACK_IMPORTED_MODULE_2__["default"].Provider, {
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_20__.useImmerReducer)(ourReducer, initialState);
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.HashRouter, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_StateContext__WEBPACK_IMPORTED_MODULE_2__["default"].Provider, {
     value: state
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"].Provider, {
     value: dispatch
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Header__WEBPACK_IMPORTED_MODULE_4__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_FlashMessages__WEBPACK_IMPORTED_MODULE_5__["default"], {
     messages: state.flashMessages
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Routes, null, _components_SidebarItems__WEBPACK_IMPORTED_MODULE_7__["default"].map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_22__.Routes, null, _components_SidebarItems__WEBPACK_IMPORTED_MODULE_7__["default"].map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_22__.Route, {
     key: index,
     path: item.path,
-    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(item.element, null)
+    element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(item.element, {
+      integratedPlugins: state.plugins,
+      sendCount: state.sendCount
+    })
   })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Footer__WEBPACK_IMPORTED_MODULE_8__["default"], null))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (App);
@@ -11376,23 +11697,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _PluginsCardCheckbox__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./PluginsCardCheckbox */ "./src/components/PluginsCardCheckbox.js");
-/* harmony import */ var _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../modules/farazsms/assets/images/woocommerce-logo.png */ "./modules/farazsms/assets/images/woocommerce-logo.png");
-/* harmony import */ var _modules_farazsms_assets_images_digits_logo_png__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../modules/farazsms/assets/images/digits-logo.png */ "./modules/farazsms/assets/images/digits-logo.png");
-/* harmony import */ var _modules_farazsms_assets_images_edd_logo_png__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../modules/farazsms/assets/images/edd-logo.png */ "./modules/farazsms/assets/images/edd-logo.png");
-/* harmony import */ var _modules_farazsms_assets_images_bookly_logo_png__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../modules/farazsms/assets/images/bookly-logo.png */ "./modules/farazsms/assets/images/bookly-logo.png");
-/* harmony import */ var _modules_farazsms_assets_images_gravity_logo_png__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../modules/farazsms/assets/images/gravity-logo.png */ "./modules/farazsms/assets/images/gravity-logo.png");
-/* harmony import */ var _modules_farazsms_assets_images_ultimatemembershippro_logo_png__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../../modules/farazsms/assets/images/ultimatemembershippro-logo.png */ "./modules/farazsms/assets/images/ultimatemembershippro-logo.png");
-/* harmony import */ var _modules_farazsms_assets_images_paidmembershipspro_logo_png__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../modules/farazsms/assets/images/paidmembershipspro-logo.png */ "./modules/farazsms/assets/images/paidmembershipspro-logo.png");
-/* harmony import */ var _modules_farazsms_assets_images_affiliatewp_logo_png__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../modules/farazsms/assets/images/affiliatewp-logo.png */ "./modules/farazsms/assets/images/affiliatewp-logo.png");
-/* harmony import */ var _modules_farazsms_assets_images_ultimateaffiliatepro_logo_png__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../modules/farazsms/assets/images/ultimateaffiliatepro-logo.png */ "./modules/farazsms/assets/images/ultimateaffiliatepro-logo.png");
-/* harmony import */ var _modules_farazsms_assets_images_yithwoocommerceaffiliates_logo_png__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../../modules/farazsms/assets/images/yithwoocommerceaffiliates-logo.png */ "./modules/farazsms/assets/images/yithwoocommerceaffiliates-logo.png");
-/* harmony import */ var _modules_farazsms_assets_images_elementor_logo_png__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../../modules/farazsms/assets/images/elementor-logo.png */ "./modules/farazsms/assets/images/elementor-logo.png");
-/* harmony import */ var _SaveButton__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./SaveButton */ "./src/components/SaveButton.js");
-/* harmony import */ var _SectionHeader__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./SectionHeader */ "./src/components/SectionHeader.js");
+/* harmony import */ var _SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SaveButton */ "./src/components/SaveButton.js");
+/* harmony import */ var _SectionHeader__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./SectionHeader */ "./src/components/SectionHeader.js");
 
 
 /**
@@ -11412,324 +11722,18 @@ const __ = wp.i18n.__;
 
 
 
-
-
-
-
-
-
-
-
-
-
-function Integrations() {
+function Integrations(props) {
   const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_4__["default"]);
   /**
    * Define plugins state.
    */
   const originalState = {
-    plugins: {
-      woocommerce: {
-        use: false,
-        name: "woocommerce",
-        label: "WooCommerce",
-        imgUrl: {
-          logo: _modules_farazsms_assets_images_woocommerce_logo_png__WEBPACK_IMPORTED_MODULE_6__
-        },
-        onChange: "wooChange",
-        check: "wooCheck",
-        plugin: "woocommerce/woocommerce",
-        hasErrors: false,
-        errorMessage: "",
-        info: "",
-        checkCount: 0
-      },
-      elementorPro: {
-        use: false,
-        name: "elementor-pro",
-        label: "Elementor Pro",
-        imgUrl: {
-          logo: _modules_farazsms_assets_images_elementor_logo_png__WEBPACK_IMPORTED_MODULE_16__
-        },
-        onChange: "elementorProChange",
-        check: "elementorProCheck",
-        plugin: "elementor-pro/elementor-pro",
-        hasErrors: false,
-        errorMessage: "",
-        info: __("Add Farazsms action after elementor pro forms submitting", "farazsms"),
-        checkCount: 0
-      },
-      digits: {
-        use: false,
-        name: "digits",
-        label: "digits",
-        imgUrl: {
-          logo: _modules_farazsms_assets_images_digits_logo_png__WEBPACK_IMPORTED_MODULE_7__
-        },
-        onChange: "digitsChange",
-        check: "digitsCheck",
-        plugin: "digits/digits",
-        hasErrors: false,
-        errorMessage: "",
-        info: "",
-        checkCount: 0
-      },
-      edd: {
-        use: false,
-        name: "edd",
-        label: "Edd",
-        imgUrl: {
-          logo: _modules_farazsms_assets_images_edd_logo_png__WEBPACK_IMPORTED_MODULE_8__
-        },
-        onChange: "eddChange",
-        check: "eddCheck",
-        plugin: "easy-digital-downloads/easy-digital-downloads",
-        hasErrors: false,
-        errorMessage: "",
-        info: "",
-        checkCount: 0
-      },
-      bookly: {
-        use: false,
-        name: "bookly",
-        label: "Bookly",
-        imgUrl: {
-          logo: _modules_farazsms_assets_images_bookly_logo_png__WEBPACK_IMPORTED_MODULE_9__
-        },
-        onChange: "booklyChange",
-        check: "booklyCheck",
-        plugin: "bookly-responsive-appointment-booking-tool/main",
-        hasErrors: false,
-        errorMessage: "",
-        info: "",
-        checkCount: 0
-      },
-      gravityForms: {
-        use: false,
-        name: "gravityForms",
-        label: "Gravity Forms",
-        imgUrl: {
-          logo: _modules_farazsms_assets_images_gravity_logo_png__WEBPACK_IMPORTED_MODULE_10__
-        },
-        onChange: "gfChange",
-        check: "gfCheck",
-        plugin: "gravityforms/gravityforms",
-        hasErrors: false,
-        errorMessage: "",
-        info: "",
-        checkCount: 0
-      },
-      indeedMembershipPro: {
-        use: false,
-        name: "indeedMembershipPro",
-        label: "Indeed Membership Pro",
-        imgUrl: {
-          logo: _modules_farazsms_assets_images_ultimatemembershippro_logo_png__WEBPACK_IMPORTED_MODULE_11__
-        },
-        onChange: "impChange",
-        check: "impCheck",
-        plugin: "indeed-membership-pro/indeed-membership-pro",
-        hasErrors: false,
-        errorMessage: "",
-        info: "",
-        checkCount: 0
-      },
-      paidMembershipsPro: {
-        use: false,
-        name: "paidMembershipsPro",
-        label: "Paid Memberships Pro",
-        imgUrl: {
-          logo: _modules_farazsms_assets_images_paidmembershipspro_logo_png__WEBPACK_IMPORTED_MODULE_12__
-        },
-        onChange: "pmpChange",
-        check: "pmpCheck",
-        plugin: "paid-memberships-pro/paid-memberships-pro",
-        hasErrors: false,
-        errorMessage: "",
-        info: "",
-        checkCount: 0
-      },
-      affiliateWp: {
-        use: false,
-        name: "affiliateWp",
-        label: "Affiliate Wp",
-        imgUrl: {
-          logo: _modules_farazsms_assets_images_affiliatewp_logo_png__WEBPACK_IMPORTED_MODULE_13__
-        },
-        onChange: "affChange",
-        check: "affCheck",
-        plugin: "affiliate-wp/affiliate-wp",
-        hasErrors: false,
-        errorMessage: "",
-        info: "",
-        checkCount: 0
-      },
-      indeedAffiliatePro: {
-        use: false,
-        name: "indeedAffiliatePro",
-        label: "Indeed Affiliate Pro",
-        imgUrl: {
-          logo: _modules_farazsms_assets_images_ultimateaffiliatepro_logo_png__WEBPACK_IMPORTED_MODULE_14__
-        },
-        onChange: "uapChange",
-        check: "uapCheck",
-        plugin: "indeed-affiliate-pro/indeed-affiliate-pro",
-        hasErrors: false,
-        errorMessage: "",
-        info: "",
-        checkCount: 0
-      },
-      yithWoocommerceAffiliates: {
-        use: false,
-        name: "yithWoocommerceAffiliates",
-        label: "Yith Woocommerce Affiliates",
-        imgUrl: {
-          logo: _modules_farazsms_assets_images_yithwoocommerceaffiliates_logo_png__WEBPACK_IMPORTED_MODULE_15__
-        },
-        onChange: "ywaChange",
-        check: "ywaCheck",
-        plugin: "yith-woocommerce-affiliates/init",
-        hasErrors: false,
-        errorMessage: "",
-        info: "",
-        checkCount: 0
-      }
-    },
-    isFetching: true,
-    isSaving: false,
-    sendCount: 0,
     sectionHeader: __("Integrations:", "farazsms")
   };
   function ourReduser(draft, action) {
-    switch (action.type) {
-      case "fetchComplete":
-        //Init state values by action.value
-        draft.plugins.woocommerce.use = action.value.woocommerce;
-        draft.plugins.elementorPro.use = action.value.elementorPro;
-        draft.plugins.digits.use = action.value.digits;
-        draft.plugins.edd.use = action.value.edd;
-        draft.plugins.bookly.use = action.value.bookly;
-        draft.plugins.gravityForms.use = action.value.gravityForms;
-        draft.plugins.indeedMembershipPro.use = action.value.indeedMembershipPro;
-        draft.plugins.paidMembershipsPro.use = action.value.paidMembershipsPro;
-        draft.plugins.affiliateWp.use = action.value.affiliateWp;
-        draft.plugins.indeedAffiliatePro.use = action.value.indeedAffiliatePro;
-        draft.plugins.yithWoocommerceAffiliates.use = action.value.yithWoocommerceAffiliates;
-        draft.isFetching = false;
-        return;
-      case "wooChange":
-        draft.plugins.woocommerce.hasErrors = false;
-        draft.plugins.woocommerce.use = action.value;
-        draft.plugins.woocommerce.checkCount++;
-        return;
-      case "wooCheck":
-        draft.plugins.woocommerce.hasErrors = true;
-        draft.plugins.woocommerce.errorMessage = __("First install & activate plugin.", "farazsms");
-        return;
-      case "elementorProChange":
-        draft.plugins.elementorPro.hasErrors = false;
-        draft.plugins.elementorPro.use = action.value;
-        draft.plugins.elementorPro.checkCount++;
-        return;
-      case "elementorProCheck":
-        draft.plugins.elementorPro.hasErrors = true;
-        draft.plugins.elementorPro.errorMessage = __("First install & activate plugin.", "farazsms");
-        return;
-      case "digitsChange":
-        draft.plugins.digits.hasErrors = false;
-        draft.plugins.digits.use = action.value;
-        draft.plugins.digits.checkCount++;
-        return;
-      case "digitsCheck":
-        draft.plugins.digits.hasErrors = true;
-        draft.plugins.digits.errorMessage = __("First install & activate plugin.", "farazsms");
-        return;
-      case "eddChange":
-        draft.plugins.edd.hasErrors = false;
-        draft.plugins.edd.use = action.value;
-        draft.plugins.edd.checkCount++;
-        return;
-      case "eddCheck":
-        draft.plugins.edd.hasErrors = true;
-        draft.plugins.edd.errorMessage = __("First install & activate plugin.", "farazsms");
-        return;
-      case "booklyChange":
-        draft.plugins.bookly.hasErrors = false;
-        draft.plugins.bookly.use = action.value;
-        draft.plugins.bookly.checkCount++;
-        return;
-      case "booklyCheck":
-        draft.plugins.bookly.hasErrors = true;
-        draft.plugins.bookly.errorMessage = __("First install & activate plugin.", "farazsms");
-        return;
-      case "gfChange":
-        draft.plugins.gravityForms.hasErrors = false;
-        draft.plugins.gravityForms.use = action.value;
-        draft.plugins.gravityForms.checkCount++;
-        return;
-      case "gfCheck":
-        draft.plugins.gravityForms.hasErrors = true;
-        draft.plugins.gravityForms.errorMessage = __("First install & activate plugin.", "farazsms");
-        return;
-      case "impChange":
-        draft.plugins.indeedMembershipPro.hasErrors = false;
-        draft.plugins.indeedMembershipPro.use = action.value;
-        draft.plugins.indeedMembershipPro.checkCount++;
-        return;
-      case "impCheck":
-        draft.plugins.indeedMembershipPro.hasErrors = true;
-        draft.plugins.indeedMembershipPro.errorMessage = __("First install & activate plugin.", "farazsms");
-        return;
-      case "pmpChange":
-        draft.plugins.paidMembershipsPro.hasErrors = false;
-        draft.plugins.paidMembershipsPro.use = action.value;
-        draft.plugins.paidMembershipsPro.checkCount++;
-        return;
-      case "pmpCheck":
-        draft.plugins.paidMembershipsPro.hasErrors = true;
-        draft.plugins.paidMembershipsPro.errorMessage = __("First install & activate plugin.", "farazsms");
-        return;
-      case "affChange":
-        draft.plugins.affiliateWp.hasErrors = false;
-        draft.plugins.affiliateWp.use = action.value;
-        draft.plugins.affiliateWp.checkCount++;
-        return;
-      case "affCheck":
-        draft.plugins.affiliateWp.hasErrors = true;
-        draft.plugins.affiliateWp.errorMessage = __("First install & activate plugin.", "farazsms");
-        return;
-      case "uapChange":
-        draft.plugins.indeedAffiliatePro.hasErrors = false;
-        draft.plugins.indeedAffiliatePro.use = action.value;
-        draft.plugins.indeedAffiliatePro.checkCount++;
-        return;
-      case "uapCheck":
-        draft.plugins.indeedAffiliatePro.hasErrors = true;
-        draft.plugins.indeedAffiliatePro.errorMessage = __("First install & activate plugin.", "farazsms");
-        return;
-      case "ywaChange":
-        draft.plugins.yithWoocommerceAffiliates.hasErrors = false;
-        draft.plugins.yithWoocommerceAffiliates.use = action.value;
-        draft.plugins.yithWoocommerceAffiliates.checkCount++;
-        return;
-      case "ywaCheck":
-        draft.plugins.yithWoocommerceAffiliates.hasErrors = true;
-        draft.plugins.yithWoocommerceAffiliates.errorMessage = __("First install & activate plugin.", "farazsms");
-        return;
-      case "submitOptions":
-        if (!draft.plugins.woocommerce.hasErrors && !draft.plugins.elementorPro.hasErrors && !draft.plugins.digits.hasErrors && !draft.plugins.edd.hasErrors && !draft.plugins.bookly.hasErrors && !draft.plugins.gravityForms.hasErrors && !draft.plugins.indeedMembershipPro.hasErrors && !draft.plugins.paidMembershipsPro.hasErrors && !draft.plugins.affiliateWp.hasErrors && !draft.plugins.indeedAffiliatePro.hasErrors && !draft.plugins.yithWoocommerceAffiliates.hasErrors) {
-          draft.sendCount++;
-        }
-        return;
-      case "saveRequestStarted":
-        draft.isSaving = true;
-        return;
-      case "saveRequestFininshed":
-        draft.isSaving = false;
-        return;
-    }
+    switch (action.type) {}
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_19__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_8__.useImmerReducer)(ourReduser, originalState);
 
   /**
    *
@@ -11739,14 +11743,7 @@ function Integrations() {
    */
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every plugin to the state with dispatch function.
-    Object.values(state.plugins).map(plugin => {
-      dispatch({
-        type: plugin.rules,
-        value: plugin.value
-      });
-    });
-    dispatch({
+    appDispatch({
       type: "submitOptions"
     });
   }
@@ -11768,7 +11765,7 @@ function Integrations() {
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
           console.log(optionsJson);
-          dispatch({
+          appDispatch({
             type: "fetchComplete",
             value: optionsJson
           });
@@ -11787,14 +11784,14 @@ function Integrations() {
    * @since 2.0.0
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    if (state.sendCount) {
+    if (props.sendCount) {
       /**
        * Get options uses and set "name: use" in an array.
        * Then Convert array to key: use pair for send Axios.post request to DB.
        * @return Object with arrays.
        */
 
-      const optsionsArray = Object.values(state.plugins).map(_ref => {
+      const optsionsArray = Object.values(props.integratedPlugins).map(_ref => {
         let {
           use,
           name
@@ -11803,14 +11800,14 @@ function Integrations() {
       });
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
       console.log(optionsJsonForPost);
-      dispatch({
+      appDispatch({
         type: "saveRequestStarted"
       });
       async function postOptions() {
         try {
           // Post Options from site DB Options table
           const postOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/integrations_options", optionsJsonForPost);
-          dispatch({
+          appDispatch({
             type: "saveRequestFininshed"
           });
           appDispatch({
@@ -11823,7 +11820,7 @@ function Integrations() {
       }
       postOptions();
     }
-  }, [state.sendCount]);
+  }, [props.sendCount]);
 
   /**
    *
@@ -11832,7 +11829,7 @@ function Integrations() {
    * @since 2.0.0
    */
 
-  const pluginsInt = Object.values(state.plugins);
+  const pluginsInt = Object.values(props.integratedPlugins);
   pluginsInt.map(plugin => {
     (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
       if (plugin.checkCount) {
@@ -11844,12 +11841,12 @@ function Integrations() {
                 const findPlugin = getPlugins.data.find(element => element.plugin === plugin.plugin);
                 if (findPlugin) {
                   if (findPlugin.status === "inactive") {
-                    dispatch({
+                    appDispatch({
                       type: plugin.check
                     });
                   }
                 } else {
-                  dispatch({
+                  appDispatch({
                     type: plugin.check
                   });
                 }
@@ -11871,13 +11868,13 @@ function Integrations() {
    * @since 2.0.0
    */
 
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SectionHeader__WEBPACK_IMPORTED_MODULE_18__["default"], {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SectionHeader__WEBPACK_IMPORTED_MODULE_7__["default"], {
     sectionHeader: state.sectionHeader
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "plugins-card card-grid"
-  }, Object.values(state.plugins).map(plugin => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("article", {
+  }, Object.values(props.integratedPlugins).map(plugin => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("article", {
     key: plugin.name,
     className: "plugins-card"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
@@ -11890,16 +11887,16 @@ function Integrations() {
     value: plugin.use,
     checked: plugin.use,
     onChange: e => {
-      dispatch({
+      appDispatch({
         type: plugin.onChange,
         value: e.target.checked
       });
     }
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "card-body"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, plugin.info), plugin.errorMessage && plugin.use === true && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, plugin.info ? plugin.info : __("Add some cool options for the ", "farazsms") + plugin.label), plugin.errorMessage && plugin.use === true && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "alert alert-danger small m-0 p-1 text-center"
-  }, plugin.errorMessage))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SaveButton__WEBPACK_IMPORTED_MODULE_17__["default"], {
+  }, plugin.errorMessage))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SaveButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
     isSaving: state.isSaving
   })));
 }
@@ -13392,6 +13389,55 @@ const SaveButton = props => {
 
 /***/ }),
 
+/***/ "./src/components/SectionError.js":
+/*!****************************************!*\
+  !*** ./src/components/SectionError.js ***!
+  \****************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+/**
+ * Import remote dependencies.
+ */
+
+// Used as const not import, for Loco translate plugin compatibility.
+const __ = wp.i18n.__;
+
+/**
+ * This component power the settings component.
+ *
+ * @since 2.0.0
+ */
+
+const SectionError = props => {
+  const {
+    sectionName,
+    ...inputProps
+  } = props;
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "container"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "container card text-white bg-danger mb-3"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    class: "card-header"
+  }, __("Warning!", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "card-body"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", {
+    className: "card-title"
+  }, __("Attention Needed:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "card-text"
+  }, __("You have not checked " + sectionName + " in Integrations section. Please go first there and check " + sectionName + " usage toggle, Then come bake here.", "farazsms")))));
+};
+/* harmony default export */ __webpack_exports__["default"] = (SectionError);
+
+/***/ }),
+
 /***/ "./src/components/SectionHeader.js":
 /*!*****************************************!*\
   !*** ./src/components/SectionHeader.js ***!
@@ -14210,13 +14256,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./FormInput */ "./src/components/FormInput.js");
 /* harmony import */ var _SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SaveButton */ "./src/components/SaveButton.js");
 /* harmony import */ var _FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./FormInputError */ "./src/components/FormInputError.js");
 /* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 /* harmony import */ var _SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./SectionHeader */ "./src/components/SectionHeader.js");
+/* harmony import */ var _SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./SectionError */ "./src/components/SectionError.js");
 
 
 /**
@@ -14236,7 +14283,8 @@ const __ = wp.i18n.__;
 
 
 
-function Woocommerce() {
+
+function Woocommerce(props) {
   const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
   // Init States
   const originalState = {
@@ -14317,7 +14365,8 @@ function Woocommerce() {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
-    sectionHeader: __("Woocommerce Settings:", "farazsms")
+    sectionHeader: __("Woocommerce Settings:", "farazsms"),
+    sectionName: __("Woocommerce", "farazsms")
   };
   function ourReduser(draft, action) {
     switch (action.type) {
@@ -14366,7 +14415,7 @@ function Woocommerce() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_9__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     //Set every input to the state with dispatch function.
@@ -14445,29 +14494,35 @@ function Woocommerce() {
    * @since 2.0.0
    */
 
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    sectionHeader: state.sectionHeader
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
-    onSubmit: handleSubmit
-  }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: input.id,
-    className: input.type === "checkbox" ? "toggle-control" : "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
-    value: input.value,
-    checked: input.value,
-    onChange: e => {
-      dispatch({
-        type: input.onChange,
-        value: input.type === "checkbox" ? e.target.checked : e.target.value
-      });
-    },
-    onBlur: e => dispatch({
-      type: input.rules,
-      value: e.target.value
-    })
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_FormInputError__WEBPACK_IMPORTED_MODULE_6__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SaveButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    isSaving: state.isSaving
-  }))));
+  if (props.integratedPlugins.woocommerce.use) {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
+      sectionHeader: state.sectionHeader
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
+      onSubmit: handleSubmit
+    }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+      key: input.id,
+      className: input.type === "checkbox" ? "toggle-control" : "form-group"
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+      value: input.value,
+      checked: input.value,
+      onChange: e => {
+        dispatch({
+          type: input.onChange,
+          value: input.type === "checkbox" ? e.target.checked : e.target.value
+        });
+      },
+      onBlur: e => dispatch({
+        type: input.rules,
+        value: e.target.value
+      })
+    })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_FormInputError__WEBPACK_IMPORTED_MODULE_6__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SaveButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      isSaving: state.isSaving
+    }))));
+  } else {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SectionError__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      sectionName: state.sectionName
+    });
+  }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Woocommerce);
 

@@ -15,8 +15,9 @@ import SaveButton from "./SaveButton";
 import FormInputError from "./FormInputError";
 import AxiosWp from "./AxiosWp";
 import SectionHeader from "./SectionHeader";
+import SectionError from "./SectionError";
 
-function Woocommerce() {
+function Woocommerce(props) {
   const appDispatch = useContext(DispatchContext);
   // Init States
   const originalState = {
@@ -107,6 +108,7 @@ function Woocommerce() {
     isSaving: false,
     sendCount: 0,
     sectionHeader: __("Woocommerce Settings:", "farazsms"),
+    sectionName: __("Woocommerce", "farazsms"),
   };
 
   function ourReduser(draft, action) {
@@ -236,43 +238,47 @@ function Woocommerce() {
    * @since 2.0.0
    */
 
-  return (
-    <div>
-      <SectionHeader sectionHeader={state.sectionHeader} />
+  if (props.integratedPlugins.woocommerce.use) {
+    return (
       <div>
-        <form onSubmit={handleSubmit}>
-          {Object.values(state.inputs).map((input) => (
-            <div
-              key={input.id}
-              className={
-                input.type === "checkbox" ? "toggle-control" : "form-group"
-              }
-            >
-              <FormInput
-                {...input}
-                value={input.value}
-                checked={input.value}
-                onChange={(e) => {
-                  dispatch({
-                    type: input.onChange,
-                    value:
-                      input.type === "checkbox"
-                        ? e.target.checked
-                        : e.target.value,
-                  });
-                }}
-                onBlur={(e) =>
-                  dispatch({ type: input.rules, value: e.target.value })
+        <SectionHeader sectionHeader={state.sectionHeader} />
+        <div>
+          <form onSubmit={handleSubmit}>
+            {Object.values(state.inputs).map((input) => (
+              <div
+                key={input.id}
+                className={
+                  input.type === "checkbox" ? "toggle-control" : "form-group"
                 }
-              />
-              <FormInputError />
-            </div>
-          ))}
-          <SaveButton isSaving={state.isSaving} />
-        </form>
+              >
+                <FormInput
+                  {...input}
+                  value={input.value}
+                  checked={input.value}
+                  onChange={(e) => {
+                    dispatch({
+                      type: input.onChange,
+                      value:
+                        input.type === "checkbox"
+                          ? e.target.checked
+                          : e.target.value,
+                    });
+                  }}
+                  onBlur={(e) =>
+                    dispatch({ type: input.rules, value: e.target.value })
+                  }
+                />
+                <FormInputError />
+              </div>
+            ))}
+            <SaveButton isSaving={state.isSaving} />
+          </form>
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <SectionError sectionName={state.sectionName} />;
+  }
 }
 
 export default Woocommerce;
