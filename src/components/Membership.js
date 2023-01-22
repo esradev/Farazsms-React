@@ -3,7 +3,6 @@
  */
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
-import { CSSTransition } from "react-transition-group";
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
@@ -114,8 +113,8 @@ function Membership() {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
-    sectionHeader: __(
-      "Ultimate Membership Pro and Paid Memberships Pro:",
+    sectionName: __(
+      "Ultimate Membership Pro and Paid Memberships Pro",
       "farazsms"
     ),
   };
@@ -276,7 +275,7 @@ function Membership() {
    */
   return (
     <div>
-      <SectionHeader sectionHeader={state.sectionHeader} />
+      <SectionHeader sectionName={state.sectionName} />
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (

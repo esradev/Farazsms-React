@@ -107,7 +107,6 @@ function Woocommerce(props) {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
-    sectionHeader: __("Woocommerce Settings:", "farazsms"),
     sectionName: __("Woocommerce", "farazsms"),
   };
 
@@ -241,7 +240,7 @@ function Woocommerce(props) {
   if (props.integratedPlugins.woocommerce.use) {
     return (
       <div>
-        <SectionHeader sectionHeader={state.sectionHeader} />
+        <SectionHeader sectionName={state.sectionName} />
         <div>
           <form onSubmit={handleSubmit}>
             {Object.values(state.inputs).map((input) => (

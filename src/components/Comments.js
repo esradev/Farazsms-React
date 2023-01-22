@@ -122,7 +122,7 @@ function Comments() {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
-    sectionHeader: __("Comments Settings:", "farazsms"),
+    sectionName: __("Comments", "farazsms"),
   };
 
   function ourReduser(draft, action) {

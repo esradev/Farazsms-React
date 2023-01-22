@@ -122,7 +122,7 @@ function Settings() {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
-    sectionHeader: __("Settings:", "farazsms"),
+    sectionName: __("General", "farazsms"),
   };
 
   function ourReduser(draft, action) {
@@ -516,7 +516,7 @@ function Settings() {
    */
   return (
     <div>
-      <SectionHeader sectionHeader={state.sectionHeader} />
+      <SectionHeader sectionName={state.sectionName} />
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (

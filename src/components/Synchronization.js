@@ -15,7 +15,7 @@ import SectionHeader from "./SectionHeader";
 function Synchronization() {
   const appDispatch = useContext(DispatchContext);
   const originalState = {
-    sectionHeader: __("Synchronization settings:", "farazsms"),
+    sectionName: __("Synchronization", "farazsms"),
   };
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
   function ourReduser(draft, action) {}
@@ -34,7 +34,7 @@ function Synchronization() {
 
   return (
     <>
-      <SectionHeader sectionHeader={state.sectionHeader} />
+      <SectionHeader sectionName={state.sectionName} />
       <div className="card bg-light mb-3">
         <div className="card-body">
           <h5 className="card-title">

@@ -15,8 +15,9 @@ import SaveButton from "./SaveButton";
 import FormInputError from "./FormInputError";
 import AxiosWp from "./AxiosWp";
 import SectionHeader from "./SectionHeader";
+import SectionError from "./SectionError";
 
-function Edd() {
+function Edd(props) {
   const appDispatch = useContext(DispatchContext);
   /**
    *
@@ -91,7 +92,7 @@ function Edd() {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
-    sectionHeader: __("EDD Settings:", "farazsms"),
+    sectionName: __("Edd", "farazsms"),
   };
 
   function ourReduser(draft, action) {
@@ -249,49 +250,47 @@ function Edd() {
    * @since 2.0.0
    */
 
-  return (
-    <div>
-      <SectionHeader sectionHeader={state.sectionHeader} />
+  if (props.integratedPlugins.edd.use) {
+    return (
       <div>
-        <form onSubmit={handleSubmit}>
-          {Object.values(state.inputs).map((input) => (
-            <div
-              key={input.id}
-              className={
-                input.type === "checkbox" ? "toggle-control" : "form-group"
-              }
-            >
-              <FormInput
-                {...input}
-                onChange={
-                  input.type === "select"
-                    ? (selectedOption) =>
-                        dispatch({
-                          type: input.onChange,
-                          value: selectedOption,
-                        })
-                    : (e) => {
-                        dispatch({
-                          type: input.onChange,
-                          value:
-                            input.type === "checkbox"
-                              ? e.target.checked
-                              : e.target.value,
-                        });
-                      }
+        <SectionHeader sectionName={state.sectionName} />
+        <div>
+          <form onSubmit={handleSubmit}>
+            {Object.values(state.inputs).map((input) => (
+              <div
+                key={input.id}
+                className={
+                  input.type === "checkbox" ? "toggle-control" : "form-group"
                 }
-                onBlur={(e) =>
-                  dispatch({ type: input.rules, value: e.target.value })
-                }
-              />
-              <FormInputError />
-            </div>
-          ))}
-          <SaveButton isSaving={state.isSaving} />
-        </form>
+              >
+                <FormInput
+                  {...input}
+                  value={input.value}
+                  checked={input.value}
+                  onChange={(e) => {
+                    dispatch({
+                      type: input.onChange,
+                      value:
+                        input.type === "checkbox"
+                          ? e.target.checked
+                          : e.target.value,
+                    });
+                  }}
+                  onBlur={(e) =>
+                    dispatch({ type: input.rules, value: e.target.value })
+                  }
+                />
+                <FormInputError />
+              </div>
+            ))}
+            <SaveButton isSaving={state.isSaving} />
+          </form>
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <SectionError sectionName={state.sectionName} />;
+  }
 }
 
 export default Edd;

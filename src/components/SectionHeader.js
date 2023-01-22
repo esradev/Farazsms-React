@@ -13,11 +13,11 @@ const __ = wp.i18n.__;
  */
 
 const SectionHeader = (props) => {
-  const { sectionHeader } = props;
+  const { sectionName } = props;
 
   return (
     <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded">
-      {sectionHeader}
+      {__(sectionName + " settings:", "farazsms")}
     </h3>
   );
 };

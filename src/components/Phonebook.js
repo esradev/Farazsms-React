@@ -100,7 +100,7 @@ function Phonebook() {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
-    sectionHeader: __("Phonebook settings:", "farazsms"),
+    sectionName: __("Phonebook", "farazsms"),
   };
 
   function ourReduser(draft, action) {
@@ -301,7 +301,7 @@ function Phonebook() {
 
   return (
     <>
-      <SectionHeader sectionHeader={state.sectionHeader} />
+      <SectionHeader sectionName={state.sectionName} />
       <div className="container">
         <div className="container card bg-light mb-3 mt-1">
           <div className="card-body">

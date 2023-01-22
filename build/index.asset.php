@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('react', 'react-dom', 'wp-element'), 'version' => 'fdc3a07b4d4c2a8fd06a');
+<?php return array('dependencies' => array('react', 'react-dom', 'wp-element'), 'version' => 'fd2da4c9c7ae2f14b757');

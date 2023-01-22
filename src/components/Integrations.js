@@ -22,7 +22,7 @@ function Integrations(props) {
    * Define plugins state.
    */
   const originalState = {
-    sectionHeader: __("Integrations:", "farazsms"),
+    sectionName: __("Integrations", "farazsms"),
   };
 
   function ourReduser(draft, action) {
@@ -164,7 +164,7 @@ function Integrations(props) {
 
   return (
     <div>
-      <SectionHeader sectionHeader={state.sectionHeader} />
+      <SectionHeader sectionName={state.sectionName} />
       <form onSubmit={handleSubmit}>
         <div className="plugins-card card-grid">
           {Object.values(props.integratedPlugins).map((plugin) => (
