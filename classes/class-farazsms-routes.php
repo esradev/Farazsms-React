@@ -519,6 +519,7 @@ class Farazsms_Routes
     {
         $option = array(
             'woocommerce'                  => $data['woocommerce'] ? $data['woocommerce'] : '',
+            'elementorPro'                 => $data['elementorPro'] ? $data['elementorPro'] : '',
             'digits'                       => $data['digits'] ? $data['digits'] : '',
             'edd'                          => $data['edd'] ? $data['edd'] : '',
             'bookly'                       => $data['bookly'] ? $data['bookly'] : '',

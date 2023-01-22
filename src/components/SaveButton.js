@@ -14,11 +14,7 @@ const __ = wp.i18n.__;
 const SaveButton = (props) => {
   const { isSaving } = props;
   return (
-    <button
-      type="submit"
-      className="btn btn-primary faraz-btn"
-      disabled={isSaving}
-    >
+    <button type="submit" className="btn btn-primary mt-3" disabled={isSaving}>
       {__("Save Settings", "farazsms")}
     </button>
   );

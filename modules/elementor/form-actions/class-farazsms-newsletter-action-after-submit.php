@@ -236,79 +236,94 @@ class Farazsms_Newsletter_Action_After_Submit extends \ElementorPro\Modules\Form
      */
     public function run($record, $ajax_handler)
     {
+        $fsms_base = Farazsms_Base::get_instance();
 
-        $settings = $record->get('form_settings');
-
-        //  Make sure that there is a Sendy installation URL.
-        if (empty($settings['sendy_url'])) {
-            return;
-        }
-
-        //  Make sure that there is a Sendy list ID.
-        if (empty($settings['sendy_list'])) {
-            return;
-        }
-
-        // Make sure that there is a Sendy email field ID (required by Sendy to subscribe users).
-        if (empty($settings['sendy_email_field'])) {
-            return;
-        }
-
-        // Get submitted form data.
-        $raw_fields = $record->get('fields');
-
-        // Normalize form data.
+        $settings = $record->get("form_settings");
+        $raw_fields = $record->get("fields");
         $fields = [];
         foreach ($raw_fields as $id => $field) {
-            $fields[$id] = $field['value'];
+            $fields[$id] = $field["value"];
         }
 
-        // Make sure the user entered an email (required by Sendy to subscribe users).
-        if (empty($fields[$settings['sendy_email_field']])) {
-            return;
+        $from = $settings["sms_sender_number"];
+        $to = $record->replace_setting_shortcodes($settings["sms_recipient"]);
+        $farazpattern = $settings["sms_pattern_code"];
+        $content = $settings["sms_content"];
+
+        // Send to visitor with pattern 
+        if ($settings["sms_to_visitor"] == 'yes' && $settings["sms_send_type"] == "pattern") {
+            $massage = strip_tags(trim($content));
+            $massage = str_replace("\r\n", ";", $massage);
+            $massage = str_replace("\n", ";", $massage);
+            $splited = explode(";", $massage);
+
+            $input_data = [];
+            foreach ($splited as $parm) {
+                $splited_parm = explode(":", $parm);
+                if (str_contains(trim($splited_parm[1]), "[field")) {
+                    $input_data[$splited_parm[0]] = $record->replace_setting_shortcodes(
+                        trim($splited_parm[1])
+                    );
+                } else {
+                    $input_data[$splited_parm[0]] = trim($splited_parm[1]);
+                }
+            }
+
+            $fsms_base->farazsms_send_pattern($farazpattern, $to, $input_data);
         }
 
-        // Request data based on the param list at https://sendy.co/api
-        $sendy_data = [
-            'email' => $fields[$settings['sendy_email_field']],
-            'list' => $settings['sendy_list'],
-            'ipaddress' => \ElementorPro\Core\Utils::get_client_ip(),
-            'referrer' => isset($_POST['referrer']) ? $_POST['referrer'] : '',
-        ];
-
-        // Add name if field is mapped.
-        if (empty($fields[$settings['sendy_name_field']])) {
-            $sendy_data['name'] = $fields[$settings['sendy_name_field']];
+        // Send to visitor with webService
+        if ($settings["sms_to_visitor"] == 'yes' && $settings["sms_send_type"] == "webservice") {
+            if (str_contains(trim($content), "[field")) {
+                $content_value = $record->replace_setting_shortcodes($settings['sms_content']);
+                $fsms_base->send_message(array($to), $content_value);
+            } else {
+                $fsms_base->send_message(array($to), $content);
+            }
         }
 
-        // Send the request.
-        wp_remote_post(
-            $settings['sendy_url'] . 'subscribe',
-            [
-                'body' => $sendy_data,
-            ]
-        );
+        // Send to Admin with pattern
+        $admin_content = $settings["sms_admin_content"];
+        $admin_pattern = $settings["sms_admin_pattern"];
+        $other_numbers = $settings["sms_to_other"];
+        $admin_number = $fsms_base::getAdminNumber();
+
+        $admins_numbers = explode(',', $other_numbers);
+        array_push($admins_numbers, $admin_number);
+
+
+        if ($settings["sms_to_admin"] == 'yes' && $settings["sms_admin_method"] == "pattern") {
+            $adminContent = strip_tags(trim($admin_content));
+            $adminContent = str_replace("\r\n", ";", $adminContent);
+            $adminContent = str_replace("\n", ";", $adminContent);
+            $adminsplited = explode(";", $adminContent);
+
+            $admin_input_data = [];
+            foreach ($adminsplited as $adminparm) {
+                $adminsplited_parm = explode(":", $adminparm);
+                if (str_contains(trim($adminsplited_parm[1]), "[field")) {
+                    $admin_input_data[$adminsplited_parm[0]] = $record->replace_setting_shortcodes(trim($adminsplited_parm[1]));
+                } else {
+                    $admin_input_data[$adminsplited_parm[0]] = trim($adminsplited_parm[1]);
+                }
+            }
+            foreach ($admins_numbers as $adminnum) {
+                $fsms_base->farazsms_send_pattern($admin_pattern, $adminnum, $admin_input_data);
+            }
+        }
+
+        // Send to Admin with webService
+        if ($settings["sms_to_admin"] == 'yes' && $settings["sms_admin_method"] == "webservice") {
+            if (str_contains(trim($admin_content), "[field")) {
+                $admin_content_value = $record->replace_setting_shortcodes($settings['sms_admin_content']);
+                $fsms_base->send_message($admins_numbers, $admin_content_value);
+            } else {
+                $fsms_base->send_message($admins_numbers, $admin_content);
+            }
+        }
     }
 
-    /**
-     * On export.
-     *
-     * Clears Sendy form settings/fields when exporting.
-     *
-     * @since 1.0.0
-     * @access public
-     * @param array $element
-     */
     public function on_export($element)
     {
-
-        unset(
-            $element['sendy_url'],
-            $element['sendy_list'],
-            $element['sendy_email_field'],
-            $element['sendy_name_field']
-        );
-
-        return $element;
     }
 }

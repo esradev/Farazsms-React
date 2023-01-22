@@ -22,6 +22,7 @@ import PaidMembershipsProLogo from "../../modules/farazsms/assets/images/paidmem
 import AffiliateWpLogo from "../../modules/farazsms/assets/images/affiliatewp-logo.png";
 import IndeedAffiliateProLogo from "../../modules/farazsms/assets/images/ultimateaffiliatepro-logo.png";
 import YithWoocommerceAffiliatesLogo from "../../modules/farazsms/assets/images/yithwoocommerceaffiliates-logo.png";
+import ElementorLogo from "../../modules/farazsms/assets/images/elementor-logo.png";
 import SaveButton from "./SaveButton";
 import SectionHeader from "./SectionHeader";
 
@@ -42,6 +43,23 @@ function Integrations() {
         plugin: "woocommerce/woocommerce",
         hasErrors: false,
         errorMessage: "",
+        info: "",
+        checkCount: 0,
+      },
+      elementorPro: {
+        use: false,
+        name: "elementor-pro",
+        label: "Elementor Pro",
+        imgUrl: { logo: ElementorLogo },
+        onChange: "elementorProChange",
+        check: "elementorProCheck",
+        plugin: "elementor-pro/elementor-pro",
+        hasErrors: false,
+        errorMessage: "",
+        info: __(
+          "Add action after elementor pro forms submitting.",
+          "farazsms"
+        ),
         checkCount: 0,
       },
       digits: {
@@ -54,6 +72,7 @@ function Integrations() {
         plugin: "digits/digits",
         hasErrors: false,
         errorMessage: "",
+        info: "",
         checkCount: 0,
       },
       edd: {
@@ -66,6 +85,7 @@ function Integrations() {
         plugin: "easy-digital-downloads/easy-digital-downloads",
         hasErrors: false,
         errorMessage: "",
+        info: "",
         checkCount: 0,
       },
       bookly: {
@@ -78,6 +98,7 @@ function Integrations() {
         plugin: "bookly-responsive-appointment-booking-tool/main",
         hasErrors: false,
         errorMessage: "",
+        info: "",
         checkCount: 0,
       },
       gravityForms: {
@@ -90,6 +111,7 @@ function Integrations() {
         plugin: "gravityforms/gravityforms",
         hasErrors: false,
         errorMessage: "",
+        info: "",
         checkCount: 0,
       },
       indeedMembershipPro: {
@@ -102,6 +124,7 @@ function Integrations() {
         plugin: "indeed-membership-pro/indeed-membership-pro",
         hasErrors: false,
         errorMessage: "",
+        info: "",
         checkCount: 0,
       },
       paidMembershipsPro: {
@@ -114,6 +137,7 @@ function Integrations() {
         plugin: "paid-memberships-pro/paid-memberships-pro",
         hasErrors: false,
         errorMessage: "",
+        info: "",
         checkCount: 0,
       },
       affiliateWp: {
@@ -126,6 +150,7 @@ function Integrations() {
         plugin: "affiliate-wp/affiliate-wp",
         hasErrors: false,
         errorMessage: "",
+        info: "",
         checkCount: 0,
       },
       indeedAffiliatePro: {
@@ -138,6 +163,7 @@ function Integrations() {
         plugin: "indeed-affiliate-pro/indeed-affiliate-pro",
         hasErrors: false,
         errorMessage: "",
+        info: "",
         checkCount: 0,
       },
       yithWoocommerceAffiliates: {
@@ -150,6 +176,7 @@ function Integrations() {
         plugin: "yith-woocommerce-affiliates/init",
         hasErrors: false,
         errorMessage: "",
+        info: "",
         checkCount: 0,
       },
     },
@@ -164,6 +191,7 @@ function Integrations() {
       case "fetchComplete":
         //Init state values by action.value
         draft.plugins.woocommerce.use = action.value.woocommerce;
+        draft.plugins.elementorPro.use = action.value.elementorPro;
         draft.plugins.digits.use = action.value.digits;
         draft.plugins.edd.use = action.value.edd;
         draft.plugins.bookly.use = action.value.bookly;
@@ -187,6 +215,18 @@ function Integrations() {
       case "wooCheck":
         draft.plugins.woocommerce.hasErrors = true;
         draft.plugins.woocommerce.errorMessage = __(
+          "First install & activate plugin.",
+          "farazsms"
+        );
+        return;
+      case "elementorProChange":
+        draft.plugins.elementorPro.hasErrors = false;
+        draft.plugins.elementorPro.use = action.value;
+        draft.plugins.elementorPro.checkCount++;
+        return;
+      case "elementorProCheck":
+        draft.plugins.elementorPro.hasErrors = true;
+        draft.plugins.elementorPro.errorMessage = __(
           "First install & activate plugin.",
           "farazsms"
         );
@@ -302,6 +342,7 @@ function Integrations() {
       case "submitOptions":
         if (
           !draft.plugins.woocommerce.hasErrors &&
+          !draft.plugins.elementorPro.hasErrors &&
           !draft.plugins.digits.hasErrors &&
           !draft.plugins.edd.hasErrors &&
           !draft.plugins.bookly.hasErrors &&
@@ -488,6 +529,7 @@ function Integrations() {
                 />
               </div>
               <div className="card-body">
+                <p>{plugin.info}</p>
                 {plugin.errorMessage && plugin.use === true && (
                   <div className="alert alert-danger small m-0 p-1 text-center">
                     {plugin.errorMessage}

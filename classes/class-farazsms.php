@@ -58,6 +58,8 @@ class Farazsms
      */
     protected $version;
 
+    private static $elementorPro;
+
     /**
      * Define the core functionality of the plugin.
      *
@@ -82,6 +84,12 @@ class Farazsms
         $this->set_routes();
         $this->define_admin_hooks();
         $this->define_public_hooks();
+
+        $integrations_options = json_decode(get_option('farazsms_integrations_options'), true);
+        if ($integrations_options) {
+            $elementorPro = $integrations_options['elementorPro'] ?? 'false';
+            self::$elementorPro = $elementorPro;
+        }
     }
 
     /**
@@ -145,16 +153,15 @@ class Farazsms
         //			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'classes/farazsms-ippanel-sms-pro-gv/ippanel_sms_pro_gv.php';
         //		}
 
-        $elementor_action = get_option('fsms_elementor_action_sms_active', []);
-        error_log('fsms_elementor_action_sms_active   ==>> ' . $elementor_action);
-        if ($elementor_action == 'true') {
-            add_action('elementor_pro/init', function () {
 
-                require_once plugin_dir_path(dirname(__FILE__)) . 'includes/elementor/farazsms-elementor-action.php';
-                $farazsms_action = new farazsms_elementor_action();
-                \ElementorPro\Plugin::instance()->modules_manager->get_modules('forms')->add_form_action($farazsms_action->get_name(), $farazsms_action);
+        if (self::$elementorPro == 'true') {
+            add_action('elementor_pro/init', function () {
+                require_once FARAZSMS_MODULES_PATH . 'elementor/form-actions/class-farazsms-newsletter-action-after-submit.php';
+                $farazsms_newsletter_action = new Farazsms_Newsletter_Action_After_Submit();
+                \ElementorPro\Plugin::instance()->modules_manager->get_modules('forms')->add_form_action($farazsms_newsletter_action->get_name(), $farazsms_newsletter_action);
             });
         }
+
         $this->loader = new Farazsms_Loader();
     }
 
