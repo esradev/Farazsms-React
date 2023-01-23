@@ -51,7 +51,7 @@ function App() {
       },
       elementorPro: {
         use: false,
-        name: "elementor-pro",
+        name: "elementorPro",
         label: "Elementor Pro",
         imgUrl: { logo: ElementorLogo },
         onChange: "elementorProChange",

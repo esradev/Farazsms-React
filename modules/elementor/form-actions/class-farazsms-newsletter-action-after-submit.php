@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
  *
  * Custom Elementor form action which adds new subscriber to Farazsms phonebook after form submission.
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 class Farazsms_Newsletter_Action_After_Submit extends \ElementorPro\Modules\Forms\Classes\Action_Base
 {
@@ -18,7 +18,7 @@ class Farazsms_Newsletter_Action_After_Submit extends \ElementorPro\Modules\Form
      *
      * Retrieve Farazsms action name.
      *
-     * @since 1.0.0
+     * @since 2.0.0
      * @access public
      * @return string
      */
@@ -32,7 +32,7 @@ class Farazsms_Newsletter_Action_After_Submit extends \ElementorPro\Modules\Form
      *
      * Retrieve Farazsms action label.
      *
-     * @since 1.0.0
+     * @since 2.0.0
      * @access public
      * @return string
      */
@@ -46,7 +46,7 @@ class Farazsms_Newsletter_Action_After_Submit extends \ElementorPro\Modules\Form
      *
      * Add input fields to allow the user to customize the action settings.
      *
-     * @since 1.0.0
+     * @since 2.0.0
      * @access public
      * @param \Elementor\Widget_Base $widget
      */
@@ -227,9 +227,9 @@ class Farazsms_Newsletter_Action_After_Submit extends \ElementorPro\Modules\Form
     /**
      * Run action.
      *
-     * Runs the Sendy action after form submission.
+     * Runs the Farazsms action after form submission.
      *
-     * @since 1.0.0
+     * @since 2.0.0
      * @access public
      * @param \ElementorPro\Modules\Forms\Classes\Form_Record  $record
      * @param \ElementorPro\Modules\Forms\Classes\Ajax_Handler $ajax_handler

@@ -9902,7 +9902,7 @@ function App() {
       },
       elementorPro: {
         use: false,
-        name: "elementor-pro",
+        name: "elementorPro",
         label: "Elementor Pro",
         imgUrl: {
           logo: _modules_farazsms_assets_images_elementor_logo_png__WEBPACK_IMPORTED_MODULE_19__
@@ -11730,7 +11730,6 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
-
 
 
 

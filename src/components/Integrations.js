@@ -14,7 +14,6 @@ import DispatchContext from "../DispatchContext";
 import PluginsCardCheckbox from "./PluginsCardCheckbox";
 import SaveButton from "./SaveButton";
 import SectionHeader from "./SectionHeader";
-import { Prev } from "react-bootstrap/esm/PageItem";
 
 function Integrations(props) {
   const appDispatch = useContext(DispatchContext);

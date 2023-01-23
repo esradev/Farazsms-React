@@ -517,42 +517,4 @@ class Farazsms_Admin extends Farazsms_Base
             wp_send_json_error($e->getMessage());
         }
     }
-
-    /**
-     * Save other settings.
-     *
-     * @since    1.0.0
-     */
-
-    public function fsms_save_other_settings()
-    {
-        update_option('fsms_ihc_send_first_noti_sms', $_POST['ihc_send_first_noti_sms'] ?? '');
-        update_option('fsms_ihc_send_second_noti_sms', $_POST['ihc_send_second_noti_sms'] ?? '');
-        update_option('fsms_ihc_send_third_noti_sms', $_POST['ihc_send_third_noti_sms'] ?? '');
-        update_option('fsms_first_noti_sms_message', $_POST['ihc_first_noti_sms_message'] ?? '');
-
-        update_option('fsms_pmp_send_expire_noti_sms', $_POST['pmp_send_expire_noti_sms'] ?? '');
-        update_option('fsms_pmp_expire_noti_sms_message', $_POST['pmp_expire_noti_sms_message'] ?? '');
-    }
-
-    /**
-     * Send feedback.
-     *
-     * @since    1.0.0
-     */
-
-    public function fsms_send_feedback()
-    {
-        $fsms_base = Farazsms_Base::get_instance();
-        $feedback_message = $_POST['feedback_message'];
-        if (empty($feedback_message)) {
-            wp_send_json_error(__('Message text must not be empty', 'farazsms'));
-        }
-        $result = $fsms_base->send_feedback_message_to_server($feedback_message);
-        if ($result) {
-            wp_send_json_success();
-        } else {
-            wp_send_json_error(__('An error occurred, try again later.', 'farazsms'));
-        }
-    }
 }

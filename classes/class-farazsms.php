@@ -58,8 +58,6 @@ class Farazsms
      */
     protected $version;
 
-    private static $elementorPro;
-
     /**
      * Define the core functionality of the plugin.
      *
@@ -84,12 +82,6 @@ class Farazsms
         $this->set_routes();
         $this->define_admin_hooks();
         $this->define_public_hooks();
-
-        $integrations_options = json_decode(get_option('farazsms_integrations_options'), true);
-        if ($integrations_options) {
-            $elementorPro = $integrations_options['elementorPro'] ?? 'false';
-            self::$elementorPro = $elementorPro;
-        }
     }
 
     /**
@@ -148,19 +140,12 @@ class Farazsms
          */
         require_once FARAZSMS_MODULES_PATH . 'farazsms/classes/public/class-farazsms-public.php';
 
-        //		$active_plugins_gv = apply_filters('active_plugins', get_option( 'active_plugins' ) );
-        //		if ( in_array('gravityforms/gravityforms.php', $active_plugins_gv ) && !in_array('ippanel-sms-pro-gv/ippanel_sms_pro_gv.php', $active_plugins_gv)) {
-        //			require_once plugin_dir_path( dirname( __FILE__ ) ) . 'classes/farazsms-ippanel-sms-pro-gv/ippanel_sms_pro_gv.php';
-        //		}
+        /**
+         * The class responsible for defining all actions for elementor.
+         */
+        require_once FARAZSMS_MODULES_PATH . 'elementor/class-farazsms-elementor.php';
 
 
-        if (self::$elementorPro == 'true') {
-            add_action('elementor_pro/init', function () {
-                require_once FARAZSMS_MODULES_PATH . 'elementor/form-actions/class-farazsms-newsletter-action-after-submit.php';
-                $farazsms_newsletter_action = new Farazsms_Newsletter_Action_After_Submit();
-                \ElementorPro\Plugin::instance()->modules_manager->get_modules('forms')->add_form_action($farazsms_newsletter_action->get_name(), $farazsms_newsletter_action);
-            });
-        }
 
         $this->loader = new Farazsms_Loader();
     }
@@ -279,12 +264,6 @@ class Farazsms
         $this->loader->add_action('add_meta_boxes', $plugin_admin, 'fsms_tracking_code_order_postbox');
         $this->loader->add_action('wp_ajax_fsms_send_tracking_code_sms', $plugin_admin, 'fsms_send_tracking_code_sms');
         $this->loader->add_action('wp_ajax_nopriv_fsms_send_tracking_code_sms', $plugin_admin, 'fsms_send_tracking_code_sms');
-
-        $this->loader->add_action('wp_ajax_fsms_save_other_settings', $plugin_admin, 'fsms_save_other_settings');
-        $this->loader->add_action('wp_ajax_nopriv_fsms_save_other_settings', $plugin_admin, 'fsms_save_other_settings');
-
-        $this->loader->add_action('wp_ajax_fsms_send_feedback', $plugin_admin, 'fsms_send_feedback');
-        $this->loader->add_action('wp_ajax_nopriv_fsms_send_feedback', $plugin_admin, 'fsms_send_feedback');
     }
 
     /**
