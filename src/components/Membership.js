@@ -15,8 +15,9 @@ import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
 import FormInputError from "./FormInputError";
 import SectionHeader from "./SectionHeader";
+import SectionError from "./SectionError";
 
-function Membership() {
+function Membership(props) {
   const appDispatch = useContext(DispatchContext);
   /**
    *
@@ -24,91 +25,113 @@ function Membership() {
    *
    */
   const originalState = {
+    notUsedPlugins: {
+      ...(!props.integratedPlugins.indeedMembershipPro.use && {
+        indeedMembershipPro: {
+          id: "indeedMembershipPro",
+          name: "Indeed Membership Pro",
+        },
+      }),
+      ...(!props.integratedPlugins.paidMembershipsPro.use && {
+        paidMembershipsPro: {
+          id: "paidMembershipsPro",
+          name: "Paid MembershipsPro",
+        },
+      }),
+    },
     inputs: {
-      ihc_send_first_notify: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "ihc_send_first_notifyChange",
-        id: "ihc_send_first_notify",
-        name: "ihc_send_first_notify",
-        type: "checkbox",
-        label: __(
-          "Send the first SMS warning of membership expiration?",
-          "farazsms"
-        ),
-        groupTitle: __("Ultimate Membership PRO plugin settings:", "farazsms"),
-        rules: "ihc_send_first_notifyRules",
-      },
-      ihc_send_second_notify: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "ihc_send_second_notifyChange",
-        id: "ihc_send_second_notify",
-        name: "ihc_send_second_notify",
-        type: "checkbox",
-        label: __(
-          "Send the second SMS warning of membership expiration?",
-          "farazsms"
-        ),
-        rules: "ihc_send_second_notifyRules",
-      },
-      ihc_send_third_notify: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "ihc_send_third_notifyChange",
-        id: "ihc_send_third_notify",
-        name: "ihc_send_third_notify",
-        type: "checkbox",
-        label: __(
-          "Send the third SMS warning of membership expiration?",
-          "farazsms"
-        ),
-        rules: "ihc_send_third_notifyRules",
-      },
-      ihc_first_notify_msg: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "ihc_first_notify_msgChange",
-        id: "ihc_first_notify_msg",
-        name: "ihc_first_notify_msg",
-        type: "textarea",
-        label: __("Membership expiration warning SMS text:", "farazsms"),
-        rules: "ihc_first_notify_msgRules",
-        infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __(
-          "username %name% | time remaining (to day) %time%",
-          "farazsms"
-        ),
-      },
-      pmp_send_expire_notify: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "pmp_send_expire_notifyChange",
-        id: "pmp_send_expire_notify",
-        name: "pmp_send_expire_notify",
-        type: "checkbox",
-        label: __("Send SMS membership expiration?", "farazsms"),
-        rules: "pmp_send_expire_notifyRules",
-        groupTitle: __("Paid Membership PRO plugin settings:", "farazsms"),
-      },
-      pmp_expire_notify_msg: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "pmp_expire_notify_msgChange",
-        id: "pmp_expire_notify_msg",
-        name: "pmp_expire_notify_msg",
-        type: "textarea",
-        label: __("The text of the membership expiration SMS:", "farazsms"),
-        rules: "pmp_expire_notify_msgRules",
-        infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("username %display_name%", "farazsms"),
-      },
+      ...(props.integratedPlugins.indeedMembershipPro.use && {
+        ihc_send_first_notify: {
+          value: "",
+          hasErrors: false,
+          errorMessage: "",
+          onChange: "ihc_send_first_notifyChange",
+          id: "ihc_send_first_notify",
+          name: "ihc_send_first_notify",
+          type: "checkbox",
+          label: __(
+            "Send the first SMS warning of membership expiration?",
+            "farazsms"
+          ),
+          groupTitle: __(
+            "Ultimate Membership PRO plugin settings:",
+            "farazsms"
+          ),
+          rules: "ihc_send_first_notifyRules",
+        },
+        ihc_send_second_notify: {
+          value: "",
+          hasErrors: false,
+          errorMessage: "",
+          onChange: "ihc_send_second_notifyChange",
+          id: "ihc_send_second_notify",
+          name: "ihc_send_second_notify",
+          type: "checkbox",
+          label: __(
+            "Send the second SMS warning of membership expiration?",
+            "farazsms"
+          ),
+          rules: "ihc_send_second_notifyRules",
+        },
+        ihc_send_third_notify: {
+          value: "",
+          hasErrors: false,
+          errorMessage: "",
+          onChange: "ihc_send_third_notifyChange",
+          id: "ihc_send_third_notify",
+          name: "ihc_send_third_notify",
+          type: "checkbox",
+          label: __(
+            "Send the third SMS warning of membership expiration?",
+            "farazsms"
+          ),
+          rules: "ihc_send_third_notifyRules",
+        },
+        ihc_first_notify_msg: {
+          value: "",
+          hasErrors: false,
+          errorMessage: "",
+          onChange: "ihc_first_notify_msgChange",
+          id: "ihc_first_notify_msg",
+          name: "ihc_first_notify_msg",
+          type: "textarea",
+          label: __("Membership expiration warning SMS text:", "farazsms"),
+          rules: "ihc_first_notify_msgRules",
+          infoTitle: __("Usable variables:", "farazsms"),
+          infoBody: __(
+            "username %name% | time remaining (to day) %time%",
+            "farazsms"
+          ),
+        },
+      }),
+
+      ...(props.integratedPlugins.paidMembershipsPro.use && {
+        pmp_send_expire_notify: {
+          value: "",
+          hasErrors: false,
+          errorMessage: "",
+          onChange: "pmp_send_expire_notifyChange",
+          id: "pmp_send_expire_notify",
+          name: "pmp_send_expire_notify",
+          type: "checkbox",
+          label: __("Send SMS membership expiration?", "farazsms"),
+          rules: "pmp_send_expire_notifyRules",
+          groupTitle: __("Paid Membership PRO plugin settings:", "farazsms"),
+        },
+        pmp_expire_notify_msg: {
+          value: "",
+          hasErrors: false,
+          errorMessage: "",
+          onChange: "pmp_expire_notify_msgChange",
+          id: "pmp_expire_notify_msg",
+          name: "pmp_expire_notify_msg",
+          type: "textarea",
+          label: __("The text of the membership expiration SMS:", "farazsms"),
+          rules: "pmp_expire_notify_msgRules",
+          infoTitle: __("Usable variables:", "farazsms"),
+          infoBody: __("username %display_name%", "farazsms"),
+        },
+      }),
     },
     isFetching: true,
     isSaving: false,
@@ -129,18 +152,22 @@ function Membership() {
     switch (action.type) {
       case "fetchComplete":
         //Init state values by action.value
-        draft.inputs.ihc_send_first_notify.value =
-          action.value.ihc_send_first_notify;
-        draft.inputs.ihc_send_second_notify.value =
-          action.value.ihc_send_second_notify;
-        draft.inputs.ihc_send_third_notify.value =
-          action.value.ihc_send_third_notify;
-        draft.inputs.ihc_first_notify_msg.value =
-          action.value.ihc_first_notify_msg;
-        draft.inputs.pmp_send_expire_notify.value =
-          action.value.pmp_send_expire_notify;
-        draft.inputs.pmp_expire_notify_msg.value =
-          action.value.pmp_expire_notify_msg;
+        if (props.integratedPlugins.indeedMembershipPro.use) {
+          draft.inputs.ihc_send_first_notify.value =
+            action.value.ihc_send_first_notify;
+          draft.inputs.ihc_send_second_notify.value =
+            action.value.ihc_send_second_notify;
+          draft.inputs.ihc_send_third_notify.value =
+            action.value.ihc_send_third_notify;
+          draft.inputs.ihc_first_notify_msg.value =
+            action.value.ihc_first_notify_msg;
+        }
+        if (props.integratedPlugins.paidMembershipsPro.use) {
+          draft.inputs.pmp_send_expire_notify.value =
+            action.value.pmp_send_expire_notify;
+          draft.inputs.pmp_expire_notify_msg.value =
+            action.value.pmp_expire_notify_msg;
+        }
         draft.isFetching = false;
         return;
       case "ihc_send_first_notifyChange":
@@ -277,6 +304,11 @@ function Membership() {
     <div>
       <SectionHeader sectionName={state.sectionName} />
       <div>
+        {Object.values(state.notUsedPlugins).map((plugin) => (
+          <div key={plugin.id}>
+            <SectionError sectionName={plugin.name} />
+          </div>
+        ))}
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
             <div

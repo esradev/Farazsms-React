@@ -10,9 +10,10 @@ const __ = wp.i18n.__;
  * Import local dependencies
  */
 import DispatchContext from "../DispatchContext";
+import SectionError from "./SectionError";
 import SectionHeader from "./SectionHeader";
 
-function Synchronization() {
+function Synchronization(props) {
   const appDispatch = useContext(DispatchContext);
   const originalState = {
     sectionName: __("Synchronization", "farazsms"),
@@ -35,39 +36,57 @@ function Synchronization() {
   return (
     <>
       <SectionHeader sectionName={state.sectionName} />
-      <div className="card bg-light mb-3">
-        <div className="card-body">
-          <h5 className="card-title">
-            {__("Synchronization bookley users with phonebook", "farazsms")}
-          </h5>
 
-          <a className="btn btn-info">
-            {__("Bookley synchronization", "farazsms")}
-          </a>
-        </div>
-      </div>
-      <div className="card bg-light mb-3">
-        <div className="card-body">
-          <h5 className="card-title">
-            {__("Synchronization woocommerce users with phonebook", "farazsms")}
-          </h5>
+      {props.integratedPlugins.bookly.use ? (
+        <div className="card bg-light mb-3">
+          <div className="card-body">
+            <h5 className="card-title">
+              {__("Synchronization bookley users with phonebook", "farazsms")}
+            </h5>
 
-          <a className="btn btn-info">
-            {__("Woocommerce synchronization", "farazsms")}
-          </a>
+            <a className="btn btn-info">
+              {__("Bookley synchronization", "farazsms")}
+            </a>
+          </div>
         </div>
-      </div>
-      <div className="card bg-light mb-3">
-        <div className="card-body">
-          <h5 className="card-title">
-            {__("Synchronization digits users with phonebook", "farazsms")}
-          </h5>
+      ) : (
+        <SectionError sectionName="Bookly" />
+      )}
 
-          <a className="btn btn-info">
-            {__("Digits synchronization", "farazsms")}
-          </a>
+      {props.integratedPlugins.woocommerce.use ? (
+        <div className="card bg-light mb-3">
+          <div className="card-body">
+            <h5 className="card-title">
+              {__(
+                "Synchronization woocommerce users with phonebook",
+                "farazsms"
+              )}
+            </h5>
+
+            <a className="btn btn-info">
+              {__("Woocommerce synchronization", "farazsms")}
+            </a>
+          </div>
         </div>
-      </div>
+      ) : (
+        <SectionError sectionName="Woocommerce" />
+      )}
+
+      {props.integratedPlugins.digits.use ? (
+        <div className="card bg-light mb-3">
+          <div className="card-body">
+            <h5 className="card-title">
+              {__("Synchronization digits users with phonebook", "farazsms")}
+            </h5>
+
+            <a className="btn btn-info">
+              {__("Digits synchronization", "farazsms")}
+            </a>
+          </div>
+        </div>
+      ) : (
+        <SectionError sectionName="Digits" />
+      )}
     </>
   );
 }

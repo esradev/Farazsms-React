@@ -19,7 +19,9 @@ const SectionError = (props) => {
       <div className="container card text-white bg-danger mb-3">
         <div class="card-header">{__("Warning!", "farazsms")}</div>
         <div className="card-body">
-          <h5 className="card-title">{__("Attention Needed:", "farazsms")}</h5>
+          <h5 className="card-title">
+            {__(sectionName + " Attention Needed:", "farazsms")}
+          </h5>
           <p className="card-text">
             {__(
               "You have not checked " +

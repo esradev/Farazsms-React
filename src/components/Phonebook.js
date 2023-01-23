@@ -3,7 +3,6 @@
  */
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
-import { CSSTransition } from "react-transition-group";
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
@@ -16,11 +15,39 @@ import FormInput from "./FormInput";
 import SaveButton from "./SaveButton";
 import FormInputError from "./FormInputError";
 import SectionHeader from "./SectionHeader";
+import SectionError from "./SectionError";
 
-function Phonebook() {
+function Phonebook(props) {
   const appDispatch = useContext(DispatchContext);
   // Init States
   const originalState = {
+    notUsedPlugins: {
+      ...(!props.integratedPlugins.digits.use && {
+        digits: {
+          id: "digits",
+          name: "Digits",
+        },
+      }),
+      ...(!props.integratedPlugins.woocommerce.use && {
+        woocommerce: {
+          id: "woocommerce",
+          name: "Woocommerce",
+        },
+      }),
+      ...(!props.integratedPlugins.bookly.use && {
+        bookly: {
+          id: "bookly",
+          name: "Bookly",
+        },
+      }),
+      ...(!props.integratedPlugins.gravityForms.use && {
+        gravityForms: {
+          id: "gravityForms",
+          name: "Gravity Forms",
+        },
+      }),
+    },
+
     inputs: {
       custom_phonebook: {
         value: [],
@@ -42,60 +69,68 @@ function Phonebook() {
         options: [],
         noOptionsMessage: __("No options is avilable", "farazsms"),
       },
-      digits_phonebook: {
-        value: [],
-        onChange: "digits_phonebookChange",
-        id: "digits_phonebook",
-        name: "digits_phonebook",
-        type: "select",
-        label: __("Select phonebook for Digits:", "farazsms"),
-        options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms"),
-      },
-      woo_phonebook: {
-        value: [],
-        onChange: "woo_phonebookChange",
-        id: "woo_phonebook",
-        name: "woo_phonebook",
-        type: "select",
-        label: __("select a phonebook for WooCommerce:", "farazsms"),
-        options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms"),
-      },
-      bookly_phonebook: {
-        value: [],
-        onChange: "bookly_phonebookChange",
-        id: "bookly_phonebook",
-        name: "bookly_phonebook",
-        type: "select",
-        label: __("Choosing a phonebook for Bookley:", "farazsms"),
-        options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms"),
-      },
-      gf_phonebook: {
-        value: [],
-        onChange: "gf_phonebookChange",
-        id: "gf_phonebook",
-        name: "gf_phonebook",
-        type: "select",
-        label: __("Select phonebook for Gravity Form:", "farazsms"),
-        options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms"),
-      },
-      gf_selected_field: {
-        value: [],
-        onChange: "gf_selected_fieldChange",
-        id: "gf_selected_field",
-        name: "gf_selected_field",
-        type: "select",
-        label: __("Gravity Form Settings:", "farazsms"),
-        tooltip: __(
-          "In this section, you can specify the fields you want to register in the Gravity Form phonebook",
-          "farazsms"
-        ),
-        options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms"),
-      },
+      ...(props.integratedPlugins.digits.use && {
+        digits_phonebook: {
+          value: [],
+          onChange: "digits_phonebookChange",
+          id: "digits_phonebook",
+          name: "digits_phonebook",
+          type: "select",
+          label: __("Select phonebook for Digits:", "farazsms"),
+          options: [],
+          noOptionsMessage: __("No options is avilable", "farazsms"),
+        },
+      }),
+      ...(props.integratedPlugins.woocommerce.use && {
+        woo_phonebook: {
+          value: [],
+          onChange: "woo_phonebookChange",
+          id: "woo_phonebook",
+          name: "woo_phonebook",
+          type: "select",
+          label: __("select a phonebook for WooCommerce:", "farazsms"),
+          options: [],
+          noOptionsMessage: __("No options is avilable", "farazsms"),
+        },
+      }),
+      ...(props.integratedPlugins.bookly.use && {
+        bookly_phonebook: {
+          value: [],
+          onChange: "bookly_phonebookChange",
+          id: "bookly_phonebook",
+          name: "bookly_phonebook",
+          type: "select",
+          label: __("Choosing a phonebook for Bookley:", "farazsms"),
+          options: [],
+          noOptionsMessage: __("No options is avilable", "farazsms"),
+        },
+      }),
+      ...(props.integratedPlugins.gravityForms.use && {
+        gf_phonebook: {
+          value: [],
+          onChange: "gf_phonebookChange",
+          id: "gf_phonebook",
+          name: "gf_phonebook",
+          type: "select",
+          label: __("Select phonebook for Gravity Form:", "farazsms"),
+          options: [],
+          noOptionsMessage: __("No options is avilable", "farazsms"),
+        },
+        gf_selected_field: {
+          value: [],
+          onChange: "gf_selected_fieldChange",
+          id: "gf_selected_field",
+          name: "gf_selected_field",
+          type: "select",
+          label: __("Gravity Form Settings:", "farazsms"),
+          tooltip: __(
+            "In this section, you can specify the fields you want to register in the Gravity Form phonebook",
+            "farazsms"
+          ),
+          options: [],
+          noOptionsMessage: __("No options is avilable", "farazsms"),
+        },
+      }),
     },
     isFetching: true,
     isSaving: false,
@@ -110,19 +145,36 @@ function Phonebook() {
         draft.inputs.custom_phonebook.value = action.value.custom_phonebook;
         draft.inputs.custom_phone_meta_keys.value =
           action.value.custom_phone_meta_keys;
-        draft.inputs.digits_phonebook.value = action.value.digits_phonebook;
-        draft.inputs.woo_phonebook.value = action.value.woo_phonebook;
-        draft.inputs.bookly_phonebook.value = action.value.bookly_phonebook;
-        draft.inputs.gf_phonebook.value = action.value.gf_phonebook;
-        draft.inputs.gf_selected_field.value = action.value.gf_selected_field;
+        if (props.integratedPlugins.digits.use) {
+          draft.inputs.digits_phonebook.value = action.value.digits_phonebook;
+        }
+        if (props.integratedPlugins.woocommerce.use) {
+          draft.inputs.woo_phonebook.value = action.value.woo_phonebook;
+        }
+        if (props.integratedPlugins.bookly.use) {
+          draft.inputs.bookly_phonebook.value = action.value.bookly_phonebook;
+        }
+        if (props.integratedPlugins.gravityForms.use) {
+          draft.inputs.gf_phonebook.value = action.value.gf_phonebook;
+          draft.inputs.gf_selected_field.value = action.value.gf_selected_field;
+        }
+
         draft.isFetching = false;
         return;
       case "all_phonebookOptions":
         draft.inputs.custom_phonebook.options = action.value;
-        draft.inputs.digits_phonebook.options = action.value;
-        draft.inputs.woo_phonebook.options = action.value;
-        draft.inputs.bookly_phonebook.options = action.value;
-        draft.inputs.gf_phonebook.options = action.value;
+        if (props.integratedPlugins.digits.use) {
+          draft.inputs.digits_phonebook.options = action.value;
+        }
+        if (props.integratedPlugins.woocommerce.use) {
+          draft.inputs.woo_phonebook.options = action.value;
+        }
+        if (props.integratedPlugins.bookly.use) {
+          draft.inputs.bookly_phonebook.options = action.value;
+        }
+        if (props.integratedPlugins.gravityForms.use) {
+          draft.inputs.gf_phonebook.options = action.value;
+        }
         return;
       case "custom_phone_meta_keysOptions":
         draft.inputs.custom_phone_meta_keys.options = action.value;
@@ -336,6 +388,11 @@ function Phonebook() {
         </div>
       </div>
       <div>
+        {Object.values(state.notUsedPlugins).map((plugin) => (
+          <div key={plugin.id}>
+            <SectionError sectionName={plugin.name} />
+          </div>
+        ))}
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
             <div key={input.id} className={"form-group"}>

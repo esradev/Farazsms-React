@@ -11850,6 +11850,7 @@ function Integrations(props) {
           async function checkPlugin() {
             try {
               const getPlugins = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/wp/v2/plugins", {});
+              console.log(getPlugins);
               if (getPlugins.data) {
                 const findPlugin = getPlugins.data.find(element => element.plugin === plugin.plugin);
                 if (findPlugin) {
@@ -12252,13 +12253,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FormInput */ "./src/components/FormInput.js");
 /* harmony import */ var _SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SaveButton */ "./src/components/SaveButton.js");
 /* harmony import */ var _FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./FormInputError */ "./src/components/FormInputError.js");
 /* harmony import */ var _SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./SectionHeader */ "./src/components/SectionHeader.js");
+/* harmony import */ var _SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./SectionError */ "./src/components/SectionError.js");
 
 
 /**
@@ -12278,7 +12280,8 @@ const __ = wp.i18n.__;
 
 
 
-function Membership() {
+
+function Membership(props) {
   const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_4__["default"]);
   /**
    *
@@ -12286,79 +12289,97 @@ function Membership() {
    *
    */
   const originalState = {
+    notUsedPlugins: {
+      ...(!props.integratedPlugins.indeedMembershipPro.use && {
+        indeedMembershipPro: {
+          id: "indeedMembershipPro",
+          name: "Indeed Membership Pro"
+        }
+      }),
+      ...(!props.integratedPlugins.paidMembershipsPro.use && {
+        paidMembershipsPro: {
+          id: "paidMembershipsPro",
+          name: "Paid MembershipsPro"
+        }
+      })
+    },
     inputs: {
-      ihc_send_first_notify: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "ihc_send_first_notifyChange",
-        id: "ihc_send_first_notify",
-        name: "ihc_send_first_notify",
-        type: "checkbox",
-        label: __("Send the first SMS warning of membership expiration?", "farazsms"),
-        groupTitle: __("Ultimate Membership PRO plugin settings:", "farazsms"),
-        rules: "ihc_send_first_notifyRules"
-      },
-      ihc_send_second_notify: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "ihc_send_second_notifyChange",
-        id: "ihc_send_second_notify",
-        name: "ihc_send_second_notify",
-        type: "checkbox",
-        label: __("Send the second SMS warning of membership expiration?", "farazsms"),
-        rules: "ihc_send_second_notifyRules"
-      },
-      ihc_send_third_notify: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "ihc_send_third_notifyChange",
-        id: "ihc_send_third_notify",
-        name: "ihc_send_third_notify",
-        type: "checkbox",
-        label: __("Send the third SMS warning of membership expiration?", "farazsms"),
-        rules: "ihc_send_third_notifyRules"
-      },
-      ihc_first_notify_msg: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "ihc_first_notify_msgChange",
-        id: "ihc_first_notify_msg",
-        name: "ihc_first_notify_msg",
-        type: "textarea",
-        label: __("Membership expiration warning SMS text:", "farazsms"),
-        rules: "ihc_first_notify_msgRules",
-        infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("username %name% | time remaining (to day) %time%", "farazsms")
-      },
-      pmp_send_expire_notify: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "pmp_send_expire_notifyChange",
-        id: "pmp_send_expire_notify",
-        name: "pmp_send_expire_notify",
-        type: "checkbox",
-        label: __("Send SMS membership expiration?", "farazsms"),
-        rules: "pmp_send_expire_notifyRules",
-        groupTitle: __("Paid Membership PRO plugin settings:", "farazsms")
-      },
-      pmp_expire_notify_msg: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "pmp_expire_notify_msgChange",
-        id: "pmp_expire_notify_msg",
-        name: "pmp_expire_notify_msg",
-        type: "textarea",
-        label: __("The text of the membership expiration SMS:", "farazsms"),
-        rules: "pmp_expire_notify_msgRules",
-        infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("username %display_name%", "farazsms")
-      }
+      ...(props.integratedPlugins.indeedMembershipPro.use && {
+        ihc_send_first_notify: {
+          value: "",
+          hasErrors: false,
+          errorMessage: "",
+          onChange: "ihc_send_first_notifyChange",
+          id: "ihc_send_first_notify",
+          name: "ihc_send_first_notify",
+          type: "checkbox",
+          label: __("Send the first SMS warning of membership expiration?", "farazsms"),
+          groupTitle: __("Ultimate Membership PRO plugin settings:", "farazsms"),
+          rules: "ihc_send_first_notifyRules"
+        },
+        ihc_send_second_notify: {
+          value: "",
+          hasErrors: false,
+          errorMessage: "",
+          onChange: "ihc_send_second_notifyChange",
+          id: "ihc_send_second_notify",
+          name: "ihc_send_second_notify",
+          type: "checkbox",
+          label: __("Send the second SMS warning of membership expiration?", "farazsms"),
+          rules: "ihc_send_second_notifyRules"
+        },
+        ihc_send_third_notify: {
+          value: "",
+          hasErrors: false,
+          errorMessage: "",
+          onChange: "ihc_send_third_notifyChange",
+          id: "ihc_send_third_notify",
+          name: "ihc_send_third_notify",
+          type: "checkbox",
+          label: __("Send the third SMS warning of membership expiration?", "farazsms"),
+          rules: "ihc_send_third_notifyRules"
+        },
+        ihc_first_notify_msg: {
+          value: "",
+          hasErrors: false,
+          errorMessage: "",
+          onChange: "ihc_first_notify_msgChange",
+          id: "ihc_first_notify_msg",
+          name: "ihc_first_notify_msg",
+          type: "textarea",
+          label: __("Membership expiration warning SMS text:", "farazsms"),
+          rules: "ihc_first_notify_msgRules",
+          infoTitle: __("Usable variables:", "farazsms"),
+          infoBody: __("username %name% | time remaining (to day) %time%", "farazsms")
+        }
+      }),
+      ...(props.integratedPlugins.paidMembershipsPro.use && {
+        pmp_send_expire_notify: {
+          value: "",
+          hasErrors: false,
+          errorMessage: "",
+          onChange: "pmp_send_expire_notifyChange",
+          id: "pmp_send_expire_notify",
+          name: "pmp_send_expire_notify",
+          type: "checkbox",
+          label: __("Send SMS membership expiration?", "farazsms"),
+          rules: "pmp_send_expire_notifyRules",
+          groupTitle: __("Paid Membership PRO plugin settings:", "farazsms")
+        },
+        pmp_expire_notify_msg: {
+          value: "",
+          hasErrors: false,
+          errorMessage: "",
+          onChange: "pmp_expire_notify_msgChange",
+          id: "pmp_expire_notify_msg",
+          name: "pmp_expire_notify_msg",
+          type: "textarea",
+          label: __("The text of the membership expiration SMS:", "farazsms"),
+          rules: "pmp_expire_notify_msgRules",
+          infoTitle: __("Usable variables:", "farazsms"),
+          infoBody: __("username %display_name%", "farazsms")
+        }
+      })
     },
     isFetching: true,
     isSaving: false,
@@ -12376,12 +12397,16 @@ function Membership() {
     switch (action.type) {
       case "fetchComplete":
         //Init state values by action.value
-        draft.inputs.ihc_send_first_notify.value = action.value.ihc_send_first_notify;
-        draft.inputs.ihc_send_second_notify.value = action.value.ihc_send_second_notify;
-        draft.inputs.ihc_send_third_notify.value = action.value.ihc_send_third_notify;
-        draft.inputs.ihc_first_notify_msg.value = action.value.ihc_first_notify_msg;
-        draft.inputs.pmp_send_expire_notify.value = action.value.pmp_send_expire_notify;
-        draft.inputs.pmp_expire_notify_msg.value = action.value.pmp_expire_notify_msg;
+        if (props.integratedPlugins.indeedMembershipPro.use) {
+          draft.inputs.ihc_send_first_notify.value = action.value.ihc_send_first_notify;
+          draft.inputs.ihc_send_second_notify.value = action.value.ihc_send_second_notify;
+          draft.inputs.ihc_send_third_notify.value = action.value.ihc_send_third_notify;
+          draft.inputs.ihc_first_notify_msg.value = action.value.ihc_first_notify_msg;
+        }
+        if (props.integratedPlugins.paidMembershipsPro.use) {
+          draft.inputs.pmp_send_expire_notify.value = action.value.pmp_send_expire_notify;
+          draft.inputs.pmp_expire_notify_msg.value = action.value.pmp_expire_notify_msg;
+        }
         draft.isFetching = false;
         return;
       case "ihc_send_first_notifyChange":
@@ -12419,7 +12444,7 @@ function Membership() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_9__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
 
   /**
    *
@@ -12523,7 +12548,11 @@ function Membership() {
    */
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
     sectionName: state.sectionName
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, Object.values(state.notUsedPlugins).map(plugin => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    key: plugin.id
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SectionError__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    sectionName: plugin.name
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
   }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.id,
@@ -12954,19 +12983,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FormInput */ "./src/components/FormInput.js");
 /* harmony import */ var _SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./SaveButton */ "./src/components/SaveButton.js");
 /* harmony import */ var _FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./FormInputError */ "./src/components/FormInputError.js");
 /* harmony import */ var _SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./SectionHeader */ "./src/components/SectionHeader.js");
+/* harmony import */ var _SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./SectionError */ "./src/components/SectionError.js");
 
 
 /**
  * Import remote dependencies.
  */
-
 
 
 // Used as const not import, for Loco translate plugin compatibility.
@@ -12981,10 +13010,37 @@ const __ = wp.i18n.__;
 
 
 
-function Phonebook() {
+
+function Phonebook(props) {
   const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_4__["default"]);
   // Init States
   const originalState = {
+    notUsedPlugins: {
+      ...(!props.integratedPlugins.digits.use && {
+        digits: {
+          id: "digits",
+          name: "Digits"
+        }
+      }),
+      ...(!props.integratedPlugins.woocommerce.use && {
+        woocommerce: {
+          id: "woocommerce",
+          name: "Woocommerce"
+        }
+      }),
+      ...(!props.integratedPlugins.bookly.use && {
+        bookly: {
+          id: "bookly",
+          name: "Bookly"
+        }
+      }),
+      ...(!props.integratedPlugins.gravityForms.use && {
+        gravityForms: {
+          id: "gravityForms",
+          name: "Gravity Forms"
+        }
+      })
+    },
     inputs: {
       custom_phonebook: {
         value: [],
@@ -13006,57 +13062,65 @@ function Phonebook() {
         options: [],
         noOptionsMessage: __("No options is avilable", "farazsms")
       },
-      digits_phonebook: {
-        value: [],
-        onChange: "digits_phonebookChange",
-        id: "digits_phonebook",
-        name: "digits_phonebook",
-        type: "select",
-        label: __("Select phonebook for Digits:", "farazsms"),
-        options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms")
-      },
-      woo_phonebook: {
-        value: [],
-        onChange: "woo_phonebookChange",
-        id: "woo_phonebook",
-        name: "woo_phonebook",
-        type: "select",
-        label: __("select a phonebook for WooCommerce:", "farazsms"),
-        options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms")
-      },
-      bookly_phonebook: {
-        value: [],
-        onChange: "bookly_phonebookChange",
-        id: "bookly_phonebook",
-        name: "bookly_phonebook",
-        type: "select",
-        label: __("Choosing a phonebook for Bookley:", "farazsms"),
-        options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms")
-      },
-      gf_phonebook: {
-        value: [],
-        onChange: "gf_phonebookChange",
-        id: "gf_phonebook",
-        name: "gf_phonebook",
-        type: "select",
-        label: __("Select phonebook for Gravity Form:", "farazsms"),
-        options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms")
-      },
-      gf_selected_field: {
-        value: [],
-        onChange: "gf_selected_fieldChange",
-        id: "gf_selected_field",
-        name: "gf_selected_field",
-        type: "select",
-        label: __("Gravity Form Settings:", "farazsms"),
-        tooltip: __("In this section, you can specify the fields you want to register in the Gravity Form phonebook", "farazsms"),
-        options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms")
-      }
+      ...(props.integratedPlugins.digits.use && {
+        digits_phonebook: {
+          value: [],
+          onChange: "digits_phonebookChange",
+          id: "digits_phonebook",
+          name: "digits_phonebook",
+          type: "select",
+          label: __("Select phonebook for Digits:", "farazsms"),
+          options: [],
+          noOptionsMessage: __("No options is avilable", "farazsms")
+        }
+      }),
+      ...(props.integratedPlugins.woocommerce.use && {
+        woo_phonebook: {
+          value: [],
+          onChange: "woo_phonebookChange",
+          id: "woo_phonebook",
+          name: "woo_phonebook",
+          type: "select",
+          label: __("select a phonebook for WooCommerce:", "farazsms"),
+          options: [],
+          noOptionsMessage: __("No options is avilable", "farazsms")
+        }
+      }),
+      ...(props.integratedPlugins.bookly.use && {
+        bookly_phonebook: {
+          value: [],
+          onChange: "bookly_phonebookChange",
+          id: "bookly_phonebook",
+          name: "bookly_phonebook",
+          type: "select",
+          label: __("Choosing a phonebook for Bookley:", "farazsms"),
+          options: [],
+          noOptionsMessage: __("No options is avilable", "farazsms")
+        }
+      }),
+      ...(props.integratedPlugins.gravityForms.use && {
+        gf_phonebook: {
+          value: [],
+          onChange: "gf_phonebookChange",
+          id: "gf_phonebook",
+          name: "gf_phonebook",
+          type: "select",
+          label: __("Select phonebook for Gravity Form:", "farazsms"),
+          options: [],
+          noOptionsMessage: __("No options is avilable", "farazsms")
+        },
+        gf_selected_field: {
+          value: [],
+          onChange: "gf_selected_fieldChange",
+          id: "gf_selected_field",
+          name: "gf_selected_field",
+          type: "select",
+          label: __("Gravity Form Settings:", "farazsms"),
+          tooltip: __("In this section, you can specify the fields you want to register in the Gravity Form phonebook", "farazsms"),
+          options: [],
+          noOptionsMessage: __("No options is avilable", "farazsms")
+        }
+      })
     },
     isFetching: true,
     isSaving: false,
@@ -13069,19 +13133,35 @@ function Phonebook() {
         //Init state values by action.value
         draft.inputs.custom_phonebook.value = action.value.custom_phonebook;
         draft.inputs.custom_phone_meta_keys.value = action.value.custom_phone_meta_keys;
-        draft.inputs.digits_phonebook.value = action.value.digits_phonebook;
-        draft.inputs.woo_phonebook.value = action.value.woo_phonebook;
-        draft.inputs.bookly_phonebook.value = action.value.bookly_phonebook;
-        draft.inputs.gf_phonebook.value = action.value.gf_phonebook;
-        draft.inputs.gf_selected_field.value = action.value.gf_selected_field;
+        if (props.integratedPlugins.digits.use) {
+          draft.inputs.digits_phonebook.value = action.value.digits_phonebook;
+        }
+        if (props.integratedPlugins.woocommerce.use) {
+          draft.inputs.woo_phonebook.value = action.value.woo_phonebook;
+        }
+        if (props.integratedPlugins.bookly.use) {
+          draft.inputs.bookly_phonebook.value = action.value.bookly_phonebook;
+        }
+        if (props.integratedPlugins.gravityForms.use) {
+          draft.inputs.gf_phonebook.value = action.value.gf_phonebook;
+          draft.inputs.gf_selected_field.value = action.value.gf_selected_field;
+        }
         draft.isFetching = false;
         return;
       case "all_phonebookOptions":
         draft.inputs.custom_phonebook.options = action.value;
-        draft.inputs.digits_phonebook.options = action.value;
-        draft.inputs.woo_phonebook.options = action.value;
-        draft.inputs.bookly_phonebook.options = action.value;
-        draft.inputs.gf_phonebook.options = action.value;
+        if (props.integratedPlugins.digits.use) {
+          draft.inputs.digits_phonebook.options = action.value;
+        }
+        if (props.integratedPlugins.woocommerce.use) {
+          draft.inputs.woo_phonebook.options = action.value;
+        }
+        if (props.integratedPlugins.bookly.use) {
+          draft.inputs.bookly_phonebook.options = action.value;
+        }
+        if (props.integratedPlugins.gravityForms.use) {
+          draft.inputs.gf_phonebook.options = action.value;
+        }
         return;
       case "custom_phone_meta_keysOptions":
         draft.inputs.custom_phone_meta_keys.options = action.value;
@@ -13121,7 +13201,7 @@ function Phonebook() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_9__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     //Set every input to the state with dispatch function.
@@ -13291,7 +13371,11 @@ function Phonebook() {
     className: "card-title"
   }, __("Warning:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", {
     className: "card-text"
-  }, __("You have not registered a phone book yet. Please create your phone book in the FarazSMS panel first.", "farazsms"))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
+  }, __("You have not registered a phone book yet. Please create your phone book in the FarazSMS panel first.", "farazsms"))))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, Object.values(state.notUsedPlugins).map(plugin => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    key: plugin.id
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SectionError__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    sectionName: plugin.name
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
   }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.id,
@@ -13442,7 +13526,7 @@ const SectionError = props => {
     className: "card-body"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", {
     className: "card-title"
-  }, __("Attention Needed:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+  }, __(sectionName + " Attention Needed:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     className: "card-text"
   }, __("You have not checked " + sectionName + " in Integrations section. Please go first there and check " + sectionName + " usage toggle, Then come bake here.", "farazsms")))));
 };
@@ -14186,9 +14270,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _SectionHeader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SectionHeader */ "./src/components/SectionHeader.js");
+/* harmony import */ var _SectionError__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SectionError */ "./src/components/SectionError.js");
+/* harmony import */ var _SectionHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SectionHeader */ "./src/components/SectionHeader.js");
 
 /**
  * Import remote dependencies.
@@ -14203,12 +14288,13 @@ const __ = wp.i18n.__;
  */
 
 
-function Synchronization() {
+
+function Synchronization(props) {
   const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
   const originalState = {
     sectionName: __("Synchronization", "farazsms")
   };
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_4__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_5__.useImmerReducer)(ourReduser, originalState);
   function ourReduser(draft, action) {}
 
   /**
@@ -14223,9 +14309,9 @@ function Synchronization() {
   //   console.log(booklySync);
   // }
 
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SectionHeader__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SectionHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
     sectionName: state.sectionName
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }), props.integratedPlugins.bookly.use ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "card bg-light mb-3"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "card-body"
@@ -14233,7 +14319,9 @@ function Synchronization() {
     className: "card-title"
   }, __("Synchronization bookley users with phonebook", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     className: "btn btn-info"
-  }, __("Bookley synchronization", "farazsms")))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, __("Bookley synchronization", "farazsms")))) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SectionError__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    sectionName: "Bookly"
+  }), props.integratedPlugins.woocommerce.use ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "card bg-light mb-3"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "card-body"
@@ -14241,7 +14329,9 @@ function Synchronization() {
     className: "card-title"
   }, __("Synchronization woocommerce users with phonebook", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     className: "btn btn-info"
-  }, __("Woocommerce synchronization", "farazsms")))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, __("Woocommerce synchronization", "farazsms")))) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SectionError__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    sectionName: "Woocommerce"
+  }), props.integratedPlugins.digits.use ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "card bg-light mb-3"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "card-body"
@@ -14249,7 +14339,9 @@ function Synchronization() {
     className: "card-title"
   }, __("Synchronization digits users with phonebook", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     className: "btn btn-info"
-  }, __("Digits synchronization", "farazsms")))));
+  }, __("Digits synchronization", "farazsms")))) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SectionError__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    sectionName: "Digits"
+  }));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Synchronization);
 
