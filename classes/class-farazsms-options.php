@@ -4,7 +4,7 @@
  * Farazsms Options.
  * 
  * @package Farazsms
- *
+ * @since 2.0.0
  */
 
 defined('ABSPATH') || exit; // Exit if accessed directly.
@@ -20,14 +20,6 @@ class Farazsms_Options
     public function register_settings_options()
     {
         $farazsms_settings_options = '';
-        // [
-        //     'show_in_rest' => [
-        //         'schema' => [
-        //             'type' => 'object',
-        //             'properties' => array(),
-        //         ],
-        //     ],
-        // ];
         add_option('farazsms_settings_options', $farazsms_settings_options);
     }
 
@@ -74,6 +66,7 @@ class Farazsms_Options
         $farazsms_newsletter_options = '';
         add_option('farazsms_newsletter_options', $farazsms_newsletter_options);
     }
+
     /**
      * Register WooCommerce options.
      *
@@ -84,6 +77,7 @@ class Farazsms_Options
         $farazsms_woocommerce_options = '';
         add_option('farazsms_woocommerce_options', $farazsms_woocommerce_options);
     }
+
     /**
      * Register EDD options.
      *
@@ -116,6 +110,7 @@ class Farazsms_Options
         $farazsms_membership_options = '';
         add_option('farazsms_membership_options', $farazsms_membership_options);
     }
+
     /**
      * Register Integrations options.
      *

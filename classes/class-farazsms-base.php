@@ -48,17 +48,6 @@ if (!class_exists('Farazsms_Base')) {
         private static $welcomep;
         private static $admin_login_notify_pattern;
 
-        private static $_woo_installed = false;
-        private static $_digits_installed = false;
-        private static $_edd_installed = false;
-        private static $_bookly_installed = false;
-        private static $_GF_installed = false;
-        private static $_ihc_installed = false;
-        private static $_pmp_installed = false;
-        private static $_aff_installed = false;
-        private static $_uap_installed = false;
-        private static $_wcaf_installed = false;
-
         private static $comment_phonebook;
 
         private static $news_welcome;
@@ -134,55 +123,6 @@ if (!class_exists('Farazsms_Base')) {
                 self::$woo_poll_msg = $woocommerce_options['woo_poll_msg'];
                 self::$woo_tracking_pattern = $woocommerce_options['woo_tracking_pattern'];
             }
-
-            /**
-             * 
-             * Check is Woocommerce, Digits, Bookly and some other plugins are installed and activated.
-             * 
-             * And call Main functions.
-             */
-
-            $active_plugins = apply_filters('active_plugins', get_option('active_plugins'));
-
-            if (in_array('woocommerce/woocommerce.php', $active_plugins)) {
-                self::$_woo_installed = true;
-            }
-
-            if (function_exists('digit_ready')) {
-                self::$_digits_installed = true;
-            }
-
-            if (in_array('easy-digital-downloads/easy-digital-downloads.php', $active_plugins)) {
-                self::$_edd_installed = true;
-            }
-
-            if (in_array('bookly-responsive-appointment-booking-tool/main.php', $active_plugins)) {
-                self::$_bookly_installed = true;
-            }
-
-            if (in_array('gravityforms/gravityforms.php', $active_plugins)) {
-                self::$_GF_installed = true;
-            }
-
-            if (in_array('indeed-membership-pro/indeed-membership-pro.php', $active_plugins)) {
-                self::$_ihc_installed = true;
-            }
-
-            if (in_array('paid-memberships-pro/paid-memberships-pro.php', $active_plugins)) {
-                self::$_pmp_installed = true;
-            }
-
-            if (in_array('affiliate-wp/affiliate-wp.php', $active_plugins)) {
-                self::$_aff_installed = true;
-            }
-
-            if (in_array('indeed-affiliate-pro/indeed-affiliate-pro.php', $active_plugins)) {
-                self::$_uap_installed = true;
-            }
-
-            if (in_array('yith-woocommerce-affiliates/init.php', $active_plugins)) {
-                self::$_wcaf_installed = true;
-            }
         }
 
         /**
@@ -217,57 +157,6 @@ if (!class_exists('Farazsms_Base')) {
         {
             return self::$fromNumAdver;
         }
-
-        public static function isDigitsInstalled()
-        {
-            return self::$_digits_installed;
-        }
-
-        public static function isWooInstalled()
-        {
-            return self::$_woo_installed;
-        }
-
-        public static function isEddInstalled()
-        {
-            return self::$_edd_installed;
-        }
-
-        public static function isBooklyInstalled()
-        {
-            return self::$_bookly_installed;
-        }
-
-        public static function isGFInstalled()
-        {
-            return self::$_GF_installed;
-        }
-
-        public static function isIHCInstalled()
-        {
-            return self::$_ihc_installed;
-        }
-
-        public static function isPMPInstalled()
-        {
-            return self::$_pmp_installed;
-        }
-
-        public static function isAFFInstalled()
-        {
-            return self::$_aff_installed;
-        }
-
-        public static function isUAPInstalled()
-        {
-            return self::$_uap_installed;
-        }
-
-        public static function isWCAFInstalled()
-        {
-            return self::$_wcaf_installed;
-        }
-
 
         public static function getAdminNumber()
         {
@@ -710,7 +599,6 @@ if (!class_exists('Farazsms_Base')) {
          * 
          */
 
-
         public function get_registered_pattern_variables($pCode)
         {
             $body = array(
@@ -744,7 +632,6 @@ if (!class_exists('Farazsms_Base')) {
          * Send comment replgy sms.
          * 
          */
-
 
         public function send_comment_reply_sms($phone, $pattern, $data)
         {

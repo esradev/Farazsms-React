@@ -4,6 +4,7 @@
  * Farazsms elementor.
  *
  * @package Farazsms
+ * @since 2.0.0
  */
 
 // Exit if accessed directly.
@@ -22,14 +23,14 @@ class Farazsms_Elementor
      *
      * @access private
      * @var object Class object.
-     * @since 1.0.0
+     * @since 2.0.0
      */
     private static $instance;
 
     /**
      * Initiator
      *
-     * @since 1.0.0
+     * @since 2.0.0
      * @return object initialized object of class.
      */
     public static function get_instance()

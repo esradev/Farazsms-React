@@ -13,20 +13,6 @@
  * @subpackage Farazsms/includes
  */
 
-/**
- * The core plugin class.
- *
- * This is used to define internationalization, admin-specific hooks, and
- * public-facing site hooks.
- *
- * Also maintains the unique identifier of this plugin as well as the current
- * version of the plugin.
- *
- * @since      1.0.0
- * @package    Farazsms
- * @subpackage Farazsms/includes
- * @author     FarazSMS <info@farazsms.com>
- */
 class Farazsms
 {
 
@@ -142,6 +128,7 @@ class Farazsms
 
         /**
          * The class responsible for defining all actions for elementor.
+         * @since 2.0.0
          */
         require_once FARAZSMS_MODULES_PATH . 'elementor/class-farazsms-elementor.php';
 
