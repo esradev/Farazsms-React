@@ -10,7 +10,7 @@ module.exports = {
       // ./public directory is being served
       host: "localhost",
       port: 3000,
-      proxy: "http://faraz-sms.local/",
+      proxy: "http://localhost/farazsms/",
       // Visit http://192.168.1.4:3000 for working.
     }),
   ],

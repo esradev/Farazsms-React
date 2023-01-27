@@ -57,7 +57,7 @@ function Phonebook(props) {
         type: "select",
         label: __("Select the custom field phonebook:", "farazsms"),
         options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms"),
+        noOptionsMessage: __("No options is available", "farazsms"),
       },
       custom_phone_meta_keys: {
         value: [],
@@ -67,7 +67,7 @@ function Phonebook(props) {
         type: "select",
         label: __("Select the mobile number custom field:", "farazsms"),
         options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms"),
+        noOptionsMessage: __("No options is available", "farazsms"),
       },
       ...(props.integratedPlugins.digits.use && {
         digits_phonebook: {
@@ -78,7 +78,7 @@ function Phonebook(props) {
           type: "select",
           label: __("Select phonebook for Digits:", "farazsms"),
           options: [],
-          noOptionsMessage: __("No options is avilable", "farazsms"),
+          noOptionsMessage: __("No options is available", "farazsms"),
         },
       }),
       ...(props.integratedPlugins.woocommerce.use && {
@@ -90,7 +90,7 @@ function Phonebook(props) {
           type: "select",
           label: __("select a phonebook for WooCommerce:", "farazsms"),
           options: [],
-          noOptionsMessage: __("No options is avilable", "farazsms"),
+          noOptionsMessage: __("No options is available", "farazsms"),
         },
       }),
       ...(props.integratedPlugins.bookly.use && {
@@ -100,9 +100,9 @@ function Phonebook(props) {
           id: "bookly_phonebook",
           name: "bookly_phonebook",
           type: "select",
-          label: __("Choosing a phonebook for Bookley:", "farazsms"),
+          label: __("Choosing a phonebook for Bookly:", "farazsms"),
           options: [],
-          noOptionsMessage: __("No options is avilable", "farazsms"),
+          noOptionsMessage: __("No options is available", "farazsms"),
         },
       }),
       ...(props.integratedPlugins.gravityForms.use && {
@@ -114,7 +114,21 @@ function Phonebook(props) {
           type: "select",
           label: __("Select phonebook for Gravity Form:", "farazsms"),
           options: [],
-          noOptionsMessage: __("No options is avilable", "farazsms"),
+          noOptionsMessage: __("No options is available", "farazsms"),
+        },
+        gf_forms: {
+          value: [],
+          onChange: "gf_formsChange",
+          id: "gf_forms",
+          name: "gf_forms",
+          type: "select",
+          label: __("Gravity Form forms:", "farazsms"),
+          tooltip: __(
+              "In this section, you can specify the fields you want to register in the Gravity Form phonebook",
+              "farazsms"
+          ),
+          options: [],
+          noOptionsMessage: __("No options is available", "farazsms"),
         },
         gf_selected_field: {
           value: [],
@@ -122,13 +136,13 @@ function Phonebook(props) {
           id: "gf_selected_field",
           name: "gf_selected_field",
           type: "select",
-          label: __("Gravity Form Settings:", "farazsms"),
+          label: __("Gravity Form fields:", "farazsms"),
           tooltip: __(
-            "In this section, you can specify the fields you want to register in the Gravity Form phonebook",
-            "farazsms"
+              "In this section, you can specify the fields you want to register in the Gravity Form phonebook",
+              "farazsms"
           ),
           options: [],
-          noOptionsMessage: __("No options is avilable", "farazsms"),
+          noOptionsMessage: __("No options is available", "farazsms"),
         },
       }),
     },
@@ -144,7 +158,7 @@ function Phonebook(props) {
         //Init state values by action.value
         draft.inputs.custom_phonebook.value = action.value.custom_phonebook;
         draft.inputs.custom_phone_meta_keys.value =
-          action.value.custom_phone_meta_keys;
+            action.value.custom_phone_meta_keys;
         if (props.integratedPlugins.digits.use) {
           draft.inputs.digits_phonebook.value = action.value.digits_phonebook;
         }
@@ -156,6 +170,7 @@ function Phonebook(props) {
         }
         if (props.integratedPlugins.gravityForms.use) {
           draft.inputs.gf_phonebook.value = action.value.gf_phonebook;
+          draft.inputs.gf_forms.value = action.value.gf_forms;
           draft.inputs.gf_selected_field.value = action.value.gf_selected_field;
         }
 
@@ -179,8 +194,14 @@ function Phonebook(props) {
       case "custom_phone_meta_keysOptions":
         draft.inputs.custom_phone_meta_keys.options = action.value;
         return;
-      case "gf_selected_fieldOptions":
-        draft.inputs.gf_selected_field.options = action.value;
+
+      case "gf_formsOptions":
+        if (props.integratedPlugins.gravityForms.use) {
+        draft.inputs.gf_forms.options = action.value; }
+        return;
+        case "gf_selected_fieldOptions":
+          if (props.integratedPlugins.gravityForms.use) {
+        draft.inputs.gf_selected_field.options = action.value; }
         return;
       case "custom_phonebookChange":
         draft.inputs.custom_phonebook.value = action.value;
@@ -228,6 +249,61 @@ function Phonebook(props) {
   }
 
   /**
+   * Get Gravity forms from /gf/v2/forms
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function getGfForms() {
+      try {
+        const getGfForms = await AxiosWp.get("/gf/v2/forms", {});
+        console.log(getGfForms);
+        const gfFormsArrayObject = Object.keys(getGfForms.data).map((form) => ({
+          value: getGfForms.data[form].id,
+          label: getGfForms.data[form].title,
+        }));
+        dispatch({
+          type: "gf_formsOptions",
+          value: gfFormsArrayObject,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getGfForms();
+  }, []);
+
+  /**
+   * Get Gravity form filed /gf/v2/forms/1/field-filters
+   * @TODO the /1/ should be dynamic
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function getGfFormsFileds() {
+      try {
+        const getGfFormsFileds = await AxiosWp.get(
+            "/gf/v2/forms/1/field-filters",
+            {}
+        );
+        console.log(getGfFormsFileds.data);
+        const gfFormsFiledsArrayObject = Object.keys(getGfFormsFileds.data).map(
+            (field) => ({
+              value: getGfFormsFileds.data[field].key,
+              label: getGfFormsFileds.data[field].text,
+            })
+        );
+        dispatch({
+          type: "gf_selected_fieldOptions",
+          value: gfFormsFiledsArrayObject,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getGfFormsFileds();
+  }, []);
+
+  /**
    * Get options from DB rest routes
    *
    * @since 2.0.0
@@ -240,8 +316,8 @@ function Phonebook(props) {
          * endpoint and retrieve the 10 latest posts.
          */
         const getOptions = await AxiosWp.get(
-          "/farazsms/v1/phonebook_options",
-          {}
+            "/farazsms/v1/phonebook_options",
+            {}
         );
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
@@ -269,10 +345,10 @@ function Phonebook(props) {
          */
         const getUsermeta = await AxiosWp.get("/farazsms/v1/usermeta", {});
         const usermetaArrayObject = Object.keys(getUsermeta.data).map(
-          (key) => ({
-            value: getUsermeta.data[key].meta_key,
-            label: getUsermeta.data[key].meta_key,
-          })
+            (key) => ({
+              value: getUsermeta.data[key].meta_key,
+              label: getUsermeta.data[key].meta_key,
+            })
         );
         dispatch({
           type: "custom_phone_meta_keysOptions",
@@ -324,7 +400,7 @@ function Phonebook(props) {
        */
 
       const optsionsArray = Object.values(state.inputs).map(
-        ({ value, name }) => [name, value]
+          ({ value, name }) => [name, value]
       );
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
       console.log(optionsJsonForPost);
@@ -335,8 +411,8 @@ function Phonebook(props) {
         try {
           // Post Options from site DB Options table
           const postOptions = await AxiosWp.post(
-            "/farazsms/v1/phonebook_options",
-            optionsJsonForPost
+              "/farazsms/v1/phonebook_options",
+              optionsJsonForPost
           );
           dispatch({ type: "saveRequestFininshed" });
           appDispatch({
@@ -352,66 +428,66 @@ function Phonebook(props) {
   }, [state.sendCount]);
 
   return (
-    <>
-      <SectionHeader sectionName={state.sectionName} />
-      <div className="container">
-        <div className="container card bg-light mb-3 mt-1">
-          <div className="card-body">
-            <h5 className="card-title">{__("Special Offer:", "farazsms")}</h5>
-            <p className="card-text">
-              {__(
-                "If you have a physical store, use the mobile number storage device to collect your customers mobile numbers. Click on the link below to see the details",
-                "farazsms"
-              )}
-            </p>
-            <a
-              href="https://farazsms.com/pos/"
-              className="btn btn-success"
-              target="_blank"
-            >
-              {__("Buying a mobile number storage device", "farazsms")}
-            </a>
-          </div>
-        </div>
-      </div>
-      <div className="container">
-        <div className="container card bg-warning mb-3">
-          <div className="card-body">
-            <h5 className="card-title">{__("Warning:", "farazsms")}</h5>
-            <p className="card-text">
-              {__(
-                "You have not registered a phone book yet. Please create your phone book in the FarazSMS panel first.",
-                "farazsms"
-              )}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div>
-        {Object.values(state.notUsedPlugins).map((plugin) => (
-          <div key={plugin.id}>
-            <SectionError sectionName={plugin.name} />
-          </div>
-        ))}
-        <form onSubmit={handleSubmit}>
-          {Object.values(state.inputs).map((input) => (
-            <div key={input.id} className={"form-group"}>
-              <FormInput
-                {...input}
-                onChange={(selectedOption) =>
-                  dispatch({
-                    type: input.onChange,
-                    value: selectedOption,
-                  })
-                }
-              />
-              <FormInputError />
+      <>
+        <SectionHeader sectionName={state.sectionName} />
+        <div className="container">
+          <div className="container card bg-light mb-3 mt-1">
+            <div className="card-body">
+              <h5 className="card-title">{__("Special Offer:", "farazsms")}</h5>
+              <p className="card-text">
+                {__(
+                    "If you have a physical store, use the mobile number storage device to collect your customers mobile numbers. Click on the link below to see the details",
+                    "farazsms"
+                )}
+              </p>
+              <a
+                  href="https://farazsms.com/pos/"
+                  className="btn btn-success"
+                  target="_blank"
+              >
+                {__("Buying a mobile number storage device", "farazsms")}
+              </a>
             </div>
+          </div>
+        </div>
+        <div className="container">
+          <div className="container card bg-warning mb-3">
+            <div className="card-body">
+              <h5 className="card-title">{__("Warning:", "farazsms")}</h5>
+              <p className="card-text">
+                {__(
+                    "You have not registered a phone book yet. Please create your phone book in the FarazSMS panel first.",
+                    "farazsms"
+                )}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div>
+          {Object.values(state.notUsedPlugins).map((plugin) => (
+              <div key={plugin.id}>
+                <SectionError sectionName={plugin.name} />
+              </div>
           ))}
-          <SaveButton isSaving={state.isSaving} />
-        </form>
-      </div>
-    </>
+          <form onSubmit={handleSubmit}>
+            {Object.values(state.inputs).map((input) => (
+                <div key={input.id} className={"form-group"}>
+                  <FormInput
+                      {...input}
+                      onChange={(selectedOption) =>
+                          dispatch({
+                            type: input.onChange,
+                            value: selectedOption,
+                          })
+                      }
+                  />
+                  <FormInputError />
+                </div>
+            ))}
+            <SaveButton isSaving={state.isSaving} />
+          </form>
+        </div>
+      </>
   );
 }
 

@@ -260,6 +260,7 @@ class Farazsms_Routes
             'woo_phonebook'             => $data['woo_phonebook'] ? $data['woo_phonebook'] : [],
             'bookly_phonebook'          => $data['bookly_phonebook'] ? $data['bookly_phonebook'] : [],
             'gf_phonebook'              => $data['gf_phonebook'] ? $data['gf_phonebook'] : [],
+            'gf_forms'                  => $data['gf_forms'] ? $data['gf_forms'] : [],
             'gf_selected_field'         => $data['gf_selected_field'] ? $data['gf_selected_field'] : [],
         );
         $option_json = wp_json_encode($option);
