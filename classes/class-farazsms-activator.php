@@ -1,24 +1,12 @@
 <?php
 
 /**
- * Fired during plugin activation
- *
- * @link       https://farazsms.com/
- * @since      1.0.0
- *
- * @package    Farazsms
- * @subpackage Farazsms/includes
- */
-
-/**
  * Fired during plugin activation.
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
- * @since      1.0.7
  * @package    Farazsms
- * @subpackage Farazsms/includes
- * @author     FarazSMS <info@farazsms.com>
+ * @since      1.0.7
  */
 class Farazsms_Activator
 {

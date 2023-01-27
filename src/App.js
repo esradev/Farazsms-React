@@ -15,9 +15,9 @@ import StateContext from "./StateContext";
 import DispatchContext from "./DispatchContext";
 // Plugin Components
 import Header from "./components/Header";
-import FlashMessages from "./components/FlashMessages";
+import FlashMessages from "./views/FlashMessages";
 import Sidebar from "./components/Sidebar";
-import SidebarItems from "./components/SidebarItems";
+import SidebarItems from "./views/SidebarItems";
 import Footer from "./components/Footer";
 // Integration plugins logo
 import WoocommerceLogo from "../modules/farazsms/assets/images/woocommerce-logo.png";

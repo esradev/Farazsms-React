@@ -203,7 +203,6 @@ class Farazsms
 
         $plugin_admin = new Farazsms_Admin($this->get_plugin_name(), $this->get_version());
 
-        // $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'enqueue_styles');
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'admin_enqueue_scripts');
         $this->loader->add_action('admin_enqueue_scripts', $plugin_admin, 'admin_enqueue_styles');
         $this->loader->add_action('admin_menu', $plugin_admin, 'init_menu');

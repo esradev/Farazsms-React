@@ -12,10 +12,10 @@ const __ = wp.i18n.__;
  */
 import AxiosWp from "./AxiosWp";
 import DispatchContext from "../DispatchContext";
-import FormInput from "./FormInput";
-import SaveButton from "./SaveButton";
-import FormInputError from "./FormInputError";
-import SectionHeader from "./SectionHeader";
+import FormInput from "../views/FormInput";
+import SaveButton from "../views/SaveButton";
+import FormInputError from "../views/FormInputError";
+import SectionHeader from "../views/SectionHeader";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);

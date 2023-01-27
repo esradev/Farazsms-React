@@ -10,8 +10,8 @@ const __ = wp.i18n.__;
  * Import local dependencies
  */
 import DispatchContext from "../DispatchContext";
-import SectionError from "./SectionError";
-import SectionHeader from "./SectionHeader";
+import SectionError from "../views/SectionError";
+import SectionHeader from "../views/SectionHeader";
 
 function Synchronization(props) {
   const appDispatch = useContext(DispatchContext);

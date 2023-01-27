@@ -10,11 +10,11 @@ const __ = wp.i18n.__;
  * Import local dependencies
  */
 import DispatchContext from "../DispatchContext";
-import FormInput from "./FormInput";
-import SaveButton from "./SaveButton";
-import FormInputError from "./FormInputError";
+import FormInput from "../views/FormInput";
+import SaveButton from "../views/SaveButton";
+import FormInputError from "../views/FormInputError";
 import AxiosWp from "./AxiosWp";
-import SectionHeader from "./SectionHeader";
+import SectionHeader from "../views/SectionHeader";
 
 function Newsletter() {
   const appDispatch = useContext(DispatchContext);

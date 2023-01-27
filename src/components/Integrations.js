@@ -11,9 +11,9 @@ const __ = wp.i18n.__;
  */
 import AxiosWp from "./AxiosWp";
 import DispatchContext from "../DispatchContext";
-import PluginsCardCheckbox from "./PluginsCardCheckbox";
-import SaveButton from "./SaveButton";
-import SectionHeader from "./SectionHeader";
+import PluginsCardCheckbox from "../views/PluginsCardCheckbox";
+import SaveButton from "../views/SaveButton";
+import SectionHeader from "../views/SectionHeader";
 
 function Integrations(props) {
   const appDispatch = useContext(DispatchContext);

@@ -21,17 +21,17 @@ import { TbAffiliate } from "react-icons/tb";
 /**
  * Import local dependencies
  */
-import Settings from "./Settings";
-import LoginNotify from "./LoginNotify";
-import Phonebook from "./Phonebook";
-import Synchronization from "./Synchronization";
-import Comments from "./Comments";
-import WooCommerce from "./WooCommerce";
-import Edd from "./Edd";
-import Newsletter from "./Newsletter";
-import Aff from "./Aff";
-import Membership from "./Membership";
-import Integrations from "./Integrations";
+import Settings from "../components/Settings";
+import LoginNotify from "../components/LoginNotify";
+import Phonebook from "../components/Phonebook";
+import Synchronization from "../components/Synchronization";
+import Comments from "../components/Comments";
+import WooCommerce from "../components/WooCommerce";
+import Edd from "../components/Edd";
+import Newsletter from "../components/Newsletter";
+import Aff from "../components/Aff";
+import Membership from "../components/Membership";
+import Integrations from "../components/Integrations";
 
 const SidebarItems = [
   {

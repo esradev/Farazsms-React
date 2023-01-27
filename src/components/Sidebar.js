@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 /**
  * Import local dependencies
  */
-import SidebarItems from "./SidebarItems";
+import SidebarItems from "../views/SidebarItems";
 
 function Sidebar({ children }) {
   return (
