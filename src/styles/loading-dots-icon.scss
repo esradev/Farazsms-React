@@ -33,8 +33,8 @@
   -webkit-animation: opacitychange 1s ease-in-out 0.33s infinite;
   -o-animation: opacitychange 1s ease-in-out 0.33s infinite;
   animation: opacitychange 1s ease-in-out 0.33s infinite;
-  -webkit-animation-fill-mode: infinite;
-  animation-fill-mode: infinite;
+  -webkit-animation-fill-mode: initial;
+  animation-fill-mode: initial;
 }
 
 .dots-loading::after {
@@ -42,8 +42,8 @@
   -webkit-animation: opacitychange 1s ease-in-out 0.66s infinite;
   -o-animation: opacitychange 1s ease-in-out 0.66s infinite;
   animation: opacitychange 1s ease-in-out 0.66s infinite;
-  -webkit-animation-fill-mode: infinite;
-  animation-fill-mode: infinite;
+  -webkit-animation-fill-mode: initial;
+  animation-fill-mode: initial;
 }
 
 @keyframes opacitychange {

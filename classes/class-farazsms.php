@@ -175,7 +175,7 @@ class Farazsms
     }
 
     /**
-     * Define the routes for this plugin for enable REST Rpouts for API.
+     * Define the routes for this plugin for enable REST Routs for API.
      *
      * Uses the Farazsms_Routes class in order to set the routes and to register the hook
      * with WordPress.
@@ -192,7 +192,7 @@ class Farazsms
     }
 
     /**
-     * Register all of the hooks related to the admin area functionality
+     * Register all the hooks related to the admin area functionality
      * of the plugin.
      *
      * @since    1.0.0
@@ -229,7 +229,7 @@ class Farazsms
         $this->loader->add_action('manage_comments_custom_column', $plugin_admin, 'comments_fsms_table_columns_content', 10, 2);
 
         $this->loader->add_action('wp_ajax_fsms_save_edd_settings', $plugin_admin, 'ajax_save_edd_settings');
-        $this->loader->add_action('wp_ajax_nopriv_fsms_save_edd_settingss', $plugin_admin, 'ajax_save_edd_settings');
+        $this->loader->add_action('wp_ajax_nopriv_fsms_save_edd_settings', $plugin_admin, 'ajax_save_edd_settings');
 
         $this->loader->add_action('wp_ajax_fsms_save_woo_settings', $plugin_admin, 'ajax_save_woo_settings');
         $this->loader->add_action('wp_ajax_nopriv_fsms_save_woo_settings', $plugin_admin, 'ajax_save_woo_settings');
@@ -253,7 +253,7 @@ class Farazsms
     }
 
     /**
-     * Register all of the hooks related to the public-facing functionality
+     * Register all the hooks related to the public-facing functionality
      * of the plugin.
      *
      * @since    1.0.0
@@ -336,7 +336,7 @@ class Farazsms
     }
 
     /**
-     * Run the loader to execute all of the hooks with WordPress.
+     * Run the loader to execute all the hooks with WordPress.
      *
      * @since    1.0.0
      */
@@ -352,7 +352,7 @@ class Farazsms
      * @since     1.0.0
      * @return    string    The name of the plugin.
      */
-    public function get_plugin_name()
+    public function get_plugin_name(): string
     {
         return $this->plugin_name;
     }
@@ -363,7 +363,7 @@ class Farazsms
      * @since     1.0.0
      * @return    Farazsms_Loader    Orchestrates the hooks of the plugin.
      */
-    public function get_loader()
+    public function get_loader(): Farazsms_Loader
     {
         return $this->loader;
     }
@@ -374,7 +374,7 @@ class Farazsms
      * @since     1.0.0
      * @return    string    The version number of the plugin.
      */
-    public function get_version()
+    public function get_version(): string
     {
         return $this->version;
     }

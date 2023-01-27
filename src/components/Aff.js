@@ -3,7 +3,6 @@
  */
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
-import { CSSTransition } from "react-transition-group";
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
@@ -38,7 +37,7 @@ function Aff(props) {
         label: __("Select the mobile number custom field:", "farazsms"),
         rules: "aff_user_mobile_fieldRules",
         options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms"),
+        noOptionsMessage: __("No options is available", "farazsms"),
         groupTitle: __("Users settings:", "farazsms"),
       },
       aff_user_register: {
@@ -187,7 +186,7 @@ function Aff(props) {
         rules: "aff_admin_user_on_approval_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
-          "username %user_login% nickname %user_nicename% email %user_email% display name %display_name% mobile number %user_mobile% referral amount %amount%",
+          "username %user_login% nickname %user_nickname% email %user_email% display name %display_name% mobile number %user_mobile% referral amount %amount%",
           "farazsms"
         ),
       },
@@ -203,7 +202,7 @@ function Aff(props) {
 
   /**
    *
-   * ourReduser function to switch bettwen cases.
+   * ourReduser function to switch between cases.
    *
    * @since 2.0.0
    */
@@ -358,7 +357,7 @@ function Aff(props) {
       /**
        *
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        *
        * @return Object with arrays.
        */
@@ -424,7 +423,7 @@ function Aff(props) {
 
   /**
    *
-   * The Aff form created by maping over originalState.
+   * The Aff form created by mapping over originalState.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0

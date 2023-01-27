@@ -126,7 +126,7 @@ class Farazsms_Admin extends Farazsms_Base
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Comments', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/comments', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Woocommerce', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/woocommerce', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Edd', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/edd', [$this, 'admin_page']);
-        add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Newslatter', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/newsletter', [$this, 'admin_page']);
+        add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Newsletter', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/newsletter', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Affiliate', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/aff', [$this, 'admin_page']);
         add_submenu_page(FARAZSMS_SLUG, __('FarazSMS', 'farazsms'), __('Integrations', 'farazsms'), 'manage_options', FARAZSMS_SLUG . '#/integrations', [$this, 'admin_page']);
     }
@@ -185,7 +185,7 @@ class Farazsms_Admin extends Farazsms_Base
     }
 
     /**
-     * Show the leatst posts from https://farazsms.com/ on dashboard widget
+     * Show the latest posts from https://farazsms.com/ on dashboard widget
      *
      * @since    1.0.0
      */
@@ -252,7 +252,7 @@ class Farazsms_Admin extends Farazsms_Base
     // }
 
     /**
-     * Digits Synchronization whit a phonebook.
+     * Digits Synchronization with a phonebook.
      *
      * @since    1.0.0
      */
@@ -288,7 +288,7 @@ class Farazsms_Admin extends Farazsms_Base
     }
 
     /**
-     * Woocommerce Synchronization whit a phonebook.
+     * Woocommerce Synchronization with a phonebook.
      *
      * @since    1.0.0
      */
@@ -323,7 +323,7 @@ class Farazsms_Admin extends Farazsms_Base
     }
 
     /**
-     * Bookly Synchronization whit a phonebook.
+     * Bookly Synchronization with a phonebook.
      *
      * @since    1.0.0
      */
@@ -355,7 +355,7 @@ class Farazsms_Admin extends Farazsms_Base
     }
 
     /**
-     * Comments table coulums.
+     * Comments table columns.
      *
      * @since    1.0.0
      */

@@ -482,12 +482,12 @@ class Farazsms_Public extends Farazsms_Base
         if (!empty($edd_phonebooks)) {
             foreach ($edd_phonebooks as $phonebookID) {
                 //$fsms_base::save_to_phonebook($mobile, $phonebookID);
-                $datae[] = [
+                $data[] = [
                     "number" => $mobile,
                     "name"   => '',
                     "phonebook_id" => (int) $phonebookID
                 ];
-                $fsms_base->save_to_phonebookv3($datae);
+                $fsms_base->save_to_phonebookv3($data);
             }
         }
     }
@@ -1448,7 +1448,7 @@ class Farazsms_Public extends Farazsms_Base
 
     /**
      * 
-     * PMP membership membership expiry
+     * PMP membership expiry
      * 
      */
 

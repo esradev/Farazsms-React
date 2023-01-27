@@ -20,7 +20,7 @@ function Footer() {
       <p class="m-0">
         {__("Copyright", "farazsms")} &copy; {__("2022", "farazsms")}{" "}
         <a href="https://farazsms.com/" target="_blank" class="text-muted">
-          {__("FarazSMS", "farazsms")}
+          {__("Farazsms", "farazsms")}
         </a>
         {__(". All rights reserved.", "farazsms")}
       </p>

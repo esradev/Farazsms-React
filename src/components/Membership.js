@@ -144,7 +144,7 @@ function Membership(props) {
 
   /**
    *
-   * ourReduser function to switch bettwen cases.
+   * ourReduser function to switch between cases.
    *
    * @since 2.0.0
    */
@@ -261,7 +261,7 @@ function Membership(props) {
       /**
        *
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        *
        * @return Object with arrays.
        */
@@ -295,7 +295,7 @@ function Membership(props) {
 
   /**
    *
-   * The Membership form created by maping over originalState.
+   * The Membership form created by mapping over originalState.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0

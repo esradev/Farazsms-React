@@ -10825,7 +10825,7 @@ textarea.form-control-lg {
 /* ===== Variables ===== */
 /* ===== Colors ===== */ /* ===== Header ===== */
 .faraz-header {
-  font-family: IRANSans;
+  font-family: IRANSans, serif;
   display: flex;
   align-items: center;
   height: 80px;
@@ -10855,7 +10855,7 @@ textarea.form-control-lg {
   margin-right: 2.5rem;
 }
 .faraz-header .header-logo a {
-  font-family: IRANSans;
+  font-family: IRANSans, serif;
   text-decoration: none;
   display: flex;
   align-items: end;
@@ -10928,7 +10928,6 @@ textarea.form-control-lg {
 }
 .faraz-header .button {
   font: inherit;
-  color: inherit;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -10957,7 +10956,6 @@ textarea.form-control-lg {
 }
 .faraz-header .icon-button {
   font: inherit;
-  color: inherit;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -10987,7 +10985,7 @@ textarea.form-control-lg {
 
 /* ===== Floating Alert ===== */
 .floating-alert {
-  font-family: IRANSans;
+  font-family: IRANSans, serif;
   display: none;
   position: fixed;
   z-index: 999;
@@ -11029,21 +11027,21 @@ textarea.form-control-lg {
 /* ===== Variables ===== */
 /* ===== Colors ===== */ /* ===== Sidebar ===== */
 .container {
-  font-family: IRANSans;
+  font-family: IRANSans, serif;
   display: flex;
   padding-left: 0;
   padding-right: 0;
 }
 
 main {
-  font-family: IRANSans;
+  font-family: IRANSans, serif;
   width: 100%;
   padding: 20px;
   background-color: #ecf3fe;
 }
 
 .faraz-sidebar .link {
-  font-family: IRANSans;
+  font-family: IRANSans, serif;
   display: flex;
   align-items: center;
   padding: 0.75em 1em;
@@ -11070,7 +11068,7 @@ main {
 /* ===== Variables ===== */
 /* ===== Colors ===== */ /* ===== Style all forms in setting pages ===== */
 .form-group {
-  font-family: IRANSans;
+  font-family: IRANSans, serif;
   position: relative;
   margin-bottom: 20px;
 }
@@ -11171,14 +11169,11 @@ main {
 
 /* ===== Live Validate Message ===== */
 .liveValidateMessage {
-  font-family: IRANSans;
+  font-family: IRANSans, serif;
   top: -6px;
   position: absolute;
   z-index: 1;
-  padding-top: 6px;
-  padding-bottom: 16px;
-  padding-left: 0.8rem;
-  padding-right: 0.8rem;
+  padding: 6px 0.8rem 16px;
 }
 
 .liveValidateMessage--visible {
@@ -11211,7 +11206,7 @@ main {
 /* ===== Variables ===== */
 /* ===== Colors ===== */
 .card-grid {
-  font-family: IRANSans;
+  font-family: IRANSans, serif;
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   -moz-column-gap: 1.5rem;
@@ -11230,7 +11225,7 @@ main {
 }
 
 .plugins-card .plugins-card {
-  font-family: IRANSans;
+  font-family: IRANSans, serif;
   background-color: #ffffff;
   box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.05), 0 5px 15px 0 rgba(0, 0, 0, 0.05);
   border-radius: 8px;
@@ -11353,12 +11348,12 @@ main {
 
 .dots-loading div {
   animation: opacitychange 1s ease-in-out 0.33s infinite;
-  animation-fill-mode: infinite;
+  animation-fill-mode: initial;
 }
 
 .dots-loading::after {
   animation: opacitychange 1s ease-in-out 0.66s infinite;
-  animation-fill-mode: infinite;
+  animation-fill-mode: initial;
 }
 
 @keyframes opacitychange {

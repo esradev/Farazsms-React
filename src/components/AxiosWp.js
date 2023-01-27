@@ -5,7 +5,7 @@ import Axios from "axios";
 
 /**
  *
- * Create a Api object with Axios and
+ * Create an Api object with Axios and
  * configure it for the WordPress Rest Api.
  *
  * The 'farazsmsJsObject' object is injected into the page

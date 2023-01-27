@@ -93,10 +93,10 @@ function Settings() {
         id: "select_roles",
         name: "select_roles",
         type: "select",
-        label: __("Selecte rule(s):", "farazsms"),
+        label: __("Select rule(s):", "farazsms"),
         rules: "select_rolesRules",
         options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms"),
+        noOptionsMessage: __("No options is available", "farazsms"),
       },
       admin_login_notify_pattern: {
         value: "",
@@ -218,7 +218,7 @@ function Settings() {
     if (state.sendCount) {
       /**
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
       const optsionsArray = Object.values(state.inputs).map(
@@ -249,7 +249,7 @@ function Settings() {
   }, [state.sendCount]);
 
   /**
-   * Get user roules keys from DB
+   * Get user roles keys from DB
    *
    * @since 2.0.0
    */
@@ -259,20 +259,20 @@ function Settings() {
      *
      * @since 2.0.0
      */
-    const roulesObject = farazsmsJsObject.wproules.role_names;
-    const roulesArrayObject = Object.keys(roulesObject).map((key) => ({
+    const rolesObject = farazsmsJsObject.wproules.role_names;
+    const rolesArrayObject = Object.keys(rolesObject).map((key) => ({
       value: key,
-      label: roulesObject[key],
+      label: rolesObject[key],
     }));
-    console.log(roulesArrayObject);
+    console.log(rolesArrayObject);
     dispatch({
       type: "select_rolesOptions",
-      value: roulesArrayObject,
+      value: rolesArrayObject,
     });
   }, []);
 
   /**
-   * The settings form created by maping over originalState as the main state.
+   * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0

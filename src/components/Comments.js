@@ -34,7 +34,7 @@ function Comments() {
         name: "add_mobile_field",
         type: "checkbox",
         label: __(
-          "Add the mobile field to the comment submmition form?",
+          "Add the mobile field to the comment submission form?",
           "farazsms"
         ),
         rules: "add_mobile_fieldRules",
@@ -64,7 +64,7 @@ function Comments() {
         label: __("Save the phone number in the phonebook?", "farazsms"),
         rules: "comment_phonebookRules",
         options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms"),
+        noOptionsMessage: __("No options is available", "farazsms"),
       },
       comment_pattern: {
         value: "",
@@ -255,7 +255,7 @@ function Comments() {
     if (state.sendCount) {
       /**
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
 
@@ -287,7 +287,7 @@ function Comments() {
   }, [state.sendCount]);
 
   /**
-   * The settings form created by maping over originalState as the main state.
+   * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0

@@ -10267,7 +10267,6 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
-
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
@@ -10301,7 +10300,7 @@ function Aff(props) {
         label: __("Select the mobile number custom field:", "farazsms"),
         rules: "aff_user_mobile_fieldRules",
         options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms"),
+        noOptionsMessage: __("No options is available", "farazsms"),
         groupTitle: __("Users settings:", "farazsms")
       },
       aff_user_register: {
@@ -10437,7 +10436,7 @@ function Aff(props) {
         label: __("Account confirmation pattern code for cooperation in sales", "farazsms"),
         rules: "aff_admin_user_on_approval_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("username %user_login% nickname %user_nicename% email %user_email% display name %display_name% mobile number %user_mobile% referral amount %amount%", "farazsms")
+        infoBody: __("username %user_login% nickname %user_nickname% email %user_email% display name %display_name% mobile number %user_mobile% referral amount %amount%", "farazsms")
       }
     },
     isFetching: true,
@@ -10448,7 +10447,7 @@ function Aff(props) {
 
   /**
    *
-   * ourReduser function to switch bettwen cases.
+   * ourReduser function to switch between cases.
    *
    * @since 2.0.0
    */
@@ -10596,7 +10595,7 @@ function Aff(props) {
       /**
        *
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        *
        * @return Object with arrays.
        */
@@ -10664,7 +10663,7 @@ function Aff(props) {
 
   /**
    *
-   * The Aff form created by maping over originalState.
+   * The Aff form created by mapping over originalState.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
@@ -10719,7 +10718,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /**
  *
- * Create a Api object with Axios and
+ * Create an Api object with Axios and
  * configure it for the WordPress Rest Api.
  *
  * The 'farazsmsJsObject' object is injected into the page
@@ -10795,7 +10794,7 @@ function Comments() {
         id: "add_mobile_field",
         name: "add_mobile_field",
         type: "checkbox",
-        label: __("Add the mobile field to the comment submmition form?", "farazsms"),
+        label: __("Add the mobile field to the comment submission form?", "farazsms"),
         rules: "add_mobile_fieldRules"
       },
       required_mobile_field: {
@@ -10820,7 +10819,7 @@ function Comments() {
         label: __("Save the phone number in the phonebook?", "farazsms"),
         rules: "comment_phonebookRules",
         options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms")
+        noOptionsMessage: __("No options is available", "farazsms")
       },
       comment_pattern: {
         value: "",
@@ -11007,7 +11006,7 @@ function Comments() {
     if (state.sendCount) {
       /**
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
 
@@ -11043,7 +11042,7 @@ function Comments() {
   }, [state.sendCount]);
 
   /**
-   * The settings form created by maping over originalState as the main state.
+   * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
@@ -11139,7 +11138,7 @@ function Edd(props) {
         label: __("Save the phone number in the phonebook?", "farazsms"),
         rules: "edd_phonebookRules",
         options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms")
+        noOptionsMessage: __("No options is available", "farazsms")
       },
       edd_send_to_user: {
         value: "",
@@ -11316,7 +11315,7 @@ function Edd(props) {
     if (state.sendCount) {
       /**
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
 
@@ -11352,7 +11351,7 @@ function Edd(props) {
   }, [state.sendCount]);
 
   /**
-   * The settings form created by maping over originalState as the main state.
+   * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
@@ -11428,7 +11427,7 @@ function Footer() {
     href: "https://farazsms.com/",
     target: "_blank",
     class: "text-muted"
-  }, __("FarazSMS", "farazsms")), __(". All rights reserved.", "farazsms")));
+  }, __("Farazsms", "farazsms")), __(". All rights reserved.", "farazsms")));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Footer);
 
@@ -11468,7 +11467,7 @@ function Header() {
     href: "#"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     src: _modules_farazsms_assets_images_farazsms_logo_png__WEBPACK_IMPORTED_MODULE_2__
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, __("FarazSms", "farazsms")))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, __("Farazsms", "farazsms")))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "header-navigation"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("nav", {
     class: "header-navigation-links"
@@ -11588,7 +11587,7 @@ function Integrations(props) {
     if (props.sendCount) {
       /**
        * Get options uses and set "name: use" in an array.
-       * Then Convert array to key: use pair for send Axios.post request to DB.
+       * Then Convert array to key: use pair for send Axios post request to DB.
        * @return Object with arrays.
        */
 
@@ -11625,7 +11624,7 @@ function Integrations(props) {
 
   /**
    *
-   * Check user choosen plugin is installed and activated.
+   * Check user chosen plugin is installed and activated.
    *
    * @since 2.0.0
    */
@@ -11664,7 +11663,7 @@ function Integrations(props) {
   });
 
   /**
-   * The settings form created by maping over originalState as the main state.
+   * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
@@ -11819,10 +11818,10 @@ function Settings() {
         id: "select_roles",
         name: "select_roles",
         type: "select",
-        label: __("Selecte rule(s):", "farazsms"),
+        label: __("Select rule(s):", "farazsms"),
         rules: "select_rolesRules",
         options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms")
+        noOptionsMessage: __("No options is available", "farazsms")
       },
       admin_login_notify_pattern: {
         value: "",
@@ -11935,7 +11934,7 @@ function Settings() {
     if (state.sendCount) {
       /**
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
       const optsionsArray = Object.values(state.inputs).map(_ref => {
@@ -11970,7 +11969,7 @@ function Settings() {
   }, [state.sendCount]);
 
   /**
-   * Get user roules keys from DB
+   * Get user roles keys from DB
    *
    * @since 2.0.0
    */
@@ -11980,20 +11979,20 @@ function Settings() {
      *
      * @since 2.0.0
      */
-    const roulesObject = farazsmsJsObject.wproules.role_names;
-    const roulesArrayObject = Object.keys(roulesObject).map(key => ({
+    const rolesObject = farazsmsJsObject.wproules.role_names;
+    const rolesArrayObject = Object.keys(rolesObject).map(key => ({
       value: key,
-      label: roulesObject[key]
+      label: rolesObject[key]
     }));
-    console.log(roulesArrayObject);
+    console.log(rolesArrayObject);
     dispatch({
       type: "select_rolesOptions",
-      value: roulesArrayObject
+      value: rolesArrayObject
     });
   }, []);
 
   /**
-   * The settings form created by maping over originalState as the main state.
+   * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
@@ -12177,7 +12176,7 @@ function Membership(props) {
 
   /**
    *
-   * ourReduser function to switch bettwen cases.
+   * ourReduser function to switch between cases.
    *
    * @since 2.0.0
    */
@@ -12291,7 +12290,7 @@ function Membership(props) {
       /**
        *
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        *
        * @return Object with arrays.
        */
@@ -12329,7 +12328,7 @@ function Membership(props) {
 
   /**
    *
-   * The Membership form created by maping over originalState.
+   * The Membership form created by mapping over originalState.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
@@ -12426,7 +12425,7 @@ function Newsletter() {
         label: __("Select phone book for newsletter", "farazsms"),
         rules: "news_phonebookRules",
         options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms")
+        noOptionsMessage: __("No options is available", "farazsms")
       },
       news_send_verify_via_pattern: {
         value: "",
@@ -12687,7 +12686,7 @@ function Newsletter() {
     if (state.sendCount) {
       /**
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
 
@@ -12723,7 +12722,7 @@ function Newsletter() {
   }, [state.sendCount]);
 
   /**
-   * The settings form created by maping over originalState as the main state.
+   * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
@@ -12928,6 +12927,8 @@ function Phonebook(props) {
   };
   function ourReduser(draft, action) {
     switch (action.type) {
+      case "fetchIntegrationsOptions":
+        return;
       case "fetchComplete":
         //Init state values by action.value
         draft.inputs.custom_phonebook.value = action.value.custom_phonebook;
@@ -13024,6 +13025,35 @@ function Phonebook(props) {
   }
 
   /**
+   *
+   * Get integrations options from DB on integrations component loaded
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getIntegrationsOptions() {
+      try {
+        /*
+         * Use the AxiosWp object to call the /farazsms/v1/farazsms_integrations_options
+         * endpoint and retrieve the 10 latest posts.
+         */
+        const getIntegrationsOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/integrations_options", {});
+        if (getIntegrationsOptions.data) {
+          const optionsJson = JSON.parse(getIntegrationsOptions.data);
+          console.log(optionsJson);
+          dispatch({
+            type: "fetchIntegrationsOptions",
+            value: optionsJson
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getIntegrationsOptions();
+  }, []);
+
+  /**
    * Get Gravity forms from /gf/v2/forms
    *
    * @since 2.0.0
@@ -13050,7 +13080,7 @@ function Phonebook(props) {
 
   /**
    * Get Gravity form filed /gf/v2/forms/1/field-filters
-   * @TODO the /1/ should be dynamic
+   * TODO:: the /1/ should be dynamic form id selected from previous input filed
    * @since 2.0.0
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
@@ -13168,7 +13198,7 @@ function Phonebook(props) {
     if (state.sendCount) {
       /**
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
 
@@ -13583,7 +13613,7 @@ function Settings() {
     if (state.sendCount) {
       /**
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
 
@@ -13620,7 +13650,7 @@ function Settings() {
 
   // /**
   //  *
-  //  * Validate Apikey, check if the Apikey is exist on Ippanel.
+  //  * Validate Apikey, check if the Apikey is existing on Ippanel.
   //  *
   //  * @since 2.0.0
   //  */
@@ -13739,7 +13769,7 @@ function Settings() {
   }, [state.inputs.admin_number.value]);
 
   /**
-   * The settings form created by maping over originalState as the main state.
+   * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
@@ -14123,7 +14153,7 @@ function Woocommerce(props) {
     if (state.sendCount) {
       /**
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
 
@@ -14159,7 +14189,7 @@ function Woocommerce(props) {
   }, [state.sendCount]);
 
   /**
-   * The settings form created by maping over originalState as the main state.
+   * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0

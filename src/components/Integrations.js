@@ -81,7 +81,7 @@ function Integrations(props) {
     if (props.sendCount) {
       /**
        * Get options uses and set "name: use" in an array.
-       * Then Convert array to key: use pair for send Axios.post request to DB.
+       * Then Convert array to key: use pair for send Axios post request to DB.
        * @return Object with arrays.
        */
 
@@ -115,7 +115,7 @@ function Integrations(props) {
 
   /**
    *
-   * Check user choosen plugin is installed and activated.
+   * Check user chosen plugin is installed and activated.
    *
    * @since 2.0.0
    */
@@ -156,7 +156,7 @@ function Integrations(props) {
   });
 
   /**
-   * The settings form created by maping over originalState as the main state.
+   * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0

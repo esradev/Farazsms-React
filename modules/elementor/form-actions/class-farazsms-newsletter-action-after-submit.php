@@ -95,7 +95,7 @@ class Farazsms_Newsletter_Action_After_Submit extends \ElementorPro\Modules\Form
                 "sms_to_visitor" => "yes",
             ],
             "description" => esc_html__(
-                "Find the firld id in each of form fields in the advanced tab.",
+                "Find the field id in each of form fields in the advanced tab.",
                 "farazsms"
             ),
         ]);

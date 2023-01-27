@@ -199,7 +199,7 @@ function Woocommerce(props) {
     if (state.sendCount) {
       /**
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
 
@@ -231,7 +231,7 @@ function Woocommerce(props) {
   }, [state.sendCount]);
 
   /**
-   * The settings form created by maping over originalState as the main state.
+   * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0

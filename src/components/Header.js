@@ -20,7 +20,7 @@ function Header() {
             <div>
               <img src={FarazsmsLogo} />
             </div>
-            <h2>{__("FarazSms", "farazsms")}</h2>
+            <h2>{__("Farazsms", "farazsms")}</h2>
           </a>
         </div>
         <div class="header-navigation">

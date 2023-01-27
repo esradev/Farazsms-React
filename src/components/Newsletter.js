@@ -36,7 +36,7 @@ function Newsletter() {
         label: __("Select phone book for newsletter", "farazsms"),
         rules: "news_phonebookRules",
         options: [],
-        noOptionsMessage: __("No options is avilable", "farazsms"),
+        noOptionsMessage: __("No options is available", "farazsms"),
       },
       news_send_verify_via_pattern: {
         value: "",
@@ -312,7 +312,7 @@ function Newsletter() {
     if (state.sendCount) {
       /**
        * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios.post request to DB.
+       * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
 
@@ -344,7 +344,7 @@ function Newsletter() {
   }, [state.sendCount]);
 
   /**
-   * The settings form created by maping over originalState as the main state.
+   * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0

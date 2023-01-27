@@ -2,7 +2,7 @@
 
 /* ===== Header ===== */
 .faraz-header {
-  font-family: IRANSans;
+  font-family: IRANSans, serif;
   display: flex;
   align-items: center;
   height: 80px;
@@ -30,7 +30,7 @@
   .header-logo {
     margin-right: 2.5rem;
     a {
-      font-family: IRANSans;
+      font-family: IRANSans, serif;
       text-decoration: none;
       display: flex;
       align-items: end;
@@ -111,7 +111,7 @@
 
   .button {
     font: inherit;
-    color: inherit;
+
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -145,7 +145,6 @@
 
   .icon-button {
     font: inherit;
-    color: inherit;
     text-decoration: none;
     display: inline-flex;
     align-items: center;

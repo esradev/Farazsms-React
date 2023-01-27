@@ -629,7 +629,7 @@ if (!class_exists('Farazsms_Base')) {
 
         /**
          * 
-         * Send comment replgy sms.
+         * Send comment replay sms.
          * 
          */
 
@@ -665,7 +665,7 @@ if (!class_exists('Farazsms_Base')) {
 
         /**
          * 
-         * Send comment replgy sms to admin
+         * Send comment replay sms to admin
          * 
          */
 
@@ -857,7 +857,7 @@ if (!class_exists('Farazsms_Base')) {
 
         /**
          * 
-         * Send newsletter verifiacation code.
+         * Send newsletter verification code.
          * 
          */
 
@@ -1044,7 +1044,7 @@ if (!class_exists('Farazsms_Base')) {
 
         /**
          * 
-         * Send admins login notification to superadmin.
+         * Send admins login notification to super admin.
          * 
          */
 
