@@ -1,0 +1,21 @@
+{
+    "name": "wpstorm/farazsms",
+    "description": "Farazsms plugin.",
+    "type": "wordpress-plugin",
+    "require": {
+        "squizlabs/php_codesniffer": "^3.7",
+        "wp-coding-standards/wpcs": "2.3.0",
+        "dealerdirect/phpcodesniffer-composer-installer": "^1.0"
+    },
+    "license": "GPL v2.0",
+    "authors": [
+        {
+            "name": "wpstorm"
+        }
+    ],
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

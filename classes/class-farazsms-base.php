@@ -6,13 +6,13 @@
  *
  * @package    Farazsms
  * @subpackage Farazsms/includes
- * 
+ *
  */
 
 /**
- * 
+ *
  * Load IPPanel autoload file.
- * 
+ *
  */
 
 require 'vendor/autoload.php';

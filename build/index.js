@@ -10253,7 +10253,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
@@ -10568,7 +10568,7 @@ function Aff(props) {
     async function getOptions() {
       try {
         // Use the AxiosWp object to call the /farazsms/v1/farazsms_aff_options
-        const getOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/aff_options", {});
+        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/aff_options", {});
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
           console.log(optionsJson);
@@ -10615,7 +10615,7 @@ function Aff(props) {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/aff_options", optionsJsonForPost);
+          const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/aff_options", optionsJsonForPost);
           dispatch({
             type: "saveRequestFininshed"
           });
@@ -10643,7 +10643,7 @@ function Aff(props) {
          * Use the AxiosWp object to call the /farazsms/v1/farazsms_usermeta
          * endpoint and retrieve the 10 latest posts.
          */
-        const getUsermeta = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/usermeta", {});
+        const getUsermeta = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/usermeta", {});
         console.log(getUsermeta.data);
         const usermetaArrayObject = Object.keys(getUsermeta.data).map(key => ({
           value: getUsermeta.data[key].meta_key,
@@ -10702,42 +10702,6 @@ function Aff(props) {
 
 /***/ }),
 
-/***/ "./src/components/AxiosWp.js":
-/*!***********************************!*\
-  !*** ./src/components/AxiosWp.js ***!
-  \***********************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
-/**
- * Import remote dependencies.
- */
-
-
-/**
- *
- * Create an Api object with Axios and
- * configure it for the WordPress Rest Api.
- *
- * The 'farazsmsJsObject' object is injected into the page
- * using the WordPress wp_localize_script function.
- *
- * @see https://since1979.dev/snippet-014-setup-axios-for-the-wordpress-rest-api/
- * @since 2.0.0
- */
-const AxiosWp = axios__WEBPACK_IMPORTED_MODULE_0__["default"].create({
-  baseURL: farazsmsJsObject.rootapiurl,
-  headers: {
-    "content-type": "application/json",
-    "X-WP-Nonce": farazsmsJsObject.nonce
-  }
-});
-/* harmony default export */ __webpack_exports__["default"] = (AxiosWp);
-
-/***/ }),
-
 /***/ "./src/components/Comments.js":
 /*!************************************!*\
   !*** ./src/components/Comments.js ***!
@@ -10756,7 +10720,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 
 
@@ -10987,7 +10951,7 @@ function Comments() {
     async function getOptions() {
       try {
         // Get Options from site DB Options table
-        const getOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/comments_options");
+        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/comments_options");
         if (getOptions.data) {
           const optsionsJson = JSON.parse(getOptions.data);
           console.log(optsionsJson);
@@ -11025,7 +10989,7 @@ function Comments() {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/comments_options", optionsJsonForPost);
+          const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/comments_options", optionsJsonForPost);
           dispatch({
             type: "saveRequestFininshed"
           });
@@ -11095,7 +11059,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
 
@@ -11296,7 +11260,7 @@ function Edd(props) {
     async function getOptions() {
       try {
         // Get Options from site DB Options table
-        const getOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/edd_options");
+        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/edd_options");
         if (getOptions.data) {
           const optsionsJson = JSON.parse(getOptions.data);
           console.log(optsionsJson);
@@ -11334,7 +11298,7 @@ function Edd(props) {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/edd_options", optionsJsonForPost);
+          const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/edd_options", optionsJsonForPost);
           dispatch({
             type: "saveRequestFininshed"
           });
@@ -11499,7 +11463,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_PluginsCardCheckbox__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/PluginsCardCheckbox */ "./src/views/PluginsCardCheckbox.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
@@ -11561,7 +11525,7 @@ function Integrations(props) {
          * Use the AxiosWp object to call the /farazsms/v1/farazsms_integrations_options
          * endpoint and retrieve the 10 latest posts.
          */
-        const getOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/integrations_options", {});
+        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/integrations_options", {});
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
           console.log(optionsJson);
@@ -11606,7 +11570,7 @@ function Integrations(props) {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/integrations_options", optionsJsonForPost);
+          const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/integrations_options", optionsJsonForPost);
           appDispatch({
             type: "saveRequestFininshed"
           });
@@ -11636,7 +11600,7 @@ function Integrations(props) {
         if (plugin.use) {
           async function checkPlugin() {
             try {
-              const getPlugins = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/wp/v2/plugins", {});
+              const getPlugins = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/wp/v2/plugins", {});
               console.log(getPlugins);
               if (getPlugins.data) {
                 const findPlugin = getPlugins.data.find(element => element.plugin === plugin.plugin);
@@ -11723,7 +11687,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 
 
@@ -11915,7 +11879,7 @@ function Settings() {
     async function getOptions() {
       try {
         // Get Options from site DB Options table
-        const getOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/login_notify_options");
+        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/login_notify_options");
         if (getOptions.data) {
           const optsionsJson = JSON.parse(getOptions.data);
           console.log(optsionsJson);
@@ -11952,7 +11916,7 @@ function Settings() {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/login_notify_options", optionsJsonForPost);
+          const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/login_notify_options", optionsJsonForPost);
           dispatch({
             type: "saveRequestFininshed"
           });
@@ -12041,7 +12005,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
@@ -12263,7 +12227,7 @@ function Membership(props) {
     async function getOptions() {
       try {
         // Use the AxiosWp object to call the /farazsms/v1/farazsms_membership_options
-        const getOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/membership_options", {});
+        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/membership_options", {});
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
           console.log(optionsJson);
@@ -12310,7 +12274,7 @@ function Membership(props) {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/membership_options", optionsJsonForPost);
+          const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/membership_options", optionsJsonForPost);
           dispatch({
             type: "saveRequestFininshed"
           });
@@ -12384,7 +12348,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 
 
@@ -12667,7 +12631,7 @@ function Newsletter() {
     async function getOptions() {
       try {
         // Get Options from site DB Options table
-        const getOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/newsletter_options");
+        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/newsletter_options");
         if (getOptions.data) {
           const optsionsJson = JSON.parse(getOptions.data);
           console.log(optsionsJson);
@@ -12705,7 +12669,7 @@ function Newsletter() {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/newsletter_options", optionsJsonForPost);
+          const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/newsletter_options", optionsJsonForPost);
           dispatch({
             type: "saveRequestFininshed"
           });
@@ -12771,7 +12735,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
@@ -13037,7 +13001,7 @@ function Phonebook(props) {
          * Use the AxiosWp object to call the /farazsms/v1/farazsms_integrations_options
          * endpoint and retrieve the 10 latest posts.
          */
-        const getIntegrationsOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/integrations_options", {});
+        const getIntegrationsOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/integrations_options", {});
         if (getIntegrationsOptions.data) {
           const optionsJson = JSON.parse(getIntegrationsOptions.data);
           console.log(optionsJson);
@@ -13061,7 +13025,7 @@ function Phonebook(props) {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getGfForms() {
       try {
-        const getGfForms = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/gf/v2/forms", {});
+        const getGfForms = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/gf/v2/forms", {});
         console.log(getGfForms);
         const gfFormsArrayObject = Object.keys(getGfForms.data).map(form => ({
           value: getGfForms.data[form].id,
@@ -13077,6 +13041,25 @@ function Phonebook(props) {
     }
     getGfForms();
   }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function wooCustomerPhoneNum() {
+      try {
+        // Get Options from site DB Options table
+        const wooCustomerPhoneNum = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/wc/v3/customers");
+        if (wooCustomerPhoneNum.data) {
+          const optsionsJson = wooCustomerPhoneNum.data;
+          console.log(optsionsJson);
+          dispatch({
+            type: "fetchComplete",
+            value: optsionsJson
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    wooCustomerPhoneNum();
+  }, []);
 
   /**
    * Get Gravity form filed /gf/v2/forms/1/field-filters
@@ -13086,7 +13069,7 @@ function Phonebook(props) {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getGfFormsFileds() {
       try {
-        const getGfFormsFileds = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/gf/v2/forms/1/field-filters", {});
+        const getGfFormsFileds = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/gf/v2/forms/1/field-filters", {});
         console.log(getGfFormsFileds.data);
         const gfFormsFiledsArrayObject = Object.keys(getGfFormsFileds.data).map(field => ({
           value: getGfFormsFileds.data[field].key,
@@ -13115,7 +13098,7 @@ function Phonebook(props) {
          * Use the AxiosWp object to call the /farazsms/v1/farazsms_phonebook_options
          * endpoint and retrieve the 10 latest posts.
          */
-        const getOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/phonebook_options", {});
+        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/phonebook_options", {});
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
           console.log(optionsJson);
@@ -13143,7 +13126,7 @@ function Phonebook(props) {
          * Use the AxiosWp object to call the /farazsms/v1/farazsms_usermeta
          * endpoint and retrieve the 10 latest posts.
          */
-        const getUsermeta = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/usermeta", {});
+        const getUsermeta = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/usermeta", {});
         const usermetaArrayObject = Object.keys(getUsermeta.data).map(key => ({
           value: getUsermeta.data[key].meta_key,
           label: getUsermeta.data[key].meta_key
@@ -13217,7 +13200,7 @@ function Phonebook(props) {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/phonebook_options", optionsJsonForPost);
+          const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/phonebook_options", optionsJsonForPost);
           dispatch({
             type: "saveRequestFininshed"
           });
@@ -13294,7 +13277,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
@@ -13587,7 +13570,7 @@ function Settings() {
          * Use the AxiosWp object to call the /farazsms/v1/farazsms_settings_options
          * endpoint and retrieve the 10 latest posts.
          */
-        const getOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/settings_options", {});
+        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/settings_options", {});
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
           console.log(optionsJson);
@@ -13632,7 +13615,7 @@ function Settings() {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/settings_options", optionsJsonForPost);
+          const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/settings_options", optionsJsonForPost);
           dispatch({
             type: "saveRequestFininshed"
           });
@@ -13963,7 +13946,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./AxiosWp */ "./src/components/AxiosWp.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
 
@@ -14134,7 +14117,7 @@ function Woocommerce(props) {
     async function getOptions() {
       try {
         // Get Options from site DB Options table
-        const getOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/woocommerce_options");
+        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/woocommerce_options");
         if (getOptions.data) {
           const optsionsJson = JSON.parse(getOptions.data);
           console.log(optsionsJson);
@@ -14172,7 +14155,7 @@ function Woocommerce(props) {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await _AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/woocommerce_options", optionsJsonForPost);
+          const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/woocommerce_options", optionsJsonForPost);
           dispatch({
             type: "saveRequestFininshed"
           });
@@ -14226,6 +14209,42 @@ function Woocommerce(props) {
   }
 }
 /* harmony default export */ __webpack_exports__["default"] = (Woocommerce);
+
+/***/ }),
+
+/***/ "./src/function/AxiosWp.js":
+/*!*********************************!*\
+  !*** ./src/function/AxiosWp.js ***!
+  \*********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/**
+ * Import remote dependencies.
+ */
+
+
+/**
+ *
+ * Create an Api object with Axios and
+ * configure it for the WordPress Rest Api.
+ *
+ * The 'farazsmsJsObject' object is injected into the page
+ * using the WordPress wp_localize_script function.
+ *
+ * @see https://since1979.dev/snippet-014-setup-axios-for-the-wordpress-rest-api/
+ * @since 2.0.0
+ */
+const AxiosWp = axios__WEBPACK_IMPORTED_MODULE_0__["default"].create({
+  baseURL: farazsmsJsObject.rootapiurl,
+  headers: {
+    "content-type": "application/json",
+    "X-WP-Nonce": farazsmsJsObject.nonce
+  }
+});
+/* harmony default export */ __webpack_exports__["default"] = (AxiosWp);
 
 /***/ }),
 

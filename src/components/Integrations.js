@@ -9,7 +9,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
-import AxiosWp from "./AxiosWp";
+import AxiosWp from "../function/AxiosWp";
 import DispatchContext from "../DispatchContext";
 import PluginsCardCheckbox from "../views/PluginsCardCheckbox";
 import SaveButton from "../views/SaveButton";

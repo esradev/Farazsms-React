@@ -13,7 +13,7 @@ import DispatchContext from "../DispatchContext";
 import FormInput from "../views/FormInput";
 import SaveButton from "../views/SaveButton";
 import FormInputError from "../views/FormInputError";
-import AxiosWp from "./AxiosWp";
+import AxiosWp from "../function/AxiosWp";
 import SectionHeader from "../views/SectionHeader";
 
 function Comments() {
