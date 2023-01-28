@@ -12,6 +12,7 @@ const __ = wp.i18n.__;
 import DispatchContext from "../DispatchContext";
 import SectionError from "../views/SectionError";
 import SectionHeader from "../views/SectionHeader";
+import AxiosWp from "../function/AxiosWp";
 
 function Synchronization(props) {
   const appDispatch = useContext(DispatchContext);
@@ -20,6 +21,30 @@ function Synchronization(props) {
   };
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
   function ourReduser(draft, action) {}
+
+  /**
+   * Bookly Sync function
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function wooCustomerPhoneNum() {
+      try {
+        // Get CustomerPhoneNum from site DB Options table
+        const wooCustomerPhoneNum = await AxiosWp.get("/wc/v3/customers");
+        if (wooCustomerPhoneNum.data) {
+          const customerArr = wooCustomerPhoneNum.data;
+          const customerNumArr = customerArr.map((customer) => {
+            return customer.billing.phone;
+          });
+          console.log(customerNumArr);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    wooCustomerPhoneNum();
+  }, []);
 
   /**
    * Bookly Sync function

@@ -44,35 +44,6 @@ function Integrations(props) {
 
   /**
    *
-   * Get integrations options from DB on integrations component loaded
-   *
-   * @since 2.0.0
-   */
-  useEffect(() => {
-    async function getOptions() {
-      try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_integrations_options
-         * endpoint and retrieve the 10 latest posts.
-         */
-        const getOptions = await AxiosWp.get(
-          "/farazsms/v1/integrations_options",
-          {}
-        );
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          console.log(optionsJson);
-          appDispatch({ type: "fetchComplete", value: optionsJson });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getOptions();
-  }, []);
-
-  /**
-   *
    * Save settings options on DB when saveRequestFininshed = true
    *
    * @since 2.0.0

@@ -9826,9 +9826,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _StateContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StateContext */ "./src/StateContext.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Header */ "./src/components/Header.js");
@@ -9847,6 +9847,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_farazsms_assets_images_ultimateaffiliatepro_logo_png__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../modules/farazsms/assets/images/ultimateaffiliatepro-logo.png */ "./modules/farazsms/assets/images/ultimateaffiliatepro-logo.png");
 /* harmony import */ var _modules_farazsms_assets_images_yithwoocommerceaffiliates_logo_png__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../modules/farazsms/assets/images/yithwoocommerceaffiliates-logo.png */ "./modules/farazsms/assets/images/yithwoocommerceaffiliates-logo.png");
 /* harmony import */ var _modules_farazsms_assets_images_elementor_logo_png__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../modules/farazsms/assets/images/elementor-logo.png */ "./modules/farazsms/assets/images/elementor-logo.png");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./function/AxiosWp */ "./src/function/AxiosWp.js");
 
 /**
  * Import remote dependencies.
@@ -9870,6 +9871,7 @@ const __ = wp.i18n.__;
 
 
 // Integration plugins logo
+
 
 
 
@@ -10187,14 +10189,43 @@ function App() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_20__.useImmerReducer)(ourReducer, initialState);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_21__.HashRouter, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_StateContext__WEBPACK_IMPORTED_MODULE_2__["default"].Provider, {
+
+  /**
+   *
+   * Get integrations options from DB on integrations component loaded
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    async function getOptions() {
+      try {
+        /*
+         * Use the AxiosWp object to call the /farazsms/v1/farazsms_integrations_options
+         * endpoint and retrieve the 10 latest posts.
+         */
+        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_20__["default"].get("/farazsms/v1/integrations_options", {});
+        if (getOptions.data) {
+          const optionsJson = JSON.parse(getOptions.data);
+          console.log(optionsJson);
+          dispatch({
+            type: "fetchComplete",
+            value: optionsJson
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getOptions();
+  }, []);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_21__.useImmerReducer)(ourReducer, initialState);
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_22__.HashRouter, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_StateContext__WEBPACK_IMPORTED_MODULE_2__["default"].Provider, {
     value: state
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"].Provider, {
     value: dispatch
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Header__WEBPACK_IMPORTED_MODULE_4__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_FlashMessages__WEBPACK_IMPORTED_MODULE_5__["default"], {
     messages: state.flashMessages
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_22__.Routes, null, _views_SidebarItems__WEBPACK_IMPORTED_MODULE_7__["default"].map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_22__.Route, {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_23__.Routes, null, _views_SidebarItems__WEBPACK_IMPORTED_MODULE_7__["default"].map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_23__.Route, {
     key: index,
     path: item.path,
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(item.element, {
@@ -11511,35 +11542,6 @@ function Integrations(props) {
       type: "submitOptions"
     });
   }
-
-  /**
-   *
-   * Get integrations options from DB on integrations component loaded
-   *
-   * @since 2.0.0
-   */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getOptions() {
-      try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_integrations_options
-         * endpoint and retrieve the 10 latest posts.
-         */
-        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/integrations_options", {});
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          console.log(optionsJson);
-          appDispatch({
-            type: "fetchComplete",
-            value: optionsJson
-          });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getOptions();
-  }, []);
 
   /**
    *
@@ -13041,25 +13043,6 @@ function Phonebook(props) {
     }
     getGfForms();
   }, []);
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function wooCustomerPhoneNum() {
-      try {
-        // Get Options from site DB Options table
-        const wooCustomerPhoneNum = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/wc/v3/customers");
-        if (wooCustomerPhoneNum.data) {
-          const optsionsJson = wooCustomerPhoneNum.data;
-          console.log(optsionsJson);
-          dispatch({
-            type: "fetchComplete",
-            value: optsionsJson
-          });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    wooCustomerPhoneNum();
-  }, []);
 
   /**
    * Get Gravity form filed /gf/v2/forms/1/field-filters
@@ -13851,10 +13834,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 
 /**
  * Import remote dependencies.
@@ -13870,13 +13854,38 @@ const __ = wp.i18n.__;
 
 
 
+
 function Synchronization(props) {
   const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
   const originalState = {
     sectionName: __("Synchronization", "farazsms")
   };
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_5__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_6__.useImmerReducer)(ourReduser, originalState);
   function ourReduser(draft, action) {}
+
+  /**
+   * Bookly Sync function
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    async function wooCustomerPhoneNum() {
+      try {
+        // Get CustomerPhoneNum from site DB Options table
+        const wooCustomerPhoneNum = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].get("/wc/v3/customers");
+        if (wooCustomerPhoneNum.data) {
+          const customerArr = wooCustomerPhoneNum.data;
+          const customerNumArr = customerArr.map(customer => {
+            return customer.billing.phone;
+          });
+          console.log(customerNumArr);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    wooCustomerPhoneNum();
+  }, []);
 
   /**
    * Bookly Sync function

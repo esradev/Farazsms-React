@@ -1,7 +1,7 @@
 /**
  * Import remote dependencies.
  */
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useEffect } from "react";
 import { useImmerReducer } from "use-immer";
 import { HashRouter, Route, Routes } from "react-router-dom";
 const __ = wp.i18n.__;
@@ -31,6 +31,7 @@ import AffiliateWpLogo from "../modules/farazsms/assets/images/affiliatewp-logo.
 import IndeedAffiliateProLogo from "../modules/farazsms/assets/images/ultimateaffiliatepro-logo.png";
 import YithWoocommerceAffiliatesLogo from "../modules/farazsms/assets/images/yithwoocommerceaffiliates-logo.png";
 import ElementorLogo from "../modules/farazsms/assets/images/elementor-logo.png";
+import AxiosWp from "./function/AxiosWp";
 
 function App() {
   const initialState = {
@@ -369,6 +370,35 @@ function App() {
         return;
     }
   }
+
+  /**
+   *
+   * Get integrations options from DB on integrations component loaded
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function getOptions() {
+      try {
+        /*
+         * Use the AxiosWp object to call the /farazsms/v1/farazsms_integrations_options
+         * endpoint and retrieve the 10 latest posts.
+         */
+        const getOptions = await AxiosWp.get(
+          "/farazsms/v1/integrations_options",
+          {}
+        );
+        if (getOptions.data) {
+          const optionsJson = JSON.parse(getOptions.data);
+          console.log(optionsJson);
+          dispatch({ type: "fetchComplete", value: optionsJson });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getOptions();
+  }, []);
 
   const [state, dispatch] = useImmerReducer(ourReducer, initialState);
 

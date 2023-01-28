@@ -306,23 +306,6 @@ function Phonebook(props) {
     getGfForms();
   }, []);
 
-  useEffect(() => {
-    async function wooCustomerPhoneNum() {
-      try {
-        // Get Options from site DB Options table
-        const wooCustomerPhoneNum = await AxiosWp.get("/wc/v3/customers");
-        if (wooCustomerPhoneNum.data) {
-          const optsionsJson = wooCustomerPhoneNum.data;
-          console.log(optsionsJson);
-          dispatch({ type: "fetchComplete", value: optsionsJson });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    wooCustomerPhoneNum();
-  }, []);
-
   /**
    * Get Gravity form filed /gf/v2/forms/1/field-filters
    * TODO:: the /1/ should be dynamic form id selected from previous input filed
