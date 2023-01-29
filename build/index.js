@@ -8984,9 +8984,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 const _excluded = ["as", "disabled"];
-
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
 
 
 function isTrivialHref(href) {
@@ -9010,47 +9008,38 @@ function useButtonProps({
       tagName = 'button';
     }
   }
-
   const meta = {
     tagName
   };
-
   if (tagName === 'button') {
     return [{
       type: type || 'button',
       disabled
     }, meta];
   }
-
   const handleClick = event => {
     if (disabled || tagName === 'a' && isTrivialHref(href)) {
       event.preventDefault();
     }
-
     if (disabled) {
       event.stopPropagation();
       return;
     }
-
     onClick == null ? void 0 : onClick(event);
   };
-
   const handleKeyDown = event => {
     if (event.key === ' ') {
       event.preventDefault();
       handleClick(event);
     }
   };
-
   if (tagName === 'a') {
     // Ensure there's a href so Enter can trigger anchor button.
     href || (href = '#');
-
     if (disabled) {
       href = undefined;
     }
   }
-
   return [{
     role: role != null ? role : 'button',
     // explicitly undefined so that it overrides the props disabled in a spread
@@ -9067,11 +9056,10 @@ function useButtonProps({
 }
 const Button = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.forwardRef((_ref, ref) => {
   let {
-    as: asProp,
-    disabled
-  } = _ref,
-      props = _objectWithoutPropertiesLoose(_ref, _excluded);
-
+      as: asProp,
+      disabled
+    } = _ref,
+    props = _objectWithoutPropertiesLoose(_ref, _excluded);
   const [buttonProps, {
     tagName: Component
   }] = useButtonProps(Object.assign({
@@ -9084,6 +9072,164 @@ const Button = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.forwardRef((_ref,
 });
 Button.displayName = 'Button';
 /* harmony default export */ __webpack_exports__["default"] = (Button);
+
+/***/ }),
+
+/***/ "./node_modules/@restart/ui/esm/ImperativeTransition.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@restart/ui/esm/ImperativeTransition.js ***!
+  \**************************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ ImperativeTransition; },
+/* harmony export */   "renderTransition": function() { return /* binding */ renderTransition; },
+/* harmony export */   "useTransition": function() { return /* binding */ useTransition; }
+/* harmony export */ });
+/* harmony import */ var _restart_hooks_useMergedRefs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @restart/hooks/useMergedRefs */ "./node_modules/@restart/hooks/esm/useMergedRefs.js");
+/* harmony import */ var _restart_hooks_useEventCallback__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @restart/hooks/useEventCallback */ "./node_modules/@restart/hooks/esm/useEventCallback.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _NoopTransition__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./NoopTransition */ "./node_modules/@restart/ui/esm/NoopTransition.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+function useTransition({
+  in: inProp,
+  onTransition
+}) {
+  const ref = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(null);
+  const isInitialRef = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(true);
+  const handleTransition = (0,_restart_hooks_useEventCallback__WEBPACK_IMPORTED_MODULE_1__["default"])(onTransition);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (!ref.current) {
+      return undefined;
+    }
+    let stale = false;
+    handleTransition({
+      in: inProp,
+      element: ref.current,
+      initial: isInitialRef.current,
+      isStale: () => stale
+    });
+    return () => {
+      stale = true;
+    };
+  }, [inProp, handleTransition]);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    isInitialRef.current = false;
+    // this is for strict mode
+    return () => {
+      isInitialRef.current = true;
+    };
+  }, []);
+  return ref;
+}
+/**
+ * Adapts an imperative transition function to a subset of the RTG `<Transition>` component API.
+ *
+ * ImperativeTransition does not support mounting options or `appear` at the moment, meaning
+ * that it always acts like: `mountOnEnter={true} unmountOnExit={true} appear={true}`
+ */
+function ImperativeTransition({
+  children,
+  in: inProp,
+  onExited,
+  onEntered,
+  transition
+}) {
+  const [exited, setExited] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(!inProp);
+
+  // TODO: I think this needs to be in an effect
+  if (inProp && exited) {
+    setExited(false);
+  }
+  const ref = useTransition({
+    in: !!inProp,
+    onTransition: options => {
+      const onFinish = () => {
+        if (options.isStale()) return;
+        if (options.in) {
+          onEntered == null ? void 0 : onEntered(options.element, options.initial);
+        } else {
+          setExited(true);
+          onExited == null ? void 0 : onExited(options.element);
+        }
+      };
+      Promise.resolve(transition(options)).then(onFinish, error => {
+        if (!options.in) setExited(true);
+        throw error;
+      });
+    }
+  });
+  const combinedRef = (0,_restart_hooks_useMergedRefs__WEBPACK_IMPORTED_MODULE_0__["default"])(ref, children.ref);
+  return exited && !inProp ? null : /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_2__.cloneElement)(children, {
+    ref: combinedRef
+  });
+}
+function renderTransition(Component, runTransition, props) {
+  if (Component) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(Component, Object.assign({}, props));
+  }
+  if (runTransition) {
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(ImperativeTransition, Object.assign({}, props, {
+      transition: runTransition
+    }));
+  }
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_NoopTransition__WEBPACK_IMPORTED_MODULE_4__["default"], Object.assign({}, props));
+}
+
+/***/ }),
+
+/***/ "./node_modules/@restart/ui/esm/NoopTransition.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@restart/ui/esm/NoopTransition.js ***!
+  \********************************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _restart_hooks_useEventCallback__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @restart/hooks/useEventCallback */ "./node_modules/@restart/hooks/esm/useEventCallback.js");
+/* harmony import */ var _restart_hooks_useMergedRefs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @restart/hooks/useMergedRefs */ "./node_modules/@restart/hooks/esm/useMergedRefs.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+function NoopTransition({
+  children,
+  in: inProp,
+  onExited,
+  mountOnEnter,
+  unmountOnExit
+}) {
+  const ref = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(null);
+  const hasEnteredRef = (0,react__WEBPACK_IMPORTED_MODULE_2__.useRef)(inProp);
+  const handleExited = (0,_restart_hooks_useEventCallback__WEBPACK_IMPORTED_MODULE_0__["default"])(onExited);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (inProp) hasEnteredRef.current = true;else {
+      handleExited(ref.current);
+    }
+  }, [inProp, handleExited]);
+  const combinedRef = (0,_restart_hooks_useMergedRefs__WEBPACK_IMPORTED_MODULE_1__["default"])(ref, children.ref);
+  const child = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_2__.cloneElement)(children, {
+    ref: combinedRef
+  });
+  if (inProp) return child;
+  if (unmountOnExit) {
+    return null;
+  }
+  if (!hasEnteredRef.current && mountOnEnter) {
+    return null;
+  }
+  return child;
+}
+/* harmony default export */ __webpack_exports__["default"] = (NoopTransition);
 
 /***/ }),
 
@@ -9101,12 +9247,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _restart_hooks_useCallbackRef__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @restart/hooks/useCallbackRef */ "./node_modules/@restart/hooks/esm/useCallbackRef.js");
 /* harmony import */ var _restart_hooks_useMergedRefs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @restart/hooks/useMergedRefs */ "./node_modules/@restart/hooks/esm/useMergedRefs.js");
-/* harmony import */ var _usePopper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./usePopper */ "./node_modules/@restart/ui/esm/usePopper.js");
-/* harmony import */ var _useRootClose__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./useRootClose */ "./node_modules/@restart/ui/esm/useRootClose.js");
-/* harmony import */ var _useWaitForDOMRef__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./useWaitForDOMRef */ "./node_modules/@restart/ui/esm/useWaitForDOMRef.js");
-/* harmony import */ var _mergeOptionsWithPopperConfig__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./mergeOptionsWithPopperConfig */ "./node_modules/@restart/ui/esm/mergeOptionsWithPopperConfig.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
+/* harmony import */ var _usePopper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./usePopper */ "./node_modules/@restart/ui/esm/usePopper.js");
+/* harmony import */ var _useRootClose__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./useRootClose */ "./node_modules/@restart/ui/esm/useRootClose.js");
+/* harmony import */ var _useWaitForDOMRef__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./useWaitForDOMRef */ "./node_modules/@restart/ui/esm/useWaitForDOMRef.js");
+/* harmony import */ var _mergeOptionsWithPopperConfig__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./mergeOptionsWithPopperConfig */ "./node_modules/@restart/ui/esm/mergeOptionsWithPopperConfig.js");
+/* harmony import */ var _ImperativeTransition__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./ImperativeTransition */ "./node_modules/@restart/ui/esm/ImperativeTransition.js");
 
 
 
@@ -9128,15 +9273,16 @@ const Overlay = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.forwardRef((prop
     placement,
     containerPadding,
     popperConfig = {},
-    transition: Transition
+    transition: Transition,
+    runTransition
   } = props;
   const [rootElement, attachRef] = (0,_restart_hooks_useCallbackRef__WEBPACK_IMPORTED_MODULE_2__["default"])();
   const [arrowElement, attachArrowRef] = (0,_restart_hooks_useCallbackRef__WEBPACK_IMPORTED_MODULE_2__["default"])();
   const mergedRef = (0,_restart_hooks_useMergedRefs__WEBPACK_IMPORTED_MODULE_3__["default"])(attachRef, outerRef);
-  const container = (0,_useWaitForDOMRef__WEBPACK_IMPORTED_MODULE_5__["default"])(props.container);
-  const target = (0,_useWaitForDOMRef__WEBPACK_IMPORTED_MODULE_5__["default"])(props.target);
+  const container = (0,_useWaitForDOMRef__WEBPACK_IMPORTED_MODULE_4__["default"])(props.container);
+  const target = (0,_useWaitForDOMRef__WEBPACK_IMPORTED_MODULE_4__["default"])(props.target);
   const [exited, setExited] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(!props.show);
-  const popper = (0,_usePopper__WEBPACK_IMPORTED_MODULE_6__["default"])(target, rootElement, (0,_mergeOptionsWithPopperConfig__WEBPACK_IMPORTED_MODULE_7__["default"])({
+  const popper = (0,_usePopper__WEBPACK_IMPORTED_MODULE_5__["default"])(target, rootElement, (0,_mergeOptionsWithPopperConfig__WEBPACK_IMPORTED_MODULE_6__["default"])({
     placement,
     enableEvents: !!props.show,
     containerPadding: containerPadding || 5,
@@ -9146,32 +9292,34 @@ const Overlay = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.forwardRef((prop
     popperConfig
   }));
 
-  if (props.show) {
-    if (exited) setExited(false);
-  } else if (!props.transition && !exited) {
-    setExited(true);
+  // TODO: I think this needs to be in an effect
+  if (props.show && exited) {
+    setExited(false);
   }
-
   const handleHidden = (...args) => {
     setExited(true);
-
     if (props.onExited) {
       props.onExited(...args);
     }
-  }; // Don't un-render the overlay while it's transitioning out.
+  };
 
-
-  const mountOverlay = props.show || Transition && !exited;
-  (0,_useRootClose__WEBPACK_IMPORTED_MODULE_8__["default"])(rootElement, props.onHide, {
+  // Don't un-render the overlay while it's transitioning out.
+  const mountOverlay = props.show || !exited;
+  (0,_useRootClose__WEBPACK_IMPORTED_MODULE_7__["default"])(rootElement, props.onHide, {
     disabled: !props.rootClose || props.rootCloseDisabled,
     clickTrigger: props.rootCloseEvent
   });
-
   if (!mountOverlay) {
     // Don't bother showing anything if we don't have to.
     return null;
   }
-
+  const {
+    onExit,
+    onExiting,
+    onEnter,
+    onEntering,
+    onEntered
+  } = props;
   let child = props.children(Object.assign({}, popper.attributes.popper, {
     style: popper.styles.popper,
     ref: mergedRef
@@ -9184,28 +9332,19 @@ const Overlay = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.forwardRef((prop
       ref: attachArrowRef
     })
   });
-
-  if (Transition) {
-    const {
-      onExit,
-      onExiting,
-      onEnter,
-      onEntering,
-      onEntered
-    } = props;
-    child = /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(Transition, {
-      in: props.show,
-      appear: true,
-      onExit: onExit,
-      onExiting: onExiting,
-      onExited: handleHidden,
-      onEnter: onEnter,
-      onEntering: onEntering,
-      onEntered: onEntered,
-      children: child
-    });
-  }
-
+  child = (0,_ImperativeTransition__WEBPACK_IMPORTED_MODULE_8__.renderTransition)(Transition, runTransition, {
+    in: !!props.show,
+    appear: true,
+    mountOnEnter: true,
+    unmountOnExit: true,
+    children: child,
+    onExit,
+    onExiting,
+    onExited: handleHidden,
+    onEnter,
+    onEntering,
+    onEntered
+  });
   return container ? /*#__PURE__*/react_dom__WEBPACK_IMPORTED_MODULE_1___default().createPortal(child, container) : null;
 });
 Overlay.displayName = 'Overlay';
@@ -9228,12 +9367,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 function toModifierMap(modifiers) {
   const result = {};
-
   if (!Array.isArray(modifiers)) {
     return modifiers || result;
-  } // eslint-disable-next-line no-unused-expressions
+  }
 
-
+  // eslint-disable-next-line no-unused-expressions
   modifiers == null ? void 0 : modifiers.forEach(m => {
     result[m.name] = m;
   });
@@ -9258,7 +9396,6 @@ function mergeOptionsWithPopperConfig({
   popperConfig = {}
 }) {
   var _modifiers$eventListe, _modifiers$preventOve, _modifiers$preventOve2, _modifiers$offset, _modifiers$arrow;
-
   const modifiers = toModifierMap(popperConfig.modifiers);
   return Object.assign({}, popperConfig, {
     placement,
@@ -9325,9 +9462,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // For the common JS build we will turn this file into a bundle with no imports.
-// This is b/c the Popper lib is all esm files, and would break in a common js only environment
 
+
+// For the common JS build we will turn this file into a bundle with no imports.
+// This is b/c the Popper lib is all esm files, and would break in a common js only environment
 const createPopper = (0,_popperjs_core_lib_popper_base__WEBPACK_IMPORTED_MODULE_0__.popperGenerator)({
   defaultModifiers: [_popperjs_core_lib_modifiers_hide__WEBPACK_IMPORTED_MODULE_1__["default"], _popperjs_core_lib_modifiers_popperOffsets__WEBPACK_IMPORTED_MODULE_2__["default"], _popperjs_core_lib_modifiers_computeStyles__WEBPACK_IMPORTED_MODULE_3__["default"], _popperjs_core_lib_modifiers_eventListeners__WEBPACK_IMPORTED_MODULE_4__["default"], _popperjs_core_lib_modifiers_offset__WEBPACK_IMPORTED_MODULE_5__["default"], _popperjs_core_lib_modifiers_flip__WEBPACK_IMPORTED_MODULE_6__["default"], _popperjs_core_lib_modifiers_preventOverflow__WEBPACK_IMPORTED_MODULE_7__["default"], _popperjs_core_lib_modifiers_arrow__WEBPACK_IMPORTED_MODULE_8__["default"]]
 });
@@ -9360,23 +9498,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 const noop = () => {};
-
 function isLeftClickEvent(event) {
   return event.button === 0;
 }
-
 function isModifiedEvent(event) {
   return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 }
-
 const getRefTarget = ref => ref && ('current' in ref ? ref.current : ref);
 const InitialTriggerEvents = {
   click: 'mousedown',
   mouseup: 'mousedown',
   pointerup: 'pointerdown'
 };
+
 /**
  * The `useClickOutside` hook registers your callback on the document that fires
  * when a pointer event is registered outside of the provided ref or element.
@@ -9387,7 +9522,6 @@ const InitialTriggerEvents = {
  * @param {boolean=} options.disabled
  * @param {string=}  options.clickTrigger The DOM event name (click, mousedown, etc) to attach listeners on
  */
-
 function useClickOutside(ref, onClickOutside = noop, {
   disabled,
   clickTrigger = 'click'
@@ -9402,7 +9536,6 @@ function useClickOutside(ref, onClickOutside = noop, {
   }, [ref]);
   const handleInitialMouse = (0,_restart_hooks_useEventCallback__WEBPACK_IMPORTED_MODULE_4__["default"])(e => {
     const currentTarget = getRefTarget(ref);
-
     if (currentTarget && (0,dom_helpers_contains__WEBPACK_IMPORTED_MODULE_0__["default"])(currentTarget, e.target)) {
       waitingForTrigger.current = true;
     }
@@ -9414,19 +9547,19 @@ function useClickOutside(ref, onClickOutside = noop, {
   });
   (0,react__WEBPACK_IMPORTED_MODULE_3__.useEffect)(() => {
     if (disabled || ref == null) return undefined;
-    const doc = (0,dom_helpers_ownerDocument__WEBPACK_IMPORTED_MODULE_2__["default"])(getRefTarget(ref)); // Store the current event to avoid triggering handlers immediately
-    // https://github.com/facebook/react/issues/20074
+    const doc = (0,dom_helpers_ownerDocument__WEBPACK_IMPORTED_MODULE_2__["default"])(getRefTarget(ref));
 
+    // Store the current event to avoid triggering handlers immediately
+    // https://github.com/facebook/react/issues/20074
     let currentEvent = (doc.defaultView || window).event;
     let removeInitialTriggerListener = null;
-
     if (InitialTriggerEvents[clickTrigger]) {
       removeInitialTriggerListener = (0,dom_helpers_listen__WEBPACK_IMPORTED_MODULE_1__["default"])(doc, InitialTriggerEvents[clickTrigger], handleInitialMouse, true);
-    } // Use capture for this listener so it fires before React's listener, to
+    }
+
+    // Use capture for this listener so it fires before React's listener, to
     // avoid false positives in the contains() check below if the target DOM
     // element is removed in the React mouse callback.
-
-
     const removeMouseCaptureListener = (0,dom_helpers_listen__WEBPACK_IMPORTED_MODULE_1__["default"])(doc, clickTrigger, handleMouseCapture, true);
     const removeMouseListener = (0,dom_helpers_listen__WEBPACK_IMPORTED_MODULE_1__["default"])(doc, clickTrigger, e => {
       // skip if this event is the same as the one running when we added the handlers
@@ -9434,15 +9567,12 @@ function useClickOutside(ref, onClickOutside = noop, {
         currentEvent = undefined;
         return;
       }
-
       handleMouse(e);
     });
     let mobileSafariHackListeners = [];
-
     if ('ontouchstart' in doc.documentElement) {
       mobileSafariHackListeners = [].slice.call(doc.body.children).map(el => (0,dom_helpers_listen__WEBPACK_IMPORTED_MODULE_1__["default"])(el, 'mousemove', noop));
     }
-
     return () => {
       removeInitialTriggerListener == null ? void 0 : removeInitialTriggerListener();
       removeMouseCaptureListener();
@@ -9451,7 +9581,6 @@ function useClickOutside(ref, onClickOutside = noop, {
     };
   }, [ref, disabled, clickTrigger, handleMouseCapture, handleInitialMouse, handleMouse]);
 }
-
 /* harmony default export */ __webpack_exports__["default"] = (useClickOutside);
 
 /***/ }),
@@ -9470,9 +9599,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _restart_hooks_useSafeState__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @restart/hooks/useSafeState */ "./node_modules/@restart/hooks/esm/useSafeState.js");
 /* harmony import */ var _popper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./popper */ "./node_modules/@restart/ui/esm/popper.js");
 const _excluded = ["enabled", "placement", "strategy", "modifiers"];
-
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
 
 
 
@@ -9482,7 +9609,9 @@ const disabledApplyStylesModifier = {
   enabled: false,
   phase: 'afterWrite',
   fn: () => undefined
-}; // until docjs supports type exports...
+};
+
+// until docjs supports type exports...
 
 const ariaDescribedByModifier = {
   name: 'ariaDescribedBy',
@@ -9495,7 +9624,6 @@ const ariaDescribedByModifier = {
       reference,
       popper
     } = state.elements;
-
     if ('removeAttribute' in reference) {
       const ids = (reference.getAttribute('aria-describedby') || '').split(',').filter(id => id.trim() !== popper.id);
       if (!ids.length) reference.removeAttribute('aria-describedby');else reference.setAttribute('aria-describedby', ids.join(','));
@@ -9505,20 +9633,16 @@ const ariaDescribedByModifier = {
     state
   }) => {
     var _popper$getAttribute;
-
     const {
       popper,
       reference
     } = state.elements;
     const role = (_popper$getAttribute = popper.getAttribute('role')) == null ? void 0 : _popper$getAttribute.toLowerCase();
-
     if (popper.id && role === 'tooltip' && 'setAttribute' in reference) {
       const ids = reference.getAttribute('aria-describedby');
-
       if (ids && ids.split(',').indexOf(popper.id) !== -1) {
         return;
       }
-
       reference.setAttribute('aria-describedby', ids ? `${ids},${popper.id}` : popper.id);
     }
   }
@@ -9539,26 +9663,22 @@ const EMPTY_MODIFIERS = [];
  *
  * @returns {UsePopperState} The popper state
  */
-
 function usePopper(referenceElement, popperElement, _ref = {}) {
   let {
-    enabled = true,
-    placement = 'bottom',
-    strategy = 'absolute',
-    modifiers = EMPTY_MODIFIERS
-  } = _ref,
-      config = _objectWithoutPropertiesLoose(_ref, _excluded);
-
+      enabled = true,
+      placement = 'bottom',
+      strategy = 'absolute',
+      modifiers = EMPTY_MODIFIERS
+    } = _ref,
+    config = _objectWithoutPropertiesLoose(_ref, _excluded);
   const prevModifiers = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(modifiers);
   const popperInstanceRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)();
   const update = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(() => {
     var _popperInstanceRef$cu;
-
     (_popperInstanceRef$cu = popperInstanceRef.current) == null ? void 0 : _popperInstanceRef$cu.update();
   }, []);
   const forceUpdate = (0,react__WEBPACK_IMPORTED_MODULE_0__.useCallback)(() => {
     var _popperInstanceRef$cu2;
-
     (_popperInstanceRef$cu2 = popperInstanceRef.current) == null ? void 0 : _popperInstanceRef$cu2.forceUpdate();
   }, []);
   const [popperState, setState] = (0,_restart_hooks_useSafeState__WEBPACK_IMPORTED_MODULE_2__["default"])((0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
@@ -9599,7 +9719,6 @@ function usePopper(referenceElement, popperElement, _ref = {}) {
     if (!(0,dequal__WEBPACK_IMPORTED_MODULE_1__.dequal)(prevModifiers.current, modifiers)) {
       prevModifiers.current = modifiers;
     }
-
     return prevModifiers.current;
   }, [modifiers]);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
@@ -9614,7 +9733,6 @@ function usePopper(referenceElement, popperElement, _ref = {}) {
     if (!enabled || referenceElement == null || popperElement == null) {
       return undefined;
     }
-
     popperInstanceRef.current = (0,_popper__WEBPACK_IMPORTED_MODULE_3__.createPopper)(referenceElement, popperElement, Object.assign({}, config, {
       placement,
       strategy,
@@ -9631,12 +9749,12 @@ function usePopper(referenceElement, popperElement, _ref = {}) {
           }
         }));
       }
-    }; // This is only run once to _create_ the popper
+    };
+    // This is only run once to _create_ the popper
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [enabled, referenceElement, popperElement]);
   return popperState;
 }
-
 /* harmony default export */ __webpack_exports__["default"] = (usePopper);
 
 /***/ }),
@@ -9661,9 +9779,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const escapeKeyCode = 27;
-
 const noop = () => {};
-
 /**
  * The `useRootClose` hook registers your callback on the document
  * when rendered. Powers the `<Overlay/>` component. This is used achieve modal
@@ -9692,9 +9808,10 @@ function useRootClose(ref, onRootClose, {
   });
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (disabled || ref == null) return undefined;
-    const doc = (0,dom_helpers_ownerDocument__WEBPACK_IMPORTED_MODULE_1__["default"])((0,_useClickOutside__WEBPACK_IMPORTED_MODULE_4__.getRefTarget)(ref)); // Store the current event to avoid triggering handlers immediately
-    // https://github.com/facebook/react/issues/20074
+    const doc = (0,dom_helpers_ownerDocument__WEBPACK_IMPORTED_MODULE_1__["default"])((0,_useClickOutside__WEBPACK_IMPORTED_MODULE_4__.getRefTarget)(ref));
 
+    // Store the current event to avoid triggering handlers immediately
+    // https://github.com/facebook/react/issues/20074
     let currentEvent = (doc.defaultView || window).event;
     const removeKeyupListener = (0,dom_helpers_listen__WEBPACK_IMPORTED_MODULE_0__["default"])(doc, 'keyup', e => {
       // skip if this event is the same as the one running when we added the handlers
@@ -9702,7 +9819,6 @@ function useRootClose(ref, onRootClose, {
         currentEvent = undefined;
         return;
       }
-
       handleKeyUp(e);
     });
     return () => {
@@ -9710,7 +9826,6 @@ function useRootClose(ref, onRootClose, {
     };
   }, [ref, disabled, handleKeyUp]);
 }
-
 /* harmony default export */ __webpack_exports__["default"] = (useRootClose);
 
 /***/ }),
@@ -9747,12 +9862,10 @@ const resolveContainerRef = (ref, document) => {
 function useWaitForDOMRef(ref, onResolved) {
   const window = (0,_useWindow__WEBPACK_IMPORTED_MODULE_3__["default"])();
   const [resolvedRef, setRef] = (0,react__WEBPACK_IMPORTED_MODULE_2__.useState)(() => resolveContainerRef(ref, window == null ? void 0 : window.document));
-
   if (!resolvedRef) {
     const earlyRef = resolveContainerRef(ref);
     if (earlyRef) setRef(earlyRef);
   }
-
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (onResolved && resolvedRef) {
       onResolved(resolvedRef);
@@ -9760,7 +9873,6 @@ function useWaitForDOMRef(ref, onResolved) {
   }, [onResolved, resolvedRef]);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     const nextRef = resolveContainerRef(ref);
-
     if (nextRef !== resolvedRef) {
       setRef(nextRef);
     }
@@ -9789,13 +9901,13 @@ __webpack_require__.r(__webpack_exports__);
 
 const Context = /*#__PURE__*/(0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)(dom_helpers_canUseDOM__WEBPACK_IMPORTED_MODULE_1__["default"] ? window : undefined);
 const WindowProvider = Context.Provider;
+
 /**
  * The document "window" placed in React context. Helpful for determining
  * SSR context, or when rendering into an iframe.
  *
  * @returns the current window
  */
-
 function useWindow() {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(Context);
 }
@@ -11470,9 +11582,6 @@ function Header() {
     class: "header-navigation-actions"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "#",
-    class: "button"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_3__.AiOutlineDollar, null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, __("Account credit: ", "farazsms"))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    href: "#",
     class: "icon-button"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_3__.AiOutlineBell, null))))));
 }
@@ -11556,7 +11665,6 @@ function Integrations(props) {
        * Then Convert array to key: use pair for send Axios post request to DB.
        * @return Object with arrays.
        */
-
       const optsionsArray = Object.values(props.integratedPlugins).map(_ref => {
         let {
           use,
@@ -39907,9 +40015,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 function _arrayLikeToArray(arr, len) {
   if (len == null || len > arr.length) len = arr.length;
-  for (var i = 0, arr2 = new Array(len); i < len; i++) {
-    arr2[i] = arr[i];
-  }
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
   return arr2;
 }
 
@@ -40001,13 +40107,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ _createClass; }
 /* harmony export */ });
+/* harmony import */ var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toPropertyKey.js */ "./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js");
+
 function _defineProperties(target, props) {
   for (var i = 0; i < props.length; i++) {
     var descriptor = props[i];
     descriptor.enumerable = descriptor.enumerable || false;
     descriptor.configurable = true;
     if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
+    Object.defineProperty(target, (0,_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["default"])(descriptor.key), descriptor);
   }
 }
 function _createClass(Constructor, protoProps, staticProps) {
@@ -40066,7 +40174,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": function() { return /* binding */ _defineProperty; }
 /* harmony export */ });
+/* harmony import */ var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toPropertyKey.js */ "./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js");
+
 function _defineProperty(obj, key, value) {
+  key = (0,_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["default"])(key);
   if (key in obj) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -40237,28 +40348,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": function() { return /* binding */ _iterableToArrayLimit; }
 /* harmony export */ });
 function _iterableToArrayLimit(arr, i) {
-  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-  if (_i == null) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-  var _s, _e;
-  try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
+  var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+  if (null != _i) {
+    var _s,
+      _e,
+      _x,
+      _r,
+      _arr = [],
+      _n = !0,
+      _d = !1;
     try {
-      if (!_n && _i["return"] != null) _i["return"]();
+      if (_x = (_i = _i.call(arr)).next, 0 === i) {
+        if (Object(_i) !== _i) return;
+        _n = !1;
+      } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+    } catch (err) {
+      _d = !0, _e = err;
     } finally {
-      if (_d) throw _e;
+      try {
+        if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return;
+      } finally {
+        if (_d) throw _e;
+      }
     }
+    return _arr;
   }
-  return _arr;
 }
 
 /***/ }),
@@ -40508,6 +40622,54 @@ __webpack_require__.r(__webpack_exports__);
 
 function _toConsumableArray(arr) {
   return (0,_arrayWithoutHoles_js__WEBPACK_IMPORTED_MODULE_0__["default"])(arr) || (0,_iterableToArray_js__WEBPACK_IMPORTED_MODULE_1__["default"])(arr) || (0,_unsupportedIterableToArray_js__WEBPACK_IMPORTED_MODULE_2__["default"])(arr) || (0,_nonIterableSpread_js__WEBPACK_IMPORTED_MODULE_3__["default"])();
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/toPrimitive.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/toPrimitive.js ***!
+  \****************************************************************/
+/***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ _toPrimitive; }
+/* harmony export */ });
+/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
+
+function _toPrimitive(input, hint) {
+  if ((0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(input) !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if ((0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(res) !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/toPropertyKey.js ***!
+  \******************************************************************/
+/***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": function() { return /* binding */ _toPropertyKey; }
+/* harmony export */ });
+/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
+/* harmony import */ var _toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./toPrimitive.js */ "./node_modules/@babel/runtime/helpers/esm/toPrimitive.js");
+
+
+function _toPropertyKey(arg) {
+  var key = (0,_toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__["default"])(arg, "string");
+  return (0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(key) === "symbol" ? key : String(key);
 }
 
 /***/ }),

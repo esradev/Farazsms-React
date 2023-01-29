@@ -55,7 +55,6 @@ function Integrations(props) {
        * Then Convert array to key: use pair for send Axios post request to DB.
        * @return Object with arrays.
        */
-
       const optsionsArray = Object.values(props.integratedPlugins).map(
         ({ use, name }) => [name, use]
       );

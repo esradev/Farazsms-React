@@ -25,6 +25,7 @@
       <option name="SPACE_AFTER_UNARY_NOT" value="true" />
     </PHPCodeStyleSettings>
     <codeStyleSettings language="JavaScript">
+      <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
       <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
       <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
       <option name="ALIGN_MULTILINE_FOR" value="false" />

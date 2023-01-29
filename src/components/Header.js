@@ -40,10 +40,10 @@ function Header() {
             </a> */}
           </nav>
           <div class="header-navigation-actions">
-            <a href="#" class="button">
-              <AiOutlineDollar />
-              <span>{__("Account credit: ", "farazsms")}</span>
-            </a>
+            {/*<a href="#" class="button">*/}
+            {/*  <AiOutlineDollar />*/}
+            {/*  <span>{__("Account credit: ", "farazsms")}</span>*/}
+            {/*</a>*/}
             {/* <a href="#" class="icon-button">
               <AiOutlineSetting />
             </a> */}
