@@ -1,6 +1,28 @@
 <?php
 
 class Farazsms_Routes {
+
+	private static $fsms_digits_phonebook;
+
+	private static $fsms_bookly_phonebook;
+
+	private static $fsms_woo_phonebook;
+
+	/**
+	 * Initialize the class and set its properties.
+	 *
+	 * @since 1.0.0
+	 */
+	public function __construct( ) {
+		$phonebook_options = json_decode( get_option( 'farazsms_phonebook_options' ), true );
+		if ( $phonebook_options ) {
+			self::$fsms_digits_phonebook = $phonebook_options['digits_phonebook'];
+			self::$fsms_bookly_phonebook = $phonebook_options['bookly_phonebook'];
+			self::$fsms_woo_phonebook    = $phonebook_options['woo_phonebook'];
+		}
+
+	}
+
 	/**
 	 * Register the routes for the objects of the controller.
 	 */
@@ -9,156 +31,183 @@ class Farazsms_Routes {
 		$namespace = 'farazsms/v' . $version;
 
 		//Register settings_options rest route
-		register_rest_route( $namespace, '/' . 'settings_options', array(
-			array(
+		register_rest_route( $namespace, '/' . 'settings_options', [
+			[
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_settings_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-			array(
+				'callback'            => [ $this, 'get_settings_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+			[
 				'methods'             => 'POST',
-				'callback'            => array( $this, 'add_settings_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-		) );
+				'callback'            => [ $this, 'add_settings_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+		] );
 
 		//Register login_notify_options rest route
-		register_rest_route( $namespace, '/' . 'login_notify_options', array(
-			array(
+		register_rest_route( $namespace, '/' . 'login_notify_options', [
+			[
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_login_notify_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
+				'callback'            => [ $this, 'get_login_notify_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
 
-			),
-			array(
+			],
+			[
 				'methods'             => 'POST',
-				'callback'            => array( $this, 'add_login_notify_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-		) );
+				'callback'            => [ $this, 'add_login_notify_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+		] );
 
 		//Register phonebook_options rest route
-		register_rest_route( $namespace, '/' . 'phonebook_options', array(
-			array(
+		register_rest_route( $namespace, '/' . 'phonebook_options', [
+			[
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_phonebook_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
+				'callback'            => [ $this, 'get_phonebook_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
 
-			),
-			array(
+			],
+			[
 				'methods'             => 'POST',
-				'callback'            => array( $this, 'add_phonebook_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-		) );
+				'callback'            => [ $this, 'add_phonebook_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+		] );
 
 		//Register usermeta rest route
-		register_rest_route( $namespace, '/' . 'usermeta', array(
-			array(
+		register_rest_route( $namespace, '/' . 'usermeta', [
+			[
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_usermeta' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
+				'callback'            => [ $this, 'get_usermeta' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
 
-			),
-		) );
+			],
+		] );
 
 		//Register comments_options rest route
-		register_rest_route( $namespace, '/' . 'comments_options', array(
-			array(
+		register_rest_route( $namespace, '/' . 'comments_options', [
+			[
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_comments_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-			array(
+				'callback'            => [ $this, 'get_comments_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+			[
 				'methods'             => 'POST',
-				'callback'            => array( $this, 'add_comments_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-		) );
+				'callback'            => [ $this, 'add_comments_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+		] );
 
 		//Register newsletter_options rest route
-		register_rest_route( $namespace, '/' . 'newsletter_options', array(
-			array(
+		register_rest_route( $namespace, '/' . 'newsletter_options', [
+			[
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_newsletter_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-			array(
+				'callback'            => [ $this, 'get_newsletter_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+			[
 				'methods'             => 'POST',
-				'callback'            => array( $this, 'add_newsletter_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-		) );
+				'callback'            => [ $this, 'add_newsletter_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+		] );
 
 		//Register woocommerce_options rest route
-		register_rest_route( $namespace, '/' . 'woocommerce_options', array(
-			array(
+		register_rest_route( $namespace, '/' . 'woocommerce_options', [
+			[
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_woocommerce_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-			array(
+				'callback'            => [ $this, 'get_woocommerce_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+			[
 				'methods'             => 'POST',
-				'callback'            => array( $this, 'add_woocommerce_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-		) );
+				'callback'            => [ $this, 'add_woocommerce_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+		] );
 
 		//Register edd_options rest route
-		register_rest_route( $namespace, '/' . 'edd_options', array(
-			array(
+		register_rest_route( $namespace, '/' . 'edd_options', [
+			[
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_edd_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-			array(
+				'callback'            => [ $this, 'get_edd_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+			[
 				'methods'             => 'POST',
-				'callback'            => array( $this, 'add_edd_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-		) );
+				'callback'            => [ $this, 'add_edd_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+		] );
 
 		//Register aff_options rest route
-		register_rest_route( $namespace, '/' . 'aff_options', array(
-			array(
+		register_rest_route( $namespace, '/' . 'aff_options', [
+			[
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_aff_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-			array(
+				'callback'            => [ $this, 'get_aff_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+			[
 				'methods'             => 'POST',
-				'callback'            => array( $this, 'add_aff_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-		) );
+				'callback'            => [ $this, 'add_aff_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+		] );
 
 		//Register membership_options rest route
-		register_rest_route( $namespace, '/' . 'membership_options', array(
-			array(
+		register_rest_route( $namespace, '/' . 'membership_options', [
+			[
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_membership_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-			array(
+				'callback'            => [ $this, 'get_membership_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+			[
 				'methods'             => 'POST',
-				'callback'            => array( $this, 'add_membership_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-		) );
+				'callback'            => [ $this, 'add_membership_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+		] );
 
 		//Register integrations_options rest route
-		register_rest_route( $namespace, '/' . 'integrations_options', array(
-			array(
+		register_rest_route( $namespace, '/' . 'integrations_options', [
+			[
 				'methods'             => 'GET',
-				'callback'            => array( $this, 'get_integrations_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-			array(
+				'callback'            => [ $this, 'get_integrations_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+			[
 				'methods'             => 'POST',
-				'callback'            => array( $this, 'add_integrations_options' ),
-				'permission_callback' => array( $this, 'permissions_check' ),
-			),
-		) );
+				'callback'            => [ $this, 'add_integrations_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+		] );
+
+		//Register faraz_sync_woo rest route
+		register_rest_route( $namespace, '/' . 'faraz_sync_woo', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'faraz_sync_woo' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
+
+		//Register faraz_sync_bookly rest route
+		register_rest_route( $namespace, '/' . 'faraz_sync_bookly', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'faraz_sync_bookly' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
+
+		//Register faraz_sync_digits rest route
+		register_rest_route( $namespace, '/' . 'faraz_sync_digits', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'faraz_sync_digits' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
 	}
 
 	/**
@@ -169,7 +218,7 @@ class Farazsms_Routes {
 	public function get_settings_options() {
 		$farazsms_settings_options = get_option( 'farazsms_settings_options' );
 		if ( empty( $farazsms_settings_options ) ) {
-			return new WP_Error( 'no_option', 'Invalid options', array( 'status' => 404 ) );
+			return new WP_Error( 'no_option', 'Invalid options', [ 'status' => 404 ] );
 		}
 
 		return $farazsms_settings_options;
@@ -181,14 +230,14 @@ class Farazsms_Routes {
 	 * @since 2.0.0
 	 */
 	public function add_settings_options( $data ) {
-		$option      = array(
+		$option      = [
 			'apikey'            => $data['apikey'],
 			'username'          => $data['username'] ?: '',
 			'password'          => $data['password'] ?: '',
 			'admin_number'      => $data['admin_number'] ?: '',
 			'from_number'       => $data['from_number'] ?: '3000505',
 			'from_number_adver' => $data['from_number_adver'] ?: '',
-		);
+		];
 		$option_json = wp_json_encode( $option );
 
 		return update_option( 'farazsms_settings_options', $option_json );
@@ -202,7 +251,7 @@ class Farazsms_Routes {
 	public function get_login_notify_options() {
 		$farazsms_login_notify_options = get_option( 'farazsms_login_notify_options' );
 		if ( empty( $farazsms_login_notify_options ) ) {
-			return new WP_Error( 'no_option', 'Invalid options', array( 'status' => 404 ) );
+			return new WP_Error( 'no_option', 'Invalid options', [ 'status' => 404 ] );
 		}
 
 		return $farazsms_login_notify_options;
@@ -214,7 +263,7 @@ class Farazsms_Routes {
 	 * @since 2.0.0
 	 */
 	public function add_login_notify_options( $data ) {
-		$option      = array(
+		$option      = [
 			'welcome_sms'                => $data['welcome_sms'] ?: '',
 			'welcome_sms_use_pattern'    => $data['welcome_sms_use_pattern'] ?: '',
 			'welcome_sms_pattern'        => $data['welcome_sms_pattern'] ?: '',
@@ -222,7 +271,7 @@ class Farazsms_Routes {
 			'admin_login_notify'         => $data['admin_login_notify'] ?: '',
 			'admin_login_notify_pattern' => $data['admin_login_notify_pattern'] ?: '',
 			'select_roles'               => $data['select_roles'] ?: '',
-		);
+		];
 		$option_json = wp_json_encode( $option );
 
 		return update_option( 'farazsms_login_notify_options', $option_json );
@@ -236,7 +285,7 @@ class Farazsms_Routes {
 	public function get_phonebook_options() {
 		$farazsms_phonebook_options = get_option( 'farazsms_phonebook_options' );
 		if ( empty( $farazsms_phonebook_options ) ) {
-			return new WP_Error( 'no_option', 'Invalid options', array( 'status' => 404 ) );
+			return new WP_Error( 'no_option', 'Invalid options', [ 'status' => 404 ] );
 		}
 
 		return $farazsms_phonebook_options;
@@ -248,7 +297,7 @@ class Farazsms_Routes {
 	 * @since 2.0.0
 	 */
 	public function add_phonebook_options( $data ) {
-		$option      = array(
+		$option      = [
 			'custom_phonebook'       => $data['custom_phonebook'] ?: [],
 			'custom_phone_meta_keys' => $data['custom_phone_meta_keys'] ?: [],
 			'digits_phonebook'       => $data['digits_phonebook'] ?: [],
@@ -257,7 +306,7 @@ class Farazsms_Routes {
 			'gf_phonebook'           => $data['gf_phonebook'] ?: [],
 			'gf_forms'               => $data['gf_forms'] ?: [],
 			'gf_selected_field'      => $data['gf_selected_field'] ?: [],
-		);
+		];
 		$option_json = wp_json_encode( $option );
 
 		return update_option( 'farazsms_phonebook_options', $option_json );
@@ -282,7 +331,7 @@ class Farazsms_Routes {
 	public function get_comments_options() {
 		$farazsms_comments_options = get_option( 'farazsms_comments_options' );
 		if ( empty( $farazsms_comments_options ) ) {
-			return new WP_Error( 'no_option', 'Invalid options', array( 'status' => 404 ) );
+			return new WP_Error( 'no_option', 'Invalid options', [ 'status' => 404 ] );
 		}
 
 		return $farazsms_comments_options;
@@ -294,7 +343,7 @@ class Farazsms_Routes {
 	 * @since 2.0.0
 	 */
 	public function add_comments_options( $data ) {
-		$option      = array(
+		$option      = [
 			'add_mobile_field'                 => $data['add_mobile_field'] ?: '',
 			'required_mobile_field'            => $data['required_mobile_field'] ?: '',
 			'notify_admin_for_comment'         => $data['notify_admin_for_comment'] ?: '',
@@ -302,7 +351,7 @@ class Farazsms_Routes {
 			'comment_pattern'                  => $data['comment_pattern'] ?: '',
 			'approved_comment_pattern'         => $data['approved_comment_pattern'] ?: '',
 			'comment_phonebook'                => $data['comment_phonebook'] ?: [],
-		);
+		];
 		$option_json = wp_json_encode( $option );
 
 		return update_option( 'farazsms_comments_options', $option_json );
@@ -316,7 +365,7 @@ class Farazsms_Routes {
 	public function get_newsletter_options() {
 		$farazsms_newsletter_options = get_option( 'farazsms_newsletter_options' );
 		if ( empty( $farazsms_newsletter_options ) ) {
-			return new WP_Error( 'no_option', 'Invalid options', array( 'status' => 404 ) );
+			return new WP_Error( 'no_option', 'Invalid options', [ 'status' => 404 ] );
 		}
 
 		return $farazsms_newsletter_options;
@@ -328,7 +377,7 @@ class Farazsms_Routes {
 	 * @since 2.0.0
 	 */
 	public function add_newsletter_options( $data ) {
-		$option      = array(
+		$option      = [
 			'news_phonebook'               => $data['news_phonebook'] ?: [],
 			'news_send_verify_via_pattern' => $data['news_send_verify_via_pattern'] ?: '',
 			'news_send_verify_pattern'     => $data['news_send_verify_pattern'] ?: '',
@@ -338,7 +387,7 @@ class Farazsms_Routes {
 			'news_post_notify_msg'         => $data['news_post_notify_msg'] ?: '',
 			'news_product_notify'          => $data['news_product_notify'] ?: '',
 			'news_product_notify_msg'      => $data['news_product_notify_msg'] ?: '',
-		);
+		];
 		$option_json = wp_json_encode( $option );
 
 		return update_option( 'farazsms_newsletter_options', $option_json );
@@ -352,7 +401,7 @@ class Farazsms_Routes {
 	public function get_woocommerce_options() {
 		$farazsms_woocommerce_options = get_option( 'farazsms_woocommerce_options' );
 		if ( empty( $farazsms_woocommerce_options ) ) {
-			return new WP_Error( 'no_option', 'Invalid options', array( 'status' => 404 ) );
+			return new WP_Error( 'no_option', 'Invalid options', [ 'status' => 404 ] );
 		}
 
 		return $farazsms_woocommerce_options;
@@ -364,7 +413,7 @@ class Farazsms_Routes {
 	 * @since 2.0.0
 	 */
 	public function add_woocommerce_options( $data ) {
-		$option      = array(
+		$option      = [
 			'woo_checkout_otp'          => $data['woo_checkout_otp'] ?: '',
 			'woo_checkout_otp_pattern'  => $data['woo_checkout_otp_pattern'] ?: '',
 			'woo_poll'                  => $data['woo_poll'] ?: '',
@@ -374,7 +423,7 @@ class Farazsms_Routes {
 			'woo_retention_order_no'    => $data['woo_retention_order_no'] ?: '',
 			'woo_retention_order_month' => $data['woo_retention_order_month'] ?: '',
 			'woo_retention_msg'         => $data['woo_retention_msg'] ?: '',
-		);
+		];
 		$option_json = wp_json_encode( $option );
 
 		return update_option( 'farazsms_woocommerce_options', $option_json );
@@ -388,7 +437,7 @@ class Farazsms_Routes {
 	public function get_edd_options() {
 		$farazsms_edd_options = get_option( 'farazsms_edd_options' );
 		if ( empty( $farazsms_edd_options ) ) {
-			return new WP_Error( 'no_option', 'Invalid options', array( 'status' => 404 ) );
+			return new WP_Error( 'no_option', 'Invalid options', [ 'status' => 404 ] );
 		}
 
 		return $farazsms_edd_options;
@@ -400,13 +449,13 @@ class Farazsms_Routes {
 	 * @since 2.0.0
 	 */
 	public function add_edd_options( $data ) {
-		$option      = array(
+		$option      = [
 			'edd_phonebook'     => $data['edd_phonebook'] ?: [],
 			'edd_send_to_user'  => $data['edd_send_to_user'] ?: '',
 			'edd_user_pattern'  => $data['edd_user_pattern'] ?: '',
 			'edd_send_to_admin' => $data['edd_send_to_admin'] ?: '',
 			'edd_admin_pattern' => $data['edd_admin_pattern'] ?: '',
-		);
+		];
 		$option_json = wp_json_encode( $option );
 
 		return update_option( 'farazsms_edd_options', $option_json );
@@ -420,7 +469,7 @@ class Farazsms_Routes {
 	public function get_aff_options() {
 		$farazsms_aff_options = get_option( 'farazsms_aff_options' );
 		if ( empty( $farazsms_aff_options ) ) {
-			return new WP_Error( 'no_option', 'Invalid options', array( 'status' => 404 ) );
+			return new WP_Error( 'no_option', 'Invalid options', [ 'status' => 404 ] );
 		}
 
 		return $farazsms_aff_options;
@@ -432,7 +481,7 @@ class Farazsms_Routes {
 	 * @since 2.0.0
 	 */
 	public function add_aff_options( $data ) {
-		$option      = array(
+		$option      = [
 			'aff_user_mobile_field'              => $data['aff_user_mobile_field'] ?: '',
 			'aff_user_register'                  => $data['aff_user_register'] ?: '',
 			'aff_user_register_pattern'          => $data['aff_user_register_pattern'] ?: '',
@@ -446,7 +495,7 @@ class Farazsms_Routes {
 			'aff_admin_user_new_ref_pattern'     => $data['aff_admin_user_new_ref_pattern'] ?: '',
 			'aff_admin_user_on_approval'         => $data['aff_admin_user_on_approval'] ?: '',
 			'aff_admin_user_on_approval_pattern' => $data['aff_admin_user_on_approval_pattern'] ?: '',
-		);
+		];
 		$option_json = wp_json_encode( $option );
 
 		return update_option( 'farazsms_aff_options', $option_json );
@@ -460,7 +509,7 @@ class Farazsms_Routes {
 	public function get_membership_options() {
 		$farazsms_membership_options = get_option( 'farazsms_membership_options' );
 		if ( empty( $farazsms_membership_options ) ) {
-			return new WP_Error( 'no_option', 'Invalid options', array( 'status' => 404 ) );
+			return new WP_Error( 'no_option', 'Invalid options', [ 'status' => 404 ] );
 		}
 
 		return $farazsms_membership_options;
@@ -472,7 +521,7 @@ class Farazsms_Routes {
 	 * @since 2.0.0
 	 */
 	public function add_membership_options( $data ) {
-		$option      = array(
+		$option      = [
 			'ihc_send_first_notify'  => $data['ihc_send_first_notify'] ?: '',
 			'ihc_send_second_notify' => $data['ihc_send_second_notify'] ?: '',
 			'ihc_send_third_notify'  => $data['ihc_send_third_notify'] ?: '',
@@ -480,7 +529,7 @@ class Farazsms_Routes {
 			'ihc_notify_before_time' => $data['ihc_notify_before_time'] ?: '5',
 			'pmp_send_expire_notify' => $data['pmp_send_expire_notify'] ?: '',
 			'pmp_expire_notify_msg'  => $data['pmp_expire_notify_msg'] ?: '',
-		);
+		];
 		$option_json = wp_json_encode( $option );
 
 		return update_option( 'farazsms_membership_options', $option_json );
@@ -494,7 +543,7 @@ class Farazsms_Routes {
 	public function get_integrations_options() {
 		$farazsms_integrations_options = get_option( 'farazsms_integrations_options' );
 		if ( empty( $farazsms_integrations_options ) ) {
-			return new WP_Error( 'no_option', 'Invalid options', array( 'status' => 404 ) );
+			return new WP_Error( 'no_option', 'Invalid options', [ 'status' => 404 ] );
 		}
 
 		return $farazsms_integrations_options;
@@ -506,7 +555,7 @@ class Farazsms_Routes {
 	 * @since 2.0.0
 	 */
 	public function add_integrations_options( $data ) {
-		$option      = array(
+		$option      = [
 			'woocommerce'               => $data['woocommerce'] ?: '',
 			'elementorPro'              => $data['elementorPro'] ?: '',
 			'digits'                    => $data['digits'] ?: '',
@@ -518,12 +567,117 @@ class Farazsms_Routes {
 			'affiliateWp'               => $data['affiliateWp'] ?: '',
 			'indeedAffiliatePro'        => $data['indeedAffiliatePro'] ?: '',
 			'yithWoocommerceAffiliates' => $data['yithWoocommerceAffiliates'] ?: '',
-		);
+		];
 		$option_json = wp_json_encode( $option );
 
 		return update_option( 'farazsms_integrations_options', $option_json );
 	}
 
+	/**
+	 * Woocommerce Synchronization with a phonebook.
+	 *
+	 * @since 2.0.0
+	 */
+	public function faraz_sync_woo() {
+		$fsms_base     = Farazsms_Base::get_instance();
+		$query         = new WC_Order_Query( [ 'limit' => 9999, 'type' => 'shop_order', 'return' => 'ids' ] );
+		$order_ids     = $query->get_orders();
+		$woo_phonebook = array_column(self::$fsms_woo_phonebook, 'value');
+		if ( empty( $woo_phonebook ) ) {
+			return 'empty_phonebook';
+		}
+		foreach ( $woo_phonebook as $phone_bookId ) {
+			$data = [];
+			foreach ( $order_ids as $order_id ) {
+				$number_info                 = [];
+				$order                       = wc_get_order( $order_id );
+				$number                      = $order->get_billing_phone();
+				$name                        = $order->get_formatted_billing_full_name();
+				$number_info['number']       = $number;
+				$number_info['name']         = $name;
+				$number_info['phonebook_id'] = (int) $phone_bookId;
+				$data[] = $number_info;
+			}
+			$result = $fsms_base->save_to_phonebookv2( $data );
+			if ( ! $result ) {
+				return 'error_happened';
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Digits Synchronization with a phonebook.
+	 *
+	 * @since 2.0.0
+	 */
+	public function faraz_sync_digits() {
+		$fsms_base        = Farazsms_Base::get_instance();
+		$users            = get_users( [ 'fields' => 'ID' ] );
+		$digits_phonebook = array_column(self::$fsms_digits_phonebook, 'value');
+		if ( empty( $digits_phonebook ) ) {
+			return 'empty_phonebook';
+		}
+
+		foreach ( $digits_phonebook as $phone_bookId ) {
+			$data = [];
+			foreach ( $users as $userid ) {
+				$number_info       = [];
+				$user_digits_phone = get_user_meta( $userid, 'digits_phone', true );
+				if ( empty( $user_digits_phone ) ) {
+					continue;
+				}
+
+				$user_info                   = get_userdata( $userid );
+				$number_info['number']       = $user_digits_phone;
+				$number_info['name']         = ( $user_info->display_name ?? $user_info->first_name ) . ' ' . $user_info->last_name;
+				$number_info['phonebook_id'] = (int) $phone_bookId;
+				array_push( $data, $number_info );
+			}
+
+			$result = $fsms_base->save_to_phonebookv2( $data );
+			if ( ! $result ) {
+				return 'error_happened';
+			}
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Bookly Synchronization with a phonebook.
+	 *
+	 * @since 2.0.0
+	 */
+	public function faraz_sync_bookly() {
+		$fsms_base = Farazsms_Base::get_instance();
+		global $wpdb;
+		$bookly_customers = $wpdb->get_results( 'SELECT phone ,full_name FROM ' . $wpdb->prefix . 'bookly_customers' );
+		$bookly_phonebook = array_column(self::$fsms_bookly_phonebook, 'value');
+		if ( empty( $bookly_phonebook ) ) {
+			return 'empty_phonebook';
+		}
+
+		foreach ( $bookly_phonebook as $phone_bookId ) {
+			$data = [];
+			foreach ( $bookly_customers as $customer ) {
+				$number_info                 = [];
+				$number_info['number']       = substr( $customer->phone, - 10 );
+				$number_info['name']         = $customer->full_name;
+				$number_info['phonebook_id'] = (int) $phone_bookId;
+				array_push( $data, $number_info );
+			}
+
+			$result = $fsms_base->save_to_phonebookv2( $data );
+			if ( ! $result ) {
+				return 'error_happened';
+			}
+		}
+
+		return true;
+
+	}
 
 	/**
 	 * Check if a given request has permissions

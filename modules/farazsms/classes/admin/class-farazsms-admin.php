@@ -30,11 +30,7 @@ class Farazsms_Admin extends Farazsms_Base {
 	 */
 	private $version;
 
-	private static $fsms_digits_phonebook;
 
-	private static $fsms_bookly_phonebook;
-
-	private static $fsms_woo_phonebook;
 
 
 	/**
@@ -49,15 +45,6 @@ class Farazsms_Admin extends Farazsms_Base {
 		parent::__construct();
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
-
-		$phonebook_options = json_decode( get_option( 'farazsms_phonebook_options' ), true );
-		if ( $phonebook_options ) {
-			self::$fsms_digits_phonebook = $phonebook_options['digits_phonebook'];
-			self::$fsms_bookly_phonebook = $phonebook_options['bookly_phonebook'];
-			self::$fsms_woo_phonebook    = $phonebook_options['woo_phonebook'];
-		}
-//        var_dump(self::$fsms_woo_phonebook[0]);
-
 	}//end __construct()
 
 
@@ -393,158 +380,6 @@ class Farazsms_Admin extends Farazsms_Base {
 		<?php
 
 	}//end rss_postbox_container()
-
-
-	/**
-	 * Synchronization Operator with a phonebook.
-	 *
-	 * @since 1.0.0
-	 */
-
-
-	public function ajax_sync_operate() {
-		$sync_operation = ( $_POST['sync_operation'] ?? '' );
-		if ( $sync_operation === 'fsms_digits-sync' ) {
-			$result = $this->sync_digits();
-		} else if ( $sync_operation === 'fsms_woo-sync' ) {
-			$result = $this->sync_woo();
-		} else if ( $sync_operation === 'fsms_bookly-sync' ) {
-			$result = $this->sync_bookly();
-		}
-
-		if ( $result === 'empty_phonebook' ) {
-			wp_send_json_error( __( 'Please select a phonebook first.', 'farazsms' ) );
-		}
-
-		if ( $result === 'error_happened' ) {
-			wp_send_json_error( __( 'An error occurred. Please try again later.', 'farazsms' ) );
-		}
-
-		if ( $result ) {
-			wp_send_json_success();
-		} else {
-			wp_send_json_error();
-		}
-
-	}//end ajax_sync_operate()
-
-
-	/**
-	 * Digits Synchronization with a phonebook.
-	 *
-	 * @since 1.0.0
-	 */
-
-	private function sync_digits() {
-		$fsms_base        = Farazsms_Base::get_instance();
-		$users            = get_users( [ 'fields' => 'ID' ] );
-		$digits_phonebook = self::$fsms_digits_phonebook;
-		if ( empty( $digits_phonebook ) ) {
-			return 'empty_phonebook';
-		}
-
-		foreach ( $digits_phonebook as $phone_bookId ) {
-			$data = [];
-			foreach ( $users as $userid ) {
-				$number_info       = [];
-				$user_digits_phone = get_user_meta( $userid, 'digits_phone', true );
-				if ( empty( $user_digits_phone ) ) {
-					continue;
-				}
-
-				$user_info                   = get_userdata( $userid );
-				$number_info['number']       = $user_digits_phone;
-				$number_info['name']         = ( $user_info->display_name ?? $user_info->first_name ) . ' ' . $user_info->last_name;
-				$number_info['phonebook_id'] = (int) $phone_bookId;
-				array_push( $data, $number_info );
-			}
-
-			$result = $fsms_base->save_to_phonebookv3( $data );
-			if ( ! $result ) {
-				return 'error_happened';
-			}
-		}
-
-		return true;
-
-	}//end sync_digits()
-
-
-	/**
-	 * Woocommerce Synchronization with a phonebook.
-	 *
-	 * @since 1.0.0
-	 */
-
-
-	private function sync_woo() {
-		$fsms_base     = Farazsms_Base::get_instance();
-		$query         = new WC_Order_Query( [ 'limit' => 9999, 'type' => 'shop_order', 'return' => 'ids' ] );
-		$order_ids     = $query->get_orders();
-		$woo_phonebook = self::$fsms_woo_phonebook;
-		if ( empty( $woo_phonebook ) ) {
-			return 'empty_phonebook';
-		}
-
-		foreach ( $woo_phonebook as $phone_bookId ) {
-			$data = [];
-			foreach ( $order_ids as $order_id ) {
-				$number_info                 = [];
-				$order                       = wc_get_order( $order_id );
-				$number                      = $order->get_billing_phone();
-				$name                        = $order->get_formatted_billing_full_name();
-				$number_info['number']       = $number;
-				$number_info['name']         = $name;
-				$number_info['phonebook_id'] = (int) $phone_bookId;
-				array_push( $data, $number_info );
-			}
-
-			$result = $fsms_base->save_to_phonebookv3( $data );
-			if ( ! $result ) {
-				return 'error_happened';
-			}
-		}
-
-		return true;
-
-	}//end sync_woo()
-
-
-	/**
-	 * Bookly Synchronization with a phonebook.
-	 *
-	 * @since 1.0.0
-	 */
-
-
-	private function sync_bookly() {
-		$fsms_base = Farazsms_Base::get_instance();
-		global $wpdb;
-		$bookly_customers = $wpdb->get_results( 'SELECT phone,full_name FROM ' . $wpdb->prefix . 'bookly_customers' );
-		$bookly_phonebook = self::$fsms_bookly_phonebook;
-		if ( empty( $bookly_phonebook ) ) {
-			return 'empty_phonebook';
-		}
-
-		foreach ( $bookly_phonebook as $phone_bookId ) {
-			$data = [];
-			foreach ( $bookly_customers as $customer ) {
-				$number_info                 = [];
-				$number_info['number']       = substr( $customer->phone, - 10 );
-				$number_info['name']         = $customer->full_name;
-				$number_info['phonebook_id'] = (int) $phone_bookId;
-				array_push( $data, $number_info );
-			}
-
-			$result = $fsms_base->save_to_phonebookv3( $data );
-			if ( ! $result ) {
-				return 'error_happened';
-			}
-		}
-
-		return true;
-
-	}//end sync_bookly()
 
 
 	/**

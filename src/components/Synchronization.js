@@ -22,41 +22,20 @@ function Synchronization(props) {
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
   function ourReduser(draft, action) {}
 
-  /**
-   * Bookly Sync function
-   *
-   * @since 2.0.0
-   */
-  useEffect(() => {
-    async function wooCustomerPhoneNum() {
+  function syncWoo(e) {
+    e.preventDefault();
+    async function syncWoo() {
       try {
-        // Get CustomerPhoneNum from site DB Options table
-        const wooCustomerPhoneNum = await AxiosWp.get("/wc/v3/customers");
-        if (wooCustomerPhoneNum.data) {
-          const customerArr = wooCustomerPhoneNum.data;
-          const customerNumArr = customerArr.map((customer) => {
-            return customer.billing.phone;
-          });
-          console.log(customerNumArr);
-        }
+        await AxiosWp.post("/farazsms/v1/faraz_sync_woo");
       } catch (e) {
         console.log(e);
       }
     }
-    wooCustomerPhoneNum();
-  }, []);
+    syncWoo();
 
-  /**
-   * Bookly Sync function
-   *
-   * @since 2.0.0
-   */
-
-  // function booklySync(e) {
-  //   e.preventDefault();
-  //   const booklySync = farazsmsJsObject.booklySync;
-  //   console.log(booklySync);
-  // }
+    // 👇️ refers to the link element
+    console.log(e.currentTarget);
+  }
 
   return (
     <>
@@ -68,7 +47,6 @@ function Synchronization(props) {
             <h5 className="card-title">
               {__("Synchronization bookley users with phonebook", "farazsms")}
             </h5>
-
             <a className="btn btn-info">
               {__("Bookley synchronization", "farazsms")}
             </a>
@@ -87,10 +65,9 @@ function Synchronization(props) {
                 "farazsms"
               )}
             </h5>
-
-            <a className="btn btn-info">
+            <button className="btn btn-info" onClick={syncWoo}>
               {__("Woocommerce synchronization", "farazsms")}
-            </a>
+            </button>
           </div>
         </div>
       ) : (
@@ -103,7 +80,6 @@ function Synchronization(props) {
             <h5 className="card-title">
               {__("Synchronization digits users with phonebook", "farazsms")}
             </h5>
-
             <a className="btn btn-info">
               {__("Digits synchronization", "farazsms")}
             </a>
