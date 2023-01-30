@@ -13974,15 +13974,37 @@ function Synchronization(props) {
     e.preventDefault();
     async function syncWoo() {
       try {
-        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/faraz_sync_woo");
+        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_woo");
+        console.log("Sync success!");
       } catch (e) {
         console.log(e);
       }
     }
     syncWoo();
-
-    // 👇️ refers to the link element
-    console.log(e.currentTarget);
+  }
+  function syncDigits(e) {
+    e.preventDefault();
+    async function syncDigits() {
+      try {
+        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_woo");
+        console.log("Sync success!");
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    syncDigits();
+  }
+  function syncBookly(e) {
+    e.preventDefault();
+    async function syncBookly() {
+      try {
+        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_woo");
+        console.log("Sync success!");
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    syncBookly();
   }
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
     sectionName: state.sectionName
@@ -13993,7 +14015,8 @@ function Synchronization(props) {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", {
     className: "card-title"
   }, __("Synchronization bookley users with phonebook", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    className: "btn btn-info"
+    className: "btn btn-info",
+    onClick: syncBookly
   }, __("Bookley synchronization", "farazsms")))) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_3__["default"], {
     sectionName: "Bookly"
   }), props.integratedPlugins.woocommerce.use ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -14014,7 +14037,8 @@ function Synchronization(props) {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", {
     className: "card-title"
   }, __("Synchronization digits users with phonebook", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-    className: "btn btn-info"
+    className: "btn btn-info",
+    onClick: syncDigits
   }, __("Digits synchronization", "farazsms")))) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_3__["default"], {
     sectionName: "Digits"
   }));

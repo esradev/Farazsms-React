@@ -12,7 +12,7 @@
  * Load IPPanel autoload file.
  */
 
-require 'vendor/autoload.php';
+require_once(__DIR__.'/../vendor/autoload.php');
 
 use IPPanel\Client;
 use IPPanel\Errors\Error;

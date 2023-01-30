@@ -182,29 +182,29 @@ class Farazsms_Routes {
 			],
 		] );
 
-		//Register faraz_sync_woo rest route
-		register_rest_route( $namespace, '/' . 'faraz_sync_woo', [
+		//Register sync_woo rest route
+		register_rest_route( $namespace, '/' . 'sync_woo', [
 			[
 				'methods'             => 'POST',
-				'callback'            => [ $this, 'faraz_sync_woo' ],
+				'callback'            => [ $this, 'sync_woo' ],
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
 
-		//Register faraz_sync_bookly rest route
-		register_rest_route( $namespace, '/' . 'faraz_sync_bookly', [
+		//Register sync_bookly rest route
+		register_rest_route( $namespace, '/' . 'sync_bookly', [
 			[
 				'methods'             => 'POST',
-				'callback'            => [ $this, 'faraz_sync_bookly' ],
+				'callback'            => [ $this, 'sync_bookly' ],
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
 
-		//Register faraz_sync_digits rest route
-		register_rest_route( $namespace, '/' . 'faraz_sync_digits', [
+		//Register sync_digits rest route
+		register_rest_route( $namespace, '/' . 'sync_digits', [
 			[
 				'methods'             => 'POST',
-				'callback'            => [ $this, 'faraz_sync_digits' ],
+				'callback'            => [ $this, 'sync_digits' ],
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
@@ -578,30 +578,16 @@ class Farazsms_Routes {
 	 *
 	 * @since 2.0.0
 	 */
-	public function faraz_sync_woo() {
+	public function sync_woo() {
 		$fsms_base     = Farazsms_Base::get_instance();
 		$query         = new WC_Order_Query( [ 'limit' => 9999, 'type' => 'shop_order', 'return' => 'ids' ] );
 		$order_ids     = $query->get_orders();
 		$woo_phonebook = array_column(self::$fsms_woo_phonebook, 'value');
-		if ( empty( $woo_phonebook ) ) {
-			return 'empty_phonebook';
-		}
-		foreach ( $woo_phonebook as $phone_bookId ) {
-			$data = [];
-			foreach ( $order_ids as $order_id ) {
-				$number_info                 = [];
-				$order                       = wc_get_order( $order_id );
-				$number                      = $order->get_billing_phone();
-				$name                        = $order->get_formatted_billing_full_name();
-				$number_info['number']       = $number;
-				$number_info['name']         = $name;
-				$number_info['phonebook_id'] = (int) $phone_bookId;
-				$data[] = $number_info;
-			}
-			$result = $fsms_base->save_to_phonebookv2( $data );
-			if ( ! $result ) {
-				return 'error_happened';
-			}
+		$woo_phonebook_id = current($woo_phonebook);
+		foreach ( $order_ids as $order_id ) {
+			$order                       = wc_get_order( $order_id );
+			$phone                      = $order->get_billing_phone();
+			$result = $fsms_base->save_to_phonebookv2( $phone, $woo_phonebook_id );
 		}
 		return true;
 	}
@@ -611,38 +597,21 @@ class Farazsms_Routes {
 	 *
 	 * @since 2.0.0
 	 */
-	public function faraz_sync_digits() {
+	public function sync_digits() {
 		$fsms_base        = Farazsms_Base::get_instance();
 		$users            = get_users( [ 'fields' => 'ID' ] );
 		$digits_phonebook = array_column(self::$fsms_digits_phonebook, 'value');
-		if ( empty( $digits_phonebook ) ) {
-			return 'empty_phonebook';
-		}
+		$digits_phonebook_id = current($digits_phonebook);
+		foreach ( $users as $userid ) {
 
-		foreach ( $digits_phonebook as $phone_bookId ) {
-			$data = [];
-			foreach ( $users as $userid ) {
-				$number_info       = [];
-				$user_digits_phone = get_user_meta( $userid, 'digits_phone', true );
-				if ( empty( $user_digits_phone ) ) {
-					continue;
-				}
-
-				$user_info                   = get_userdata( $userid );
-				$number_info['number']       = $user_digits_phone;
-				$number_info['name']         = ( $user_info->display_name ?? $user_info->first_name ) . ' ' . $user_info->last_name;
-				$number_info['phonebook_id'] = (int) $phone_bookId;
-				array_push( $data, $number_info );
+			$user_digits_phone = get_user_meta( $userid, 'digits_phone', true );
+			if ( empty( $user_digits_phone ) ) {
+				continue;
 			}
-
-			$result = $fsms_base->save_to_phonebookv2( $data );
-			if ( ! $result ) {
-				return 'error_happened';
-			}
+			$phone       = $user_digits_phone;
+			$result = $fsms_base->save_to_phonebookv2( $phone, $digits_phonebook_id );
 		}
-
 		return true;
-
 	}
 
 	/**
@@ -650,33 +619,18 @@ class Farazsms_Routes {
 	 *
 	 * @since 2.0.0
 	 */
-	public function faraz_sync_bookly() {
+	public function sync_bookly() {
 		$fsms_base = Farazsms_Base::get_instance();
 		global $wpdb;
 		$bookly_customers = $wpdb->get_results( 'SELECT phone ,full_name FROM ' . $wpdb->prefix . 'bookly_customers' );
 		$bookly_phonebook = array_column(self::$fsms_bookly_phonebook, 'value');
-		if ( empty( $bookly_phonebook ) ) {
-			return 'empty_phonebook';
+		$bookly_phonebook_id = current($bookly_phonebook);
+		foreach ( $bookly_customers as $customer ) {
+			$phone       = substr( $customer->phone, - 10 );
 		}
-
-		foreach ( $bookly_phonebook as $phone_bookId ) {
-			$data = [];
-			foreach ( $bookly_customers as $customer ) {
-				$number_info                 = [];
-				$number_info['number']       = substr( $customer->phone, - 10 );
-				$number_info['name']         = $customer->full_name;
-				$number_info['phonebook_id'] = (int) $phone_bookId;
-				array_push( $data, $number_info );
-			}
-
-			$result = $fsms_base->save_to_phonebookv2( $data );
-			if ( ! $result ) {
-				return 'error_happened';
-			}
-		}
+			$result = $fsms_base->save_to_phonebookv2( $phone, $bookly_phonebook_id );
 
 		return true;
-
 	}
 
 	/**

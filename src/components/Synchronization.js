@@ -26,15 +26,39 @@ function Synchronization(props) {
     e.preventDefault();
     async function syncWoo() {
       try {
-        await AxiosWp.post("/farazsms/v1/faraz_sync_woo");
+        await AxiosWp.post("/farazsms/v1/sync_woo");
+        console.log("Sync success!");
       } catch (e) {
         console.log(e);
       }
     }
     syncWoo();
+  }
 
-    // 👇️ refers to the link element
-    console.log(e.currentTarget);
+  function syncDigits(e) {
+    e.preventDefault();
+    async function syncDigits() {
+      try {
+        await AxiosWp.post("/farazsms/v1/sync_woo");
+        console.log("Sync success!");
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    syncDigits();
+  }
+
+  function syncBookly(e) {
+    e.preventDefault();
+    async function syncBookly() {
+      try {
+        await AxiosWp.post("/farazsms/v1/sync_woo");
+        console.log("Sync success!");
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    syncBookly();
   }
 
   return (
@@ -47,7 +71,7 @@ function Synchronization(props) {
             <h5 className="card-title">
               {__("Synchronization bookley users with phonebook", "farazsms")}
             </h5>
-            <a className="btn btn-info">
+            <a className="btn btn-info" onClick={syncBookly}>
               {__("Bookley synchronization", "farazsms")}
             </a>
           </div>
@@ -80,7 +104,7 @@ function Synchronization(props) {
             <h5 className="card-title">
               {__("Synchronization digits users with phonebook", "farazsms")}
             </h5>
-            <a className="btn btn-info">
+            <a className="btn btn-info" onClick={syncDigits}>
               {__("Digits synchronization", "farazsms")}
             </a>
           </div>
