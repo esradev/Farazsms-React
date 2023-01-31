@@ -56,12 +56,12 @@ class Farazsms_Woocommerce {
 	public function __construct() {
 		$woocommerce_options = json_decode( get_option( 'farazsms_woocommerce_options' ), true );
 		if ( $woocommerce_options ) {
+			self::$woo_checkout_otp          = $woocommerce_options['woo_checkout_otp'];
 			self::$woo_checkout_otp_pattern  = $woocommerce_options['woo_checkout_otp_pattern'];
 			self::$woo_poll                  = $woocommerce_options['woo_poll'];
 			self::$woo_poll_time             = $woocommerce_options['woo_poll_time'];
 			self::$woo_poll_msg              = $woocommerce_options['woo_poll_msg'];
 			self::$woo_tracking_pattern      = $woocommerce_options['woo_tracking_pattern'];
-			self::$woo_checkout_otp          = $woocommerce_options['woo_checkout_otp'];
 			self::$woo_retention_order_no    = $woocommerce_options['woo_retention_order_no'];
 			self::$woo_retention_order_month = $woocommerce_options['woo_retention_order_month'];
 			self::$woo_retention_msg         = $woocommerce_options['woo_retention_msg'];
@@ -91,8 +91,8 @@ class Farazsms_Woocommerce {
 	 */
 	public function enqueue_styles() {
 		$woo_checkout_otp = self::$woo_checkout_otp;
-		if ( $woo_checkout_otp === 'true' && is_checkout() ) {
-			wp_enqueue_style( 'farazsms-woo-otp', plugin_dir_url( __FILE__ ) . 'assets/css/farazsms-woo-otp.css', array(), $this->version, 'all' );
+		if ( $woo_checkout_otp && is_checkout() ) {
+			wp_enqueue_style( 'farazsms-woo-otp', plugin_dir_url( __FILE__ ) . 'css/farazsms-woo-otp.css', [], $this->version, 'all' );
 		}
 	}
 
@@ -103,12 +103,12 @@ class Farazsms_Woocommerce {
 	 */
 	public function enqueue_scripts() {
 		$woo_checkout_otp = self::$woo_checkout_otp;
-		if ( $woo_checkout_otp === 'true' && is_checkout() ) {
-			wp_enqueue_script( 'farazsms-woo-otp', plugin_dir_url( __FILE__ ) . 'js/farazsms-woo-otp.js', array( 'jquery' ), $this->version, true );
+		if ( $woo_checkout_otp && is_checkout() ) {
+			wp_enqueue_script( 'farazsms-woo-otp', plugin_dir_url( __FILE__ ) . 'js/farazsms-woo-otp.js', [ 'jquery' ], $this->version, true );
 			wp_localize_script(
 				'farazsms-woo-otp',
 				'fsms_ajax_url',
-				array( 'ajax_url' => admin_url( 'admin-ajax.php' ) )
+				[ 'ajax_url' => admin_url( 'admin-ajax.php' ) ]
 			);
 		}
 	}
@@ -131,24 +131,23 @@ class Farazsms_Woocommerce {
 			'core'
 		);
 
-	}//end tracking_code_order_postbox()
+	}
 
 
 	public function add_order_tracking_box( $post ) {
-		echo '<div id="fsms-tracking-code-input"><input type="text" name="tracking_code" id="fsms_racking_code" /></div>';
-		echo '<div id="fsms-tracking-code-button"><div class="fsms_button" id="send_tracking_code_button"><span class="button__text"></span></div></div>';
+		echo '<div id="fsms-tracking-code-input"><input type="text" name="tracking_code" id="fsms_tracking_code" /></div>';
+		echo '<div id="fsms-tracking-code-button"><div class="fsms_button" id="send_tracking_code_button"><span class="button__text">' . __('Send sms', 'farazsms') .'</span></div></div>';
 		echo ' <input type="hidden" id="fsms-tracking-code-order_id" value="' . $post->ID . '">';
 		echo '<div id="send_tracking_code_response" style="display: none;"></div>';
 
-	}//end add_order_tracking_box()
+	}
 
 
 	public function send_tracking_code_sms() {
-		$fsms_base    = Farazsms_Base::get_instance();
-		$tacking_code = ( $_POST['tacking_code'] ?? '' );
+		$tracking_code = ( $_POST['tracking_code'] ?? '' );
 		$order_id     = ( $_POST['order_id'] ?? '' );
 		try {
-			if ( empty( $tacking_code ) || strlen( $tacking_code ) < 20 ) {
+			if ( empty( $tracking_code ) || strlen( $tracking_code ) < 20 ) {
 				throw new Exception( __( 'Please enter the tracking code correctly.', 'farazsms' ) );
 			}
 
@@ -162,61 +161,59 @@ class Farazsms_Woocommerce {
 			$order_date['order_status']       = wc_get_order_status_name( $order->get_status() );
 			$order_date['billing_full_name']  = $order->get_formatted_billing_full_name();
 			$order_date['shipping_full_name'] = $order->get_formatted_shipping_full_name();
-			$fsms_base->send_tracking_code( $phone, $tacking_code, $order_date );
+			$this->send_tracking_code( $phone, $tracking_code, $order_date );
 			wp_send_json_success();
 		} catch ( Exception $e ) {
 			wp_send_json_error( $e->getMessage() );
 		}
 
-	}//end send_tracking_code_sms()
+	}
 
 	/**
 	 * Send tracking code.
 	 */
-
-
-	public function send_tracking_code( $phone, $tacking_code, $order_date ) {
+	public function send_tracking_code( $phone, $tracking_code, $order_date ) {
 		$tracking_code_pattern = self::$woo_tracking_pattern;
 		if ( empty( $tracking_code_pattern ) ) {
 			throw new Exception( __( 'Pattern not entered to send tracking code', 'farazsms' ) );
 		}
 
-		$phone          = self::fsms_tr_num( $phone );
+		$phone          = Farazsms_Base::fsms_tr_num( $phone );
 		$input_data     = [];
-		$patternMessage = self::get_registered_pattern_variables( $tracking_code_pattern );
+		$patternMessage = Farazsms_Base::get_registered_pattern_variables( $tracking_code_pattern );
 		if ( $patternMessage === null ) {
 			throw new Exception( __( 'Probably your pattern has not been approved', 'farazsms' ) );
 		}
 
-		if ( strpos( $patternMessage, '%tracking_code%' ) !== false ) {
-			$input_data['tracking_code'] = strval( $tacking_code );
+		if ( str_contains( $patternMessage, '%tracking_code%' ) ) {
+			$input_data['tracking_code'] = strval( $tracking_code );
 		}
 
-		if ( strpos( $patternMessage, '%order_id%' ) !== false ) {
+		if ( str_contains( $patternMessage, '%order_id%' ) ) {
 			$input_data['order_id'] = strval( $order_date['order_id'] );
 		}
 
-		if ( strpos( $patternMessage, '%order_status%' ) !== false ) {
+		if ( str_contains( $patternMessage, '%order_status%' ) ) {
 			$input_data['order_status'] = strval( $order_date['order_status'] );
 		}
 
-		if ( strpos( $patternMessage, '%billing_full_name%' ) !== false ) {
+		if ( str_contains( $patternMessage, '%billing_full_name%' ) ) {
 			$input_data['billing_full_name'] = strval( $order_date['billing_full_name'] );
 		}
 
-		if ( strpos( $patternMessage, '%shipping_full_name%' ) !== false ) {
+		if ( str_contains( $patternMessage, '%shipping_full_name%' ) ) {
 			$input_data['shipping_full_name'] = strval( $order_date['shipping_full_name'] );
 		}
 
-		return self::farazsms_send_pattern( $tracking_code_pattern, $phone, $input_data );
+		return Farazsms_Base::farazsms_send_pattern( $tracking_code_pattern, $phone, $input_data );
 
-	}//end send_tracking_code()
+	}
 
 	/**
 	 * Send woocommerce verification code.
 	 */
 	public function send_woocommerce_verification_code( $phone, $data ) {
-		$phone   = self::fsms_tr_num( $phone );
+		$phone   = Farazsms_Base::fsms_tr_num( $phone );
 		$pattern = self::$woo_checkout_otp_pattern;
 		if ( empty( $phone ) || empty( $pattern ) || empty( $data ) ) {
 			return false;
@@ -225,15 +222,13 @@ class Farazsms_Woocommerce {
 		$input_data         = [];
 		$input_data['code'] = strval( $data['code'] );
 
-		return self::farazsms_send_pattern( $pattern, $phone, $input_data );
+		return Farazsms_Base::farazsms_send_pattern( $pattern, $phone, $input_data );
 
-	}//end send_woocommerce_verification_code()
+	}
 
 	/**
 	 * Check if code is valid for woocommerce
 	 */
-
-
 	public function check_if_code_is_valid_for_woo( $phone, $code ) {
 		global $wpdb;
 		$table          = $wpdb->prefix . 'farazsms_vcode';
@@ -245,26 +240,21 @@ class Farazsms_Woocommerce {
 
 		return false;
 
-	}//end check_if_code_is_valid_for_woo()
+	}
 
 
 	/**
 	 * Delete code for woocommerce
 	 */
-
-
 	public function delete_code_for_woo( $phone ) {
 		global $wpdb;
 		$table = $wpdb->prefix . 'farazsms_vcode';
 		$wpdb->delete( $table, [ 'phone' => $phone ] );
-
-	}//end delete_code_for_woo()
+	}
 
 	/**
 	 * Send timed message.
 	 */
-
-
 	public function send_timed_message( $phone, $data, $order_date ) {
 		$fsms_woo_poll         = self::$woo_poll;
 		$fsms_woo_poll_time    = self::$woo_poll_time;
@@ -272,7 +262,6 @@ class Farazsms_Woocommerce {
 		if ( $fsms_woo_poll == 'false' || empty( $fsms_woo_poll_time ) || empty( $fsms_woo_poll_message ) ) {
 			return;
 		}
-
 		$message = str_replace(
 			[
 				'%time%',
@@ -292,8 +281,8 @@ class Farazsms_Woocommerce {
 		$date_to_send = date( 'Y-m-d H:i:s', strtotime( $order_date->date( 'Y-m-d H:i:s' ) . ' + ' . $fsms_woo_poll_time . ' days' ) );
 
 		$body     = [
-			'uname'   => self::$username,
-			'pass'    => self::$password,
+			'uname'   => Farazsms_Base::$username,
+			'pass'    => Farazsms_Base::$password,
 			'from'    => '+98club',
 			'op'      => 'send',
 			'to'      => $phone,
@@ -313,35 +302,23 @@ class Farazsms_Woocommerce {
 			return false;
 		}
 
-	}//end send_timed_message()
+	}
 
 	/**
-	 *
 	 * Woocommerce payment finished.
-	 *
 	 */
-
 	public function woo_payment_finished( $id ) {
 		$fsms_base = Farazsms_Base::get_instance();
 		$order     = wc_get_order( $id );
 		$phone     = $order->get_billing_phone();
-		$name      = $order->get_formatted_billing_full_name() ?? '';
+
 		if ( empty( $phone ) ) {
 			return;
 		}
-		//		$phone = substr($phone,-10);
-		$woo_phonebooks = self::$woo_phonebook;
-		foreach ( $woo_phonebooks as $phonebookId ) {
-			//$fsms_base::save_to_phonebook($phone, $phonebookId);
-			$data[] = [
-				'number'       => $phone,
-				'name'         => $name,
-				'phonebook_id' => (int) $phonebookId['value']
-			];
-			$fsms_base->save_to_phonebookv3( $data );
-		}
 
-		//$fsms_base::send_welcome_message($phone, $order->get_billing_first_name().' '.$order->get_billing_last_name());
+		$woo_phonebook_id = Farazsms_Public::$woo_phonebook;
+		$fsms_base->save_to_phonebookv2( $phone, $woo_phonebook_id );
+
 		return true;
 	}
 
@@ -365,16 +342,12 @@ class Farazsms_Woocommerce {
 		$product                   = wc_get_product( $most_expensive_product_id );
 		$data['item']              = $product->get_title();
 		$data['item_link']         = get_permalink( $most_expensive_product_id );
-		$fsms_base->send_timed_message( $phone, $data, $order->get_date_created() );
+		$this->send_timed_message( $phone, $data, $order->get_date_created() );
 	}
 
 	/**
-	 *
 	 * Woocommerce retention action.
-	 *
 	 */
-
-
 	public function fsms_woo_retention_action() {
 		$retention_order_no    = self::$woo_retention_order_no;
 		$retention_order_month = self::$woo_retention_order_month;
@@ -419,16 +392,12 @@ class Farazsms_Woocommerce {
 			}
 		}
 	}
+
 	/**
-	 *
 	 * Woocommerce checkout fields.
-	 *
 	 */
-
 	public function fsms_woocommerce_checkout_fields( $fields ) {
-		$woo_checkout_otp = self::$woo_checkout_otp;
-
-		if ( $woo_checkout_otp !== 'true' ) {
+		if ( self::$woo_checkout_otp !== 'true' ) {
 			return $fields;
 		}
 
@@ -466,14 +435,10 @@ class Farazsms_Woocommerce {
 	}
 
 	/**
-	 *
 	 * Woocommerce checkout process.
-	 *
 	 */
-
 	public function fsms_woocommerce_checkout_process() {
-		$woo_checkout_otp = self::$woo_checkout_otp;
-		if ( $woo_checkout_otp !== 'true' ) {
+		if ( self::$woo_checkout_otp !== 'true' ) {
 			return;
 		}
 
@@ -481,31 +446,26 @@ class Farazsms_Woocommerce {
 			wc_add_notice( __( 'Please confirm your phone number first', 'farazsms' ), 'error' );
 		}
 		$otp       = $_POST['billing_phone_otp'];
-		$fsms_base = Farazsms_Base::get_instance();
-		$is_valid  = $fsms_base::check_if_code_is_valid_for_woo( $_POST['billing_phone'], $otp );
+		$is_valid  = $this->check_if_code_is_valid_for_woo( $_POST['billing_phone'], $otp );
 		if ( ! $is_valid ) {
 			wc_add_notice( __( 'The verification code entered is not valid', 'farazsms' ), 'error' );
 		}
 	}
 
 	/**
-	 *
 	 * Send OTP Code.
-	 *
 	 */
-
 	public function fsms_send_otp_code() {
-		$fsms_base = Farazsms_Base::get_instance();
 		$mobile    = $_POST['mobile'];
 		if ( ! isset( $mobile ) ) {
 			wp_send_json_error( __( 'Please enter phone number.', 'farazsms' ) );
 		}
 		$generated_code = rand( 1000, 9999 );
-		$fsms_base::save_generated_code_to_db( $mobile, $generated_code );
-		$data   = array(
+		Farazsms_Base::save_generated_code_to_db( $mobile, $generated_code );
+		$data   = [
 			'code' => $generated_code,
-		);
-		$result = $fsms_base->send_woocommerce_verification_code( $mobile, $data );
+		];
+		$result = $this->send_woocommerce_verification_code( $mobile, $data );
 		if ( ! $result ) {
 			wp_send_json_error( __( 'An error occurred', 'farazsms' ) );
 		} else {
@@ -514,15 +474,11 @@ class Farazsms_Woocommerce {
 	}
 
 	/**
-	 *
 	 * Delete OTP Code.
-	 *
 	 */
-
 	public function fsms_delete_otp_code( $order_id ) {
-		$fsms_base = Farazsms_Base::get_instance();
 		$order     = wc_get_order( $order_id );
-		$fsms_base::delete_code_for_woo( $order->get_billing_phone() );
+		$this::delete_code_for_woo( $order->get_billing_phone() );
 	}
 }
 

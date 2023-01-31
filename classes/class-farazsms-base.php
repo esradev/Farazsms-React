@@ -31,35 +31,35 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		 */
 		private static $instance = null;
 
-		private static $username;
+		public static $username;
 
-		private static $password;
+		public static $password;
 
-		private static $admin_number;
+		public static $admin_number;
 
-		private static $fromNum;
+		public static $fromNum;
 
-		private static $fromNumAdver;
+		public static $fromNumAdver;
 
-		private static $apiKey;
+		public static $apiKey;
 
-		private static $sendwm;
+		public static $sendwm;
 
-		private static $sendwm_with_pattern;
+		public static $sendwm_with_pattern;
 
-		private static $welcome_message;
+		public static $welcome_message;
 
-		private static $welcomep;
+		public static $welcomep;
 
-		private static $admin_login_notify_pattern;
+		public static $admin_login_notify_pattern;
 
-		private static $comment_phonebook;
+		public static $comment_phonebook;
 
-		private static $news_welcome;
+		public static $news_welcome;
 
-		private static $news_welcome_pattern;
+		public static $news_welcome_pattern;
 
-		private static $news_send_verify_pattern;
+		public static $news_send_verify_pattern;
 
 
 		public function __construct() {
@@ -216,7 +216,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		/**
 		 * Farazsms send pattern function.
 		 */
-		public function farazsms_send_pattern( $pattern, $phone, $input_data ) {
+		public static function farazsms_send_pattern( $pattern, $phone, $input_data ) {
 			if ( ! empty( self::$apiKey ) ) {
 				$client = new Client( self::$apiKey );
 				try {
@@ -638,9 +638,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		/**
 		 * Get registered pattern variables.
 		 */
-
-
-		public function get_registered_pattern_variables( $pCode ) {
+		public static function get_registered_pattern_variables( $pCode ) {
 			$body = [
 				'uname'       => self::$username,
 				'pass'        => self::$password,

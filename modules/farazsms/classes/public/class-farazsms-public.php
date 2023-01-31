@@ -40,59 +40,59 @@ class Farazsms_Public extends Farazsms_Base {
 	// private $_woo_installed = false;
 	// private $_digits_installed = false;
 
-	private static $add_mobile_field;
-	private static $required_mobile_field;
-	private static $notify_admin_for_comment;
-	private static $approved_comment_pattern;
-	private static $comment_pattern;
-	private static $notify_admin_for_comment_pattern;
-	private static $comment_phonebook;
+	public static $add_mobile_field;
+	public static $required_mobile_field;
+	public static $notify_admin_for_comment;
+	public static $approved_comment_pattern;
+	public static $comment_pattern;
+	public static $notify_admin_for_comment_pattern;
+	public static $comment_phonebook;
 
-	private static $admin_login_notify;
-	private static $admin_login_notify_pattern;
-	private static $select_roles;
+	public static $admin_login_notify;
+	public static $admin_login_notify_pattern;
+	public static $select_roles;
 
-	private static $custom_phonebook;
-	private static $custom_phone_meta_keys;
-	private static $digits_phonebook;
-	private static $woo_phonebook;
-	private static $gf_phonebook;
-	private static $gf_selected_field;
+	public static $custom_phonebook;
+	public static $custom_phone_meta_keys;
+	public static $digits_phonebook;
+	public static $woo_phonebook;
+	public static $gf_phonebook;
+	public static $gf_selected_field;
 
-	private static $edd_phonebook;
-	private static $edd_send_to_user;
-	private static $edd_user_pattern;
-	private static $edd_send_to_admin;
-	private static $edd_admin_pattern;
+	public static $edd_phonebook;
+	public static $edd_send_to_user;
+	public static $edd_user_pattern;
+	public static $edd_send_to_admin;
+	public static $edd_admin_pattern;
 
-	private static $news_phonebook;
-	private static $news_send_verify_via_pattern;
-	private static $news_post_notify;
-	private static $news_post_notify_msg;
-	private static $news_product_notify;
-	private static $news_product_notify_msg;
+	public static $news_phonebook;
+	public static $news_send_verify_via_pattern;
+	public static $news_post_notify;
+	public static $news_post_notify_msg;
+	public static $news_product_notify;
+	public static $news_product_notify_msg;
 
-	private static $aff_user_mobile_field;
-	private static $aff_user_register;
-	private static $aff_user_register_pattern;
-	private static $aff_user_new_ref;
-	private static $aff_user_new_ref_pattern;
-	private static $aff_user_on_approval;
-	private static $aff_user_on_approval_pattern;
-	private static $aff_admin_user_register;
-	private static $aff_admin_user_register_pattern;
-	private static $aff_admin_user_new_ref;
-	private static $aff_admin_user_new_ref_pattern;
-	private static $aff_admin_user_on_approval;
-	private static $aff_admin_user_on_approval_pattern;
+	public static $aff_user_mobile_field;
+	public static $aff_user_register;
+	public static $aff_user_register_pattern;
+	public static $aff_user_new_ref;
+	public static $aff_user_new_ref_pattern;
+	public static $aff_user_on_approval;
+	public static $aff_user_on_approval_pattern;
+	public static $aff_admin_user_register;
+	public static $aff_admin_user_register_pattern;
+	public static $aff_admin_user_new_ref;
+	public static $aff_admin_user_new_ref_pattern;
+	public static $aff_admin_user_on_approval;
+	public static $aff_admin_user_on_approval_pattern;
 
-	private static $ihc_send_first_notify;
-	private static $ihc_send_second_notify;
-	private static $ihc_send_third_notify;
-	private static $ihc_first_notify_msg;
-	private static $ihc_notify_before_time;
-	private static $pmp_send_expire_notify;
-	private static $pmp_expire_notify_msg;
+	public static $ihc_send_first_notify;
+	public static $ihc_send_second_notify;
+	public static $ihc_send_third_notify;
+	public static $ihc_first_notify_msg;
+	public static $ihc_notify_before_time;
+	public static $pmp_send_expire_notify;
+	public static $pmp_expire_notify_msg;
 
 
 	/**
