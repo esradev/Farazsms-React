@@ -129,6 +129,13 @@ class Farazsms {
 		 */
 		require_once FARAZSMS_MODULES_PATH . 'elementor/class-farazsms-elementor.php';
 
+		/**
+		 * The class responsible for defining all actions for woocommerce.
+		 *
+		 * @since 2.0.0
+		 */
+		require_once FARAZSMS_MODULES_PATH . 'woocommerce/class-farazsms-woocommerce.php';
+
 
 		$this->loader = new Farazsms_Loader();
 	}
@@ -164,8 +171,14 @@ class Farazsms {
 
 		$this->loader->add_action( 'init', $plugin_options, 'register_settings_options' );
 		$this->loader->add_action( 'init', $plugin_options, 'register_login_notify_options' );
+		$this->loader->add_action( 'init', $plugin_options, 'register_phonebook_options' );
 		$this->loader->add_action( 'init', $plugin_options, 'register_comments_options' );
 		$this->loader->add_action( 'init', $plugin_options, 'register_newsletter_options' );
+		$this->loader->add_action( 'init', $plugin_options, 'register_woocommerce_options' );
+		$this->loader->add_action( 'init', $plugin_options, 'register_edd_options' );
+		$this->loader->add_action( 'init', $plugin_options, 'register_aff_options' );
+		$this->loader->add_action( 'init', $plugin_options, 'register_membership_options' );
+		$this->loader->add_action( 'init', $plugin_options, 'register_integrations_options' );
 	}
 
 	/**
@@ -239,10 +252,7 @@ class Farazsms {
 		$this->loader->add_action( 'wp_ajax_fsms_delete_user_from_subscribers', $plugin_admin, 'fsms_delete_user_from_subscribers' );
 		$this->loader->add_action( 'wp_ajax_nopriv_fsms_delete_user_from_subscribers', $plugin_admin, 'fsms_delete_user_from_subscribers' );
 
-		$this->loader->add_action( 'add_meta_boxes', $plugin_admin, 'fsms_tracking_code_order_postbox' );
-		$this->loader->add_action( 'wp_ajax_fsms_send_tracking_code_sms', $plugin_admin, 'fsms_send_tracking_code_sms' );
-		$this->loader->add_action( 'wp_ajax_nopriv_fsms_send_tracking_code_sms', $plugin_admin, 'fsms_send_tracking_code_sms' );
-	}
+			}
 
 	/**
 	 * Register all the hooks related to the public-facing functionality
@@ -259,7 +269,6 @@ class Farazsms {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_filter( 'update_user_metadata', $plugin_public, 'monitor_update_user_metadata', 499, 4 );
 		$this->loader->add_action( 'profile_update', $plugin_public, 'fsms_user_profile_updated', 99, 2 );
-		$this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'woo_payment_finished' );
 		$this->loader->add_action( 'comment_form_logged_in_after', $plugin_public, 'add_mobile_field_to_comment_form' );
 		$this->loader->add_action( 'comment_form_after_fields', $plugin_public, 'add_mobile_field_to_comment_form' );
 		$this->loader->add_action( 'preprocess_comment', $plugin_public, 'verify_comment_input' );
@@ -284,8 +293,6 @@ class Farazsms {
 		$this->loader->add_action( 'wp_login', $plugin_public, 'fsms_admin_login_action', 10, 2 );
 		$this->loader->add_action( 'wp_login', $plugin_public, 'fsms_admin_roles_login_action', 11, 2 );
 
-		$this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'woo_send_timed_message' );
-		//$this->loader->add_action( 'init', $plugin_public, 'fsms_woo_retention_action' );
 
 		$this->loader->add_filter( 'ihc_filter_notification_before_expire', $plugin_public, 'fsms_first_notification_before_expire', 10, 4 );
 
@@ -305,7 +312,6 @@ class Farazsms {
 
 		$this->loader->add_action( 'transition_post_status', $plugin_public, 'fsms_product_published', 10, 3 );
 
-		$this->loader->add_action( 'woocommerce_checkout_get_value', $plugin_public, 'fsms_pre_populate_checkout_fields', 10, 2 );
 
 		//$this->loader->add_action( 'user_register', $plugin_public, 'fsms_user_created_action', 99);
 
@@ -315,13 +321,6 @@ class Farazsms {
 		$this->loader->add_action( 'init', $plugin_public, 'fsms_check_remaining_days' );
 
 		$this->loader->add_action( 'pmpro_membership_post_membership_expiry', $plugin_public, 'fsms_pmp_membership_membership_expiry', 10, 2 );
-
-
-		$this->loader->add_filter( 'woocommerce_billing_fields', $plugin_public, 'fsms_woocommerce_checkout_fields' );
-		$this->loader->add_action( 'woocommerce_checkout_process', $plugin_public, 'fsms_woocommerce_checkout_process' );
-		$this->loader->add_action( 'wp_ajax_fsms_send_otp_code', $plugin_public, 'fsms_send_otp_code' );
-		$this->loader->add_action( 'wp_ajax_nopriv_fsms_send_otp_code', $plugin_public, 'fsms_send_otp_code' );
-		$this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'fsms_delete_otp_code' );
 
 		$this->loader->add_action( 'init', $plugin_public, 'temp_init_kook' );
 	}

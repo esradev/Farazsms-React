@@ -578,17 +578,43 @@ class Farazsms_Routes {
 	 *
 	 * @since 2.0.0
 	 */
-	public function sync_woo() {
-		$fsms_base     = Farazsms_Base::get_instance();
-		$query         = new WC_Order_Query( [ 'limit' => 9999, 'type' => 'shop_order', 'return' => 'ids' ] );
-		$order_ids     = $query->get_orders();
+//	public function sync_woo() {
+//		$fsms_base     = Farazsms_Base::get_instance();
+//		$query         = new WC_Order_Query( [ 'limit' => 9999, 'type' => 'shop_order', 'return' => 'ids' ] );
+//		$order_ids     = $query->get_orders();
+//		$woo_phonebook = array_column(self::$fsms_woo_phonebook, 'value');
+//		$woo_phonebook_id = current($woo_phonebook);
+//		foreach ( $order_ids as $order_id ) {
+//			$order                       = wc_get_order( $order_id );
+//			$phone                      = $order->get_billing_phone();
+//			$result = $fsms_base->save_to_phonebookv2( $phone, $woo_phonebook_id );
+//		}
+//		return true;
+//	}
+
+	public function sync_woo()
+	{
+		$fsms_base = class_farazsms_base::getInstance();
+		$query = new WC_Order_Query(array('limit' => 9999, 'type' => 'shop_order', 'return' => 'ids'));
+		$order_ids = $query->get_orders();
 		$woo_phonebook = array_column(self::$fsms_woo_phonebook, 'value');
 		$woo_phonebook_id = current($woo_phonebook);
-		foreach ( $order_ids as $order_id ) {
-			$order                       = wc_get_order( $order_id );
-			$phone                      = $order->get_billing_phone();
-			$result = $fsms_base->save_to_phonebookv2( $phone, $woo_phonebook_id );
+
+		$list = [];
+		foreach ($order_ids as $order_id) {
+			$number_info = [];
+			$order = wc_get_order($order_id);
+			$number = $order->get_billing_phone();
+			$name = $order->get_formatted_billing_full_name();
+
+			$list[] = (object) [ 'number'       => $number,
+			                     'name'         => $name,
+			                     'options'      => (object) [ '100' => 'value' ],
+			                     'phonebook_id' => (int) $woo_phonebook_id
+			];
 		}
+			$result = $fsms_base->save_to_phonebookv4($list);
+
 		return true;
 	}
 

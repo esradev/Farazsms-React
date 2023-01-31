@@ -322,8 +322,6 @@ class Farazsms_Admin extends Farazsms_Base {
 	 *
 	 * @since 2.0.0
 	 */
-
-
 	public function settings_link( $links ) {
 		// Add settings link
 		$settings_link = '<a href="' . FARAZSMS_SETTINGS_LINK . '">Settings</a>';
@@ -342,8 +340,6 @@ class Farazsms_Admin extends Farazsms_Base {
 	 *
 	 * @since 1.0.0
 	 */
-
-
 	public function rss_meta_box() {
 		if ( get_option( 'fsms_rss_meta_box', '1' ) == '1' ) {
 			add_meta_box(
@@ -387,8 +383,6 @@ class Farazsms_Admin extends Farazsms_Base {
 	 *
 	 * @since 1.0.0
 	 */
-
-
 	public function comments_fsms_table_columns( $my_cols ) {
 		$temp_columns = [
 			'mobile' => __( 'Phone number', 'farazsms' ),
@@ -417,8 +411,6 @@ class Farazsms_Admin extends Farazsms_Base {
 	 *
 	 * @since 1.0.0
 	 */
-
-
 	public function ajax_send_message_to_phonebooks() {
 		$fsms_base           = Farazsms_Base::get_instance();
 		$message             = ( $_POST['message'] ?? '' );
@@ -466,8 +458,6 @@ class Farazsms_Admin extends Farazsms_Base {
 	 *
 	 * @since 1.0.0
 	 */
-
-
 	public function fsms_delete_user_from_subscribers() {
 		$fsms_base     = Farazsms_Base::get_instance();
 		$subscriber_id = ( $_POST['subscriber_id'] ?? '' );
@@ -482,8 +472,6 @@ class Farazsms_Admin extends Farazsms_Base {
 	 *
 	 * @since 1.0.0
 	 */
-
-
 	public function send_message_to_subscribers() {
 		$fsms_base   = Farazsms_Base::get_instance();
 		$message     = ( $_POST['message'] ?? '' );
@@ -496,7 +484,7 @@ class Farazsms_Admin extends Farazsms_Base {
 			wp_send_json_error( __( 'No one is a subscriber of the newsletter yet', 'farazsms' ) );
 		}
 
-		if ( strpos( $message, '%name%' ) !== false ) {
+		if ( str_contains( $message, '%name%' ) ) {
 			foreach ( $subscribers as $subscriber ) {
 				$message_fixed = str_replace( '%name%', $subscriber->name, $message );
 				$fsms_base->send_message( [ $subscriber->phone ], $message_fixed, '+98club' );
@@ -513,66 +501,6 @@ class Farazsms_Admin extends Farazsms_Base {
 		wp_send_json_success();
 
 	}//end send_message_to_subscribers()
-
-
-	/**
-	 * Send Tracking code for orders.
-	 *
-	 * @since 1.0.0
-	 */
-
-
-	public function fsms_tracking_code_order_postbox() {
-		add_meta_box(
-			'fsms-tracking_send_sms',
-			__( 'Send tracking code.', 'farazsms' ),
-			[
-				$this,
-				'add_order_tracking_box',
-			],
-			'shop_order',
-			'side',
-			'core'
-		);
-
-	}//end fsms_tracking_code_order_postbox()
-
-
-	public function add_order_tracking_box( $post ) {
-		echo '<div id="fsms-tracking-code-input"><input type="text" name="tracking_code" id="fsms_racking_code" /></div>';
-		echo '<div id="fsms-tracking-code-button"><div class="fsms_button" id="send_tracking_code_button"><span class="button__text">ارسال پیامک</span></div></div>';
-		echo ' <input type="hidden" id="fsms-tracking-code-order_id" value="' . $post->ID . '">';
-		echo '<div id="send_tracking_code_response" style="display: none;"></div>';
-
-	}//end add_order_tracking_box()
-
-
-	public function fsms_send_tracking_code_sms() {
-		$fsms_base    = Farazsms_Base::get_instance();
-		$tacking_code = ( $_POST['tacking_code'] ?? '' );
-		$order_id     = ( $_POST['order_id'] ?? '' );
-		try {
-			if ( empty( $tacking_code ) || strlen( $tacking_code ) < 20 ) {
-				throw new Exception( __( 'Please enter the tracking code correctly.', 'farazsms' ) );
-			}
-
-			$order = wc_get_order( $order_id );
-			$phone = $order->get_billing_phone();
-			if ( empty( $phone ) ) {
-				throw new Exception( __( 'Customer phone number not entered.', 'farazsms' ) );
-			}
-
-			$order_date['order_id']           = $order->get_id();
-			$order_date['order_status']       = wc_get_order_status_name( $order->get_status() );
-			$order_date['billing_full_name']  = $order->get_formatted_billing_full_name();
-			$order_date['shipping_full_name'] = $order->get_formatted_shipping_full_name();
-			$fsms_base->send_tracking_code( $phone, $tacking_code, $order_date );
-			wp_send_json_success();
-		} catch ( Exception $e ) {
-			wp_send_json_error( $e->getMessage() );
-		}
-
-	}//end fsms_send_tracking_code_sms()
 
 
 }//end class

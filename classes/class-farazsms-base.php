@@ -61,16 +61,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 		private static $news_send_verify_pattern;
 
-		private static $woo_checkout_otp_pattern;
-
-		private static $woo_poll;
-
-		private static $woo_poll_time;
-
-		private static $woo_poll_msg;
-
-		private static $woo_tracking_pattern;
-
 
 		public function __construct() {
 			/*
@@ -123,15 +113,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 				self::$news_welcome             = $newsletter_options['news_welcome'];
 				self::$news_welcome_pattern     = $newsletter_options['news_welcome_pattern'];
 				self::$news_send_verify_pattern = $newsletter_options['news_send_verify_pattern'];
-			}
-
-			$woocommerce_options = json_decode( get_option( 'farazsms_woocommerce_options' ), true );
-			if ( $woocommerce_options ) {
-				self::$woo_checkout_otp_pattern = $woocommerce_options['woo_checkout_otp_pattern'];
-				self::$woo_poll                 = $woocommerce_options['woo_poll'];
-				self::$woo_poll_time            = $woocommerce_options['woo_poll_time'];
-				self::$woo_poll_msg             = $woocommerce_options['woo_poll_msg'];
-				self::$woo_tracking_pattern     = $woocommerce_options['woo_tracking_pattern'];
 			}
 
 		}//end __construct()
@@ -373,6 +354,22 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 			}
 
 		}//end save_to_phonebookv3()
+
+		public function save_to_phonebookv4( $list ) {
+			$body    = [
+				'list'       => $list,
+			];
+			$handler = curl_init( 'http://api.ippanel.com/api/v1/phonebook/numbers-add-list' );
+			curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'POST' );
+			curl_setopt( $handler, CURLOPT_POSTFIELDS, json_encode( $body ) );
+			curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
+			curl_setopt( $handler, CURLOPT_HTTPHEADER, [ 'Authorization: ' . self::$apiKey , 'Content-Type:application/json' ] );
+
+			curl_exec( $handler );
+
+			return true;
+
+		}//end save_to_phonebookv4()
 
 
 		/**
@@ -953,27 +950,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 		}//end send_newsletter_verification_code()
 
-
-		/**
-		 * Send woocommerce verification code.
-		 */
-
-
-		public function send_woocommerce_verification_code( $phone, $data ) {
-			$phone   = self::fsms_tr_num( $phone );
-			$pattern = self::$woo_checkout_otp_pattern;
-			if ( empty( $phone ) || empty( $pattern ) || empty( $data ) ) {
-				return false;
-			}
-
-			$input_data         = [];
-			$input_data['code'] = strval( $data['code'] );
-
-			return self::farazsms_send_pattern( $pattern, $phone, $input_data );
-
-		}//end send_woocommerce_verification_code()
-
-
 		/**
 		 * Save subscriber to DB.
 		 */
@@ -1026,44 +1002,9 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 		}//end check_if_code_is_valid()
 
-
-		/**
-		 * Check if code is valid for woocommerce
-		 */
-
-
-		public static function check_if_code_is_valid_for_woo( $phone, $code ) {
-			global $wpdb;
-			$table          = $wpdb->prefix . 'farazsms_vcode';
-			$generated_code = $wpdb->get_col( "SELECT code FROM {$table} WHERE phone = '" . $phone . "'" );
-			if ( $generated_code[0] == $code ) {
-				// $wpdb->delete( $table, array( 'phone' => $phone ) );
-				return true;
-			}
-
-			return false;
-
-		}//end check_if_code_is_valid_for_woo()
-
-
-		/**
-		 * Delete code for woocommerce
-		 */
-
-
-		public static function delete_code_for_woo( $phone ) {
-			global $wpdb;
-			$table = $wpdb->prefix . 'farazsms_vcode';
-			$wpdb->delete( $table, [ 'phone' => $phone ] );
-
-		}//end delete_code_for_woo()
-
-
 		/**
 		 * Check if phone already exist.
 		 */
-
-
 		public static function check_if_phone_already_exist( $phone ) {
 			global $wpdb;
 			$table          = $wpdb->prefix . 'farazsms_newsletter';
@@ -1080,8 +1021,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		/**
 		 * Get subscribers.
 		 */
-
-
 		public static function get_subscribers() {
 			global $wpdb;
 			global $wpdb;
@@ -1095,8 +1034,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		/**
 		 * Delete subscriber.
 		 */
-
-
 		public static function delete_subscriber( $subscriber_id ) {
 			global $wpdb;
 			$table = $wpdb->prefix . 'farazsms_newsletter';
@@ -1109,8 +1046,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		/**
 		 * Send newsletter welcome message.
 		 */
-
-
 		public static function send_newsletter_welcome_message( $phone, $name ) {
 			$newsletter_welcome  = self::$news_welcome;
 			$newsletter_welcomep = self::$news_welcome_pattern;
@@ -1120,7 +1055,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 			$phone = self::fsms_tr_num( $phone );
 
-			return ( new Farazsms_Base )->farazsms_send_pattern( $newsletter_welcomep, $phone, [ 'name' => $name ] );
+			return ( new Farazsms_Base() )->farazsms_send_pattern( $newsletter_welcomep, $phone, [ 'name' => $name ] );
 
 		}//end send_newsletter_welcome_message()
 
@@ -1128,8 +1063,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		/**
 		 * Send admins login notification to super admin.
 		 */
-
-
 		public function send_admins_login_notification_to_superadmin( $pattern, $data ) {
 			$input_data     = [];
 			$patternMessage = self::get_registered_pattern_variables( $pattern );
@@ -1150,113 +1083,13 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		}//end send_admins_login_notification_to_superadmin()
 
 
-		/**
-		 * Send timed message.
-		 */
-
-
-		public function send_timed_message( $phone, $data, $order_date ) {
-			$fsms_woo_poll         = self::$woo_poll;
-			$fsms_woo_poll_time    = self::$woo_poll_time;
-			$fsms_woo_poll_message = self::$woo_poll_msg;
-			if ( $fsms_woo_poll == 'false' || empty( $fsms_woo_poll_time ) || empty( $fsms_woo_poll_message ) ) {
-				return;
-			}
-
-			$message = str_replace(
-				[
-					'%time%',
-					'%item%',
-					'%sitename%',
-					'%item_link%',
-				],
-				[
-					$fsms_woo_poll_time,
-					$data['item'],
-					get_bloginfo( 'name' ),
-					$data['item_link'],
-				],
-				$fsms_woo_poll_message
-			);
-
-			$date_to_send = date( 'Y-m-d H:i:s', strtotime( $order_date->date( 'Y-m-d H:i:s' ) . ' + ' . $fsms_woo_poll_time . ' days' ) );
-
-			$body     = [
-				'uname'   => self::$username,
-				'pass'    => self::$password,
-				'from'    => '+98club',
-				'op'      => 'send',
-				'to'      => $phone,
-				'time'    => $date_to_send,
-				'message' => $message,
-			];
-			$response = wp_remote_post(
-				'http://ippanel.com/api/select',
-				[
-					'method'      => 'POST',
-					'headers'     => [ 'Content-Type' => 'application/json' ],
-					'data_format' => 'body',
-					'body'        => json_encode( $body ),
-				]
-			);
-			if ( is_wp_error( $response ) ) {
-				return false;
-			}
-
-		}//end send_timed_message()
-
-
-		/**
-		 * Send tracking code.
-		 */
-
-
-		public function send_tracking_code( $phone, $tacking_code, $order_date ) {
-			$tracking_code_pattern = self::$woo_tracking_pattern;
-			if ( empty( $tracking_code_pattern ) ) {
-				throw new Exception( __( 'Pattern not entered to send tracking code', 'farazsms' ) );
-			}
-
-			$phone          = self::fsms_tr_num( $phone );
-			$input_data     = [];
-			$patternMessage = self::get_registered_pattern_variables( $tracking_code_pattern );
-			if ( $patternMessage === null ) {
-				throw new Exception( __( 'Probably your pattern has not been approved', 'farazsms' ) );
-			}
-
-			if ( strpos( $patternMessage, '%tracking_code%' ) !== false ) {
-				$input_data['tracking_code'] = strval( $tacking_code );
-			}
-
-			if ( strpos( $patternMessage, '%order_id%' ) !== false ) {
-				$input_data['order_id'] = strval( $order_date['order_id'] );
-			}
-
-			if ( strpos( $patternMessage, '%order_status%' ) !== false ) {
-				$input_data['order_status'] = strval( $order_date['order_status'] );
-			}
-
-			if ( strpos( $patternMessage, '%billing_full_name%' ) !== false ) {
-				$input_data['billing_full_name'] = strval( $order_date['billing_full_name'] );
-			}
-
-			if ( strpos( $patternMessage, '%shipping_full_name%' ) !== false ) {
-				$input_data['shipping_full_name'] = strval( $order_date['shipping_full_name'] );
-			}
-
-			return self::farazsms_send_pattern( $tracking_code_pattern, $phone, $input_data );
-
-		}//end send_tracking_code()
-
 
 		/**
 		 * AFFS send sms.
 		 */
-
-
 		public static function affs_send_sms( $phone, $user_register_pattern, $args ) {
 			$input_data     = [];
-			$patternMessage = ( new Farazsms_Base )->get_registered_pattern_variables( $user_register_pattern );
+			$patternMessage = ( new Farazsms_Base() )->get_registered_pattern_variables( $user_register_pattern );
 			if ( strpos( $patternMessage, '%user_login%' ) !== false ) {
 				$input_data['user_login'] = $args['user_login'];
 			}
@@ -1285,7 +1118,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 				$input_data['amount'] = $args['amount'];
 			}
 
-			return ( new Farazsms_Base )->farazsms_send_pattern( $user_register_pattern, $phone, $input_data );
+			return ( new Farazsms_Base() )->farazsms_send_pattern( $user_register_pattern, $phone, $input_data );
 
 		}//end affs_send_sms()
 
