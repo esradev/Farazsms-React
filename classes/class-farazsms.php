@@ -293,7 +293,6 @@ class Farazsms {
 		$this->loader->add_action( 'wp_login', $plugin_public, 'fsms_admin_login_action', 10, 2 );
 		$this->loader->add_action( 'wp_login', $plugin_public, 'fsms_admin_roles_login_action', 11, 2 );
 
-
 		$this->loader->add_filter( 'ihc_filter_notification_before_expire', $plugin_public, 'fsms_first_notification_before_expire', 10, 4 );
 
 		$this->loader->add_action( 'affwp_register_user', $plugin_public, 'fsms_affwp_register_user', 10, 3 );
@@ -309,19 +308,13 @@ class Farazsms {
 		$this->loader->add_action( 'affwp_edit_affiliate_end', $plugin_public, 'fsms_affwp_edit_affiliate_end' );
 		$this->loader->add_action( 'affwp_update_affiliate', $plugin_public, 'fsms_affwp_update_affiliate' );
 
-
 		$this->loader->add_action( 'transition_post_status', $plugin_public, 'fsms_product_published', 10, 3 );
 
-
 		//$this->loader->add_action( 'user_register', $plugin_public, 'fsms_user_created_action', 99);
-
 		//$this->loader->add_filter( 'digits_filter_mobile', $plugin_public, 'fsms_digits_filter_mobile', 99);
-
 		//temp
 		$this->loader->add_action( 'init', $plugin_public, 'fsms_check_remaining_days' );
-
 		$this->loader->add_action( 'pmpro_membership_post_membership_expiry', $plugin_public, 'fsms_pmp_membership_membership_expiry', 10, 2 );
-
 		$this->loader->add_action( 'init', $plugin_public, 'temp_init_kook' );
 	}
 

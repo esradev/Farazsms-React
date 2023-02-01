@@ -74,6 +74,7 @@
           <option value="http://tiles.apache.org/" />
           <option value="http://ippanel.com" />
           <option value="http://reg.ippanel.com" />
+          <option value="http://api.ippanel.com" />
         </list>
       </option>
     </inspection_tool>

@@ -13975,7 +13975,7 @@ function Synchronization(props) {
     async function syncWoo() {
       try {
         await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_woo");
-        console.log("Sync success!");
+        console.log("Sync woocommerce success!");
       } catch (e) {
         console.log(e);
       }
@@ -13986,8 +13986,8 @@ function Synchronization(props) {
     e.preventDefault();
     async function syncDigits() {
       try {
-        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_woo");
-        console.log("Sync success!");
+        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_digits");
+        console.log("Sync digits success!");
       } catch (e) {
         console.log(e);
       }
@@ -13998,8 +13998,8 @@ function Synchronization(props) {
     e.preventDefault();
     async function syncBookly() {
       try {
-        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_woo");
-        console.log("Sync success!");
+        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_bookly");
+        console.log("Sync bookly success!");
       } catch (e) {
         console.log(e);
       }

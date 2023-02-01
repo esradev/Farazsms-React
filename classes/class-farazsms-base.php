@@ -355,7 +355,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 		}//end save_to_phonebookv3()
 
-		public function save_to_phonebookv4( $list ) {
+		public static function save_to_phonebookv4( $list ) {
 			$body    = [
 				'list'       => $list,
 			];
