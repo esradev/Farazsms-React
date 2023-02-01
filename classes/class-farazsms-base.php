@@ -590,7 +590,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		 * Send low credit notify to admin.
 		 */
 
-
 		public function send_admin_low_credit_to_admin() {
 			$fromnum = '3000505';
 			if ( empty( self::$admin_number ) ) {
@@ -671,7 +670,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		 * Send comment replay sms.
 		 */
 
-
 		public function send_comment_reply_sms( $phone, $pattern, $data ) {
 			$phone = self::fsms_tr_num( $phone );
 			if ( empty( $pattern ) ) {
@@ -712,8 +710,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		/**
 		 * Send comment replay sms to admin
 		 */
-
-
 		public function send_comment_reply_sms_to_admin( $data ) {
 			$fsms_admin_notify_pcode = self::fsms_tr_num( self::$admin_login_notify_pattern );
 			if ( empty( $fsms_admin_notify_pcode ) || empty( self::$admin_number ) ) {
@@ -755,7 +751,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		 * Save comment mobile to phonebook.
 		 */
 
-
 		public function save_comment_mobile_to_phonebook( $phone ) {
 			$phone = self::fsms_tr_num( $phone );
 			foreach ( self::$comment_phonebook as $phonebookId ) {
@@ -768,7 +763,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		/**
 		 * Send message.
 		 */
-
 
 		public function send_message( $phones, $message, $sender = null ) {
 			if ( ! empty( $sender ) ) {
@@ -827,8 +821,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		/**
 		 * Get phonebook numbers.
 		 */
-
-
 		public function get_phonebook_numbers( $phoneBookID ) {
 			$body     = [
 				'uname'        => self::$username,
@@ -854,69 +846,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 			return $response;
 
 		}//end get_phonebook_numbers()
-
-
-		/**
-		 * Send EDD sms.
-		 */
-
-
-		public function send_edd_sms( $phone, $pattern, $data ) {
-			$phone = self::fsms_tr_num( $phone );
-			if ( empty( $phone ) or empty( $pattern ) or empty( $data ) ) {
-				return;
-			}
-
-			$input_data     = [];
-			$patternMessage = self::get_registered_pattern_variables( $pattern );
-			if ( $patternMessage === null ) {
-				return;
-			}
-
-			if ( strpos( $patternMessage, '%phone%' ) !== false ) {
-				$input_data['phone'] = $data['phone'];
-			}
-
-			if ( strpos( $patternMessage, '%email%' ) !== false ) {
-				$input_data['email'] = $data['email'];
-			}
-
-			if ( strpos( $patternMessage, '%first_name%' ) !== false ) {
-				$input_data['first_name'] = $data['first_name'];
-			}
-
-			if ( strpos( $patternMessage, '%last_name%' ) !== false ) {
-				$input_data['last_name'] = $data['last_name'];
-			}
-
-			if ( strpos( $patternMessage, '%product%' ) !== false ) {
-				$input_data['product'] = $data['product'];
-			}
-
-			if ( strpos( $patternMessage, '%price%' ) !== false ) {
-				$input_data['price'] = $data['price'];
-			}
-
-			if ( strpos( $patternMessage, '%discount%' ) !== false ) {
-				$input_data['discount'] = $data['discount'];
-			}
-
-			if ( strpos( $patternMessage, '%total_price%' ) !== false ) {
-				$input_data['total_price'] = $data['total_price'];
-			}
-
-			if ( strpos( $patternMessage, '%link%' ) !== false ) {
-				$input_data['link'] = $data['link'];
-			}
-
-			if ( strpos( $patternMessage, '%payment_id%' ) !== false ) {
-				$input_data['payment_id'] = $data['payment_id'];
-			}
-
-			return self::farazsms_send_pattern( $pattern, $phone, $input_data );
-
-		}//end send_edd_sms()
-
 
 		/**
 		 * Send newsletter verification code.
@@ -1079,46 +1008,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 			return self::farazsms_send_pattern( $pattern, self::$admin_number, $input_data );
 
 		}//end send_admins_login_notification_to_superadmin()
-
-
-
-		/**
-		 * AFFS send sms.
-		 */
-		public static function affs_send_sms( $phone, $user_register_pattern, $args ) {
-			$input_data     = [];
-			$patternMessage = ( new Farazsms_Base() )->get_registered_pattern_variables( $user_register_pattern );
-			if ( strpos( $patternMessage, '%user_login%' ) !== false ) {
-				$input_data['user_login'] = $args['user_login'];
-			}
-
-			if ( strpos( $patternMessage, '%user_nicename%' ) !== false ) {
-				$input_data['user_nicename'] = $args['user_nicename'];
-			}
-
-			if ( strpos( $patternMessage, '%user_email%' ) !== false ) {
-				$input_data['user_email'] = $args['user_email'];
-			}
-
-			if ( strpos( $patternMessage, '%display_name%' ) !== false ) {
-				$input_data['display_name'] = $args['display_name'];
-			}
-
-			if ( strpos( $patternMessage, '%user_mobile%' ) !== false ) {
-				$input_data['user_mobile'] = $args['user_mobile'];
-			}
-
-			if ( strpos( $patternMessage, '%amount%' ) !== false ) {
-				$input_data['amount'] = $args['amount'];
-			}
-
-			if ( strpos( $patternMessage, '%amount%' ) !== false ) {
-				$input_data['amount'] = $args['amount'];
-			}
-
-			return ( new Farazsms_Base() )->farazsms_send_pattern( $user_register_pattern, $phone, $input_data );
-
-		}//end affs_send_sms()
 
 
 		/**

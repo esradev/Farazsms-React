@@ -7,7 +7,7 @@
 
   send_tracking_code_button.click(function (event) {
     send_tracking_code_response.removeClass().empty().hide();
-    let tracking_code_value = fsms_tracking_code.val().trim();
+    let tracking_code_value = fsms_tracking_code.val();
     // if(tacking_code_value.length < 20 || tacking_code_value.length > 24){
     //     send_tracking_code_response.addClass("fsms-error-message").text("کد رهگیری بین 20 تا 24 کاراکتر است").show();
     //     return;

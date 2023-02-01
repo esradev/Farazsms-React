@@ -121,7 +121,7 @@ class Farazsms_Woocommerce {
 	public function tracking_code_order_postbox() {
 		add_meta_box(
 			'fsms-tracking_send_sms',
-			__( 'Send tracking code.', 'farazsms' ),
+			__( 'Send tracking code', 'farazsms' ),
 			[
 				$this,
 				'add_order_tracking_box',
@@ -157,11 +157,11 @@ class Farazsms_Woocommerce {
 				throw new Exception( __( 'Customer phone number not entered.', 'farazsms' ) );
 			}
 
-			$order_date['order_id']           = $order->get_id();
-			$order_date['order_status']       = wc_get_order_status_name( $order->get_status() );
-			$order_date['billing_full_name']  = $order->get_formatted_billing_full_name();
-			$order_date['shipping_full_name'] = $order->get_formatted_shipping_full_name();
-			$this->send_tracking_code( $phone, $tracking_code, $order_date );
+			$order_data['order_id']           = $order->get_id();
+			$order_data['order_status']       = wc_get_order_status_name( $order->get_status() );
+			$order_data['billing_full_name']  = $order->get_formatted_billing_full_name();
+			$order_data['shipping_full_name'] = $order->get_formatted_shipping_full_name();
+			$this->send_tracking_code( $phone, $tracking_code, $order_data );
 			wp_send_json_success();
 		} catch ( Exception $e ) {
 			wp_send_json_error( $e->getMessage() );
@@ -172,41 +172,34 @@ class Farazsms_Woocommerce {
 	/**
 	 * Send tracking code.
 	 */
-	public function send_tracking_code( $phone, $tracking_code, $order_date ) {
-		$tracking_code_pattern = self::$woo_tracking_pattern;
-		if ( empty( $tracking_code_pattern ) ) {
+	public function send_tracking_code( $phone, $tracking_code, $order_data ) {
+
+		if ( empty( self::$woo_tracking_pattern ) ) {
 			throw new Exception( __( 'Pattern not entered to send tracking code', 'farazsms' ) );
 		}
 
 		$phone          = Farazsms_Base::fsms_tr_num( $phone );
 		$input_data     = [];
-		$patternMessage = Farazsms_Base::get_registered_pattern_variables( $tracking_code_pattern );
+		$patternMessage = Farazsms_Base::get_registered_pattern_variables( self::$woo_tracking_pattern );
 		if ( $patternMessage === null ) {
 			throw new Exception( __( 'Probably your pattern has not been approved', 'farazsms' ) );
 		}
-
 		if ( str_contains( $patternMessage, '%tracking_code%' ) ) {
 			$input_data['tracking_code'] = strval( $tracking_code );
 		}
-
 		if ( str_contains( $patternMessage, '%order_id%' ) ) {
-			$input_data['order_id'] = strval( $order_date['order_id'] );
+			$input_data['order_id'] = strval( $order_data['order_id'] );
 		}
-
 		if ( str_contains( $patternMessage, '%order_status%' ) ) {
-			$input_data['order_status'] = strval( $order_date['order_status'] );
+			$input_data['order_status'] = strval( $order_data['order_status'] );
 		}
-
 		if ( str_contains( $patternMessage, '%billing_full_name%' ) ) {
-			$input_data['billing_full_name'] = strval( $order_date['billing_full_name'] );
+			$input_data['billing_full_name'] = strval( $order_data['billing_full_name'] );
 		}
-
 		if ( str_contains( $patternMessage, '%shipping_full_name%' ) ) {
-			$input_data['shipping_full_name'] = strval( $order_date['shipping_full_name'] );
+			$input_data['shipping_full_name'] = strval( $order_data['shipping_full_name'] );
 		}
-
-		return Farazsms_Base::farazsms_send_pattern( $tracking_code_pattern, $phone, $input_data );
-
+		return Farazsms_Base::farazsms_send_pattern( self::$woo_tracking_pattern, $phone, $input_data );
 	}
 
 	/**

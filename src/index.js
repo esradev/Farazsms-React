@@ -6,4 +6,4 @@ import App from "./App";
 import "./index.scss";
 
 // Render the App component into the DOM
-render(<App />, document.querySelector("#farazsms-react"));
+render(<App />, document.querySelector("#farazsms-admin-page"));

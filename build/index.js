@@ -11060,7 +11060,7 @@ function Comments() {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getPhonebooks() {
       try {
-        //farazsmsJsObject is declared on class-farazsms-admin.php under admin_enqueue_scripts function
+        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getphonebooks;
         console.log(phonebooks);
         const phonebooksArrayObject = phonebooks.map(_ref => {
@@ -11369,7 +11369,7 @@ function Edd(props) {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getPhonebooks() {
       try {
-        //farazsmsJsObject is declared on class-farazsms-admin.php under admin_enqueue_scripts function
+        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getphonebooks;
         console.log(phonebooks);
         const phonebooksArrayObject = phonebooks.map(_ref => {
@@ -12707,7 +12707,7 @@ function Newsletter() {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getPhonebooks() {
       try {
-        //farazsmsJsObject is declared on class-farazsms-admin.php under admin_enqueue_scripts function
+        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getphonebooks;
         console.log(phonebooks);
         const phonebooksArrayObject = phonebooks.map(_ref => {
@@ -13244,7 +13244,7 @@ function Phonebook(props) {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getPhonebooks() {
       try {
-        //farazsmsJsObject is declared on class-farazsms-admin.php under admin_enqueue_scripts function
+        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getphonebooks;
         console.log(phonebooks);
         const phonebooksArrayObject = phonebooks.map(_ref => {
@@ -47587,7 +47587,7 @@ const __ = wp.i18n.__;
 
 
 // Render the App component into the DOM
-(0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_App__WEBPACK_IMPORTED_MODULE_1__["default"], null), document.querySelector("#farazsms-react"));
+(0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_App__WEBPACK_IMPORTED_MODULE_1__["default"], null), document.querySelector("#farazsms-admin-page"));
 }();
 /******/ })()
 ;

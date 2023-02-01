@@ -210,7 +210,7 @@ function Comments() {
   useEffect(() => {
     async function getPhonebooks() {
       try {
-        //farazsmsJsObject is declared on class-farazsms-admin.php under admin_enqueue_scripts function
+        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getphonebooks;
         console.log(phonebooks);
         const phonebooksArrayObject = phonebooks.map(({ id, title }) => ({

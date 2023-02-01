@@ -114,7 +114,7 @@ class Farazsms {
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once FARAZSMS_MODULES_PATH . 'farazsms/classes/admin/class-farazsms-admin.php';
+		require_once FARAZSMS_MODULES_PATH . 'farazsms/class-farazsms-settings.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
@@ -135,6 +135,20 @@ class Farazsms {
 		 * @since 2.0.0
 		 */
 		require_once FARAZSMS_MODULES_PATH . 'woocommerce/class-farazsms-woocommerce.php';
+
+		/**
+		 * The class responsible for defining all actions for edd.
+		 *
+		 * @since 2.0.0
+		 */
+		require_once FARAZSMS_MODULES_PATH . 'edd/class-farazsms-edd.php';
+
+		/**
+		 * The class responsible for defining all actions for aff.
+		 *
+		 * @since 2.0.0
+		 */
+		require_once FARAZSMS_MODULES_PATH . 'aff/class-farazsms-aff.php';
 
 
 		$this->loader = new Farazsms_Loader();
@@ -215,39 +229,14 @@ class Farazsms {
 		$this->loader->add_filter( 'plugin_action_links_' . FARAZSMS_BASE, $plugin_admin, 'settings_link' );
 		$this->loader->add_action( 'wp_dashboard_setup', $plugin_admin, 'rss_meta_box' );
 
-		$this->loader->add_action( 'wp_ajax_fsms_save_settings', $plugin_admin, 'ajax_save_settings' );
-		$this->loader->add_action( 'wp_ajax_nopriv_fsms_save_settings', $plugin_admin, 'ajax_save_settings' );
-
-		$this->loader->add_action( 'wp_ajax_fsms_save_phone_book_settings', $plugin_admin, 'ajax_save_phone_book_settings' );
-		$this->loader->add_action( 'wp_ajax_nopriv_fsms_save_phone_book_settings', $plugin_admin, 'ajax_phone_book_save_settings' );
-
 		$this->loader->add_action( 'wp_ajax_fsms_send_message_to_phonebooks', $plugin_admin, 'ajax_send_message_to_phonebooks' );
 		$this->loader->add_action( 'wp_ajax_nopriv_fsms_send_message_to_phonebooks', $plugin_admin, 'ajax_send_message_to_phonebooks' );
-
-		$this->loader->add_action( 'wp_ajax_fsms_sync_operation', $plugin_admin, 'ajax_sync_operate' );
-		$this->loader->add_action( 'wp_ajax_nopriv_fsms_sync_operation', $plugin_admin, 'ajax_sync_operate' );
-
-		$this->loader->add_action( 'wp_ajax_fsms_save_comment_settings', $plugin_admin, 'ajax_save_comment_settings' );
-		$this->loader->add_action( 'wp_ajax_nopriv_fsms_save_comment_settings', $plugin_admin, 'ajax_save_comment_settings' );
 
 		$this->loader->add_action( 'manage_edit-comments_columns', $plugin_admin, 'comments_fsms_table_columns' );
 		$this->loader->add_action( 'manage_comments_custom_column', $plugin_admin, 'comments_fsms_table_columns_content', 10, 2 );
 
-		$this->loader->add_action( 'wp_ajax_fsms_save_edd_settings', $plugin_admin, 'ajax_save_edd_settings' );
-		$this->loader->add_action( 'wp_ajax_nopriv_fsms_save_edd_settings', $plugin_admin, 'ajax_save_edd_settings' );
-
-		$this->loader->add_action( 'wp_ajax_fsms_save_woo_settings', $plugin_admin, 'ajax_save_woo_settings' );
-		$this->loader->add_action( 'wp_ajax_nopriv_fsms_save_woo_settings', $plugin_admin, 'ajax_save_woo_settings' );
-
 		$this->loader->add_action( 'wp_ajax_fsms_send_message_to_subscribers', $plugin_admin, 'send_message_to_subscribers' );
 		$this->loader->add_action( 'wp_ajax_nopriv_fsms_send_message_to_subscribers', $plugin_admin, 'send_message_to_subscribers' );
-
-		$this->loader->add_action( 'wp_ajax_fsms_async_add_phone', $plugin_admin, 'fsms_async_add_phone' );
-		$this->loader->add_action( 'wp_ajax_nopriv_fsms_async_add_phone', $plugin_admin, 'fsms_async_add_phone' );
-
-
-		$this->loader->add_action( 'wp_ajax_fsms_save_newsletter_settings', $plugin_admin, 'fsms_save_newsletter_settings' );
-		$this->loader->add_action( 'wp_ajax_nopriv_fsms_save_newsletter_settings', $plugin_admin, 'fsms_save_newsletter_settings' );
 
 		$this->loader->add_action( 'wp_ajax_fsms_delete_user_from_subscribers', $plugin_admin, 'fsms_delete_user_from_subscribers' );
 		$this->loader->add_action( 'wp_ajax_nopriv_fsms_delete_user_from_subscribers', $plugin_admin, 'fsms_delete_user_from_subscribers' );
@@ -273,11 +262,6 @@ class Farazsms {
 		$this->loader->add_action( 'comment_form_after_fields', $plugin_public, 'add_mobile_field_to_comment_form' );
 		$this->loader->add_action( 'preprocess_comment', $plugin_public, 'verify_comment_input' );
 		$this->loader->add_action( 'comment_post', $plugin_public, 'save_mobile_field' );
-		$this->loader->add_action( 'edd_payment_personal_details_list', $plugin_public, 'fsms_edd_show_phone', 10, 2 );
-		$this->loader->add_action( 'edd_complete_purchase', $plugin_public, 'fsms_edd_complete_purchase_action', 10, 3 );
-		$this->loader->add_action( 'edd_purchase_form_user_info_fields', $plugin_public, 'fsms_show_mobile_field_checkout_field' );
-		$this->loader->add_action( 'edd_payment_meta', $plugin_public, 'fsms_show_mobile_meta' );
-		$this->loader->add_action( 'edd_checkout_error_checks', $plugin_public, 'fsms_validate_mobile_field', 10, 2 );
 
 		$this->loader->add_action( 'gform_entry_created', $plugin_public, 'fsms_club_gform_post_update_entry' );
 		$this->loader->add_action( 'gform_pre_submission', $plugin_public, 'fsms_gf_pre_submission' );
@@ -294,19 +278,6 @@ class Farazsms {
 		$this->loader->add_action( 'wp_login', $plugin_public, 'fsms_admin_roles_login_action', 11, 2 );
 
 		$this->loader->add_filter( 'ihc_filter_notification_before_expire', $plugin_public, 'fsms_first_notification_before_expire', 10, 4 );
-
-		$this->loader->add_action( 'affwp_register_user', $plugin_public, 'fsms_affwp_register_user', 10, 3 );
-		$this->loader->add_action( 'yith_wcaf_new_affiliate', $plugin_public, 'fsms_yith_wcaf_register_user' );
-		$this->loader->add_action( 'uap_on_register_action', $plugin_public, 'fsms_uap_register_user' );
-
-		$this->loader->add_action( 'affwp_set_affiliate_status', $plugin_public, 'fsms_affwp_set_affiliate_status', 10, 3 );
-		$this->loader->add_action( 'affwp_referral_accepted', $plugin_public, 'fsms_affwp_referral_accepted', 10, 2 );
-		$this->loader->add_action( 'yith_wcaf_affiliate_enabled', $plugin_public, 'fsms_yith_wcaf_set_affiliate_status' );
-
-		$this->loader->add_action( 'affwp_register_fields_before_tos', $plugin_public, 'fsms_affwp_register_fields_before_tos' );
-		$this->loader->add_action( 'affwp_new_affiliate_end', $plugin_public, 'fsms_affwp_new_affiliate_end' );
-		$this->loader->add_action( 'affwp_edit_affiliate_end', $plugin_public, 'fsms_affwp_edit_affiliate_end' );
-		$this->loader->add_action( 'affwp_update_affiliate', $plugin_public, 'fsms_affwp_update_affiliate' );
 
 		$this->loader->add_action( 'transition_post_status', $plugin_public, 'fsms_product_published', 10, 3 );
 
