@@ -20,17 +20,17 @@ import Sidebar from "./components/Sidebar";
 import SidebarItems from "./views/SidebarItems";
 import Footer from "./components/Footer";
 // Integration plugins logo
-import WoocommerceLogo from "../modules/farazsms/assets/images/woocommerce-logo.png";
-import DigitsLogo from "../modules/farazsms/assets/images/digits-logo.png";
-import EddLogo from "../modules/farazsms/assets/images/edd-logo.png";
-import BooklyLogo from "../modules/farazsms/assets/images/bookly-logo.png";
-import GravityFormsLogo from "../modules/farazsms/assets/images/gravity-logo.png";
-import IndeedMembershipProLogo from "../modules/farazsms/assets/images/ultimatemembershippro-logo.png";
-import PaidMembershipsProLogo from "../modules/farazsms/assets/images/paidmembershipspro-logo.png";
-import AffiliateWpLogo from "../modules/farazsms/assets/images/affiliatewp-logo.png";
-import IndeedAffiliateProLogo from "../modules/farazsms/assets/images/ultimateaffiliatepro-logo.png";
-import YithWoocommerceAffiliatesLogo from "../modules/farazsms/assets/images/yithwoocommerceaffiliates-logo.png";
-import ElementorLogo from "../modules/farazsms/assets/images/elementor-logo.png";
+import WoocommerceLogo from "./assets/images/woocommerce-logo.png";
+import DigitsLogo from "./assets/images/digits-logo.png";
+import EddLogo from "./assets/images/edd-logo.png";
+import BooklyLogo from "./assets/images/bookly-logo.png";
+import GravityFormsLogo from "./assets/images/gravity-logo.png";
+import IndeedMembershipProLogo from "./assets/images/ultimatemembershippro-logo.png";
+import PaidMembershipsProLogo from "./assets/images/paidmembershipspro-logo.png";
+import AffiliateWpLogo from "./assets/images/affiliatewp-logo.png";
+import IndeedAffiliateProLogo from "./assets/images/ultimateaffiliatepro-logo.png";
+import YithWoocommerceAffiliatesLogo from "./assets/images/yithwoocommerceaffiliates-logo.png";
+import ElementorLogo from "./assets/images/elementor-logo.png";
 import AxiosWp from "./function/AxiosWp";
 
 function App() {

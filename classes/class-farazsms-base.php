@@ -32,35 +32,17 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		private static $instance = null;
 
 		public static $username;
-
 		public static $password;
-
 		public static $admin_number;
-
 		public static $fromNum;
-
 		public static $fromNumAdver;
-
 		public static $apiKey;
-
 		public static $sendwm;
-
 		public static $sendwm_with_pattern;
-
 		public static $welcome_message;
-
 		public static $welcomep;
-
 		public static $admin_login_notify_pattern;
-
 		public static $comment_phonebook;
-
-		public static $news_welcome;
-
-		public static $news_welcome_pattern;
-
-		public static $news_send_verify_pattern;
-
 
 		public function __construct() {
 			/*
@@ -106,13 +88,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 			$comments_options = json_decode( get_option( 'farazsms_comments_options' ), true );
 			if ( $comments_options ) {
 				self::$comment_phonebook = $comments_options['comment_phonebook'];
-			}
-
-			$newsletter_options = json_decode( get_option( 'farazsms_newsletter_options' ), true );
-			if ( $newsletter_options ) {
-				self::$news_welcome             = $newsletter_options['news_welcome'];
-				self::$news_welcome_pattern     = $newsletter_options['news_welcome_pattern'];
-				self::$news_send_verify_pattern = $newsletter_options['news_send_verify_pattern'];
 			}
 
 		}//end __construct()
@@ -196,7 +171,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 			return str_replace( $key_a, $num_a, $str );
 
-		}//end fsms_tr_num()
+		}
 
 		/**
 		 * Validate mobile number.
@@ -211,7 +186,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 			return $matches[3];
 
-		}//end validate_mobile_number()
+		}
 
 		/**
 		 * Farazsms send pattern function.
@@ -260,33 +235,13 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 				}
 
 				return true;
-			}//end if
-
-		}//end farazsms_send_pattern()
-
-
-		/**
-		 * Check if API key is valid.
-		 */
-
-
-		public function check_if_apikey_is_valid( $apiKey ) {
-			try {
-				$client = new Client( $apiKey );
-
-				return $client->validateApiKey();
-			} catch ( Error|HttpException $e ) {
-				return false;
 			}
 
-		}//end check_if_apikey_is_valid()
-
+		}
 
 		/**
 		 * Save to phonebook functions.
 		 */
-
-
 		public function save_to_phonebook( $phone, $phonebook ) {
 			$phone = self::fsms_tr_num( $phone );
 			$body  = [
@@ -338,22 +293,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 			return true;
 
-		}//end save_to_phonebookv2()
-
-
-		public function save_to_phonebookv3( $data ) {
-			if ( empty( self::$apiKey ) || empty( $data ) ) {
-				return;
-			}
-
-			$client = new Client( self::$apiKey, 'phonebook_api' );
-			try {
-				return $client->numbersAddList( $data );
-			} catch ( Error|HttpException|Exception $e ) {
-				return false;
-			}
-
-		}//end save_to_phonebookv3()
+		}
 
 		public static function save_to_phonebookv4( $list ) {
 			$body    = [
@@ -369,21 +309,19 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 			return true;
 
-		}//end save_to_phonebookv4()
+		}
 
 
 		/**
 		 * Send welcome message function.
 		 */
-
-
-		public function send_welcome_message( $phone, $uid ) {
+		public function send_welcome_message( $phone, $user_id ) {
 			$phone = self::fsms_tr_num( $phone );
-			if ( ! self::$sendwm || $uid === null ) {
+			if ( ! self::$sendwm || $user_id === null ) {
 				return;
 			}
 
-			$user         = get_userdata( $uid );
+			$user         = get_userdata( $user_id );
 			$display_name = $user->display_name;
 			$user_name    = $user->user_login;
 			$input_data   = [];
@@ -406,27 +344,23 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 				self::send_message( [ $phone ], $welcome_message, '+98club' );
 			} else {
 				$patternMessage = self::get_registered_pattern_variables( self::$welcomep );
-				if ( strpos( $patternMessage, '%display_name%' ) !== false ) {
+				if ( str_contains( $patternMessage, '%display_name%' ) ) {
 					$input_data['display_name'] = $display_name;
 				}
 
-				if ( strpos( $patternMessage, '%username%' ) !== false ) {
+				if ( str_contains( $patternMessage, '%username%' ) ) {
 					$input_data['username'] = $user_name;
 				}
 
 				return self::farazsms_send_pattern( self::$welcomep, $phone, $input_data );
 			}//end if
 
-		}//end send_welcome_message()
+		}
 
 
 		/**
 		 * Check if credentials is valid.
-		 *
-		 * Only place that we need farazsms username and password.
 		 */
-
-
 		public function check_if_credentials_is_valid() {
 			$body = [
 				'username' => self::$username,
@@ -442,22 +376,17 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 					'body'        => json_encode( $body ),
 				]
 			);
-			// var_dump($response);
 			$response = json_decode( $response['body'] );
 			if ( $response->message == 1 ) {
 				return true;
 			}
-
 			return false;
-
-		}//end check_if_credentials_is_valid()
+		}
 
 
 		/**
 		 * Get phonebooks.
 		 */
-
-
 		public static function get_phonebooks() {
 			$uname = self::$username;
 			$pass  = self::$password;
@@ -466,7 +395,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 				'pass'  => $pass,
 				'op'    => 'booklist',
 			];
-
 			$resp = wp_remote_post(
 				'http://ippanel.com/api/select',
 				[
@@ -479,22 +407,17 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 			if ( is_wp_error( $resp ) ) {
 				return $resp;
 			}
-
 			$resp = json_decode( $resp['body'] );
 			if ( intval( $resp[0] ) != 0 ) {
 				return $resp;
 			}
-
 			return json_decode( $resp[1] );
-
-		}//end get_phonebooks()
+		}
 
 
 		/**
 		 * Get Lines.
 		 */
-
-
 		public function get_lines() {
 			$body = [
 				'uname' => self::$username,
@@ -514,17 +437,12 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 			if ( intval( $resp[0] ) != 0 ) {
 				return false;
 			}
-
 			return json_decode( $resp[1] );
-
-		}//end get_lines()
-
+		}
 
 		/**
 		 * Get credit.
 		 */
-
-
 		public function get_credit() {
 			if ( ! empty( self::$apiKey ) ) {
 				try {
@@ -534,7 +452,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 					if ( strpos( $credit, '/' ) ) {
 						$separator = '/';
 					}
-
 					if ( strpos( $credit, '.' ) ) {
 						$separator = '.';
 					}
@@ -563,39 +480,34 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 				if ( is_wp_error( $response ) ) {
 					return false;
 				}
-
 				$response = json_decode( $response['body'] );
 				if ( $response[0] !== 0 ) {
 					return false;
 				}
-
 				$separator = '.';
 				if ( strpos( $response[1], '/' ) ) {
 					$separator = '/';
 				}
-
 				if ( strpos( $response[1], '.' ) ) {
 					$separator = '.';
 				}
 
 				$credit_rial = explode( $separator, $response[1] )[0];
-			}//end if
+			}
 
 			return substr( $credit_rial, 0, - 1 );
 
-		}//end get_credit()
+		}
 
 
 		/**
 		 * Send low credit notify to admin.
 		 */
-
 		public function send_admin_low_credit_to_admin() {
 			$fromnum = '3000505';
 			if ( empty( self::$admin_number ) ) {
 				return;
 			}
-
 			$message = __( 'Dear user, The charge for your SMS panel is less than 10 thousand tomans, and your sites SMS may not be sent soon and your site may be blocked. I will charge the SMS system as soon as possible. www.farazsms.com, +982171333036', 'farazsms' );
 			if ( ! empty( self::$apiKey ) ) {
 				try {
@@ -629,9 +541,9 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 					]
 				);
 				$response = json_decode( $response['body'] );
-			}//end if
+			}
 
-		}//end send_admin_low_credit_to_admin()
+		}
 
 
 		/**
@@ -659,17 +571,13 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 			}
 
 			$response       = json_decode( $response['body'] );
-			$patternMessage = $response->data->patternMessage;
-
-			return $patternMessage;
-
-		}//end get_registered_pattern_variables()
+			return $response->data->patternMessage;
+		}
 
 
 		/**
 		 * Send comment replay sms.
 		 */
-
 		public function send_comment_reply_sms( $phone, $pattern, $data ) {
 			$phone = self::fsms_tr_num( $phone );
 			if ( empty( $pattern ) ) {
@@ -764,7 +672,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		 * Send message.
 		 */
 
-		public function send_message( $phones, $message, $sender = null ) {
+		public static function send_message( $phones, $message, $sender = null ) {
 			if ( ! empty( $sender ) ) {
 				$fromnum = $sender;
 			} else {
@@ -847,67 +755,6 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 		}//end get_phonebook_numbers()
 
-		/**
-		 * Send newsletter verification code.
-		 */
-
-
-		public function send_newsletter_verification_code( $phone, $data ) {
-			$phone   = self::fsms_tr_num( $phone );
-			$pattern = self::$news_send_verify_pattern;
-			if ( empty( $phone ) || empty( $pattern ) || empty( $data ) ) {
-				return;
-			}
-
-			$input_data     = [];
-			$patternMessage = self::get_registered_pattern_variables( $pattern );
-			if ( $patternMessage === null ) {
-				return;
-			}
-
-			if ( strpos( $patternMessage, '%code%' ) !== false ) {
-				$input_data['code'] = strval( $data['code'] );
-			}
-
-			if ( strpos( $patternMessage, '%name%' ) !== false ) {
-				$input_data['name'] = strval( $data['name'] );
-			}
-
-			return self::farazsms_send_pattern( $pattern, $phone, $input_data );
-
-		}//end send_newsletter_verification_code()
-
-		/**
-		 * Save subscriber to DB.
-		 */
-
-
-		public static function save_subscriber_to_db( $data ) {
-			global $wpdb;
-			$table_name = $wpdb->prefix . 'farazsms_newsletter';
-
-			return $wpdb->insert( $table_name, $data );
-
-		}//end save_subscriber_to_db()
-
-
-		/**
-		 * Save generated code to DB
-		 */
-
-
-		public static function save_generated_code_to_db( $phone, $code ) {
-			global $wpdb;
-			$data  = [
-				'phone' => $phone,
-				'code'  => $code,
-			];
-			$table = $wpdb->prefix . 'farazsms_vcode';
-			$wpdb->delete( $table, [ 'phone' => $phone ] );
-
-			return $wpdb->insert( $table, $data );
-
-		}//end save_generated_code_to_db()
 
 
 		/**
@@ -945,46 +792,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		}//end check_if_phone_already_exist()
 
 
-		/**
-		 * Get subscribers.
-		 */
-		public static function get_subscribers() {
-			global $wpdb;
-			global $wpdb;
-			$table_name = $wpdb->prefix . 'farazsms_newsletter';
 
-			return $wpdb->get_results( "SELECT * FROM $table_name" );
-
-		}//end get_subscribers()
-
-
-		/**
-		 * Delete subscriber.
-		 */
-		public static function delete_subscriber( $subscriber_id ) {
-			global $wpdb;
-			$table = $wpdb->prefix . 'farazsms_newsletter';
-
-			return $wpdb->delete( $table, [ 'id' => $subscriber_id ] );
-
-		}//end delete_subscriber()
-
-
-		/**
-		 * Send newsletter welcome message.
-		 */
-		public static function send_newsletter_welcome_message( $phone, $name ) {
-			$newsletter_welcome  = self::$news_welcome;
-			$newsletter_welcomep = self::$news_welcome_pattern;
-			if ( empty( $phone ) || empty( $name ) || $newsletter_welcome == 'false' || empty( $newsletter_welcomep ) ) {
-				return;
-			}
-
-			$phone = self::fsms_tr_num( $phone );
-
-			return ( new Farazsms_Base() )->farazsms_send_pattern( $newsletter_welcomep, $phone, [ 'name' => $name ] );
-
-		}//end send_newsletter_welcome_message()
 
 
 		/**

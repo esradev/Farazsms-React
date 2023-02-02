@@ -150,6 +150,13 @@ class Farazsms {
 		 */
 		require_once FARAZSMS_MODULES_PATH . 'aff/class-farazsms-aff.php';
 
+		/**
+		 * The class responsible for defining all actions for newsletter.
+		 *
+		 * @since 2.0.0
+		 */
+		require_once FARAZSMS_MODULES_PATH . 'newsletter/class-farazsms-newsletter.php';
+
 
 		$this->loader = new Farazsms_Loader();
 	}
@@ -254,8 +261,6 @@ class Farazsms {
 
 		$plugin_public = new Farazsms_Public( $this->get_plugin_name(), $this->get_version() );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_filter( 'update_user_metadata', $plugin_public, 'monitor_update_user_metadata', 499, 4 );
 		$this->loader->add_action( 'profile_update', $plugin_public, 'fsms_user_profile_updated', 99, 2 );
 		$this->loader->add_action( 'comment_form_logged_in_after', $plugin_public, 'add_mobile_field_to_comment_form' );
@@ -266,24 +271,11 @@ class Farazsms {
 		$this->loader->add_action( 'gform_entry_created', $plugin_public, 'fsms_club_gform_post_update_entry' );
 		$this->loader->add_action( 'gform_pre_submission', $plugin_public, 'fsms_gf_pre_submission' );
 
-		$this->loader->add_action( 'wp_ajax_fsms_newsletter_send_verification_code', $plugin_public, 'fsms_newsletter_send_verification_code' );
-		$this->loader->add_action( 'wp_ajax_nopriv_fsms_newsletter_send_verification_code', $plugin_public, 'fsms_newsletter_send_verification_code' );
-
-		$this->loader->add_action( 'wp_ajax_fsms_add_phone_to_newsletter', $plugin_public, 'fsms_add_phone_to_newsletter' );
-		$this->loader->add_action( 'wp_ajax_nopriv_fsms_add_phone_to_newsletter', $plugin_public, 'fsms_add_phone_to_newsletter' );
-
-		$this->loader->add_action( 'publish_post', $plugin_public, 'fsms_publish_post_notification' );
-
 		$this->loader->add_action( 'wp_login', $plugin_public, 'fsms_admin_login_action', 10, 2 );
 		$this->loader->add_action( 'wp_login', $plugin_public, 'fsms_admin_roles_login_action', 11, 2 );
 
 		$this->loader->add_filter( 'ihc_filter_notification_before_expire', $plugin_public, 'fsms_first_notification_before_expire', 10, 4 );
 
-		$this->loader->add_action( 'transition_post_status', $plugin_public, 'fsms_product_published', 10, 3 );
-
-		//$this->loader->add_action( 'user_register', $plugin_public, 'fsms_user_created_action', 99);
-		//$this->loader->add_filter( 'digits_filter_mobile', $plugin_public, 'fsms_digits_filter_mobile', 99);
-		//temp
 		$this->loader->add_action( 'init', $plugin_public, 'fsms_check_remaining_days' );
 		$this->loader->add_action( 'pmpro_membership_post_membership_expiry', $plugin_public, 'fsms_pmp_membership_membership_expiry', 10, 2 );
 		$this->loader->add_action( 'init', $plugin_public, 'temp_init_kook' );

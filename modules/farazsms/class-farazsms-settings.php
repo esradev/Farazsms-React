@@ -89,10 +89,6 @@ class Farazsms_Admin extends Farazsms_Base {
 				'nonce'         => wp_create_nonce( 'wp_rest' ),
 				'wproules'      => wp_roles(),
 				'getphonebooks' => self::get_phonebooks(),
-				// 'digitsSync'          => $this->sync_digits(),
-				// 'wooSync'             => $this->sync_woo(),
-				// 'booklySync'          => $this->sync_bookly(),
-				// 'checkifapikeyisvalid' => self::check_if_apikey_is_valid(self::$apiKey),
 			]
 		);
 
@@ -449,55 +445,6 @@ class Farazsms_Admin extends Farazsms_Base {
 
 	}//end ajax_send_message_to_phonebooks()
 
-
-	/**
-	 * Delete user from subscribers.
-	 *
-	 * @since 1.0.0
-	 */
-	public function fsms_delete_user_from_subscribers() {
-		$fsms_base     = Farazsms_Base::get_instance();
-		$subscriber_id = ( $_POST['subscriber_id'] ?? '' );
-		$fsms_base::delete_subscriber( $subscriber_id );
-		wp_send_json_success();
-
-	}//end fsms_delete_user_from_subscribers()
-
-
-	/**
-	 * Send message to subscribers of newsletter.
-	 *
-	 * @since 1.0.0
-	 */
-	public function send_message_to_subscribers() {
-		$fsms_base   = Farazsms_Base::get_instance();
-		$message     = ( $_POST['message'] ?? '' );
-		$subscribers = $fsms_base::get_subscribers();
-		if ( ! $fsms_base::isAPIKeyEntered() ) {
-			wp_send_json_error( __( 'Please enter the api key first in the Settings tab.', 'farazsms' ) );
-		}
-
-		if ( empty( $subscribers ) ) {
-			wp_send_json_error( __( 'No one is a subscriber of the newsletter yet', 'farazsms' ) );
-		}
-
-		if ( str_contains( $message, '%name%' ) ) {
-			foreach ( $subscribers as $subscriber ) {
-				$message_fixed = str_replace( '%name%', $subscriber->name, $message );
-				$fsms_base->send_message( [ $subscriber->phone ], $message_fixed, '+98club' );
-			}
-		} else {
-			$phones = [];
-			foreach ( $subscribers as $subscriber ) {
-				$phones[] = $subscriber->phone;
-			}
-
-			$fsms_base->send_message( $phones, $message, '+98club' );
-		}
-
-		wp_send_json_success();
-
-	}//end send_message_to_subscribers()
 
 
 }//end class
