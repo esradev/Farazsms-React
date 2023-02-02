@@ -56,6 +56,7 @@ class Farazsms_Newsletter
 	 */
 	public function __construct()
 	{
+		add_shortcode( 'farazsms', [ $this, 'farazsms_newsletter' ] );
 		$newsletter_options = json_decode( get_option( 'farazsms_newsletter_options' ), true );
 		if ( $newsletter_options ) {
 			self::$news_welcome                 = $newsletter_options['news_welcome'];
@@ -80,6 +81,12 @@ class Farazsms_Newsletter
 
 		add_action( 'publish_post', [$this, 'fsms_publish_post_notification'] );
 		add_action( 'transition_post_status', [$this, 'fsms_product_published', 10, 3] );
+
+		add_action( 'wp_ajax_fsms_send_message_to_subscribers', [$this, 'send_message_to_subscribers' ] );
+		add_action( 'wp_ajax_nopriv_fsms_send_message_to_subscribers', [$this, 'send_message_to_subscribers' ] );
+
+		add_action( 'wp_ajax_fsms_delete_user_from_subscribers', [$this, 'fsms_delete_user_from_subscribers' ] );
+		add_action( 'wp_ajax_nopriv_fsms_delete_user_from_subscribers', [$this, 'fsms_delete_user_from_subscribers' ] );
 
 	}
 
@@ -399,6 +406,20 @@ class Farazsms_Newsletter
 		return Farazsms_Base::farazsms_send_pattern( $newsletter_welcomep, $phone, [ 'name' => $name ] );
 	}
 
+	/**
+	 * Check if phone already exist.
+	 */
+	public static function check_if_phone_already_exist( $phone ) {
+		global $wpdb;
+		$table          = $wpdb->prefix . 'farazsms_newsletter';
+		$generated_code = $wpdb->get_col( "SELECT phone FROM {$table} WHERE phone = '" . $phone . "'" );
+		if ( ! empty( $generated_code[0] ) ) {
+			return true;
+		}
+
+		return false;
+
+	}
 
 }
 Farazsms_Newsletter::get_instance();

@@ -1,16 +1,65 @@
 <?php
 
 /**
- * Farazsms Options.
+ * Farazsms options.
+ * Define the options for this plugin for save in DB.
  *
  * @package Farazsms
- * @since 2.0.0
+ * @since    2.0.0
+ * @access   private
  */
 
-defined( 'ABSPATH' ) || exit; // Exit if accessed directly.
+// Exit if accessed directly.
+if (!defined('ABSPATH')) {
+	exit;
+}
+/**
+ * Class Farazsms_Options.
+ */
+class Farazsms_Options
+{
+	private static $elementorPro;
 
+	/**
+	 * Instance
+	 *
+	 * @access private
+	 * @var object Class object.
+	 * @since 2.0.0
+	 */
+	private static $instance;
 
-class Farazsms_Options {
+	/**
+	 * Initiator
+	 *
+	 * @since 2.0.0
+	 * @return object Initialized object of class.
+	 */
+	public static function get_instance()
+	{
+		if (!isset(self::$instance)) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		add_action( 'init', [ $this , 'register_settings_options' ] );
+		add_action( 'init', [ $this , 'register_login_notify_options' ] );
+		add_action( 'init', [ $this , 'register_phonebook_options' ] );
+		add_action( 'init', [ $this , 'register_comments_options' ] );
+		add_action( 'init', [ $this , 'register_newsletter_options' ] );
+		add_action( 'init', [ $this , 'register_woocommerce_options' ] );
+		add_action( 'init', [ $this , 'register_edd_options' ] );
+		add_action( 'init', [ $this , 'register_aff_options' ] );
+		add_action( 'init', [ $this , 'register_membership_options' ] );
+		add_action( 'init', [ $this , 'register_integrations_options' ] );
+	}
+
 	/**
 	 * Register settings options.
 	 *
@@ -110,4 +159,6 @@ class Farazsms_Options {
 		$farazsms_integrations_options = '';
 		add_option( 'farazsms_integrations_options', $farazsms_integrations_options );
 	}
+
 }
+Farazsms_Options::get_instance();

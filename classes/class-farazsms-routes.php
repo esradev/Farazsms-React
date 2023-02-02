@@ -1,19 +1,56 @@
 <?php
+/**
+ * Define the routes for this plugin for enable REST Routs for API.
+ *
+ * @since    2.0.0
+ * @access   private
+ */
 
-class Farazsms_Routes {
 
-	private static $fsms_digits_phonebook;
-
-	private static $fsms_bookly_phonebook;
-
-	private static $fsms_woo_phonebook;
+// Exit if accessed directly.
+if (!defined('ABSPATH')) {
+	exit;
+}
+/**
+ * Class Farazsms_Routes.
+ */
+class Farazsms_Routes
+{
+	private static $elementorPro;
 
 	/**
-	 * Initialize the class and set its properties.
+	 * Instance
 	 *
-	 * @since 1.0.0
+	 * @access private
+	 * @var object Class object.
+	 * @since 2.0.0
 	 */
-	public function __construct( ) {
+	private static $instance;
+
+	private static $fsms_digits_phonebook;
+	private static $fsms_bookly_phonebook;
+	private static $fsms_woo_phonebook;
+
+
+	/**
+	 * Initiator
+	 *
+	 * @since 2.0.0
+	 * @return object Initialized object of class.
+	 */
+	public static function get_instance()
+	{
+		if (!isset(self::$instance)) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
 		$phonebook_options = json_decode( get_option( 'farazsms_phonebook_options' ), true );
 		if ( $phonebook_options ) {
 			self::$fsms_digits_phonebook = $phonebook_options['digits_phonebook'];
@@ -21,8 +58,9 @@ class Farazsms_Routes {
 			self::$fsms_woo_phonebook    = $phonebook_options['woo_phonebook'];
 		}
 
-	}
+		add_action( 'rest_api_init', [ $this ,'register_routes' ] );
 
+	}
 	/**
 	 * Register the routes for the objects of the controller.
 	 */
@@ -578,20 +616,6 @@ class Farazsms_Routes {
 	 *
 	 * @since 2.0.0
 	 */
-//	public function sync_woo() {
-//		$fsms_base     = Farazsms_Base::get_instance();
-//		$query         = new WC_Order_Query( [ 'limit' => 9999, 'type' => 'shop_order', 'return' => 'ids' ] );
-//		$order_ids     = $query->get_orders();
-//		$woo_phonebook = array_column(self::$fsms_woo_phonebook, 'value');
-//		$woo_phonebook_id = current($woo_phonebook);
-//		foreach ( $order_ids as $order_id ) {
-//			$order                       = wc_get_order( $order_id );
-//			$phone                      = $order->get_billing_phone();
-//			$result = $fsms_base->save_to_phonebookv2( $phone, $woo_phonebook_id );
-//		}
-//		return true;
-//	}
-
 	public function sync_woo()
 	{
 		$query = new WC_Order_Query( [ 'limit' => 9999, 'type' => 'shop_order', 'return' => 'ids' ] );
@@ -611,7 +635,7 @@ class Farazsms_Routes {
 			                     'phonebook_id' => (int) $woo_phonebook_id
 			];
 		}
-			Farazsms_Base::save_to_phonebookv4($list);
+		Farazsms_Base::save_to_phonebookv4($list);
 
 		return true;
 	}
@@ -642,7 +666,7 @@ class Farazsms_Routes {
 			                     'phonebook_id' => (int) $digits_phonebook_id
 			];
 		}
-			Farazsms_Base::save_to_phonebookv4($list);
+		Farazsms_Base::save_to_phonebookv4($list);
 
 		return true;
 	}
@@ -670,7 +694,7 @@ class Farazsms_Routes {
 			                     'phonebook_id' => (int) $bookly_phonebook_id
 			];
 		}
-			Farazsms_Base::save_to_phonebookv4($list);
+		Farazsms_Base::save_to_phonebookv4($list);
 
 		return true;
 	}
@@ -684,4 +708,6 @@ class Farazsms_Routes {
 		//return true; <--use to make readable by all
 		return true;
 	}
+
 }
+Farazsms_Routes::get_instance();

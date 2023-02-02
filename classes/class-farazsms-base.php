@@ -42,15 +42,16 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		public static $welcome_message;
 		public static $welcomep;
 		public static $admin_login_notify_pattern;
+
 		public static $comment_phonebook;
+		public static $custom_phonebook;
+		public static $custom_phone_meta_keys;
+		public static $digits_phonebook;
+		public static $woo_phonebook;
+		public static $gf_phonebook;
+		public static $gf_selected_field;
 
 		public function __construct() {
-			/*
-			 *
-			 * Init credential options.
-			 *
-			 */
-
 			$credentials_option = json_decode( get_option( 'farazsms_settings_options' ), true );
 			if ( $credentials_option ) {
 				$fsms_uname         = $credentials_option['username'];
@@ -70,27 +71,25 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 				self::$apiKey = $fsms_apikey;
 			}
-
 			$login_notify_options = json_decode( get_option( 'farazsms_login_notify_options' ), true );
 			if ( $login_notify_options ) {
-				$fsms_sendwm                      = $login_notify_options['welcome_sms'];
-				$fsms_welcomep                    = $login_notify_options['welcome_sms_pattern'];
-				$fsms_sendwm_with_pattern         = $login_notify_options['welcome_sms_use_pattern'];
-				$fsms_welcome_message             = $login_notify_options['welcome_sms_msg'];
-				$admin_login_notify_pattern       = $login_notify_options['admin_login_notify_pattern'];
-				self::$sendwm                     = $fsms_sendwm === 'true';
-				self::$welcomep                   = self::fsms_tr_num( $fsms_welcomep );
-				self::$sendwm_with_pattern        = $fsms_sendwm_with_pattern === 'true';
-				self::$welcome_message            = self::fsms_tr_num( $fsms_welcome_message );
-				self::$admin_login_notify_pattern = self::fsms_tr_num( $admin_login_notify_pattern );
+				self::$sendwm                     = $login_notify_options['welcome_sms'];
+				self::$welcomep                   = $login_notify_options['welcome_sms_pattern'];
+				self::$sendwm_with_pattern        = $login_notify_options['welcome_sms_use_pattern'];
+				self::$welcome_message            = $login_notify_options['welcome_sms_msg'];
+				self::$admin_login_notify_pattern = $login_notify_options['admin_login_notify_pattern'];
 			}
-
-			$comments_options = json_decode( get_option( 'farazsms_comments_options' ), true );
-			if ( $comments_options ) {
-				self::$comment_phonebook = $comments_options['comment_phonebook'];
+			$phonebook_options = json_decode( get_option( 'farazsms_phonebook_options' ), true );
+			if ( $phonebook_options ) {
+				self::$custom_phonebook       = $phonebook_options['custom_phonebook'];
+				self::$custom_phone_meta_keys = $phonebook_options['custom_phone_meta_keys'];
+				self::$comment_phonebook      = $phonebook_options['comment_phonebook'];
+				self::$digits_phonebook       = $phonebook_options['digits_phonebook'];
+				self::$woo_phonebook          = $phonebook_options['woo_phonebook'];
+				self::$gf_phonebook           = $phonebook_options['gf_phonebook'];
+				self::$gf_selected_field      = $phonebook_options['gf_selected_field'];
 			}
-
-		}//end __construct()
+		}
 
 
 		/**
@@ -242,7 +241,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		/**
 		 * Save to phonebook functions.
 		 */
-		public function save_to_phonebook( $phone, $phonebook ) {
+		public static function save_to_phonebook( $phone, $phonebook ) {
 			$phone = self::fsms_tr_num( $phone );
 			$body  = [
 				'uname'       => self::$username,
@@ -268,10 +267,10 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 			return true;
 
-		}//end save_to_phonebook()
+		}
 
 
-		public function save_to_phonebookv2( $phone, $phonebook ) {
+		public static function save_to_phonebookv2( $phone, $phonebook ) {
 			$phone   = self::fsms_tr_num( $phone );
 			$body    = [
 				'uname'       => self::$username,
@@ -315,7 +314,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		/**
 		 * Send welcome message function.
 		 */
-		public function send_welcome_message( $phone, $user_id ) {
+		public static function send_welcome_message( $phone, $user_id ) {
 			$phone = self::fsms_tr_num( $phone );
 			if ( ! self::$sendwm || $user_id === null ) {
 				return;
@@ -353,8 +352,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 				}
 
 				return self::farazsms_send_pattern( self::$welcomep, $phone, $input_data );
-			}//end if
-
+			}
 		}
 
 
@@ -416,34 +414,9 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 
 		/**
-		 * Get Lines.
-		 */
-		public function get_lines() {
-			$body = [
-				'uname' => self::$username,
-				'pass'  => self::$password,
-				'op'    => 'lines',
-			];
-			$resp = wp_remote_post(
-				'http://ippanel.com/api/select',
-				[
-					'method'      => 'POST',
-					'headers'     => [ 'Content-Type' => 'application/json' ],
-					'data_format' => 'body',
-					'body'        => json_encode( $body ),
-				]
-			);
-			$resp = json_decode( $resp['body'] );
-			if ( intval( $resp[0] ) != 0 ) {
-				return false;
-			}
-			return json_decode( $resp[1] );
-		}
-
-		/**
 		 * Get credit.
 		 */
-		public function get_credit() {
+		public static function get_credit() {
 			if ( ! empty( self::$apiKey ) ) {
 				try {
 					$client    = new Client( self::$apiKey );
@@ -503,7 +476,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 		/**
 		 * Send low credit notify to admin.
 		 */
-		public function send_admin_low_credit_to_admin() {
+		public static function send_admin_low_credit_to_admin() {
 			$fromnum = '3000505';
 			if ( empty( self::$admin_number ) ) {
 				return;
@@ -574,104 +547,9 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 			return $response->data->patternMessage;
 		}
 
-
-		/**
-		 * Send comment replay sms.
-		 */
-		public function send_comment_reply_sms( $phone, $pattern, $data ) {
-			$phone = self::fsms_tr_num( $phone );
-			if ( empty( $pattern ) ) {
-				return;
-			}
-
-			$input_data     = [];
-			$patternMessage = self::get_registered_pattern_variables( $pattern );
-			if ( $patternMessage === null ) {
-				return;
-			}
-
-			if ( strpos( $patternMessage, '%title%' ) !== false ) {
-				$input_data['title'] = $data['title'];
-			}
-
-			if ( strpos( $patternMessage, '%name%' ) !== false ) {
-				$input_data['name'] = $data['name'];
-			}
-
-			if ( strpos( $patternMessage, '%email%' ) !== false ) {
-				$input_data['email'] = $data['email'];
-			}
-
-			if ( strpos( $patternMessage, '%link%' ) !== false ) {
-				$input_data['link'] = $data['link'];
-			}
-
-			if ( strpos( $patternMessage, '%content%' ) !== false ) {
-				$input_data['content'] = $data['content'];
-			}
-
-			return self::farazsms_send_pattern( $pattern, $phone, $input_data );
-
-		}//end send_comment_reply_sms()
-
-
-		/**
-		 * Send comment replay sms to admin
-		 */
-		public function send_comment_reply_sms_to_admin( $data ) {
-			$fsms_admin_notify_pcode = self::fsms_tr_num( self::$admin_login_notify_pattern );
-			if ( empty( $fsms_admin_notify_pcode ) || empty( self::$admin_number ) ) {
-				return;
-			}
-
-			$input_data     = [];
-			$patternMessage = self::get_registered_pattern_variables( $fsms_admin_notify_pcode );
-			if ( $patternMessage === null ) {
-				return;
-			}
-
-			if ( strpos( $patternMessage, '%title%' ) !== false ) {
-				$input_data['title'] = $data['title'];
-			}
-
-			if ( strpos( $patternMessage, '%name%' ) !== false ) {
-				$input_data['name'] = $data['name'];
-			}
-
-			if ( strpos( $patternMessage, '%email%' ) !== false ) {
-				$input_data['email'] = $data['email'];
-			}
-
-			if ( strpos( $patternMessage, '%link%' ) !== false ) {
-				$input_data['link'] = $data['link'];
-			}
-
-			if ( strpos( $patternMessage, '%content%' ) !== false ) {
-				$input_data['content'] = $data['content'];
-			}
-
-			return self::farazsms_send_pattern( $fsms_admin_notify_pcode, self::$admin_number, $input_data );
-
-		}//end send_comment_reply_sms_to_admin()
-
-
-		/**
-		 * Save comment mobile to phonebook.
-		 */
-
-		public function save_comment_mobile_to_phonebook( $phone ) {
-			$phone = self::fsms_tr_num( $phone );
-			foreach ( self::$comment_phonebook as $phonebookId ) {
-				$this->save_to_phonebook( $phone, $phonebookId['value'] );
-			}
-
-		}//end save_comment_mobile_to_phonebook()
-
-
 		/**
 		 * Send message.
 		 */
-
 		public static function send_message( $phones, $message, $sender = null ) {
 			if ( ! empty( $sender ) ) {
 				$fromnum = $sender;
@@ -723,7 +601,7 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 				return true;
 			}//end if
 
-		}//end send_message()
+		}
 
 
 		/**
@@ -753,15 +631,11 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 			return $response;
 
-		}//end get_phonebook_numbers()
-
-
+		}
 
 		/**
 		 * Check if code is valid.
 		 */
-
-
 		public static function check_if_code_is_valid( $phone, $code ) {
 			global $wpdb;
 			$table          = $wpdb->prefix . 'farazsms_vcode';
@@ -774,102 +648,19 @@ if ( ! class_exists( 'Farazsms_Base' ) ) {
 
 			return false;
 
-		}//end check_if_code_is_valid()
-
-		/**
-		 * Check if phone already exist.
-		 */
-		public static function check_if_phone_already_exist( $phone ) {
-			global $wpdb;
-			$table          = $wpdb->prefix . 'farazsms_newsletter';
-			$generated_code = $wpdb->get_col( "SELECT phone FROM {$table} WHERE phone = '" . $phone . "'" );
-			if ( ! empty( $generated_code[0] ) ) {
-				return true;
-			}
-
-			return false;
-
-		}//end check_if_phone_already_exist()
+		}
 
 
+	}
 
-
-
-		/**
-		 * Send admins login notification to super admin.
-		 */
-		public function send_admins_login_notification_to_superadmin( $pattern, $data ) {
-			$input_data     = [];
-			$patternMessage = self::get_registered_pattern_variables( $pattern );
-			if ( strpos( $patternMessage, '%date%' ) !== false ) {
-				$input_data['date'] = $data['date'];
-			}
-
-			if ( strpos( $patternMessage, '%user_login%' ) !== false ) {
-				$input_data['user_login'] = $data['user_login'];
-			}
-
-			if ( strpos( $patternMessage, '%display_name%' ) !== false ) {
-				$input_data['display_name'] = $data['display_name'];
-			}
-
-			return self::farazsms_send_pattern( $pattern, self::$admin_number, $input_data );
-
-		}//end send_admins_login_notification_to_superadmin()
-
-
-		/**
-		 * Send feedback message to server.
-		 */
-
-
-		public function send_feedback_message_to_server( $feedback_message ) {
-			$body = [
-				'uname'            => self::$username,
-				'pass'             => self::$password,
-				'subject'          => __( 'Direct feedback from Faraz SMS plugin', 'farazsms' ),
-				'description'      => $feedback_message . PHP_EOL . get_site_url(),
-				'type'             => 'fiscal',
-				// 'fiscal','webservice','problem','lineservices'
-				'importance'       => 'low',
-				// 'low','middle','quick','acute'
-				'sms_notification' => 'no',
-				// 'yes','no'
-				'file'             => '',
-				'op'               => 'ticketadd',
-			];
-
-			$handler = curl_init( 'http://ippanel.com/services.jspd' );
-			curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'POST' );
-			curl_setopt( $handler, CURLOPT_POSTFIELDS, $body );
-			curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
-			$response = curl_exec( $handler );
-			$response = json_decode( $response );
-			if ( is_wp_error( $response ) ) {
-				return false;
-			}
-
-			if ( $response[0] !== 0 || ! $response[1] ) {
-				return false;
-			}
-
-			return true;
-
-		}//end send_feedback_message_to_server()
-
-	}//end class
-
-	/*
+	/**
 	 *  Prepare if class 'Farazsms_Base' exist.
 	 *  Kicking this off by calling 'get_instance()' method
 	 */
 	Farazsms_Base::get_instance();
-}//end if
-
+}
 
 if ( ! function_exists( 'farazsms_base' ) ) {
-
-
 	/**
 	 * Get global class.
 	 *
@@ -877,8 +668,5 @@ if ( ! function_exists( 'farazsms_base' ) ) {
 	 */
 	function farazsms_base() {
 		return Farazsms_Base::get_instance();
-
-	}//end farazsms_base()
-
-
+	}
 }
