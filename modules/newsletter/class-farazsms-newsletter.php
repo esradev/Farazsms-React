@@ -88,6 +88,9 @@ class Farazsms_Newsletter
 		add_action( 'wp_ajax_fsms_delete_user_from_subscribers', [$this, 'fsms_delete_user_from_subscribers' ] );
 		add_action( 'wp_ajax_nopriv_fsms_delete_user_from_subscribers', [$this, 'fsms_delete_user_from_subscribers' ] );
 
+		add_action( 'wp_ajax_fsms_send_message_to_phonebooks', [ $this, 'ajax_send_message_to_phonebooks' ]);
+		add_action( 'wp_ajax_nopriv_fsms_send_message_to_phonebooks', [ $this, 'ajax_send_message_to_phonebooks' ]);
+
 	}
 
 	public function enqueue_styles() {
@@ -120,7 +123,7 @@ class Farazsms_Newsletter
 
 		$message     = ( $_POST['message'] ?? '' );
 		$subscribers = $this::get_subscribers();
-		if ( ! Farazsms_Base::isAPIKeyEntered() ) {
+		if ( ! Farazsms_Base::$apiKey ) {
 			wp_send_json_error( __( 'Please enter the api key first in the Settings tab.', 'farazsms' ) );
 		}
 
@@ -192,7 +195,7 @@ class Farazsms_Newsletter
 		$mobile                   = $_POST['mobile'];
 		$name                     = $_POST['name'];
 		$newsletter_send_ver_code = self::$news_send_verify_via_pattern;
-		if ( Farazsms_Base::check_if_code_is_valid( $mobile ) ) {
+		if ( self::check_if_code_is_valid( $mobile ) ) {
 			wp_send_json_error();
 		}
 		if ( $newsletter_send_ver_code == 'false' ) {
@@ -209,7 +212,7 @@ class Farazsms_Newsletter
 					'name'         => $name,
 					'phonebook_id' => (int) $phonebookID
 				];
-				Farazsms_Base::save_to_phonebookv4( $datap );
+				Farazsms_Base::save_list_of_phones_to_phonebook( $datap );
 			}
 			self::send_newsletter_welcome_message( $mobile, $name );
 			wp_send_json_success();
@@ -285,7 +288,7 @@ class Farazsms_Newsletter
 		$code      = $_POST['code'];
 		$name      = $_POST['name'];
 		$mobile    = $_POST['mobile'];
-		$is_valid  = Farazsms_Base::check_if_code_is_valid( $mobile, $code );
+		$is_valid  = self::check_if_code_is_valid( $mobile, $code );
 		if ( $is_valid ) {
 			$data = [
 				'phone' => $mobile,
@@ -299,7 +302,7 @@ class Farazsms_Newsletter
 					'name'         => $name,
 					'phonebook_id' => (int) $phonebookID
 				];
-				Farazsms_Base::save_to_phonebookv4( $datap );
+				Farazsms_Base::save_list_of_phones_to_phonebook( $datap );
 			}
 			self::send_newsletter_welcome_message( $mobile, $name );
 			wp_send_json_success();
@@ -414,6 +417,98 @@ class Farazsms_Newsletter
 		$table          = $wpdb->prefix . 'farazsms_newsletter';
 		$generated_code = $wpdb->get_col( "SELECT phone FROM {$table} WHERE phone = '" . $phone . "'" );
 		if ( ! empty( $generated_code[0] ) ) {
+			return true;
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Send SMS to phonebooks.
+	 *
+	 * @since 1.0.0
+	 */
+	public function ajax_send_message_to_phonebooks() {
+		$fsms_base           = Farazsms_Base::get_instance();
+		$message             = ( $_POST['message'] ?? '' );
+		$phonebooks          = ( $_POST['phonebooks'] ?? [] );
+		$send_to_subscribers = ( $_POST['send_to_subscribers'] ?? '' );
+		$send_formnum_choice = ( $_POST['send_formnum_choice'] ?? '' );
+		if ( $send_formnum_choice == '2' && ! strpos( $_POST['phones'], ',' ) ) {
+			wp_send_json_error( __( 'Please enter manual numbers in the correct format', 'farazsms' ) );
+		}
+
+		if ( $send_formnum_choice == '1' ) {
+			$send_formnum_choice = Farazsms_Base::$fromNum;
+		} else {
+			$send_formnum_choice = Farazsms_Base::$fromNumAdver;
+		}
+
+		$phones = explode( ',', ( $_POST['phones'] ?? '' ) );
+		foreach ( $phones as $phone ) {
+			if ( $fsms_base::validate_mobile_number( $phone ) ) {
+				$fixed_phones[] = $fsms_base::validate_mobile_number( $phone );
+			}
+		}
+
+		if ( empty( $phonebooks ) && empty( $fixed_phones ) && $send_to_subscribers == 'false' ) {
+			wp_send_json_error( __( 'Please select at least one phonebook or manual number or newsletter members', 'farazsms' ) );
+			wp_die();
+		}
+
+		if ( ! empty( $fixed_phones ) ) {
+			Farazsms_Base::send_message( $fixed_phones, $message, $send_formnum_choice );
+		}
+
+		foreach ( $phonebooks as $phonebook ) {
+			$phonebook_numbers = self::get_phonebook_numbers( $phonebook );
+			Farazsms_Base::send_message( $phonebook_numbers, $message, $send_formnum_choice );
+		}
+
+		wp_send_json_success();
+
+	}
+
+	/**
+	 * Get phonebook numbers.
+	 */
+	public function get_phonebook_numbers( $phoneBookID ) {
+		$body     = [
+			'uname'        => self::$username,
+			'pass'         => self::$password,
+			'op'           => 'booknumberlist',
+			'phonebook_id' => $phoneBookID,
+		];
+		$response = wp_remote_post(
+			'http://ippanel.com/api/select',
+			[
+				'method'      => 'POST',
+				'headers'     => [ 'Content-Type' => 'application/json' ],
+				'data_format' => 'body',
+				'body'        => json_encode( $body ),
+			]
+		);
+		$response = json_decode( $response['body'] );
+
+		if ( in_array( '105', $response ) ) {
+			return false;
+		}
+
+		return $response;
+
+	}
+
+	/**
+	 * Check if code is valid.
+	 */
+	public static function check_if_code_is_valid( $phone, $code ) {
+		global $wpdb;
+		$table          = $wpdb->prefix . 'farazsms_vcode';
+		$generated_code = $wpdb->get_col( "SELECT code FROM {$table} WHERE phone = '" . $phone . "'" );
+		if ( $generated_code[0] == $code ) {
+			$wpdb->delete( $table, [ 'phone' => $phone ] );
+
 			return true;
 		}
 

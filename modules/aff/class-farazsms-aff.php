@@ -110,7 +110,7 @@ class Farazsms_Aff {
 		}
 		if ( self::$aff_admin_user_register == 'true' ) {
 			$user_register_pattern = self::$aff_admin_user_register_pattern;
-			$admin_mobile          = Farazsms_Base::getAdminNumber();
+			$admin_mobile          = Farazsms_Base::$admin_number;
 			if ( ! empty( $user_register_pattern ) && ! empty( $admin_mobile ) ) {
 				$this->affs_send_sms( $admin_mobile, $user_register_pattern, $args );
 			}
@@ -185,7 +185,7 @@ class Farazsms_Aff {
 		}
 		if ( self::$aff_admin_user_register == 'true' ) {
 			$user_register_pattern = self::$aff_admin_user_register_pattern;
-			$admin_mobile          = Farazsms_Base::getAdminNumber();
+			$admin_mobile          = Farazsms_Base::$admin_number;
 			if ( ! empty( $user_register_pattern ) && ! empty( $admin_mobile ) ) {
 				$this->affs_send_sms( $admin_mobile, $user_register_pattern, $args );
 			}
@@ -225,7 +225,7 @@ class Farazsms_Aff {
 		}
 		if ( self::$aff_admin_user_register ) {
 			$user_register_pattern = self::$aff_admin_user_register_pattern;
-			$admin_mobile          = Farazsms_Base::getAdminNumber();
+			$admin_mobile          = Farazsms_Base::$admin_number;
 			if ( ! empty( $user_register_pattern ) && ! empty( $admin_mobile ) ) {
 				$this->affs_send_sms( $admin_mobile, $user_register_pattern, $args );
 			}
@@ -279,7 +279,7 @@ class Farazsms_Aff {
 		}
 		if ( self::$aff_admin_user_on_approval ) {
 			$aff_admin_user_on_approval_pattern = self::$aff_admin_user_on_approval_pattern;
-			$admin_mobile                       = Farazsms_Base::getAdminNumber();
+			$admin_mobile                       = Farazsms_Base::$admin_number;
 			if ( ! empty( $aff_admin_user_on_approval_pattern ) && ! empty( $admin_mobile ) ) {
 				$this->affs_send_sms( $admin_mobile, $aff_admin_user_on_approval_pattern, $data );
 			}
@@ -327,7 +327,7 @@ class Farazsms_Aff {
 		}
 		if ( self::$aff_admin_user_on_approval) {
 			$aff_admin_user_on_approval_pattern = self::$aff_admin_user_on_approval_pattern;
-			$admin_mobile                       = Farazsms_Base::getAdminNumber();
+			$admin_mobile                       = Farazsms_Base::$admin_number;
 			if ( ! empty( $aff_admin_user_on_approval_pattern ) && ! empty( $admin_mobile ) ) {
 				$this->affs_send_sms( $admin_mobile, $aff_admin_user_on_approval_pattern, $data );
 			}
@@ -374,7 +374,7 @@ class Farazsms_Aff {
 		}
 		if ( self::$aff_admin_user_new_ref == 'true' ) {
 			$aff_admin_user_new_ref_message = self::$aff_admin_user_new_ref_pattern;
-			$admin_mobile                   = Farazsms_Base::getAdminNumber();
+			$admin_mobile                   = Farazsms_Base::$admin_number;
 			if ( ! empty( $aff_admin_user_new_ref_message ) && ! empty( $admin_mobile ) ) {
 				$this->affs_send_sms( $admin_mobile, $aff_admin_user_new_ref_message, $data );
 			}

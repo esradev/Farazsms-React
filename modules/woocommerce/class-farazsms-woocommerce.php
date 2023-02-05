@@ -309,8 +309,7 @@ class Farazsms_Woocommerce {
 			return;
 		}
 
-		$woo_phonebook_id = array_column( Farazsms_Base::$woo_phonebook, 'value' );
-		Farazsms_Base::save_to_phonebookv2( $phone, $woo_phonebook_id );
+		Farazsms_Base::save_a_phone_to_phonebook( $phone, Farazsms_Base::$woo_phonebook_id );
 
 		return true;
 	}

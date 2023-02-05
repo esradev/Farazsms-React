@@ -51,9 +51,7 @@ class Farazsms_Settings
 		add_action( 'admin_bar_menu', [ $this, 'admin_bar_menu'], 60 );
 		add_filter( 'plugin_action_links_' . FARAZSMS_BASE, [ $this, 'settings_link' ]);
 		add_action( 'wp_dashboard_setup', [ $this, 'rss_meta_box' ]);
-		add_action( 'wp_ajax_fsms_send_message_to_phonebooks', [ $this, 'ajax_send_message_to_phonebooks' ]);
-		add_action( 'wp_ajax_nopriv_fsms_send_message_to_phonebooks', [ $this, 'ajax_send_message_to_phonebooks' ]);
-	}
+		}
 
 	/**
 	 *
@@ -85,7 +83,7 @@ class Farazsms_Settings
 				return;
 			}
 			$message = __('Dear user, your panel will expire less than a month from now. To renew your SMS panel, contact Faraz SMS', 'farazsms');
-			Farazsms_Base::send_message([Farazsms_Base::getAdminNumber()], $message, '+98club');
+			Farazsms_Base::send_message([Farazsms_Base::$admin_number], $message, '+98club');
 			update_option('sent_low_remaining_days_30', '1');
 		} elseif ($daysleft > 1 && $daysleft < 7) {
 			$already_sent = get_option('sent_low_remaining_days_7', '');
@@ -94,7 +92,7 @@ class Farazsms_Settings
 			}
 
 			$message = __('Dear user, your panel will expire less than a week from now. To renew your SMS panel, contact Faraz SMS.', 'farazsms');
-			Farazsms_Base::send_message([Farazsms_Base::getAdminNumber()], $message, '+98club');
+			Farazsms_Base::send_message([Farazsms_Base::$admin_number], $message, '+98club');
 			update_option('sent_low_remaining_days_7', '1');
 		}
 	}
@@ -418,53 +416,7 @@ class Farazsms_Settings
         </div>
 		<?php
 
-	}//end rss_postbox_container()
-
-
-	/**
-	 * Send SMS to phonebooks.
-	 *
-	 * @since 1.0.0
-	 */
-	public function ajax_send_message_to_phonebooks() {
-		$fsms_base           = Farazsms_Base::get_instance();
-		$message             = ( $_POST['message'] ?? '' );
-		$phonebooks          = ( $_POST['phonebooks'] ?? [] );
-		$send_to_subscribers = ( $_POST['send_to_subscribers'] ?? '' );
-		$send_formnum_choice = ( $_POST['send_formnum_choice'] ?? '' );
-		if ( $send_formnum_choice == '2' && ! strpos( $_POST['phones'], ',' ) ) {
-			wp_send_json_error( __( 'Please enter manual numbers in the correct format', 'farazsms' ) );
-		}
-
-		if ( $send_formnum_choice == '1' ) {
-			$send_formnum_choice = $fsms_base->get_service_sender_number();
-		} else {
-			$send_formnum_choice = $fsms_base->get_adver_sender_number();
-		}
-
-		$phones = explode( ',', ( $_POST['phones'] ?? '' ) );
-		foreach ( $phones as $phone ) {
-			if ( $fsms_base::validate_mobile_number( $phone ) ) {
-				$fixed_phones[] = $fsms_base::validate_mobile_number( $phone );
-			}
-		}
-
-		if ( empty( $phonebooks ) && empty( $fixed_phones ) && $send_to_subscribers == 'false' ) {
-			wp_send_json_error( __( 'Please select at least one phonebook or manual number or newsletter members', 'farazsms' ) );
-			wp_die();
-		}
-
-		if ( ! empty( $fixed_phones ) ) {
-			Farazsms_Base::send_message( $fixed_phones, $message, $send_formnum_choice );
-		}
-
-		foreach ( $phonebooks as $phonebook ) {
-			$phonebook_numbers = Farazsms_Base::get_phonebook_numbers( $phonebook );
-			Farazsms_Base::send_message( $phonebook_numbers, $message, $send_formnum_choice );
-		}
-
-		wp_send_json_success();
-
 	}
+
 }
 Farazsms_Settings::get_instance();

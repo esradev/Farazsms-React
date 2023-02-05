@@ -48,7 +48,7 @@ class Farazsms_i18n {
 	 * Constructor
 	 */
 	public function __construct() {
-
+		add_action( 'plugins_loaded', [$this, 'load_plugin_textdomain'] );
 	}
 
 	/**

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Farazsms newsletter.
+ * Farazsms login notify.
  *
  * @package Farazsms
  * @since 2.0.0
@@ -12,12 +12,10 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 /**
- * Class Farazsms_Newsletter.
+ * Class Farazsms_Login_Notify.
  */
-class Farazsms_Newsletter
+class Farazsms_Login_Notify
 {
-	private static $elementorPro;
-
 	/**
 	 * Instance
 	 *
@@ -131,4 +129,4 @@ class Farazsms_Newsletter
 
 
 }
-Farazsms_Newsletter::get_instance();
+Farazsms_Login_Notify::get_instance();

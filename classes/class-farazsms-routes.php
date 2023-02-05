@@ -27,10 +27,6 @@ class Farazsms_Routes
 	 */
 	private static $instance;
 
-	private static $fsms_digits_phonebook;
-	private static $fsms_bookly_phonebook;
-	private static $fsms_woo_phonebook;
-
 
 	/**
 	 * Initiator
@@ -51,15 +47,7 @@ class Farazsms_Routes
 	 */
 	public function __construct()
 	{
-		$phonebook_options = json_decode( get_option( 'farazsms_phonebook_options' ), true );
-		if ( $phonebook_options ) {
-			self::$fsms_digits_phonebook = $phonebook_options['digits_phonebook'];
-			self::$fsms_bookly_phonebook = $phonebook_options['bookly_phonebook'];
-			self::$fsms_woo_phonebook    = $phonebook_options['woo_phonebook'];
-		}
-
 		add_action( 'rest_api_init', [ $this ,'register_routes' ] );
-
 	}
 	/**
 	 * Register the routes for the objects of the controller.
@@ -250,8 +238,6 @@ class Farazsms_Routes
 
 	/**
 	 * Get settings options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function get_settings_options() {
 		$farazsms_settings_options = get_option( 'farazsms_settings_options' );
@@ -264,8 +250,6 @@ class Farazsms_Routes
 
 	/**
 	 * Add settings options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function add_settings_options( $data ) {
 		$option      = [
@@ -283,8 +267,6 @@ class Farazsms_Routes
 
 	/**
 	 * Get login notify options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function get_login_notify_options() {
 		$farazsms_login_notify_options = get_option( 'farazsms_login_notify_options' );
@@ -297,8 +279,6 @@ class Farazsms_Routes
 
 	/**
 	 * Add login notify options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function add_login_notify_options( $data ) {
 		$option      = [
@@ -317,8 +297,6 @@ class Farazsms_Routes
 
 	/**
 	 * Get phonebook options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function get_phonebook_options() {
 		$farazsms_phonebook_options = get_option( 'farazsms_phonebook_options' );
@@ -331,8 +309,6 @@ class Farazsms_Routes
 
 	/**
 	 * Add login notify options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function add_phonebook_options( $data ) {
 		$option      = [
@@ -352,8 +328,6 @@ class Farazsms_Routes
 
 	/**
 	 * Get usermeta.
-	 *
-	 * @since 2.0.0
 	 */
 	public function get_usermeta() {
 		global $wpdb;
@@ -363,8 +337,6 @@ class Farazsms_Routes
 
 	/**
 	 * Get comments.
-	 *
-	 * @since 2.0.0
 	 */
 	public function get_comments_options() {
 		$farazsms_comments_options = get_option( 'farazsms_comments_options' );
@@ -377,8 +349,6 @@ class Farazsms_Routes
 
 	/**
 	 * Add comments options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function add_comments_options( $data ) {
 		$option      = [
@@ -397,8 +367,6 @@ class Farazsms_Routes
 
 	/**
 	 * Get newsletter options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function get_newsletter_options() {
 		$farazsms_newsletter_options = get_option( 'farazsms_newsletter_options' );
@@ -411,8 +379,6 @@ class Farazsms_Routes
 
 	/**
 	 * Add newsletter options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function add_newsletter_options( $data ) {
 		$option      = [
@@ -433,8 +399,6 @@ class Farazsms_Routes
 
 	/**
 	 * Get woocommerce options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function get_woocommerce_options() {
 		$farazsms_woocommerce_options = get_option( 'farazsms_woocommerce_options' );
@@ -447,8 +411,6 @@ class Farazsms_Routes
 
 	/**
 	 * Add woocommerce options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function add_woocommerce_options( $data ) {
 		$option      = [
@@ -469,8 +431,6 @@ class Farazsms_Routes
 
 	/**
 	 * Get Edd options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function get_edd_options() {
 		$farazsms_edd_options = get_option( 'farazsms_edd_options' );
@@ -483,8 +443,6 @@ class Farazsms_Routes
 
 	/**
 	 * Add Edd options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function add_edd_options( $data ) {
 		$option      = [
@@ -501,8 +459,6 @@ class Farazsms_Routes
 
 	/**
 	 * Get aff options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function get_aff_options() {
 		$farazsms_aff_options = get_option( 'farazsms_aff_options' );
@@ -515,8 +471,6 @@ class Farazsms_Routes
 
 	/**
 	 * Add aff options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function add_aff_options( $data ) {
 		$option      = [
@@ -541,8 +495,6 @@ class Farazsms_Routes
 
 	/**
 	 * Get membership options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function get_membership_options() {
 		$farazsms_membership_options = get_option( 'farazsms_membership_options' );
@@ -555,8 +507,6 @@ class Farazsms_Routes
 
 	/**
 	 * Add membership options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function add_membership_options( $data ) {
 		$option      = [
@@ -575,8 +525,6 @@ class Farazsms_Routes
 
 	/**
 	 * Get integrations options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function get_integrations_options() {
 		$farazsms_integrations_options = get_option( 'farazsms_integrations_options' );
@@ -589,8 +537,6 @@ class Farazsms_Routes
 
 	/**
 	 * Add integrations options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function add_integrations_options( $data ) {
 		$option      = [
@@ -613,15 +559,11 @@ class Farazsms_Routes
 
 	/**
 	 * Woocommerce Synchronization with a phonebook.
-	 *
-	 * @since 2.0.0
 	 */
 	public function sync_woo()
 	{
 		$query = new WC_Order_Query( [ 'limit' => 9999, 'type' => 'shop_order', 'return' => 'ids' ] );
 		$order_ids = $query->get_orders();
-		$woo_phonebook = array_column(self::$fsms_woo_phonebook, 'value');
-		$woo_phonebook_id = current($woo_phonebook);
 
 		$list = [];
 		foreach ($order_ids as $order_id) {
@@ -632,23 +574,20 @@ class Farazsms_Routes
 			$list[] = (object) [ 'number'       => $number,
 			                     'name'         => $name,
 			                     'options'      => (object) [ '100' => 'value' ],
-			                     'phonebook_id' => (int) $woo_phonebook_id
+			                     'phonebook_id' => (int) Farazsms_Base::$woo_phonebook_id
 			];
 		}
-		Farazsms_Base::save_to_phonebookv4($list);
+		Farazsms_Base::save_list_of_phones_to_phonebook($list);
 
 		return true;
 	}
 
 	/**
 	 * Digits Synchronization with a phonebook.
-	 *
-	 * @since 2.0.0
 	 */
 	public function sync_digits() {
 		$users = get_users( [ 'fields' =>  'ID' ] );
-		$digits_phonebook = array_column(self::$fsms_digits_phonebook, 'value');
-		$digits_phonebook_id = current($digits_phonebook);
+
 
 		$list = [];
 		foreach ($users as $userid) {
@@ -663,25 +602,21 @@ class Farazsms_Routes
 			$list[] = (object) [ 'number'       => $number,
 			                     'name'         => $name,
 			                     'options'      => (object) [ '100' => 'value' ],
-			                     'phonebook_id' => (int) $digits_phonebook_id
+			                     'phonebook_id' => (int) Farazsms_Base::$digits_phonebook_id
 			];
 		}
-		Farazsms_Base::save_to_phonebookv4($list);
+		Farazsms_Base::save_list_of_phones_to_phonebook($list);
 
 		return true;
 	}
 
 	/**
 	 * Bookly Synchronization with a phonebook.
-	 *
-	 * @since 2.0.0
 	 */
 	public function sync_bookly() {
 
 		global $wpdb;
 		$bookly_customers = $wpdb->get_results( 'SELECT phone,full_name FROM ' . $wpdb->prefix . 'bookly_customers' );
-		$bookly_phonebook     = array_column(self::$fsms_bookly_phonebook, 'value');
-		$bookly_phonebook_id = current($bookly_phonebook);
 
 		$list = [];
 		foreach ($bookly_customers as $customer) {
@@ -691,10 +626,10 @@ class Farazsms_Routes
 			$list[] = (object) [ 'number'       => $number,
 			                     'name'         => $name,
 			                     'options'      => (object) [ '100' => 'value' ],
-			                     'phonebook_id' => (int) $bookly_phonebook_id
+			                     'phonebook_id' => (int) Farazsms_Base::$bookly_phonebook_id
 			];
 		}
-		Farazsms_Base::save_to_phonebookv4($list);
+		Farazsms_Base::save_list_of_phones_to_phonebook($list);
 
 		return true;
 	}

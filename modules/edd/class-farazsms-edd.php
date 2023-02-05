@@ -90,7 +90,7 @@ class Farazsms_Edd {
 			$this->send_edd_sms( $mobile, self::$edd_user_pattern, $list );
 		}
 		if ( self::$edd_send_to_admin ) {
-			$this->send_edd_sms( Farazsms_Base::getAdminNumber(), self::$edd_admin_pattern, $list );
+			$this->send_edd_sms( Farazsms_Base::$admin_number, self::$edd_admin_pattern, $list );
 		}
 
 		$edd_phonebook    = array_column( self::$edd_phonebook, 'value' );
@@ -102,7 +102,7 @@ class Farazsms_Edd {
 			'options'      => (object) [ '100' => 'value' ],
 			'phonebook_id' => (int) $edd_phonebook_id
 		];
-		Farazsms_Base::save_to_phonebookv4( $list );
+		Farazsms_Base::save_list_of_phones_to_phonebook( $list );
 	}
 
 	/**

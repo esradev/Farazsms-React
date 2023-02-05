@@ -27,7 +27,7 @@ defined('ABSPATH') || exit; // Exit if accessed directly
  * @since 2.0.0
  */
 
-define('FARAZSMS_VERSION',                   '2.0.0');
+define('FARAZSMS_VERSION',               '2.0.0');
 define('FARAZSMS_FILE',                  __FILE__);
 define('FARAZSMS_PATH',                  plugin_dir_path(FARAZSMS_FILE));
 define('FARAZSMS_BASE',                  plugin_basename(FARAZSMS_FILE));
@@ -64,19 +64,3 @@ add_action('activated_plugin', 'farazsms_activation_redirect');
  */
 require FARAZSMS_CLASSES_PATH . 'class-farazsms.php';
 
-/**
- * Begins execution of the plugin.
- *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
- *
- * @since    1.0.0
- */
-function run_farazsms()
-{
-
-    $plugin = new Farazsms();
-    $plugin->run();
-}
-run_farazsms();

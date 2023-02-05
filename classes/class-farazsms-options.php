@@ -13,6 +13,7 @@
 if (!defined('ABSPATH')) {
 	exit;
 }
+
 /**
  * Class Farazsms_Options.
  */
@@ -62,8 +63,6 @@ class Farazsms_Options
 
 	/**
 	 * Register settings options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function register_settings_options() {
 		$farazsms_settings_options = '';
@@ -72,8 +71,6 @@ class Farazsms_Options
 
 	/**
 	 * Register login notify options
-	 *
-	 * @since 2.0.0
 	 */
 	public function register_login_notify_options() {
 		$farazsms_login_notify_options = '';
@@ -82,8 +79,6 @@ class Farazsms_Options
 
 	/**
 	 * Register Phonebook options
-	 *
-	 * @since 2.0.0
 	 */
 	public function register_phonebook_options() {
 		$farazsms_phonebook_options = '';
@@ -92,8 +87,6 @@ class Farazsms_Options
 
 	/**
 	 * Register comments options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function register_comments_options() {
 		$farazsms_comments_options = '';
@@ -102,8 +95,6 @@ class Farazsms_Options
 
 	/**
 	 * Register newsletter options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function register_newsletter_options() {
 		$farazsms_newsletter_options = '';
@@ -112,8 +103,6 @@ class Farazsms_Options
 
 	/**
 	 * Register WooCommerce options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function register_woocommerce_options() {
 		$farazsms_woocommerce_options = '';
@@ -122,8 +111,6 @@ class Farazsms_Options
 
 	/**
 	 * Register EDD options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function register_edd_options() {
 		$farazsms_edd_options = '';
@@ -132,8 +119,6 @@ class Farazsms_Options
 
 	/**
 	 * Register Aff options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function register_aff_options() {
 		$farazsms_aff_options = '';
@@ -142,8 +127,6 @@ class Farazsms_Options
 
 	/**
 	 * Register Membership options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function register_membership_options() {
 		$farazsms_membership_options = '';
@@ -152,8 +135,6 @@ class Farazsms_Options
 
 	/**
 	 * Register Integrations options.
-	 *
-	 * @since 2.0.0
 	 */
 	public function register_integrations_options() {
 		$farazsms_integrations_options = '';

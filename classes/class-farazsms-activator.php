@@ -5,9 +5,13 @@
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
+ * @link       https://farazsms.com/
+ * @since      2.0.0
+ *
  * @package    Farazsms
- * @since      1.0.7
+ * @subpackage Farazsms/classes
  */
+
 class Farazsms_Activator {
 
 	/**

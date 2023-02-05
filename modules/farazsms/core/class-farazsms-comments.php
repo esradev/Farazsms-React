@@ -33,7 +33,7 @@ class Farazsms_Comments
 	private static $approved_comment_pattern;
 	private static $comment_pattern;
 	private static $notify_admin_for_comment_pattern;
-	private static $comment_phonebook;
+	private static $comment_phonebook_id;
 
 	/**
 	 * Initiator
@@ -62,7 +62,7 @@ class Farazsms_Comments
 			self::$approved_comment_pattern         = $comments_options['approved_comment_pattern'];
 			self::$comment_pattern                  = $comments_options['comment_pattern'];
 			self::$notify_admin_for_comment_pattern = $comments_options['notify_admin_for_comment_pattern'];
-			self::$comment_phonebook                = $comments_options['comment_phonebook'];
+			self::$comment_phonebook_id                = current(array_column($comments_options['comment_phonebook'], 'value'));
 		}
 
 		add_action( 'manage_edit-comments_columns', [ $this, 'comments_fsms_table_columns' ] );
@@ -125,7 +125,7 @@ class Farazsms_Comments
 				'name'         => $user_info->display_name ?? '',
 				'phonebook_id' => (int) $phonebookId['value']
 			];
-			Farazsms_Base::save_to_phonebookv4( $data );
+			Farazsms_Base::save_list_of_phones_to_phonebook( $data );
 		}
 		Farazsms_Base::send_welcome_message( $phone, $object_id );
 
@@ -150,7 +150,7 @@ class Farazsms_Comments
 				'name'         => $user_info->display_name ?? '',
 				'phonebook_id' => (int) $phonebookId['value']
 			];
-			Farazsms_Base::save_to_phonebookv4( $data );
+			Farazsms_Base::save_list_of_phones_to_phonebook( $data );
 		}
 		$already_sent_one = get_user_meta( $user_id, 'sent_welcome_message', true );
 		if ( ! empty( $already_sent_one ) && $already_sent_one == '1' ) {
@@ -211,7 +211,7 @@ class Farazsms_Comments
 			}
 		}
 		if ( self::$notify_admin_for_comment == 1 && ! $is_admin ) {
-			$this->send_comment_reply_sms( Farazsms_Base::getAdminNumber(), self::$notify_admin_for_comment_pattern, $data );
+			$this->send_comment_reply_sms( Farazsms_Base::$admin_number, self::$notify_admin_for_comment_pattern, $data );
 		}
 		if ( $is_admin ) {
 			if ( empty( $mobile ) ) {
@@ -301,10 +301,7 @@ class Farazsms_Comments
 	 */
 	public function save_comment_mobile_to_phonebook( $phone ) {
 		$phone = Farazsms_Base::fsms_tr_num( $phone );
-		foreach ( self::$comment_phonebook as $phonebookId ) {
-			Farazsms_Base::save_to_phonebook( $phone, $phonebookId['value'] );
-		}
-
+		Farazsms_Base::save_a_phone_to_phonebook( $phone, self::$comment_phonebook_id );
 	}
 
 	/**
