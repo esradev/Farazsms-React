@@ -8,16 +8,14 @@
  */
 
 // Exit if accessed directly.
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /**
  * Class Farazsms_Comments.
  */
-class Farazsms_Comments
-{
-	private static $elementorPro;
-
+class Farazsms_Comments {
 	/**
 	 * Instance
 	 *
@@ -38,22 +36,21 @@ class Farazsms_Comments
 	/**
 	 * Initiator
 	 *
-	 * @since 2.0.0
 	 * @return object Initialized object of class.
+	 * @since 2.0.0
 	 */
-	public static function get_instance()
-	{
-		if (!isset(self::$instance)) {
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
+
 		return self::$instance;
 	}
 
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		$comments_options = json_decode( get_option( 'farazsms_comments_options' ), true );
 		if ( $comments_options ) {
 			self::$add_mobile_field                 = $comments_options['add_mobile_field'];
@@ -62,15 +59,13 @@ class Farazsms_Comments
 			self::$approved_comment_pattern         = $comments_options['approved_comment_pattern'];
 			self::$comment_pattern                  = $comments_options['comment_pattern'];
 			self::$notify_admin_for_comment_pattern = $comments_options['notify_admin_for_comment_pattern'];
-			self::$comment_phonebook_id                = current(array_column($comments_options['comment_phonebook'], 'value'));
+			self::$comment_phonebook_id             = current( array_column( $comments_options['comment_phonebook'], 'value' ) );
 		}
 
-		add_action( 'manage_edit-comments_columns', [ $this, 'comments_fsms_table_columns' ] );
+		add_filter( 'manage_edit-comments_columns', [ $this, 'comments_fsms_table_columns' ] );
 		add_action( 'manage_comments_custom_column', [ $this, 'comments_fsms_table_columns_content' ], 10, 2 );
-		add_filter( 'update_user_metadata', [ $this, 'monitor_update_user_metadata' ], 499, 4 );
-		add_action( 'profile_update', [ $this, 'fsms_user_profile_updated' ], 99, 2 );
 		add_action( 'comment_form_logged_in_after', [ $this, 'add_mobile_field_to_comment_form' ] );
-		add_action( 'comment_form_after_fields', [ $this, 'add_mobile_field_to_comment_form' ] );
+		add_filter( 'comment_form_fields', [ $this, 'add_mobile_field_to_comment_form' ] );
 		add_action( 'preprocess_comment', [ $this, 'verify_comment_input' ] );
 		add_action( 'comment_post', [ $this, 'save_mobile_field' ] );
 
@@ -103,78 +98,24 @@ class Farazsms_Comments
 	}
 
 	/**
-	 * Monitor update user metadata.
-	 */
-	public function monitor_update_user_metadata( $check, $object_id, $meta_key, $meta_value ) {
-		$selected_meta_keys = Farazsms_Base::$custom_phone_meta_keys ?? [];
-		if ( ! in_array( $meta_key, $selected_meta_keys ) ) {
-			return $check;
-		}
-		$phone = Farazsms_Base::validate_mobile_number( $meta_value );
-		if ( ! $phone ) {
-			return $check;
-		}
-		$custom_phonebooks = Farazsms_Base::$custom_phonebook;
-		if ( empty( $custom_phonebooks ) ) {
-			return $check;
-		}
-		$user_info = get_userdata( $object_id );
-		foreach ( $custom_phonebooks as $phonebookId ) {
-			$data[] = [
-				'number'       => $phone,
-				'name'         => $user_info->display_name ?? '',
-				'phonebook_id' => (int) $phonebookId['value']
-			];
-			Farazsms_Base::save_list_of_phones_to_phonebook( $data );
-		}
-		Farazsms_Base::send_welcome_message( $phone, $object_id );
-
-		return $check;
-	}
-
-	/**
-	 * User profile updated.
-	 */
-	public function fsms_user_profile_updated( $user_id, $old_user_data ) {
-		$digits_phone = get_user_meta( $user_id, 'digits_phone', true );
-		if ( empty( $digits_phone ) ) {
-			return;
-		}
-
-		$digits_phonebooks = Farazsms_Base::$digits_phonebook;
-
-		$user_info = get_userdata( $user_id );
-		foreach ( $digits_phonebooks as $phonebookId ) {
-			$data[] = [
-				'number'       => $digits_phone,
-				'name'         => $user_info->display_name ?? '',
-				'phonebook_id' => (int) $phonebookId['value']
-			];
-			Farazsms_Base::save_list_of_phones_to_phonebook( $data );
-		}
-		$already_sent_one = get_user_meta( $user_id, 'sent_welcome_message', true );
-		if ( ! empty( $already_sent_one ) && $already_sent_one == '1' ) {
-			return;
-		}
-		Farazsms_Base::send_welcome_message( $digits_phone, $user_id );
-		update_user_meta( $user_id, 'sent_welcome_message', '1' );
-	}
-
-	/**
 	 * Add mobile field to comment form
 	 */
-	public function add_mobile_field_to_comment_form() {
+	public function add_mobile_field_to_comment_form( $fields ) {
 		if ( ! self::$add_mobile_field === true ) {
 			return;
 		}
-		$r   = '';
-		$res = '<p class="comment-form-phone"><label for="mobile">شماره موبایل';
+
+		$mobile_filed = '<p class="comment-form-phone"><label for="mobile">' . __( 'Phone number', 'farazsms' );
 		if ( self::$required_mobile_field === true ) {
-			$res .= ' <span class="required">*</span></label>';
-			$r   = 'required="required"';
+			$mobile_filed .= ' <span class="required">*</span></label>';
+			$required     = 'required="required"';
 		}
-		$res .= '<input class="uk-input uk-width-large uk-display-block" oninput="if (this.value.length > 11) this.value = this.value.slice(0, 11);" type="number"  name="mobile" id="mobile"' . '' . $r . '/></p>';
-		echo $res;
+		$mobile_filed .= '<input class="uk-input uk-width-large uk-display-block" oninput="if (this.value.length > 11) this.value = this.value.slice(0, 11);" type="number"  name="mobile" id="mobile"' . $required . '/></p>';
+
+		$fields['mobile'] = $mobile_filed;
+
+		return $fields;
+
 	}
 
 	// Save mobile field.
@@ -187,23 +128,24 @@ class Farazsms_Comments
 	}
 
 	// Verify comment input
-	public function verify_comment_input( $commentdata ) {
-		if ( empty( $commentdata['comment_parent'] ) && self::$required_mobile_field === true ) {
+	public function verify_comment_input( $comment_data ) {
+		if ( empty( $comment_data['comment_parent'] ) && self::$required_mobile_field === true ) {
 			if ( ! isset( $_POST['mobile'] ) or empty( $_POST['mobile'] ) ) {
 				wp_die( __( 'Error: Mobile number is required.', 'farazsms' ) );
 			}
 		}
 
-		return $commentdata;
+		return $comment_data;
 	}
 
 	// Response to comment
 	public function response_to_comment( $comment_id ) {
-		$comment   = get_comment( $comment_id );
-		$data      = $this->comments_farazsms_shortcode( $comment, $comment_id );
-		$mobile    = get_comment_meta( $data['parent'] )['mobile'][0] ?? '';
-		$user      = get_user_by( 'id', $comment->user_id );
-		$is_admin  = in_array( 'administrator', (array) $user->roles );
+		$comment  = get_comment( $comment_id );
+		$data     = $this->comments_farazsms_shortcode( $comment, $comment_id );
+		$mobile   = get_comment_meta( $data['parent'] )['mobile'][0] ?? '';
+		$user     = get_user_by( 'id', $comment->user_id );
+		$user_name = $user->first_name . ' ' . $user->last_name;
+		$is_admin = in_array( 'administrator', $user->roles );
 		if ( $comment->comment_parent == 0 ) {
 			$mobile = get_comment_meta( $comment_id )['mobile'][0] ?? '';
 			if ( ! empty( self::$approved_comment_pattern ) || ! empty( $mobile ) ) {
@@ -223,7 +165,7 @@ class Farazsms_Comments
 			$comment = get_comment( $comment->comment_parent );
 			$data    = $this->comments_farazsms_shortcode( $comment, $comment_id );
 			$this->send_comment_reply_sms( $mobile, self::$comment_pattern, $data );
-			$this->save_comment_mobile_to_phonebook( $mobile );
+			$this->save_comment_mobile_to_phonebook( $mobile, $user_name );
 		}
 	}
 
@@ -265,13 +207,13 @@ class Farazsms_Comments
 	 * Send comment replay sms to admin
 	 */
 	public function send_comment_reply_sms_to_admin( $data ) {
-		$fsms_admin_notify_pcode = Farazsms_Base::fsms_tr_num( Farazsms_Base::$admin_login_notify_pattern );
-		if ( empty( $fsms_admin_notify_pcode ) || empty( Farazsms_Base::$admin_number ) ) {
+		$fsms_admin_notify_pattern_code = Farazsms_Base::fsms_tr_num( Farazsms_Base::$admin_login_notify_pattern );
+		if ( empty( $fsms_admin_notify_pattern_code ) || empty( Farazsms_Base::$admin_number ) ) {
 			return;
 		}
 
 		$input_data     = [];
-		$patternMessage = Farazsms_Base::get_registered_pattern_variables( $fsms_admin_notify_pcode );
+		$patternMessage = Farazsms_Base::get_registered_pattern_variables( $fsms_admin_notify_pattern_code );
 		if ( $patternMessage === null ) {
 			return;
 		}
@@ -292,16 +234,24 @@ class Farazsms_Comments
 			$input_data['content'] = $data['content'];
 		}
 
-		return Farazsms_Base::farazsms_send_pattern( $fsms_admin_notify_pcode, Farazsms_Base::$admin_number, $input_data );
+		return Farazsms_Base::farazsms_send_pattern( $fsms_admin_notify_pattern_code, Farazsms_Base::$admin_number, $input_data );
 
 	}
 
 	/**
 	 * Save comment mobile to phonebook.
 	 */
-	public function save_comment_mobile_to_phonebook( $phone ) {
-		$phone = Farazsms_Base::fsms_tr_num( $phone );
-		Farazsms_Base::save_a_phone_to_phonebook( $phone, self::$comment_phonebook_id );
+	public function save_comment_mobile_to_phonebook( $number, $name ) {
+
+		$list = [];
+		$list[0] = (object) [
+			'number'       => $number,
+			'name'         => $name,
+			'options'      => (object) [ '100' => 'value' ],
+			'phonebook_id' => (int)  self::$comment_phonebook_id
+		];
+
+		Farazsms_Base::save_list_of_phones_to_phonebook( $list );
 	}
 
 	/**
@@ -320,4 +270,5 @@ class Farazsms_Comments
 		];
 	}
 }
+
 Farazsms_Comments::get_instance();

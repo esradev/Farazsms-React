@@ -308,7 +308,7 @@ function Phonebook(props) {
 
   /**
    * Get Gravity form filed /gf/v2/forms/1/field-filters
-   * TODO:: the /1/ should be dynamic form id selected from previous input filed
+   * TODO: the /1/ should be dynamic form id selected from previous input filed
    * @since 2.0.0
    */
   useEffect(() => {

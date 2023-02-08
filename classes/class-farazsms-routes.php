@@ -16,8 +16,6 @@ if (!defined('ABSPATH')) {
  */
 class Farazsms_Routes
 {
-	private static $elementorPro;
-
 	/**
 	 * Instance
 	 *

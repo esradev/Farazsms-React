@@ -109,6 +109,9 @@ class Farazsms {
 
 		// The class responsible for defining all actions for gravity-forms.
 		require_once FARAZSMS_MODULES_PATH . 'gravity-forms/class-farazsms-gravity-forms.php';
+
+		// The class responsible for defining all actions for digits.
+		require_once FARAZSMS_MODULES_PATH . 'digits/class-farazsms-digits.php';
 	}
 }
 

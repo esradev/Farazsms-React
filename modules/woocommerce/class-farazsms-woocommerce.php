@@ -325,7 +325,7 @@ class Farazsms_Woocommerce {
 		$phone     = $order->get_billing_phone();
 		$products  = [];
 		/*
-		 * @todo need to fix this or have another approach
+		 * TODO: need to fix this or have another approach
 		 */
 		foreach ( $order->get_items() as $item_id => $item ) {
 			$products[ $item->get_product_id() ] = $item->get_total();

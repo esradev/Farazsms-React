@@ -19,8 +19,6 @@ if (!defined('ABSPATH')) {
  */
 class Farazsms_Options
 {
-	private static $elementorPro;
-
 	/**
 	 * Instance
 	 *

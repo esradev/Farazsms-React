@@ -11156,7 +11156,7 @@ function Comments() {
    */
 
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
-    sectionHeader: state.sectionHeader
+    sectionName: state.sectionName
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
   }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
@@ -13154,7 +13154,7 @@ function Phonebook(props) {
 
   /**
    * Get Gravity form filed /gf/v2/forms/1/field-filters
-   * TODO:: the /1/ should be dynamic form id selected from previous input filed
+   * TODO: the /1/ should be dynamic form id selected from previous input filed
    * @since 2.0.0
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {

@@ -94,11 +94,11 @@ class Farazsms_Newsletter
 	}
 
 	public function enqueue_styles() {
-		wp_register_style( 'farazsms-newsletter', plugin_dir_url( __FILE__ ) . 'css/farazsms-newsletter.css', array(), $this->version, 'all' );
+		wp_register_style( 'farazsms-newsletter', plugin_dir_url( __FILE__ ) . 'css/farazsms-newsletter.css', [], 2.0, 'all' );
 	}
 
 	public function enqueue_scripts() {
-		wp_register_script( 'farazsms-newsletter', plugin_dir_url( __FILE__ ) . 'js/farazsms-newsletter.js', array( 'jquery' ), $this->version, false );
+		wp_register_script( 'farazsms-newsletter', plugin_dir_url( __FILE__ ) . 'js/farazsms-newsletter.js', [ 'jquery' ], 2.0, false );
 	}
 
 	/**

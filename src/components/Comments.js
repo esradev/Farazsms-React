@@ -295,7 +295,7 @@ function Comments() {
 
   return (
     <div>
-      <SectionHeader sectionHeader={state.sectionHeader} />
+      <SectionHeader sectionName={state.sectionName} />
       <div>
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (

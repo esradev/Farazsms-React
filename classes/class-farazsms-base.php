@@ -12,7 +12,7 @@
  * Load IPPanel autoload file.
  */
 
-require_once(__DIR__.'/../vendor/autoload.php');
+require_once( __DIR__ . '/../vendor/autoload.php' );
 
 use IPPanel\Client;
 use IPPanel\Errors\Error;
@@ -50,6 +50,7 @@ class Farazsms_Base {
 	public static $fromNum;
 	public static $fromNumAdver;
 	public static $apiKey;
+
 	public static $sendwm;
 	public static $sendwm_with_pattern;
 	public static $welcome_message;
@@ -64,6 +65,7 @@ class Farazsms_Base {
 	public static $gf_phonebook_id;
 	public static $gf_forms_id;
 	public static $gf_selected_field_id;
+
 	/**
 	 * Initiator
 	 *
@@ -85,23 +87,14 @@ class Farazsms_Base {
 
 		$credentials_option = json_decode( get_option( 'farazsms_settings_options' ), true );
 		if ( $credentials_option ) {
-			$fsms_uname         = $credentials_option['username'];
-			$fsms_password      = $credentials_option['password'];
-			$admin_number       = $credentials_option['admin_number'];
-			$fsms_apikey        = $credentials_option['apikey'];
-			$fsms_fromnum       = $credentials_option['from_number'];
-			$fsms_fromnum_adver = $credentials_option['from_number_adver'];
-
-			if ( $fsms_uname && $fsms_password && $fsms_fromnum ) {
-				self::$username     = self::fsms_tr_num( $fsms_uname );
-				self::$password     = self::fsms_tr_num( $fsms_password );
-				self::$admin_number = self::fsms_tr_num( $admin_number );
-				self::$fromNum      = self::fsms_tr_num( $fsms_fromnum );
-				self::$fromNumAdver = self::fsms_tr_num( $fsms_fromnum_adver );
-			}
-
-			self::$apiKey = $fsms_apikey;
+			self::$username     = $credentials_option['username'];
+			self::$password     = $credentials_option['password'];
+			self::$admin_number = $credentials_option['admin_number'];
+			self::$apiKey       = $credentials_option['apikey'];
+			self::$fromNum      = $credentials_option['from_number'];
+			self::$fromNumAdver = $credentials_option['from_number_adver'];
 		}
+
 		$login_notify_options = json_decode( get_option( 'farazsms_login_notify_options' ), true );
 		if ( $login_notify_options ) {
 			self::$sendwm                     = $login_notify_options['welcome_sms'];
@@ -110,16 +103,17 @@ class Farazsms_Base {
 			self::$welcome_message            = $login_notify_options['welcome_sms_msg'];
 			self::$admin_login_notify_pattern = $login_notify_options['admin_login_notify_pattern'];
 		}
+
 		$phonebook_options = json_decode( get_option( 'farazsms_phonebook_options' ), true );
 		if ( $phonebook_options ) {
-			self::$custom_phonebook_id       = current(array_column($phonebook_options['custom_phonebook'], 'value'));
-			self::$custom_phone_meta_keys_id = current(array_column($phonebook_options['custom_phone_meta_keys'], 'value'));
-			self::$digits_phonebook_id       = current(array_column($phonebook_options['digits_phonebook'], 'value'));
-			self::$woo_phonebook_id          = current(array_column($phonebook_options['woo_phonebook'], 'value'));
-			self::$bookly_phonebook_id       = current(array_column($phonebook_options['bookly_phonebook'], 'value'));
-			self::$gf_forms_id               = current(array_column($phonebook_options['gf_forms'], 'value'));
-			self::$gf_phonebook_id           = current(array_column($phonebook_options['gf_phonebook'], 'value'));
-			self::$gf_selected_field_id      = current(array_column($phonebook_options['gf_selected_field'], 'value'));
+			self::$custom_phonebook_id       = current( array_column( $phonebook_options['custom_phonebook'], 'value' ) );
+			self::$custom_phone_meta_keys_id = current( array_column( $phonebook_options['custom_phone_meta_keys'], 'value' ) );
+			self::$digits_phonebook_id       = current( array_column( $phonebook_options['digits_phonebook'], 'value' ) );
+			self::$woo_phonebook_id          = current( array_column( $phonebook_options['woo_phonebook'], 'value' ) );
+			self::$bookly_phonebook_id       = current( array_column( $phonebook_options['bookly_phonebook'], 'value' ) );
+			self::$gf_forms_id               = current( array_column( $phonebook_options['gf_forms'], 'value' ) );
+			self::$gf_phonebook_id           = current( array_column( $phonebook_options['gf_phonebook'], 'value' ) );
+			self::$gf_selected_field_id      = current( array_column( $phonebook_options['gf_selected_field'], 'value' ) );
 		}
 	}
 
@@ -249,13 +243,16 @@ class Farazsms_Base {
 
 	public static function save_list_of_phones_to_phonebook( $list ) {
 		$body    = [
-			'list'       => $list,
+			'list' => $list,
 		];
 		$handler = curl_init( 'http://api.ippanel.com/api/v1/phonebook/numbers-add-list' );
 		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'POST' );
 		curl_setopt( $handler, CURLOPT_POSTFIELDS, json_encode( $body ) );
 		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $handler, CURLOPT_HTTPHEADER, [ 'Authorization: ' . self::$apiKey , 'Content-Type:application/json' ] );
+		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
+			'Authorization: ' . self::$apiKey,
+			'Content-Type:application/json'
+		] );
 
 		$response = curl_exec( $handler );
 		$response = json_decode( $response );
@@ -335,6 +332,7 @@ class Farazsms_Base {
 		if ( $response->message == 1 ) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -350,7 +348,7 @@ class Farazsms_Base {
 			'pass'  => $pass,
 			'op'    => 'booklist',
 		];
-		$resp = wp_remote_post(
+		$resp  = wp_remote_post(
 			'http://ippanel.com/api/select',
 			[
 				'method'      => 'POST',
@@ -366,6 +364,7 @@ class Farazsms_Base {
 		if ( intval( $resp[0] ) != 0 ) {
 			return $resp;
 		}
+
 		return json_decode( $resp[1] );
 	}
 
@@ -501,7 +500,8 @@ class Farazsms_Base {
 			return null;
 		}
 
-		$response       = json_decode( $response['body'] );
+		$response = json_decode( $response['body'] );
+
 		return $response->data->patternMessage;
 	}
 
