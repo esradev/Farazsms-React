@@ -8,14 +8,14 @@
 
 
 // Exit if accessed directly.
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /**
  * Class Farazsms_Routes.
  */
-class Farazsms_Routes
-{
+class Farazsms_Routes {
 	/**
 	 * Instance
 	 *
@@ -29,24 +29,24 @@ class Farazsms_Routes
 	/**
 	 * Initiator
 	 *
-	 * @since 2.0.0
 	 * @return object Initialized object of class.
+	 * @since 2.0.0
 	 */
-	public static function get_instance()
-	{
-		if (!isset(self::$instance)) {
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
+
 		return self::$instance;
 	}
 
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
-		add_action( 'rest_api_init', [ $this ,'register_routes' ] );
+	public function __construct() {
+		add_action( 'rest_api_init', [ $this, 'register_routes' ] );
 	}
+
 	/**
 	 * Register the routes for the objects of the controller.
 	 */
@@ -98,7 +98,7 @@ class Farazsms_Routes
 			],
 		] );
 
-		//Register usermeta rest route
+		//Register user meta rest route
 		register_rest_route( $namespace, '/' . 'usermeta', [
 			[
 				'methods'             => 'GET',
@@ -558,78 +558,93 @@ class Farazsms_Routes
 	/**
 	 * Woocommerce Synchronization with a phonebook.
 	 */
-	public function sync_woo()
-	{
-		$query = new WC_Order_Query( [ 'limit' => 9999, 'type' => 'shop_order', 'return' => 'ids' ] );
-		$order_ids = $query->get_orders();
+	public function sync_woo() {
+		if ( ! Farazsms_Base::$woo_phonebook_id ) {
+			return false;
+		} else {
+			$query     = new WC_Order_Query( [ 'limit' => 9999, 'type' => 'shop_order', 'return' => 'ids' ] );
+			$order_ids = $query->get_orders();
 
-		$list = [];
-		foreach ($order_ids as $order_id) {
-			$order = wc_get_order($order_id);
-			$number = $order->get_billing_phone();
-			$name = $order->get_formatted_billing_full_name();
+			$list = [];
+			foreach ( $order_ids as $order_id ) {
+				$order  = wc_get_order( $order_id );
+				$number = $order->get_billing_phone();
+				$name   = $order->get_formatted_billing_full_name();
 
-			$list[] = (object) [ 'number'       => $number,
-			                     'name'         => $name,
-			                     'options'      => (object) [ '100' => 'value' ],
-			                     'phonebook_id' => (int) Farazsms_Base::$woo_phonebook_id
-			];
+				$list[] = (object) [
+					'number'       => $number,
+					'name'         => $name,
+					'options'      => (object) [ '100' => 'value' ],
+					'phonebook_id' => (int) Farazsms_Base::$woo_phonebook_id
+				];
+			}
+			Farazsms_Base::save_list_of_phones_to_phonebook( $list );
+
+			return true;
 		}
-		Farazsms_Base::save_list_of_phones_to_phonebook($list);
-
-		return true;
 	}
 
 	/**
 	 * Digits Synchronization with a phonebook.
 	 */
 	public function sync_digits() {
-		$users = get_users( [ 'fields' =>  'ID' ] );
+		if ( ! Farazsms_Base::$digits_phonebook_id ) {
+			return false;
+		} else {
+			$users = get_users( [ 'fields' => 'ID' ] );
 
 
-		$list = [];
-		foreach ($users as $userid) {
-			$user_digits_phone = get_user_meta($userid, 'digits_phone', true);
-			if (empty($user_digits_phone)) {
-				continue;
+			$list = [];
+			foreach ( $users as $userid ) {
+				$user_digits_phone = get_user_meta( $userid, 'digits_phone', true );
+				if ( empty( $user_digits_phone ) ) {
+					continue;
+				}
+				$user_info = get_userdata( $userid );
+				$number    = $user_digits_phone;
+				$name      = $user_info->display_name ?? $user_info->first_name . ' ' . $user_info->last_name;
+
+				$list[] = (object) [
+					'number'       => $number,
+					'name'         => $name,
+					'options'      => (object) [ '100' => 'value' ],
+					'phonebook_id' => (int) Farazsms_Base::$digits_phonebook_id
+				];
 			}
-			$user_info             = get_userdata($userid);
-			$number = $user_digits_phone;
-			$name   = $user_info->display_name ?? $user_info->first_name . ' ' . $user_info->last_name;
+			Farazsms_Base::save_list_of_phones_to_phonebook( $list );
 
-			$list[] = (object) [ 'number'       => $number,
-			                     'name'         => $name,
-			                     'options'      => (object) [ '100' => 'value' ],
-			                     'phonebook_id' => (int) Farazsms_Base::$digits_phonebook_id
-			];
+			return true;
 		}
-		Farazsms_Base::save_list_of_phones_to_phonebook($list);
 
-		return true;
 	}
 
 	/**
 	 * Bookly Synchronization with a phonebook.
 	 */
 	public function sync_bookly() {
+		if ( ! Farazsms_Base::$bookly_phonebook_id ) {
+			return false;
+		} else {
+			global $wpdb;
+			$bookly_customers = $wpdb->get_results( 'SELECT phone,full_name FROM ' . $wpdb->prefix . 'bookly_customers' );
 
-		global $wpdb;
-		$bookly_customers = $wpdb->get_results( 'SELECT phone,full_name FROM ' . $wpdb->prefix . 'bookly_customers' );
+			$list = [];
+			foreach ( $bookly_customers as $customer ) {
+				$number = substr( $customer->phone, - 10 );
+				$name   = $customer->full_name;
 
-		$list = [];
-		foreach ($bookly_customers as $customer) {
-			$number = substr($customer->phone, -10);
-			$name = $customer->full_name;
+				$list[] = (object) [
+					'number'       => $number,
+					'name'         => $name,
+					'options'      => (object) [ '100' => 'value' ],
+					'phonebook_id' => (int) Farazsms_Base::$bookly_phonebook_id
+				];
+			}
+			Farazsms_Base::save_list_of_phones_to_phonebook( $list );
 
-			$list[] = (object) [ 'number'       => $number,
-			                     'name'         => $name,
-			                     'options'      => (object) [ '100' => 'value' ],
-			                     'phonebook_id' => (int) Farazsms_Base::$bookly_phonebook_id
-			];
+			return true;
 		}
-		Farazsms_Base::save_list_of_phones_to_phonebook($list);
 
-		return true;
 	}
 
 	/**
@@ -643,4 +658,5 @@ class Farazsms_Routes
 	}
 
 }
+
 Farazsms_Routes::get_instance();

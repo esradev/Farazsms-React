@@ -9998,6 +9998,7 @@ const __ = wp.i18n.__;
 function App() {
   const initialState = {
     flashMessages: [],
+    flashMessageType: "success",
     plugins: {
       woocommerce: {
         use: false,
@@ -10174,6 +10175,9 @@ function App() {
       case "flashMessage":
         draft.flashMessages.push(action.value);
         return;
+      case "flashMessageType":
+        draft.flashMessageType = action.value;
+        return;
       case "fetchComplete":
         //Init state values by action.value
         draft.plugins.woocommerce.use = action.value.woocommerce;
@@ -10336,7 +10340,8 @@ function App() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"].Provider, {
     value: dispatch
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Header__WEBPACK_IMPORTED_MODULE_4__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_FlashMessages__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    messages: state.flashMessages
+    messages: state.flashMessages,
+    type: state.flashMessageType
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_23__.Routes, null, _views_SidebarItems__WEBPACK_IMPORTED_MODULE_7__["default"].map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_23__.Route, {
     key: index,
     path: item.path,
@@ -13965,41 +13970,185 @@ const __ = wp.i18n.__;
 
 function Synchronization(props) {
   const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
+  /**
+   *
+   * First init state.
+   *
+   */
   const originalState = {
+    plugins: {
+      woocommerce: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "woocommerceChange",
+        id: "woocommerce",
+        selectedPhonebook: false
+      },
+      bookly: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "booklyChange",
+        id: "bookly",
+        selectedPhonebook: false
+      },
+      digits: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "digitsChange",
+        id: "digits",
+        selectedPhonebook: false
+      }
+    },
+    isFetching: true,
+    isSaving: false,
+    sendCount: 0,
     sectionName: __("Synchronization", "farazsms")
   };
+  function ourReduser(draft, action) {
+    switch (action.type) {
+      case "fetchComplete":
+        //Init state values by action.value
+        if (action.value.woo_phonebook !== []) {
+          draft.plugins.woocommerce.selectedPhonebook = true;
+        }
+        if (action.value.digits_phonebook !== []) {
+          draft.plugins.digits.selectedPhonebook = true;
+        }
+        if (action.value.bookly_phonebook !== []) {
+          draft.plugins.bookly.selectedPhonebook = true;
+        }
+        draft.isFetching = false;
+        return;
+      case "saveRequestStarted":
+        draft.isSaving = true;
+        return;
+      case "saveRequestFinished":
+        draft.isSaving = false;
+        return;
+    }
+  }
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_6__.useImmerReducer)(ourReduser, originalState);
-  function ourReduser(draft, action) {}
+
+  /**
+   *
+   * Check is phonebooks exist from DB on settings component loaded
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    async function getPhonebooks() {
+      try {
+        const getPhonebooks = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].get("/farazsms/v1/phonebook_options", {});
+        if (getPhonebooks.data) {
+          const optionsJson = JSON.parse(getPhonebooks.data);
+          console.log(optionsJson);
+          dispatch({
+            type: "fetchComplete",
+            value: optionsJson
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getPhonebooks();
+  }, []);
+
+  /**
+   * Sync woocommerce user('s) with selected phonebook.
+   *
+   * @param e
+   */
   function syncWoo(e) {
     e.preventDefault();
     async function syncWoo() {
+      let res;
       try {
-        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_woo");
-        console.log("Sync woocommerce success!");
+        res = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_woo");
+        if (res === true) {
+          appDispatch({
+            type: "flashMessage",
+            value: __("Congrats. Woocommerce user(s) synced successfully.", "farazsms")
+          });
+        } else {
+          appDispatch({
+            type: "flashMessage",
+            value: __("Warning! an error occurred, please try again later.", "farazsms")
+          });
+          appDispatch({
+            type: "flashMessageType",
+            value: "danger"
+          });
+        }
       } catch (e) {
         console.log(e);
       }
     }
     syncWoo();
   }
+
+  /**
+   * Sync digits user('s) with selected phonebook.
+   *
+   * @param e
+   */
   function syncDigits(e) {
     e.preventDefault();
     async function syncDigits() {
+      let res;
       try {
-        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_digits");
-        console.log("Sync digits success!");
+        res = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_digits");
+        if (res === true) {
+          appDispatch({
+            type: "flashMessage",
+            value: __("Congrats. Digits user(s) synced successfully.", "farazsms")
+          });
+        } else {
+          appDispatch({
+            type: "flashMessage",
+            value: __("Warning! an error occurred, please try again later.", "farazsms")
+          });
+          appDispatch({
+            type: "flashMessageType",
+            value: "danger"
+          });
+        }
       } catch (e) {
         console.log(e);
       }
     }
     syncDigits();
   }
+
+  /**
+   * Sync bookly user('s) with selected phonebook.
+   *
+   * @param e
+   */
   function syncBookly(e) {
     e.preventDefault();
     async function syncBookly() {
+      let res;
       try {
-        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_bookly");
-        console.log("Sync bookly success!");
+        res = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_bookly");
+        if (res === true) {
+          appDispatch({
+            type: "flashMessage",
+            value: __("Congrats. Bookly user(s) synced successfully.", "farazsms")
+          });
+        } else {
+          appDispatch({
+            type: "flashMessage",
+            value: __("Warning! an error occurred, please try again later.", "farazsms")
+          });
+          appDispatch({
+            type: "flashMessageType",
+            value: "danger"
+          });
+        }
       } catch (e) {
         console.log(e);
       }
@@ -14390,7 +14539,7 @@ function FlashMessages(props) {
   }, props.messages.map((msg, index) => {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       key: index,
-      className: "alert alert-success text-center floating-alert shadow-sm"
+      className: "alert text-center floating-alert shadow-sm " + (props.type === "success" ? "alert-success" : "alert-danger")
     }, msg);
   }));
 }

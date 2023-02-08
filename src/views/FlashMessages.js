@@ -10,7 +10,10 @@ function FlashMessages(props) {
         return (
           <div
             key={index}
-            className="alert alert-success text-center floating-alert shadow-sm"
+            className={
+              "alert text-center floating-alert shadow-sm " +
+              (props.type === "success" ? "alert-success" : "alert-danger")
+            }
           >
             {msg}
           </div>

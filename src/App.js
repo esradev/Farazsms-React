@@ -36,6 +36,7 @@ import AxiosWp from "./function/AxiosWp";
 function App() {
   const initialState = {
     flashMessages: [],
+    flashMessageType: "success",
     plugins: {
       woocommerce: {
         use: false,
@@ -193,6 +194,9 @@ function App() {
     switch (action.type) {
       case "flashMessage":
         draft.flashMessages.push(action.value);
+        return;
+      case "flashMessageType":
+        draft.flashMessageType = action.value;
         return;
       case "fetchComplete":
         //Init state values by action.value
@@ -407,7 +411,10 @@ function App() {
       <StateContext.Provider value={state}>
         <DispatchContext.Provider value={dispatch}>
           <Header />
-          <FlashMessages messages={state.flashMessages} />
+          <FlashMessages
+            messages={state.flashMessages}
+            type={state.flashMessageType}
+          />
           <Sidebar>
             <Routes>
               {SidebarItems.map((item, index) => (
