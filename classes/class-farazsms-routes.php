@@ -557,6 +557,8 @@ class Farazsms_Routes {
 
 	/**
 	 * Woocommerce Synchronization with a phonebook.
+	 *
+	 * @throws Exception
 	 */
 	public function sync_woo() {
 		if ( ! Farazsms_Base::$woo_phonebook_id ) {
@@ -574,7 +576,7 @@ class Farazsms_Routes {
 				$list[] = (object) [
 					'number'       => $number,
 					'name'         => $name,
-					'options'      => (object) [ '100' => 'value' ],
+//					'options'      => (object) [ '100' => 'value' ],
 					'phonebook_id' => (int) Farazsms_Base::$woo_phonebook_id
 				];
 			}
@@ -607,7 +609,6 @@ class Farazsms_Routes {
 				$list[] = (object) [
 					'number'       => $number,
 					'name'         => $name,
-					'options'      => (object) [ '100' => 'value' ],
 					'phonebook_id' => (int) Farazsms_Base::$digits_phonebook_id
 				];
 			}
@@ -636,7 +637,6 @@ class Farazsms_Routes {
 				$list[] = (object) [
 					'number'       => $number,
 					'name'         => $name,
-					'options'      => (object) [ '100' => 'value' ],
 					'phonebook_id' => (int) Farazsms_Base::$bookly_phonebook_id
 				];
 			}
@@ -650,7 +650,7 @@ class Farazsms_Routes {
 	/**
 	 * Check if a given request has permissions
 	 *
-	 * @return WP_Error|bool
+	 * @return bool
 	 */
 	public function permissions_check( $request ) {
 		//return true; <--use to make readable by all

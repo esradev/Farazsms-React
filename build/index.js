@@ -14073,7 +14073,7 @@ function Synchronization(props) {
             type: "flashMessage",
             value: __("Congrats. Woocommerce user(s) synced successfully.", "farazsms")
           });
-        } else {
+        } else if (res === false) {
           appDispatch({
             type: "flashMessage",
             value: __("Warning! an error occurred, please try again later.", "farazsms")

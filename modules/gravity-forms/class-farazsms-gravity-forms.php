@@ -8,14 +8,14 @@
  */
 
 // Exit if accessed directly.
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /**
  * Class Farazsms_Gravity_Forms.
  */
-class Farazsms_Gravity_Forms
-{
+class Farazsms_Gravity_Forms {
 	/**
 	 * Instance
 	 *
@@ -29,22 +29,21 @@ class Farazsms_Gravity_Forms
 	/**
 	 * Initiator
 	 *
-	 * @since 2.0.0
 	 * @return object Initialized object of class.
+	 * @since 2.0.0
 	 */
-	public static function get_instance()
-	{
-		if (!isset(self::$instance)) {
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
+
 		return self::$instance;
 	}
 
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		add_action( 'gform_entry_created', [ $this, 'fsms_club_gform_post_update_entry' ] );
 		add_action( 'gform_pre_submission', [ $this, 'fsms_gf_pre_submission' ] );
 	}
@@ -53,7 +52,7 @@ class Farazsms_Gravity_Forms
 	 * Gravity Form post update entry.
 	 */
 	public function fsms_club_gform_post_update_entry( $entry ) {
-		$fsc_gravity_forms_fields = self::$gf_selected_field;
+		$fsc_gravity_forms_fields = Farazsms_Base::$gf_selected_field_id;
 		$form_ids                 = [];
 		$field_ids                = [];
 		foreach ( $fsc_gravity_forms_fields as $field ) {
@@ -72,15 +71,14 @@ class Farazsms_Gravity_Forms
 				return;
 			}
 			if ( $value !== null ) {
-				$woo_gf_books = Farazsms_Base::$gf_phonebook;
-				foreach ( $woo_gf_books as $phonebookId ) {
-					$data[] = [
-						'number'       => $phone,
-						'name'         => '',
-						'phonebook_id' => (int) $phonebookId['value']
-					];
-					Farazsms_Base::save_list_of_phones_to_phonebook( $data );
-				}
+
+				$list[] = (object) [
+					'number'       => $phone,
+					'name'         => '',
+					'phonebook_id' => (int) Farazsms_Base::$gf_phonebook_id
+				];
+				Farazsms_Base::save_list_of_phones_to_phonebook( $list );
+
 			}
 		}
 	}
@@ -96,4 +94,5 @@ class Farazsms_Gravity_Forms
 
 
 }
+
 Farazsms_Gravity_Forms::get_instance();

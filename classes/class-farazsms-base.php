@@ -8,10 +8,7 @@
  * @subpackage Farazsms/includes
  */
 
-/**
- * Load IPPanel autoload file.
- */
-
+//Load IPPanel autoload file.
 require_once( __DIR__ . '/../vendor/autoload.php' );
 
 use IPPanel\Client;
@@ -178,7 +175,7 @@ class Farazsms_Base {
 				);
 
 				return true;
-			} catch ( Error|HttpException|Exception $e ) {
+			} catch ( Error|HttpException|Exception ) {
 				return false;
 			}
 		} else {
@@ -254,11 +251,12 @@ class Farazsms_Base {
 			'Content-Type:application/json'
 		] );
 
-		$response = curl_exec( $handler );
-		$response = json_decode( $response );
-		if ( $response->status->code !== 0 ) {
-			return false;
-		}
+		curl_exec( $handler );
+
+		//		$response = json_decode( $response );
+		//		if ( $response->status->code !== 0 ) {
+		//			return false;
+		//		}
 
 		return true;
 
@@ -313,7 +311,7 @@ class Farazsms_Base {
 	/**
 	 * Check if credentials is valid.
 	 */
-	public function check_if_credentials_is_valid() {
+	public static function check_if_credentials_is_valid() {
 		$body = [
 			'username' => self::$username,
 			'password' => self::$password,
@@ -388,7 +386,7 @@ class Farazsms_Base {
 				$credit_rial = explode( $separator, $credit )[0];
 
 				return substr( $credit_rial, 0, - 1 );
-			} catch ( Error|HttpException|Exception $e ) {
+			} catch ( Error|HttpException|Exception ) {
 				return false;
 			}
 		} else {
@@ -448,7 +446,7 @@ class Farazsms_Base {
 					$message,
 					$message,
 				);
-			} catch ( Error|HttpException|Exception $e ) {
+			} catch ( Error|HttpException|Exception ) {
 				return false;
 			}
 		} else {
@@ -470,7 +468,7 @@ class Farazsms_Base {
 					'body'        => json_encode( $body ),
 				]
 			);
-			$response = json_decode( $response['body'] );
+			json_decode( $response['body'] );
 		}
 
 	}
@@ -526,7 +524,7 @@ class Farazsms_Base {
 				);
 
 				return true;
-			} catch ( Error|HttpException|Exception $e ) {
+			} catch ( Error|HttpException|Exception ) {
 				return false;
 			}
 		} else {
@@ -558,10 +556,23 @@ class Farazsms_Base {
 			}
 
 			return true;
-		}//end if
-
+		}
 	}
 
+	/**
+	 * Save generated code to DB
+	 */
+	public static function save_generated_code_to_db( $phone, $code ) {
+		global $wpdb;
+		$data  = [
+			'phone' => $phone,
+			'code'  => $code,
+		];
+		$table = $wpdb->prefix . 'farazsms_vcode';
+		$wpdb->delete( $table, [ 'phone' => $phone ] );
+
+		return $wpdb->insert( $table, $data );
+	}
 }
 
 Farazsms_Base::get_instance();

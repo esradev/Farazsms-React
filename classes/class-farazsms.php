@@ -1,23 +1,13 @@
 <?php
 
 /**
- * The file that defines the core plugin class
- *
- * A class definition that includes all plugin classes.
+ * The core plugin class
  *
  * @link       https://farazsms.com/
  * @since      2.0.0
  *
  * @package    Farazsms
  * @subpackage Farazsms/classes
- */
-
-
-/**
- * Farazsms login notify.
- *
- * @package Farazsms
- * @since 2.0.0
  */
 
 // Exit if accessed directly.

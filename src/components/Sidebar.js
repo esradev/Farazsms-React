@@ -1,18 +1,18 @@
 /**
  * Import remote dependencies.
  */
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 /**
  * Import local dependencies
  */
-import SidebarItems from "../views/SidebarItems";
+import SidebarItems from '../views/SidebarItems'
 
-function Sidebar({ children }) {
+function Sidebar ({ children }) {
   return (
     <div className="container faraz-sidebar">
-      <div style={{ width: "250px" }} className="sidebar">
+      <div style={{ width: '250px' }} className="sidebar">
         {SidebarItems.map((item, index) => (
           <NavLink
             to={item.path}
@@ -21,7 +21,7 @@ function Sidebar({ children }) {
             activeclassName="active"
           >
             <div className="icon">{item.icon}</div>
-            <div style={{ display: "block" }} className="link_text">
+            <div style={{ display: 'block' }} className="link_text">
               {item.name}
             </div>
           </NavLink>
@@ -29,7 +29,7 @@ function Sidebar({ children }) {
       </div>
       <main>{children}</main>
     </div>
-  );
+  )
 }
 
-export default Sidebar;
+export default Sidebar

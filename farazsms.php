@@ -41,6 +41,12 @@ define('FARAZSMS_ADMIN_URL',             FARAZSMS_CLASSES_URL . 'admin/');
 define('FARAZSMS_WEB_MAIN',              'https://farazsms.com/');
 define('FARAZSMS_WEB_MAIN_DOC',          FARAZSMS_WEB_MAIN . 'farazsms-wordpress-plugin/');
 
+
+/**
+ * Require farazsms activator class.
+ *
+ * @return void
+ */
 function activate_farazsms()
 {
     require_once FARAZSMS_CLASSES_PATH . 'class-farazsms-activator.php';
@@ -49,6 +55,13 @@ function activate_farazsms()
 
 register_activation_hook(__FILE__, 'activate_farazsms');
 
+/**
+ * Redirect user to plugin settings page after plugin activated.
+ *
+ * @param $plugin
+ *
+ * @return void
+ */
 function farazsms_activation_redirect($plugin)
 {
     if (get_option('farazsms_do_activation_redirect', false)) {
@@ -56,11 +69,14 @@ function farazsms_activation_redirect($plugin)
         exit(wp_redirect(FARAZSMS_SETTINGS_LINK));
     }
 }
+
+
 add_action('activated_plugin', 'farazsms_activation_redirect');
 
 /**
- * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
+ * Require main farazsms class.
+ *
+ * @return void
  */
 require FARAZSMS_CLASSES_PATH . 'class-farazsms.php';
 

@@ -140,12 +140,12 @@ class Farazsms_Comments {
 
 	// Response to comment
 	public function response_to_comment( $comment_id ) {
-		$comment  = get_comment( $comment_id );
-		$data     = $this->comments_farazsms_shortcode( $comment, $comment_id );
-		$mobile   = get_comment_meta( $data['parent'] )['mobile'][0] ?? '';
-		$user     = get_user_by( 'id', $comment->user_id );
+		$comment   = get_comment( $comment_id );
+		$data      = $this->comments_farazsms_shortcode( $comment, $comment_id );
+		$mobile    = get_comment_meta( $data['parent'] )['mobile'][0] ?? '';
+		$user      = get_user_by( 'id', $comment->user_id );
 		$user_name = $user->first_name . ' ' . $user->last_name;
-		$is_admin = in_array( 'administrator', $user->roles );
+		$is_admin  = in_array( 'administrator', $user->roles );
 		if ( $comment->comment_parent == 0 ) {
 			$mobile = get_comment_meta( $comment_id )['mobile'][0] ?? '';
 			if ( ! empty( self::$approved_comment_pattern ) || ! empty( $mobile ) ) {
@@ -243,14 +243,11 @@ class Farazsms_Comments {
 	 */
 	public function save_comment_mobile_to_phonebook( $number, $name ) {
 
-		$list = [];
-		$list[0] = (object) [
+		$list[] = (object) [
 			'number'       => $number,
 			'name'         => $name,
-			'options'      => (object) [ '100' => 'value' ],
-			'phonebook_id' => (int)  self::$comment_phonebook_id
+			'phonebook_id' => (int) self::$comment_phonebook_id
 		];
-
 		Farazsms_Base::save_list_of_phones_to_phonebook( $list );
 	}
 

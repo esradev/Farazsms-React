@@ -8,14 +8,14 @@
  */
 
 // Exit if accessed directly.
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /**
  * Class Farazsms_Settings.
  */
-class Farazsms_Settings
-{
+class Farazsms_Settings {
 	/**
 	 * Instance
 	 *
@@ -28,72 +28,68 @@ class Farazsms_Settings
 	/**
 	 * Initiator
 	 *
-	 * @since 2.0.0
 	 * @return object Initialized object of class.
+	 * @since 2.0.0
 	 */
-	public static function get_instance()
-	{
-		if (!isset(self::$instance)) {
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
+
 		return self::$instance;
 	}
 
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
-		add_action( 'init', [ $this, 'fsms_check_remaining_days' ]);
-		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ]);
-		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_styles' ]);
-		add_action( 'admin_menu', [ $this, 'init_menu' ]);
-		add_action( 'admin_bar_menu', [ $this, 'admin_bar_menu'], 60 );
-		add_filter( 'plugin_action_links_' . FARAZSMS_BASE, [ $this, 'settings_link' ]);
-		add_action( 'wp_dashboard_setup', [ $this, 'rss_meta_box' ]);
-		}
+	public function __construct() {
+		add_action( 'init', [ $this, 'fsms_check_remaining_days' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_styles' ] );
+		add_action( 'admin_menu', [ $this, 'init_menu' ] );
+		add_action( 'admin_bar_menu', [ $this, 'admin_bar_menu' ], 60 );
+		add_filter( 'plugin_action_links_' . FARAZSMS_BASE, [ $this, 'settings_link' ] );
+		add_action( 'wp_dashboard_setup', [ $this, 'rss_meta_box' ] );
+	}
 
 	/**
-	 *
 	 * Check remaining days.
-	 *
 	 */
-
-	public function fsms_check_remaining_days()
-	{
-		$panel_expire_date = get_option('fsms_panel_expire_date', '');
-		if (empty($panel_expire_date)) {
+	public function fsms_check_remaining_days() {
+		$panel_expire_date = get_option( 'fsms_panel_expire_date', '' );
+		if ( empty( $panel_expire_date ) ) {
 			return;
 		}
-		$future = strtotime($panel_expire_date);
+		$future     = strtotime( $panel_expire_date );
 		$timefromdb = time();
-		$timeleft = $future - $timefromdb;
-		$daysleft = round((($timeleft / 24) / 60) / 60);
-		if (!is_numeric($daysleft)) {
+		$timeleft   = $future - $timefromdb;
+		$daysleft   = round( ( ( $timeleft / 24 ) / 60 ) / 60 );
+		if ( ! is_numeric( $daysleft ) ) {
 			return;
 		}
-		if ($daysleft > 30) {
-			delete_option('sent_low_remaining_days_30');
-			delete_option('sent_low_remaining_days_7');
+		if ( $daysleft > 30 ) {
+			delete_option( 'sent_low_remaining_days_30' );
+			delete_option( 'sent_low_remaining_days_7' );
+
 			return;
 		}
-		if ($daysleft > 20 && $daysleft < 30) {
-			$already_sent = get_option('sent_low_remaining_days_30', '');
-			if ($already_sent === '1') {
+		if ( $daysleft > 20 && $daysleft < 30 ) {
+			$already_sent = get_option( 'sent_low_remaining_days_30', '' );
+			if ( $already_sent === '1' ) {
 				return;
 			}
-			$message = __('Dear user, your panel will expire less than a month from now. To renew your SMS panel, contact Faraz SMS', 'farazsms');
-			Farazsms_Base::send_message([Farazsms_Base::$admin_number], $message, '+98club');
-			update_option('sent_low_remaining_days_30', '1');
-		} elseif ($daysleft > 1 && $daysleft < 7) {
-			$already_sent = get_option('sent_low_remaining_days_7', '');
-			if ($already_sent == '1') {
+			$message = __( 'Dear user, your panel will expire less than a month from now. To renew your SMS panel, contact Faraz SMS', 'farazsms' );
+			Farazsms_Base::send_message( [ Farazsms_Base::$admin_number ], $message, '+98club' );
+			update_option( 'sent_low_remaining_days_30', '1' );
+		} elseif ( $daysleft > 1 && $daysleft < 7 ) {
+			$already_sent = get_option( 'sent_low_remaining_days_7', '' );
+			if ( $already_sent == '1' ) {
 				return;
 			}
 
-			$message = __('Dear user, your panel will expire less than a week from now. To renew your SMS panel, contact Faraz SMS.', 'farazsms');
-			Farazsms_Base::send_message([Farazsms_Base::$admin_number], $message, '+98club');
-			update_option('sent_low_remaining_days_7', '1');
+			$message = __( 'Dear user, your panel will expire less than a week from now. To renew your SMS panel, contact Faraz SMS.', 'farazsms' );
+			Farazsms_Base::send_message( [ Farazsms_Base::$admin_number ], $message, '+98club' );
+			update_option( 'sent_low_remaining_days_7', '1' );
 		}
 	}
 
@@ -106,7 +102,6 @@ class Farazsms_Settings
 		wp_enqueue_style( 'farazsms-style', FARAZSMS_URL . 'build/index.css' );
 
 	}
-
 
 	/**
 	 * Register the JavaScript for the admin area.
@@ -129,7 +124,6 @@ class Farazsms_Settings
 		 * Add a localization object ,The base rest api url and a security nonce
 		 * @see https://since1979.dev/snippet-014-setup-axios-for-the-wordpress-rest-api/
 		 * */
-
 		wp_localize_script(
 			'farazsms-script',
 			'farazsmsJsObject',
@@ -151,12 +145,10 @@ class Farazsms_Settings
 		// wp_enqueue_script( 'select2' );
 		if ( $hook == 'post-new.php' || $hook == 'post.php' ) {
 			if ( 'shop_order' === $post->post_type ) {
-				wp_enqueue_style( 'farazsms-tracking-code', plugin_dir_url( __FILE__ ) . 'css/farazsms-tracking-code.css', [], Farazsms::$version, 'all' );
+				wp_enqueue_style( 'farazsms-tracking-code', plugin_dir_url( __FILE__ ) . 'css/farazsms-tracking-code.css', [], '2.0', 'all' );
 			}
 		}
-
-	}//end admin_enqueue_scripts()
-
+	}
 
 	/**
 	 * Add Admin Menu.
@@ -287,8 +279,7 @@ class Farazsms_Settings
 			]
 		);
 
-	}//end init_menu()
-
+	}
 
 	/**
 	 * Init Admin Page.
@@ -298,16 +289,13 @@ class Farazsms_Settings
 	public function admin_page() {
 		include_once FARAZSMS_MODULES_PATH . 'farazsms/farazsms-admin-page.php';
 
-	}//end admin_page()
-
+	}
 
 	/**
 	 * Add bar menu. Show some links for farazsms plugin on the admin bar.
 	 *
 	 * @since 1.0.0
 	 */
-
-
 	public function admin_bar_menu() {
 		global $wp_admin_bar;
 		if ( ! is_super_admin() || ! is_admin_bar_showing() ) {
@@ -332,7 +320,7 @@ class Farazsms_Settings
 				[
 					'parent' => 'farazsms',
 					'id'     => 'farazsms-admin-bar-credit',
-					'title'  => __('Account credit: ', 'farazsms') . number_format($credit) . __(' $IR_T', 'farazsms'),
+					'title'  => __( 'Account credit: ', 'farazsms' ) . number_format( $credit ) . __( ' $IR_T', 'farazsms' ),
 					'href'   => get_bloginfo( 'url' ) . '/wp-admin/admin.php?page=farazsms_settings',
 				]
 			);
@@ -355,8 +343,7 @@ class Farazsms_Settings
 			]
 		);
 
-	}//end admin_bar_menu()
-
+	}
 
 	/**
 	 * Plugin settings link on all plugins page.
@@ -373,8 +360,7 @@ class Farazsms_Settings
 
 		return $links;
 
-	}//end settings_link()
-
+	}
 
 	/**
 	 * Show the latest posts from https://farazsms.com/ on dashboard widget
@@ -384,8 +370,8 @@ class Farazsms_Settings
 	public function rss_meta_box() {
 		if ( get_option( 'fsms_rss_meta_box', '1' ) == '1' ) {
 			add_meta_box(
-				'FarazSMS_RSS',
-				__( 'FarazSMS latest news', 'farazsms' ),
+				'Farazsms_Rss',
+				__( 'Farazsms latest news', 'farazsms' ),
 				[
 					$this,
 					'rss_postbox_container',
@@ -396,8 +382,7 @@ class Farazsms_Settings
 			);
 		}
 
-	}//end rss_meta_box()
-
+	}
 
 	public function rss_postbox_container() {
 		?>
@@ -419,4 +404,5 @@ class Farazsms_Settings
 	}
 
 }
+
 Farazsms_Settings::get_instance();

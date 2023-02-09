@@ -1,9 +1,9 @@
 /**
  * Import remote dependencies.
  */
-import React from "react";
+import React from 'react'
 // Used as const not import, for Loco translate plugin compatibility.
-const __ = wp.i18n.__;
+const __ = wp.i18n.__
 import {
   AiOutlineNotification,
   AiOutlinePhone,
@@ -15,91 +15,91 @@ import {
   AiOutlineCloudDownload,
   AiOutlineLogin,
   AiOutlineUserSwitch,
-} from "react-icons/ai";
-import { TbAffiliate } from "react-icons/tb";
+} from 'react-icons/ai'
+import { TbAffiliate } from 'react-icons/tb'
 
 /**
  * Import local dependencies
  */
-import Settings from "../components/Settings";
-import LoginNotify from "../components/LoginNotify";
-import Phonebook from "../components/Phonebook";
-import Synchronization from "../components/Synchronization";
-import Comments from "../components/Comments";
-import WooCommerce from "../components/WooCommerce";
-import Edd from "../components/Edd";
-import Newsletter from "../components/Newsletter";
-import Aff from "../components/Aff";
-import Membership from "../components/Membership";
-import Integrations from "../components/Integrations";
+import Settings from '../components/Settings'
+import LoginNotify from '../components/LoginNotify'
+import Phonebook from '../components/Phonebook'
+import Synchronization from '../components/Synchronization'
+import Comments from '../components/Comments'
+import WooCommerce from '../components/WooCommerce'
+import Edd from '../components/Edd'
+import Newsletter from '../components/Newsletter'
+import Aff from '../components/Aff'
+import Membership from '../components/Membership'
+import Integrations from '../components/Integrations'
 
 const SidebarItems = [
   {
-    path: "/",
+    path: '/',
     element: Settings,
-    name: __("Settings", "farazsms"),
-    icon: <AiOutlineSetting />,
+    name: __('Settings', 'farazsms'),
+    icon: <AiOutlineSetting/>,
   },
   {
-    path: "/login_notify",
+    path: '/login_notify',
     element: LoginNotify,
-    name: __("Login Notify", "farazsms"),
-    icon: <AiOutlineLogin />,
+    name: __('Login Notify', 'farazsms'),
+    icon: <AiOutlineLogin/>,
   },
   {
-    path: "/phonebook",
+    path: '/phonebook',
     element: Phonebook,
-    name: __("Phonebook", "farazsms"),
-    icon: <AiOutlinePhone />,
+    name: __('Phonebook', 'farazsms'),
+    icon: <AiOutlinePhone/>,
   },
   {
-    path: "/synchronization",
+    path: '/synchronization',
     element: Synchronization,
-    name: __("Synchronization", "farazsms"),
-    icon: <AiOutlineSync />,
+    name: __('Synchronization', 'farazsms'),
+    icon: <AiOutlineSync/>,
   },
   {
-    path: "/comments",
+    path: '/comments',
     element: Comments,
-    name: __("Comments", "farazsms"),
-    icon: <AiOutlineComment />,
+    name: __('Comments', 'farazsms'),
+    icon: <AiOutlineComment/>,
   },
   {
-    path: "/woocommerce",
+    path: '/woocommerce',
     element: WooCommerce,
-    name: __("WooCommerce", "farazsms"),
-    icon: <AiOutlineShoppingCart />,
+    name: __('WooCommerce', 'farazsms'),
+    icon: <AiOutlineShoppingCart/>,
   },
   {
-    path: "/edd",
+    path: '/edd',
     element: Edd,
-    name: __("Edd Settings", "farazsms"),
-    icon: <AiOutlineCloudDownload />,
+    name: __('Edd Settings', 'farazsms'),
+    icon: <AiOutlineCloudDownload/>,
   },
   {
-    path: "/newsletter",
+    path: '/newsletter',
     element: Newsletter,
-    name: __("Newsletter", "farazsms"),
-    icon: <AiOutlineNotification />,
+    name: __('Newsletter', 'farazsms'),
+    icon: <AiOutlineNotification/>,
   },
   {
-    path: "/aff",
+    path: '/aff',
     element: Aff,
-    name: __("Affiliate", "farazsms"),
-    icon: <TbAffiliate />,
+    name: __('Affiliate', 'farazsms'),
+    icon: <TbAffiliate/>,
   },
   {
-    path: "/membership",
+    path: '/membership',
     element: Membership,
-    name: __("Membership", "farazsms"),
-    icon: <AiOutlineUserSwitch />,
+    name: __('Membership', 'farazsms'),
+    icon: <AiOutlineUserSwitch/>,
   },
   {
-    path: "/integrations",
+    path: '/integrations',
     element: Integrations,
-    name: __("Integrations", "farazsms"),
-    icon: <AiOutlineApartment />,
+    name: __('Integrations', 'farazsms'),
+    icon: <AiOutlineApartment/>,
   },
-];
+]
 
-export default SidebarItems;
+export default SidebarItems

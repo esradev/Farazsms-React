@@ -72,14 +72,13 @@ class Farazsms_Membership
 	/**
 	 * First notification before expire
 	 */
-
 	public function fsms_first_notification_before_expire( $sent = false, $uid = 0, $lid = 0, $type = '' ) {
 		$types                  = [];
 		$types[]                = ( self::$ihc_send_first_notify == 'true' ) ? 'before_expire' : '';
 		$types[]                = ( self::$ihc_send_second_notify == 'true' ) ? 'second_before_expire' : '';
 		$types[]                = ( self::$ihc_send_third_notify == 'true' ) ? 'third_before_expire' : '';
-		$first_noti_sms_message = self::$ihc_first_notify_msg;
-		if ( empty( $first_noti_sms_message ) || ! in_array( $type, $types ) ) {
+		$first_notify_sms_message = self::$ihc_first_notify_msg;
+		if ( empty( $first_notify_sms_message ) || ! in_array( $type, $types ) ) {
 			return $sent;
 		}
 		$phone = get_user_meta( $uid, 'digits_phone', true );
@@ -93,7 +92,7 @@ class Farazsms_Membership
 		], [
 			$user->display_name,
 			self::$ihc_notify_before_time,
-		], $first_noti_sms_message );
+		], $first_notify_sms_message );
 		Farazsms_Base::send_message( [ $phone ], $message, '+98club' );
 
 		return $sent;
@@ -104,14 +103,14 @@ class Farazsms_Membership
 	 */
 
 	public function fsms_pmp_membership_membership_expiry( $user_id, $membership_id ) {
-		$pmp_send_expire_noti_sms = self::$pmp_send_expire_notify;
-		$expire_noti_sms_message  = self::$pmp_expire_notify_msg;
-		if ( $pmp_send_expire_noti_sms === 'false' || empty( $expire_noti_sms_message ) ) {
+		$pmp_send_expire_notify_sms = self::$pmp_send_expire_notify;
+		$expire_notify_sms_message  = self::$pmp_expire_notify_msg;
+		if ( $pmp_send_expire_notify_sms === 'false' || empty( $expire_notify_sms_message ) ) {
 			return;
 		}
 
 		$phone              = get_user_meta( $user_id, 'digits_phone', true );
-		$selected_meta_keys = Farazsms_Base::$custom_phone_meta_keys ?? [];
+		$selected_meta_keys = Farazsms_Base::$custom_phone_meta_keys_id ?? [];
 		if ( empty( $phone ) && ! empty( $selected_meta_keys ) ) {
 			foreach ( $selected_meta_keys as $meta ) {
 				$phone = get_user_meta( $user_id, $meta, true );
@@ -128,7 +127,7 @@ class Farazsms_Membership
 			'%display_name%',
 		], [
 			$user->display_name,
-		], $expire_noti_sms_message );
+		], $expire_notify_sms_message );
 		Farazsms_Base::send_message( [ $phone ], $message, '+98club' );
 	}
 }

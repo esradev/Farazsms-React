@@ -243,8 +243,6 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
      */
     public function run($record, $ajax_handler)
     {
-        $fsms_base = Farazsms_Base::get_instance();
-
         $settings = $record->get( 'form_settings' );
         $raw_fields = $record->get( 'fields' );
         $fields = [];
@@ -276,16 +274,16 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
                 }
             }
 
-            $fsms_base->farazsms_send_pattern($farazpattern, $to, $input_data);
+            Farazsms_Base::farazsms_send_pattern($farazpattern, $to, $input_data);
         }
 
         // Send to visitor with webService
         if ( $settings['sms_to_visitor'] == 'yes' && $settings['sms_send_type'] == 'webservice' ) {
             if (str_contains(trim($content), '[field' )) {
                 $content_value = $record->replace_setting_shortcodes($settings['sms_content']);
-                $fsms_base->send_message(array($to), $content_value);
+                Farazsms_Base::send_message( [ $to ], $content_value);
             } else {
-                $fsms_base->send_message(array($to), $content);
+                Farazsms_Base::send_message( [ $to ], $content);
             }
         }
 
@@ -294,8 +292,8 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
         $admin_pattern = $settings['sms_admin_pattern'];
         $other_numbers = $settings['sms_to_other'];
 
-        $admins_numbers = explode(',', $other_numbers);
-        array_push($admins_numbers, Farazsms_Base::$admin_number);
+        $admins_numbers   = explode(',', $other_numbers);
+        $admins_numbers[] = Farazsms_Base::$admin_number;
 
 
         if ( $settings['sms_to_admin'] == 'yes' && $settings['sms_admin_method'] == 'pattern' ) {
@@ -314,7 +312,7 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
                 }
             }
             foreach ($admins_numbers as $adminnum) {
-                $fsms_base->farazsms_send_pattern($admin_pattern, $adminnum, $admin_input_data);
+                Farazsms_Base::farazsms_send_pattern($admin_pattern, $adminnum, $admin_input_data);
             }
         }
 
@@ -322,9 +320,9 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
         if ( $settings['sms_to_admin'] == 'yes' && $settings['sms_admin_method'] == 'webservice' ) {
             if (str_contains(trim($admin_content), '[field' )) {
                 $admin_content_value = $record->replace_setting_shortcodes($settings['sms_admin_content']);
-                $fsms_base->send_message($admins_numbers, $admin_content_value);
+                Farazsms_Base::send_message($admins_numbers, $admin_content_value);
             } else {
-                $fsms_base->send_message($admins_numbers, $admin_content);
+                Farazsms_Base::send_message($admins_numbers, $admin_content);
             }
         }
     }

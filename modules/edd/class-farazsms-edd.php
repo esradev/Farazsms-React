@@ -25,7 +25,7 @@ class Farazsms_Edd {
 	 */
 	private static $instance;
 
-	public static $edd_phonebook;
+	public static $edd_phonebook_id;
 	public static $edd_send_to_user;
 	public static $edd_user_pattern;
 	public static $edd_send_to_admin;
@@ -52,7 +52,7 @@ class Farazsms_Edd {
 	public function __construct() {
 		$edd_options = json_decode( get_option( 'farazsms_edd_options' ), true );
 		if ( $edd_options ) {
-			self::$edd_phonebook     = $edd_options['edd_phonebook'];
+			self::$edd_phonebook_id     = current( array_column( $edd_options['edd_phonebook'], 'value' ) );
 			self::$edd_send_to_user  = $edd_options['edd_send_to_user'];
 			self::$edd_user_pattern  = $edd_options['edd_user_pattern'];
 			self::$edd_send_to_admin = $edd_options['edd_send_to_admin'];
@@ -93,14 +93,10 @@ class Farazsms_Edd {
 			$this->send_edd_sms( Farazsms_Base::$admin_number, self::$edd_admin_pattern, $list );
 		}
 
-		$edd_phonebook    = array_column( self::$edd_phonebook, 'value' );
-		$edd_phonebook_id = current( $edd_phonebook );
-
 		$list[] = (object) [
 			'number'       => $mobile,
 			'name'         => '',
-			'options'      => (object) [ '100' => 'value' ],
-			'phonebook_id' => (int) $edd_phonebook_id
+			'phonebook_id' => (int) self::$edd_phonebook_id
 		];
 		Farazsms_Base::save_list_of_phones_to_phonebook( $list );
 	}
@@ -204,8 +200,6 @@ class Farazsms_Edd {
 	/**
 	 * Send EDD sms.
 	 */
-
-
 	public function send_edd_sms( $phone, $pattern, $data ) {
 		$phone = Farazsms_Base::fsms_tr_num( $phone );
 		if ( empty( $phone ) or empty( $pattern ) or empty( $data ) ) {

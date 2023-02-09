@@ -8,14 +8,14 @@
  */
 
 // Exit if accessed directly.
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /**
  * Class Farazsms_Newsletter.
  */
-class Farazsms_Newsletter
-{
+class Farazsms_Newsletter {
 	private static $elementorPro;
 
 	/**
@@ -30,7 +30,7 @@ class Farazsms_Newsletter
 	private static $news_welcome;
 	private static $news_welcome_pattern;
 	private static $news_send_verify_pattern;
-	private static $news_phonebook;
+	private static $news_phonebook_id;
 	private static $news_send_verify_via_pattern;
 	private static $news_post_notify;
 	private static $news_post_notify_msg;
@@ -40,29 +40,28 @@ class Farazsms_Newsletter
 	/**
 	 * Initiator
 	 *
-	 * @since 2.0.0
 	 * @return object Initialized object of class.
+	 * @since 2.0.0
 	 */
-	public static function get_instance()
-	{
-		if (!isset(self::$instance)) {
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
+
 		return self::$instance;
 	}
 
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		add_shortcode( 'farazsms', [ $this, 'farazsms_newsletter' ] );
 		$newsletter_options = json_decode( get_option( 'farazsms_newsletter_options' ), true );
 		if ( $newsletter_options ) {
 			self::$news_welcome                 = $newsletter_options['news_welcome'];
 			self::$news_welcome_pattern         = $newsletter_options['news_welcome_pattern'];
 			self::$news_send_verify_pattern     = $newsletter_options['news_send_verify_pattern'];
-			self::$news_phonebook               = $newsletter_options['news_phonebook'];
+			self::$news_phonebook_id            = current( array_column( $newsletter_options['news_phonebook'], 'value' ) );
 			self::$news_send_verify_via_pattern = $newsletter_options['news_send_verify_via_pattern'];
 			self::$news_post_notify             = $newsletter_options['news_post_notify'];
 			self::$news_post_notify_msg         = $newsletter_options['news_post_notify_msg'];
@@ -73,30 +72,49 @@ class Farazsms_Newsletter
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 
-		add_action( 'wp_ajax_fsms_newsletter_send_verification_code', [$this, 'fsms_newsletter_send_verification_code'] );
-		add_action( 'wp_ajax_nopriv_fsms_newsletter_send_verification_code', [$this, 'fsms_newsletter_send_verification_code'] );
+		add_action( 'wp_ajax_fsms_newsletter_send_verification_code', [
+			$this,
+			'fsms_newsletter_send_verification_code'
+		] );
+		add_action( 'wp_ajax_nopriv_fsms_newsletter_send_verification_code', [
+			$this,
+			'fsms_newsletter_send_verification_code'
+		] );
 
-		add_action( 'wp_ajax_fsms_add_phone_to_newsletter', [$this, 'fsms_add_phone_to_newsletter'] );
-		add_action( 'wp_ajax_nopriv_fsms_add_phone_to_newsletter', [$this, 'fsms_add_phone_to_newsletter'] );
+		add_action( 'wp_ajax_fsms_add_phone_to_newsletter', [ $this, 'fsms_add_phone_to_newsletter' ] );
+		add_action( 'wp_ajax_nopriv_fsms_add_phone_to_newsletter', [ $this, 'fsms_add_phone_to_newsletter' ] );
 
-		add_action( 'publish_post', [$this, 'fsms_publish_post_notification'] );
-		add_action( 'transition_post_status', [$this, 'fsms_product_published', 10, 3] );
+		add_action( 'publish_post', [ $this, 'fsms_publish_post_notification' ] );
+		add_action( 'transition_post_status', [ $this, 'fsms_product_published', 10, 3 ] );
 
-		add_action( 'wp_ajax_fsms_send_message_to_subscribers', [$this, 'send_message_to_subscribers' ] );
-		add_action( 'wp_ajax_nopriv_fsms_send_message_to_subscribers', [$this, 'send_message_to_subscribers' ] );
+		add_action( 'wp_ajax_fsms_send_message_to_subscribers', [ $this, 'send_message_to_subscribers' ] );
+		add_action( 'wp_ajax_nopriv_fsms_send_message_to_subscribers', [ $this, 'send_message_to_subscribers' ] );
 
-		add_action( 'wp_ajax_fsms_delete_user_from_subscribers', [$this, 'fsms_delete_user_from_subscribers' ] );
-		add_action( 'wp_ajax_nopriv_fsms_delete_user_from_subscribers', [$this, 'fsms_delete_user_from_subscribers' ] );
+		add_action( 'wp_ajax_fsms_delete_user_from_subscribers', [ $this, 'fsms_delete_user_from_subscribers' ] );
+		add_action( 'wp_ajax_nopriv_fsms_delete_user_from_subscribers', [
+			$this,
+			'fsms_delete_user_from_subscribers'
+		] );
 
-		add_action( 'wp_ajax_fsms_send_message_to_phonebooks', [ $this, 'ajax_send_message_to_phonebooks' ]);
-		add_action( 'wp_ajax_nopriv_fsms_send_message_to_phonebooks', [ $this, 'ajax_send_message_to_phonebooks' ]);
+		add_action( 'wp_ajax_fsms_send_message_to_phonebooks', [ $this, 'ajax_send_message_to_phonebooks' ] );
+		add_action( 'wp_ajax_nopriv_fsms_send_message_to_phonebooks', [ $this, 'ajax_send_message_to_phonebooks' ] );
 
 	}
 
+	/**
+	 * Enqueue styles
+	 *
+	 * @return void
+	 */
 	public function enqueue_styles() {
 		wp_register_style( 'farazsms-newsletter', plugin_dir_url( __FILE__ ) . 'css/farazsms-newsletter.css', [], 2.0, 'all' );
 	}
 
+	/**
+	 * Enqueue scripts
+	 *
+	 * @return void
+	 */
 	public function enqueue_scripts() {
 		wp_register_script( 'farazsms-newsletter', plugin_dir_url( __FILE__ ) . 'js/farazsms-newsletter.js', [ 'jquery' ], 2.0, false );
 	}
@@ -108,11 +126,9 @@ class Farazsms_Newsletter
 	 */
 	public function fsms_delete_user_from_subscribers() {
 		$subscriber_id = ( $_POST['subscriber_id'] ?? '' );
-		$this::delete_subscriber( $subscriber_id );
+		self::delete_subscriber( $subscriber_id );
 		wp_send_json_success();
-
-	}//end fsms_delete_user_from_subscribers()
-
+	}
 
 	/**
 	 * Send message to subscribers of newsletter.
@@ -122,7 +138,7 @@ class Farazsms_Newsletter
 	public function send_message_to_subscribers() {
 
 		$message     = ( $_POST['message'] ?? '' );
-		$subscribers = $this::get_subscribers();
+		$subscribers = self::get_subscribers();
 		if ( ! Farazsms_Base::$apiKey ) {
 			wp_send_json_error( __( 'Please enter the api key first in the Settings tab.', 'farazsms' ) );
 		}
@@ -146,7 +162,6 @@ class Farazsms_Newsletter
 		}
 
 		wp_send_json_success();
-
 	}
 
 	/**
@@ -195,7 +210,7 @@ class Farazsms_Newsletter
 		$mobile                   = $_POST['mobile'];
 		$name                     = $_POST['name'];
 		$newsletter_send_ver_code = self::$news_send_verify_via_pattern;
-		if ( self::check_if_code_is_valid( $mobile ) ) {
+		if ( self::check_if_code_is_valid( $mobile, $newsletter_send_ver_code ) ) {
 			wp_send_json_error();
 		}
 		if ( $newsletter_send_ver_code == 'false' ) {
@@ -204,16 +219,14 @@ class Farazsms_Newsletter
 				'name'  => $name,
 			];
 			self::save_subscriber_to_db( $data );
-			$newsletter_phonebooks = self::$news_phonebook;
-			foreach ( $newsletter_phonebooks as $phonebookID ) {
-				//$fsms_base::save_to_phonebook($mobile, $phonebookID);
-				$datap[] = [
-					'number'       => $mobile,
-					'name'         => $name,
-					'phonebook_id' => (int) $phonebookID
-				];
-				Farazsms_Base::save_list_of_phones_to_phonebook( $datap );
-			}
+
+			$list[] = (object) [
+				'number'       => $mobile,
+				'name'         => $name,
+				'phonebook_id' => (int) self::$news_phonebook_id
+			];
+			Farazsms_Base::save_list_of_phones_to_phonebook( $list );
+
 			self::send_newsletter_welcome_message( $mobile, $name );
 			wp_send_json_success();
 		} else {
@@ -226,22 +239,6 @@ class Farazsms_Newsletter
 			self::send_newsletter_verification_code( $mobile, $data );
 			wp_send_json_success();
 		}
-	}
-
-	/**
-	 * Save generated code to DB
-	 */
-	public function save_generated_code_to_db( $phone, $code ) {
-		global $wpdb;
-		$data  = [
-			'phone' => $phone,
-			'code'  => $code,
-		];
-		$table = $wpdb->prefix . 'farazsms_vcode';
-		$wpdb->delete( $table, [ 'phone' => $phone ] );
-
-		return $wpdb->insert( $table, $data );
-
 	}
 
 	/**
@@ -265,9 +262,7 @@ class Farazsms_Newsletter
 		if ( str_contains( $patternMessage, '%name%' ) ) {
 			$input_data['name'] = strval( $data['name'] );
 		}
-
 		return Farazsms_Base::farazsms_send_pattern( $pattern, $phone, $input_data );
-
 	}
 
 	/**
@@ -278,32 +273,30 @@ class Farazsms_Newsletter
 		$table_name = $wpdb->prefix . 'farazsms_newsletter';
 
 		return $wpdb->insert( $table_name, $data );
-
 	}
 
 	/**
 	 * Add phone to newsletter.
 	 */
 	public function fsms_add_phone_to_newsletter() {
-		$code      = $_POST['code'];
-		$name      = $_POST['name'];
-		$mobile    = $_POST['mobile'];
-		$is_valid  = self::check_if_code_is_valid( $mobile, $code );
+		$code     = $_POST['code'];
+		$name     = $_POST['name'];
+		$mobile   = $_POST['mobile'];
+		$is_valid = self::check_if_code_is_valid( $mobile, $code );
 		if ( $is_valid ) {
 			$data = [
 				'phone' => $mobile,
 				'name'  => $name
 			];
 			self::save_subscriber_to_db( $data );
-			$newsletter_phonebooks = self::$news_phonebook;
-			foreach ( $newsletter_phonebooks as $phonebookID ) {
-				$datap[] = [
-					'number'       => $mobile,
-					'name'         => $name,
-					'phonebook_id' => (int) $phonebookID
-				];
-				Farazsms_Base::save_list_of_phones_to_phonebook( $datap );
-			}
+
+			$list[] = (object) [
+				'number'       => $mobile,
+				'name'         => $name,
+				'phonebook_id' => (int) self::$news_phonebook_id
+			];
+			Farazsms_Base::save_list_of_phones_to_phonebook( $list );
+
 			self::send_newsletter_welcome_message( $mobile, $name );
 			wp_send_json_success();
 		} else {
@@ -380,7 +373,6 @@ class Farazsms_Newsletter
 		$table_name = $wpdb->prefix . 'farazsms_newsletter';
 
 		return $wpdb->get_results( "SELECT * FROM $table_name" );
-
 	}
 
 	/**
@@ -421,7 +413,6 @@ class Farazsms_Newsletter
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -475,8 +466,8 @@ class Farazsms_Newsletter
 	 */
 	public function get_phonebook_numbers( $phoneBookID ) {
 		$body     = [
-			'uname'        => self::$username,
-			'pass'         => self::$password,
+			'uname'        => Farazsms_Base::$username,
+			'pass'         => Farazsms_Base::$password,
 			'op'           => 'booknumberlist',
 			'phonebook_id' => $phoneBookID,
 		];
@@ -494,9 +485,7 @@ class Farazsms_Newsletter
 		if ( in_array( '105', $response ) ) {
 			return false;
 		}
-
 		return $response;
-
 	}
 
 	/**
@@ -513,8 +502,7 @@ class Farazsms_Newsletter
 		}
 
 		return false;
-
 	}
-
 }
+
 Farazsms_Newsletter::get_instance();

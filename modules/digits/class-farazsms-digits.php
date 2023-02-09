@@ -8,14 +8,14 @@
  */
 
 // Exit if accessed directly.
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /**
  * Class Farazsms_Digits.
  */
-class Farazsms_Digits
-{
+class Farazsms_Digits {
 	/**
 	 * Instance
 	 *
@@ -28,22 +28,21 @@ class Farazsms_Digits
 	/**
 	 * Initiator
 	 *
-	 * @since 2.0.0
 	 * @return object Initialized object of class.
+	 * @since 2.0.0
 	 */
-	public static function get_instance()
-	{
-		if (!isset(self::$instance)) {
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
+
 		return self::$instance;
 	}
 
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		add_filter( 'update_user_metadata', [ $this, 'monitor_update_user_metadata' ], 499, 4 );
 		add_action( 'profile_update', [ $this, 'fsms_user_profile_updated' ], 99, 2 );
 	}
@@ -53,7 +52,7 @@ class Farazsms_Digits
 	 */
 	public function monitor_update_user_metadata( $check, $object_id, $meta_key, $meta_value ) {
 		$selected_meta_keys = Farazsms_Base::$custom_phone_meta_keys_id ?? [];
-		if (  $meta_key === $selected_meta_keys  ) {
+		if ( $meta_key === $selected_meta_keys ) {
 			return $check;
 		}
 		$phone = Farazsms_Base::validate_mobile_number( $meta_value );
@@ -65,15 +64,15 @@ class Farazsms_Digits
 			return $check;
 		}
 		$user_info = get_userdata( $object_id );
-		$list = [];
+		$list      = [];
 
-		$list[] = (object) [ 'number'       => $phone,
-		                     'name'         => $user_info->display_name ?? '',
-		                     'options'      => (object) [ '100' => 'value' ],
-		                     'phonebook_id' => (int) Farazsms_Base::$custom_phonebook_id
+		$list[] = (object) [
+			'number'       => $phone,
+			'name'         => $user_info->display_name ?? '',
+			'phonebook_id' => (int) Farazsms_Base::$custom_phonebook_id
 		];
 
-		Farazsms_Base::save_list_of_phones_to_phonebook($list);
+		Farazsms_Base::save_list_of_phones_to_phonebook( $list );
 
 		Farazsms_Base::send_welcome_message( $phone, $object_id );
 
@@ -89,17 +88,18 @@ class Farazsms_Digits
 			return;
 		}
 
-		$digits_phonebooks = Farazsms_Base::$digits_phonebook_id;
-
 		$user_info = get_userdata( $user_id );
-		foreach ( $digits_phonebooks as $phonebookId ) {
-			$data[] = [
-				'number'       => $digits_phone,
-				'name'         => $user_info->display_name ?? '',
-				'phonebook_id' => (int) $phonebookId['value']
-			];
-			Farazsms_Base::save_list_of_phones_to_phonebook( $data );
-		}
+
+		$list   = [];
+		$list[] = (object) [
+			'number'       => $digits_phone,
+			'name'         => $user_info->display_name ?? '',
+			'phonebook_id' => (int) Farazsms_Base::$digits_phonebook_id
+		];
+
+		Farazsms_Base::save_list_of_phones_to_phonebook( $list );
+
+
 		$already_sent_one = get_user_meta( $user_id, 'sent_welcome_message', true );
 		if ( ! empty( $already_sent_one ) && $already_sent_one == '1' ) {
 			return;
@@ -110,4 +110,5 @@ class Farazsms_Digits
 
 
 }
+
 Farazsms_Digits::get_instance();

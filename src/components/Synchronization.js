@@ -125,7 +125,7 @@ function Synchronization(props) {
               "farazsms"
             ),
           });
-        } else {
+        } else if (res === false) {
           appDispatch({
             type: "flashMessage",
             value: __(

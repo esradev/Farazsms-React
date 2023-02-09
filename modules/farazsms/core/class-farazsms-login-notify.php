@@ -8,14 +8,14 @@
  */
 
 // Exit if accessed directly.
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
 /**
  * Class Farazsms_Login_Notify.
  */
-class Farazsms_Login_Notify
-{
+class Farazsms_Login_Notify {
 	/**
 	 * Instance
 	 *
@@ -32,22 +32,21 @@ class Farazsms_Login_Notify
 	/**
 	 * Initiator
 	 *
-	 * @since 2.0.0
 	 * @return object Initialized object of class.
+	 * @since 2.0.0
 	 */
-	public static function get_instance()
-	{
-		if (!isset(self::$instance)) {
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
 			self::$instance = new self();
 		}
+
 		return self::$instance;
 	}
 
 	/**
 	 * Constructor
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		$login_notify_options = json_decode( get_option( 'farazsms_login_notify_options' ), true );
 		if ( $login_notify_options ) {
 
@@ -56,8 +55,8 @@ class Farazsms_Login_Notify
 			self::$select_roles               = $login_notify_options['select_roles'];
 		}
 
-		add_action( 'wp_login', [$this, 'fsms_admin_login_action'], 10, 2 );
-		add_action( 'wp_login', [$this, 'fsms_admin_roles_login_action'], 11, 2 );
+		add_action( 'wp_login', [ $this, 'fsms_admin_login_action' ], 10, 2 );
+		add_action( 'wp_login', [ $this, 'fsms_admin_roles_login_action' ], 11, 2 );
 
 	}
 
@@ -68,7 +67,7 @@ class Farazsms_Login_Notify
 		if ( ! in_array( 'administrator', (array) $user->roles ) ) {
 			return;
 		}
-		$last_notification = get_user_meta( $user->ID, 'faraz_low_credit_noti_sent_timestamp', true );
+		$last_notification = get_user_meta( $user->ID, 'farazsms_low_credit_notify_sent_timestamp', true );
 		if ( ! empty( $last_notification ) ) {
 			$dif = time() - $last_notification;
 			if ( $dif < 86400 ) {
@@ -76,13 +75,13 @@ class Farazsms_Login_Notify
 			}
 		}
 
-		$credit    = Farazsms_Base::get_credit();
+		$credit = Farazsms_Base::get_credit();
 		if ( ! $credit ) {
 			return;
 		}
 		if ( (int) $credit < 10000 ) {
 			Farazsms_Base::send_admin_low_credit_to_admin();
-			update_user_meta( $user->ID, 'faraz_low_credit_noti_sent_timestamp', time() );
+			update_user_meta( $user->ID, 'farazsms_low_credit_notify_sent_timestamp', time() );
 		}
 	}
 
@@ -90,8 +89,8 @@ class Farazsms_Login_Notify
 	 * Admin rules login action
 	 */
 	public function fsms_admin_roles_login_action( $user_login, $user ) {
-		$admin_login_noti_roles = self::$select_roles;
-		if ( empty( $admin_login_noti_roles ) ) {
+		$admin_login_notify_roles = self::$select_roles;
+		if ( empty( $admin_login_notify_roles ) ) {
 			return;
 		}
 
@@ -129,4 +128,5 @@ class Farazsms_Login_Notify
 
 
 }
+
 Farazsms_Login_Notify::get_instance();
