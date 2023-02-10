@@ -30,7 +30,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_phonebookChange",
-        id: "news_phonebook",
         name: "news_phonebook",
         type: "select",
         label: __("Select phone book for newsletter", "farazsms"),
@@ -43,7 +42,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_send_verify_via_patternChange",
-        id: "news_send_verify_via_pattern",
         name: "news_send_verify_via_pattern",
         type: "checkbox",
         label: __(
@@ -57,7 +55,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_send_verify_patternChange",
-        id: "news_send_verify_pattern",
         name: "news_send_verify_pattern",
         type: "text",
         label: __(
@@ -73,7 +70,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_welcomeChange",
-        id: "news_welcome",
         name: "news_welcome",
         type: "checkbox",
         label: __("Welcome SMS to subscriber of the newsletter?", "farazsms"),
@@ -84,7 +80,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_welcome_patternChange",
-        id: "news_welcome_pattern",
         name: "news_welcome_pattern",
         type: "text",
         label: __("Welcome SMS pattern code", "farazsms"),
@@ -97,7 +92,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_post_notifyChange",
-        id: "news_post_notify",
         name: "news_post_notify",
         type: "checkbox",
         label: __("Send new posts to newsletter members?", "farazsms"),
@@ -108,7 +102,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_post_notify_msgChange",
-        id: "news_post_notify_msg",
         name: "news_post_notify_msg",
         type: "textarea",
         label: __("Message content for new post", "farazsms"),
@@ -124,7 +117,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_product_notifyChange",
-        id: "news_product_notify",
         name: "news_product_notify",
         type: "checkbox",
         label: __("Send new product to newsletter members?", "farazsms"),
@@ -135,7 +127,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_product_notify_msgChange",
-        id: "news_product_notify_msg",
         name: "news_product_notify_msg",
         type: "textarea",
         label: __("Message content for new product", "farazsms"),
@@ -357,7 +348,7 @@ function Newsletter() {
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
             <div
-              key={input.id}
+              key={input.name}
               className={
                 input.type === "checkbox" ? "toggle-control" : "form-group"
               }

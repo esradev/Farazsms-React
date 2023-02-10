@@ -52,7 +52,6 @@ function Phonebook(props) {
       custom_phonebook: {
         value: [],
         onChange: "custom_phonebookChange",
-        id: "custom_phonebook",
         name: "custom_phonebook",
         type: "select",
         label: __("Select the custom field phonebook:", "farazsms"),
@@ -62,7 +61,6 @@ function Phonebook(props) {
       custom_phone_meta_keys: {
         value: [],
         onChange: "custom_phone_meta_keysChange",
-        id: "custom_phone_meta_keys",
         name: "custom_phone_meta_keys",
         type: "select",
         label: __("Select the mobile number custom field:", "farazsms"),
@@ -73,7 +71,6 @@ function Phonebook(props) {
         digits_phonebook: {
           value: [],
           onChange: "digits_phonebookChange",
-          id: "digits_phonebook",
           name: "digits_phonebook",
           type: "select",
           label: __("Select phonebook for Digits:", "farazsms"),
@@ -85,7 +82,6 @@ function Phonebook(props) {
         woo_phonebook: {
           value: [],
           onChange: "woo_phonebookChange",
-          id: "woo_phonebook",
           name: "woo_phonebook",
           type: "select",
           label: __("select a phonebook for WooCommerce:", "farazsms"),
@@ -97,7 +93,6 @@ function Phonebook(props) {
         bookly_phonebook: {
           value: [],
           onChange: "bookly_phonebookChange",
-          id: "bookly_phonebook",
           name: "bookly_phonebook",
           type: "select",
           label: __("Choosing a phonebook for Bookly:", "farazsms"),
@@ -109,7 +104,6 @@ function Phonebook(props) {
         gf_phonebook: {
           value: [],
           onChange: "gf_phonebookChange",
-          id: "gf_phonebook",
           name: "gf_phonebook",
           type: "select",
           label: __("Select phonebook for Gravity Form:", "farazsms"),
@@ -119,7 +113,6 @@ function Phonebook(props) {
         gf_forms: {
           value: [],
           onChange: "gf_formsChange",
-          id: "gf_forms",
           name: "gf_forms",
           type: "select",
           label: __("Gravity Form forms:", "farazsms"),
@@ -133,7 +126,6 @@ function Phonebook(props) {
         gf_selected_field: {
           value: [],
           onChange: "gf_selected_fieldChange",
-          id: "gf_selected_field",
           name: "gf_selected_field",
           type: "select",
           label: __("Gravity Form fields:", "farazsms"),
@@ -504,7 +496,7 @@ function Phonebook(props) {
         ))}
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
-            <div key={input.id} className={"form-group"}>
+            <div key={input.name} className={"form-group"}>
               <FormInput
                 {...input}
                 onChange={(selectedOption) =>

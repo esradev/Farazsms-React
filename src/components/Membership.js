@@ -46,7 +46,6 @@ function Membership(props) {
           hasErrors: false,
           errorMessage: "",
           onChange: "ihc_send_first_notifyChange",
-          id: "ihc_send_first_notify",
           name: "ihc_send_first_notify",
           type: "checkbox",
           label: __(
@@ -64,7 +63,6 @@ function Membership(props) {
           hasErrors: false,
           errorMessage: "",
           onChange: "ihc_send_second_notifyChange",
-          id: "ihc_send_second_notify",
           name: "ihc_send_second_notify",
           type: "checkbox",
           label: __(
@@ -78,7 +76,6 @@ function Membership(props) {
           hasErrors: false,
           errorMessage: "",
           onChange: "ihc_send_third_notifyChange",
-          id: "ihc_send_third_notify",
           name: "ihc_send_third_notify",
           type: "checkbox",
           label: __(
@@ -92,7 +89,6 @@ function Membership(props) {
           hasErrors: false,
           errorMessage: "",
           onChange: "ihc_first_notify_msgChange",
-          id: "ihc_first_notify_msg",
           name: "ihc_first_notify_msg",
           type: "textarea",
           label: __("Membership expiration warning SMS text:", "farazsms"),
@@ -111,7 +107,6 @@ function Membership(props) {
           hasErrors: false,
           errorMessage: "",
           onChange: "pmp_send_expire_notifyChange",
-          id: "pmp_send_expire_notify",
           name: "pmp_send_expire_notify",
           type: "checkbox",
           label: __("Send SMS membership expiration?", "farazsms"),
@@ -123,7 +118,6 @@ function Membership(props) {
           hasErrors: false,
           errorMessage: "",
           onChange: "pmp_expire_notify_msgChange",
-          id: "pmp_expire_notify_msg",
           name: "pmp_expire_notify_msg",
           type: "textarea",
           label: __("The text of the membership expiration SMS:", "farazsms"),
@@ -305,7 +299,7 @@ function Membership(props) {
       <SectionHeader sectionName={state.sectionName} />
       <div>
         {Object.values(state.notUsedPlugins).map((plugin) => (
-          <div key={plugin.id}>
+          <div key={plugin.name}>
             <SectionError sectionName={plugin.name} />
           </div>
         ))}

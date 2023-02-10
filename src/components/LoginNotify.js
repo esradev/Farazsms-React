@@ -30,7 +30,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "welcome_smsChange",
-        id: "welcome_sms",
         name: "welcome_sms",
         type: "checkbox",
         label: __("Send a welcome sms to the user?", "farazsms"),
@@ -41,7 +40,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "welcome_sms_use_patternChange",
-        id: "welcome_sms_use_pattern",
         name: "welcome_sms_use_pattern",
         type: "checkbox",
         label: __("Send welcome sms via pattern?", "farazsms"),
@@ -52,7 +50,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "welcome_sms_patternChange",
-        id: "welcome_sms_pattern",
         name: "welcome_sms_pattern",
         type: "text",
         label: __("Welcome sms pattern code:", "farazsms"),
@@ -63,7 +60,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "welcome_sms_msgChange",
-        id: "welcome_sms_msg",
         name: "welcome_sms_msg",
         type: "textarea",
         label: __("welcome message:", "farazsms"),
@@ -76,7 +72,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "admin_login_notifyChange",
-        id: "admin_login_notify",
         name: "admin_login_notify",
         type: "checkbox",
         label: __(
@@ -90,7 +85,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "select_rolesChange",
-        id: "select_roles",
         name: "select_roles",
         type: "select",
         label: __("Select rule(s):", "farazsms"),
@@ -103,7 +97,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "admin_login_notify_patternChange",
-        id: "admin_login_notify_pattern",
         name: "admin_login_notify_pattern",
         type: "text",
         label: __("Notify admin pattern code:", "farazsms"),
@@ -285,7 +278,7 @@ function Settings() {
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
             <div
-              key={input.id}
+              key={input.name}
               className={
                 input.type === "checkbox" ? "toggle-control" : "form-group"
               }

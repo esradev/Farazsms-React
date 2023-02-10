@@ -31,7 +31,6 @@ function Edd(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "edd_phonebookChange",
-        id: "edd_phonebook",
         name: "edd_phonebook",
         type: "select",
         label: __("Save the phone number in the phonebook?", "farazsms"),
@@ -44,7 +43,6 @@ function Edd(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "edd_send_to_userChange",
-        id: "edd_send_to_user",
         name: "edd_send_to_user",
         type: "checkbox",
         label: __("Send sms to the user?", "farazsms"),
@@ -55,7 +53,6 @@ function Edd(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "edd_user_patternChange",
-        id: "edd_user_pattern",
         name: "edd_user_pattern",
         type: "text",
         label: __("SMS pattern code for the user:", "farazsms"),
@@ -66,7 +63,6 @@ function Edd(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "edd_send_to_adminChange",
-        id: "edd_send_to_admin",
         name: "edd_send_to_admin",
         type: "checkbox",
         label: __("Send sms to the admin?", "farazsms"),
@@ -77,7 +73,6 @@ function Edd(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "edd_admin_patternChange",
-        id: "edd_admin_pattern",
         name: "edd_admin_pattern",
         type: "text",
         label: __("SMS pattern code for the admin:", "farazsms"),
@@ -258,7 +253,7 @@ function Edd(props) {
           <form onSubmit={handleSubmit}>
             {Object.values(state.inputs).map((input) => (
               <div
-                key={input.id}
+                key={input.name}
                 className={
                   input.type === "checkbox" ? "toggle-control" : "form-group"
                 }

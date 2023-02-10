@@ -30,7 +30,6 @@ function Comments() {
         hasErrors: false,
         errorMessage: "",
         onChange: "add_mobile_fieldChange",
-        id: "add_mobile_field",
         name: "add_mobile_field",
         type: "checkbox",
         label: __(
@@ -44,7 +43,6 @@ function Comments() {
         hasErrors: false,
         errorMessage: "",
         onChange: "required_mobile_fieldChange",
-        id: "required_mobile_field",
         name: "required_mobile_field",
         type: "checkbox",
         label: __(
@@ -58,7 +56,6 @@ function Comments() {
         hasErrors: false,
         errorMessage: "",
         onChange: "comment_phonebookChange",
-        id: "comment_phonebook",
         name: "comment_phonebook",
         type: "select",
         label: __("Save the phone number in the phonebook?", "farazsms"),
@@ -71,7 +68,6 @@ function Comments() {
         hasErrors: false,
         errorMessage: "",
         onChange: "comment_patternChange",
-        id: "comment_pattern",
         name: "comment_pattern",
         type: "text",
         label: __("Comment submit pattern code:", "farazsms"),
@@ -82,7 +78,6 @@ function Comments() {
         hasErrors: false,
         errorMessage: "",
         onChange: "approved_comment_patternChange",
-        id: "approved_comment_pattern",
         name: "approved_comment_pattern",
         type: "text",
         label: __("Comment response pattern code:", "farazsms"),
@@ -93,7 +88,6 @@ function Comments() {
         hasErrors: false,
         errorMessage: "",
         onChange: "notify_admin_for_commentChange",
-        id: "notify_admin_for_comment",
         name: "notify_admin_for_comment",
         type: "checkbox",
         label: __(
@@ -107,7 +101,6 @@ function Comments() {
         hasErrors: false,
         errorMessage: "",
         onChange: "notify_admin_for_comment_patternChange",
-        id: "notify_admin_for_comment_pattern",
         name: "notify_admin_for_comment_pattern",
         type: "text",
         label: __("Admin pattern code:", "farazsms"),
@@ -300,7 +293,7 @@ function Comments() {
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
             <div
-              key={input.id}
+              key={input.name}
               className={
                 input.type === "checkbox" ? "toggle-control" : "form-group"
               }

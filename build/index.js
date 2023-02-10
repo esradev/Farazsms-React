@@ -5051,8 +5051,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "AbortedDeferredError": function() { return /* binding */ AbortedDeferredError; },
 /* harmony export */   "Action": function() { return /* binding */ Action; },
 /* harmony export */   "ErrorResponse": function() { return /* binding */ ErrorResponse; },
+/* harmony export */   "IDLE_BLOCKER": function() { return /* binding */ IDLE_BLOCKER; },
 /* harmony export */   "IDLE_FETCHER": function() { return /* binding */ IDLE_FETCHER; },
 /* harmony export */   "IDLE_NAVIGATION": function() { return /* binding */ IDLE_NAVIGATION; },
+/* harmony export */   "UNSAFE_DEFERRED_SYMBOL": function() { return /* binding */ UNSAFE_DEFERRED_SYMBOL; },
+/* harmony export */   "UNSAFE_DeferredData": function() { return /* binding */ DeferredData; },
 /* harmony export */   "UNSAFE_convertRoutesToDataRoutes": function() { return /* binding */ convertRoutesToDataRoutes; },
 /* harmony export */   "UNSAFE_getPathContributingMatches": function() { return /* binding */ getPathContributingMatches; },
 /* harmony export */   "createBrowserHistory": function() { return /* binding */ createBrowserHistory; },
@@ -5060,6 +5063,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "createMemoryHistory": function() { return /* binding */ createMemoryHistory; },
 /* harmony export */   "createPath": function() { return /* binding */ createPath; },
 /* harmony export */   "createRouter": function() { return /* binding */ createRouter; },
+/* harmony export */   "createStaticHandler": function() { return /* binding */ createStaticHandler; },
 /* harmony export */   "defer": function() { return /* binding */ defer; },
 /* harmony export */   "generatePath": function() { return /* binding */ generatePath; },
 /* harmony export */   "getStaticContextFromError": function() { return /* binding */ getStaticContextFromError; },
@@ -5076,11 +5080,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "resolvePath": function() { return /* binding */ resolvePath; },
 /* harmony export */   "resolveTo": function() { return /* binding */ resolveTo; },
 /* harmony export */   "stripBasename": function() { return /* binding */ stripBasename; },
-/* harmony export */   "unstable_createStaticHandler": function() { return /* binding */ unstable_createStaticHandler; },
 /* harmony export */   "warning": function() { return /* binding */ warning; }
 /* harmony export */ });
 /**
- * @remix-run/router v1.0.5
+ * @remix-run/router v1.3.2
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -5180,6 +5183,10 @@ function createMemoryHistory(options) {
     return location;
   }
 
+  function createHref(to) {
+    return typeof to === "string" ? to : createPath(to);
+  }
+
   let history = {
     get index() {
       return index;
@@ -5193,8 +5200,10 @@ function createMemoryHistory(options) {
       return getCurrentLocation();
     },
 
-    createHref(to) {
-      return typeof to === "string" ? to : createPath(to);
+    createHref,
+
+    createURL(to) {
+      return new URL(createHref(to), "http://localhost");
     },
 
     encodeLocation(to) {
@@ -5215,7 +5224,8 @@ function createMemoryHistory(options) {
       if (v5Compat && listener) {
         listener({
           action,
-          location: nextLocation
+          location: nextLocation,
+          delta: 1
         });
       }
     },
@@ -5228,19 +5238,23 @@ function createMemoryHistory(options) {
       if (v5Compat && listener) {
         listener({
           action,
-          location: nextLocation
+          location: nextLocation,
+          delta: 0
         });
       }
     },
 
     go(delta) {
       action = Action.Pop;
-      index = clampIndex(index + delta);
+      let nextIndex = clampIndex(index + delta);
+      let nextLocation = entries[nextIndex];
+      index = nextIndex;
 
       if (listener) {
         listener({
           action,
-          location: getCurrentLocation()
+          location: nextLocation,
+          delta
         });
       }
     },
@@ -5365,10 +5379,11 @@ function createKey() {
  */
 
 
-function getHistoryState(location) {
+function getHistoryState(location, index) {
   return {
     usr: location.state,
-    key: location.key
+    key: location.key,
+    idx: index
   };
 }
 /**
@@ -5439,15 +5454,6 @@ function parsePath(path) {
 
   return parsedPath;
 }
-function createClientSideURL(location) {
-  // window.location.origin is "null" (the literal string value) in Firefox
-  // under certain conditions, notably when serving from a local HTML file
-  // See https://bugzilla.mozilla.org/show_bug.cgi?id=878297
-  let base = typeof window !== "undefined" && typeof window.location !== "undefined" && window.location.origin !== "null" ? window.location.origin : window.location.href;
-  let href = typeof location === "string" ? location : createPath(location);
-  invariant(base, "No window.location.(origin|href) available to create URL for href: " + href);
-  return new URL(href, base);
-}
 
 function getUrlBasedHistory(getLocation, createHref, validateLocation, options) {
   if (options === void 0) {
@@ -5461,14 +5467,35 @@ function getUrlBasedHistory(getLocation, createHref, validateLocation, options) 
   let globalHistory = window.history;
   let action = Action.Pop;
   let listener = null;
+  let index = getIndex(); // Index should only be null when we initialize. If not, it's because the
+  // user called history.pushState or history.replaceState directly, in which
+  // case we should log a warning as it will result in bugs.
+
+  if (index == null) {
+    index = 0;
+    globalHistory.replaceState(_extends({}, globalHistory.state, {
+      idx: index
+    }), "");
+  }
+
+  function getIndex() {
+    let state = globalHistory.state || {
+      idx: null
+    };
+    return state.idx;
+  }
 
   function handlePop() {
     action = Action.Pop;
+    let nextIndex = getIndex();
+    let delta = nextIndex == null ? null : nextIndex - index;
+    index = nextIndex;
 
     if (listener) {
       listener({
         action,
-        location: history.location
+        location: history.location,
+        delta
       });
     }
   }
@@ -5477,7 +5504,8 @@ function getUrlBasedHistory(getLocation, createHref, validateLocation, options) 
     action = Action.Push;
     let location = createLocation(history.location, to, state);
     if (validateLocation) validateLocation(location, to);
-    let historyState = getHistoryState(location);
+    index = getIndex() + 1;
+    let historyState = getHistoryState(location, index);
     let url = history.createHref(location); // try...catch because iOS limits us to 100 pushState calls :/
 
     try {
@@ -5491,7 +5519,8 @@ function getUrlBasedHistory(getLocation, createHref, validateLocation, options) 
     if (v5Compat && listener) {
       listener({
         action,
-        location: history.location
+        location: history.location,
+        delta: 1
       });
     }
   }
@@ -5500,16 +5529,28 @@ function getUrlBasedHistory(getLocation, createHref, validateLocation, options) 
     action = Action.Replace;
     let location = createLocation(history.location, to, state);
     if (validateLocation) validateLocation(location, to);
-    let historyState = getHistoryState(location);
+    index = getIndex();
+    let historyState = getHistoryState(location, index);
     let url = history.createHref(location);
     globalHistory.replaceState(historyState, "", url);
 
     if (v5Compat && listener) {
       listener({
         action,
-        location: history.location
+        location: history.location,
+        delta: 0
       });
     }
+  }
+
+  function createURL(to) {
+    // window.location.origin is "null" (the literal string value) in Firefox
+    // under certain conditions, notably when serving from a local HTML file
+    // See https://bugzilla.mozilla.org/show_bug.cgi?id=878297
+    let base = window.location.origin !== "null" ? window.location.origin : window.location.href;
+    let href = typeof to === "string" ? to : createPath(to);
+    invariant(base, "No window.location.(origin|href) available to create URL for href: " + href);
+    return new URL(href, base);
   }
 
   let history = {
@@ -5538,9 +5579,11 @@ function getUrlBasedHistory(getLocation, createHref, validateLocation, options) 
       return createHref(window, to);
     },
 
+    createURL,
+
     encodeLocation(to) {
       // Encode a Location the same way window.location would
-      let url = createClientSideURL(typeof to === "string" ? to : createPath(to));
+      let url = createURL(to);
       return {
         pathname: url.pathname,
         search: url.search,
@@ -5654,9 +5697,9 @@ function flattenRoutes(routes, branches, parentsMeta, parentPath) {
     parentPath = "";
   }
 
-  routes.forEach((route, index) => {
+  let flattenRoute = (route, index, relativePath) => {
     let meta = {
-      relativePath: route.path || "",
+      relativePath: relativePath === undefined ? route.path || "" : relativePath,
       caseSensitive: route.caseSensitive === true,
       childrenIndex: index,
       route
@@ -5690,8 +5733,70 @@ function flattenRoutes(routes, branches, parentsMeta, parentPath) {
       score: computeScore(path, route.index),
       routesMeta
     });
+  };
+
+  routes.forEach((route, index) => {
+    var _route$path;
+
+    // coarse-grain check for optional params
+    if (route.path === "" || !((_route$path = route.path) != null && _route$path.includes("?"))) {
+      flattenRoute(route, index);
+    } else {
+      for (let exploded of explodeOptionalSegments(route.path)) {
+        flattenRoute(route, index, exploded);
+      }
+    }
   });
   return branches;
+}
+/**
+ * Computes all combinations of optional path segments for a given path,
+ * excluding combinations that are ambiguous and of lower priority.
+ *
+ * For example, `/one/:two?/three/:four?/:five?` explodes to:
+ * - `/one/three`
+ * - `/one/:two/three`
+ * - `/one/three/:four`
+ * - `/one/three/:five`
+ * - `/one/:two/three/:four`
+ * - `/one/:two/three/:five`
+ * - `/one/three/:four/:five`
+ * - `/one/:two/three/:four/:five`
+ */
+
+
+function explodeOptionalSegments(path) {
+  let segments = path.split("/");
+  if (segments.length === 0) return [];
+  let [first, ...rest] = segments; // Optional path segments are denoted by a trailing `?`
+
+  let isOptional = first.endsWith("?"); // Compute the corresponding required segment: `foo?` -> `foo`
+
+  let required = first.replace(/\?$/, "");
+
+  if (rest.length === 0) {
+    // Intepret empty string as omitting an optional segment
+    // `["one", "", "three"]` corresponds to omitting `:two` from `/one/:two?/three` -> `/one/three`
+    return isOptional ? [required, ""] : [required];
+  }
+
+  let restExploded = explodeOptionalSegments(rest.join("/"));
+  let result = []; // All child paths with the prefix.  Do this for all children before the
+  // optional version for all children so we get consistent ordering where the
+  // parent optional aspect is preferred as required.  Otherwise, we can get
+  // child sections interspersed where deeper optional segments are higher than
+  // parent optional segments, where for example, /:two would explodes _earlier_
+  // then /:one.  By always including the parent as required _for all children_
+  // first, we avoid this issue
+
+  result.push(...restExploded.map(subpath => subpath === "" ? required : [required, subpath].join("/"))); // Then if this is an optional value, add all child versions without
+
+  if (isOptional) {
+    result.push(...restExploded);
+  } // for absolute paths, ensure `/` instead of empty segment
+
+
+  return result.map(exploded => path.startsWith("/") && exploded === "" ? "/" : exploded);
 }
 
 function rankRouteBranches(branches) {
@@ -5776,15 +5881,44 @@ function matchRouteBranch(branch, pathname) {
  */
 
 
-function generatePath(path, params) {
+function generatePath(originalPath, params) {
   if (params === void 0) {
     params = {};
   }
 
-  return path.replace(/:(\w+)/g, (_, key) => {
-    invariant(params[key] != null, "Missing \":" + key + "\" param");
-    return params[key];
-  }).replace(/(\/?)\*/, (_, prefix, __, str) => {
+  let path = originalPath;
+
+  if (path.endsWith("*") && path !== "*" && !path.endsWith("/*")) {
+    warning(false, "Route path \"" + path + "\" will be treated as if it were " + ("\"" + path.replace(/\*$/, "/*") + "\" because the `*` character must ") + "always follow a `/` in the pattern. To get rid of this warning, " + ("please change the route path to \"" + path.replace(/\*$/, "/*") + "\"."));
+    path = path.replace(/\*$/, "/*");
+  }
+
+  return path.replace(/^:(\w+)(\??)/g, (_, key, optional) => {
+    let param = params[key];
+
+    if (optional === "?") {
+      return param == null ? "" : param;
+    }
+
+    if (param == null) {
+      invariant(false, "Missing \":" + key + "\" param");
+    }
+
+    return param;
+  }).replace(/\/:(\w+)(\??)/g, (_, key, optional) => {
+    let param = params[key];
+
+    if (optional === "?") {
+      return param == null ? "" : "/" + param;
+    }
+
+    if (param == null) {
+      invariant(false, "Missing \":" + key + "\" param");
+    }
+
+    return "/" + param;
+  }) // Remove any optional markers from optional static segments
+  .replace(/\?/g, "").replace(/(\/?)\*/, (_, prefix, __, str) => {
     const star = "*";
 
     if (params[star] == null) {
@@ -5852,9 +5986,9 @@ function compilePath(path, caseSensitive, end) {
   let regexpSource = "^" + path.replace(/\/*\*?$/, "") // Ignore trailing / and /*, we'll handle it below
   .replace(/^\/*/, "/") // Make sure it has a leading /
   .replace(/[\\.*+^$?{}|()[\]]/g, "\\$&") // Escape special regex chars
-  .replace(/:(\w+)/g, (_, paramName) => {
+  .replace(/\/:(\w+)/g, (_, paramName) => {
     paramNames.push(paramName);
-    return "([^\\/]+)";
+    return "/([^\\/]+)";
   });
 
   if (path.endsWith("*")) {
@@ -5930,7 +6064,7 @@ function warning(cond, message) {
     if (typeof console !== "undefined") console.warn(message);
 
     try {
-      // Welcome to debugging React Router!
+      // Welcome to debugging @remix-run/router!
       //
       // This error is thrown as a convenience so you can more easily
       // find the source for a warning that appears in the console by
@@ -6128,9 +6262,10 @@ const json = function json(data, init) {
 };
 class AbortedDeferredError extends Error {}
 class DeferredData {
-  constructor(data) {
-    this.pendingKeys = new Set();
-    this.subscriber = undefined;
+  constructor(data, responseInit) {
+    this.pendingKeysSet = new Set();
+    this.subscribers = new Set();
+    this.deferredKeys = [];
     invariant(data && typeof data === "object" && !Array.isArray(data), "defer() only accepts plain objects"); // Set up an AbortController + Promise we can race against to exit early
     // cancellation
 
@@ -6149,6 +6284,13 @@ class DeferredData {
         [key]: this.trackPromise(key, value)
       });
     }, {});
+
+    if (this.done) {
+      // All incoming values were resolved
+      this.unlistenAbortSignal();
+    }
+
+    this.init = responseInit;
   }
 
   trackPromise(key, value) {
@@ -6156,7 +6298,8 @@ class DeferredData {
       return value;
     }
 
-    this.pendingKeys.add(key); // We store a little wrapper promise that will be extended with
+    this.deferredKeys.push(key);
+    this.pendingKeysSet.add(key); // We store a little wrapper promise that will be extended with
     // _data/_error props upon resolve/reject
 
     let promise = Promise.race([value, this.abortPromise]).then(data => this.onSettle(promise, key, null, data), error => this.onSettle(promise, key, error)); // Register rejection listeners to avoid uncaught promise rejections on
@@ -6178,39 +6321,41 @@ class DeferredData {
       return Promise.reject(error);
     }
 
-    this.pendingKeys.delete(key);
+    this.pendingKeysSet.delete(key);
 
     if (this.done) {
       // Nothing left to abort!
       this.unlistenAbortSignal();
     }
 
-    const subscriber = this.subscriber;
-
     if (error) {
       Object.defineProperty(promise, "_error", {
         get: () => error
       });
-      subscriber && subscriber(false);
+      this.emit(false, key);
       return Promise.reject(error);
     }
 
     Object.defineProperty(promise, "_data", {
       get: () => data
     });
-    subscriber && subscriber(false);
+    this.emit(false, key);
     return data;
   }
 
+  emit(aborted, settledKey) {
+    this.subscribers.forEach(subscriber => subscriber(aborted, settledKey));
+  }
+
   subscribe(fn) {
-    this.subscriber = fn;
+    this.subscribers.add(fn);
+    return () => this.subscribers.delete(fn);
   }
 
   cancel() {
     this.controller.abort();
-    this.pendingKeys.forEach((v, k) => this.pendingKeys.delete(k));
-    let subscriber = this.subscriber;
-    subscriber && subscriber(true);
+    this.pendingKeysSet.forEach((v, k) => this.pendingKeysSet.delete(k));
+    this.emit(true);
   }
 
   async resolveData(signal) {
@@ -6235,7 +6380,7 @@ class DeferredData {
   }
 
   get done() {
-    return this.pendingKeys.size === 0;
+    return this.pendingKeysSet.size === 0;
   }
 
   get unwrappedData() {
@@ -6246,6 +6391,10 @@ class DeferredData {
         [key]: unwrapTrackedPromise(value)
       });
     }, {});
+  }
+
+  get pendingKeys() {
+    return Array.from(this.pendingKeysSet);
   }
 
 }
@@ -6266,9 +6415,16 @@ function unwrapTrackedPromise(value) {
   return value._data;
 }
 
-function defer(data) {
-  return new DeferredData(data);
-}
+const defer = function defer(data, init) {
+  if (init === void 0) {
+    init = {};
+  }
+
+  let responseInit = typeof init === "number" ? {
+    status: init
+  } : init;
+  return new DeferredData(data, responseInit);
+};
 /**
  * A redirect response. Sets the status code and the `Location` header.
  * Defaults to "302 Found".
@@ -6321,16 +6477,16 @@ class ErrorResponse {
 }
 /**
  * Check if the given error is an ErrorResponse generated from a 4xx/5xx
- * Response throw from an action/loader
+ * Response thrown from an action/loader
  */
 
-function isRouteErrorResponse(e) {
-  return e instanceof ErrorResponse;
+function isRouteErrorResponse(error) {
+  return error != null && typeof error.status === "number" && typeof error.statusText === "string" && typeof error.internal === "boolean" && "data" in error;
 }
 
-const validActionMethodsArr = ["post", "put", "patch", "delete"];
-const validActionMethods = new Set(validActionMethodsArr);
-const validRequestMethodsArr = ["get", ...validActionMethodsArr];
+const validMutationMethodsArr = ["post", "put", "patch", "delete"];
+const validMutationMethods = new Set(validMutationMethodsArr);
+const validRequestMethodsArr = ["get", ...validMutationMethodsArr];
 const validRequestMethods = new Set(validRequestMethodsArr);
 const redirectStatusCodes = new Set([301, 302, 303, 307, 308]);
 const redirectPreserveMethodStatusCodes = new Set([307, 308]);
@@ -6350,6 +6506,13 @@ const IDLE_FETCHER = {
   formEncType: undefined,
   formData: undefined
 };
+const IDLE_BLOCKER = {
+  state: "unblocked",
+  proceed: undefined,
+  reset: undefined,
+  location: undefined
+};
+const ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
 const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
 const isServer = !isBrowser; //#endregion
 ////////////////////////////////////////////////////////////////////////////////
@@ -6376,8 +6539,10 @@ function createRouter(init) {
   // we don't get the saved positions from <ScrollRestoration /> until _after_
   // the initial render, we need to manually trigger a separate updateState to
   // send along the restoreScrollPosition
+  // Set to true if we have `hydrationData` since we assume we were SSR'd and that
+  // SSR did the initial scroll restoration.
 
-  let initialScrollRestored = false;
+  let initialScrollRestored = init.hydrationData != null;
   let initialMatches = matchRoutes(dataRoutes, init.history.location, init.basename);
   let initialErrors = null;
 
@@ -6405,13 +6570,15 @@ function createRouter(init) {
     matches: initialMatches,
     initialized,
     navigation: IDLE_NAVIGATION,
-    restoreScrollPosition: null,
+    // Don't restore on initial updateState() if we were SSR'd
+    restoreScrollPosition: init.hydrationData != null ? false : null,
     preventScrollReset: false,
     revalidation: "idle",
     loaderData: init.hydrationData && init.hydrationData.loaderData || {},
     actionData: init.hydrationData && init.hydrationData.actionData || null,
     errors: init.hydrationData && init.hydrationData.errors || initialErrors,
-    fetchers: new Map()
+    fetchers: new Map(),
+    blockers: new Map()
   }; // -- Stateful internal variables to manage navigations --
   // Current navigation in progress (to be committed in completeNavigation)
 
@@ -6453,7 +6620,13 @@ function createRouter(init) {
   // promise resolves we update loaderData.  If a new navigation starts we
   // cancel active deferreds for eliminated routes.
 
-  let activeDeferreds = new Map(); // Initialize the router, all side effects should be kicked off from here.
+  let activeDeferreds = new Map(); // Store blocker functions in a separate Map outside of router state since
+  // we don't need to update UI state if they change
+
+  let blockerFunctions = new Map(); // Flag to ignore the next history update, so we can revert the URL change on
+  // a POP navigation that was blocked by the user without touching router state
+
+  let ignoreNextHistoryUpdate = false; // Initialize the router, all side effects should be kicked off from here.
   // Implemented as a Fluent API for ease of:
   //   let router = createRouter(init).initialize();
 
@@ -6463,8 +6636,55 @@ function createRouter(init) {
     unlistenHistory = init.history.listen(_ref => {
       let {
         action: historyAction,
-        location
+        location,
+        delta
       } = _ref;
+
+      // Ignore this event if it was just us resetting the URL from a
+      // blocked POP navigation
+      if (ignoreNextHistoryUpdate) {
+        ignoreNextHistoryUpdate = false;
+        return;
+      }
+
+      warning(blockerFunctions.size === 0 || delta != null, "You are trying to use a blocker on a POP navigation to a location " + "that was not created by @remix-run/router. This will fail silently in " + "production. This can happen if you are navigating outside the router " + "via `window.history.pushState`/`window.location.hash` instead of using " + "router navigation APIs.  This can also happen if you are using " + "createHashRouter and the user manually changes the URL.");
+      let blockerKey = shouldBlockNavigation({
+        currentLocation: state.location,
+        nextLocation: location,
+        historyAction
+      });
+
+      if (blockerKey && delta != null) {
+        // Restore the URL to match the current UI, but don't update router state
+        ignoreNextHistoryUpdate = true;
+        init.history.go(delta * -1); // Put the blocker into a blocked state
+
+        updateBlocker(blockerKey, {
+          state: "blocked",
+          location,
+
+          proceed() {
+            updateBlocker(blockerKey, {
+              state: "proceeding",
+              proceed: undefined,
+              reset: undefined,
+              location
+            }); // Re-do the same POP navigation we just blocked
+
+            init.history.go(delta);
+          },
+
+          reset() {
+            deleteBlocker(blockerKey);
+            updateState({
+              blockers: new Map(router.state.blockers)
+            });
+          }
+
+        });
+        return;
+      }
+
       return startNavigation(historyAction, location);
     }); // Kick off initial data load if needed.  Use Pop to avoid modifying history
 
@@ -6484,6 +6704,7 @@ function createRouter(init) {
     subscribers.clear();
     pendingNavigationController && pendingNavigationController.abort();
     state.fetchers.forEach((_, key) => deleteFetcher(key));
+    state.blockers.forEach((_, key) => deleteBlocker(key));
   } // Subscribe to state updates for the router
 
 
@@ -6504,32 +6725,53 @@ function createRouter(init) {
 
 
   function completeNavigation(location, newState) {
-    var _state$navigation$for;
+    var _location$state, _location$state2;
 
     // Deduce if we're in a loading/actionReload state:
     // - We have committed actionData in the store
-    // - The current navigation was a submission
+    // - The current navigation was a mutation submission
     // - We're past the submitting state and into the loading state
-    // - The location we've finished loading is different from the submission
-    //   location, indicating we redirected from the action (avoids false
-    //   positives for loading/submissionRedirect when actionData returned
-    //   on a prior submission)
-    let isActionReload = state.actionData != null && state.navigation.formMethod != null && state.navigation.state === "loading" && ((_state$navigation$for = state.navigation.formAction) == null ? void 0 : _state$navigation$for.split("?")[0]) === location.pathname; // Always preserve any existing loaderData from re-used routes
+    // - The location being loaded is not the result of a redirect
+    let isActionReload = state.actionData != null && state.navigation.formMethod != null && isMutationMethod(state.navigation.formMethod) && state.navigation.state === "loading" && ((_location$state = location.state) == null ? void 0 : _location$state._isRedirect) !== true;
+    let actionData;
 
-    let newLoaderData = newState.loaderData ? {
-      loaderData: mergeLoaderData(state.loaderData, newState.loaderData, newState.matches || [])
-    } : {};
-    updateState(_extends({}, isActionReload ? {} : {
-      actionData: null
-    }, newState, newLoaderData, {
+    if (newState.actionData) {
+      if (Object.keys(newState.actionData).length > 0) {
+        actionData = newState.actionData;
+      } else {
+        // Empty actionData -> clear prior actionData due to an action error
+        actionData = null;
+      }
+    } else if (isActionReload) {
+      // Keep the current data if we're wrapping up the action reload
+      actionData = state.actionData;
+    } else {
+      // Clear actionData on any other completed navigations
+      actionData = null;
+    } // Always preserve any existing loaderData from re-used routes
+
+
+    let loaderData = newState.loaderData ? mergeLoaderData(state.loaderData, newState.loaderData, newState.matches || [], newState.errors) : state.loaderData; // On a successful navigation we can assume we got through all blockers
+    // so we can start fresh
+
+    for (let [key] of blockerFunctions) {
+      deleteBlocker(key);
+    } // Always respect the user flag.  Otherwise don't reset on mutation
+    // submission navigations unless they redirect
+
+
+    let preventScrollReset = pendingPreventScrollReset === true || state.navigation.formMethod != null && isMutationMethod(state.navigation.formMethod) && ((_location$state2 = location.state) == null ? void 0 : _location$state2._isRedirect) !== true;
+    updateState(_extends({}, newState, {
+      actionData,
+      loaderData,
       historyAction: pendingAction,
       location,
       initialized: true,
       navigation: IDLE_NAVIGATION,
       revalidation: "idle",
-      // Don't restore on submission navigations
-      restoreScrollPosition: state.navigation.formData ? false : getSavedScrollPosition(location, newState.matches || state.matches),
-      preventScrollReset: pendingPreventScrollReset
+      restoreScrollPosition: getSavedScrollPosition(location, newState.matches || state.matches),
+      preventScrollReset,
+      blockers: new Map(state.blockers)
     }));
 
     if (isUninterruptedRevalidation) ; else if (pendingAction === Action.Pop) ; else if (pendingAction === Action.Push) {
@@ -6560,16 +6802,63 @@ function createRouter(init) {
       submission,
       error
     } = normalizeNavigateOptions(to, opts);
-    let location = createLocation(state.location, path, opts && opts.state); // When using navigate as a PUSH/REPLACE we aren't reading an already-encoded
+    let currentLocation = state.location;
+    let nextLocation = createLocation(state.location, path, opts && opts.state); // When using navigate as a PUSH/REPLACE we aren't reading an already-encoded
     // URL from window.location, so we need to encode it here so the behavior
     // remains the same as POP and non-data-router usages.  new URL() does all
     // the same encoding we'd get from a history.pushState/window.location read
     // without having to touch history
 
-    location = _extends({}, location, init.history.encodeLocation(location));
-    let historyAction = (opts && opts.replace) === true || submission != null ? Action.Replace : Action.Push;
+    nextLocation = _extends({}, nextLocation, init.history.encodeLocation(nextLocation));
+    let userReplace = opts && opts.replace != null ? opts.replace : undefined;
+    let historyAction = Action.Push;
+
+    if (userReplace === true) {
+      historyAction = Action.Replace;
+    } else if (userReplace === false) ; else if (submission != null && isMutationMethod(submission.formMethod) && submission.formAction === state.location.pathname + state.location.search) {
+      // By default on submissions to the current location we REPLACE so that
+      // users don't have to double-click the back button to get to the prior
+      // location.  If the user redirects to a different location from the
+      // action/loader this will be ignored and the redirect will be a PUSH
+      historyAction = Action.Replace;
+    }
+
     let preventScrollReset = opts && "preventScrollReset" in opts ? opts.preventScrollReset === true : undefined;
-    return await startNavigation(historyAction, location, {
+    let blockerKey = shouldBlockNavigation({
+      currentLocation,
+      nextLocation,
+      historyAction
+    });
+
+    if (blockerKey) {
+      // Put the blocker into a blocked state
+      updateBlocker(blockerKey, {
+        state: "blocked",
+        location: nextLocation,
+
+        proceed() {
+          updateBlocker(blockerKey, {
+            state: "proceeding",
+            proceed: undefined,
+            reset: undefined,
+            location: nextLocation
+          }); // Send the same navigation through
+
+          navigate(to, opts);
+        },
+
+        reset() {
+          deleteBlocker(blockerKey);
+          updateState({
+            blockers: new Map(state.blockers)
+          });
+        }
+
+      });
+      return;
+    }
+
+    return await startNavigation(historyAction, nextLocation, {
       submission,
       // Send through the formData serialization error if we have one so we can
       // render at the right error boundary after we match routes
@@ -6647,10 +6936,12 @@ function createRouter(init) {
         }
       });
       return;
-    } // Short circuit if it's only a hash change
+    } // Short circuit if it's only a hash change and not a mutation submission
+    // For example, on /page#hash and submit a <Form method="post"> which will
+    // default to a navigation to /page
 
 
-    if (isHashChangeOnly(state.location, location)) {
+    if (isHashChangeOnly(state.location, location) && !(opts && opts.submission && isMutationMethod(opts.submission.formMethod))) {
       completeNavigation(location, {
         matches
       });
@@ -6659,7 +6950,7 @@ function createRouter(init) {
 
 
     pendingNavigationController = new AbortController();
-    let request = createClientSideRequest(location, pendingNavigationController.signal, opts && opts.submission);
+    let request = createClientSideRequest(init.history, location, pendingNavigationController.signal, opts && opts.submission);
     let pendingActionData;
     let pendingError;
 
@@ -6671,7 +6962,7 @@ function createRouter(init) {
       pendingError = {
         [findNearestBoundary(matches).route.id]: opts.pendingError
       };
-    } else if (opts && opts.submission) {
+    } else if (opts && opts.submission && isMutationMethod(opts.submission.formMethod)) {
       // Call action if we received an action submission
       let actionOutput = await handleAction(request, location, opts.submission, matches, {
         replace: opts.replace
@@ -6711,11 +7002,14 @@ function createRouter(init) {
 
 
     pendingNavigationController = null;
-    completeNavigation(location, {
-      matches,
+    completeNavigation(location, _extends({
+      matches
+    }, pendingActionData ? {
+      actionData: pendingActionData
+    } : {}, {
       loaderData,
       errors
-    });
+    }));
   } // Call the action matched by the leaf route for this navigation and handle
   // redirects/errors
 
@@ -6755,7 +7049,21 @@ function createRouter(init) {
     }
 
     if (isRedirectResult(result)) {
-      await startRedirectNavigation(state, result, opts && opts.replace === true);
+      let replace;
+
+      if (opts && opts.replace != null) {
+        replace = opts.replace;
+      } else {
+        // If the user didn't explicity indicate replace behavior, replace if
+        // we redirected to the exact same location we're currently at to avoid
+        // double back-buttons
+        replace = result.location === state.location.pathname + state.location.search;
+      }
+
+      await startRedirectNavigation(state, result, {
+        submission,
+        replace
+      });
       return {
         shortCircuited: true
       };
@@ -6774,6 +7082,8 @@ function createRouter(init) {
       }
 
       return {
+        // Send back an empty object we can use to clear out any prior actionData
+        pendingActionData: {},
         pendingActionError: {
           [boundaryMatch.route.id]: result.error
         }
@@ -6781,7 +7091,9 @@ function createRouter(init) {
     }
 
     if (isDeferredResult(result)) {
-      throw new Error("defer() is not supported in actions");
+      throw getInternalRouterError(400, {
+        type: "defer-action"
+      });
     }
 
     return {
@@ -6798,31 +7110,41 @@ function createRouter(init) {
     let loadingNavigation = overrideNavigation;
 
     if (!loadingNavigation) {
-      let navigation = {
+      let navigation = _extends({
         state: "loading",
         location,
         formMethod: undefined,
         formAction: undefined,
         formEncType: undefined,
         formData: undefined
-      };
-      loadingNavigation = navigation;
-    }
+      }, submission);
 
-    let [matchesToLoad, revalidatingFetchers] = getMatchesToLoad(state, matches, submission, location, isRevalidationRequired, cancelledDeferredRoutes, cancelledFetcherLoads, pendingActionData, pendingError, fetchLoadMatches); // Cancel pending deferreds for no-longer-matched routes or routes we're
+      loadingNavigation = navigation;
+    } // If this was a redirect from an action we don't have a "submission" but
+    // we have it on the loading navigation so use that if available
+
+
+    let activeSubmission = submission ? submission : loadingNavigation.formMethod && loadingNavigation.formAction && loadingNavigation.formData && loadingNavigation.formEncType ? {
+      formMethod: loadingNavigation.formMethod,
+      formAction: loadingNavigation.formAction,
+      formData: loadingNavigation.formData,
+      formEncType: loadingNavigation.formEncType
+    } : undefined;
+    let [matchesToLoad, revalidatingFetchers] = getMatchesToLoad(init.history, state, matches, activeSubmission, location, isRevalidationRequired, cancelledDeferredRoutes, cancelledFetcherLoads, pendingActionData, pendingError, fetchLoadMatches); // Cancel pending deferreds for no-longer-matched routes or routes we're
     // about to reload.  Note that if this is an action reload we would have
     // already cancelled all pending deferreds so this would be a no-op
 
     cancelActiveDeferreds(routeId => !(matches && matches.some(m => m.route.id === routeId)) || matchesToLoad && matchesToLoad.some(m => m.route.id === routeId)); // Short circuit if we have no loaders to run
 
     if (matchesToLoad.length === 0 && revalidatingFetchers.length === 0) {
-      completeNavigation(location, {
+      completeNavigation(location, _extends({
         matches,
-        loaderData: mergeLoaderData(state.loaderData, {}, matches),
+        loaderData: {},
         // Commit pending error if we're short circuiting
-        errors: pendingError || null,
-        actionData: pendingActionData || null
-      });
+        errors: pendingError || null
+      }, pendingActionData ? {
+        actionData: pendingActionData
+      } : {}));
       return {
         shortCircuited: true
       };
@@ -6833,32 +7155,33 @@ function createRouter(init) {
 
 
     if (!isUninterruptedRevalidation) {
-      revalidatingFetchers.forEach(_ref2 => {
-        let [key] = _ref2;
-        let fetcher = state.fetchers.get(key);
+      revalidatingFetchers.forEach(rf => {
+        let fetcher = state.fetchers.get(rf.key);
         let revalidatingFetcher = {
           state: "loading",
           data: fetcher && fetcher.data,
           formMethod: undefined,
           formAction: undefined,
           formEncType: undefined,
-          formData: undefined
+          formData: undefined,
+          " _hasFetcherDoneAnything ": true
         };
-        state.fetchers.set(key, revalidatingFetcher);
+        state.fetchers.set(rf.key, revalidatingFetcher);
       });
+      let actionData = pendingActionData || state.actionData;
       updateState(_extends({
-        navigation: loadingNavigation,
-        actionData: pendingActionData || state.actionData || null
-      }, revalidatingFetchers.length > 0 ? {
+        navigation: loadingNavigation
+      }, actionData ? Object.keys(actionData).length === 0 ? {
+        actionData: null
+      } : {
+        actionData
+      } : {}, revalidatingFetchers.length > 0 ? {
         fetchers: new Map(state.fetchers)
       } : {}));
     }
 
     pendingNavigationLoadId = ++incrementingLoadId;
-    revalidatingFetchers.forEach(_ref3 => {
-      let [key] = _ref3;
-      return fetchControllers.set(key, pendingNavigationController);
-    });
+    revalidatingFetchers.forEach(rf => fetchControllers.set(rf.key, pendingNavigationController));
     let {
       results,
       loaderResults,
@@ -6874,15 +7197,14 @@ function createRouter(init) {
     // reassigned to new controllers for the next navigation
 
 
-    revalidatingFetchers.forEach(_ref4 => {
-      let [key] = _ref4;
-      return fetchControllers.delete(key);
-    }); // If any loaders returned a redirect Response, start a new REPLACE navigation
+    revalidatingFetchers.forEach(rf => fetchControllers.delete(rf.key)); // If any loaders returned a redirect Response, start a new REPLACE navigation
 
     let redirect = findRedirect(results);
 
     if (redirect) {
-      await startRedirectNavigation(state, redirect, replace);
+      await startRedirectNavigation(state, redirect, {
+        replace
+      });
       return {
         shortCircuited: true
       };
@@ -6939,16 +7261,22 @@ function createRouter(init) {
       submission
     } = normalizeNavigateOptions(href, opts, true);
     let match = getTargetMatch(matches, path);
+    pendingPreventScrollReset = (opts && opts.preventScrollReset) === true;
 
-    if (submission) {
+    if (submission && isMutationMethod(submission.formMethod)) {
       handleFetcherAction(key, routeId, path, match, matches, submission);
       return;
     } // Store off the match so we can call it's shouldRevalidate on subsequent
     // revalidations
 
 
-    fetchLoadMatches.set(key, [path, match, matches]);
-    handleFetcherLoader(key, routeId, path, match, matches);
+    fetchLoadMatches.set(key, {
+      routeId,
+      path,
+      match,
+      matches
+    });
+    handleFetcherLoader(key, routeId, path, match, matches, submission);
   } // Call the action for the matched fetcher.submit(), and then handle redirects,
   // errors, and revalidation
 
@@ -6973,7 +7301,8 @@ function createRouter(init) {
     let fetcher = _extends({
       state: "submitting"
     }, submission, {
-      data: existingFetcher && existingFetcher.data
+      data: existingFetcher && existingFetcher.data,
+      " _hasFetcherDoneAnything ": true
     });
 
     state.fetchers.set(key, fetcher);
@@ -6982,7 +7311,7 @@ function createRouter(init) {
     }); // Call the action for the fetcher
 
     let abortController = new AbortController();
-    let fetchRequest = createClientSideRequest(path, abortController.signal, submission);
+    let fetchRequest = createClientSideRequest(init.history, path, abortController.signal, submission);
     fetchControllers.set(key, abortController);
     let actionResult = await callLoaderOrAction("action", fetchRequest, match, requestMatches, router.basename);
 
@@ -7003,14 +7332,17 @@ function createRouter(init) {
       let loadingFetcher = _extends({
         state: "loading"
       }, submission, {
-        data: undefined
+        data: undefined,
+        " _hasFetcherDoneAnything ": true
       });
 
       state.fetchers.set(key, loadingFetcher);
       updateState({
         fetchers: new Map(state.fetchers)
       });
-      return startRedirectNavigation(state, actionResult);
+      return startRedirectNavigation(state, actionResult, {
+        isFetchActionRedirect: true
+      });
     } // Process any non-redirect errors thrown
 
 
@@ -7020,13 +7352,15 @@ function createRouter(init) {
     }
 
     if (isDeferredResult(actionResult)) {
-      invariant(false, "defer() is not supported in actions");
+      throw getInternalRouterError(400, {
+        type: "defer-action"
+      });
     } // Start the data load for current matches, or the next location if we're
     // in the middle of a navigation
 
 
     let nextLocation = state.navigation.location || state.location;
-    let revalidationRequest = createClientSideRequest(nextLocation, abortController.signal);
+    let revalidationRequest = createClientSideRequest(init.history, nextLocation, abortController.signal);
     let matches = state.navigation.state !== "idle" ? matchRoutes(dataRoutes, state.navigation.location, init.basename) : state.matches;
     invariant(matches, "Didn't find any matches after fetcher action");
     let loadId = ++incrementingLoadId;
@@ -7035,21 +7369,20 @@ function createRouter(init) {
     let loadFetcher = _extends({
       state: "loading",
       data: actionResult.data
-    }, submission);
+    }, submission, {
+      " _hasFetcherDoneAnything ": true
+    });
 
     state.fetchers.set(key, loadFetcher);
-    let [matchesToLoad, revalidatingFetchers] = getMatchesToLoad(state, matches, submission, nextLocation, isRevalidationRequired, cancelledDeferredRoutes, cancelledFetcherLoads, {
+    let [matchesToLoad, revalidatingFetchers] = getMatchesToLoad(init.history, state, matches, submission, nextLocation, isRevalidationRequired, cancelledDeferredRoutes, cancelledFetcherLoads, {
       [match.route.id]: actionResult.data
     }, undefined, // No need to send through errors since we short circuit above
     fetchLoadMatches); // Put all revalidating fetchers into the loading state, except for the
     // current fetcher which we want to keep in it's current loading state which
     // contains it's action submission info + action data
 
-    revalidatingFetchers.filter(_ref5 => {
-      let [staleKey] = _ref5;
-      return staleKey !== key;
-    }).forEach(_ref6 => {
-      let [staleKey] = _ref6;
+    revalidatingFetchers.filter(rf => rf.key !== key).forEach(rf => {
+      let staleKey = rf.key;
       let existingFetcher = state.fetchers.get(staleKey);
       let revalidatingFetcher = {
         state: "loading",
@@ -7057,7 +7390,8 @@ function createRouter(init) {
         formMethod: undefined,
         formAction: undefined,
         formEncType: undefined,
-        formData: undefined
+        formData: undefined,
+        " _hasFetcherDoneAnything ": true
       };
       state.fetchers.set(staleKey, revalidatingFetcher);
       fetchControllers.set(staleKey, abortController);
@@ -7077,10 +7411,7 @@ function createRouter(init) {
 
     fetchReloadIds.delete(key);
     fetchControllers.delete(key);
-    revalidatingFetchers.forEach(_ref7 => {
-      let [staleKey] = _ref7;
-      return fetchControllers.delete(staleKey);
-    });
+    revalidatingFetchers.forEach(r => fetchControllers.delete(r.key));
     let redirect = findRedirect(results);
 
     if (redirect) {
@@ -7098,7 +7429,8 @@ function createRouter(init) {
       formMethod: undefined,
       formAction: undefined,
       formEncType: undefined,
-      formData: undefined
+      formData: undefined,
+      " _hasFetcherDoneAnything ": true
     };
     state.fetchers.set(key, doneFetcher);
     let didAbortFetchLoads = abortStaleFetchLoads(loadId); // If we are currently in a navigation loading state and this fetcher is
@@ -7120,7 +7452,7 @@ function createRouter(init) {
       // manually merge here since we aren't going through completeNavigation
       updateState(_extends({
         errors,
-        loaderData: mergeLoaderData(state.loaderData, loaderData, matches)
+        loaderData: mergeLoaderData(state.loaderData, loaderData, matches, errors)
       }, didAbortFetchLoads ? {
         fetchers: new Map(state.fetchers)
       } : {}));
@@ -7129,26 +7461,29 @@ function createRouter(init) {
   } // Call the matched loader for fetcher.load(), handling redirects, errors, etc.
 
 
-  async function handleFetcherLoader(key, routeId, path, match, matches) {
+  async function handleFetcherLoader(key, routeId, path, match, matches, submission) {
     let existingFetcher = state.fetchers.get(key); // Put this fetcher into it's loading state
 
-    let loadingFetcher = {
+    let loadingFetcher = _extends({
       state: "loading",
       formMethod: undefined,
       formAction: undefined,
       formEncType: undefined,
-      formData: undefined,
-      data: existingFetcher && existingFetcher.data
-    };
+      formData: undefined
+    }, submission, {
+      data: existingFetcher && existingFetcher.data,
+      " _hasFetcherDoneAnything ": true
+    });
+
     state.fetchers.set(key, loadingFetcher);
     updateState({
       fetchers: new Map(state.fetchers)
     }); // Call the loader for this fetcher route match
 
     let abortController = new AbortController();
-    let fetchRequest = createClientSideRequest(path, abortController.signal);
+    let fetchRequest = createClientSideRequest(init.history, path, abortController.signal);
     fetchControllers.set(key, abortController);
-    let result = await callLoaderOrAction("loader", fetchRequest, match, matches, router.basename); // Deferred isn't supported or fetcher loads, await everything and treat it
+    let result = await callLoaderOrAction("loader", fetchRequest, match, matches, router.basename); // Deferred isn't supported for fetcher loads, await everything and treat it
     // as a normal load.  resolveDeferredData will return undefined if this
     // fetcher gets aborted, so we just leave result untouched and short circuit
     // below if that happens
@@ -7197,7 +7532,8 @@ function createRouter(init) {
       formMethod: undefined,
       formAction: undefined,
       formEncType: undefined,
-      formData: undefined
+      formData: undefined,
+      " _hasFetcherDoneAnything ": true
     };
     state.fetchers.set(key, doneFetcher);
     updateState({
@@ -7225,18 +7561,29 @@ function createRouter(init) {
    */
 
 
-  async function startRedirectNavigation(state, redirect, replace) {
+  async function startRedirectNavigation(state, redirect, _temp) {
     var _window;
+
+    let {
+      submission,
+      replace,
+      isFetchActionRedirect
+    } = _temp === void 0 ? {} : _temp;
 
     if (redirect.revalidate) {
       isRevalidationRequired = true;
     }
 
-    let redirectLocation = createLocation(state.location, redirect.location);
-    invariant(redirectLocation, "Expected a location on the redirect navigation"); // Check if this an external redirect that goes to a new origin
+    let redirectLocation = createLocation(state.location, redirect.location, // TODO: This can be removed once we get rid of useTransition in Remix v2
+    _extends({
+      _isRedirect: true
+    }, isFetchActionRedirect ? {
+      _isFetchActionRedirect: true
+    } : {}));
+    invariant(redirectLocation, "Expected a location on the redirect navigation"); // Check if this an absolute external redirect that goes to a new origin
 
-    if (typeof ((_window = window) == null ? void 0 : _window.location) !== "undefined") {
-      let newOrigin = createClientSideURL(redirect.location).origin;
+    if (ABSOLUTE_URL_REGEX.test(redirect.location) && isBrowser && typeof ((_window = window) == null ? void 0 : _window.location) !== "undefined") {
+      let newOrigin = init.history.createURL(redirect.location).origin;
 
       if (window.location.origin !== newOrigin) {
         if (replace) {
@@ -7252,24 +7599,35 @@ function createRouter(init) {
 
 
     pendingNavigationController = null;
-    let redirectHistoryAction = replace === true ? Action.Replace : Action.Push;
+    let redirectHistoryAction = replace === true ? Action.Replace : Action.Push; // Use the incoming submission if provided, fallback on the active one in
+    // state.navigation
+
     let {
       formMethod,
       formAction,
       formEncType,
       formData
-    } = state.navigation; // If this was a 307/308 submission we want to preserve the HTTP method and
-    // re-submit the POST/PUT/PATCH/DELETE as a submission navigation to the
+    } = state.navigation;
+
+    if (!submission && formMethod && formAction && formData && formEncType) {
+      submission = {
+        formMethod,
+        formAction,
+        formEncType,
+        formData
+      };
+    } // If this was a 307/308 submission we want to preserve the HTTP method and
+    // re-submit the GET/POST/PUT/PATCH/DELETE as a submission navigation to the
     // redirected location
 
-    if (redirectPreserveMethodStatusCodes.has(redirect.status) && formMethod && isSubmissionMethod(formMethod) && formEncType && formData) {
+
+    if (redirectPreserveMethodStatusCodes.has(redirect.status) && submission && isMutationMethod(submission.formMethod)) {
       await startNavigation(redirectHistoryAction, redirectLocation, {
-        submission: {
-          formMethod,
-          formAction: redirect.location,
-          formEncType,
-          formData
-        }
+        submission: _extends({}, submission, {
+          formAction: redirect.location
+        }),
+        // Preserve this flag across redirects
+        preventScrollReset: pendingPreventScrollReset
       });
     } else {
       // Otherwise, we kick off a new loading navigation, preserving the
@@ -7278,11 +7636,13 @@ function createRouter(init) {
         overrideNavigation: {
           state: "loading",
           location: redirectLocation,
-          formMethod: formMethod || undefined,
-          formAction: formAction || undefined,
-          formEncType: formEncType || undefined,
-          formData: formData || undefined
-        }
+          formMethod: submission ? submission.formMethod : undefined,
+          formAction: submission ? submission.formAction : undefined,
+          formEncType: submission ? submission.formEncType : undefined,
+          formData: submission ? submission.formData : undefined
+        },
+        // Preserve this flag across redirects
+        preventScrollReset: pendingPreventScrollReset
       });
     }
   }
@@ -7291,16 +7651,10 @@ function createRouter(init) {
     // Call all navigation loaders and revalidating fetcher loaders in parallel,
     // then slice off the results into separate arrays so we can handle them
     // accordingly
-    let results = await Promise.all([...matchesToLoad.map(match => callLoaderOrAction("loader", request, match, matches, router.basename)), ...fetchersToLoad.map(_ref8 => {
-      let [, href, match, fetchMatches] = _ref8;
-      return callLoaderOrAction("loader", createClientSideRequest(href, request.signal), match, fetchMatches, router.basename);
-    })]);
+    let results = await Promise.all([...matchesToLoad.map(match => callLoaderOrAction("loader", request, match, matches, router.basename)), ...fetchersToLoad.map(f => callLoaderOrAction("loader", createClientSideRequest(init.history, f.path, request.signal), f.match, f.matches, router.basename))]);
     let loaderResults = results.slice(0, matchesToLoad.length);
     let fetcherResults = results.slice(matchesToLoad.length);
-    await Promise.all([resolveDeferredResults(currentMatches, matchesToLoad, loaderResults, request.signal, false, state.loaderData), resolveDeferredResults(currentMatches, fetchersToLoad.map(_ref9 => {
-      let [,, match] = _ref9;
-      return match;
-    }), fetcherResults, request.signal, true)]);
+    await Promise.all([resolveDeferredResults(currentMatches, matchesToLoad, loaderResults, request.signal, false, state.loaderData), resolveDeferredResults(currentMatches, fetchersToLoad.map(f => f.match), fetcherResults, request.signal, true)]);
     return {
       results,
       loaderResults,
@@ -7358,7 +7712,8 @@ function createRouter(init) {
         formMethod: undefined,
         formAction: undefined,
         formEncType: undefined,
-        formData: undefined
+        formData: undefined,
+        " _hasFetcherDoneAnything ": true
       };
       state.fetchers.set(key, doneFetcher);
     }
@@ -7398,6 +7753,71 @@ function createRouter(init) {
 
     markFetchersDone(yeetedKeys);
     return yeetedKeys.length > 0;
+  }
+
+  function getBlocker(key, fn) {
+    let blocker = state.blockers.get(key) || IDLE_BLOCKER;
+
+    if (blockerFunctions.get(key) !== fn) {
+      blockerFunctions.set(key, fn);
+    }
+
+    return blocker;
+  }
+
+  function deleteBlocker(key) {
+    state.blockers.delete(key);
+    blockerFunctions.delete(key);
+  } // Utility function to update blockers, ensuring valid state transitions
+
+
+  function updateBlocker(key, newBlocker) {
+    let blocker = state.blockers.get(key) || IDLE_BLOCKER; // Poor mans state machine :)
+    // https://mermaid.live/edit#pako:eNqVkc9OwzAMxl8l8nnjAYrEtDIOHEBIgwvKJTReGy3_lDpIqO27k6awMG0XcrLlnz87nwdonESogKXXBuE79rq75XZO3-yHds0RJVuv70YrPlUrCEe2HfrORS3rubqZfuhtpg5C9wk5tZ4VKcRUq88q9Z8RS0-48cE1iHJkL0ugbHuFLus9L6spZy8nX9MP2CNdomVaposqu3fGayT8T8-jJQwhepo_UtpgBQaDEUom04dZhAN1aJBDlUKJBxE1ceB2Smj0Mln-IBW5AFU2dwUiktt_2Qaq2dBfaKdEup85UV7Yd-dKjlnkabl2Pvr0DTkTreM
+
+    invariant(blocker.state === "unblocked" && newBlocker.state === "blocked" || blocker.state === "blocked" && newBlocker.state === "blocked" || blocker.state === "blocked" && newBlocker.state === "proceeding" || blocker.state === "blocked" && newBlocker.state === "unblocked" || blocker.state === "proceeding" && newBlocker.state === "unblocked", "Invalid blocker state transition: " + blocker.state + " -> " + newBlocker.state);
+    state.blockers.set(key, newBlocker);
+    updateState({
+      blockers: new Map(state.blockers)
+    });
+  }
+
+  function shouldBlockNavigation(_ref2) {
+    let {
+      currentLocation,
+      nextLocation,
+      historyAction
+    } = _ref2;
+
+    if (blockerFunctions.size === 0) {
+      return;
+    } // We ony support a single active blocker at the moment since we don't have
+    // any compelling use cases for multi-blocker yet
+
+
+    if (blockerFunctions.size > 1) {
+      warning(false, "A router only supports one blocker at a time");
+    }
+
+    let entries = Array.from(blockerFunctions.entries());
+    let [blockerKey, blockerFunction] = entries[entries.length - 1];
+    let blocker = state.blockers.get(blockerKey);
+
+    if (blocker && blocker.state === "proceeding") {
+      // If the blocker is currently proceeding, we don't need to re-check
+      // it and can let this navigation continue
+      return;
+    } // At this point, we know we're unblocked/blocked so we need to check the
+    // user-provided blocker function
+
+
+    if (blockerFunction({
+      currentLocation,
+      nextLocation,
+      historyAction
+    })) {
+      return blockerKey;
+    }
   }
 
   function cancelActiveDeferreds(predicate) {
@@ -7492,6 +7912,8 @@ function createRouter(init) {
     getFetcher,
     deleteFetcher,
     dispose,
+    getBlocker,
+    deleteBlocker,
     _internalFetchControllers: fetchControllers,
     _internalActiveDeferreds: activeDeferreds
   };
@@ -7501,8 +7923,9 @@ function createRouter(init) {
 //#region createStaticHandler
 ////////////////////////////////////////////////////////////////////////////////
 
-function unstable_createStaticHandler(routes, opts) {
-  invariant(routes.length > 0, "You must provide a non-empty routes array to unstable_createStaticHandler");
+const UNSAFE_DEFERRED_SYMBOL = Symbol("deferred");
+function createStaticHandler(routes, opts) {
+  invariant(routes.length > 0, "You must provide a non-empty routes array to createStaticHandler");
   let dataRoutes = convertRoutesToDataRoutes(routes);
   let basename = (opts ? opts.basename : null) || "/";
   /**
@@ -7525,10 +7948,10 @@ function unstable_createStaticHandler(routes, opts) {
    * return it directly.
    */
 
-  async function query(request, _temp) {
+  async function query(request, _temp2) {
     let {
       requestContext
-    } = _temp === void 0 ? {} : _temp;
+    } = _temp2 === void 0 ? {} : _temp2;
     let url = new URL(request.url);
     let method = request.method.toLowerCase();
     let location = createLocation("", createPath(url), null, "default");
@@ -7553,7 +7976,8 @@ function unstable_createStaticHandler(routes, opts) {
         },
         statusCode: error.status,
         loaderHeaders: {},
-        actionHeaders: {}
+        actionHeaders: {},
+        activeDeferreds: null
       };
     } else if (!matches) {
       let error = getInternalRouterError(404, {
@@ -7574,7 +7998,8 @@ function unstable_createStaticHandler(routes, opts) {
         },
         statusCode: error.status,
         loaderHeaders: {},
-        actionHeaders: {}
+        actionHeaders: {},
+        activeDeferreds: null
       };
     }
 
@@ -7614,17 +8039,17 @@ function unstable_createStaticHandler(routes, opts) {
    */
 
 
-  async function queryRoute(request, _temp2) {
+  async function queryRoute(request, _temp3) {
     let {
       routeId,
       requestContext
-    } = _temp2 === void 0 ? {} : _temp2;
+    } = _temp3 === void 0 ? {} : _temp3;
     let url = new URL(request.url);
     let method = request.method.toLowerCase();
     let location = createLocation("", createPath(url), null, "default");
     let matches = matchRoutes(dataRoutes, location, basename); // SSR supports HEAD requests while SPA doesn't
 
-    if (!isValidMethod(method) && method !== "head") {
+    if (!isValidMethod(method) && method !== "head" && method !== "options") {
       throw getInternalRouterError(405, {
         method
       });
@@ -7665,15 +8090,30 @@ function unstable_createStaticHandler(routes, opts) {
     } // Pick off the right state value to return
 
 
-    let routeData = [result.actionData, result.loaderData].find(v => v);
-    return Object.values(routeData || {})[0];
+    if (result.actionData) {
+      return Object.values(result.actionData)[0];
+    }
+
+    if (result.loaderData) {
+      var _result$activeDeferre;
+
+      let data = Object.values(result.loaderData)[0];
+
+      if ((_result$activeDeferre = result.activeDeferreds) != null && _result$activeDeferre[match.route.id]) {
+        data[UNSAFE_DEFERRED_SYMBOL] = result.activeDeferreds[match.route.id];
+      }
+
+      return data;
+    }
+
+    return undefined;
   }
 
   async function queryImpl(request, location, matches, requestContext, routeMatch) {
     invariant(request.signal, "query()/queryRoute() requests must contain an AbortController signal");
 
     try {
-      if (isSubmissionMethod(request.method.toLowerCase())) {
+      if (isMutationMethod(request.method.toLowerCase())) {
         let result = await submit(request, matches, routeMatch || getTargetMatch(matches, location), requestContext, routeMatch != null);
         return result;
       }
@@ -7746,7 +8186,18 @@ function unstable_createStaticHandler(routes, opts) {
     }
 
     if (isDeferredResult(result)) {
-      throw new Error("defer() is not supported in actions");
+      let error = getInternalRouterError(400, {
+        type: "defer-action"
+      });
+
+      if (isRouteRequest) {
+        throw error;
+      }
+
+      result = {
+        type: ResultType.error,
+        error
+      };
     }
 
     if (isRouteRequest) {
@@ -7767,7 +8218,8 @@ function unstable_createStaticHandler(routes, opts) {
         // return the raw Response or value
         statusCode: 200,
         loaderHeaders: {},
-        actionHeaders: {}
+        actionHeaders: {},
+        activeDeferreds: null
       };
     }
 
@@ -7790,6 +8242,8 @@ function unstable_createStaticHandler(routes, opts) {
 
 
     let loaderRequest = new Request(request.url, {
+      headers: request.headers,
+      redirect: request.redirect,
       signal: request.signal
     });
     let context = await loadRouteData(loaderRequest, matches, requestContext);
@@ -7822,10 +8276,14 @@ function unstable_createStaticHandler(routes, opts) {
     if (matchesToLoad.length === 0) {
       return {
         matches,
-        loaderData: {},
+        // Add a null for all matched routes for proper revalidation on the client
+        loaderData: matches.reduce((acc, m) => Object.assign(acc, {
+          [m.route.id]: null
+        }), {}),
         errors: pendingActionError || null,
         statusCode: 200,
-        loaderHeaders: {}
+        loaderHeaders: {},
+        activeDeferreds: null
       };
     }
 
@@ -7834,19 +8292,21 @@ function unstable_createStaticHandler(routes, opts) {
     if (request.signal.aborted) {
       let method = isRouteRequest ? "queryRoute" : "query";
       throw new Error(method + "() call aborted");
-    } // Can't do anything with these without the Remix side of things, so just
-    // cancel them for now
+    } // Process and commit output from loaders
 
 
-    results.forEach(result => {
-      if (isDeferredResult(result)) {
-        result.deferredData.cancel();
+    let activeDeferreds = new Map();
+    let context = processRouteLoaderData(matches, matchesToLoad, results, pendingActionError, activeDeferreds); // Add a null for any non-loader matches for proper revalidation on the client
+
+    let executedLoaders = new Set(matchesToLoad.map(match => match.route.id));
+    matches.forEach(match => {
+      if (!executedLoaders.has(match.route.id)) {
+        context.loaderData[match.route.id] = null;
       }
-    }); // Process and commit output from loaders
-
-    let context = processRouteLoaderData(matches, matchesToLoad, results, pendingActionError);
+    });
     return _extends({}, context, {
-      matches
+      matches,
+      activeDeferreds: activeDeferreds.size > 0 ? Object.fromEntries(activeDeferreds.entries()) : null
     });
   }
 
@@ -7905,40 +8365,38 @@ function normalizeNavigateOptions(to, opts, isFetcher) {
   } // Create a Submission on non-GET navigations
 
 
-  if (opts.formMethod && isSubmissionMethod(opts.formMethod)) {
-    return {
-      path,
-      submission: {
-        formMethod: opts.formMethod,
-        formAction: stripHashFromPath(path),
-        formEncType: opts && opts.formEncType || "application/x-www-form-urlencoded",
-        formData: opts.formData
-      }
+  let submission;
+
+  if (opts.formData) {
+    submission = {
+      formMethod: opts.formMethod || "get",
+      formAction: stripHashFromPath(path),
+      formEncType: opts && opts.formEncType || "application/x-www-form-urlencoded",
+      formData: opts.formData
     };
+
+    if (isMutationMethod(submission.formMethod)) {
+      return {
+        path,
+        submission
+      };
+    }
   } // Flatten submission onto URLSearchParams for GET submissions
 
 
   let parsedPath = parsePath(path);
+  let searchParams = convertFormDataToSearchParams(opts.formData); // Since fetcher GET submissions only run a single loader (as opposed to
+  // navigation GET submissions which run all loaders), we need to preserve
+  // any incoming ?index params
 
-  try {
-    let searchParams = convertFormDataToSearchParams(opts.formData); // Since fetcher GET submissions only run a single loader (as opposed to
-    // navigation GET submissions which run all loaders), we need to preserve
-    // any incoming ?index params
-
-    if (isFetcher && parsedPath.search && hasNakedIndexQuery(parsedPath.search)) {
-      searchParams.append("index", "");
-    }
-
-    parsedPath.search = "?" + searchParams;
-  } catch (e) {
-    return {
-      path,
-      error: getInternalRouterError(400)
-    };
+  if (isFetcher && parsedPath.search && hasNakedIndexQuery(parsedPath.search)) {
+    searchParams.append("index", "");
   }
 
+  parsedPath.search = "?" + searchParams;
   return {
-    path: createPath(parsedPath)
+    path: createPath(parsedPath),
+    submission
   };
 } // Filter out all routes below any caught error as they aren't going to
 // render so we don't need to load them
@@ -7958,26 +8416,74 @@ function getLoaderMatchesUntilBoundary(matches, boundaryId) {
   return boundaryMatches;
 }
 
-function getMatchesToLoad(state, matches, submission, location, isRevalidationRequired, cancelledDeferredRoutes, cancelledFetcherLoads, pendingActionData, pendingError, fetchLoadMatches) {
-  let actionResult = pendingError ? Object.values(pendingError)[0] : pendingActionData ? Object.values(pendingActionData)[0] : null; // Pick navigation matches that are net-new or qualify for revalidation
+function getMatchesToLoad(history, state, matches, submission, location, isRevalidationRequired, cancelledDeferredRoutes, cancelledFetcherLoads, pendingActionData, pendingError, fetchLoadMatches) {
+  let actionResult = pendingError ? Object.values(pendingError)[0] : pendingActionData ? Object.values(pendingActionData)[0] : undefined;
+  let currentUrl = history.createURL(state.location);
+  let nextUrl = history.createURL(location);
+  let defaultShouldRevalidate = // Forced revalidation due to submission, useRevalidate, or X-Remix-Revalidate
+  isRevalidationRequired || // Clicked the same link, resubmitted a GET form
+  currentUrl.toString() === nextUrl.toString() || // Search params affect all loaders
+  currentUrl.search !== nextUrl.search; // Pick navigation matches that are net-new or qualify for revalidation
 
   let boundaryId = pendingError ? Object.keys(pendingError)[0] : undefined;
   let boundaryMatches = getLoaderMatchesUntilBoundary(matches, boundaryId);
-  let navigationMatches = boundaryMatches.filter((match, index) => match.route.loader != null && (isNewLoader(state.loaderData, state.matches[index], match) || // If this route had a pending deferred cancelled it must be revalidated
-  cancelledDeferredRoutes.some(id => id === match.route.id) || shouldRevalidateLoader(state.location, state.matches[index], submission, location, match, isRevalidationRequired, actionResult))); // Pick fetcher.loads that need to be revalidated
+  let navigationMatches = boundaryMatches.filter((match, index) => {
+    if (match.route.loader == null) {
+      return false;
+    } // Always call the loader on new route instances and pending defer cancellations
+
+
+    if (isNewLoader(state.loaderData, state.matches[index], match) || cancelledDeferredRoutes.some(id => id === match.route.id)) {
+      return true;
+    } // This is the default implementation for when we revalidate.  If the route
+    // provides it's own implementation, then we give them full control but
+    // provide this value so they can leverage it if needed after they check
+    // their own specific use cases
+
+
+    let currentRouteMatch = state.matches[index];
+    let nextRouteMatch = match;
+    return shouldRevalidateLoader(match, _extends({
+      currentUrl,
+      currentParams: currentRouteMatch.params,
+      nextUrl,
+      nextParams: nextRouteMatch.params
+    }, submission, {
+      actionResult,
+      defaultShouldRevalidate: defaultShouldRevalidate || isNewRouteInstance(currentRouteMatch, nextRouteMatch)
+    }));
+  }); // Pick fetcher.loads that need to be revalidated
 
   let revalidatingFetchers = [];
-  fetchLoadMatches && fetchLoadMatches.forEach((_ref10, key) => {
-    let [href, match, fetchMatches] = _ref10;
-
-    // This fetcher was cancelled from a prior action submission - force reload
-    if (cancelledFetcherLoads.includes(key)) {
-      revalidatingFetchers.push([key, href, match, fetchMatches]);
-    } else if (isRevalidationRequired) {
-      let shouldRevalidate = shouldRevalidateLoader(href, match, submission, href, match, isRevalidationRequired, actionResult);
+  fetchLoadMatches && fetchLoadMatches.forEach((f, key) => {
+    if (!matches.some(m => m.route.id === f.routeId)) {
+      // This fetcher is not going to be present in the subsequent render so
+      // there's no need to revalidate it
+      return;
+    } else if (cancelledFetcherLoads.includes(key)) {
+      // This fetcher was cancelled from a prior action submission - force reload
+      revalidatingFetchers.push(_extends({
+        key
+      }, f));
+    } else {
+      // Revalidating fetchers are decoupled from the route matches since they
+      // hit a static href, so they _always_ check shouldRevalidate and the
+      // default is strictly if a revalidation is explicitly required (action
+      // submissions, useRevalidator, X-Remix-Revalidate).
+      let shouldRevalidate = shouldRevalidateLoader(f.match, _extends({
+        currentUrl,
+        currentParams: state.matches[state.matches.length - 1].params,
+        nextUrl,
+        nextParams: matches[matches.length - 1].params
+      }, submission, {
+        actionResult,
+        defaultShouldRevalidate
+      }));
 
       if (shouldRevalidate) {
-        revalidatingFetchers.push([key, href, match, fetchMatches]);
+        revalidatingFetchers.push(_extends({
+          key
+        }, f));
       }
     }
   });
@@ -8000,43 +8506,20 @@ function isNewRouteInstance(currentMatch, match) {
   return (// param change for this match, /users/123 -> /users/456
     currentMatch.pathname !== match.pathname || // splat param changed, which is not present in match.path
     // e.g. /files/images/avatar.jpg -> files/finances.xls
-    currentPath && currentPath.endsWith("*") && currentMatch.params["*"] !== match.params["*"]
+    currentPath != null && currentPath.endsWith("*") && currentMatch.params["*"] !== match.params["*"]
   );
 }
 
-function shouldRevalidateLoader(currentLocation, currentMatch, submission, location, match, isRevalidationRequired, actionResult) {
-  let currentUrl = createClientSideURL(currentLocation);
-  let currentParams = currentMatch.params;
-  let nextUrl = createClientSideURL(location);
-  let nextParams = match.params; // This is the default implementation as to when we revalidate.  If the route
-  // provides it's own implementation, then we give them full control but
-  // provide this value so they can leverage it if needed after they check
-  // their own specific use cases
-  // Note that fetchers always provide the same current/next locations so the
-  // URL-based checks here don't apply to fetcher shouldRevalidate calls
-
-  let defaultShouldRevalidate = isNewRouteInstance(currentMatch, match) || // Clicked the same link, resubmitted a GET form
-  currentUrl.toString() === nextUrl.toString() || // Search params affect all loaders
-  currentUrl.search !== nextUrl.search || // Forced revalidation due to submission, useRevalidate, or X-Remix-Revalidate
-  isRevalidationRequired;
-
-  if (match.route.shouldRevalidate) {
-    let routeChoice = match.route.shouldRevalidate(_extends({
-      currentUrl,
-      currentParams,
-      nextUrl,
-      nextParams
-    }, submission, {
-      actionResult,
-      defaultShouldRevalidate
-    }));
+function shouldRevalidateLoader(loaderMatch, arg) {
+  if (loaderMatch.route.shouldRevalidate) {
+    let routeChoice = loaderMatch.route.shouldRevalidate(arg);
 
     if (typeof routeChoice === "boolean") {
       return routeChoice;
     }
   }
 
-  return defaultShouldRevalidate;
+  return arg.defaultShouldRevalidate;
 }
 
 async function callLoaderOrAction(type, request, match, matches, basename, isStaticRequest, isRouteRequest, requestContext) {
@@ -8083,10 +8566,9 @@ async function callLoaderOrAction(type, request, match, matches, basename, isSta
 
     if (redirectStatusCodes.has(status)) {
       let location = result.headers.get("Location");
-      invariant(location, "Redirects returned/thrown from loaders/actions must have a Location header");
-      let isAbsolute = /^[a-z+]+:\/\//i.test(location) || location.startsWith("//"); // Support relative routing in internal redirects
+      invariant(location, "Redirects returned/thrown from loaders/actions must have a Location header"); // Support relative routing in internal redirects
 
-      if (!isAbsolute) {
+      if (!ABSOLUTE_URL_REGEX.test(location)) {
         let activeMatches = matches.slice(0, matches.indexOf(match) + 1);
         let routePathnames = getPathContributingMatches(activeMatches).map(match => match.pathnameBase);
         let resolvedLocation = resolveTo(location, routePathnames, new URL(request.url).pathname);
@@ -8098,6 +8580,16 @@ async function callLoaderOrAction(type, request, match, matches, basename, isSta
         }
 
         location = createPath(resolvedLocation);
+      } else if (!isStaticRequest) {
+        // Strip off the protocol+origin for same-origin absolute redirects.
+        // If this is a static reques, we can let it go back to the browser
+        // as-is
+        let currentUrl = new URL(request.url);
+        let url = location.startsWith("//") ? new URL(currentUrl.protocol + location) : new URL(location);
+
+        if (url.origin === currentUrl.origin) {
+          location = url.pathname + url.search + url.hash;
+        }
       } // Don't process redirects in the router during static requests requests.
       // Instead, throw the Response and let the server handle it with an HTTP
       // redirect.  We also update the Location header in place in this flow so
@@ -8129,9 +8621,10 @@ async function callLoaderOrAction(type, request, match, matches, basename, isSta
     }
 
     let data;
-    let contentType = result.headers.get("Content-Type");
+    let contentType = result.headers.get("Content-Type"); // Check between word boundaries instead of startsWith() due to the last
+    // paragraph of https://httpwg.org/specs/rfc9110.html#field.content-type
 
-    if (contentType && contentType.startsWith("application/json")) {
+    if (contentType && /\bapplication\/json\b/.test(contentType)) {
       data = await result.json();
     } else {
       data = await result.text();
@@ -8176,13 +8669,13 @@ async function callLoaderOrAction(type, request, match, matches, basename, isSta
 // Request instance from the static handler (query/queryRoute)
 
 
-function createClientSideRequest(location, signal, submission) {
-  let url = createClientSideURL(stripHashFromPath(location)).toString();
+function createClientSideRequest(history, location, signal, submission) {
+  let url = history.createURL(stripHashFromPath(location)).toString();
   let init = {
     signal
   };
 
-  if (submission) {
+  if (submission && isMutationMethod(submission.formMethod)) {
     let {
       formMethod,
       formEncType,
@@ -8200,8 +8693,8 @@ function convertFormDataToSearchParams(formData) {
   let searchParams = new URLSearchParams();
 
   for (let [key, value] of formData.entries()) {
-    invariant(typeof value === "string", 'File inputs are not supported with encType "application/x-www-form-urlencoded", ' + 'please use "multipart/form-data" instead.');
-    searchParams.append(key, value);
+    // https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#converting-an-entry-list-to-a-list-of-name-value-pairs
+    searchParams.append(key, value instanceof File ? value.name : value);
   }
 
   return searchParams;
@@ -8232,9 +8725,14 @@ function processRouteLoaderData(matches, matchesToLoad, results, pendingError, a
         pendingError = undefined;
       }
 
-      errors = Object.assign(errors || {}, {
-        [boundaryMatch.route.id]: error
-      }); // Once we find our first (highest) error, we set the status code and
+      errors = errors || {}; // Prefer higher error values if lower errors bubble to the same boundary
+
+      if (errors[boundaryMatch.route.id] == null) {
+        errors[boundaryMatch.route.id] = error;
+      } // Clear our any prior loaderData for the throwing route
+
+
+      loaderData[id] = undefined; // Once we find our first (highest) error, we set the status code and
       // prevent deeper status codes from overriding
 
       if (!foundError) {
@@ -8245,12 +8743,15 @@ function processRouteLoaderData(matches, matchesToLoad, results, pendingError, a
       if (result.headers) {
         loaderHeaders[id] = result.headers;
       }
-    } else if (isDeferredResult(result)) {
-      activeDeferreds && activeDeferreds.set(id, result.deferredData);
-      loaderData[id] = result.deferredData.data; // TODO: Add statusCode/headers once we wire up streaming in Remix
     } else {
-      loaderData[id] = result.data; // Error status codes always override success status codes, but if all
+      if (isDeferredResult(result)) {
+        activeDeferreds.set(id, result.deferredData);
+        loaderData[id] = result.deferredData.data;
+      } else {
+        loaderData[id] = result.data;
+      } // Error status codes always override success status codes, but if all
       // loaders are successful we take the deepest status code.
+
 
       if (result.statusCode != null && result.statusCode !== 200 && !foundError) {
         statusCode = result.statusCode;
@@ -8261,10 +8762,12 @@ function processRouteLoaderData(matches, matchesToLoad, results, pendingError, a
       }
     }
   }); // If we didn't consume the pending action error (i.e., all loaders
-  // resolved), then consume it here
+  // resolved), then consume it here.  Also clear out any loaderData for the
+  // throwing route
 
   if (pendingError) {
     errors = pendingError;
+    loaderData[Object.keys(pendingError)[0]] = undefined;
   }
 
   return {
@@ -8282,7 +8785,10 @@ function processLoaderData(state, matches, matchesToLoad, results, pendingError,
   } = processRouteLoaderData(matches, matchesToLoad, results, pendingError, activeDeferreds); // Process results from our revalidating fetchers
 
   for (let index = 0; index < revalidatingFetchers.length; index++) {
-    let [key,, match] = revalidatingFetchers[index];
+    let {
+      key,
+      match
+    } = revalidatingFetchers[index];
     invariant(fetcherResults !== undefined && fetcherResults[index] !== undefined, "Did not find corresponding fetcher result");
     let result = fetcherResults[index]; // Process fetcher non-redirect errors
 
@@ -8299,11 +8805,11 @@ function processLoaderData(state, matches, matchesToLoad, results, pendingError,
     } else if (isRedirectResult(result)) {
       // Should never get here, redirects should get processed above, but we
       // keep this to type narrow to a success result in the else
-      throw new Error("Unhandled fetcher revalidation redirect");
+      invariant(false, "Unhandled fetcher revalidation redirect");
     } else if (isDeferredResult(result)) {
       // Should never get here, deferred data should be awaited for fetchers
       // in resolveDeferredResults
-      throw new Error("Unhandled fetcher deferred data");
+      invariant(false, "Unhandled fetcher deferred data");
     } else {
       let doneFetcher = {
         state: "idle",
@@ -8311,7 +8817,8 @@ function processLoaderData(state, matches, matchesToLoad, results, pendingError,
         formMethod: undefined,
         formAction: undefined,
         formEncType: undefined,
-        formData: undefined
+        formData: undefined,
+        " _hasFetcherDoneAnything ": true
       };
       state.fetchers.set(key, doneFetcher);
     }
@@ -8323,16 +8830,26 @@ function processLoaderData(state, matches, matchesToLoad, results, pendingError,
   };
 }
 
-function mergeLoaderData(loaderData, newLoaderData, matches) {
+function mergeLoaderData(loaderData, newLoaderData, matches, errors) {
   let mergedLoaderData = _extends({}, newLoaderData);
 
-  matches.forEach(match => {
+  for (let match of matches) {
     let id = match.route.id;
 
-    if (newLoaderData[id] === undefined && loaderData[id] !== undefined) {
+    if (newLoaderData.hasOwnProperty(id)) {
+      if (newLoaderData[id] !== undefined) {
+        mergedLoaderData[id] = newLoaderData[id];
+      }
+    } else if (loaderData[id] !== undefined) {
       mergedLoaderData[id] = loaderData[id];
     }
-  });
+
+    if (errors && errors.hasOwnProperty(id)) {
+      // Don't keep any loader data below the boundary
+      break;
+    }
+  }
+
   return mergedLoaderData;
 } // Find the nearest error boundary, looking upwards from the leaf route (or the
 // route specified by routeId) for the closest ancestor error boundary,
@@ -8360,12 +8877,13 @@ function getShortCircuitMatches(routes) {
   };
 }
 
-function getInternalRouterError(status, _temp3) {
+function getInternalRouterError(status, _temp4) {
   let {
     pathname,
     routeId,
-    method
-  } = _temp3 === void 0 ? {} : _temp3;
+    method,
+    type
+  } = _temp4 === void 0 ? {} : _temp4;
   let statusText = "Unknown Server Error";
   let errorMessage = "Unknown @remix-run/router error";
 
@@ -8374,8 +8892,8 @@ function getInternalRouterError(status, _temp3) {
 
     if (method && pathname && routeId) {
       errorMessage = "You made a " + method + " request to \"" + pathname + "\" but " + ("did not provide a `loader` for route \"" + routeId + "\", ") + "so there is no way to handle the request.";
-    } else {
-      errorMessage = "Cannot submit binary form data using GET";
+    } else if (type === "defer-action") {
+      errorMessage = "defer() is not supported in actions";
     }
   } else if (status === 403) {
     statusText = "Forbidden";
@@ -8452,8 +8970,8 @@ function isValidMethod(method) {
   return validRequestMethods.has(method);
 }
 
-function isSubmissionMethod(method) {
-  return validActionMethods.has(method);
+function isMutationMethod(method) {
+  return validMutationMethods.has(method);
 }
 
 async function resolveDeferredResults(currentMatches, matchesToLoad, results, signal, isFetcher, currentLoaderData) {
@@ -10442,7 +10960,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_user_mobile_fieldChange",
-        id: "aff_user_mobile_field",
         name: "aff_user_mobile_field",
         type: "select",
         label: __("Select the mobile number custom field:", "farazsms"),
@@ -10456,7 +10973,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_user_registerChange",
-        id: "aff_user_register",
         name: "aff_user_register",
         type: "checkbox",
         label: __("Send sms to user on registration:", "farazsms"),
@@ -10467,7 +10983,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_user_register_patternChange",
-        id: "aff_user_register_pattern",
         name: "aff_user_register_pattern",
         type: "text",
         label: __("User registration SMS pattern code:", "farazsms"),
@@ -10478,7 +10993,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_user_new_refChange",
-        id: "aff_user_new_ref",
         name: "aff_user_new_ref",
         type: "checkbox",
         label: __("Send sms to user on new referral:", "farazsms"),
@@ -10489,7 +11003,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_user_new_ref_patternChange",
-        id: "aff_user_new_ref_pattern",
         name: "aff_user_new_ref_pattern",
         type: "text",
         label: __("New referral SMS pattern code:", "farazsms"),
@@ -10500,7 +11013,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_user_on_approvalChange",
-        id: "aff_user_on_approval",
         name: "aff_user_on_approval",
         type: "checkbox",
         label: __("Confirmation of the cooperation account in sales for user", "farazsms"),
@@ -10511,7 +11023,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_user_on_approval_patternChange",
-        id: "aff_user_on_approval_pattern",
         name: "aff_user_on_approval_pattern",
         type: "text",
         label: __("Account confirmation pattern code for cooperation in sales", "farazsms"),
@@ -10522,7 +11033,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_admin_user_registerChange",
-        id: "aff_admin_user_register",
         name: "aff_admin_user_register",
         type: "checkbox",
         label: __("Send sms to admin on registration:", "farazsms"),
@@ -10534,7 +11044,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_admin_user_register_patternChange",
-        id: "aff_admin_user_register_pattern",
         name: "aff_admin_user_register_pattern",
         type: "text",
         label: __("User registration SMS pattern code:", "farazsms"),
@@ -10545,7 +11054,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_admin_user_new_refChange",
-        id: "aff_admin_user_new_ref",
         name: "aff_admin_user_new_ref",
         type: "checkbox",
         label: __("Send sms to admin on new referral:", "farazsms"),
@@ -10556,7 +11064,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_admin_user_new_ref_patternChange",
-        id: "aff_admin_user_new_ref_pattern",
         name: "aff_admin_user_new_ref_pattern",
         type: "text",
         label: __("New referral SMS pattern code:", "farazsms"),
@@ -10567,7 +11074,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_admin_user_on_approvalChange",
-        id: "aff_admin_user_on_approval",
         name: "aff_admin_user_on_approval",
         type: "checkbox",
         label: __("Confirmation of the cooperation account in sales for user", "farazsms"),
@@ -10578,7 +11084,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_admin_user_on_approval_patternChange",
-        id: "aff_admin_user_on_approval_pattern",
         name: "aff_admin_user_on_approval_pattern",
         type: "text",
         label: __("Account confirmation pattern code for cooperation in sales", "farazsms"),
@@ -10822,7 +11327,7 @@ function Aff(props) {
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
       onSubmit: handleSubmit
     }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-      key: input.id,
+      key: input.name,
       className: input.type === "checkbox" ? "toggle-control" : "form-group"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
       value: input.value,
@@ -10903,7 +11408,6 @@ function Comments() {
         hasErrors: false,
         errorMessage: "",
         onChange: "add_mobile_fieldChange",
-        id: "add_mobile_field",
         name: "add_mobile_field",
         type: "checkbox",
         label: __("Add the mobile field to the comment submission form?", "farazsms"),
@@ -10914,7 +11418,6 @@ function Comments() {
         hasErrors: false,
         errorMessage: "",
         onChange: "required_mobile_fieldChange",
-        id: "required_mobile_field",
         name: "required_mobile_field",
         type: "checkbox",
         label: __("Is the mobile number field in comments mandatory?", "farazsms"),
@@ -10925,7 +11428,6 @@ function Comments() {
         hasErrors: false,
         errorMessage: "",
         onChange: "comment_phonebookChange",
-        id: "comment_phonebook",
         name: "comment_phonebook",
         type: "select",
         label: __("Save the phone number in the phonebook?", "farazsms"),
@@ -10938,7 +11440,6 @@ function Comments() {
         hasErrors: false,
         errorMessage: "",
         onChange: "comment_patternChange",
-        id: "comment_pattern",
         name: "comment_pattern",
         type: "text",
         label: __("Comment submit pattern code:", "farazsms"),
@@ -10949,7 +11450,6 @@ function Comments() {
         hasErrors: false,
         errorMessage: "",
         onChange: "approved_comment_patternChange",
-        id: "approved_comment_pattern",
         name: "approved_comment_pattern",
         type: "text",
         label: __("Comment response pattern code:", "farazsms"),
@@ -10960,7 +11460,6 @@ function Comments() {
         hasErrors: false,
         errorMessage: "",
         onChange: "notify_admin_for_commentChange",
-        id: "notify_admin_for_comment",
         name: "notify_admin_for_comment",
         type: "checkbox",
         label: __("Send notification SMS to admin when a comment add to site?", "farazsms"),
@@ -10971,7 +11470,6 @@ function Comments() {
         hasErrors: false,
         errorMessage: "",
         onChange: "notify_admin_for_comment_patternChange",
-        id: "notify_admin_for_comment_pattern",
         name: "notify_admin_for_comment_pattern",
         type: "text",
         label: __("Admin pattern code:", "farazsms"),
@@ -11165,7 +11663,7 @@ function Comments() {
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
   }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: input.id,
+    key: input.name,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
     onChange: input.type === "select" ? selectedOption => dispatch({
@@ -11244,7 +11742,6 @@ function Edd(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "edd_phonebookChange",
-        id: "edd_phonebook",
         name: "edd_phonebook",
         type: "select",
         label: __("Save the phone number in the phonebook?", "farazsms"),
@@ -11257,7 +11754,6 @@ function Edd(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "edd_send_to_userChange",
-        id: "edd_send_to_user",
         name: "edd_send_to_user",
         type: "checkbox",
         label: __("Send sms to the user?", "farazsms"),
@@ -11268,7 +11764,6 @@ function Edd(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "edd_user_patternChange",
-        id: "edd_user_pattern",
         name: "edd_user_pattern",
         type: "text",
         label: __("SMS pattern code for the user:", "farazsms"),
@@ -11279,7 +11774,6 @@ function Edd(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "edd_send_to_adminChange",
-        id: "edd_send_to_admin",
         name: "edd_send_to_admin",
         type: "checkbox",
         label: __("Send sms to the admin?", "farazsms"),
@@ -11290,7 +11784,6 @@ function Edd(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "edd_admin_patternChange",
-        id: "edd_admin_pattern",
         name: "edd_admin_pattern",
         type: "text",
         label: __("SMS pattern code for the admin:", "farazsms"),
@@ -11475,7 +11968,7 @@ function Edd(props) {
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
       onSubmit: handleSubmit
     }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-      key: input.id,
+      key: input.name,
       className: input.type === "checkbox" ? "toggle-control" : "form-group"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
       value: input.value,
@@ -11837,7 +12330,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "welcome_smsChange",
-        id: "welcome_sms",
         name: "welcome_sms",
         type: "checkbox",
         label: __("Send a welcome sms to the user?", "farazsms"),
@@ -11848,7 +12340,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "welcome_sms_use_patternChange",
-        id: "welcome_sms_use_pattern",
         name: "welcome_sms_use_pattern",
         type: "checkbox",
         label: __("Send welcome sms via pattern?", "farazsms"),
@@ -11859,7 +12350,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "welcome_sms_patternChange",
-        id: "welcome_sms_pattern",
         name: "welcome_sms_pattern",
         type: "text",
         label: __("Welcome sms pattern code:", "farazsms"),
@@ -11870,7 +12360,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "welcome_sms_msgChange",
-        id: "welcome_sms_msg",
         name: "welcome_sms_msg",
         type: "textarea",
         label: __("welcome message:", "farazsms"),
@@ -11883,7 +12372,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "admin_login_notifyChange",
-        id: "admin_login_notify",
         name: "admin_login_notify",
         type: "checkbox",
         label: __("Notify admin when a user from selected rule(s) Login to the site?", "farazsms"),
@@ -11894,7 +12382,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "select_rolesChange",
-        id: "select_roles",
         name: "select_roles",
         type: "select",
         label: __("Select rule(s):", "farazsms"),
@@ -11907,7 +12394,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "admin_login_notify_patternChange",
-        id: "admin_login_notify_pattern",
         name: "admin_login_notify_pattern",
         type: "text",
         label: __("Notify admin pattern code:", "farazsms"),
@@ -12082,7 +12568,7 @@ function Settings() {
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
   }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: input.id,
+    key: input.name,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
     onChange: input.type === "select" ? selectedOption => dispatch({
@@ -12176,7 +12662,6 @@ function Membership(props) {
           hasErrors: false,
           errorMessage: "",
           onChange: "ihc_send_first_notifyChange",
-          id: "ihc_send_first_notify",
           name: "ihc_send_first_notify",
           type: "checkbox",
           label: __("Send the first SMS warning of membership expiration?", "farazsms"),
@@ -12188,7 +12673,6 @@ function Membership(props) {
           hasErrors: false,
           errorMessage: "",
           onChange: "ihc_send_second_notifyChange",
-          id: "ihc_send_second_notify",
           name: "ihc_send_second_notify",
           type: "checkbox",
           label: __("Send the second SMS warning of membership expiration?", "farazsms"),
@@ -12199,7 +12683,6 @@ function Membership(props) {
           hasErrors: false,
           errorMessage: "",
           onChange: "ihc_send_third_notifyChange",
-          id: "ihc_send_third_notify",
           name: "ihc_send_third_notify",
           type: "checkbox",
           label: __("Send the third SMS warning of membership expiration?", "farazsms"),
@@ -12210,7 +12693,6 @@ function Membership(props) {
           hasErrors: false,
           errorMessage: "",
           onChange: "ihc_first_notify_msgChange",
-          id: "ihc_first_notify_msg",
           name: "ihc_first_notify_msg",
           type: "textarea",
           label: __("Membership expiration warning SMS text:", "farazsms"),
@@ -12225,7 +12707,6 @@ function Membership(props) {
           hasErrors: false,
           errorMessage: "",
           onChange: "pmp_send_expire_notifyChange",
-          id: "pmp_send_expire_notify",
           name: "pmp_send_expire_notify",
           type: "checkbox",
           label: __("Send SMS membership expiration?", "farazsms"),
@@ -12237,7 +12718,6 @@ function Membership(props) {
           hasErrors: false,
           errorMessage: "",
           onChange: "pmp_expire_notify_msgChange",
-          id: "pmp_expire_notify_msg",
           name: "pmp_expire_notify_msg",
           type: "textarea",
           label: __("The text of the membership expiration SMS:", "farazsms"),
@@ -12415,7 +12895,7 @@ function Membership(props) {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
     sectionName: state.sectionName
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, Object.values(state.notUsedPlugins).map(plugin => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: plugin.id
+    key: plugin.name
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_9__["default"], {
     sectionName: plugin.name
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
@@ -12498,7 +12978,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_phonebookChange",
-        id: "news_phonebook",
         name: "news_phonebook",
         type: "select",
         label: __("Select phone book for newsletter", "farazsms"),
@@ -12511,7 +12990,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_send_verify_via_patternChange",
-        id: "news_send_verify_via_pattern",
         name: "news_send_verify_via_pattern",
         type: "checkbox",
         label: __("Confirm subscription by sending verification code?", "farazsms"),
@@ -12522,7 +13000,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_send_verify_patternChange",
-        id: "news_send_verify_pattern",
         name: "news_send_verify_pattern",
         type: "text",
         label: __("Newsletter membership verification pattern code:", "farazsms"),
@@ -12535,7 +13012,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_welcomeChange",
-        id: "news_welcome",
         name: "news_welcome",
         type: "checkbox",
         label: __("Welcome SMS to subscriber of the newsletter?", "farazsms"),
@@ -12546,7 +13022,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_welcome_patternChange",
-        id: "news_welcome_pattern",
         name: "news_welcome_pattern",
         type: "text",
         label: __("Welcome SMS pattern code", "farazsms"),
@@ -12559,7 +13034,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_post_notifyChange",
-        id: "news_post_notify",
         name: "news_post_notify",
         type: "checkbox",
         label: __("Send new posts to newsletter members?", "farazsms"),
@@ -12570,7 +13044,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_post_notify_msgChange",
-        id: "news_post_notify_msg",
         name: "news_post_notify_msg",
         type: "textarea",
         label: __("Message content for new post", "farazsms"),
@@ -12583,7 +13056,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_product_notifyChange",
-        id: "news_product_notify",
         name: "news_product_notify",
         type: "checkbox",
         label: __("Send new product to newsletter members?", "farazsms"),
@@ -12594,7 +13066,6 @@ function Newsletter() {
         hasErrors: false,
         errorMessage: "",
         onChange: "news_product_notify_msgChange",
-        id: "news_product_notify_msg",
         name: "news_product_notify_msg",
         type: "textarea",
         label: __("Message content for new product", "farazsms"),
@@ -12812,7 +13283,7 @@ function Newsletter() {
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
   }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: input.id,
+    key: input.name,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
     onChange: input.type === "select" ? selectedOption => dispatch({
@@ -12911,7 +13382,6 @@ function Phonebook(props) {
       custom_phonebook: {
         value: [],
         onChange: "custom_phonebookChange",
-        id: "custom_phonebook",
         name: "custom_phonebook",
         type: "select",
         label: __("Select the custom field phonebook:", "farazsms"),
@@ -12921,7 +13391,6 @@ function Phonebook(props) {
       custom_phone_meta_keys: {
         value: [],
         onChange: "custom_phone_meta_keysChange",
-        id: "custom_phone_meta_keys",
         name: "custom_phone_meta_keys",
         type: "select",
         label: __("Select the mobile number custom field:", "farazsms"),
@@ -12932,7 +13401,6 @@ function Phonebook(props) {
         digits_phonebook: {
           value: [],
           onChange: "digits_phonebookChange",
-          id: "digits_phonebook",
           name: "digits_phonebook",
           type: "select",
           label: __("Select phonebook for Digits:", "farazsms"),
@@ -12944,7 +13412,6 @@ function Phonebook(props) {
         woo_phonebook: {
           value: [],
           onChange: "woo_phonebookChange",
-          id: "woo_phonebook",
           name: "woo_phonebook",
           type: "select",
           label: __("select a phonebook for WooCommerce:", "farazsms"),
@@ -12956,7 +13423,6 @@ function Phonebook(props) {
         bookly_phonebook: {
           value: [],
           onChange: "bookly_phonebookChange",
-          id: "bookly_phonebook",
           name: "bookly_phonebook",
           type: "select",
           label: __("Choosing a phonebook for Bookly:", "farazsms"),
@@ -12968,7 +13434,6 @@ function Phonebook(props) {
         gf_phonebook: {
           value: [],
           onChange: "gf_phonebookChange",
-          id: "gf_phonebook",
           name: "gf_phonebook",
           type: "select",
           label: __("Select phonebook for Gravity Form:", "farazsms"),
@@ -12978,7 +13443,6 @@ function Phonebook(props) {
         gf_forms: {
           value: [],
           onChange: "gf_formsChange",
-          id: "gf_forms",
           name: "gf_forms",
           type: "select",
           label: __("Gravity Form forms:", "farazsms"),
@@ -12989,7 +13453,6 @@ function Phonebook(props) {
         gf_selected_field: {
           value: [],
           onChange: "gf_selected_fieldChange",
-          id: "gf_selected_field",
           name: "gf_selected_field",
           type: "select",
           label: __("Gravity Form fields:", "farazsms"),
@@ -13344,7 +13807,7 @@ function Phonebook(props) {
   }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
   }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: input.id,
+    key: input.name,
     className: "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
     onChange: selectedOption => dispatch({
@@ -13375,10 +13838,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
-/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
+/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
 
 
 /**
@@ -13413,7 +13876,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "apikeyChange",
-        id: "apikey",
         name: "apikey",
         type: "text",
         placeholder: __("API key", "farazsms"),
@@ -13429,7 +13891,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "usernameChange",
-        id: "username",
         name: "username",
         type: "text",
         placeholder: __("Your Username", "farazsms"),
@@ -13444,7 +13905,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "passwordChange",
-        id: "password",
         name: "password",
         type: "text",
         placeholder: __("Password", "farazsms"),
@@ -13459,7 +13919,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "admin_numberChange",
-        id: "admin_number",
         name: "admin_number",
         type: "text",
         placeholder: __("Admin Number", "farazsms"),
@@ -13473,7 +13932,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "from_numberChange",
-        id: "from_number",
         name: "from_number",
         type: "text",
         placeholder: __("Service sender number", "farazsms"),
@@ -13486,7 +13944,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "from_number_adverChange",
-        id: "from_number_adver",
         name: "from_number_adver",
         type: "text",
         placeholder: __("Advertising sender number", "farazsms"),
@@ -13853,14 +14310,14 @@ function Settings() {
    *
    * @since 2.0.0
    */
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_5__["default"], {
     sectionName: state.sectionName
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
   }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: input.id,
+    key: input.name,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_6__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
     value: input.value,
     checked: input.value,
     onChange: e => {
@@ -13873,7 +14330,7 @@ function Settings() {
       type: input.rules,
       value: e.target.value
     })
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_7__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_7__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_8__["default"], {
     isSaving: state.isSaving
   }))));
 }
@@ -13914,7 +14371,7 @@ function Sidebar(_ref) {
     className: "container faraz-sidebar"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      width: "250px"
+      width: '250px'
     },
     className: "sidebar"
   }, _views_SidebarItems__WEBPACK_IMPORTED_MODULE_2__["default"].map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.NavLink, {
@@ -13926,7 +14383,7 @@ function Sidebar(_ref) {
     className: "icon"
   }, item.icon), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      display: "block"
+      display: 'block'
     },
     className: "link_text"
   }, item.name)))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("main", null, children));
@@ -14247,7 +14704,6 @@ function Woocommerce(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "woo_checkout_otpChange",
-        id: "woo_checkout_otp",
         name: "woo_checkout_otp",
         type: "checkbox",
         label: __("Mobile number confirmation on the account checkout page?", "farazsms"),
@@ -14258,7 +14714,6 @@ function Woocommerce(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "woo_checkout_otp_patternChange",
-        id: "woo_checkout_otp_pattern",
         name: "woo_checkout_otp_pattern",
         type: "text",
         label: __("Mobile number verification pattern code:", "farazsms"),
@@ -14271,7 +14726,6 @@ function Woocommerce(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "woo_pollChange",
-        id: "woo_poll",
         name: "woo_poll",
         type: "checkbox",
         label: __("Sending a timed survey SMS for WooCommerce?", "farazsms"),
@@ -14282,7 +14736,6 @@ function Woocommerce(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "woo_poll_timeChange",
-        id: "woo_poll_time",
         name: "woo_poll_time",
         type: "text",
         label: __("Days of sending SMS after placing the order:", "farazsms"),
@@ -14293,7 +14746,6 @@ function Woocommerce(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "woo_poll_msgChange",
-        id: "woo_poll_msg",
         name: "woo_poll_msg",
         type: "textarea",
         label: __("message content:", "farazsms"),
@@ -14306,7 +14758,6 @@ function Woocommerce(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "woo_tracking_patternChange",
-        id: "woo_tracking_pattern",
         name: "woo_tracking_pattern",
         type: "text",
         label: __("Pattern code to send tracking code:", "farazsms"),
@@ -14452,7 +14903,7 @@ function Woocommerce(props) {
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
       onSubmit: handleSubmit
     }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-      key: input.id,
+      key: input.name,
       className: input.type === "checkbox" ? "toggle-control" : "form-group"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
       value: input.value,
@@ -14623,14 +15074,14 @@ const FormInput = props => {
     variant: "outline-dark",
     size: "sm",
     className: "mx-2"
-  }, __("Info ", "farazsms"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_7__.AiOutlineExclamationCircle, null))), type === "text" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  }, __('Info ', 'farazsms'), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_7__.AiOutlineExclamationCircle, null))), type === 'text' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     id: id,
     value: value,
     type: type,
     onChange: onChange,
     onBlur: onBlur,
     autoComplete: "off"
-  }, inputProps)), type === "checkbox" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  }, inputProps)), type === 'checkbox' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     id: id,
     value: value,
     checked: value,
@@ -14638,9 +15089,9 @@ const FormInput = props => {
     onChange: onChange,
     onBlur: onBlur,
     autoComplete: "off"
-  }, inputProps)), type === "checkbox" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("span", {
+  }, inputProps)), type === 'checkbox' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("span", {
     className: "control"
-  }), type === "textarea" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("textarea", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  }), type === 'textarea' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("textarea", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     value: value,
     type: type,
     onChange: onChange,
@@ -14649,7 +15100,7 @@ const FormInput = props => {
   }, inputProps, {
     className: "form-control",
     rows: "5"
-  })), type === "select" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_8__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  })), type === 'select' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_8__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     isMulti: true,
     value: value,
     type: type,
@@ -14814,7 +15265,7 @@ const SaveButton = props => {
     type: "submit",
     className: "btn btn-primary mt-3",
     disabled: isSaving
-  }, __("Save Settings", "farazsms"));
+  }, __('Save Settings', 'farazsms'));
 };
 /* harmony default export */ __webpack_exports__["default"] = (SaveButton);
 
@@ -14857,13 +15308,13 @@ const SectionError = props => {
     className: "container card text-white bg-danger mb-3"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     class: "card-header"
-  }, __("Warning!", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  }, __('Warning!', 'farazsms')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "card-body"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", {
     className: "card-title"
-  }, __(sectionName + " Attention Needed:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+  }, __(sectionName + ' Attention Needed:', 'farazsms')), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     className: "card-text"
-  }, __("You have not checked " + sectionName + " in Integrations section. Please go first there and check " + sectionName + " usage toggle, Then come bake here.", "farazsms")))));
+  }, __('You have not checked ' + sectionName + ' in Integrations section. Please go first there and check ' + sectionName + ' usage toggle, Then come bake here.', 'farazsms')))));
 };
 /* harmony default export */ __webpack_exports__["default"] = (SectionError);
 
@@ -14902,7 +15353,7 @@ const SectionHeader = props => {
   } = props;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
     className: "p-3 mb-4 border-bottom border-dark bg-light rounded"
-  }, __(sectionName + " settings:", "farazsms"));
+  }, __(sectionName + ' settings:', 'farazsms'));
 };
 /* harmony default export */ __webpack_exports__["default"] = (SectionHeader);
 
@@ -14958,59 +15409,59 @@ const __ = wp.i18n.__;
 
 
 const SidebarItems = [{
-  path: "/",
+  path: '/',
   element: _components_Settings__WEBPACK_IMPORTED_MODULE_2__["default"],
-  name: __("Settings", "farazsms"),
+  name: __('Settings', 'farazsms'),
   icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineSetting, null)
 }, {
-  path: "/login_notify",
+  path: '/login_notify',
   element: _components_LoginNotify__WEBPACK_IMPORTED_MODULE_3__["default"],
-  name: __("Login Notify", "farazsms"),
+  name: __('Login Notify', 'farazsms'),
   icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineLogin, null)
 }, {
-  path: "/phonebook",
+  path: '/phonebook',
   element: _components_Phonebook__WEBPACK_IMPORTED_MODULE_4__["default"],
-  name: __("Phonebook", "farazsms"),
+  name: __('Phonebook', 'farazsms'),
   icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlinePhone, null)
 }, {
-  path: "/synchronization",
+  path: '/synchronization',
   element: _components_Synchronization__WEBPACK_IMPORTED_MODULE_5__["default"],
-  name: __("Synchronization", "farazsms"),
+  name: __('Synchronization', 'farazsms'),
   icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineSync, null)
 }, {
-  path: "/comments",
+  path: '/comments',
   element: _components_Comments__WEBPACK_IMPORTED_MODULE_6__["default"],
-  name: __("Comments", "farazsms"),
+  name: __('Comments', 'farazsms'),
   icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineComment, null)
 }, {
-  path: "/woocommerce",
+  path: '/woocommerce',
   element: _components_WooCommerce__WEBPACK_IMPORTED_MODULE_7__["default"],
-  name: __("WooCommerce", "farazsms"),
+  name: __('WooCommerce', 'farazsms'),
   icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineShoppingCart, null)
 }, {
-  path: "/edd",
+  path: '/edd',
   element: _components_Edd__WEBPACK_IMPORTED_MODULE_8__["default"],
-  name: __("Edd Settings", "farazsms"),
+  name: __('Edd Settings', 'farazsms'),
   icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineCloudDownload, null)
 }, {
-  path: "/newsletter",
+  path: '/newsletter',
   element: _components_Newsletter__WEBPACK_IMPORTED_MODULE_9__["default"],
-  name: __("Newsletter", "farazsms"),
+  name: __('Newsletter', 'farazsms'),
   icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineNotification, null)
 }, {
-  path: "/aff",
+  path: '/aff',
   element: _components_Aff__WEBPACK_IMPORTED_MODULE_10__["default"],
-  name: __("Affiliate", "farazsms"),
+  name: __('Affiliate', 'farazsms'),
   icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_tb__WEBPACK_IMPORTED_MODULE_14__.TbAffiliate, null)
 }, {
-  path: "/membership",
+  path: '/membership',
   element: _components_Membership__WEBPACK_IMPORTED_MODULE_11__["default"],
-  name: __("Membership", "farazsms"),
+  name: __('Membership', 'farazsms'),
   icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineUserSwitch, null)
 }, {
-  path: "/integrations",
+  path: '/integrations',
   element: _components_Integrations__WEBPACK_IMPORTED_MODULE_12__["default"],
-  name: __("Integrations", "farazsms"),
+  name: __('Integrations', 'farazsms'),
   icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineApartment, null)
 }];
 /* harmony default export */ __webpack_exports__["default"] = (SidebarItems);
@@ -29771,11 +30222,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ScrollRestoration": function() { return /* binding */ ScrollRestoration; },
 /* harmony export */   "UNSAFE_DataRouterContext": function() { return /* reexport safe */ react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_DataRouterContext; },
 /* harmony export */   "UNSAFE_DataRouterStateContext": function() { return /* reexport safe */ react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_DataRouterStateContext; },
-/* harmony export */   "UNSAFE_DataStaticRouterContext": function() { return /* reexport safe */ react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_DataStaticRouterContext; },
 /* harmony export */   "UNSAFE_LocationContext": function() { return /* reexport safe */ react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_LocationContext; },
 /* harmony export */   "UNSAFE_NavigationContext": function() { return /* reexport safe */ react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_NavigationContext; },
 /* harmony export */   "UNSAFE_RouteContext": function() { return /* reexport safe */ react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_RouteContext; },
 /* harmony export */   "UNSAFE_enhanceManualRouteObjects": function() { return /* reexport safe */ react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_enhanceManualRouteObjects; },
+/* harmony export */   "UNSAFE_useScrollRestoration": function() { return /* binding */ useScrollRestoration; },
 /* harmony export */   "createBrowserRouter": function() { return /* binding */ createBrowserRouter; },
 /* harmony export */   "createHashRouter": function() { return /* binding */ createHashRouter; },
 /* harmony export */   "createMemoryRouter": function() { return /* reexport safe */ react_router__WEBPACK_IMPORTED_MODULE_2__.createMemoryRouter; },
@@ -29794,9 +30245,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "renderMatches": function() { return /* reexport safe */ react_router__WEBPACK_IMPORTED_MODULE_2__.renderMatches; },
 /* harmony export */   "resolvePath": function() { return /* reexport safe */ react_router__WEBPACK_IMPORTED_MODULE_1__.resolvePath; },
 /* harmony export */   "unstable_HistoryRouter": function() { return /* binding */ HistoryRouter; },
+/* harmony export */   "unstable_useBlocker": function() { return /* reexport safe */ react_router__WEBPACK_IMPORTED_MODULE_2__.unstable_useBlocker; },
+/* harmony export */   "unstable_usePrompt": function() { return /* binding */ usePrompt; },
 /* harmony export */   "useActionData": function() { return /* reexport safe */ react_router__WEBPACK_IMPORTED_MODULE_2__.useActionData; },
 /* harmony export */   "useAsyncError": function() { return /* reexport safe */ react_router__WEBPACK_IMPORTED_MODULE_2__.useAsyncError; },
 /* harmony export */   "useAsyncValue": function() { return /* reexport safe */ react_router__WEBPACK_IMPORTED_MODULE_2__.useAsyncValue; },
+/* harmony export */   "useBeforeUnload": function() { return /* binding */ useBeforeUnload; },
 /* harmony export */   "useFetcher": function() { return /* binding */ useFetcher; },
 /* harmony export */   "useFetchers": function() { return /* binding */ useFetchers; },
 /* harmony export */   "useFormAction": function() { return /* binding */ useFormAction; },
@@ -29826,7 +30280,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @remix-run/router */ "./node_modules/@remix-run/router/dist/router.js");
 /**
- * React Router DOM v6.4.5
+ * React Router DOM v6.8.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -29932,11 +30386,13 @@ function createSearchParams(init) {
 function getSearchParamsForLocation(locationSearch, defaultSearchParams) {
   let searchParams = createSearchParams(locationSearch);
 
-  for (let key of defaultSearchParams.keys()) {
-    if (!searchParams.has(key)) {
-      defaultSearchParams.getAll(key).forEach(value => {
-        searchParams.append(key, value);
-      });
+  if (defaultSearchParams) {
+    for (let key of defaultSearchParams.keys()) {
+      if (!searchParams.has(key)) {
+        defaultSearchParams.getAll(key).forEach(value => {
+          searchParams.append(key, value);
+        });
+      }
     }
   }
 
@@ -30006,7 +30462,7 @@ function getFormSubmissionInfo(target, defaultAction, options) {
   let url = new URL(action, protocol + "//" + host);
   return {
     url,
-    method,
+    method: method.toLowerCase(),
     encType,
     formData
   };
@@ -30014,7 +30470,7 @@ function getFormSubmissionInfo(target, defaultAction, options) {
 
 const _excluded = ["onClick", "relative", "reloadDocument", "replace", "state", "target", "to", "preventScrollReset"],
       _excluded2 = ["aria-current", "caseSensitive", "className", "end", "style", "to", "children"],
-      _excluded3 = ["reloadDocument", "replace", "method", "action", "onSubmit", "fetcherKey", "routeId", "relative"];
+      _excluded3 = ["reloadDocument", "replace", "method", "action", "onSubmit", "fetcherKey", "routeId", "relative", "preventScrollReset"];
 //#region Routers
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -30063,6 +30519,12 @@ function deserializeErrors(errors) {
     // serializeErrors in react-router-dom/server.tsx :)
     if (val && val.__type === "RouteErrorResponse") {
       serialized[key] = new react_router__WEBPACK_IMPORTED_MODULE_1__.ErrorResponse(val.status, val.statusText, val.data, val.internal === true);
+    } else if (val && val.__type === "Error") {
+      let error = new Error(val.message); // Wipe away the client-side stack trace.  Nothing to fill it in with
+      // because we don't serialize SSR stack traces for security reasons
+
+      error.stack = "";
+      serialized[key] = error;
     } else {
       serialized[key] = val;
     }
@@ -30168,6 +30630,7 @@ function HistoryRouter(_ref3) {
 if (true) {
   HistoryRouter.displayName = "unstable_HistoryRouter";
 }
+const isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
 /**
  * The public API for rendering a history-aware <a>.
  */
@@ -30184,6 +30647,24 @@ const Link = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function
     preventScrollReset
   } = _ref4,
       rest = _objectWithoutPropertiesLoose(_ref4, _excluded);
+
+  // Rendered into <a href> for absolute URLs
+  let absoluteHref;
+  let isExternal = false;
+
+  if (isBrowser && typeof to === "string" && /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(to)) {
+    absoluteHref = to;
+    let currentUrl = new URL(window.location.href);
+    let targetUrl = to.startsWith("//") ? new URL(currentUrl.protocol + to) : new URL(to);
+
+    if (targetUrl.origin === currentUrl.origin) {
+      // Strip the protocol/origin for same-origin absolute URLs
+      to = targetUrl.pathname + targetUrl.search + targetUrl.hash;
+    } else {
+      isExternal = true;
+    }
+  } // Rendered into <a href> for relative URLs
+
 
   let href = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.useHref)(to, {
     relative
@@ -30208,8 +30689,8 @@ const Link = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.forwardRef(function
     /*#__PURE__*/
     // eslint-disable-next-line jsx-a11y/anchor-has-content
     react__WEBPACK_IMPORTED_MODULE_0__.createElement("a", _extends({}, rest, {
-      href: href,
-      onClick: reloadDocument ? onClick : handleClick,
+      href: absoluteHref || href,
+      onClick: isExternal || reloadDocument ? onClick : handleClick,
       ref: ref,
       target: target
     }))
@@ -30319,7 +30800,8 @@ const FormImpl = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.forwardRef((_re
     onSubmit,
     fetcherKey,
     routeId,
-    relative
+    relative,
+    preventScrollReset
   } = _ref6,
       props = _objectWithoutPropertiesLoose(_ref6, _excluded3);
 
@@ -30334,10 +30816,12 @@ const FormImpl = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.forwardRef((_re
     if (event.defaultPrevented) return;
     event.preventDefault();
     let submitter = event.nativeEvent.submitter;
+    let submitMethod = (submitter == null ? void 0 : submitter.getAttribute("formmethod")) || method;
     submit(submitter || event.currentTarget, {
-      method,
+      method: submitMethod,
       replace,
-      relative
+      relative,
+      preventScrollReset
     });
   };
 
@@ -30451,11 +30935,16 @@ function useLinkClickHandler(to, _temp) {
 function useSearchParams(defaultInit) {
    true ? warning(typeof URLSearchParams !== "undefined", "You cannot use the `useSearchParams` hook in a browser that does not " + "support the URLSearchParams API. If you need to support Internet " + "Explorer 11, we recommend you load a polyfill such as " + "https://github.com/ungap/url-search-params\n\n" + "If you're unsure how to load polyfills, we recommend you check out " + "https://polyfill.io/v3/ which provides some recommendations about how " + "to load polyfills only for users that need them, instead of for every " + "user.") : 0;
   let defaultSearchParamsRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(createSearchParams(defaultInit));
+  let hasSetSearchParamsRef = react__WEBPACK_IMPORTED_MODULE_0__.useRef(false);
   let location = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.useLocation)();
-  let searchParams = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => getSearchParamsForLocation(location.search, defaultSearchParamsRef.current), [location.search]);
+  let searchParams = react__WEBPACK_IMPORTED_MODULE_0__.useMemo(() => // Only merge in the defaults if we haven't yet called setSearchParams.
+  // Once we call that we want those to take precedence, otherwise you can't
+  // remove a param with setSearchParams({}) if it has an initial value
+  getSearchParamsForLocation(location.search, hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current), [location.search]);
   let navigate = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.useNavigate)();
   let setSearchParams = react__WEBPACK_IMPORTED_MODULE_0__.useCallback((nextInit, navigateOptions) => {
     const newSearchParams = createSearchParams(typeof nextInit === "function" ? nextInit(searchParams) : nextInit);
+    hasSetSearchParamsRef.current = true;
     navigate("?" + newSearchParams, navigateOptions);
   }, [navigate, searchParams]);
   return [searchParams, setSearchParams];
@@ -30492,6 +30981,7 @@ function useSubmitImpl(fetcherKey, routeId) {
     let href = url.pathname + url.search;
     let opts = {
       replace: options.replace,
+      preventScrollReset: options.preventScrollReset,
       formData,
       formMethod: method,
       formEncType: encType
@@ -30515,11 +31005,10 @@ function useFormAction(action, _temp2) {
   } = react__WEBPACK_IMPORTED_MODULE_0__.useContext(react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_NavigationContext);
   let routeContext = react__WEBPACK_IMPORTED_MODULE_0__.useContext(react_router__WEBPACK_IMPORTED_MODULE_2__.UNSAFE_RouteContext);
   !routeContext ?  true ? (0,react_router__WEBPACK_IMPORTED_MODULE_1__.invariant)(false, "useFormAction must be used inside a RouteContext") : 0 : void 0;
-  let [match] = routeContext.matches.slice(-1);
-  let resolvedAction = action != null ? action : "."; // Shallow clone path so we can modify it below, otherwise we modify the
+  let [match] = routeContext.matches.slice(-1); // Shallow clone path so we can modify it below, otherwise we modify the
   // object referenced by useMemo inside useResolvedPath
 
-  let path = _extends({}, (0,react_router__WEBPACK_IMPORTED_MODULE_2__.useResolvedPath)(resolvedAction, {
+  let path = _extends({}, (0,react_router__WEBPACK_IMPORTED_MODULE_2__.useResolvedPath)(action ? action : ".", {
     relative
   })); // Previously we set the default action to ".". The problem with this is that
   // `useResolvedPath(".")` excludes search params and the hash of the resolved
@@ -30661,9 +31150,9 @@ function useScrollRestoration(_temp3) {
     return () => {
       window.history.scrollRestoration = "auto";
     };
-  }, []); // Save positions on unload
+  }, []); // Save positions on pagehide
 
-  useBeforeUnload(react__WEBPACK_IMPORTED_MODULE_0__.useCallback(() => {
+  usePageHide(react__WEBPACK_IMPORTED_MODULE_0__.useCallback(() => {
     if (navigation.state === "idle") {
       let key = (getKey ? getKey(location, matches) : null) || location.key;
       savedScrollPositions[key] = window.scrollY;
@@ -30673,66 +31162,141 @@ function useScrollRestoration(_temp3) {
     window.history.scrollRestoration = "auto";
   }, [storageKey, getKey, navigation.state, location, matches])); // Read in any saved scroll locations
 
-  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => {
-    try {
-      let sessionPositions = sessionStorage.getItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY);
+  if (typeof document !== "undefined") {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => {
+      try {
+        let sessionPositions = sessionStorage.getItem(storageKey || SCROLL_RESTORATION_STORAGE_KEY);
 
-      if (sessionPositions) {
-        savedScrollPositions = JSON.parse(sessionPositions);
+        if (sessionPositions) {
+          savedScrollPositions = JSON.parse(sessionPositions);
+        }
+      } catch (e) {// no-op, use default empty object
       }
-    } catch (e) {// no-op, use default empty object
-    }
-  }, [storageKey]); // Enable scroll restoration in the router
+    }, [storageKey]); // Enable scroll restoration in the router
+    // eslint-disable-next-line react-hooks/rules-of-hooks
 
-  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => {
-    let disableScrollRestoration = router == null ? void 0 : router.enableScrollRestoration(savedScrollPositions, () => window.scrollY, getKey);
-    return () => disableScrollRestoration && disableScrollRestoration();
-  }, [router, getKey]); // Restore scrolling when state.restoreScrollPosition changes
+    react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => {
+      let disableScrollRestoration = router == null ? void 0 : router.enableScrollRestoration(savedScrollPositions, () => window.scrollY, getKey);
+      return () => disableScrollRestoration && disableScrollRestoration();
+    }, [router, getKey]); // Restore scrolling when state.restoreScrollPosition changes
+    // eslint-disable-next-line react-hooks/rules-of-hooks
 
-  react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => {
-    // Explicit false means don't do anything (used for submissions)
-    if (restoreScrollPosition === false) {
-      return;
-    } // been here before, scroll to it
-
-
-    if (typeof restoreScrollPosition === "number") {
-      window.scrollTo(0, restoreScrollPosition);
-      return;
-    } // try to scroll to the hash
-
-
-    if (location.hash) {
-      let el = document.getElementById(location.hash.slice(1));
-
-      if (el) {
-        el.scrollIntoView();
+    react__WEBPACK_IMPORTED_MODULE_0__.useLayoutEffect(() => {
+      // Explicit false means don't do anything (used for submissions)
+      if (restoreScrollPosition === false) {
         return;
-      }
-    } // Opt out of scroll reset if this link requested it
+      } // been here before, scroll to it
 
 
-    if (preventScrollReset === true) {
-      return;
-    } // otherwise go to the top on new locations
+      if (typeof restoreScrollPosition === "number") {
+        window.scrollTo(0, restoreScrollPosition);
+        return;
+      } // try to scroll to the hash
 
 
-    window.scrollTo(0, 0);
-  }, [location, restoreScrollPosition, preventScrollReset]);
+      if (location.hash) {
+        let el = document.getElementById(location.hash.slice(1));
+
+        if (el) {
+          el.scrollIntoView();
+          return;
+        }
+      } // Don't reset if this navigation opted out
+
+
+      if (preventScrollReset === true) {
+        return;
+      } // otherwise go to the top on new locations
+
+
+      window.scrollTo(0, 0);
+    }, [location, restoreScrollPosition, preventScrollReset]);
+  }
 }
+/**
+ * Setup a callback to be fired on the window's `beforeunload` event. This is
+ * useful for saving some data to `window.localStorage` just before the page
+ * refreshes.
+ *
+ * Note: The `callback` argument should be a function created with
+ * `React.useCallback()`.
+ */
 
-function useBeforeUnload(callback) {
+
+function useBeforeUnload(callback, options) {
+  let {
+    capture
+  } = options || {};
   react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
-    window.addEventListener("beforeunload", callback);
+    let opts = capture != null ? {
+      capture
+    } : undefined;
+    window.addEventListener("beforeunload", callback, opts);
     return () => {
-      window.removeEventListener("beforeunload", callback);
+      window.removeEventListener("beforeunload", callback, opts);
     };
-  }, [callback]);
-} //#endregion
+  }, [callback, capture]);
+}
+/**
+ * Setup a callback to be fired on the window's `pagehide` event. This is
+ * useful for saving some data to `window.localStorage` just before the page
+ * refreshes.  This event is better supported than beforeunload across browsers.
+ *
+ * Note: The `callback` argument should be a function created with
+ * `React.useCallback()`.
+ */
+
+function usePageHide(callback, options) {
+  let {
+    capture
+  } = options || {};
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    let opts = capture != null ? {
+      capture
+    } : undefined;
+    window.addEventListener("pagehide", callback, opts);
+    return () => {
+      window.removeEventListener("pagehide", callback, opts);
+    };
+  }, [callback, capture]);
+}
+/**
+ * Wrapper around useBlocker to show a window.confirm prompt to users instead
+ * of building a custom UI with useBlocker.
+ *
+ * Warning: This has *a lot of rough edges* and behaves very differently (and
+ * very incorrectly in some cases) across browsers if user click addition
+ * back/forward navigations while the confirm is open.  Use at your own risk.
+ */
+
+
+function usePrompt(_ref8) {
+  let {
+    when,
+    message
+  } = _ref8;
+  let blocker = (0,react_router__WEBPACK_IMPORTED_MODULE_2__.unstable_useBlocker)(when);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (blocker.state === "blocked" && !when) {
+      blocker.reset();
+    }
+  }, [blocker, when]);
+  react__WEBPACK_IMPORTED_MODULE_0__.useEffect(() => {
+    if (blocker.state === "blocked") {
+      let proceed = window.confirm(message);
+
+      if (proceed) {
+        setTimeout(blocker.proceed, 0);
+      } else {
+        blocker.reset();
+      }
+    }
+  }, [blocker, message]);
+}
 ////////////////////////////////////////////////////////////////////////////////
 //#region Utils
 ////////////////////////////////////////////////////////////////////////////////
-
 
 function warning(cond, message) {
   if (!cond) {
@@ -30777,7 +31341,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "Routes": function() { return /* binding */ Routes; },
 /* harmony export */   "UNSAFE_DataRouterContext": function() { return /* binding */ DataRouterContext; },
 /* harmony export */   "UNSAFE_DataRouterStateContext": function() { return /* binding */ DataRouterStateContext; },
-/* harmony export */   "UNSAFE_DataStaticRouterContext": function() { return /* binding */ DataStaticRouterContext; },
 /* harmony export */   "UNSAFE_LocationContext": function() { return /* binding */ LocationContext; },
 /* harmony export */   "UNSAFE_NavigationContext": function() { return /* binding */ NavigationContext; },
 /* harmony export */   "UNSAFE_RouteContext": function() { return /* binding */ RouteContext; },
@@ -30796,6 +31359,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "redirect": function() { return /* reexport safe */ _remix_run_router__WEBPACK_IMPORTED_MODULE_0__.redirect; },
 /* harmony export */   "renderMatches": function() { return /* binding */ renderMatches; },
 /* harmony export */   "resolvePath": function() { return /* reexport safe */ _remix_run_router__WEBPACK_IMPORTED_MODULE_0__.resolvePath; },
+/* harmony export */   "unstable_useBlocker": function() { return /* binding */ useBlocker; },
 /* harmony export */   "useActionData": function() { return /* binding */ useActionData; },
 /* harmony export */   "useAsyncError": function() { return /* binding */ useAsyncError; },
 /* harmony export */   "useAsyncValue": function() { return /* binding */ useAsyncValue; },
@@ -30821,7 +31385,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /**
- * React Router v6.4.5
+ * React Router v6.8.1
  *
  * Copyright (c) Remix Software Inc.
  *
@@ -31028,13 +31592,6 @@ const canUseDOM = !!(typeof window !== "undefined" && typeof window.document !==
 const isServerEnvironment = !canUseDOM;
 const shim = isServerEnvironment ? useSyncExternalStore$1 : useSyncExternalStore$2;
 const useSyncExternalStore = "useSyncExternalStore" in react__WEBPACK_IMPORTED_MODULE_1__ ? (module => module.useSyncExternalStore)(react__WEBPACK_IMPORTED_MODULE_1__) : shim;
-
-// Contexts for data routers
-const DataStaticRouterContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createContext(null);
-
-if (true) {
-  DataStaticRouterContext.displayName = "DataStaticRouterContext";
-}
 
 const DataRouterContext = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createContext(null);
 
@@ -31407,17 +31964,23 @@ function DefaultErrorElement() {
     padding: "2px 4px",
     backgroundColor: lightgrey
   };
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("h2", null, "Unhandled Thrown Error!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("h3", {
+  let devInfo = null;
+
+  if (true) {
+    devInfo = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", null, "\uD83D\uDCBF Hey developer \uD83D\uDC4B"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", null, "You can provide a way better UX than this when your app throws errors by providing your own\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("code", {
+      style: codeStyles
+    }, "errorElement"), " props on\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("code", {
+      style: codeStyles
+    }, "<Route>")));
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("h2", null, "Unexpected Application Error!"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("h3", {
     style: {
       fontStyle: "italic"
     }
   }, message), stack ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("pre", {
     style: preStyles
-  }, stack) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", null, "\uD83D\uDCBF Hey developer \uD83D\uDC4B"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("p", null, "You can provide a way better UX than this when your app throws errors by providing your own\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("code", {
-    style: codeStyles
-  }, "errorElement"), " props on\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement("code", {
-    style: codeStyles
-  }, "<Route>")));
+  }, stack) : null, devInfo);
 }
 
 class RenderErrorBoundary extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
@@ -31466,10 +32029,12 @@ class RenderErrorBoundary extends react__WEBPACK_IMPORTED_MODULE_1__.Component {
   }
 
   render() {
-    return this.state.error ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(RouteErrorContext.Provider, {
+    return this.state.error ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(RouteContext.Provider, {
+      value: this.props.routeContext
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(RouteErrorContext.Provider, {
       value: this.state.error,
       children: this.props.component
-    }) : this.props.children;
+    })) : this.props.children;
   }
 
 }
@@ -31480,11 +32045,11 @@ function RenderedRoute(_ref) {
     match,
     children
   } = _ref;
-  let dataStaticRouterContext = react__WEBPACK_IMPORTED_MODULE_1__.useContext(DataStaticRouterContext); // Track how deep we got in our render pass to emulate SSR componentDidCatch
+  let dataRouterContext = react__WEBPACK_IMPORTED_MODULE_1__.useContext(DataRouterContext); // Track how deep we got in our render pass to emulate SSR componentDidCatch
   // in a DataStaticRouter
 
-  if (dataStaticRouterContext && match.route.errorElement) {
-    dataStaticRouterContext._deepestRenderedBoundaryId = match.route.id;
+  if (dataRouterContext && dataRouterContext.static && dataRouterContext.staticContext && match.route.errorElement) {
+    dataRouterContext.staticContext._deepestRenderedBoundaryId = match.route.id;
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(RouteContext.Provider, {
@@ -31521,12 +32086,13 @@ function _renderMatches(matches, parentMatches, dataRouterState) {
     let error = match.route.id ? errors == null ? void 0 : errors[match.route.id] : null; // Only data routers handle errors
 
     let errorElement = dataRouterState ? match.route.errorElement || /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(DefaultErrorElement, null) : null;
+    let matches = parentMatches.concat(renderedMatches.slice(0, index + 1));
 
     let getChildren = () => /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(RenderedRoute, {
       match: match,
       routeContext: {
         outlet,
-        matches: parentMatches.concat(renderedMatches.slice(0, index + 1))
+        matches
       }
     }, error ? errorElement : match.route.element !== undefined ? match.route.element : outlet); // Only wrap in an error boundary within data router usages when we have an
     // errorElement on this route.  Otherwise let it bubble up to an ancestor
@@ -31537,13 +32103,18 @@ function _renderMatches(matches, parentMatches, dataRouterState) {
       location: dataRouterState.location,
       component: errorElement,
       error: error,
-      children: getChildren()
+      children: getChildren(),
+      routeContext: {
+        outlet: null,
+        matches
+      }
     }) : getChildren();
   }, null);
 }
 var DataRouterHook;
 
 (function (DataRouterHook) {
+  DataRouterHook["UseBlocker"] = "useBlocker";
   DataRouterHook["UseRevalidator"] = "useRevalidator";
 })(DataRouterHook || (DataRouterHook = {}));
 
@@ -31573,6 +32144,19 @@ function useDataRouterState(hookName) {
   let state = react__WEBPACK_IMPORTED_MODULE_1__.useContext(DataRouterStateContext);
   !state ?  true ? (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_0__.invariant)(false, getDataRouterConsoleError(hookName)) : 0 : void 0;
   return state;
+}
+
+function useRouteContext(hookName) {
+  let route = react__WEBPACK_IMPORTED_MODULE_1__.useContext(RouteContext);
+  !route ?  true ? (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_0__.invariant)(false, getDataRouterConsoleError(hookName)) : 0 : void 0;
+  return route;
+}
+
+function useCurrentRouteId(hookName) {
+  let route = useRouteContext(hookName);
+  let thisRoute = route.matches[route.matches.length - 1];
+  !thisRoute.route.id ?  true ? (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_0__.invariant)(false, hookName + " can only be used on routes that contain a unique \"id\"") : 0 : void 0;
+  return thisRoute.route.id;
 }
 /**
  * Returns the current navigation, defaulting to an "idle" navigation when
@@ -31630,11 +32214,14 @@ function useMatches() {
 
 function useLoaderData() {
   let state = useDataRouterState(DataRouterStateHook.UseLoaderData);
-  let route = react__WEBPACK_IMPORTED_MODULE_1__.useContext(RouteContext);
-  !route ?  true ? (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_0__.invariant)(false, "useLoaderData must be used inside a RouteContext") : 0 : void 0;
-  let thisRoute = route.matches[route.matches.length - 1];
-  !thisRoute.route.id ?  true ? (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_0__.invariant)(false, "useLoaderData can only be used on routes that contain a unique \"id\"") : 0 : void 0;
-  return state.loaderData[thisRoute.route.id];
+  let routeId = useCurrentRouteId(DataRouterStateHook.UseLoaderData);
+
+  if (state.errors && state.errors[routeId] != null) {
+    console.error("You cannot `useLoaderData` in an errorElement (routeId: " + routeId + ")");
+    return undefined;
+  }
+
+  return state.loaderData[routeId];
 }
 /**
  * Returns the loaderData for the given routeId
@@ -31665,18 +32252,15 @@ function useRouteError() {
 
   let error = react__WEBPACK_IMPORTED_MODULE_1__.useContext(RouteErrorContext);
   let state = useDataRouterState(DataRouterStateHook.UseRouteError);
-  let route = react__WEBPACK_IMPORTED_MODULE_1__.useContext(RouteContext);
-  let thisRoute = route.matches[route.matches.length - 1]; // If this was a render error, we put it in a RouteError context inside
+  let routeId = useCurrentRouteId(DataRouterStateHook.UseRouteError); // If this was a render error, we put it in a RouteError context inside
   // of RenderErrorBoundary
 
   if (error) {
     return error;
-  }
+  } // Otherwise look for errors from our data router state
 
-  !route ?  true ? (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_0__.invariant)(false, "useRouteError must be used inside a RouteContext") : 0 : void 0;
-  !thisRoute.route.id ?  true ? (0,_remix_run_router__WEBPACK_IMPORTED_MODULE_0__.invariant)(false, "useRouteError can only be used on routes that contain a unique \"id\"") : 0 : void 0; // Otherwise look for errors from our data router state
 
-  return (_state$errors = state.errors) == null ? void 0 : _state$errors[thisRoute.route.id];
+  return (_state$errors = state.errors) == null ? void 0 : _state$errors[routeId];
 }
 /**
  * Returns the happy-path data from the nearest ancestor <Await /> value
@@ -31693,6 +32277,27 @@ function useAsyncValue() {
 function useAsyncError() {
   let value = react__WEBPACK_IMPORTED_MODULE_1__.useContext(AwaitContext);
   return value == null ? void 0 : value._error;
+}
+let blockerId = 0;
+/**
+ * Allow the application to block navigations within the SPA and present the
+ * user a confirmation dialog to confirm the navigation.  Mostly used to avoid
+ * using half-filled form data.  This does not handle hard-reloads or
+ * cross-origin navigations.
+ */
+
+function useBlocker(shouldBlock) {
+  let {
+    router
+  } = useDataRouterContext(DataRouterHook.UseBlocker);
+  let [blockerKey] = react__WEBPACK_IMPORTED_MODULE_1__.useState(() => String(++blockerId));
+  let blockerFunction = react__WEBPACK_IMPORTED_MODULE_1__.useCallback(args => {
+    return typeof shouldBlock === "function" ? !!shouldBlock(args) : !!shouldBlock;
+  }, [shouldBlock]);
+  let blocker = router.getBlocker(blockerKey, blockerFunction); // Cleanup on unmount
+
+  react__WEBPACK_IMPORTED_MODULE_1__.useEffect(() => () => router.deleteBlocker(blockerKey), [router, blockerKey]);
+  return blocker;
 }
 const alreadyWarned = {};
 
@@ -31732,8 +32337,14 @@ function RouterProvider(_ref) {
       })
     };
   }, [router]);
-  let basename = router.basename || "/";
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(DataRouterContext.Provider, {
+  let basename = router.basename || "/"; // The fragment and {null} here are important!  We need them to keep React 18's
+  // useId happy when we are server-rendering since we may have a <script> here
+  // containing the hydrated server-side staticContext (from StaticRouterProvider).
+  // useId relies on the component tree structure to generate deterministic id's
+  // so we need to ensure it remains the same on the client even though
+  // we don't need the <script> tag
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(DataRouterContext.Provider, {
     value: {
       router,
       navigator,
@@ -31748,7 +32359,7 @@ function RouterProvider(_ref) {
     location: router.state.location,
     navigationType: router.state.historyAction,
     navigator: navigator
-  }, router.state.initialized ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(Routes, null) : fallbackElement)));
+  }, router.state.initialized ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(Routes, null) : fallbackElement))), null);
 }
 
 /**
@@ -32068,12 +32679,8 @@ function ResolveAwait(_ref7) {
     children
   } = _ref7;
   let data = useAsyncValue();
-
-  if (typeof children === "function") {
-    return children(data);
-  }
-
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, children);
+  let toRender = typeof children === "function" ? children(data) : children;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1__.createElement(react__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, toRender);
 } ///////////////////////////////////////////////////////////////////////////////
 // UTILS
 ///////////////////////////////////////////////////////////////////////////////

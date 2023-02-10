@@ -31,7 +31,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_user_mobile_fieldChange",
-        id: "aff_user_mobile_field",
         name: "aff_user_mobile_field",
         type: "select",
         label: __("Select the mobile number custom field:", "farazsms"),
@@ -45,7 +44,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_user_registerChange",
-        id: "aff_user_register",
         name: "aff_user_register",
         type: "checkbox",
         label: __("Send sms to user on registration:", "farazsms"),
@@ -56,7 +54,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_user_register_patternChange",
-        id: "aff_user_register_pattern",
         name: "aff_user_register_pattern",
         type: "text",
         label: __("User registration SMS pattern code:", "farazsms"),
@@ -67,7 +64,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_user_new_refChange",
-        id: "aff_user_new_ref",
         name: "aff_user_new_ref",
         type: "checkbox",
         label: __("Send sms to user on new referral:", "farazsms"),
@@ -78,7 +74,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_user_new_ref_patternChange",
-        id: "aff_user_new_ref_pattern",
         name: "aff_user_new_ref_pattern",
         type: "text",
         label: __("New referral SMS pattern code:", "farazsms"),
@@ -89,7 +84,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_user_on_approvalChange",
-        id: "aff_user_on_approval",
         name: "aff_user_on_approval",
         type: "checkbox",
         label: __(
@@ -103,7 +97,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_user_on_approval_patternChange",
-        id: "aff_user_on_approval_pattern",
         name: "aff_user_on_approval_pattern",
         type: "text",
         label: __(
@@ -117,7 +110,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_admin_user_registerChange",
-        id: "aff_admin_user_register",
         name: "aff_admin_user_register",
         type: "checkbox",
         label: __("Send sms to admin on registration:", "farazsms"),
@@ -129,7 +121,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_admin_user_register_patternChange",
-        id: "aff_admin_user_register_pattern",
         name: "aff_admin_user_register_pattern",
         type: "text",
         label: __("User registration SMS pattern code:", "farazsms"),
@@ -140,7 +131,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_admin_user_new_refChange",
-        id: "aff_admin_user_new_ref",
         name: "aff_admin_user_new_ref",
         type: "checkbox",
         label: __("Send sms to admin on new referral:", "farazsms"),
@@ -151,7 +141,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_admin_user_new_ref_patternChange",
-        id: "aff_admin_user_new_ref_pattern",
         name: "aff_admin_user_new_ref_pattern",
         type: "text",
         label: __("New referral SMS pattern code:", "farazsms"),
@@ -162,7 +151,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_admin_user_on_approvalChange",
-        id: "aff_admin_user_on_approval",
         name: "aff_admin_user_on_approval",
         type: "checkbox",
         label: __(
@@ -176,7 +164,6 @@ function Aff(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "aff_admin_user_on_approval_patternChange",
-        id: "aff_admin_user_on_approval_pattern",
         name: "aff_admin_user_on_approval_pattern",
         type: "text",
         label: __(
@@ -440,7 +427,7 @@ function Aff(props) {
           <form onSubmit={handleSubmit}>
             {Object.values(state.inputs).map((input) => (
               <div
-                key={input.id}
+                key={input.name}
                 className={
                   input.type === "checkbox" ? "toggle-control" : "form-group"
                 }

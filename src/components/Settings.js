@@ -12,10 +12,10 @@ const __ = wp.i18n.__;
  */
 import AxiosWp from "../function/AxiosWp";
 import DispatchContext from "../DispatchContext";
-import FormInput from "../views/FormInput";
-import SaveButton from "../views/SaveButton";
-import FormInputError from "../views/FormInputError";
 import SectionHeader from "../views/SectionHeader";
+import FormInput from "../views/FormInput";
+import FormInputError from "../views/FormInputError";
+import SaveButton from "../views/SaveButton";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);
@@ -31,7 +31,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "apikeyChange",
-        id: "apikey",
         name: "apikey",
         type: "text",
         placeholder: __("API key", "farazsms"),
@@ -50,7 +49,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "usernameChange",
-        id: "username",
         name: "username",
         type: "text",
         placeholder: __("Your Username", "farazsms"),
@@ -65,7 +63,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "passwordChange",
-        id: "password",
         name: "password",
         type: "text",
         placeholder: __("Password", "farazsms"),
@@ -80,7 +77,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "admin_numberChange",
-        id: "admin_number",
         name: "admin_number",
         type: "text",
         placeholder: __("Admin Number", "farazsms"),
@@ -94,7 +90,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "from_numberChange",
-        id: "from_number",
         name: "from_number",
         type: "text",
         placeholder: __("Service sender number", "farazsms"),
@@ -107,7 +102,6 @@ function Settings() {
         hasErrors: false,
         errorMessage: "",
         onChange: "from_number_adverChange",
-        id: "from_number_adver",
         name: "from_number_adver",
         type: "text",
         placeholder: __("Advertising sender number", "farazsms"),
@@ -342,6 +336,7 @@ function Settings() {
         console.log(e);
       }
     }
+
     getOptions();
   }, []);
 
@@ -383,6 +378,7 @@ function Settings() {
           console.log(e);
         }
       }
+
       postOptions();
     }
   }, [state.sendCount]);
@@ -521,7 +517,7 @@ function Settings() {
         <form onSubmit={handleSubmit}>
           {Object.values(state.inputs).map((input) => (
             <div
-              key={input.id}
+              key={input.name}
               className={
                 input.type === "checkbox" ? "toggle-control" : "form-group"
               }

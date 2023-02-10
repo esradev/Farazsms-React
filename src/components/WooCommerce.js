@@ -27,7 +27,6 @@ function Woocommerce(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "woo_checkout_otpChange",
-        id: "woo_checkout_otp",
         name: "woo_checkout_otp",
         type: "checkbox",
         label: __(
@@ -41,7 +40,6 @@ function Woocommerce(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "woo_checkout_otp_patternChange",
-        id: "woo_checkout_otp_pattern",
         name: "woo_checkout_otp_pattern",
         type: "text",
         label: __("Mobile number verification pattern code:", "farazsms"),
@@ -54,7 +52,6 @@ function Woocommerce(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "woo_pollChange",
-        id: "woo_poll",
         name: "woo_poll",
         type: "checkbox",
         label: __("Sending a timed survey SMS for WooCommerce?", "farazsms"),
@@ -65,7 +62,6 @@ function Woocommerce(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "woo_poll_timeChange",
-        id: "woo_poll_time",
         name: "woo_poll_time",
         type: "text",
         label: __("Days of sending SMS after placing the order:", "farazsms"),
@@ -76,7 +72,6 @@ function Woocommerce(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "woo_poll_msgChange",
-        id: "woo_poll_msg",
         name: "woo_poll_msg",
         type: "textarea",
         label: __("message content:", "farazsms"),
@@ -92,7 +87,6 @@ function Woocommerce(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "woo_tracking_patternChange",
-        id: "woo_tracking_pattern",
         name: "woo_tracking_pattern",
         type: "text",
         label: __("Pattern code to send tracking code:", "farazsms"),
@@ -245,7 +239,7 @@ function Woocommerce(props) {
           <form onSubmit={handleSubmit}>
             {Object.values(state.inputs).map((input) => (
               <div
-                key={input.id}
+                key={input.name}
                 className={
                   input.type === "checkbox" ? "toggle-control" : "form-group"
                 }
