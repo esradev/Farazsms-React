@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The core plugin class
+ * The loader plugin class
  *
  * @link       https://farazsms.com/
  * @since      2.0.0
@@ -16,9 +16,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class Farazsms.
+ * Class Farazsms_Loader.
  */
-class Farazsms {
+class Farazsms_Loader {
 
 
 	/**
@@ -105,6 +105,6 @@ class Farazsms {
 	}
 }
 
-Farazsms::get_instance();
+Farazsms_Loader::get_instance();
 
 

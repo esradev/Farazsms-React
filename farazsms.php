@@ -19,64 +19,125 @@
  * @package Farazsms
  */
 
-defined('ABSPATH') || exit; // Exit if accessed directly
-
 /**
- * Defines all constants
+ * The main plugin class
  *
- * @since 2.0.0
+ * @link       https://farazsms.com/
+ * @since      2.0.0
+ *
+ * @package    Farazsms
+ * @subpackage Farazsms/classes
  */
 
-define('FARAZSMS_VERSION',               '2.0.0');
-define('FARAZSMS_FILE',                  __FILE__);
-define('FARAZSMS_PATH',                  plugin_dir_path(FARAZSMS_FILE));
-define('FARAZSMS_BASE',                  plugin_basename(FARAZSMS_FILE));
-define('FARAZSMS_SLUG',                  'farazsms_settings');
-define('FARAZSMS_SETTINGS_LINK',         admin_url('admin.php?page=' . FARAZSMS_SLUG));
-define('FARAZSMS_CLASSES_PATH',          FARAZSMS_PATH . 'classes/');
-define('FARAZSMS_MODULES_PATH',          FARAZSMS_PATH . 'modules/');
-define('FARAZSMS_URL',                   plugins_url('/', FARAZSMS_FILE));
-define('FARAZSMS_CLASSES_URL',           FARAZSMS_URL . 'classes/');
-define('FARAZSMS_ADMIN_URL',             FARAZSMS_CLASSES_URL . 'admin/');
-define('FARAZSMS_WEB_MAIN',              'https://farazsms.com/');
-define('FARAZSMS_WEB_MAIN_DOC',          FARAZSMS_WEB_MAIN . 'farazsms-wordpress-plugin/');
-
-
-/**
- * Require farazsms activator class.
- *
- * @return void
- */
-function activate_farazsms()
-{
-    require_once FARAZSMS_CLASSES_PATH . 'class-farazsms-activator.php';
-    Farazsms_Activator::activate();
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
-register_activation_hook(__FILE__, 'activate_farazsms');
-
 /**
- * Redirect user to plugin settings page after plugin activated.
- *
- * @param $plugin
- *
- * @return void
+ * Class Farazsms.
  */
-function farazsms_activation_redirect($plugin)
-{
-    if (get_option('farazsms_do_activation_redirect', false)) {
-        delete_option('farazsms_do_activation_redirect');
-        exit(wp_redirect(FARAZSMS_SETTINGS_LINK));
-    }
+class Farazsms {
+
+
+	/**
+	 * Instance
+	 *
+	 * @access private
+	 * @var object Class object.
+	 * @since 2.0.0
+	 */
+	private static $instance;
+
+	/**
+	 * Initiator
+	 *
+	 * @return object Initialized object of class.
+	 * @since 2.0.0
+	 */
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		$this->define_constants();
+		$this->farazsms_loader();
+
+		register_activation_hook(__FILE__, 'activate_farazsms');
+		add_action('activated_plugin', 'farazsms_activation_redirect');
+	}
+
+	/**
+	 * Defines all constants
+	 *
+	 * @since 2.0.0
+	 */
+	public function define_constants() {
+
+		/**
+		 * Defines all constants
+		 *
+		 * @since 2.0.0
+		 */
+		define('FARAZSMS_VERSION',               '2.0.0');
+		define('FARAZSMS_FILE',                  __FILE__);
+		define('FARAZSMS_PATH',                  plugin_dir_path(FARAZSMS_FILE));
+		define('FARAZSMS_BASE',                  plugin_basename(FARAZSMS_FILE));
+		define('FARAZSMS_SLUG',                  'farazsms_settings');
+		define('FARAZSMS_SETTINGS_LINK',         admin_url('admin.php?page=' . FARAZSMS_SLUG));
+		define('FARAZSMS_CLASSES_PATH',          FARAZSMS_PATH . 'classes/');
+		define('FARAZSMS_MODULES_PATH',          FARAZSMS_PATH . 'modules/');
+		define('FARAZSMS_URL',                   plugins_url('/', FARAZSMS_FILE));
+		define('FARAZSMS_CLASSES_URL',           FARAZSMS_URL . 'classes/');
+		define('FARAZSMS_ADMIN_URL',             FARAZSMS_CLASSES_URL . 'admin/');
+		define('FARAZSMS_WEB_MAIN',              'https://farazsms.com/');
+		define('FARAZSMS_WEB_MAIN_DOC',          FARAZSMS_WEB_MAIN . 'farazsms-wordpress-plugin/');
+	}
+
+	public function farazsms_loader() {
+		/**
+		 * Require loader farazsms class.
+		 *
+		 * @return void
+		 */
+		require FARAZSMS_CLASSES_PATH . 'class-farazsms-loader.php';
+	}
+
+	/**
+	 * Require farazsms activator class.
+	 *
+	 * @return void
+	 */
+	public function activate_farazsms()
+	{
+		require_once FARAZSMS_CLASSES_PATH . 'class-farazsms-activator.php';
+		Farazsms_Activator::activate();
+	}
+
+
+	/**
+	 * Redirect user to plugin settings page after plugin activated.
+	 *
+	 * @param $plugin
+	 *
+	 * @return void
+	 */
+	public function farazsms_activation_redirect($plugin)
+	{
+		if (get_option('farazsms_do_activation_redirect', false)) {
+			delete_option('farazsms_do_activation_redirect');
+			exit(wp_redirect(FARAZSMS_SETTINGS_LINK));
+		}
+	}
+
+
 }
 
-
-add_action('activated_plugin', 'farazsms_activation_redirect');
-
-/**
- * Require main farazsms class.
- *
- * @return void
- */
-require FARAZSMS_CLASSES_PATH . 'class-farazsms.php';
-
+Farazsms::get_instance();
