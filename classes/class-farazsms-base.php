@@ -175,7 +175,7 @@ class Farazsms_Base {
 				);
 
 				return true;
-			} catch ( Error|HttpException|Exception ) {
+			} catch ( Error|HttpException|Exception $e ) {
 				return false;
 			}
 		} else {
@@ -386,7 +386,7 @@ class Farazsms_Base {
 				$credit_rial = explode( $separator, $credit )[0];
 
 				return substr( $credit_rial, 0, - 1 );
-			} catch ( Error|HttpException|Exception ) {
+			} catch ( Error|HttpException|Exception $e ) {
 				return false;
 			}
 		} else {
@@ -446,7 +446,7 @@ class Farazsms_Base {
 					$message,
 					$message,
 				);
-			} catch ( Error|HttpException|Exception ) {
+			} catch ( Error|HttpException|Exception $e ) {
 				return false;
 			}
 		} else {
@@ -524,7 +524,7 @@ class Farazsms_Base {
 				);
 
 				return true;
-			} catch ( Error|HttpException|Exception ) {
+			} catch ( Error|HttpException|Exception $e ) {
 				return false;
 			}
 		} else {
