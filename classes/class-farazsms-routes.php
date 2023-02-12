@@ -580,7 +580,7 @@ class Farazsms_Routes {
 					'phonebook_id' => (int) Farazsms_Base::$woo_phonebook_id
 				];
 			}
-			Farazsms_Base::save_list_of_phones_to_phonebook( $list );
+			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
 
 			return true;
 		}
@@ -612,7 +612,7 @@ class Farazsms_Routes {
 					'phonebook_id' => (int) Farazsms_Base::$digits_phonebook_id
 				];
 			}
-			Farazsms_Base::save_list_of_phones_to_phonebook( $list );
+			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
 
 			return true;
 		}
@@ -640,7 +640,7 @@ class Farazsms_Routes {
 					'phonebook_id' => (int) Farazsms_Base::$bookly_phonebook_id
 				];
 			}
-			Farazsms_Base::save_list_of_phones_to_phonebook( $list );
+			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
 
 			return true;
 		}

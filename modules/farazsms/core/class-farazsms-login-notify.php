@@ -75,12 +75,12 @@ class Farazsms_Login_Notify {
 			}
 		}
 
-		$credit = Farazsms_Base::get_credit();
+		$credit = Farazsms_Ippanel::get_credit();
 		if ( ! $credit ) {
 			return;
 		}
 		if ( (int) $credit < 10000 ) {
-			Farazsms_Base::send_admin_low_credit_to_admin();
+			Farazsms_Ippanel::send_admin_low_credit_to_admin();
 			update_user_meta( $user->ID, 'farazsms_low_credit_notify_sent_timestamp', time() );
 		}
 	}
@@ -109,7 +109,7 @@ class Farazsms_Login_Notify {
 	 */
 	public function send_admins_login_notification_to_superadmin( $pattern, $data ) {
 		$input_data     = [];
-		$patternMessage = Farazsms_Base::get_registered_pattern_variables( $pattern );
+		$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( $pattern );
 		if ( str_contains( $patternMessage, '%date%' ) ) {
 			$input_data['date'] = $data['date'];
 		}
@@ -122,7 +122,7 @@ class Farazsms_Login_Notify {
 			$input_data['display_name'] = $data['display_name'];
 		}
 
-		return Farazsms_Base::farazsms_send_pattern( $pattern, Farazsms_Base::$admin_number, $input_data );
+		return Farazsms_Ippanel::send_pattern( $pattern, Farazsms_Base::$admin_number, $input_data );
 
 	}
 

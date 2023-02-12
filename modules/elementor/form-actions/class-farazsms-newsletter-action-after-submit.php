@@ -274,16 +274,16 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
                 }
             }
 
-            Farazsms_Base::farazsms_send_pattern($farazpattern, $to, $input_data);
+            Farazsms_Ippanel::send_pattern($farazpattern, $to, $input_data);
         }
 
         // Send to visitor with webService
         if ( $settings['sms_to_visitor'] == 'yes' && $settings['sms_send_type'] == 'webservice' ) {
             if (str_contains(trim($content), '[field' )) {
                 $content_value = $record->replace_setting_shortcodes($settings['sms_content']);
-                Farazsms_Base::send_message( [ $to ], $content_value);
+                Farazsms_Ippanel::send_message( [ $to ], $content_value);
             } else {
-                Farazsms_Base::send_message( [ $to ], $content);
+                Farazsms_Ippanel::send_message( [ $to ], $content);
             }
         }
 
@@ -312,7 +312,7 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
                 }
             }
             foreach ($admins_numbers as $adminnum) {
-                Farazsms_Base::farazsms_send_pattern($admin_pattern, $adminnum, $admin_input_data);
+                Farazsms_Ippanel::send_pattern($admin_pattern, $adminnum, $admin_input_data);
             }
         }
 
@@ -320,9 +320,9 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
         if ( $settings['sms_to_admin'] == 'yes' && $settings['sms_admin_method'] == 'webservice' ) {
             if (str_contains(trim($admin_content), '[field' )) {
                 $admin_content_value = $record->replace_setting_shortcodes($settings['sms_admin_content']);
-                Farazsms_Base::send_message($admins_numbers, $admin_content_value);
+                Farazsms_Ippanel::send_message($admins_numbers, $admin_content_value);
             } else {
-                Farazsms_Base::send_message($admins_numbers, $admin_content);
+                Farazsms_Ippanel::send_message($admins_numbers, $admin_content);
             }
         }
     }

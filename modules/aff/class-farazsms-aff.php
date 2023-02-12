@@ -122,7 +122,7 @@ class Farazsms_Aff {
 	 */
 	public function affs_send_sms( $phone, $user_register_pattern, $args ) {
 		$input_data     = [];
-		$patternMessage = Farazsms_Base::get_registered_pattern_variables( $user_register_pattern );
+		$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( $user_register_pattern );
 		if ( str_contains( $patternMessage, '%user_login%' ) ) {
 			$input_data['user_login'] = $args['user_login'];
 		}
@@ -145,7 +145,7 @@ class Farazsms_Aff {
 			$input_data['amount'] = $args['amount'];
 		}
 
-		return Farazsms_Base::farazsms_send_pattern( $user_register_pattern, $phone, $input_data );
+		return Farazsms_Ippanel::send_pattern( $user_register_pattern, $phone, $input_data );
 
 	}
 

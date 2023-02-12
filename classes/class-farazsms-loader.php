@@ -60,6 +60,7 @@ class Farazsms_Loader {
 	private function load_dependencies() {
 
 		require_once FARAZSMS_CLASSES_PATH . 'class-farazsms-base.php';
+		require_once FARAZSMS_CLASSES_PATH . 'class-farazsms-ippanel.php';
 
 		// The class responsible for the settings page
 		require_once FARAZSMS_MODULES_PATH . 'farazsms/core/class-farazsms-settings.php';

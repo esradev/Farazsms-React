@@ -8,7 +8,7 @@
  *
  * @since      2.0.0
  * @package    Farazsms
- * @subpackage Farazsms/includes
+ * @subpackage Farazsms/classes
  * @author     FarazSMS <info@farazsms.com>
  */
 

@@ -98,7 +98,7 @@ class Farazsms_Edd {
 			'name'         => '',
 			'phonebook_id' => (int) self::$edd_phonebook_id
 		];
-		Farazsms_Base::save_list_of_phones_to_phonebook( $list );
+		Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
 	}
 
 	/**
@@ -207,7 +207,7 @@ class Farazsms_Edd {
 		}
 
 		$input_data     = [];
-		$patternMessage = Farazsms_Base::get_registered_pattern_variables( $pattern );
+		$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( $pattern );
 		if ( $patternMessage === null ) {
 			return;
 		}
@@ -252,7 +252,7 @@ class Farazsms_Edd {
 			$input_data['payment_id'] = $data['payment_id'];
 		}
 
-		return Farazsms_Base::farazsms_send_pattern( $pattern, $phone, $input_data );
+		return Farazsms_Ippanel::send_pattern( $pattern, $phone, $input_data );
 
 	}//end send_edd_sms()
 

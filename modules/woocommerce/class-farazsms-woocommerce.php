@@ -180,7 +180,7 @@ class Farazsms_Woocommerce {
 
 		$phone          = Farazsms_Base::fsms_tr_num( $phone );
 		$input_data     = [];
-		$patternMessage = Farazsms_Base::get_registered_pattern_variables( self::$woo_tracking_pattern );
+		$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( self::$woo_tracking_pattern );
 		if ( $patternMessage === null ) {
 			throw new Exception( __( 'Probably your pattern has not been approved', 'farazsms' ) );
 		}
@@ -200,7 +200,7 @@ class Farazsms_Woocommerce {
 			$input_data['shipping_full_name'] = strval( $order_data['shipping_full_name'] );
 		}
 
-		return Farazsms_Base::farazsms_send_pattern( self::$woo_tracking_pattern, $phone, $input_data );
+		return Farazsms_Ippanel::send_pattern( self::$woo_tracking_pattern, $phone, $input_data );
 	}
 
 	/**
@@ -216,7 +216,7 @@ class Farazsms_Woocommerce {
 		$input_data         = [];
 		$input_data['code'] = strval( $data['code'] );
 
-		return Farazsms_Base::farazsms_send_pattern( $pattern, $phone, $input_data );
+		return Farazsms_Ippanel::send_pattern( $pattern, $phone, $input_data );
 
 	}
 
@@ -309,7 +309,7 @@ class Farazsms_Woocommerce {
 			return;
 		}
 
-		Farazsms_Base::save_a_phone_to_phonebook( $phone, Farazsms_Base::$woo_phonebook_id );
+		Farazsms_Ippanel::save_a_phone_to_phonebook( $phone, Farazsms_Base::$woo_phonebook_id );
 
 		return true;
 	}
@@ -347,7 +347,7 @@ class Farazsms_Woocommerce {
 		if ( empty( $retention_order_no ) || empty( $retention_order_month ) || empty( $retention_message ) ) {
 			return;
 		}
-		$fsms_base = Farazsms_Base::get_instance();
+
 		global $wpdb;
 		$customer_ids = $wpdb->get_col( "SELECT DISTINCT meta_value  FROM $wpdb->postmeta WHERE meta_key = '_customer_user' AND meta_value > 0" );
 		if ( sizeof( $customer_ids ) > 0 ) {
@@ -377,7 +377,7 @@ class Farazsms_Woocommerce {
 							$last_order->get_formatted_billing_full_name(),
 							$last_order->get_formatted_shipping_full_name(),
 						], $retention_message );
-						$fsms_base->send_message( [ $last_order->get_billing_phone() ], $message );
+						Farazsms_Ippanel::send_message( [ $last_order->get_billing_phone() ], $message );
 						update_post_meta( $last_order->get_id(), 'sent_retention_message', '1' );
 					}
 				}

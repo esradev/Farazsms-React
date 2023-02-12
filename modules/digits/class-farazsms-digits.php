@@ -72,7 +72,7 @@ class Farazsms_Digits {
 			'phonebook_id' => (int) Farazsms_Base::$custom_phonebook_id
 		];
 
-		Farazsms_Base::save_list_of_phones_to_phonebook( $list );
+		Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
 
 		Farazsms_Base::send_welcome_message( $phone, $object_id );
 
@@ -97,7 +97,7 @@ class Farazsms_Digits {
 			'phonebook_id' => (int) Farazsms_Base::$digits_phonebook_id
 		];
 
-		Farazsms_Base::save_list_of_phones_to_phonebook( $list );
+		Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
 
 
 		$already_sent_one = get_user_meta( $user_id, 'sent_welcome_message', true );

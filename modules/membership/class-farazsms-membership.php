@@ -93,7 +93,7 @@ class Farazsms_Membership
 			$user->display_name,
 			self::$ihc_notify_before_time,
 		], $first_notify_sms_message );
-		Farazsms_Base::send_message( [ $phone ], $message, '+98club' );
+		Farazsms_Ippanel::send_message( [ $phone ], $message, '+98club' );
 
 		return $sent;
 	}
@@ -128,7 +128,7 @@ class Farazsms_Membership
 		], [
 			$user->display_name,
 		], $expire_notify_sms_message );
-		Farazsms_Base::send_message( [ $phone ], $message, '+98club' );
+		Farazsms_Ippanel::send_message( [ $phone ], $message, '+98club' );
 	}
 }
 Farazsms_Membership::get_instance();

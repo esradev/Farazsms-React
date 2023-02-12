@@ -1,23 +1,7 @@
 <?php
 
 /**
- * @link  https://farazsms.com/
- * @since 1.0.8
- *
- * @package    Farazsms
- * @subpackage Farazsms/includes
- */
-
-//Load IPPanel autoload file.
-require_once( __DIR__ . '/../vendor/autoload.php' );
-
-use IPPanel\Client;
-use IPPanel\Errors\Error;
-use IPPanel\Errors\HttpException;
-
-
-/**
- * Farazsms base.
+ * Farazsms base class.
  *
  * @package Farazsms
  * @since 2.0.0
@@ -114,6 +98,11 @@ class Farazsms_Base {
 		}
 	}
 
+	/**
+	 * Replace persian numbers with english.
+	 *
+	 * @since 2.0.0
+	 */
 	public static function fsms_tr_num( $str ) {
 		$num_a = [
 			'0',
@@ -140,13 +129,13 @@ class Farazsms_Base {
 			'۸',
 			'۹',
 		];
-
 		return str_replace( $key_a, $num_a, $str );
-
 	}
 
 	/**
 	 * Validate mobile number.
+	 *
+	 * @since 2.0.0
 	 */
 	public static function validate_mobile_number( $phone ) {
 		$phone          = self::fsms_tr_num( $phone );
@@ -155,116 +144,13 @@ class Farazsms_Base {
 		if ( sizeof( $matches ) !== 5 ) {
 			return false;
 		}
-
 		return $matches[3];
-
 	}
-
-	/**
-	 * Farazsms send pattern function.
-	 */
-	public static function farazsms_send_pattern( $pattern, $phone, $input_data ) {
-		if ( ! empty( self::$apiKey ) ) {
-			$client = new Client( self::$apiKey );
-			try {
-				$client->sendPattern(
-					$pattern,
-					self::$fromNum,
-					$phone,
-					$input_data
-				);
-
-				return true;
-			} catch ( Error|HttpException|Exception $e ) {
-				return false;
-			}
-		} else {
-			$body     = [
-				'user'        => self::$username,
-				'pass'        => self::$password,
-				'fromNum'     => self::$fromNum,
-				'op'          => 'pattern',
-				'patternCode' => $pattern,
-				'toNum'       => $phone,
-				'inputData'   => [ $input_data ],
-			];
-			$response = wp_remote_post(
-				'http://ippanel.com/api/select',
-				[
-					'method'      => 'POST',
-					'headers'     => [ 'Content-Type' => 'application/json' ],
-					'data_format' => 'body',
-					'body'        => json_encode( $body ),
-				]
-			);
-			if ( is_wp_error( $response ) ) {
-				return false;
-			}
-
-			$response = json_decode( $response['body'] );
-			if ( $response->status->code !== 0 ) {
-				return false;
-			}
-
-			return true;
-		}
-
-	}
-
-	/**
-	 * Save to phonebook functions.
-	 */
-	public static function save_a_phone_to_phonebook( $phone, $phonebook ) {
-		$phone   = self::fsms_tr_num( $phone );
-		$body    = [
-			'uname'       => self::$username,
-			'pass'        => self::$password,
-			'op'          => 'phoneBookAdd',
-			'phoneBookId' => $phonebook,
-			'number'      => $phone,
-		];
-		$handler = curl_init( 'http://ippanel.com/api/select' );
-		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'POST' );
-		curl_setopt( $handler, CURLOPT_POSTFIELDS, json_encode( $body ) );
-		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $handler, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ] );
-		$response = curl_exec( $handler );
-		$response = json_decode( $response );
-		if ( $response->status->code !== 0 ) {
-			return false;
-		}
-
-		return true;
-
-	}
-
-	public static function save_list_of_phones_to_phonebook( $list ) {
-		$body    = [
-			'list' => $list,
-		];
-		$handler = curl_init( 'http://api.ippanel.com/api/v1/phonebook/numbers-add-list' );
-		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'POST' );
-		curl_setopt( $handler, CURLOPT_POSTFIELDS, json_encode( $body ) );
-		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
-			'Authorization: ' . self::$apiKey,
-			'Content-Type:application/json'
-		] );
-
-		curl_exec( $handler );
-
-		//		$response = json_decode( $response );
-		//		if ( $response->status->code !== 0 ) {
-		//			return false;
-		//		}
-
-		return true;
-
-	}
-
 
 	/**
 	 * Send welcome message function.
+	 *
+	 * @since 2.0.0
 	 */
 	public static function send_welcome_message( $phone, $user_id ) {
 		$phone = self::fsms_tr_num( $phone );
@@ -292,9 +178,9 @@ class Farazsms_Base {
 				],
 				self::$welcome_message
 			);
-			self::send_message( [ $phone ], $welcome_message, '+98club' );
+			Farazsms_Ippanel::send_message( [ $phone ], $welcome_message, '+98club' );
 		} else {
-			$patternMessage = self::get_registered_pattern_variables( self::$welcomep );
+			$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( self::$welcomep );
 			if ( str_contains( $patternMessage, '%display_name%' ) ) {
 				$input_data['display_name'] = $display_name;
 			}
@@ -303,264 +189,14 @@ class Farazsms_Base {
 				$input_data['username'] = $user_name;
 			}
 
-			return self::farazsms_send_pattern( self::$welcomep, $phone, $input_data );
-		}
-	}
-
-
-	/**
-	 * Check if credentials is valid.
-	 */
-	public static function check_if_credentials_is_valid() {
-		$body = [
-			'username' => self::$username,
-			'password' => self::$password,
-		];
-
-		$response = wp_remote_post(
-			'http://reg.ippanel.com/parent/farazsms',
-			[
-				'method'      => 'POST',
-				'headers'     => [ 'Content-Type' => 'application/json' ],
-				'data_format' => 'body',
-				'body'        => json_encode( $body ),
-			]
-		);
-		$response = json_decode( $response['body'] );
-		if ( $response->message == 1 ) {
-			return true;
-		}
-
-		return false;
-	}
-
-
-	/**
-	 * Get phonebooks.
-	 */
-	public static function get_phonebooks() {
-		$uname = self::$username;
-		$pass  = self::$password;
-		$body  = [
-			'uname' => $uname,
-			'pass'  => $pass,
-			'op'    => 'booklist',
-		];
-		$resp  = wp_remote_post(
-			'http://ippanel.com/api/select',
-			[
-				'method'      => 'POST',
-				'headers'     => [ 'Content-Type' => 'application/json' ],
-				'data_format' => 'body',
-				'body'        => json_encode( $body ),
-			]
-		);
-		if ( is_wp_error( $resp ) ) {
-			return $resp;
-		}
-		$resp = json_decode( $resp['body'] );
-		if ( intval( $resp[0] ) != 0 ) {
-			return $resp;
-		}
-
-		return json_decode( $resp[1] );
-	}
-
-
-	/**
-	 * Get credit.
-	 */
-	public static function get_credit() {
-		if ( ! empty( self::$apiKey ) ) {
-			try {
-				$client    = new Client( self::$apiKey );
-				$credit    = $client->getCredit();
-				$separator = '/';
-				if ( strpos( $credit, '/' ) ) {
-					$separator = '/';
-				}
-				if ( strpos( $credit, '.' ) ) {
-					$separator = '.';
-				}
-
-				$credit_rial = explode( $separator, $credit )[0];
-
-				return substr( $credit_rial, 0, - 1 );
-			} catch ( Error|HttpException|Exception $e ) {
-				return false;
-			}
-		} else {
-			$body     = [
-				'uname' => self::$username,
-				'pass'  => self::$password,
-				'op'    => 'credit',
-			];
-			$response = wp_remote_post(
-				'http://ippanel.com/api/select',
-				[
-					'method'      => 'POST',
-					'headers'     => [ 'Content-Type' => 'application/json' ],
-					'data_format' => 'body',
-					'body'        => json_encode( $body ),
-				]
-			);
-			if ( is_wp_error( $response ) ) {
-				return false;
-			}
-			$response = json_decode( $response['body'] );
-			if ( $response[0] !== 0 ) {
-				return false;
-			}
-			$separator = '.';
-			if ( strpos( $response[1], '/' ) ) {
-				$separator = '/';
-			}
-			if ( strpos( $response[1], '.' ) ) {
-				$separator = '.';
-			}
-
-			$credit_rial = explode( $separator, $response[1] )[0];
-		}
-
-		return substr( $credit_rial, 0, - 1 );
-
-	}
-
-
-	/**
-	 * Send low credit notify to admin.
-	 */
-	public static function send_admin_low_credit_to_admin() {
-		$fromnum = '3000505';
-		if ( empty( self::$admin_number ) ) {
-			return;
-		}
-		$message = __( 'Dear user, The charge for your SMS panel is less than 10 thousand tomans, and your sites SMS may not be sent soon and your site may be blocked. I will charge the SMS system as soon as possible. www.farazsms.com, +982171333036', 'farazsms' );
-		if ( ! empty( self::$apiKey ) ) {
-			try {
-				$client = new Client( self::$apiKey );
-
-				return $client->send(
-					$fromnum,
-					[ self::$admin_number ],
-					$message,
-					$message,
-				);
-			} catch ( Error|HttpException|Exception $e ) {
-				return false;
-			}
-		} else {
-			$body     = [
-				'uname'   => self::$username,
-				'pass'    => self::$password,
-				'from'    => $fromnum,
-				'op'      => 'send',
-				'to'      => [ self::$admin_number ],
-				'time'    => '',
-				'message' => $message,
-			];
-			$response = wp_remote_post(
-				'http://ippanel.com/api/select',
-				[
-					'method'      => 'POST',
-					'headers'     => [ 'Content-Type' => 'application/json' ],
-					'data_format' => 'body',
-					'body'        => json_encode( $body ),
-				]
-			);
-			json_decode( $response['body'] );
-		}
-
-	}
-
-
-	/**
-	 * Get registered pattern variables.
-	 */
-	public static function get_registered_pattern_variables( $pCode ) {
-		$body = [
-			'uname'       => self::$username,
-			'pass'        => self::$password,
-			'op'          => 'patternInfo',
-			'patternCode' => $pCode,
-		];
-
-		$response = wp_remote_post(
-			'http://ippanel.com/api/select',
-			[
-				'method'      => 'POST',
-				'headers'     => [ 'Content-Type' => 'application/json' ],
-				'data_format' => 'body',
-				'body'        => json_encode( $body ),
-			]
-		);
-		if ( is_wp_error( $response ) ) {
-			return null;
-		}
-
-		$response = json_decode( $response['body'] );
-
-		return $response->data->patternMessage;
-	}
-
-	/**
-	 * Send message.
-	 */
-	public static function send_message( $phones, $message, $sender = null ) {
-		if ( ! empty( $sender ) ) {
-			$fromnum = $sender;
-		} else {
-			$fromnum = self::$fromNum;
-		}
-
-		if ( ! empty( self::$apiKey ) ) {
-			$client = new Client( self::$apiKey );
-			try {
-				$client->send(
-					$fromnum,
-					$phones,
-					$message,
-					$message
-				);
-
-				return true;
-			} catch ( Error|HttpException|Exception $e ) {
-				return false;
-			}
-		} else {
-			$body     = [
-				'uname'   => self::$username,
-				'pass'    => self::$password,
-				'from'    => $fromnum,
-				'op'      => 'send',
-				'to'      => $phones,
-				'time'    => '',
-				'message' => $message,
-			];
-			$response = wp_remote_post(
-				'http://ippanel.com/api/select',
-				[
-					'method'      => 'POST',
-					'headers'     => [ 'Content-Type' => 'application/json' ],
-					'data_format' => 'body',
-					'body'        => json_encode( $body ),
-				]
-			);
-			if ( is_wp_error( $response ) ) {
-				return false;
-			}
-
-			$response = json_decode( $response['body'] );
-			if ( $response->status->code !== 0 ) {
-				return false;
-			}
-
-			return true;
+			return Farazsms_Ippanel::send_pattern( self::$welcomep, $phone, $input_data );
 		}
 	}
 
 	/**
 	 * Save generated code to DB
+	 *
+	 * @since 2.0.0
 	 */
 	public static function save_generated_code_to_db( $phone, $code ) {
 		global $wpdb;

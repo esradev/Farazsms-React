@@ -180,7 +180,7 @@ class Farazsms_Comments {
 		}
 
 		$input_data     = [];
-		$patternMessage = Farazsms_Base::get_registered_pattern_variables( $pattern );
+		$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( $pattern );
 		if ( $patternMessage === null ) {
 			return;
 		}
@@ -200,7 +200,7 @@ class Farazsms_Comments {
 			$input_data['content'] = $data['content'];
 		}
 
-		return Farazsms_Base::farazsms_send_pattern( $pattern, $phone, $input_data );
+		return Farazsms_Ippanel::send_pattern( $pattern, $phone, $input_data );
 
 	}
 
@@ -214,7 +214,7 @@ class Farazsms_Comments {
 		}
 
 		$input_data     = [];
-		$patternMessage = Farazsms_Base::get_registered_pattern_variables( $fsms_admin_notify_pattern_code );
+		$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( $fsms_admin_notify_pattern_code );
 		if ( $patternMessage === null ) {
 			return;
 		}
@@ -235,7 +235,7 @@ class Farazsms_Comments {
 			$input_data['content'] = $data['content'];
 		}
 
-		return Farazsms_Base::farazsms_send_pattern( $fsms_admin_notify_pattern_code, Farazsms_Base::$admin_number, $input_data );
+		return Farazsms_Ippanel::send_pattern( $fsms_admin_notify_pattern_code, Farazsms_Base::$admin_number, $input_data );
 
 	}
 
@@ -249,7 +249,7 @@ class Farazsms_Comments {
 			'name'         => $name,
 			'phonebook_id' => (int) self::$comment_phonebook_id
 		];
-		Farazsms_Base::save_list_of_phones_to_phonebook( $list );
+		Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
 	}
 
 	/**

@@ -79,7 +79,7 @@ class Farazsms_Settings {
 				return;
 			}
 			$message = __( 'Dear user, your panel will expire less than a month from now. To renew your SMS panel, contact Faraz SMS', 'farazsms' );
-			Farazsms_Base::send_message( [ Farazsms_Base::$admin_number ], $message, '+98club' );
+			Farazsms_Ippanel::send_message( [ Farazsms_Base::$admin_number ], $message, '+98club' );
 			update_option( 'sent_low_remaining_days_30', '1' );
 		} elseif ( $daysleft > 1 && $daysleft < 7 ) {
 			$already_sent = get_option( 'sent_low_remaining_days_7', '' );
@@ -88,7 +88,7 @@ class Farazsms_Settings {
 			}
 
 			$message = __( 'Dear user, your panel will expire less than a week from now. To renew your SMS panel, contact Faraz SMS.', 'farazsms' );
-			Farazsms_Base::send_message( [ Farazsms_Base::$admin_number ], $message, '+98club' );
+			Farazsms_Ippanel::send_message( [ Farazsms_Base::$admin_number ], $message, '+98club' );
 			update_option( 'sent_low_remaining_days_7', '1' );
 		}
 	}
@@ -131,7 +131,7 @@ class Farazsms_Settings {
 				'rootapiurl'    => esc_url_raw( rest_url() ),
 				'nonce'         => wp_create_nonce( 'wp_rest' ),
 				'wproules'      => wp_roles(),
-				'getphonebooks' => Farazsms_Base::get_phonebooks(),
+				'getphonebooks' => Farazsms_Ippanel::get_phonebooks(),
 			]
 		);
 
@@ -314,7 +314,7 @@ class Farazsms_Settings {
 				],
 			]
 		);
-		$credit = Farazsms_Base::get_credit();
+		$credit = Farazsms_Ippanel::get_credit();
 		if ( $credit ) {
 			$wp_admin_bar->add_menu(
 				[

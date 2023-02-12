@@ -77,7 +77,7 @@ class Farazsms_Gravity_Forms {
 					'name'         => '',
 					'phonebook_id' => (int) Farazsms_Base::$gf_phonebook_id
 				];
-				Farazsms_Base::save_list_of_phones_to_phonebook( $list );
+				Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
 
 			}
 		}
