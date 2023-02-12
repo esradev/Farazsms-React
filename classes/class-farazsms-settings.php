@@ -132,6 +132,7 @@ class Farazsms_Settings {
 				'nonce'         => wp_create_nonce( 'wp_rest' ),
 				'wproules'      => wp_roles(),
 				'getphonebooks' => Farazsms_Ippanel::get_phonebooks(),
+                'getcredit'     => Farazsms_Ippanel::get_credit(),
 			]
 		);
 

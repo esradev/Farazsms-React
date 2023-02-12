@@ -95,8 +95,6 @@ class Farazsms {
 		define( 'FARAZSMS_CLASSES_PATH', FARAZSMS_PATH . 'classes/' );
 		define( 'FARAZSMS_MODULES_PATH', FARAZSMS_PATH . 'modules/' );
 		define( 'FARAZSMS_URL', plugins_url( '/', FARAZSMS_FILE ) );
-		define( 'FARAZSMS_CLASSES_URL', FARAZSMS_URL . 'classes/' );
-		define( 'FARAZSMS_ADMIN_URL', FARAZSMS_CLASSES_URL . 'admin/' );
 		define( 'FARAZSMS_WEB_MAIN', 'https://farazsms.com/' );
 		define( 'FARAZSMS_WEB_MAIN_DOC', FARAZSMS_WEB_MAIN . 'farazsms-wordpress-plugin/' );
 	}

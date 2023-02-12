@@ -63,7 +63,7 @@ class Farazsms_Loader {
 		require_once FARAZSMS_CLASSES_PATH . 'class-farazsms-ippanel.php';
 
 		// The class responsible for the settings page
-		require_once FARAZSMS_MODULES_PATH . 'farazsms/core/class-farazsms-settings.php';
+		require_once FARAZSMS_CLASSES_PATH . 'class-farazsms-settings.php';
 
 		// The class responsible for defining internationalization functionality of the plugin.
 		require_once FARAZSMS_CLASSES_PATH . 'class-farazsms-i18n.php';

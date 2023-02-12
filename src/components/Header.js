@@ -3,19 +3,34 @@
  */
 import React, { useState, useEffect, useContext } from "react";
 import FarazsmsLogo from "../assets/images/farazsms-logo.png";
-import {
-  AiOutlineBell,
-  AiOutlineDollar,
-  AiOutlineSetting,
-} from "react-icons/ai";
+import { AiOutlineBell } from "react-icons/ai";
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
 function Header() {
+  const [credit, setCredit] = useState(0);
+  /**
+   * Get credit.
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function getCredit() {
+      try {
+        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
+        const credit = await farazsmsJsObject.getcredit;
+        console.log(credit);
+        setCredit(credit);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getCredit();
+  }, []);
   return (
-    <header class="faraz-header container">
-      <div class="header-content responsive-wrapper">
-        <div class="header-logo">
+    <header className="faraz-header container">
+      <div className="header-content responsive-wrapper">
+        <div className="header-logo">
           <a href="#">
             <div>
               <img src={FarazsmsLogo} />
@@ -23,9 +38,9 @@ function Header() {
             <h2>{__("Farazsms", "farazsms")}</h2>
           </a>
         </div>
-        <div class="header-navigation">
-          <nav class="header-navigation-links">
-            {/* <a href="https://farazsms.com/" target="_blank">
+        <div className="header-navigation">
+          <nav className="header-navigation-links">
+            <a href="https://farazsms.com/" target="_blank">
               {__("Official Website", "farazsms")}
             </a>
             <a
@@ -37,17 +52,20 @@ function Header() {
               target="_blank"
             >
               {__("Report Issues", "farazsms")}
-            </a> */}
+            </a>
           </nav>
-          <div class="header-navigation-actions">
-            {/*<a href="#" class="button">*/}
-            {/*  <AiOutlineDollar />*/}
-            {/*  <span>{__("Account credit: ", "farazsms")}</span>*/}
-            {/*</a>*/}
-            {/* <a href="#" class="icon-button">
+          <div className="header-navigation-actions">
+            <p className="button">
+              <span>
+                {__("Account credit: ", "farazsms") +
+                  credit +
+                  __(" $IR_T", "farazsms")}
+              </span>
+            </p>
+            {/* <a href="#" className="icon-button">
               <AiOutlineSetting />
             </a> */}
-            <a href="#" class="icon-button">
+            <a href="#" className="icon-button">
               <AiOutlineBell />
             </a>
           </div>

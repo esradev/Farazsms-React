@@ -11544,25 +11544,55 @@ __webpack_require__.r(__webpack_exports__);
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 function Header() {
+  const [credit, setCredit] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(0);
+  /**
+   * Get credit.
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    async function getCredit() {
+      try {
+        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
+        const credit = await farazsmsJsObject.getcredit;
+        console.log(credit);
+        setCredit(credit);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getCredit();
+  }, []);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("header", {
-    class: "faraz-header container"
+    className: "faraz-header container"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "header-content responsive-wrapper"
+    className: "header-content responsive-wrapper"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "header-logo"
+    className: "header-logo"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "#"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
     src: _assets_images_farazsms_logo_png__WEBPACK_IMPORTED_MODULE_2__
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, __("Farazsms", "farazsms")))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "header-navigation"
+    className: "header-navigation"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("nav", {
-    class: "header-navigation-links"
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    class: "header-navigation-actions"
+    className: "header-navigation-links"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "https://farazsms.com/",
+    target: "_blank"
+  }, __("Official Website", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "https://farazsms.com/farazsms-wordpress-plugin/",
+    target: "_blank"
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+    href: "https://github.com/esradev/Farazsms-React/issues",
+    target: "_blank"
+  }, __("Report Issues", "farazsms"))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "header-navigation-actions"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "button"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, __("Account credit: ", "farazsms") + credit + __(" $IR_T", "farazsms"))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "#",
-    class: "icon-button"
+    className: "icon-button"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_3__.AiOutlineBell, null))))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Header);
