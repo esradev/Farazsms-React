@@ -65,7 +65,7 @@ class Farazsms_Comments {
 		add_filter( 'manage_edit-comments_columns', [ $this, 'comments_fsms_table_columns' ] );
 		add_action( 'manage_comments_custom_column', [ $this, 'comments_fsms_table_columns_content' ], 10, 2 );
 		add_action( 'comment_form_logged_in_after', [ $this, 'add_mobile_field_to_comment_form' ] );
-		add_filter( 'comment_form_fields', [ $this, 'add_mobile_field_to_comment_form' ] );
+		add_action( 'comment_form_after_fields', [ $this, 'add_mobile_field_to_comment_form' ] );
 		add_action( 'preprocess_comment', [ $this, 'verify_comment_input' ] );
 		add_action( 'comment_post', [ $this, 'save_mobile_field' ] );
 
@@ -78,51 +78,52 @@ class Farazsms_Comments {
 	 */
 	public function comments_fsms_table_columns( $my_cols ) {
 		$temp_columns = [
-			'mobile' => __( 'Phone number', 'farazsms' ),
+			'mobile' => __( 'Mobile', 'farazsms' ),
 		];
 
-		return ( array_slice( $my_cols, 0, 3, true ) + $temp_columns + array_slice( $my_cols, 3, null, true ) );
+		$my_cols = array_slice( $my_cols, 0, 3, true ) + $temp_columns + array_slice( $my_cols, 3, null, true );
 
+		return $my_cols;
 	}
 
 	public function comments_fsms_table_columns_content( $column, $comment_ID ) {
 		global $comment;
 		switch ( $column ) :
-			case 'mobile':
+
+			case 'mobile' :
 			{
 				echo get_comment_meta( $comment_ID, 'mobile', true );
 				break;
 			}
 		endswitch;
-
 	}
 
 	/**
 	 * Add mobile field to comment form
 	 */
-	public function add_mobile_field_to_comment_form( $fields ) {
+	public function add_mobile_field_to_comment_form() {
 		if ( ! self::$add_mobile_field === true ) {
 			return;
 		}
 
-		$mobile_filed = '<p class="comment-form-phone"><label for="mobile">' . __( 'Phone number', 'farazsms' );
+		$mobile_filed = '<p class="comment-form-phone uk-margin-top"><label for="mobile">' . __( 'Phone number', 'farazsms' ) . '</label>';
 		if ( self::$required_mobile_field === true ) {
-			$mobile_filed .= ' <span class="required">*</span></label>';
+			$mobile_filed .= ' <span class="required">*</span>';
 			$required     = 'required="required"';
 		}
-		$mobile_filed .= '<input class="uk-input uk-width-large uk-display-block" oninput="if (this.value.length > 11) this.value = this.value.slice(0, 11);" type="number"  name="mobile" id="mobile"' . $required . '/></p>';
+		$mobile_filed .= '<input class="uk-input uk-width-large uk-display-block" type="text" name="mobile" id="mobile /></p>';
 
-		$fields['mobile'] = $mobile_filed;
 
-		return $fields;
+		echo $mobile_filed;
+
 
 	}
 
 	// Save mobile field.
 	public function save_mobile_field( $comment_id ) {
 		if ( isset( $_POST['mobile'] ) ) {
-			$mobile = Farazsms_Base::validate_mobile_number( esc_attr( $_POST['mobile'] ) );
-			update_comment_meta( $comment_id, 'mobile', $mobile );
+		$mobile = Farazsms_Base::validate_mobile_number( esc_attr( $_POST['mobile'] ) );
+			add_comment_meta( $comment_id, 'mobile', $mobile );
 		}
 		$this->response_to_comment( $comment_id );
 	}
