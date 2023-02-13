@@ -44,6 +44,7 @@ function Settings() {
         type: "checkbox",
         label: __("Send welcome sms via pattern?", "farazsms"),
         rules: "welcome_sms_use_patternRules",
+        isDependencyUsed: false,
       },
       welcome_sms_pattern: {
         value: "",
@@ -54,6 +55,9 @@ function Settings() {
         type: "text",
         label: __("Welcome sms pattern code:", "farazsms"),
         rules: "welcome_sms_patternRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __("%display_name% and %username%", "farazsms"),
+        isDependencyUsed: false,
       },
       welcome_sms_msg: {
         value: "",
@@ -66,6 +70,7 @@ function Settings() {
         rules: "welcome_sms_msgRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("%display_name% and %username%", "farazsms"),
+        isDependencyUsed: false,
       },
       admin_login_notify: {
         value: "",
@@ -91,6 +96,7 @@ function Settings() {
         rules: "select_rolesRules",
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
+        isDependencyUsed: false,
       },
       admin_login_notify_pattern: {
         value: "",
@@ -106,6 +112,7 @@ function Settings() {
           "username %user_login% and user name %display_name% and login date %date%",
           "farazsms"
         ),
+        isDependencyUsed: false,
       },
     },
     isFetching: true,
@@ -119,12 +126,28 @@ function Settings() {
       case "fetchComplete":
         //Init state values by action.value
         draft.inputs.welcome_sms.value = action.value.welcome_sms;
+        if (action.value.welcome_sms === true) {
+          draft.inputs.welcome_sms_use_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.welcome_sms_use_pattern.isDependencyUsed = false;
+        }
         draft.inputs.welcome_sms_use_pattern.value =
           action.value.welcome_sms_use_pattern;
+        if (action.value.welcome_sms_use_pattern === true) {
+          draft.inputs.welcome_sms_pattern.isDependencyUsed = true;
+          draft.inputs.welcome_sms_msg.isDependencyUsed = false;
+        } else {
+          draft.inputs.welcome_sms_pattern.isDependencyUsed = false;
+          draft.inputs.welcome_sms_msg.isDependencyUsed = true;
+        }
         draft.inputs.welcome_sms_pattern.value =
           action.value.welcome_sms_pattern;
         draft.inputs.welcome_sms_msg.value = action.value.welcome_sms_msg;
         draft.inputs.admin_login_notify.value = action.value.admin_login_notify;
+        if (action.value.admin_login_notify === true) {
+          draft.inputs.admin_login_notify_pattern.isDependencyUsed = true;
+          draft.inputs.select_roles.isDependencyUsed = true;
+        }
         draft.inputs.admin_login_notify_pattern.value =
           action.value.admin_login_notify_pattern;
         draft.inputs.select_roles.value = action.value.select_roles;
@@ -134,43 +157,69 @@ function Settings() {
       case "welcome_smsChange":
         draft.inputs.welcome_sms.hasErrors = false;
         draft.inputs.welcome_sms.value = action.value;
+        if (action.value === true) {
+          draft.inputs.welcome_sms_use_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.welcome_sms_use_pattern.isDependencyUsed = false;
+        }
         return;
+
       case "welcome_sms_use_patternChange":
         draft.inputs.welcome_sms_use_pattern.hasErrors = false;
         draft.inputs.welcome_sms_use_pattern.value = action.value;
-
+        if (action.value === true) {
+          draft.inputs.welcome_sms_pattern.isDependencyUsed = true;
+          draft.inputs.welcome_sms_msg.isDependencyUsed = false;
+        } else {
+          draft.inputs.welcome_sms_pattern.isDependencyUsed = false;
+          draft.inputs.welcome_sms_msg.isDependencyUsed = true;
+        }
         return;
+
       case "welcome_sms_patternChange":
         draft.inputs.welcome_sms_pattern.hasErrors = false;
         draft.inputs.welcome_sms_pattern.value = action.value;
         return;
+
       case "welcome_sms_msgChange":
         draft.inputs.welcome_sms_msg.hasErrors = false;
         draft.inputs.welcome_sms_msg.value = action.value;
         return;
+
       case "admin_login_notifyChange":
         draft.inputs.admin_login_notify.hasErrors = false;
         draft.inputs.admin_login_notify.value = action.value;
+        if (action.value === true) {
+          draft.inputs.admin_login_notify_pattern.isDependencyUsed = true;
+          draft.inputs.select_roles.isDependencyUsed = true;
+        } else {
+          draft.inputs.admin_login_notify_pattern.isDependencyUsed = false;
+          draft.inputs.select_roles.isDependencyUsed = false;
+        }
         return;
+
       case "admin_login_notify_patternChange":
         draft.inputs.admin_login_notify_pattern.hasErrors = false;
         draft.inputs.admin_login_notify_pattern.value = action.value;
         return;
+
       case "select_rolesChange":
         draft.inputs.select_roles.hasErrors = false;
         draft.inputs.select_roles.value = action.value;
         return;
+
       case "select_rolesOptions":
         draft.inputs.select_roles.options = action.value;
         return;
 
       case "submitOptions":
         draft.sendCount++;
-
         return;
+
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
+
       case "saveRequestFininshed":
         draft.isSaving = false;
         return;
@@ -276,39 +325,43 @@ function Settings() {
       <SectionHeader sectionName={state.sectionName} />
       <div>
         <form onSubmit={handleSubmit}>
-          {Object.values(state.inputs).map((input) => (
-            <div
-              key={input.name}
-              className={
-                input.type === "checkbox" ? "toggle-control" : "form-group"
-              }
-            >
-              <FormInput
-                {...input}
-                onChange={
-                  input.type === "select"
-                    ? (selectedOption) =>
-                        dispatch({
-                          type: input.onChange,
-                          value: selectedOption,
-                        })
-                    : (e) => {
-                        dispatch({
-                          type: input.onChange,
-                          value:
-                            input.type === "checkbox"
-                              ? e.target.checked
-                              : e.target.value,
-                        });
-                      }
+          {Object.values(state.inputs).map((input) =>
+            input.isDependencyUsed === false ? (
+              <></>
+            ) : (
+              <div
+                key={input.name}
+                className={
+                  input.type === "checkbox" ? "toggle-control" : "form-group"
                 }
-                onBlur={(e) =>
-                  dispatch({ type: input.rules, value: e.target.value })
-                }
-              />
-              <FormInputError />
-            </div>
-          ))}
+              >
+                <FormInput
+                  {...input}
+                  onChange={
+                    input.type === "select"
+                      ? (selectedOption) =>
+                          dispatch({
+                            type: input.onChange,
+                            value: selectedOption,
+                          })
+                      : (e) => {
+                          dispatch({
+                            type: input.onChange,
+                            value:
+                              input.type === "checkbox"
+                                ? e.target.checked
+                                : e.target.value,
+                          });
+                        }
+                  }
+                  onBlur={(e) =>
+                    dispatch({ type: input.rules, value: e.target.value })
+                  }
+                />
+                <FormInputError />
+              </div>
+            )
+          )}
           <SaveButton isSaving={state.isSaving} />
         </form>
       </div>

@@ -30,7 +30,7 @@ function Woocommerce(props) {
         name: "woo_checkout_otp",
         type: "checkbox",
         label: __(
-          "Mobile number confirmation on the account checkout page?",
+          "Mobile number verification on the account checkout page?",
           "farazsms"
         ),
         rules: "woo_checkout_otpRules",
@@ -46,6 +46,7 @@ function Woocommerce(props) {
         rules: "woo_checkout_otp_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("The verification code variable is %code%", "farazsms"),
+        isDependencyUsed: false,
       },
       woo_poll: {
         value: "",
@@ -66,6 +67,7 @@ function Woocommerce(props) {
         type: "text",
         label: __("Days of sending SMS after placing the order:", "farazsms"),
         rules: "woo_poll_timeRules",
+        isDependencyUsed: false,
       },
       woo_poll_msg: {
         value: "",
@@ -81,6 +83,7 @@ function Woocommerce(props) {
           "time %time% | store name %sitename% | product name %item% | product link %item_link%",
           "farazsms"
         ),
+        isDependencyUsed: false,
       },
       woo_tracking_pattern: {
         value: "",
@@ -96,6 +99,7 @@ function Woocommerce(props) {
           "tracking code %tracking_code% (required) | order number %order_id% | order status %order_status% | full name in billing address %billing_full_name% | full name in shipping address %shipping_full_name%",
           "farazsms"
         ),
+        isDependencyUsed: false,
       },
     },
     isFetching: true,
@@ -109,9 +113,23 @@ function Woocommerce(props) {
       case "fetchComplete":
         //Init state values by action.value
         draft.inputs.woo_checkout_otp.value = action.value.woo_checkout_otp;
+        if (action.value.woo_checkout_otp === true) {
+          draft.inputs.woo_checkout_otp_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.woo_checkout_otp_pattern.isDependencyUsed = false;
+        }
         draft.inputs.woo_checkout_otp_pattern.value =
           action.value.woo_checkout_otp_pattern;
         draft.inputs.woo_poll.value = action.value.woo_poll;
+        if (action.value.woo_poll === true) {
+          draft.inputs.woo_poll_time.isDependencyUsed = true;
+          draft.inputs.woo_poll_msg.isDependencyUsed = true;
+          draft.inputs.woo_tracking_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.woo_poll_time.isDependencyUsed = false;
+          draft.inputs.woo_poll_msg.isDependencyUsed = false;
+          draft.inputs.woo_tracking_pattern.isDependencyUsed = false;
+        }
         draft.inputs.woo_poll_time.value = action.value.woo_poll_time;
         draft.inputs.woo_poll_msg.value = action.value.woo_poll_msg;
         draft.inputs.woo_tracking_pattern.value =
@@ -123,6 +141,11 @@ function Woocommerce(props) {
       case "woo_checkout_otpChange":
         draft.inputs.woo_checkout_otp.hasErrors = false;
         draft.inputs.woo_checkout_otp.value = action.value;
+        if (action.value === true) {
+          draft.inputs.woo_checkout_otp_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.woo_checkout_otp_pattern.isDependencyUsed = false;
+        }
         return;
       case "woo_checkout_otp_patternChange":
         draft.inputs.woo_checkout_otp_pattern.hasErrors = false;
@@ -131,6 +154,15 @@ function Woocommerce(props) {
       case "woo_pollChange":
         draft.inputs.woo_poll.hasErrors = false;
         draft.inputs.woo_poll.value = action.value;
+        if (action.value === true) {
+          draft.inputs.woo_poll_time.isDependencyUsed = true;
+          draft.inputs.woo_poll_msg.isDependencyUsed = true;
+          draft.inputs.woo_tracking_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.woo_poll_time.isDependencyUsed = false;
+          draft.inputs.woo_poll_msg.isDependencyUsed = false;
+          draft.inputs.woo_tracking_pattern.isDependencyUsed = false;
+        }
         return;
       case "woo_poll_timeChange":
         draft.inputs.woo_poll_time.hasErrors = false;
@@ -237,33 +269,37 @@ function Woocommerce(props) {
         <SectionHeader sectionName={state.sectionName} />
         <div>
           <form onSubmit={handleSubmit}>
-            {Object.values(state.inputs).map((input) => (
-              <div
-                key={input.name}
-                className={
-                  input.type === "checkbox" ? "toggle-control" : "form-group"
-                }
-              >
-                <FormInput
-                  {...input}
-                  value={input.value}
-                  checked={input.value}
-                  onChange={(e) => {
-                    dispatch({
-                      type: input.onChange,
-                      value:
-                        input.type === "checkbox"
-                          ? e.target.checked
-                          : e.target.value,
-                    });
-                  }}
-                  onBlur={(e) =>
-                    dispatch({ type: input.rules, value: e.target.value })
+            {Object.values(state.inputs).map((input) =>
+              input.isDependencyUsed === false ? (
+                <></>
+              ) : (
+                <div
+                  key={input.name}
+                  className={
+                    input.type === "checkbox" ? "toggle-control" : "form-group"
                   }
-                />
-                <FormInputError />
-              </div>
-            ))}
+                >
+                  <FormInput
+                    {...input}
+                    value={input.value}
+                    checked={input.value}
+                    onChange={(e) => {
+                      dispatch({
+                        type: input.onChange,
+                        value:
+                          input.type === "checkbox"
+                            ? e.target.checked
+                            : e.target.value,
+                      });
+                    }}
+                    onBlur={(e) =>
+                      dispatch({ type: input.rules, value: e.target.value })
+                    }
+                  />
+                  <FormInputError />
+                </div>
+              )
+            )}
             <SaveButton isSaving={state.isSaving} />
           </form>
         </div>

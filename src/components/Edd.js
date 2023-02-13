@@ -57,6 +57,7 @@ function Edd(props) {
         type: "text",
         label: __("SMS pattern code for the user:", "farazsms"),
         rules: "edd_user_patternRules",
+        isDependencyUsed: false,
       },
       edd_send_to_admin: {
         value: "",
@@ -82,6 +83,7 @@ function Edd(props) {
           "mobile number: %phone% | Email: %email% | Name: %first_name% | Last name: %last_name% | Purchased products: %product% | Total amount (not including discount): %price% | Total discount amount: %discount% | Paid amount (including discount): %total_price% | Direct download link (not encrypted): %link% | Order number: %payment_id%",
           "farazsms"
         ),
+        isDependencyUsed: false,
       },
     },
     isFetching: true,
@@ -96,8 +98,18 @@ function Edd(props) {
         //Init state values by action.value
         draft.inputs.edd_phonebook.value = action.value.edd_phonebook;
         draft.inputs.edd_send_to_user.value = action.value.edd_send_to_user;
+        if (action.value.edd_send_to_user === true) {
+          draft.inputs.edd_user_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.edd_user_pattern.isDependencyUsed = false;
+        }
         draft.inputs.edd_user_pattern.value = action.value.edd_user_pattern;
         draft.inputs.edd_send_to_admin.value = action.value.edd_send_to_admin;
+        if (action.value.edd_send_to_admin === true) {
+          draft.inputs.edd_admin_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.edd_admin_pattern.isDependencyUsed = false;
+        }
         draft.inputs.edd_admin_pattern.value = action.value.edd_admin_pattern;
 
         draft.isFetching = false;
@@ -113,6 +125,11 @@ function Edd(props) {
       case "edd_send_to_userChange":
         draft.inputs.edd_send_to_user.hasErrors = false;
         draft.inputs.edd_send_to_user.value = action.value;
+        if (action.value === true) {
+          draft.inputs.edd_user_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.edd_user_pattern.isDependencyUsed = false;
+        }
         return;
       case "edd_user_patternChange":
         draft.inputs.edd_user_pattern.hasErrors = false;
@@ -121,6 +138,11 @@ function Edd(props) {
       case "edd_send_to_adminChange":
         draft.inputs.edd_send_to_admin.hasErrors = false;
         draft.inputs.edd_send_to_admin.value = action.value;
+        if (action.value === true) {
+          draft.inputs.edd_admin_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.edd_admin_pattern.isDependencyUsed = false;
+        }
         return;
       case "edd_admin_patternChange":
         draft.inputs.edd_admin_pattern.hasErrors = false;
@@ -251,33 +273,37 @@ function Edd(props) {
         <SectionHeader sectionName={state.sectionName} />
         <div>
           <form onSubmit={handleSubmit}>
-            {Object.values(state.inputs).map((input) => (
-              <div
-                key={input.name}
-                className={
-                  input.type === "checkbox" ? "toggle-control" : "form-group"
-                }
-              >
-                <FormInput
-                  {...input}
-                  value={input.value}
-                  checked={input.value}
-                  onChange={(e) => {
-                    dispatch({
-                      type: input.onChange,
-                      value:
-                        input.type === "checkbox"
-                          ? e.target.checked
-                          : e.target.value,
-                    });
-                  }}
-                  onBlur={(e) =>
-                    dispatch({ type: input.rules, value: e.target.value })
+            {Object.values(state.inputs).map((input) =>
+              input.isDependencyUsed === false ? (
+                <></>
+              ) : (
+                <div
+                  key={input.name}
+                  className={
+                    input.type === "checkbox" ? "toggle-control" : "form-group"
                   }
-                />
-                <FormInputError />
-              </div>
-            ))}
+                >
+                  <FormInput
+                    {...input}
+                    value={input.value}
+                    checked={input.value}
+                    onChange={(e) => {
+                      dispatch({
+                        type: input.onChange,
+                        value:
+                          input.type === "checkbox"
+                            ? e.target.checked
+                            : e.target.value,
+                      });
+                    }}
+                    onBlur={(e) =>
+                      dispatch({ type: input.rules, value: e.target.value })
+                    }
+                  />
+                  <FormInputError />
+                </div>
+              )
+            )}
             <SaveButton isSaving={state.isSaving} />
           </form>
         </div>

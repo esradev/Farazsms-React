@@ -50,6 +50,7 @@ function Comments() {
           "farazsms"
         ),
         rules: "required_mobile_fieldRules",
+        isDependencyUsed: false,
       },
       comment_phonebook: {
         value: [],
@@ -62,6 +63,7 @@ function Comments() {
         rules: "comment_phonebookRules",
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
+        isDependencyUsed: false,
       },
       comment_pattern: {
         value: "",
@@ -72,6 +74,7 @@ function Comments() {
         type: "text",
         label: __("Comment submit pattern code:", "farazsms"),
         rules: "comment_patternRules",
+        isDependencyUsed: false,
       },
       approved_comment_pattern: {
         value: "",
@@ -82,6 +85,7 @@ function Comments() {
         type: "text",
         label: __("Comment response pattern code:", "farazsms"),
         rules: "approved_comment_patternRules",
+        isDependencyUsed: false,
       },
       notify_admin_for_comment: {
         value: "",
@@ -110,6 +114,7 @@ function Comments() {
           "Post title: %title% Comment authors name: %name% Comment authors email: %email% Comment link: %link% Comment text: %content%",
           "farazsms"
         ),
+        isDependencyUsed: false,
       },
     },
     isFetching: true,
@@ -123,6 +128,17 @@ function Comments() {
       case "fetchComplete":
         //Init state values by action.value
         draft.inputs.add_mobile_field.value = action.value.add_mobile_field;
+        if (action.value.add_mobile_field === true) {
+          draft.inputs.required_mobile_field.isDependencyUsed = true;
+          draft.inputs.comment_phonebook.isDependencyUsed = true;
+          draft.inputs.comment_pattern.isDependencyUsed = true;
+          draft.inputs.approved_comment_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.required_mobile_field.isDependencyUsed = false;
+          draft.inputs.comment_phonebook.isDependencyUsed = false;
+          draft.inputs.comment_pattern.isDependencyUsed = false;
+          draft.inputs.approved_comment_pattern.isDependencyUsed = false;
+        }
         draft.inputs.required_mobile_field.value =
           action.value.required_mobile_field;
         draft.inputs.comment_phonebook.value = action.value.comment_phonebook;
@@ -131,6 +147,11 @@ function Comments() {
           action.value.approved_comment_pattern;
         draft.inputs.notify_admin_for_comment.value =
           action.value.notify_admin_for_comment;
+        if (action.value.notify_admin_for_comment === true) {
+          draft.inputs.notify_admin_for_comment_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.notify_admin_for_comment_pattern.isDependencyUsed = false;
+        }
         draft.inputs.notify_admin_for_comment_pattern.value =
           action.value.notify_admin_for_comment_pattern;
 
@@ -140,6 +161,17 @@ function Comments() {
       case "add_mobile_fieldChange":
         draft.inputs.add_mobile_field.hasErrors = false;
         draft.inputs.add_mobile_field.value = action.value;
+        if (action.value === true) {
+          draft.inputs.required_mobile_field.isDependencyUsed = true;
+          draft.inputs.comment_phonebook.isDependencyUsed = true;
+          draft.inputs.comment_pattern.isDependencyUsed = true;
+          draft.inputs.approved_comment_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.required_mobile_field.isDependencyUsed = false;
+          draft.inputs.comment_phonebook.isDependencyUsed = false;
+          draft.inputs.comment_pattern.isDependencyUsed = false;
+          draft.inputs.approved_comment_pattern.isDependencyUsed = false;
+        }
         return;
       case "required_mobile_fieldChange":
         draft.inputs.required_mobile_field.hasErrors = false;
@@ -163,6 +195,11 @@ function Comments() {
       case "notify_admin_for_commentChange":
         draft.inputs.notify_admin_for_comment.hasErrors = false;
         draft.inputs.notify_admin_for_comment.value = action.value;
+        if (action.value === true) {
+          draft.inputs.notify_admin_for_comment_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.notify_admin_for_comment_pattern.isDependencyUsed = false;
+        }
         return;
       case "notify_admin_for_comment_patternChange":
         draft.inputs.notify_admin_for_comment_pattern.hasErrors = false;
@@ -295,39 +332,43 @@ function Comments() {
       <SectionHeader sectionName={state.sectionName} />
       <div>
         <form onSubmit={handleSubmit}>
-          {Object.values(state.inputs).map((input) => (
-            <div
-              key={input.name}
-              className={
-                input.type === "checkbox" ? "toggle-control" : "form-group"
-              }
-            >
-              <FormInput
-                {...input}
-                onChange={
-                  input.type === "select"
-                    ? (selectedOption) =>
-                        dispatch({
-                          type: input.onChange,
-                          value: selectedOption,
-                        })
-                    : (e) => {
-                        dispatch({
-                          type: input.onChange,
-                          value:
-                            input.type === "checkbox"
-                              ? e.target.checked
-                              : e.target.value,
-                        });
-                      }
+          {Object.values(state.inputs).map((input) =>
+            input.isDependencyUsed === false ? (
+              <></>
+            ) : (
+              <div
+                key={input.name}
+                className={
+                  input.type === "checkbox" ? "toggle-control" : "form-group"
                 }
-                onBlur={(e) =>
-                  dispatch({ type: input.rules, value: e.target.value })
-                }
-              />
-              <FormInputError />
-            </div>
-          ))}
+              >
+                <FormInput
+                  {...input}
+                  onChange={
+                    input.type === "select"
+                      ? (selectedOption) =>
+                          dispatch({
+                            type: input.onChange,
+                            value: selectedOption,
+                          })
+                      : (e) => {
+                          dispatch({
+                            type: input.onChange,
+                            value:
+                              input.type === "checkbox"
+                                ? e.target.checked
+                                : e.target.value,
+                          });
+                        }
+                  }
+                  onBlur={(e) =>
+                    dispatch({ type: input.rules, value: e.target.value })
+                  }
+                />
+                <FormInputError />
+              </div>
+            )
+          )}
           <SaveButton isSaving={state.isSaving} />
         </form>
       </div>

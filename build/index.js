@@ -10903,7 +10903,8 @@ function Comments() {
         name: "required_mobile_field",
         type: "checkbox",
         label: __("Is the mobile number field in comments mandatory?", "farazsms"),
-        rules: "required_mobile_fieldRules"
+        rules: "required_mobile_fieldRules",
+        isDependencyUsed: false
       },
       comment_phonebook: {
         value: [],
@@ -10915,7 +10916,8 @@ function Comments() {
         label: __("Save the phone number in the phonebook?", "farazsms"),
         rules: "comment_phonebookRules",
         options: [],
-        noOptionsMessage: __("No options is available", "farazsms")
+        noOptionsMessage: __("No options is available", "farazsms"),
+        isDependencyUsed: false
       },
       comment_pattern: {
         value: "",
@@ -10925,7 +10927,8 @@ function Comments() {
         name: "comment_pattern",
         type: "text",
         label: __("Comment submit pattern code:", "farazsms"),
-        rules: "comment_patternRules"
+        rules: "comment_patternRules",
+        isDependencyUsed: false
       },
       approved_comment_pattern: {
         value: "",
@@ -10935,7 +10938,8 @@ function Comments() {
         name: "approved_comment_pattern",
         type: "text",
         label: __("Comment response pattern code:", "farazsms"),
-        rules: "approved_comment_patternRules"
+        rules: "approved_comment_patternRules",
+        isDependencyUsed: false
       },
       notify_admin_for_comment: {
         value: "",
@@ -10957,7 +10961,8 @@ function Comments() {
         label: __("Admin pattern code:", "farazsms"),
         rules: "notify_admin_for_comment_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("Post title: %title% Comment authors name: %name% Comment authors email: %email% Comment link: %link% Comment text: %content%", "farazsms")
+        infoBody: __("Post title: %title% Comment authors name: %name% Comment authors email: %email% Comment link: %link% Comment text: %content%", "farazsms"),
+        isDependencyUsed: false
       }
     },
     isFetching: true,
@@ -10970,17 +10975,44 @@ function Comments() {
       case "fetchComplete":
         //Init state values by action.value
         draft.inputs.add_mobile_field.value = action.value.add_mobile_field;
+        if (action.value.add_mobile_field === true) {
+          draft.inputs.required_mobile_field.isDependencyUsed = true;
+          draft.inputs.comment_phonebook.isDependencyUsed = true;
+          draft.inputs.comment_pattern.isDependencyUsed = true;
+          draft.inputs.approved_comment_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.required_mobile_field.isDependencyUsed = false;
+          draft.inputs.comment_phonebook.isDependencyUsed = false;
+          draft.inputs.comment_pattern.isDependencyUsed = false;
+          draft.inputs.approved_comment_pattern.isDependencyUsed = false;
+        }
         draft.inputs.required_mobile_field.value = action.value.required_mobile_field;
         draft.inputs.comment_phonebook.value = action.value.comment_phonebook;
         draft.inputs.comment_pattern.value = action.value.comment_pattern;
         draft.inputs.approved_comment_pattern.value = action.value.approved_comment_pattern;
         draft.inputs.notify_admin_for_comment.value = action.value.notify_admin_for_comment;
+        if (action.value.notify_admin_for_comment === true) {
+          draft.inputs.notify_admin_for_comment_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.notify_admin_for_comment_pattern.isDependencyUsed = false;
+        }
         draft.inputs.notify_admin_for_comment_pattern.value = action.value.notify_admin_for_comment_pattern;
         draft.isFetching = false;
         return;
       case "add_mobile_fieldChange":
         draft.inputs.add_mobile_field.hasErrors = false;
         draft.inputs.add_mobile_field.value = action.value;
+        if (action.value === true) {
+          draft.inputs.required_mobile_field.isDependencyUsed = true;
+          draft.inputs.comment_phonebook.isDependencyUsed = true;
+          draft.inputs.comment_pattern.isDependencyUsed = true;
+          draft.inputs.approved_comment_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.required_mobile_field.isDependencyUsed = false;
+          draft.inputs.comment_phonebook.isDependencyUsed = false;
+          draft.inputs.comment_pattern.isDependencyUsed = false;
+          draft.inputs.approved_comment_pattern.isDependencyUsed = false;
+        }
         return;
       case "required_mobile_fieldChange":
         draft.inputs.required_mobile_field.hasErrors = false;
@@ -11004,6 +11036,11 @@ function Comments() {
       case "notify_admin_for_commentChange":
         draft.inputs.notify_admin_for_comment.hasErrors = false;
         draft.inputs.notify_admin_for_comment.value = action.value;
+        if (action.value === true) {
+          draft.inputs.notify_admin_for_comment_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.notify_admin_for_comment_pattern.isDependencyUsed = false;
+        }
         return;
       case "notify_admin_for_comment_patternChange":
         draft.inputs.notify_admin_for_comment_pattern.hasErrors = false;
@@ -11144,7 +11181,7 @@ function Comments() {
     sectionName: state.sectionName
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
-  }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.name,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
@@ -11249,7 +11286,8 @@ function Edd(props) {
         name: "edd_user_pattern",
         type: "text",
         label: __("SMS pattern code for the user:", "farazsms"),
-        rules: "edd_user_patternRules"
+        rules: "edd_user_patternRules",
+        isDependencyUsed: false
       },
       edd_send_to_admin: {
         value: "",
@@ -11271,7 +11309,8 @@ function Edd(props) {
         label: __("SMS pattern code for the admin:", "farazsms"),
         rules: "edd_admin_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("mobile number: %phone% | Email: %email% | Name: %first_name% | Last name: %last_name% | Purchased products: %product% | Total amount (not including discount): %price% | Total discount amount: %discount% | Paid amount (including discount): %total_price% | Direct download link (not encrypted): %link% | Order number: %payment_id%", "farazsms")
+        infoBody: __("mobile number: %phone% | Email: %email% | Name: %first_name% | Last name: %last_name% | Purchased products: %product% | Total amount (not including discount): %price% | Total discount amount: %discount% | Paid amount (including discount): %total_price% | Direct download link (not encrypted): %link% | Order number: %payment_id%", "farazsms"),
+        isDependencyUsed: false
       }
     },
     isFetching: true,
@@ -11285,8 +11324,18 @@ function Edd(props) {
         //Init state values by action.value
         draft.inputs.edd_phonebook.value = action.value.edd_phonebook;
         draft.inputs.edd_send_to_user.value = action.value.edd_send_to_user;
+        if (action.value.edd_send_to_user === true) {
+          draft.inputs.edd_user_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.edd_user_pattern.isDependencyUsed = false;
+        }
         draft.inputs.edd_user_pattern.value = action.value.edd_user_pattern;
         draft.inputs.edd_send_to_admin.value = action.value.edd_send_to_admin;
+        if (action.value.edd_send_to_admin === true) {
+          draft.inputs.edd_admin_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.edd_admin_pattern.isDependencyUsed = false;
+        }
         draft.inputs.edd_admin_pattern.value = action.value.edd_admin_pattern;
         draft.isFetching = false;
         return;
@@ -11300,6 +11349,11 @@ function Edd(props) {
       case "edd_send_to_userChange":
         draft.inputs.edd_send_to_user.hasErrors = false;
         draft.inputs.edd_send_to_user.value = action.value;
+        if (action.value === true) {
+          draft.inputs.edd_user_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.edd_user_pattern.isDependencyUsed = false;
+        }
         return;
       case "edd_user_patternChange":
         draft.inputs.edd_user_pattern.hasErrors = false;
@@ -11308,6 +11362,11 @@ function Edd(props) {
       case "edd_send_to_adminChange":
         draft.inputs.edd_send_to_admin.hasErrors = false;
         draft.inputs.edd_send_to_admin.value = action.value;
+        if (action.value === true) {
+          draft.inputs.edd_admin_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.edd_admin_pattern.isDependencyUsed = false;
+        }
         return;
       case "edd_admin_patternChange":
         draft.inputs.edd_admin_pattern.hasErrors = false;
@@ -11449,7 +11508,7 @@ function Edd(props) {
       sectionName: state.sectionName
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
       onSubmit: handleSubmit
-    }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
       key: input.name,
       className: input.type === "checkbox" ? "toggle-control" : "form-group"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
@@ -11855,7 +11914,8 @@ function Settings() {
         name: "welcome_sms_use_pattern",
         type: "checkbox",
         label: __("Send welcome sms via pattern?", "farazsms"),
-        rules: "welcome_sms_use_patternRules"
+        rules: "welcome_sms_use_patternRules",
+        isDependencyUsed: false
       },
       welcome_sms_pattern: {
         value: "",
@@ -11865,7 +11925,10 @@ function Settings() {
         name: "welcome_sms_pattern",
         type: "text",
         label: __("Welcome sms pattern code:", "farazsms"),
-        rules: "welcome_sms_patternRules"
+        rules: "welcome_sms_patternRules",
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __("%display_name% and %username%", "farazsms"),
+        isDependencyUsed: false
       },
       welcome_sms_msg: {
         value: "",
@@ -11877,7 +11940,8 @@ function Settings() {
         label: __("welcome message:", "farazsms"),
         rules: "welcome_sms_msgRules",
         infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("%display_name% and %username%", "farazsms")
+        infoBody: __("%display_name% and %username%", "farazsms"),
+        isDependencyUsed: false
       },
       admin_login_notify: {
         value: "",
@@ -11899,7 +11963,8 @@ function Settings() {
         label: __("Select rule(s):", "farazsms"),
         rules: "select_rolesRules",
         options: [],
-        noOptionsMessage: __("No options is available", "farazsms")
+        noOptionsMessage: __("No options is available", "farazsms"),
+        isDependencyUsed: false
       },
       admin_login_notify_pattern: {
         value: "",
@@ -11911,7 +11976,8 @@ function Settings() {
         label: __("Notify admin pattern code:", "farazsms"),
         rules: "admin_login_notify_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("username %user_login% and user name %display_name% and login date %date%", "farazsms")
+        infoBody: __("username %user_login% and user name %display_name% and login date %date%", "farazsms"),
+        isDependencyUsed: false
       }
     },
     isFetching: true,
@@ -11924,10 +11990,26 @@ function Settings() {
       case "fetchComplete":
         //Init state values by action.value
         draft.inputs.welcome_sms.value = action.value.welcome_sms;
+        if (action.value.welcome_sms === true) {
+          draft.inputs.welcome_sms_use_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.welcome_sms_use_pattern.isDependencyUsed = false;
+        }
         draft.inputs.welcome_sms_use_pattern.value = action.value.welcome_sms_use_pattern;
+        if (action.value.welcome_sms_use_pattern === true) {
+          draft.inputs.welcome_sms_pattern.isDependencyUsed = true;
+          draft.inputs.welcome_sms_msg.isDependencyUsed = false;
+        } else {
+          draft.inputs.welcome_sms_pattern.isDependencyUsed = false;
+          draft.inputs.welcome_sms_msg.isDependencyUsed = true;
+        }
         draft.inputs.welcome_sms_pattern.value = action.value.welcome_sms_pattern;
         draft.inputs.welcome_sms_msg.value = action.value.welcome_sms_msg;
         draft.inputs.admin_login_notify.value = action.value.admin_login_notify;
+        if (action.value.admin_login_notify === true) {
+          draft.inputs.admin_login_notify_pattern.isDependencyUsed = true;
+          draft.inputs.select_roles.isDependencyUsed = true;
+        }
         draft.inputs.admin_login_notify_pattern.value = action.value.admin_login_notify_pattern;
         draft.inputs.select_roles.value = action.value.select_roles;
         draft.isFetching = false;
@@ -11935,10 +12017,22 @@ function Settings() {
       case "welcome_smsChange":
         draft.inputs.welcome_sms.hasErrors = false;
         draft.inputs.welcome_sms.value = action.value;
+        if (action.value === true) {
+          draft.inputs.welcome_sms_use_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.welcome_sms_use_pattern.isDependencyUsed = false;
+        }
         return;
       case "welcome_sms_use_patternChange":
         draft.inputs.welcome_sms_use_pattern.hasErrors = false;
         draft.inputs.welcome_sms_use_pattern.value = action.value;
+        if (action.value === true) {
+          draft.inputs.welcome_sms_pattern.isDependencyUsed = true;
+          draft.inputs.welcome_sms_msg.isDependencyUsed = false;
+        } else {
+          draft.inputs.welcome_sms_pattern.isDependencyUsed = false;
+          draft.inputs.welcome_sms_msg.isDependencyUsed = true;
+        }
         return;
       case "welcome_sms_patternChange":
         draft.inputs.welcome_sms_pattern.hasErrors = false;
@@ -11951,6 +12045,13 @@ function Settings() {
       case "admin_login_notifyChange":
         draft.inputs.admin_login_notify.hasErrors = false;
         draft.inputs.admin_login_notify.value = action.value;
+        if (action.value === true) {
+          draft.inputs.admin_login_notify_pattern.isDependencyUsed = true;
+          draft.inputs.select_roles.isDependencyUsed = true;
+        } else {
+          draft.inputs.admin_login_notify_pattern.isDependencyUsed = false;
+          draft.inputs.select_roles.isDependencyUsed = false;
+        }
         return;
       case "admin_login_notify_patternChange":
         draft.inputs.admin_login_notify_pattern.hasErrors = false;
@@ -12079,7 +12180,7 @@ function Settings() {
     sectionName: state.sectionName
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
-  }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.name,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
@@ -12517,7 +12618,8 @@ function Newsletter() {
         label: __("Newsletter membership verification pattern code:", "farazsms"),
         rules: "news_send_verify_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("%name% and confirmation code: %code%", "farazsms")
+        infoBody: __("%name% and confirmation code: %code%", "farazsms"),
+        isDependencyUsed: false
       },
       news_welcome: {
         value: "",
@@ -12539,7 +12641,8 @@ function Newsletter() {
         label: __("Welcome SMS pattern code", "farazsms"),
         rules: "news_welcome_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("%name%", "farazsms")
+        infoBody: __("%name%", "farazsms"),
+        isDependencyUsed: false
       },
       news_post_notify: {
         value: "",
@@ -12561,7 +12664,8 @@ function Newsletter() {
         label: __("Message content for new post", "farazsms"),
         rules: "news_post_notify_msgRules",
         infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("the title of the article %title% and the address of the article %url%", "farazsms")
+        infoBody: __("the title of the article %title% and the address of the article %url%", "farazsms"),
+        isDependencyUsed: false
       },
       news_product_notify: {
         value: "",
@@ -12583,7 +12687,8 @@ function Newsletter() {
         label: __("Message content for new product", "farazsms"),
         rules: "news_product_notify_msgRules",
         infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("site title %site_title% product name %product_name% price %price% and product link %url%", "farazsms")
+        infoBody: __("site title %site_title% product name %product_name% price %price% and product link %url%", "farazsms"),
+        isDependencyUsed: false
       }
     },
     isFetching: true,
@@ -12597,12 +12702,34 @@ function Newsletter() {
         //Init state values by action.value
         draft.inputs.news_phonebook.value = action.value.news_phonebook;
         draft.inputs.news_send_verify_via_pattern.value = action.value.news_send_verify_via_pattern;
+        if (action.value.news_send_verify_via_pattern === true) {
+          draft.inputs.news_send_verify_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.news_send_verify_pattern.isDependencyUsed = false;
+        }
         draft.inputs.news_send_verify_pattern.value = action.value.news_send_verify_pattern;
         draft.inputs.news_welcome.value = action.value.news_welcome;
+        if (action.value.news_welcome === true) {
+          draft.inputs.news_welcome_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.news_welcome_pattern.isDependencyUsed = false;
+        }
         draft.inputs.news_welcome_pattern.value = action.value.news_welcome_pattern;
         draft.inputs.news_post_notify.value = action.value.news_post_notify;
+        if (action.value.news_post_notify === true) {
+          draft.inputs.news_post_notify_msg.isDependencyUsed = true;
+        } else {
+          draft.inputs.news_post_notify_msg.isDependencyUsed = false;
+        }
         draft.inputs.news_post_notify_msg.value = action.value.news_post_notify_msg;
         draft.inputs.news_product_notify.value = action.value.news_product_notify;
+        if (action.value.news_product_notify === true) {
+          draft.inputs.news_product_notify_msg.isDependencyUsed = true;
+        } else {
+          {
+            draft.inputs.news_product_notify_msg.isDependencyUsed = false;
+          }
+        }
         draft.inputs.news_product_notify_msg.value = action.value.news_product_notify_msg;
         draft.isFetching = false;
         return;
@@ -12616,6 +12743,11 @@ function Newsletter() {
       case "news_send_verify_via_patternChange":
         draft.inputs.news_send_verify_via_pattern.hasErrors = false;
         draft.inputs.news_send_verify_via_pattern.value = action.value;
+        if (action.value === true) {
+          draft.inputs.news_send_verify_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.news_send_verify_pattern.isDependencyUsed = false;
+        }
         return;
       case "news_send_verify_patternChange":
         draft.inputs.news_send_verify_pattern.hasErrors = false;
@@ -12624,6 +12756,11 @@ function Newsletter() {
       case "news_welcomeChange":
         draft.inputs.news_welcome.hasErrors = false;
         draft.inputs.news_welcome.value = action.value;
+        if (action.value === true) {
+          draft.inputs.news_welcome_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.news_welcome_pattern.isDependencyUsed = false;
+        }
         return;
       case "news_welcome_patternChange":
         draft.inputs.news_welcome_pattern.hasErrors = false;
@@ -12632,6 +12769,11 @@ function Newsletter() {
       case "news_post_notifyChange":
         draft.inputs.news_post_notify.hasErrors = false;
         draft.inputs.news_post_notify.value = action.value;
+        if (action.value === true) {
+          draft.inputs.news_post_notify_msg.isDependencyUsed = true;
+        } else {
+          draft.inputs.news_post_notify_msg.isDependencyUsed = false;
+        }
         return;
       case "news_post_notify_msgChange":
         draft.inputs.news_post_notify_msg.hasErrors = false;
@@ -12640,6 +12782,13 @@ function Newsletter() {
       case "news_product_notifyChange":
         draft.inputs.news_product_notify.hasErrors = false;
         draft.inputs.news_product_notify.value = action.value;
+        if (action.value === true) {
+          draft.inputs.news_product_notify_msg.isDependencyUsed = true;
+        } else {
+          {
+            draft.inputs.news_product_notify_msg.isDependencyUsed = false;
+          }
+        }
         return;
       case "news_product_notify_msgChange":
         draft.inputs.news_product_notify_msg.hasErrors = false;
@@ -12794,7 +12943,7 @@ function Newsletter() {
     sectionName: state.sectionName
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
-  }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.name,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
@@ -14191,7 +14340,7 @@ function Woocommerce(props) {
         onChange: "woo_checkout_otpChange",
         name: "woo_checkout_otp",
         type: "checkbox",
-        label: __("Mobile number confirmation on the account checkout page?", "farazsms"),
+        label: __("Mobile number verification on the account checkout page?", "farazsms"),
         rules: "woo_checkout_otpRules"
       },
       woo_checkout_otp_pattern: {
@@ -14204,7 +14353,8 @@ function Woocommerce(props) {
         label: __("Mobile number verification pattern code:", "farazsms"),
         rules: "woo_checkout_otp_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("The verification code variable is %code%", "farazsms")
+        infoBody: __("The verification code variable is %code%", "farazsms"),
+        isDependencyUsed: false
       },
       woo_poll: {
         value: "",
@@ -14224,7 +14374,8 @@ function Woocommerce(props) {
         name: "woo_poll_time",
         type: "text",
         label: __("Days of sending SMS after placing the order:", "farazsms"),
-        rules: "woo_poll_timeRules"
+        rules: "woo_poll_timeRules",
+        isDependencyUsed: false
       },
       woo_poll_msg: {
         value: "",
@@ -14236,7 +14387,8 @@ function Woocommerce(props) {
         label: __("message content:", "farazsms"),
         rules: "woo_poll_msgRules",
         infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("time %time% | store name %sitename% | product name %item% | product link %item_link%", "farazsms")
+        infoBody: __("time %time% | store name %sitename% | product name %item% | product link %item_link%", "farazsms"),
+        isDependencyUsed: false
       },
       woo_tracking_pattern: {
         value: "",
@@ -14248,7 +14400,8 @@ function Woocommerce(props) {
         label: __("Pattern code to send tracking code:", "farazsms"),
         rules: "woo_tracking_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("tracking code %tracking_code% (required) | order number %order_id% | order status %order_status% | full name in billing address %billing_full_name% | full name in shipping address %shipping_full_name%", "farazsms")
+        infoBody: __("tracking code %tracking_code% (required) | order number %order_id% | order status %order_status% | full name in billing address %billing_full_name% | full name in shipping address %shipping_full_name%", "farazsms"),
+        isDependencyUsed: false
       }
     },
     isFetching: true,
@@ -14261,8 +14414,22 @@ function Woocommerce(props) {
       case "fetchComplete":
         //Init state values by action.value
         draft.inputs.woo_checkout_otp.value = action.value.woo_checkout_otp;
+        if (action.value.woo_checkout_otp === true) {
+          draft.inputs.woo_checkout_otp_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.woo_checkout_otp_pattern.isDependencyUsed = false;
+        }
         draft.inputs.woo_checkout_otp_pattern.value = action.value.woo_checkout_otp_pattern;
         draft.inputs.woo_poll.value = action.value.woo_poll;
+        if (action.value.woo_poll === true) {
+          draft.inputs.woo_poll_time.isDependencyUsed = true;
+          draft.inputs.woo_poll_msg.isDependencyUsed = true;
+          draft.inputs.woo_tracking_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.woo_poll_time.isDependencyUsed = false;
+          draft.inputs.woo_poll_msg.isDependencyUsed = false;
+          draft.inputs.woo_tracking_pattern.isDependencyUsed = false;
+        }
         draft.inputs.woo_poll_time.value = action.value.woo_poll_time;
         draft.inputs.woo_poll_msg.value = action.value.woo_poll_msg;
         draft.inputs.woo_tracking_pattern.value = action.value.woo_tracking_pattern;
@@ -14271,6 +14438,11 @@ function Woocommerce(props) {
       case "woo_checkout_otpChange":
         draft.inputs.woo_checkout_otp.hasErrors = false;
         draft.inputs.woo_checkout_otp.value = action.value;
+        if (action.value === true) {
+          draft.inputs.woo_checkout_otp_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.woo_checkout_otp_pattern.isDependencyUsed = false;
+        }
         return;
       case "woo_checkout_otp_patternChange":
         draft.inputs.woo_checkout_otp_pattern.hasErrors = false;
@@ -14279,6 +14451,15 @@ function Woocommerce(props) {
       case "woo_pollChange":
         draft.inputs.woo_poll.hasErrors = false;
         draft.inputs.woo_poll.value = action.value;
+        if (action.value === true) {
+          draft.inputs.woo_poll_time.isDependencyUsed = true;
+          draft.inputs.woo_poll_msg.isDependencyUsed = true;
+          draft.inputs.woo_tracking_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.woo_poll_time.isDependencyUsed = false;
+          draft.inputs.woo_poll_msg.isDependencyUsed = false;
+          draft.inputs.woo_tracking_pattern.isDependencyUsed = false;
+        }
         return;
       case "woo_poll_timeChange":
         draft.inputs.woo_poll_time.hasErrors = false;
@@ -14387,7 +14568,7 @@ function Woocommerce(props) {
       sectionName: state.sectionName
     }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
       onSubmit: handleSubmit
-    }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
       key: input.name,
       className: input.type === "checkbox" ? "toggle-control" : "form-group"
     }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {

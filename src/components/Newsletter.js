@@ -64,6 +64,7 @@ function Newsletter() {
         rules: "news_send_verify_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("%name% and confirmation code: %code%", "farazsms"),
+        isDependencyUsed: false,
       },
       news_welcome: {
         value: "",
@@ -86,6 +87,7 @@ function Newsletter() {
         rules: "news_welcome_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("%name%", "farazsms"),
+        isDependencyUsed: false,
       },
       news_post_notify: {
         value: "",
@@ -111,6 +113,7 @@ function Newsletter() {
           "the title of the article %title% and the address of the article %url%",
           "farazsms"
         ),
+        isDependencyUsed: false,
       },
       news_product_notify: {
         value: "",
@@ -136,6 +139,7 @@ function Newsletter() {
           "site title %site_title% product name %product_name% price %price% and product link %url%",
           "farazsms"
         ),
+        isDependencyUsed: false,
       },
     },
     isFetching: true,
@@ -151,16 +155,39 @@ function Newsletter() {
         draft.inputs.news_phonebook.value = action.value.news_phonebook;
         draft.inputs.news_send_verify_via_pattern.value =
           action.value.news_send_verify_via_pattern;
+        if (action.value.news_send_verify_via_pattern === true) {
+          draft.inputs.news_send_verify_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.news_send_verify_pattern.isDependencyUsed = false;
+        }
         draft.inputs.news_send_verify_pattern.value =
           action.value.news_send_verify_pattern;
+
         draft.inputs.news_welcome.value = action.value.news_welcome;
+        if (action.value.news_welcome === true) {
+          draft.inputs.news_welcome_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.news_welcome_pattern.isDependencyUsed = false;
+        }
         draft.inputs.news_welcome_pattern.value =
           action.value.news_welcome_pattern;
         draft.inputs.news_post_notify.value = action.value.news_post_notify;
+        if (action.value.news_post_notify === true) {
+          draft.inputs.news_post_notify_msg.isDependencyUsed = true;
+        } else {
+          draft.inputs.news_post_notify_msg.isDependencyUsed = false;
+        }
         draft.inputs.news_post_notify_msg.value =
           action.value.news_post_notify_msg;
         draft.inputs.news_product_notify.value =
           action.value.news_product_notify;
+        if (action.value.news_product_notify === true) {
+          draft.inputs.news_product_notify_msg.isDependencyUsed = true;
+        } else {
+          {
+            draft.inputs.news_product_notify_msg.isDependencyUsed = false;
+          }
+        }
         draft.inputs.news_product_notify_msg.value =
           action.value.news_product_notify_msg;
 
@@ -171,37 +198,68 @@ function Newsletter() {
         draft.inputs.news_phonebook.hasErrors = false;
         draft.inputs.news_phonebook.value = action.value;
         return;
+
       case "news_phonebookOptions":
         draft.inputs.news_phonebook.options = action.value;
         return;
+
       case "news_send_verify_via_patternChange":
         draft.inputs.news_send_verify_via_pattern.hasErrors = false;
         draft.inputs.news_send_verify_via_pattern.value = action.value;
+        if (action.value === true) {
+          draft.inputs.news_send_verify_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.news_send_verify_pattern.isDependencyUsed = false;
+        }
         return;
+
       case "news_send_verify_patternChange":
         draft.inputs.news_send_verify_pattern.hasErrors = false;
         draft.inputs.news_send_verify_pattern.value = action.value;
         return;
+
       case "news_welcomeChange":
         draft.inputs.news_welcome.hasErrors = false;
         draft.inputs.news_welcome.value = action.value;
+        if (action.value === true) {
+          draft.inputs.news_welcome_pattern.isDependencyUsed = true;
+        } else {
+          draft.inputs.news_welcome_pattern.isDependencyUsed = false;
+        }
         return;
+
       case "news_welcome_patternChange":
         draft.inputs.news_welcome_pattern.hasErrors = false;
         draft.inputs.news_welcome_pattern.value = action.value;
         return;
+
       case "news_post_notifyChange":
         draft.inputs.news_post_notify.hasErrors = false;
         draft.inputs.news_post_notify.value = action.value;
+        if (action.value === true) {
+          draft.inputs.news_post_notify_msg.isDependencyUsed = true;
+        } else {
+          draft.inputs.news_post_notify_msg.isDependencyUsed = false;
+        }
         return;
+
       case "news_post_notify_msgChange":
         draft.inputs.news_post_notify_msg.hasErrors = false;
         draft.inputs.news_post_notify_msg.value = action.value;
         return;
+
       case "news_product_notifyChange":
         draft.inputs.news_product_notify.hasErrors = false;
         draft.inputs.news_product_notify.value = action.value;
+        if (action.value === true) {
+          draft.inputs.news_product_notify_msg.isDependencyUsed = true;
+        } else {
+          {
+            draft.inputs.news_product_notify_msg.isDependencyUsed = false;
+          }
+        }
         return;
+
       case "news_product_notify_msgChange":
         draft.inputs.news_product_notify_msg.hasErrors = false;
         draft.inputs.news_product_notify_msg.value = action.value;
@@ -346,39 +404,43 @@ function Newsletter() {
       <SectionHeader sectionName={state.sectionName} />
       <div>
         <form onSubmit={handleSubmit}>
-          {Object.values(state.inputs).map((input) => (
-            <div
-              key={input.name}
-              className={
-                input.type === "checkbox" ? "toggle-control" : "form-group"
-              }
-            >
-              <FormInput
-                {...input}
-                onChange={
-                  input.type === "select"
-                    ? (selectedOption) =>
-                        dispatch({
-                          type: input.onChange,
-                          value: selectedOption,
-                        })
-                    : (e) => {
-                        dispatch({
-                          type: input.onChange,
-                          value:
-                            input.type === "checkbox"
-                              ? e.target.checked
-                              : e.target.value,
-                        });
-                      }
+          {Object.values(state.inputs).map((input) =>
+            input.isDependencyUsed === false ? (
+              <></>
+            ) : (
+              <div
+                key={input.name}
+                className={
+                  input.type === "checkbox" ? "toggle-control" : "form-group"
                 }
-                onBlur={(e) =>
-                  dispatch({ type: input.rules, value: e.target.value })
-                }
-              />
-              <FormInputError />
-            </div>
-          ))}
+              >
+                <FormInput
+                  {...input}
+                  onChange={
+                    input.type === "select"
+                      ? (selectedOption) =>
+                          dispatch({
+                            type: input.onChange,
+                            value: selectedOption,
+                          })
+                      : (e) => {
+                          dispatch({
+                            type: input.onChange,
+                            value:
+                              input.type === "checkbox"
+                                ? e.target.checked
+                                : e.target.value,
+                          });
+                        }
+                  }
+                  onBlur={(e) =>
+                    dispatch({ type: input.rules, value: e.target.value })
+                  }
+                />
+                <FormInputError />
+              </div>
+            )
+          )}
           <SaveButton isSaving={state.isSaving} />
         </form>
       </div>
