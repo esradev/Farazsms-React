@@ -68,7 +68,7 @@ class Farazsms_Ippanel {
 		if ( ! $res ) {
 			return false;
 		} else {
-			return $res['data'];
+			return $res;
 		}
 
 	}
