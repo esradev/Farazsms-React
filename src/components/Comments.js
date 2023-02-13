@@ -219,6 +219,7 @@ function Comments() {
         console.log(e);
       }
     }
+
     getPhonebooks();
   }, []);
 
@@ -241,6 +242,7 @@ function Comments() {
         console.log(e);
       }
     }
+
     getOptions();
   }, []);
 
@@ -259,6 +261,7 @@ function Comments() {
       console.log(optionsJsonForPost);
 
       dispatch({ type: "saveRequestStarted" });
+
       async function postOptions() {
         try {
           // Post Options from site DB Options table
@@ -275,6 +278,7 @@ function Comments() {
           console.log(e);
         }
       }
+
       postOptions();
     }
   }, [state.sendCount]);
