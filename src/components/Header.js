@@ -18,7 +18,7 @@ function Header() {
     async function getCredit() {
       try {
         //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-        const credit = await farazsmsJsObject.getcredit;
+        const credit = await farazsmsJsObject.getCredit;
         console.log(credit);
         setCredit(credit);
       } catch (e) {
@@ -27,6 +27,7 @@ function Header() {
     }
     getCredit();
   }, []);
+
   return (
     <header className="faraz-header container">
       <div className="header-content responsive-wrapper">

@@ -37,7 +37,6 @@ function Settings() {
         label: __("Your API key:", "farazsms"),
         required: true,
         rules: "apikeyRules",
-        isValid: false,
         checkCount: 0,
         tooltip: __(
           "To get the access key in your farazsms panel, refer to the web service menu in the access keys section",
@@ -55,7 +54,6 @@ function Settings() {
         label: __("Username:", "farazsms"),
         required: true,
         rules: "usernameRules",
-        isValid: false,
         checkCount: 0,
       },
       password: {
@@ -69,7 +67,6 @@ function Settings() {
         label: __("Your Password:", "farazsms"),
         required: true,
         rules: "passwordRules",
-        isValid: false,
         checkCount: 0,
       },
       admin_number: {
@@ -142,7 +139,6 @@ function Settings() {
       case "apikeyIsValidResults":
         if (action.value) {
           draft.inputs.apikey.hasErrors = true;
-          draft.inputs.apikey.isValid = false;
           draft.inputs.apikey.errorMessage = __(
             "That apikey is not valid.",
             "farazsms"
@@ -154,13 +150,10 @@ function Settings() {
       case "apikeyIsEmpty":
         if (action.value) {
           draft.inputs.apikey.hasErrors = true;
-          draft.inputs.apikey.isValid = false;
           draft.inputs.apikey.errorMessage = __(
             "Please fill API key filed first",
             "farazsms"
           );
-        } else {
-          draft.inputs.apikey.isValid = true;
         }
         return;
       case "usernameChange":
@@ -383,34 +376,49 @@ function Settings() {
     }
   }, [state.sendCount]);
 
-  // /**
-  //  *
-  //  * Validate Apikey, check if the Apikey is existing on Ippanel.
-  //  *
-  //  * @since 2.0.0
-  //  */
-  // useEffect(() => {
-  //   if (state.inputs.apikey.value) {
-  //     const delay = setTimeout(
-  //       () => dispatch({ type: "apikeyAfterDelay" }),
-  //       800
-  //     );
-  //     return () => clearTimeout(delay);
-  //   }
-  // }, [state.inputs.apikey.value]);
+  /**
+   *
+   * Validate Apikey, check if the Apikey is existing on Ippanel.
+   *
+   * @since 2.0.0
+   */
+  /*
+  useEffect(() => {
+    if (state.inputs.apikey.value) {
+      const delay = setTimeout(
+        () => dispatch({ type: "apikeyAfterDelay" }),
+        800
+      );
+      return () => clearTimeout(delay);
+    }
+  }, [state.inputs.apikey.value]);
+*/
 
-  // useEffect(() => {
-  //   if (state.inputs.apikey.checkCount) {
-  //     // Used this methode for avoid mixed content error in browsers for requested insecure http.
-  //     // const checkifapikeyisvalid = farazsmsJsObject.checkifapikeyisvalid;
-  //     // if (checkifapikeyisvalid) {
-  //     //   console.log(checkifapikeyisvalid);
-  //     // } else {
-  //     //   dispatch({
-  //     //     type: "apikeyIsValidResults",
-  //     //     value: true,
-  //     //   });
-  //     // }
+  /**
+   * Validate apikey.
+   *
+   * @since 2.0.0
+   */
+  /* useEffect(() => {
+    if (state.inputs.apikey.value) {
+      async function validateApikey() {
+        try {
+          //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
+          const apikeyIsValide = await farazsmsJsObject.validateApikey;
+          console.log(apikeyIsValide);
+          if (apikeyIsValide === false) {
+            dispatch({
+              type: "apikeyIsValidResults",
+              value: true,
+            });
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      validateApikey();
+    }
+  }, [state.inputs.apikey.value]);*/
 
   //     async function validateApikey() {
   //       const authentication_data = {

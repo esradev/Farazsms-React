@@ -75,6 +75,7 @@
           <option value="http://ippanel.com" />
           <option value="http://reg.ippanel.com" />
           <option value="http://api.ippanel.com" />
+          <option value="http://rest.ippanel.com" />
         </list>
       </option>
     </inspection_tool>

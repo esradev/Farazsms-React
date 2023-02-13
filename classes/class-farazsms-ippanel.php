@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Define the IPPanel API.
+ * Define the IPPanel API class.
  *
  * @since      2.0.0
  * @package    Farazsms
@@ -49,12 +49,35 @@ class Farazsms_Ippanel {
 	}
 
 	/**
+	 * Validate apikey
+	 *
+	 * @since 2.0.0
+	 */
+	public static function validate_apikey() {
+		$handler = curl_init( 'http://rest.ippanel.com/v1/user' );
+		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'GET' );
+		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
+			'Authorization: AccessKey ' . Farazsms_Base::$apiKey,
+			'Content-Type:application/json'
+		] );
+
+		$res = curl_exec( $handler );
+		$res = json_decode( $res, true );
+
+		if ( $res['status'] === 'OK' ) {
+			return $res['data']['user']['username'];
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Get phonebooks.
 	 *
 	 * @since 2.0.0
 	 */
 	public static function get_phonebooks() {
-
 		$handler = curl_init( 'http://api.ippanel.com/api/v1/phonebook/phonebooks' );
 		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'GET' );
 		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
@@ -99,7 +122,7 @@ class Farazsms_Ippanel {
 	}
 
 	/**
-	 * Save to phonebook functions.
+	 * Save to a phone to phonebook functions.
 	 *
 	 * @since 2.0.0
 	 */
@@ -124,10 +147,18 @@ class Farazsms_Ippanel {
 		}
 
 		return true;
-
 	}
 
-	public static function save_list_of_phones_to_phonebook( $list ) {
+	/**
+	 * Save list of phones to phonebook
+	 *
+	 * @param array $list
+	 *
+	 * @return bool
+	 * @since 2.0.0
+	 *
+	 */
+	public static function save_list_of_phones_to_phonebook( array $list ) {
 		$body    = [
 			'list' => $list,
 		];
@@ -147,7 +178,6 @@ class Farazsms_Ippanel {
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -229,15 +259,15 @@ class Farazsms_Ippanel {
 	/**
 	 * Send Webservice Single.
 	 *
-	 * @since 2.0.0
-	 *
 	 * @param array $recipient
 	 * @param $sender
 	 * @param $message
 	 *
 	 * @return bool
+	 * @since 2.0.0
+	 *
 	 */
-	public static function send_webservice_single( array $recipient , $sender, $message ) {
+	public static function send_webservice_single( array $recipient, $sender, $message ) {
 		if ( empty( $sender ) ) {
 			$sender = Farazsms_Base::$fromNum;
 		}
@@ -267,9 +297,9 @@ class Farazsms_Ippanel {
 	/**
 	 * Get credit.
 	 *
+	 * @return false|string
 	 * @since 2.0.0
 	 *
-	 * @return false|string
 	 */
 	public static function get_credit() {
 		$body     = [
@@ -310,9 +340,9 @@ class Farazsms_Ippanel {
 	/**
 	 * Send low credit notify to admin.
 	 *
+	 * @return void
 	 * @since 2.0.0
 	 *
-	 * @return void
 	 */
 	public static function send_admin_low_credit_to_admin() {
 		$fromnum = '3000505';
@@ -345,13 +375,13 @@ class Farazsms_Ippanel {
 	/**
 	 * Send pattern.
 	 *
-	 * @since 2.0.0
-	 *
 	 * @param $pattern
 	 * @param $phone
 	 * @param $input_data
 	 *
 	 * @return bool
+	 * @since 2.0.0
+	 *
 	 */
 	public static function send_pattern( $pattern, $phone, $input_data ) {
 		$body     = [
