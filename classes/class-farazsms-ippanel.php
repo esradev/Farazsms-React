@@ -54,6 +54,23 @@ class Farazsms_Ippanel {
 	 * @since 2.0.0
 	 */
 	public static function get_phonebooks() {
+
+		$handler = curl_init( 'http://api.ippanel.com/api/v1/phonebook/phonebooks' );
+		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'GET' );
+		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
+			'Authorization: ' . Farazsms_Base::$apiKey,
+			'Content-Type:application/json'
+		] );
+
+		$res = curl_exec( $handler );
+		$res = json_decode( $res, true );
+
+		return $res['data'];
+
+	}
+
+	public static function get_phonebooks_old_version() {
 		$uname = Farazsms_Base::$username;
 		$pass  = Farazsms_Base::$password;
 		$body  = [
@@ -86,13 +103,13 @@ class Farazsms_Ippanel {
 	 *
 	 * @since 2.0.0
 	 */
-	public static function save_a_phone_to_phonebook( $phone, $phonebook ) {
+	public static function save_a_phone_to_phonebook( $phone, $phonebook_id ) {
 		$phone   = Farazsms_Base::fsms_tr_num( $phone );
 		$body    = [
 			'uname'       => Farazsms_Base::$username,
 			'pass'        => Farazsms_Base::$password,
 			'op'          => 'phoneBookAdd',
-			'phoneBookId' => $phonebook,
+			'phoneBookId' => $phonebook_id,
 			'number'      => $phone,
 		];
 		$handler = curl_init( 'http://ippanel.com/api/select' );
@@ -144,7 +161,7 @@ class Farazsms_Ippanel {
 		$body  = [
 			'uname'       => $uname,
 			'pass'        => $pass,
-			'op'          => 'booklist',
+			'op'          => 'patternInfo',
 			'patternCode' => $pCode,
 		];
 		$res   = wp_remote_post(
@@ -210,9 +227,49 @@ class Farazsms_Ippanel {
 	}
 
 	/**
+	 * Send Webservice Single.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $recipient
+	 * @param $sender
+	 * @param $message
+	 *
+	 * @return bool
+	 */
+	public static function send_webservice_single( array $recipient , $sender, $message ) {
+		if ( empty( $sender ) ) {
+			$sender = Farazsms_Base::$fromNum;
+		}
+
+		$body    = [
+			'recipient' => $recipient,
+			'sender'    => $sender,
+			'message'   => $message
+		];
+		$handler = curl_init( 'http://api.ippanel.com/api/v1/sms/send/webservice/single' );
+		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'POST' );
+		curl_setopt( $handler, CURLOPT_POSTFIELDS, json_encode( $body ) );
+		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
+			'accept: application/json',
+			'Authorization: ' . Farazsms_Base::$apiKey,
+			'Content-Type:application/json'
+		] );
+
+		$res = curl_exec( $handler );
+		$res = json_decode( $res );
+
+		return true;
+	}
+
+
+	/**
 	 * Get credit.
 	 *
 	 * @since 2.0.0
+	 *
+	 * @return false|string
 	 */
 	public static function get_credit() {
 		$body     = [
@@ -247,7 +304,6 @@ class Farazsms_Ippanel {
 		$credit_rial = explode( $separator, $response[1] )[0];
 
 		return substr( $credit_rial, 0, - 1 );
-
 	}
 
 
@@ -255,6 +311,8 @@ class Farazsms_Ippanel {
 	 * Send low credit notify to admin.
 	 *
 	 * @since 2.0.0
+	 *
+	 * @return void
 	 */
 	public static function send_admin_low_credit_to_admin() {
 		$fromnum = '3000505';
@@ -283,10 +341,17 @@ class Farazsms_Ippanel {
 		json_decode( $response['body'] );
 	}
 
+
 	/**
 	 * Send pattern.
 	 *
 	 * @since 2.0.0
+	 *
+	 * @param $pattern
+	 * @param $phone
+	 * @param $input_data
+	 *
+	 * @return bool
 	 */
 	public static function send_pattern( $pattern, $phone, $input_data ) {
 		$body     = [
