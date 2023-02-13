@@ -49,30 +49,6 @@ class Farazsms_Ippanel {
 	}
 
 	/**
-	 * Validate apikey
-	 *
-	 * @since 2.0.0
-	 */
-	public static function validate_apikey() {
-		$handler = curl_init( 'http://rest.ippanel.com/v1/user' );
-		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'GET' );
-		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
-			'Authorization: AccessKey ' . Farazsms_Base::$apiKey,
-			'Content-Type:application/json'
-		] );
-
-		$res = curl_exec( $handler );
-		$res = json_decode( $res, true );
-
-		if ( $res['status'] === 'OK' ) {
-			return $res['data']['user']['username'];
-		} else {
-			return false;
-		}
-	}
-
-	/**
 	 * Get phonebooks.
 	 *
 	 * @since 2.0.0
@@ -89,7 +65,11 @@ class Farazsms_Ippanel {
 		$res = curl_exec( $handler );
 		$res = json_decode( $res, true );
 
-		return $res['data'];
+		if ( ! $res ) {
+			return false;
+		} else {
+			return $res['data'];
+		}
 
 	}
 

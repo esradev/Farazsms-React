@@ -133,7 +133,6 @@ class Farazsms_Settings {
 				'wproules'      => wp_roles(),
 				'getPhonebooks' => Farazsms_Ippanel::get_phonebooks(),
                 'getCredit'     => Farazsms_Ippanel::get_credit(),
-                'validateApikey' => Farazsms_Ippanel::validate_apikey(),
 			]
 		);
 

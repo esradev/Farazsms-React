@@ -114,6 +114,7 @@ function Settings() {
     isSaving: false,
     sendCount: 0,
     sectionName: __("General", "farazsms"),
+    ippanelUsername: "",
   };
 
   function ourReduser(draft, action) {
@@ -282,6 +283,9 @@ function Settings() {
           );
         }
         return;
+      case "ippanelUsername":
+        draft.ippanelUsername = action.value;
+        return;
     }
   }
 
@@ -346,7 +350,6 @@ function Settings() {
        * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
-
       const optsionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
@@ -382,7 +385,6 @@ function Settings() {
    *
    * @since 2.0.0
    */
-  /*
   useEffect(() => {
     if (state.inputs.apikey.value) {
       const delay = setTimeout(
@@ -392,21 +394,29 @@ function Settings() {
       return () => clearTimeout(delay);
     }
   }, [state.inputs.apikey.value]);
-*/
 
   /**
    * Validate apikey.
    *
    * @since 2.0.0
    */
-  /* useEffect(() => {
-    if (state.inputs.apikey.value) {
+  useEffect(() => {
+    if (state.inputs.apikey.checkCount) {
       async function validateApikey() {
+        let apikey;
         try {
-          //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-          const apikeyIsValide = await farazsmsJsObject.validateApikey;
-          console.log(apikeyIsValide);
-          if (apikeyIsValide === false) {
+          const validateApikey = await AxiosWp.post(
+            "/farazsms/v1/validate_apikey",
+            { apikey: state.inputs.apikey.value }
+          );
+          console.log(validateApikey);
+          if (validateApikey.data.status === "OK") {
+            dispatch({
+              type: "ippanelUsername",
+              value: validateApikey.data.data.user.username,
+            });
+          }
+          if (validateApikey.data.status === "UNAUTHORIZED") {
             dispatch({
               type: "apikeyIsValidResults",
               value: true,
@@ -416,85 +426,44 @@ function Settings() {
           console.log(e);
         }
       }
+
       validateApikey();
     }
-  }, [state.inputs.apikey.value]);*/
+  }, [state.inputs.apikey.checkCount]);
 
-  //     async function validateApikey() {
-  //       const authentication_data = {
-  //         headers: {
-  //           Authorization: "AccessKey " + state.inputs.apikey.value,
-  //         },
-  //       };
-  //       try {
-  //         const ippanelData = await Axios.get(
-  //           "http://rest.ippanel.com/v1/user",
-  //           authentication_data
-  //         );
-  //         console.log(ippanelData);
-  //       } catch (e) {
-  //         dispatch({
-  //           type: "apikeyIsValidResults",
-  //           value: true,
-  //         });
-  //         console.log(e);
-  //       }
-  //     }
-  //     validateApikey();
-  //   }
-  // }, [state.inputs.apikey.checkCount]);
+  /**
+   *
+   * Validate username, check if the username has access to provided apikey.
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    if (state.inputs.username.value) {
+      const delay = setTimeout(
+        () => dispatch({ type: "usernameAfterDelay" }),
+        800
+      );
+      return () => clearTimeout(delay);
+    }
+  }, [state.inputs.username.value]);
 
-  // /**
-  //  *
-  //  * Validate username, check if the username has access to provided apikey.
-  //  *
-  //  * @since 2.0.0
-  //  */
-  // useEffect(() => {
-  //   if (state.inputs.username.value) {
-  //     const delay = setTimeout(
-  //       () => dispatch({ type: "usernameAfterDelay" }),
-  //       800
-  //     );
-  //     return () => clearTimeout(delay);
-  //   }
-  // }, [state.inputs.username.value]);
+  useEffect(() => {
+    if (state.inputs.username.checkCount) {
+      async function validateUsername() {
+        try {
+          if (state.ippanelUsername) {
+            if (state.inputs.username.value !== state.ippanelUsername) {
+              dispatch({ type: "usernameNotAccessApikey", value: true });
+            }
+          }
+        } catch (e) {
+          console.log(e);
+        }
+      }
 
-  // useEffect(() => {
-  //   if (state.inputs.username.checkCount) {
-  //     async function validateUsername() {
-  //       if (!state.inputs.apikey.value) {
-  //         dispatch({
-  //           type: "apikeyIsEmpty",
-  //           value: true,
-  //         });
-  //       } else {
-  //         const authentication_data = {
-  //           headers: {
-  //             Authorization: "AccessKey " + state.inputs.apikey.value,
-  //           },
-  //         };
-  //         try {
-  //           const ippanelData = await Axios.get(
-  //             "http://rest.ippanel.com/v1/user",
-  //             authentication_data
-  //           );
-  //           console.log(ippanelData);
-  //           const ippanelResponseUsername = ippanelData.data.data.user.username;
-  //           console.log(ippanelResponseUsername);
-  //           if (state.inputs.username.value == ippanelResponseUsername) {
-  //             dispatch({ type: "usernameNotAccessApikey", value: false });
-  //           } else {
-  //             dispatch({ type: "usernameNotAccessApikey", value: true });
-  //           }
-  //         } catch (e) {
-  //           console.log(e);
-  //         }
-  //       }
-  //     }
-  //     validateUsername();
-  //   }
-  // }, [state.inputs.username.checkCount]);
+      validateUsername();
+    }
+  }, [state.inputs.username.checkCount]);
 
   /**
    *

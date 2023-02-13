@@ -232,6 +232,15 @@ class Farazsms_Routes {
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
+
+		//Register validate_apikey rest route
+		register_rest_route( $namespace, '/' . 'validate_apikey', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'validate_apikey' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
 	}
 
 	/**
@@ -645,6 +654,29 @@ class Farazsms_Routes {
 			return true;
 		}
 
+	}
+
+
+	/**
+	 * Validate apikey.
+	 *
+	 * @param $apikey
+	 * @since 2.0.0
+	 *
+	 */
+	public function validate_apikey( $apikey ) {
+
+		$handler = curl_init( 'http://rest.ippanel.com/v1/user' );
+		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'GET' );
+		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
+			'Authorization: AccessKey ' . $apikey['apikey'],
+			'Content-Type:application/json'
+		] );
+
+		$res = curl_exec( $handler );
+
+		return json_decode( $res, true );
 	}
 
 	/**
