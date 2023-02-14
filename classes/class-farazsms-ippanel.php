@@ -297,9 +297,7 @@ class Farazsms_Ippanel {
 			return false;
 		}
 		$response = json_decode( $response['body'] );
-		if ( $response[0] !== 0 ) {
-			return false;
-		}
+
 		$separator = '.';
 		if ( strpos( $response[1], '/' ) ) {
 			$separator = '/';

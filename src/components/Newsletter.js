@@ -142,6 +142,7 @@ function Newsletter() {
         isDependencyUsed: false,
       },
     },
+    newsletterSubscribers: "",
     isFetching: true,
     isSaving: false,
     sendCount: 0,
@@ -265,6 +266,10 @@ function Newsletter() {
         draft.inputs.news_product_notify_msg.value = action.value;
         return;
 
+      case "getNewsletterSubscribers":
+        draft.newsletterSubscribers = action.value;
+        return;
+
       case "submitOptions":
         draft.sendCount++;
 
@@ -319,7 +324,6 @@ function Newsletter() {
       try {
         //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getPhonebooks;
-        console.log(phonebooks);
         const phonebooksArrayObject = phonebooks["data"].map(
           ({ id, title }) => ({
             label: title,
@@ -330,7 +334,6 @@ function Newsletter() {
           type: "news_phonebookOptions",
           value: phonebooksArrayObject,
         });
-        console.log(phonebooksArrayObject);
       } catch (e) {
         console.log(e);
       }
@@ -372,7 +375,6 @@ function Newsletter() {
         ({ value, name }) => [name, value]
       );
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
-      console.log(optionsJsonForPost);
 
       dispatch({ type: "saveRequestStarted" });
       async function postOptions() {
@@ -396,6 +398,30 @@ function Newsletter() {
   }, [state.sendCount]);
 
   /**
+   * Get newsletter phonebook numbers.
+   */
+  useEffect(() => {
+    async function getPhonebookNumbers() {
+      try {
+        // TODO Make phonebook_id dynamic.
+        const getNewsletterSubscribers = await AxiosWp.post(
+          "/farazsms/v1/get_phonebook_numbers",
+          { phonebook_id: "481670" }
+        );
+        console.log(getNewsletterSubscribers["data"]["data"]);
+        dispatch({
+          type: "getNewsletterSubscribers",
+          value: getNewsletterSubscribers["data"]["data"],
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    getPhonebookNumbers();
+  }, []);
+
+  /**
    * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
@@ -403,7 +429,7 @@ function Newsletter() {
    */
 
   return (
-    <div>
+    <div className="farazsms-newsletter-component">
       <SectionHeader sectionName={state.sectionName} />
       <div>
         <form onSubmit={handleSubmit}>
@@ -447,6 +473,25 @@ function Newsletter() {
           <SaveButton isSaving={state.isSaving} />
         </form>
       </div>
+
+      {state.newsletterSubscribers && (
+        <div className="list-contacts">
+          <ol className="contact-list">
+            {state.newsletterSubscribers.map((subscriber) => (
+              <li key={subscriber.id} className="contact-list-item">
+                <div className="contact-details">
+                  <p>{subscriber.name}</p>
+                </div>
+                <div className="contact-details">
+                  <p>{subscriber.number}</p>
+                </div>
+                <button className="contact-edit">Edit</button>
+                <button className="contact-delete">Delete</button>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
     </div>
   );
 }

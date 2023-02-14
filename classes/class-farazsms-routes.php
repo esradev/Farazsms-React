@@ -241,6 +241,15 @@ class Farazsms_Routes {
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
+
+		//Register get_phonebook_numbers rest route
+		register_rest_route( $namespace, '/' . 'get_phonebook_numbers', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_phonebook_numbers' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
 	}
 
 	/**
@@ -661,8 +670,9 @@ class Farazsms_Routes {
 	 * Validate apikey.
 	 *
 	 * @param $apikey
-	 * @since 2.0.0
 	 *
+	 * @return mixed|null
+	 * @since 2.0.0
 	 */
 	public function validate_apikey( $apikey ) {
 
@@ -671,6 +681,29 @@ class Farazsms_Routes {
 		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
 			'Authorization: AccessKey ' . $apikey['apikey'],
+			'Content-Type:application/json'
+		] );
+
+		$res = curl_exec( $handler );
+
+		return json_decode( $res, true );
+	}
+
+	/**
+	 * Get phonebook numbers.
+	 *
+	 * @param $phonebook_id
+	 *
+	 * @return mixed|null
+	 * @since 2.0.0
+	 */
+	public function get_phonebook_numbers( $phonebook_id ) {
+
+		$handler = curl_init( 'http://api.ippanel.com/api/v1/phonebook/numbers?phonebook=' . $phonebook_id['phonebook_id'] .'&page=1&per_page=10' );
+		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'GET' );
+		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
+		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
+			'Authorization: ' . Farazsms_Base::$apiKey,
 			'Content-Type:application/json'
 		] );
 
