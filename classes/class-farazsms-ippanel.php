@@ -164,14 +164,14 @@ class Farazsms_Ippanel {
 	 *
 	 * @since 2.0.0
 	 */
-	public static function get_registered_pattern_variables( $pCode ) {
+	public static function get_registered_pattern_variables( $patternCode ) {
 		$uname = Farazsms_Base::$username;
 		$pass  = Farazsms_Base::$password;
 		$body  = [
 			'uname'       => $uname,
 			'pass'        => $pass,
 			'op'          => 'patternInfo',
-			'patternCode' => $pCode,
+			'patternCode' => $patternCode,
 		];
 
 		$res   = wp_remote_post(

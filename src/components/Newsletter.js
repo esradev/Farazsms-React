@@ -313,16 +313,19 @@ function Newsletter() {
    *
    * @since 2.0.0
    */
+
   useEffect(() => {
     async function getPhonebooks() {
       try {
         //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-        const phonebooks = await farazsmsJsObject.getphonebooks;
+        const phonebooks = await farazsmsJsObject.getPhonebooks;
         console.log(phonebooks);
-        const phonebooksArrayObject = phonebooks.map(({ id, title }) => ({
-          label: title,
-          value: id,
-        }));
+        const phonebooksArrayObject = phonebooks["data"].map(
+          ({ id, title }) => ({
+            label: title,
+            value: id,
+          })
+        );
         dispatch({
           type: "news_phonebookOptions",
           value: phonebooksArrayObject,

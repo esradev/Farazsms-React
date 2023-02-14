@@ -43,55 +43,41 @@ class Farazsms_Settings {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_action( 'init', [ $this, 'fsms_check_remaining_days' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_styles' ] );
 		add_action( 'admin_menu', [ $this, 'init_menu' ] );
 		add_action( 'admin_bar_menu', [ $this, 'admin_bar_menu' ], 60 );
 		add_filter( 'plugin_action_links_' . FARAZSMS_BASE, [ $this, 'settings_link' ] );
 		add_action( 'wp_dashboard_setup', [ $this, 'rss_meta_box' ] );
+		add_action( 'init', [ $this, 'check_remaining_days' ] );
+	}
+
+
+
+	/**
+	 * Enqueue styles
+	 *
+	 * @return void
+	 */
+	public function enqueue_styles() {
+		wp_register_style( 'farazsms-newsletter', FARAZSMS_URL . 'assets/css/farazsms-newsletter.css', [], '2.0', 'all' );
 	}
 
 	/**
-	 * Check remaining days.
+	 * Enqueue scripts
+	 *
+	 * @return void
 	 */
-	public function fsms_check_remaining_days() {
-		$panel_expire_date = get_option( 'fsms_panel_expire_date', '' );
-		if ( empty( $panel_expire_date ) ) {
-			return;
-		}
-		$future     = strtotime( $panel_expire_date );
-		$timefromdb = time();
-		$timeleft   = $future - $timefromdb;
-		$daysleft   = round( ( ( $timeleft / 24 ) / 60 ) / 60 );
-		if ( ! is_numeric( $daysleft ) ) {
-			return;
-		}
-		if ( $daysleft > 30 ) {
-			delete_option( 'sent_low_remaining_days_30' );
-			delete_option( 'sent_low_remaining_days_7' );
-
-			return;
-		}
-		if ( $daysleft > 20 && $daysleft < 30 ) {
-			$already_sent = get_option( 'sent_low_remaining_days_30', '' );
-			if ( $already_sent === '1' ) {
-				return;
-			}
-			$message = __( 'Dear user, your panel will expire less than a month from now. To renew your SMS panel, contact Faraz SMS', 'farazsms' );
-			Farazsms_Ippanel::send_message( [ Farazsms_Base::$admin_number ], $message, '+98club' );
-			update_option( 'sent_low_remaining_days_30', '1' );
-		} elseif ( $daysleft > 1 && $daysleft < 7 ) {
-			$already_sent = get_option( 'sent_low_remaining_days_7', '' );
-			if ( $already_sent == '1' ) {
-				return;
-			}
-
-			$message = __( 'Dear user, your panel will expire less than a week from now. To renew your SMS panel, contact Faraz SMS.', 'farazsms' );
-			Farazsms_Ippanel::send_message( [ Farazsms_Base::$admin_number ], $message, '+98club' );
-			update_option( 'sent_low_remaining_days_7', '1' );
-		}
-	}
+	public function enqueue_scripts() {
+		wp_register_script( 'farazsms-newsletter', FARAZSMS_URL . 'assets/js/farazsms-newsletter.js', [ 'jquery' ], '2.0.1',  true);
+		wp_localize_script(
+			'farazsms-newsletter',
+			'fsms_ajax_object',
+			[ 'ajax_url' => admin_url( 'admin-ajax.php' ) ]
+		);
+    }
 
 	/**
 	 * Register the stylesheets for the admin area.
@@ -397,6 +383,47 @@ class Farazsms_Settings {
         </div>
 		<?php
 
+	}
+
+	/**
+	 * Check remaining days.
+	 */
+	public function check_remaining_days() {
+		$panel_expire_date = get_option( 'fsms_panel_expire_date', '' );
+		if ( empty( $panel_expire_date ) ) {
+			return;
+		}
+		$future     = strtotime( $panel_expire_date );
+		$timefromdb = time();
+		$timeleft   = $future - $timefromdb;
+		$daysleft   = round( ( ( $timeleft / 24 ) / 60 ) / 60 );
+		if ( ! is_numeric( $daysleft ) ) {
+			return;
+		}
+		if ( $daysleft > 30 ) {
+			delete_option( 'sent_low_remaining_days_30' );
+			delete_option( 'sent_low_remaining_days_7' );
+
+			return;
+		}
+		if ( $daysleft > 20 && $daysleft < 30 ) {
+			$already_sent = get_option( 'sent_low_remaining_days_30', '' );
+			if ( $already_sent === '1' ) {
+				return;
+			}
+			$message = __( 'Dear user, your panel will expire less than a month from now. To renew your SMS panel, contact Faraz SMS', 'farazsms' );
+			Farazsms_Ippanel::send_message( [ Farazsms_Base::$admin_number ], $message, '+98club' );
+			update_option( 'sent_low_remaining_days_30', '1' );
+		} elseif ( $daysleft > 1 && $daysleft < 7 ) {
+			$already_sent = get_option( 'sent_low_remaining_days_7', '' );
+			if ( $already_sent == '1' ) {
+				return;
+			}
+
+			$message = __( 'Dear user, your panel will expire less than a week from now. To renew your SMS panel, contact Faraz SMS.', 'farazsms' );
+			Farazsms_Ippanel::send_message( [ Farazsms_Base::$admin_number ], $message, '+98club' );
+			update_option( 'sent_low_remaining_days_7', '1' );
+		}
 	}
 
 }
