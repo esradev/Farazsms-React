@@ -45,7 +45,6 @@ class Farazsms_Ippanel {
 	 * Constructor
 	 */
 	public function __construct() {
-
 	}
 
 	/**
@@ -174,6 +173,7 @@ class Farazsms_Ippanel {
 			'op'          => 'patternInfo',
 			'patternCode' => $pCode,
 		];
+
 		$res   = wp_remote_post(
 			'http://ippanel.com/api/select',
 			[
@@ -186,12 +186,9 @@ class Farazsms_Ippanel {
 		if ( is_wp_error( $res ) ) {
 			return $res;
 		}
-		$res = json_decode( $res['body'] );
-		if ( intval( $res[0] ) != 0 ) {
-			return $res;
-		}
+		$res = json_decode( $res['body'] , true);
 
-		return $res->data->patternMessage;
+		return $res['data']['patternMessage'];
 	}
 
 	/**
@@ -363,7 +360,7 @@ class Farazsms_Ippanel {
 	 * @since 2.0.0
 	 *
 	 */
-	public static function send_pattern( $pattern, $phone, $input_data ) {
+	public static function send_pattern($pattern, $phone, $input_data ) {
 		$body     = [
 			'user'        => Farazsms_Base::$username,
 			'pass'        => Farazsms_Base::$password,
@@ -373,6 +370,7 @@ class Farazsms_Ippanel {
 			'toNum'       => $phone,
 			'inputData'   => [ $input_data ],
 		];
+
 		$response = wp_remote_post(
 			'http://ippanel.com/api/select',
 			[
@@ -386,8 +384,8 @@ class Farazsms_Ippanel {
 			return false;
 		}
 
-		$response = json_decode( $response['body'] );
-		if ( $response->status->code !== 0 ) {
+		$response = json_decode( $response['body'] , true );
+		if ( $response['status']['code'] !== 0 ) {
 			return false;
 		}
 

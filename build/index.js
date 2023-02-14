@@ -14400,8 +14400,7 @@ function Woocommerce(props) {
         label: __("Pattern code to send tracking code:", "farazsms"),
         rules: "woo_tracking_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
-        infoBody: __("tracking code %tracking_code% (required) | order number %order_id% | order status %order_status% | full name in billing address %billing_full_name% | full name in shipping address %shipping_full_name%", "farazsms"),
-        isDependencyUsed: false
+        infoBody: __("tracking code %tracking_code% (required) | order number %order_id% | order status %order_status% | full name in billing address %billing_full_name% | full name in shipping address %shipping_full_name%", "farazsms")
       }
     },
     isFetching: true,
@@ -14424,11 +14423,9 @@ function Woocommerce(props) {
         if (action.value.woo_poll === true) {
           draft.inputs.woo_poll_time.isDependencyUsed = true;
           draft.inputs.woo_poll_msg.isDependencyUsed = true;
-          draft.inputs.woo_tracking_pattern.isDependencyUsed = true;
         } else {
           draft.inputs.woo_poll_time.isDependencyUsed = false;
           draft.inputs.woo_poll_msg.isDependencyUsed = false;
-          draft.inputs.woo_tracking_pattern.isDependencyUsed = false;
         }
         draft.inputs.woo_poll_time.value = action.value.woo_poll_time;
         draft.inputs.woo_poll_msg.value = action.value.woo_poll_msg;
@@ -14454,11 +14451,9 @@ function Woocommerce(props) {
         if (action.value === true) {
           draft.inputs.woo_poll_time.isDependencyUsed = true;
           draft.inputs.woo_poll_msg.isDependencyUsed = true;
-          draft.inputs.woo_tracking_pattern.isDependencyUsed = true;
         } else {
           draft.inputs.woo_poll_time.isDependencyUsed = false;
           draft.inputs.woo_poll_msg.isDependencyUsed = false;
-          draft.inputs.woo_tracking_pattern.isDependencyUsed = false;
         }
         return;
       case "woo_poll_timeChange":

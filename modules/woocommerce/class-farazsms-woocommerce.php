@@ -171,6 +171,8 @@ class Farazsms_Woocommerce {
 
 	/**
 	 * Send tracking code.
+	 *
+	 * @throws Exception
 	 */
 	public function send_tracking_code( $phone, $tracking_code, $order_data ) {
 
