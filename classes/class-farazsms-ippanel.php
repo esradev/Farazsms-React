@@ -120,10 +120,10 @@ class Farazsms_Ippanel {
 		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $handler, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ] );
 		$res = curl_exec( $handler );
-		$res = json_decode( $res );
-		if ( $res->status->code !== 0 ) {
-			return false;
-		}
+		$res = json_decode( $res, true );
+//		if ( $res->status->code !== 0 ) {
+//			return false;
+//		}
 
 		return true;
 	}
@@ -296,7 +296,7 @@ class Farazsms_Ippanel {
 		if ( is_wp_error( $response ) ) {
 			return false;
 		}
-		$response = json_decode( $response['body'] );
+		$response = json_decode( $response['body'], true );
 
 		$separator = '.';
 		if ( strpos( $response[1], '/' ) ) {

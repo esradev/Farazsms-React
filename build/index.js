@@ -11083,9 +11083,9 @@ function Comments() {
     async function getPhonebooks() {
       try {
         //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-        const phonebooks = await farazsmsJsObject.getphonebooks;
+        const phonebooks = await farazsmsJsObject.getPhonebooks;
         console.log(phonebooks);
-        const phonebooksArrayObject = phonebooks.map(_ref => {
+        const phonebooksArrayObject = phonebooks["data"].map(_ref => {
           let {
             id,
             title
@@ -12691,6 +12691,7 @@ function Newsletter() {
         isDependencyUsed: false
       }
     },
+    newsPhonebookID: "",
     newsletterSubscribers: "",
     isFetching: true,
     isSaving: false,
@@ -12795,6 +12796,9 @@ function Newsletter() {
         draft.inputs.news_product_notify_msg.hasErrors = false;
         draft.inputs.news_product_notify_msg.value = action.value;
         return;
+      case "setNewsPhonebookID":
+        draft.newsPhonebookID = action.value;
+        return;
       case "getNewsletterSubscribers":
         draft.newsletterSubscribers = action.value;
         return;
@@ -12883,12 +12887,33 @@ function Newsletter() {
         // Get Options from site DB Options table
         const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/newsletter_options");
         if (getOptions.data) {
-          const optsionsJson = JSON.parse(getOptions.data);
-          console.log(optsionsJson);
+          const optionsJson = JSON.parse(getOptions.data);
           dispatch({
             type: "fetchComplete",
-            value: optsionsJson
+            value: optionsJson
           });
+          // Get newsletter phonebook numbers.
+          const newsPhonebookId = optionsJson.news_phonebook[0].value;
+          dispatch({
+            type: "setNewsPhonebookID",
+            value: newsPhonebookId
+          });
+          if (newsPhonebookId) {
+            async function getPhonebookNumbers() {
+              try {
+                const getNewsletterSubscribers = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/get_phonebook_numbers", {
+                  phonebook_id: newsPhonebookId
+                });
+                dispatch({
+                  type: "getNewsletterSubscribers",
+                  value: getNewsletterSubscribers["data"]["data"]
+                });
+              } catch (e) {
+                console.log(e);
+              }
+            }
+            getPhonebookNumbers();
+          }
         }
       } catch (e) {
         console.log(e);
@@ -12903,7 +12928,6 @@ function Newsletter() {
        * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
-
       const optsionsArray = Object.values(state.inputs).map(_ref2 => {
         let {
           value,
@@ -12933,28 +12957,6 @@ function Newsletter() {
       postOptions();
     }
   }, [state.sendCount]);
-
-  /**
-   * Get newsletter phonebook numbers.
-   */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getPhonebookNumbers() {
-      try {
-        // TODO Make phonebook_id dynamic.
-        const getNewsletterSubscribers = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/get_phonebook_numbers", {
-          phonebook_id: "481670"
-        });
-        console.log(getNewsletterSubscribers["data"]["data"]);
-        dispatch({
-          type: "getNewsletterSubscribers",
-          value: getNewsletterSubscribers["data"]["data"]
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getPhonebookNumbers();
-  }, []);
 
   /**
    * The settings form created by mapping over originalState as the main state.

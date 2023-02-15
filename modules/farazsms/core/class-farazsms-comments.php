@@ -166,6 +166,8 @@ class Farazsms_Comments {
 			$comment = get_comment( $comment->comment_parent );
 			$data    = $this->comments_farazsms_shortcode( $comment, $comment_id );
 			$this->send_comment_reply_sms( $mobile, self::$comment_pattern, $data );
+		}
+		if (self::$comment_phonebook_id) {
 			$this->save_comment_mobile_to_phonebook( $mobile, $user_name );
 		}
 	}
@@ -244,7 +246,7 @@ class Farazsms_Comments {
 	 */
 	public function save_comment_mobile_to_phonebook( $number, $name ) {
 
-		$list[] = (object) [
+		$list[0] = (object) [
 			'number'       => $number,
 			'name'         => $name,
 			'phonebook_id' => (int) self::$comment_phonebook_id

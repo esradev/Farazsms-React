@@ -73,15 +73,13 @@ class Farazsms_Woocommerce {
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'woocommerce_thankyou', [ $this, 'woo_payment_finished' ] );
-		add_action( 'woocommerce_thankyou', [ $this, 'woo_send_timed_message' ] );
-		//add_action( 'init', [$this, 'fsms_woo_retention_action' ]);
+//		add_action( 'woocommerce_thankyou', [ $this, 'woo_send_timed_message' ] );
+//		add_action( 'init', [$this, 'fsms_woo_retention_action' ]);
 		add_action( 'woocommerce_checkout_get_value', [ $this, 'fsms_pre_populate_checkout_fields', 10, 2 ] );
 		add_filter( 'woocommerce_billing_fields', [ $this, 'fsms_woocommerce_checkout_fields' ] );
 		add_action( 'woocommerce_checkout_process', [ $this, 'fsms_woocommerce_checkout_process' ] );
 		add_action( 'wp_ajax_fsms_send_otp_code', [ $this, 'fsms_send_otp_code' ] );
 		add_action( 'wp_ajax_nopriv_fsms_send_otp_code', [ $this, 'fsms_send_otp_code' ] );
-		add_action( 'woocommerce_thankyou', [ $this, 'fsms_delete_otp_code' ] );
-
 	}
 
 	/**
@@ -92,7 +90,7 @@ class Farazsms_Woocommerce {
 	public function enqueue_styles() {
 		$woo_checkout_otp = self::$woo_checkout_otp;
 		if ( $woo_checkout_otp && is_checkout() ) {
-			wp_enqueue_style( 'farazsms-woo-otp', plugin_dir_url( __FILE__ ) . 'css/farazsms-woo-otp.css', [], '2.0', 'all' );
+			wp_enqueue_style( 'farazsms-woo-otp', FARAZSMS_URL . 'assets/css/farazsms-woo-otp.css', [], '2.0', 'all' );
 		}
 	}
 
@@ -104,7 +102,7 @@ class Farazsms_Woocommerce {
 	public function enqueue_scripts() {
 		$woo_checkout_otp = self::$woo_checkout_otp;
 		if ( $woo_checkout_otp && is_checkout() ) {
-			wp_enqueue_script( 'farazsms-woo-otp', plugin_dir_url( __FILE__ ) . 'js/farazsms-woo-otp.js', [ 'jquery' ], '2.0', true );
+			wp_enqueue_script( 'farazsms-woo-otp', FARAZSMS_URL . 'assets/js/farazsms-woo-otp.js', [ 'jquery' ], '2.0', true );
 			wp_localize_script(
 				'farazsms-woo-otp',
 				'fsms_ajax_url',
@@ -210,15 +208,14 @@ class Farazsms_Woocommerce {
 	 */
 	public function send_woocommerce_verification_code( $phone, $data ) {
 		$phone   = Farazsms_Base::fsms_tr_num( $phone );
-		$pattern = self::$woo_checkout_otp_pattern;
-		if ( empty( $phone ) || empty( $pattern ) || empty( $data ) ) {
+		if ( empty( $phone ) || empty( self::$woo_checkout_otp_pattern ) || empty( $data ) ) {
 			return false;
 		}
 
 		$input_data         = [];
 		$input_data['code'] = strval( $data['code'] );
 
-		return Farazsms_Ippanel::send_pattern( $pattern, $phone, $input_data );
+		return Farazsms_Ippanel::send_pattern( self::$woo_checkout_otp_pattern, $phone, $input_data );
 
 	}
 
@@ -312,7 +309,7 @@ class Farazsms_Woocommerce {
 		}
 
 		Farazsms_Ippanel::save_a_phone_to_phonebook( $phone, Farazsms_Base::$woo_phonebook_id );
-
+		$this->fsms_delete_otp_code($order);
 		return true;
 	}
 
@@ -322,7 +319,7 @@ class Farazsms_Woocommerce {
 	 *
 	 */
 	public function woo_send_timed_message( $order_id ) {
-		$fsms_base = Farazsms_Base::get_instance();
+
 		$order     = wc_get_order( $order_id );
 		$phone     = $order->get_billing_phone();
 		$products  = [];
@@ -473,6 +470,33 @@ class Farazsms_Woocommerce {
 	public function fsms_delete_otp_code( $order_id ) {
 		$order = wc_get_order( $order_id );
 		$this::delete_code_for_woo( $order->get_billing_phone() );
+	}
+
+	/**
+	 *
+	 * Pre-populate checkout fields.
+	 *
+	 */
+
+	public function fsms_pre_populate_checkout_fields($input, $key)
+	{
+		global $current_user;
+		$digits_mobile = get_user_meta($current_user->ID, 'digits_phone_no', TRUE);
+		switch ($key):
+			case 'billing_first_name':
+			case 'shipping_first_name':
+				return $current_user->first_name;
+				break;
+
+			case 'billing_last_name':
+			case 'shipping_last_name':
+				return $current_user->last_name;
+				break;
+			case 'billing_phone':
+				return !empty($digits_mobile) ? '0' . $digits_mobile : '';
+				break;
+
+		endswitch;
 	}
 }
 
