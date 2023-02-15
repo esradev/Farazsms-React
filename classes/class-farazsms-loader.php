@@ -89,6 +89,9 @@ class Farazsms_Loader {
 		// The class responsible for defining all actions for newsletter.
 		require_once FARAZSMS_MODULES_PATH . 'newsletter/class-farazsms-newsletter.php';
 
+		// The class responsible for defining all actions for newsletter block.
+		require_once FARAZSMS_MODULES_PATH . 'newsletter/class-farazsms-newsletter-block.php';
+
 		// The class responsible for defining all actions for login-notify.
 		require_once FARAZSMS_MODULES_PATH . 'farazsms/core/class-farazsms-login-notify.php';
 

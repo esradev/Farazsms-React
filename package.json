@@ -7,6 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "wp-scripts build",
     "start": "wp-scripts start",
+    "build:blocks": "wp-scripts build src/blocks/newsletter/index.js src/blocks/newsletter/frontend.js --output-path=build-blocks",
+    "start:blocks": "wp-scripts build src/blocks/newsletter/index.js src/blocks/newsletter/frontend.js --output-path=build-blocks",
     "plugin-zip": "wp-scripts plugin-zip"
   },
   "repository": {
@@ -30,6 +32,7 @@
     "popper.js": "^1.16.1",
     "react": "^17.0.2",
     "react-bootstrap": "^2.7.0",
+    "react-color": "^2.19.3",
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.4.5",
     "react-select": "^5.7.0",

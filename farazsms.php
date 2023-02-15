@@ -72,6 +72,7 @@ class Farazsms {
 
 		register_activation_hook( __FILE__, [ $this, 'activate_farazsms' ] );
 		add_action( 'activated_plugin', [ $this, 'farazsms_activation_redirect' ] );
+		add_action('init' , [$this, 'create_block_farazsms_newsletter_block_init']);
 	}
 
 	/**
@@ -131,6 +132,10 @@ class Farazsms {
 			delete_option( 'farazsms_do_activation_redirect' );
 			exit( wp_redirect( FARAZSMS_SETTINGS_LINK ) );
 		}
+	}
+
+	public function create_block_farazsms_newsletter_block_init() {
+		register_block_type(  'farazsms/newsletter' );
 	}
 
 
