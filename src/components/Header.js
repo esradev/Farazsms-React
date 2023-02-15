@@ -2,7 +2,7 @@
  * Import remote dependencies.
  */
 import React, { useState, useEffect, useContext } from "react";
-import FarazsmsLogo from "../assets/images/farazsms-logo.png";
+import FarazsmsLogo from "../assets/images/farazsms-logo.jpg";
 import { AiOutlineBell } from "react-icons/ai";
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;

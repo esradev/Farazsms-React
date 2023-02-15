@@ -483,6 +483,7 @@ function Newsletter() {
               <li key={subscriber.id} className="contact-list-item">
                 <div className="contact-details">
                   <p>{subscriber.name}</p>
+                  <p>{subscriber.id}</p>
                 </div>
                 <div className="contact-details">
                   <p>{subscriber.number}</p>
