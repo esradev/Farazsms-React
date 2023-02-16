@@ -80,16 +80,13 @@ class Farazsms_Newsletter {
 		add_action( 'wp_ajax_nopriv_fsms_add_phone_to_newsletter', [ $this, 'fsms_add_phone_to_newsletter' ] );
 
 		add_action( 'publish_post', [ $this, 'fsms_publish_post_notification' ] );
-		add_action( 'transition_post_status', [ $this, 'fsms_product_published', 10, 3 ] );
+		add_action( 'transition_post_status', [ $this, 'fsms_product_published' ], 10, 3 );
 
-		add_action( 'wp_ajax_fsms_send_message_to_subscribers', [ $this, 'send_message_to_subscribers' ] );
-		add_action( 'wp_ajax_nopriv_fsms_send_message_to_subscribers', [ $this, 'send_message_to_subscribers' ] );
+		add_action( 'wp_ajax_fsms_send_message_to_subscribers', [ $this, 'fsms_send_message_to_subscribers' ] );
+		add_action( 'wp_ajax_nopriv_fsms_send_message_to_subscribers', [ $this, 'fsms_send_message_to_subscribers' ] );
 
 		add_action( 'wp_ajax_fsms_delete_user_from_subscribers', [ $this, 'fsms_delete_user_from_subscribers' ] );
-		add_action( 'wp_ajax_nopriv_fsms_delete_user_from_subscribers', [
-			$this,
-			'fsms_delete_user_from_subscribers'
-		] );
+		add_action( 'wp_ajax_nopriv_fsms_delete_user_from_subscribers', [$this, 'fsms_delete_user_from_subscribers'] );
 
 		add_action( 'wp_ajax_fsms_send_message_to_phonebooks', [ $this, 'ajax_send_message_to_phonebooks' ] );
 		add_action( 'wp_ajax_nopriv_fsms_send_message_to_phonebooks', [ $this, 'ajax_send_message_to_phonebooks' ] );
@@ -113,7 +110,7 @@ class Farazsms_Newsletter {
 	 *
 	 * @since 1.0.0
 	 */
-	public function send_message_to_subscribers() {
+	public function fsms_send_message_to_subscribers() {
 
 		$message     = ( $_POST['message'] ?? '' );
 		$subscribers = self::get_subscribers();
