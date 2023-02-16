@@ -44,7 +44,6 @@ class Farazsms_News_Block {
 	 */
 	public function __construct() {
 		add_action( 'init', [ $this, 'adminAssets' ] );
-
 	}
 
 	public function adminAssets() {
@@ -54,7 +53,7 @@ class Farazsms_News_Block {
 			'wp-element',
 			'wp-editor'
 		] );
-		register_block_type( 'ourplugin/are-you-paying-attention', [
+		register_block_type( 'farazsms/newsletter', [
 			'editor_script'   => 'ournewblocktype',
 			'editor_style'    => 'quizeditcss',
 			'render_callback' => [ $this, 'theHTML' ]

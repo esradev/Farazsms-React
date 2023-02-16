@@ -52,7 +52,7 @@ class Farazsms_Edd {
 	public function __construct() {
 		$edd_options = json_decode( get_option( 'farazsms_edd_options' ), true );
 		if ( $edd_options ) {
-			self::$edd_phonebook_id     = current( array_column( $edd_options['edd_phonebook'], 'value' ) );
+			self::$edd_phonebook_id  = current( array_column( $edd_options['edd_phonebook'], 'value' ) );
 			self::$edd_send_to_user  = $edd_options['edd_send_to_user'];
 			self::$edd_user_pattern  = $edd_options['edd_user_pattern'];
 			self::$edd_send_to_admin = $edd_options['edd_send_to_admin'];
@@ -85,15 +85,15 @@ class Farazsms_Edd {
 
 		$payment_meta = edd_get_payment_meta( $payment_id );
 		$mobile       = $payment_meta['phone'];
-		$list         = $this->get_edd_order_data( $payment_meta );
+		$data         = $this->get_edd_order_data( $payment_meta );
 		if ( self::$edd_send_to_user ) {
-			$this->send_edd_sms( $mobile, self::$edd_user_pattern, $list );
+			$this->send_edd_sms( $mobile, self::$edd_user_pattern, $data );
 		}
 		if ( self::$edd_send_to_admin ) {
-			$this->send_edd_sms( Farazsms_Base::$admin_number, self::$edd_admin_pattern, $list );
+			$this->send_edd_sms( Farazsms_Base::$admin_number, self::$edd_admin_pattern, $data );
 		}
 
-		$list[] = (object) [
+		$list[0] = (object) [
 			'number'       => $mobile,
 			'name'         => '',
 			'phonebook_id' => (int) self::$edd_phonebook_id
@@ -193,7 +193,7 @@ class Farazsms_Edd {
 	 */
 	public function fsms_validate_mobile_field( $valid_data, $data ) {
 		if ( empty( $data['edd_phone'] ) or ! preg_match( '/^09[0-9]{9}$/', $data['edd_phone'] ) ) {
-			edd_set_error( 'empty_phone', __( 'Enter a valid phone number.' ) );
+			edd_set_error( 'empty_phone', __( 'Enter a valid phone number.', 'farazsms' ) );
 		}
 	}
 
@@ -211,50 +211,39 @@ class Farazsms_Edd {
 		if ( $patternMessage === null ) {
 			return;
 		}
-
 		if ( str_contains( $patternMessage, '%phone%' ) ) {
 			$input_data['phone'] = $data['phone'];
 		}
-
 		if ( str_contains( $patternMessage, '%email%' ) ) {
 			$input_data['email'] = $data['email'];
 		}
-
 		if ( str_contains( $patternMessage, '%first_name%' ) ) {
 			$input_data['first_name'] = $data['first_name'];
 		}
-
 		if ( str_contains( $patternMessage, '%last_name%' ) ) {
 			$input_data['last_name'] = $data['last_name'];
 		}
-
 		if ( str_contains( $patternMessage, '%product%' ) ) {
 			$input_data['product'] = $data['product'];
 		}
-
 		if ( str_contains( $patternMessage, '%price%' ) ) {
 			$input_data['price'] = $data['price'];
 		}
-
 		if ( str_contains( $patternMessage, '%discount%' ) ) {
 			$input_data['discount'] = $data['discount'];
 		}
-
 		if ( str_contains( $patternMessage, '%total_price%' ) ) {
 			$input_data['total_price'] = $data['total_price'];
 		}
-
 		if ( str_contains( $patternMessage, '%link%' ) ) {
 			$input_data['link'] = $data['link'];
 		}
-
 		if ( str_contains( $patternMessage, '%payment_id%' ) ) {
 			$input_data['payment_id'] = $data['payment_id'];
 		}
 
 		return Farazsms_Ippanel::send_pattern( $pattern, $phone, $input_data );
-
-	}//end send_edd_sms()
+	}
 
 }
 

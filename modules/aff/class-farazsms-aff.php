@@ -60,7 +60,7 @@ class Farazsms_Aff {
 	public function __construct() {
 		$aff_options = json_decode( get_option( 'farazsms_aff_options' ), true );
 		if ( $aff_options ) {
-			self::$aff_user_mobile_field              = $aff_options['aff_user_mobile_field'];
+			self::$aff_user_mobile_field              = current( array_column( $aff_options['aff_user_mobile_field'], 'value' ) );
 			self::$aff_user_register                  = $aff_options['aff_user_register'];
 			self::$aff_user_register_pattern          = $aff_options['aff_user_register_pattern'];
 			self::$aff_user_new_ref                   = $aff_options['aff_user_new_ref'];
@@ -103,16 +103,14 @@ class Farazsms_Aff {
 		}
 
 		if ( self::$aff_user_register == 'true' ) {
-			$user_register_pattern = self::$aff_user_register_pattern;
-			if ( ! empty( $user_register_pattern ) ) {
-				$this->affs_send_sms( $user_mobile, $user_register_pattern, $args );
+			if ( ! empty( self::$aff_user_register_pattern ) ) {
+				$this->affs_send_sms( $user_mobile, self::$aff_user_register_pattern, $args );
 			}
 		}
 		if ( self::$aff_admin_user_register == 'true' ) {
-			$user_register_pattern = self::$aff_admin_user_register_pattern;
-			$admin_mobile          = Farazsms_Base::$admin_number;
-			if ( ! empty( $user_register_pattern ) && ! empty( $admin_mobile ) ) {
-				$this->affs_send_sms( $admin_mobile, $user_register_pattern, $args );
+			$admin_mobile = Farazsms_Base::$admin_number;
+			if ( ! empty( self::$aff_admin_user_register_pattern ) && ! empty( $admin_mobile ) ) {
+				$this->affs_send_sms( $admin_mobile, self::$aff_admin_user_register_pattern, $args );
 			}
 		}
 	}
@@ -146,13 +144,11 @@ class Farazsms_Aff {
 		}
 
 		return Farazsms_Ippanel::send_pattern( $user_register_pattern, $phone, $input_data );
-
 	}
 
 	/**
 	 * Yith WooAF register user
 	 */
-
 	public function fsms_yith_wcaf_register_user( $id ) {
 
 		$affiliate_info = get_affiliate_by_id( $id );
@@ -162,13 +158,10 @@ class Farazsms_Aff {
 		if ( $mobile == '' ) {
 			$mobile = get_user_meta( $user->ID, 'wupp_mobile' )[0] ?? '';
 		}
-		$field_custom = self::$aff_user_mobile_field;
-		if ( empty( $mobile ) && ! empty( $field_custom ) ) {
-			foreach ( $field_custom as $mobile_field ) {
-				$mobile = get_user_meta( $user->ID, $mobile_field, true );
-				if ( ! empty( $mobile ) && Farazsms_Base::validate_mobile_number( $mobile ) ) {
-					break;
-				}
+		if ( empty( $mobile ) && ! empty( self::$aff_user_mobile_field ) ) {
+			$mobile = get_user_meta( $user->ID, self::$aff_user_mobile_field, true );
+			if ( ! empty( $mobile ) && Farazsms_Base::validate_mobile_number( $mobile ) ) {
+				return;
 			}
 		}
 
@@ -177,17 +170,15 @@ class Farazsms_Aff {
 		if ( ! isset( $args['user_nicename'] ) ) {
 			$args['user_nicename'] = $user->nickname;
 		}
-		if ( self::$aff_user_register == 'true' ) {
-			$user_register_pattern = self::$aff_user_register_pattern;
-			if ( ! empty( $user_register_pattern ) ) {
-				$this->affs_send_sms( $mobile, $user_register_pattern, $args );
+		if ( self::$aff_user_register === true ) {
+			if ( ! empty( self::$aff_user_register_pattern ) ) {
+				$this->affs_send_sms( $mobile, self::$aff_user_register_pattern, $args );
 			}
 		}
-		if ( self::$aff_admin_user_register == 'true' ) {
-			$user_register_pattern = self::$aff_admin_user_register_pattern;
-			$admin_mobile          = Farazsms_Base::$admin_number;
-			if ( ! empty( $user_register_pattern ) && ! empty( $admin_mobile ) ) {
-				$this->affs_send_sms( $admin_mobile, $user_register_pattern, $args );
+		if ( self::$aff_admin_user_register === true ) {
+			$admin_mobile = Farazsms_Base::$admin_number;
+			if ( ! empty( self::$aff_admin_user_register_pattern ) && ! empty( $admin_mobile ) ) {
+				$this->affs_send_sms( $admin_mobile, self::$aff_admin_user_register_pattern, $args );
 			}
 		}
 	}
@@ -202,13 +193,10 @@ class Farazsms_Aff {
 		if ( $mobile == '' ) {
 			$mobile = get_user_meta( $user_id, 'wupp_mobile' )[0] ?? '';
 		}
-		$field_custom = self::$aff_user_mobile_field;
-		if ( empty( $mobile ) && ! empty( $field_custom ) ) {
-			foreach ( $field_custom as $mobile_field ) {
-				$mobile = get_user_meta( $user_id, $mobile_field, true );
-				if ( ! empty( $mobile ) && Farazsms_Base::validate_mobile_number( $mobile ) ) {
-					break;
-				}
+		if ( empty( $mobile ) && ! empty( self::$aff_user_mobile_field ) ) {
+			$mobile = get_user_meta( $user_id, self::$aff_user_mobile_field, true );
+			if ( ! empty( $mobile ) && Farazsms_Base::validate_mobile_number( $mobile ) ) {
+				return;
 			}
 		}
 
@@ -218,16 +206,14 @@ class Farazsms_Aff {
 			$args['user_nicename'] = $user->nickname;
 		}
 		if ( self::$aff_user_register ) {
-			$user_register_pattern = self::$aff_user_register_pattern;
-			if ( ! empty( $user_register_pattern ) ) {
-				$this->affs_send_sms( $mobile, $user_register_pattern, $args );
+			if ( ! empty( self::$aff_user_register_pattern ) ) {
+				$this->affs_send_sms( $mobile, self::$aff_user_register_pattern, $args );
 			}
 		}
 		if ( self::$aff_admin_user_register ) {
-			$user_register_pattern = self::$aff_admin_user_register_pattern;
-			$admin_mobile          = Farazsms_Base::$admin_number;
-			if ( ! empty( $user_register_pattern ) && ! empty( $admin_mobile ) ) {
-				$this->affs_send_sms( $admin_mobile, $user_register_pattern, $args );
+			$admin_mobile = Farazsms_Base::$admin_number;
+			if ( ! empty( self::$aff_admin_user_register_pattern ) && ! empty( $admin_mobile ) ) {
+				$this->affs_send_sms( $admin_mobile, self::$aff_admin_user_register_pattern, $args );
 			}
 		}
 	}
@@ -255,13 +241,11 @@ class Farazsms_Aff {
 		if ( $mobile == '' ) {
 			$mobile = get_user_meta( $user_id, 'wupp_mobile' )[0] ?? '';
 		}
-		$field_custom = self::$aff_user_mobile_field;
-		if ( empty( $mobile ) && ! empty( $field_custom ) ) {
-			foreach ( $field_custom as $mobile_field ) {
-				$mobile = get_user_meta( $user_id, $mobile_field, true );
-				if ( ! empty( $mobile ) && Farazsms_Base::validate_mobile_number( $mobile ) ) {
-					break;
-				}
+
+		if ( empty( $mobile ) && ! empty( self::$aff_user_mobile_field ) ) {
+			$mobile = get_user_meta( $user_id, self::$aff_user_mobile_field, true );
+			if ( ! empty( $mobile ) && Farazsms_Base::validate_mobile_number( $mobile ) ) {
+				return;
 			}
 		}
 		if ( empty( $mobile ) ) {
@@ -272,16 +256,14 @@ class Farazsms_Aff {
 		}
 		$data['user_mobile'] = $mobile;
 		if ( self::$aff_user_on_approval ) {
-			$aff_user_on_approval_pattern = self::$aff_user_on_approval_pattern;
 			if ( ! empty( $user ) ) {
-				$this->affs_send_sms( $mobile, $aff_user_on_approval_pattern, $data );
+				$this->affs_send_sms( $mobile, self::$aff_user_on_approval_pattern, $data );
 			}
 		}
 		if ( self::$aff_admin_user_on_approval ) {
-			$aff_admin_user_on_approval_pattern = self::$aff_admin_user_on_approval_pattern;
-			$admin_mobile                       = Farazsms_Base::$admin_number;
-			if ( ! empty( $aff_admin_user_on_approval_pattern ) && ! empty( $admin_mobile ) ) {
-				$this->affs_send_sms( $admin_mobile, $aff_admin_user_on_approval_pattern, $data );
+			$admin_mobile = Farazsms_Base::$admin_number;
+			if ( ! empty( self::$aff_admin_user_on_approval_pattern ) && ! empty( $admin_mobile ) ) {
+				$this->affs_send_sms( $admin_mobile, self::$aff_admin_user_on_approval_pattern, $data );
 			}
 		}
 	}
@@ -303,13 +285,11 @@ class Farazsms_Aff {
 		if ( $mobile == '' ) {
 			$mobile = get_user_meta( $affiliate_info->user_id, 'wupp_mobile' )[0] ?? '';
 		}
-		$field_custom = self::$aff_user_mobile_field;
-		if ( empty( $mobile ) && ! empty( $field_custom ) ) {
-			foreach ( $field_custom as $mobile_field ) {
-				$mobile = get_user_meta( $affiliate_info->user_id, $mobile_field, true );
-				if ( ! empty( $mobile ) && Farazsms_Base::validate_mobile_number( $mobile ) ) {
-					break;
-				}
+
+		if ( empty( $mobile ) && ! empty( self::$aff_user_mobile_field ) ) {
+			$mobile = get_user_meta( $affiliate_info->user_id, self::$aff_user_mobile_field, true );
+			if ( ! empty( $mobile ) && Farazsms_Base::validate_mobile_number( $mobile ) ) {
+				return;
 			}
 		}
 		if ( empty( $mobile ) ) {
@@ -325,7 +305,7 @@ class Farazsms_Aff {
 				$this->affs_send_sms( $mobile, $aff_user_on_approval_pattern, $data );
 			}
 		}
-		if ( self::$aff_admin_user_on_approval) {
+		if ( self::$aff_admin_user_on_approval ) {
 			$aff_admin_user_on_approval_pattern = self::$aff_admin_user_on_approval_pattern;
 			$admin_mobile                       = Farazsms_Base::$admin_number;
 			if ( ! empty( $aff_admin_user_on_approval_pattern ) && ! empty( $admin_mobile ) ) {
@@ -352,14 +332,12 @@ class Farazsms_Aff {
 		if ( $mobile == '' ) {
 			$mobile = get_user_meta( $user_id, 'affs_mobile' )[0] ?? '';
 		}
-		$field_custom = self::$aff_user_mobile_field;
-		if ( empty( $mobile ) && ! empty( $field_custom ) ) {
-			foreach ( $field_custom as $mobile_field ) {
-				$mobile = get_user_meta( $user_id, $mobile_field, true );
+
+		if ( empty( $mobile ) && ! empty( self::$aff_user_mobile_field ) ) {
+				$mobile = get_user_meta( $user_id, self::$aff_user_mobile_field, true );
 				if ( ! empty( $mobile ) && Farazsms_Base::validate_mobile_number( $mobile ) ) {
-					break;
+					return;
 				}
-			}
 		}
 		if ( empty( $mobile ) ) {
 			return;
@@ -367,16 +345,14 @@ class Farazsms_Aff {
 		$data['user_mobile'] = $mobile;
 		$data['amount']      = $referral['amount'];
 		if ( self::$aff_user_new_ref ) {
-			$aff_user_new_ref_message = self::$aff_user_new_ref_pattern;
-			if ( ! empty( $aff_user_new_ref_message ) ) {
-				$this->affs_send_sms( $mobile, $aff_user_new_ref_message, $data );
+			if ( ! empty( self::$aff_user_new_ref_pattern ) ) {
+				$this->affs_send_sms( $mobile, self::$aff_user_new_ref_pattern, $data );
 			}
 		}
 		if ( self::$aff_admin_user_new_ref == 'true' ) {
-			$aff_admin_user_new_ref_message = self::$aff_admin_user_new_ref_pattern;
 			$admin_mobile                   = Farazsms_Base::$admin_number;
-			if ( ! empty( $aff_admin_user_new_ref_message ) && ! empty( $admin_mobile ) ) {
-				$this->affs_send_sms( $admin_mobile, $aff_admin_user_new_ref_message, $data );
+			if ( ! empty( self::$aff_admin_user_new_ref_pattern ) && ! empty( $admin_mobile ) ) {
+				$this->affs_send_sms( $admin_mobile, self::$aff_admin_user_new_ref_pattern, $data );
 			}
 		}
 	}
@@ -395,12 +371,12 @@ class Farazsms_Aff {
 			}
 		}
 		?>
-		<p>
-			<label for="affs-user-mobile"><?php esc_attr_e( 'Phone number', 'farazsms' ) ?></label>
-			<input id="affs-user-mobile" type="text" name="affs-user-mobile"
-			       title="<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>" required
-			       value="<?php echo $mobile ?? ''; ?>"/>
-		</p>
+        <p>
+            <label for="affs-user-mobile"><?php esc_attr_e( 'Phone number', 'farazsms' ) ?></label>
+            <input id="affs-user-mobile" type="text" name="affs-user-mobile"
+                   title="<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>" required
+                   value="<?php echo $mobile ?? ''; ?>"/>
+        </p>
 		<?php
 	}
 
@@ -409,16 +385,16 @@ class Farazsms_Aff {
 	 */
 	public function fsms_affwp_new_affiliate_end() {
 		?>
-		<tr class="form-row form-required">
-			<th scope="row">
-				<label for="affs-user-mobile"><?php esc_attr_e( 'Phone number', 'farazsms' ) ?></label>
-			</th>
-			<td>
-				<input id="affs-user-mobile" type="text" name="affs-user-mobile"
-				       title="<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>" required/>
-			</td>
+        <tr class="form-row form-required">
+            <th scope="row">
+                <label for="affs-user-mobile"><?php esc_attr_e( 'Phone number', 'farazsms' ) ?></label>
+            </th>
+            <td>
+                <input id="affs-user-mobile" type="text" name="affs-user-mobile"
+                       title="<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>" required/>
+            </td>
 
-		</tr>
+        </tr>
 		<?php
 	}
 
@@ -427,16 +403,16 @@ class Farazsms_Aff {
 	 */
 	public function fsms_affwp_edit_affiliate_end( $affiliate ) {
 		?>
-		<tr class="form-row form-required">
-			<th scope="row">
-				<label for="affs-user-mobile"><?php esc_attr_e( 'Phone number', 'farazsms' ) ?></label>
-			</th>
-			<td>
-				<input id="affs-user-mobile" type="text" name="affs-user-mobile"
-				       title="<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>"
-				       value="<?php echo get_user_meta( $affiliate->user_id, 'affs_mobile' )[0] ?? ''; ?>"/>
-			</td>
-		</tr>
+        <tr class="form-row form-required">
+            <th scope="row">
+                <label for="affs-user-mobile"><?php esc_attr_e( 'Phone number', 'farazsms' ) ?></label>
+            </th>
+            <td>
+                <input id="affs-user-mobile" type="text" name="affs-user-mobile"
+                       title="<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>"
+                       value="<?php echo get_user_meta( $affiliate->user_id, 'affs_mobile' )[0] ?? ''; ?>"/>
+            </td>
+        </tr>
 		<?php
 	}
 

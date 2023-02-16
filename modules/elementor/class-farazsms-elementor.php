@@ -50,7 +50,6 @@ class Farazsms_Elementor {
 		if ( $integrations_options ) {
 			self::$elementorPro = $integrations_options['elementorPro'] ?? '';
 		}
-
 		if ( self::$elementorPro ) {
 			add_action( 'elementor_pro/forms/actions/register', [ $this, 'add_new_farazsms_newsletter_form_action' ] );
 		}

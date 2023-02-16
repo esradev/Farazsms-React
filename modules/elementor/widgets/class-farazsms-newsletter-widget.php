@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0
  */
-class Farazsms_Newsletter_Widget extends Elementor\Widget_Base {
+class Farazsms_Newsletter_Widget extends Widget_Base {
 
 	/**
 	 * Get widget name.

@@ -66,12 +66,11 @@ class Farazsms_Digits {
 		$user_info = get_userdata( $object_id );
 		$list      = [];
 
-		$list[] = (object) [
+		$list[0] = (object) [
 			'number'       => $phone,
 			'name'         => $user_info->display_name ?? '',
 			'phonebook_id' => (int) Farazsms_Base::$custom_phonebook_id
 		];
-
 		Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
 
 		Farazsms_Base::send_welcome_message( $phone, $object_id );
@@ -91,7 +90,7 @@ class Farazsms_Digits {
 		$user_info = get_userdata( $user_id );
 
 		$list   = [];
-		$list[] = (object) [
+		$list[0] = (object) [
 			'number'       => $digits_phone,
 			'name'         => $user_info->display_name ?? '',
 			'phonebook_id' => (int) Farazsms_Base::$digits_phonebook_id

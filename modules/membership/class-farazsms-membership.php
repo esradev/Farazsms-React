@@ -33,7 +33,6 @@ class Farazsms_Membership
 	private static $pmp_send_expire_notify;
 	private static $pmp_expire_notify_msg;
 
-
 	/**
 	 * Initiator
 	 *
@@ -66,7 +65,6 @@ class Farazsms_Membership
 
 		add_filter( 'ihc_filter_notification_before_expire', [ $this, 'fsms_first_notification_before_expire' ], 10, 4 );
 		add_action( 'pmpro_membership_post_membership_expiry', [ $this, 'fsms_pmp_membership_membership_expiry' ], 10, 2 );
-
 	}
 
 	/**
@@ -74,11 +72,10 @@ class Farazsms_Membership
 	 */
 	public function fsms_first_notification_before_expire( $sent = false, $uid = 0, $lid = 0, $type = '' ) {
 		$types                  = [];
-		$types[]                = ( self::$ihc_send_first_notify == 'true' ) ? 'before_expire' : '';
-		$types[]                = ( self::$ihc_send_second_notify == 'true' ) ? 'second_before_expire' : '';
-		$types[]                = ( self::$ihc_send_third_notify == 'true' ) ? 'third_before_expire' : '';
-		$first_notify_sms_message = self::$ihc_first_notify_msg;
-		if ( empty( $first_notify_sms_message ) || ! in_array( $type, $types ) ) {
+		$types[]                = ( self::$ihc_send_first_notify === true ) ? 'before_expire' : '';
+		$types[]                = ( self::$ihc_send_second_notify === true ) ? 'second_before_expire' : '';
+		$types[]                = ( self::$ihc_send_third_notify === true ) ? 'third_before_expire' : '';
+		if ( empty( self::$ihc_first_notify_msg ) || ! in_array( $type, $types ) ) {
 			return $sent;
 		}
 		$phone = get_user_meta( $uid, 'digits_phone', true );
@@ -92,7 +89,7 @@ class Farazsms_Membership
 		], [
 			$user->display_name,
 			self::$ihc_notify_before_time,
-		], $first_notify_sms_message );
+		], self::$ihc_first_notify_msg );
 		Farazsms_Ippanel::send_message( [ $phone ], $message, '+98club' );
 
 		return $sent;
@@ -103,21 +100,17 @@ class Farazsms_Membership
 	 */
 
 	public function fsms_pmp_membership_membership_expiry( $user_id, $membership_id ) {
-		$pmp_send_expire_notify_sms = self::$pmp_send_expire_notify;
-		$expire_notify_sms_message  = self::$pmp_expire_notify_msg;
-		if ( $pmp_send_expire_notify_sms === 'false' || empty( $expire_notify_sms_message ) ) {
+		if ( self::$pmp_send_expire_notify !== true || empty( self::$pmp_expire_notify_msg ) ) {
 			return;
 		}
 
 		$phone              = get_user_meta( $user_id, 'digits_phone', true );
-		$selected_meta_keys = Farazsms_Base::$custom_phone_meta_keys_id ?? [];
-		if ( empty( $phone ) && ! empty( $selected_meta_keys ) ) {
-			foreach ( $selected_meta_keys as $meta ) {
-				$phone = get_user_meta( $user_id, $meta, true );
+
+		if ( empty( $phone ) && ! empty( Farazsms_Base::$custom_phone_meta_keys_id ) ) {
+				$phone = get_user_meta( $user_id, Farazsms_Base::$custom_phone_meta_keys_id, true );
 				if ( ! empty( $phone ) && Farazsms_Base::validate_mobile_number( $phone ) ) {
-					break;
+					return;
 				}
-			}
 		}
 		if ( empty( $phone ) ) {
 			return;
@@ -127,7 +120,7 @@ class Farazsms_Membership
 			'%display_name%',
 		], [
 			$user->display_name,
-		], $expire_notify_sms_message );
+		], self::$pmp_expire_notify_msg );
 		Farazsms_Ippanel::send_message( [ $phone ], $message, '+98club' );
 	}
 }

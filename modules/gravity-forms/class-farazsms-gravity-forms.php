@@ -72,7 +72,7 @@ class Farazsms_Gravity_Forms {
 			}
 			if ( $value !== null ) {
 
-				$list[] = (object) [
+				$list[0] = (object) [
 					'number'       => $phone,
 					'name'         => '',
 					'phonebook_id' => (int) Farazsms_Base::$gf_phonebook_id

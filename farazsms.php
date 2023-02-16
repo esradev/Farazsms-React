@@ -72,7 +72,6 @@ class Farazsms {
 
 		register_activation_hook( __FILE__, [ $this, 'activate_farazsms' ] );
 		add_action( 'activated_plugin', [ $this, 'farazsms_activation_redirect' ] );
-		add_action('init' , [$this, 'create_block_farazsms_newsletter_block_init']);
 	}
 
 	/**
@@ -100,12 +99,12 @@ class Farazsms {
 		define( 'FARAZSMS_WEB_MAIN_DOC', FARAZSMS_WEB_MAIN . 'farazsms-wordpress-plugin/' );
 	}
 
+	/**
+	 * Require loader farazsms class.
+	 *
+	 * @return void
+	 */
 	public function farazsms_loader() {
-		/**
-		 * Require loader farazsms class.
-		 *
-		 * @return void
-		 */
 		require FARAZSMS_CLASSES_PATH . 'class-farazsms-loader.php';
 	}
 
@@ -123,21 +122,14 @@ class Farazsms {
 	/**
 	 * Redirect user to plugin settings page after plugin activated.
 	 *
-	 * @param $plugin
-	 *
 	 * @return void
 	 */
-	public function farazsms_activation_redirect( $plugin ) {
+	public function farazsms_activation_redirect() {
 		if ( get_option( 'farazsms_do_activation_redirect', false ) ) {
 			delete_option( 'farazsms_do_activation_redirect' );
 			exit( wp_redirect( FARAZSMS_SETTINGS_LINK ) );
 		}
 	}
-
-	public function create_block_farazsms_newsletter_block_init() {
-		register_block_type(  'farazsms/newsletter' );
-	}
-
 
 }
 

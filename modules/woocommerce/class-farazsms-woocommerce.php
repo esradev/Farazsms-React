@@ -216,7 +216,6 @@ class Farazsms_Woocommerce {
 		$input_data['code'] = strval( $data['code'] );
 
 		return Farazsms_Ippanel::send_pattern( self::$woo_checkout_otp_pattern, $phone, $input_data );
-
 	}
 
 	/**
@@ -232,9 +231,7 @@ class Farazsms_Woocommerce {
 		}
 
 		return false;
-
 	}
-
 
 	/**
 	 * Delete code for woocommerce
@@ -294,7 +291,6 @@ class Farazsms_Woocommerce {
 		if ( is_wp_error( $response ) ) {
 			return false;
 		}
-
 	}
 
 	/**

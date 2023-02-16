@@ -4,6 +4,7 @@
   "description": "By using the Faraz SMS plugin, you can professionally equip your site with a powerful SMS tool for information and marketing. Saving customers numbers in the phone book, sending welcome SMS, sending reply SMS to comments, etc. are part of the features of this powerful SMS plugin.",
   "main": "index.js",
   "scripts": {
+    "dev:build": "concurrently --kill-others \"npm run build\" \"npm run build:blocks\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "wp-scripts build",
     "start": "wp-scripts start",
@@ -24,7 +25,8 @@
   "devDependencies": {
     "@wordpress/scripts": "^24.6.0",
     "axios": "^1.2.0",
-    "browser-sync-webpack-plugin": "^2.3.0"
+    "browser-sync-webpack-plugin": "^2.3.0",
+    "concurrently": "^7.6.0"
   },
   "dependencies": {
     "@wordpress/i18n": "^4.23.0",

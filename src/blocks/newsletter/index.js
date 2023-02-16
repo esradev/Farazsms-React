@@ -25,7 +25,7 @@ import { ChromePicker } from "react-color";
       .getBlocks()
       .filter(function (block) {
         return (
-          block.name == "ourplugin/are-you-paying-attention" &&
+          block.name == "farazsms/newsletter" &&
           block.attributes.correctAnswer == undefined
         );
       });
@@ -42,9 +42,9 @@ import { ChromePicker } from "react-color";
   });
 })();
 
-wp.blocks.registerBlockType("ourplugin/are-you-paying-attention", {
-  title: "Are You Paying Attention?",
-  icon: "smiley",
+wp.blocks.registerBlockType("farazsms/newsletter", {
+  title: "Farazsms Newsletter?",
+  icon: "testimonial",
   category: "common",
   attributes: {
     question: { type: "string" },

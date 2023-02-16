@@ -89,12 +89,11 @@ class Farazsms_Login_Notify {
 	 * Admin rules login action
 	 */
 	public function fsms_admin_roles_login_action( $user_login, $user ) {
-		$admin_login_notify_roles = self::$select_roles;
-		if ( empty( $admin_login_notify_roles ) ) {
+		if ( empty( self::$select_roles ) ) {
 			return;
 		}
 
-		if ( self::$admin_login_notify === 'false' || empty( self::$admin_login_notify_pattern ) ) {
+		if ( self::$admin_login_notify !== true || empty( self::$admin_login_notify_pattern ) ) {
 			return;
 		}
 		$data['date']         = date_i18n( 'H:i:s d-m-Y' );
@@ -113,20 +112,15 @@ class Farazsms_Login_Notify {
 		if ( str_contains( $patternMessage, '%date%' ) ) {
 			$input_data['date'] = $data['date'];
 		}
-
 		if ( str_contains( $patternMessage, '%user_login%' ) ) {
 			$input_data['user_login'] = $data['user_login'];
 		}
-
 		if ( str_contains( $patternMessage, '%display_name%' ) ) {
 			$input_data['display_name'] = $data['display_name'];
 		}
 
 		return Farazsms_Ippanel::send_pattern( $pattern, Farazsms_Base::$admin_number, $input_data );
-
 	}
-
-
 }
 
 Farazsms_Login_Notify::get_instance();
