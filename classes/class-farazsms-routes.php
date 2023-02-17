@@ -250,6 +250,24 @@ class Farazsms_Routes {
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
+
+		//Register get_subscribers_from_db rest route
+		register_rest_route( $namespace, '/' . 'get_subscribers_from_db', [
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_subscribers_from_db' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
+
+		//Register delete_subscriber_from_db rest route
+		register_rest_route( $namespace, '/' . 'delete_subscriber_from_db', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'delete_subscriber_from_db' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
 	}
 
 	/**
@@ -710,6 +728,26 @@ class Farazsms_Routes {
 		$res = curl_exec( $handler );
 
 		return json_decode( $res, true );
+	}
+
+	/**
+	 * Get subscribers.
+	 */
+	public static function get_subscribers_from_db() {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'farazsms_newsletter';
+
+		return json_encode($wpdb->get_results( "SELECT * FROM $table_name" ), true);
+	}
+
+	/**
+	 * Delete subscriber.
+	 */
+	public static function delete_subscriber_from_db( $subscriber_id ) {
+		global $wpdb;
+		$table = $wpdb->prefix . 'farazsms_newsletter';
+
+		return json_decode($wpdb->delete( $table, [ 'id' => $subscriber_id['subscriber_id'] ] ), true);
 	}
 
 	/**

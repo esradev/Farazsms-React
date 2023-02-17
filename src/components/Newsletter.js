@@ -144,6 +144,7 @@ function Newsletter() {
     },
     newsPhonebookID: "",
     newsletterSubscribers: "",
+    currentSubcribers: 0,
     isFetching: true,
     isSaving: false,
     sendCount: 0,
@@ -275,6 +276,10 @@ function Newsletter() {
         draft.newsletterSubscribers = action.value;
         return;
 
+      case "updateCurrentSubscribers":
+        draft.currentSubcribers = action.value;
+        return;
+
       case "submitOptions":
         draft.sendCount++;
 
@@ -343,6 +348,7 @@ function Newsletter() {
         console.log(e);
       }
     }
+
     getPhonebooks();
   }, []);
 
@@ -358,9 +364,8 @@ function Newsletter() {
         const getOptions = await AxiosWp.get("/farazsms/v1/newsletter_options");
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
-
           dispatch({ type: "fetchComplete", value: optionsJson });
-          // Get newsletter phonebook numbers.
+          /*// Get newsletter phonebook numbers.
           const newsPhonebookId = optionsJson.news_phonebook[0].value;
           dispatch({
             type: "setNewsPhonebookID",
@@ -373,6 +378,7 @@ function Newsletter() {
                   "/farazsms/v1/get_phonebook_numbers",
                   { phonebook_id: newsPhonebookId }
                 );
+                console.log(getNewsletterSubscribers["data"]["data"]);
                 dispatch({
                   type: "getNewsletterSubscribers",
                   value: getNewsletterSubscribers["data"]["data"],
@@ -382,7 +388,7 @@ function Newsletter() {
               }
             }
             getPhonebookNumbers();
-          }
+          }*/
         }
       } catch (e) {
         console.log(e);
@@ -390,6 +396,27 @@ function Newsletter() {
     }
     getOptions();
   }, []);
+
+  useEffect(() => {
+    async function get_subscribers_from_db() {
+      try {
+        const get_subscribers_from_db = await AxiosWp.get(
+          "/farazsms/v1/get_subscribers_from_db"
+        );
+        dispatch({
+          type: "getNewsletterSubscribers",
+          value: JSON.parse(get_subscribers_from_db.data),
+        });
+        dispatch({
+          type: "updateCurrentSubscribers",
+          value: JSON.parse(get_subscribers_from_db.data).length(),
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    get_subscribers_from_db();
+  }, [[], state.currentSubcribers]);
 
   useEffect(() => {
     if (state.sendCount) {
@@ -403,6 +430,7 @@ function Newsletter() {
       );
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
       dispatch({ type: "saveRequestStarted" });
+
       async function postOptions() {
         try {
           // Post Options from site DB Options table
@@ -419,9 +447,33 @@ function Newsletter() {
           console.log(e);
         }
       }
+
       postOptions();
     }
   }, [state.sendCount]);
+
+  function deleteSubscriber(subscriber) {
+    async function delete_subscriber_from_db() {
+      try {
+        const delete_subscriber_from_db = await AxiosWp.post(
+          "/farazsms/v1/delete_subscriber_from_db",
+          { subscriber_id: subscriber.id }
+        );
+        dispatch({
+          type: "updateCurrentSubscribers",
+          value: state.currentSubcribers - 1,
+        });
+        appDispatch({
+          type: "flashMessage",
+          value: __("Congrats. Subscriber deleted successfully.", "farazsms"),
+        });
+        console.log(subscriber.id);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    delete_subscriber_from_db();
+  }
 
   /**
    * The settings form created by mapping over originalState as the main state.
@@ -429,7 +481,6 @@ function Newsletter() {
    *
    * @since 2.0.0
    */
-
   return (
     <div className="farazsms-newsletter-component">
       <SectionHeader sectionName={state.sectionName} />
@@ -481,15 +532,16 @@ function Newsletter() {
           <ol className="contact-list">
             {state.newsletterSubscribers.map((subscriber) => (
               <li key={subscriber.id} className="contact-list-item">
-                <div className="contact-details">
-                  <p>{subscriber.name}</p>
-                  <p>{subscriber.id}</p>
-                </div>
-                <div className="contact-details">
-                  <p>{subscriber.number}</p>
-                </div>
-                <button className="contact-edit">Edit</button>
-                <button className="contact-delete">Delete</button>
+                <p className="contact-details">{subscriber.name}</p>
+                <p className="contact-details">{subscriber.phone}</p>
+                <button
+                  className="contact-delete"
+                  onClick={() => {
+                    deleteSubscriber(subscriber);
+                  }}
+                >
+                  Delete
+                </button>
               </li>
             ))}
           </ol>

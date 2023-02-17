@@ -85,24 +85,9 @@ class Farazsms_Newsletter {
 		add_action( 'wp_ajax_fsms_send_message_to_subscribers', [ $this, 'fsms_send_message_to_subscribers' ] );
 		add_action( 'wp_ajax_nopriv_fsms_send_message_to_subscribers', [ $this, 'fsms_send_message_to_subscribers' ] );
 
-		add_action( 'wp_ajax_fsms_delete_user_from_subscribers', [ $this, 'fsms_delete_user_from_subscribers' ] );
-		add_action( 'wp_ajax_nopriv_fsms_delete_user_from_subscribers', [$this, 'fsms_delete_user_from_subscribers'] );
-
 		add_action( 'wp_ajax_fsms_send_message_to_phonebooks', [ $this, 'ajax_send_message_to_phonebooks' ] );
 		add_action( 'wp_ajax_nopriv_fsms_send_message_to_phonebooks', [ $this, 'ajax_send_message_to_phonebooks' ] );
 
-	}
-
-
-	/**
-	 * Delete user from subscribers.
-	 *
-	 * @since 1.0.0
-	 */
-	public function fsms_delete_user_from_subscribers() {
-		$subscriber_id = ( $_POST['subscriber_id'] ?? '' );
-		self::delete_subscriber( $subscriber_id );
-		wp_send_json_success();
 	}
 
 	/**
@@ -339,22 +324,10 @@ class Farazsms_Newsletter {
 	 */
 	public static function get_subscribers() {
 		global $wpdb;
-		global $wpdb;
 		$table_name = $wpdb->prefix . 'farazsms_newsletter';
 
 		return $wpdb->get_results( "SELECT * FROM $table_name" );
 	}
-
-	/**
-	 * Delete subscriber.
-	 */
-	public static function delete_subscriber( $subscriber_id ) {
-		global $wpdb;
-		$table = $wpdb->prefix . 'farazsms_newsletter';
-
-		return $wpdb->delete( $table, [ 'id' => $subscriber_id ] );
-	}
-
 
 	/**
 	 * Send newsletter welcome message.

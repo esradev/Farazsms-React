@@ -12693,6 +12693,7 @@ function Newsletter() {
     },
     newsPhonebookID: "",
     newsletterSubscribers: "",
+    currentSubcribers: 0,
     isFetching: true,
     isSaving: false,
     sendCount: 0,
@@ -12802,6 +12803,9 @@ function Newsletter() {
       case "getNewsletterSubscribers":
         draft.newsletterSubscribers = action.value;
         return;
+      case "updateCurrentSubscribers":
+        draft.currentSubcribers = action.value;
+        return;
       case "submitOptions":
         draft.sendCount++;
         return;
@@ -12892,28 +12896,30 @@ function Newsletter() {
             type: "fetchComplete",
             value: optionsJson
           });
-          // Get newsletter phonebook numbers.
+          /*// Get newsletter phonebook numbers.
           const newsPhonebookId = optionsJson.news_phonebook[0].value;
           dispatch({
             type: "setNewsPhonebookID",
-            value: newsPhonebookId
+            value: newsPhonebookId,
           });
           if (newsPhonebookId) {
             async function getPhonebookNumbers() {
               try {
-                const getNewsletterSubscribers = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/get_phonebook_numbers", {
-                  phonebook_id: newsPhonebookId
-                });
+                const getNewsletterSubscribers = await AxiosWp.post(
+                  "/farazsms/v1/get_phonebook_numbers",
+                  { phonebook_id: newsPhonebookId }
+                );
+                console.log(getNewsletterSubscribers["data"]["data"]);
                 dispatch({
                   type: "getNewsletterSubscribers",
-                  value: getNewsletterSubscribers["data"]["data"]
+                  value: getNewsletterSubscribers["data"]["data"],
                 });
               } catch (e) {
                 console.log(e);
               }
             }
             getPhonebookNumbers();
-          }
+          }*/
         }
       } catch (e) {
         console.log(e);
@@ -12921,6 +12927,24 @@ function Newsletter() {
     }
     getOptions();
   }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function get_subscribers_from_db() {
+      try {
+        const get_subscribers_from_db = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/get_subscribers_from_db");
+        dispatch({
+          type: "getNewsletterSubscribers",
+          value: JSON.parse(get_subscribers_from_db.data)
+        });
+        dispatch({
+          type: "updateCurrentSubscribers",
+          value: JSON.parse(get_subscribers_from_db.data).length()
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    get_subscribers_from_db();
+  }, [[], state.currentSubcribers]);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
       /**
@@ -12957,6 +12981,27 @@ function Newsletter() {
       postOptions();
     }
   }, [state.sendCount]);
+  function deleteSubscriber(subscriber) {
+    async function delete_subscriber_from_db() {
+      try {
+        const delete_subscriber_from_db = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/delete_subscriber_from_db", {
+          subscriber_id: subscriber.id
+        });
+        dispatch({
+          type: "updateCurrentSubscribers",
+          value: state.currentSubcribers - 1
+        });
+        appDispatch({
+          type: "flashMessage",
+          value: __("Congrats. Subscriber deleted successfully.", "farazsms")
+        });
+        console.log(subscriber.id);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    delete_subscriber_from_db();
+  }
 
   /**
    * The settings form created by mapping over originalState as the main state.
@@ -12964,7 +13009,6 @@ function Newsletter() {
    *
    * @since 2.0.0
    */
-
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "farazsms-newsletter-component"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
@@ -12997,14 +13041,15 @@ function Newsletter() {
   }, state.newsletterSubscribers.map(subscriber => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("li", {
     key: subscriber.id,
     className: "contact-list-item"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", {
     className: "contact-details"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, subscriber.name), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, subscriber.id)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, subscriber.name), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", {
     className: "contact-details"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, subscriber.number)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
-    className: "contact-edit"
-  }, "Edit"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
-    className: "contact-delete"
+  }, subscriber.phone), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
+    className: "contact-delete",
+    onClick: () => {
+      deleteSubscriber(subscriber);
+    }
   }, "Delete"))))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Newsletter);
