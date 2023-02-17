@@ -186,7 +186,6 @@ function Edd(props) {
       try {
         //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getphonebooks;
-        console.log(phonebooks);
         const phonebooksArrayObject = phonebooks.map(({ id, title }) => ({
           label: title,
           value: id,
@@ -195,7 +194,6 @@ function Edd(props) {
           type: "edd_phonebookOptions",
           value: phonebooksArrayObject,
         });
-        console.log(phonebooksArrayObject);
       } catch (e) {
         console.log(e);
       }
@@ -214,9 +212,8 @@ function Edd(props) {
         // Get Options from site DB Options table
         const getOptions = await AxiosWp.get("/farazsms/v1/edd_options");
         if (getOptions.data) {
-          const optsionsJson = JSON.parse(getOptions.data);
-          console.log(optsionsJson);
-          dispatch({ type: "fetchComplete", value: optsionsJson });
+          const optionsJson = JSON.parse(getOptions.data);
+          dispatch({ type: "fetchComplete", value: optionsJson });
         }
       } catch (e) {
         console.log(e);
@@ -233,11 +230,10 @@ function Edd(props) {
        * @return Object with arrays.
        */
 
-      const optsionsArray = Object.values(state.inputs).map(
+      const optionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
-      console.log(optionsJsonForPost);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
 
       dispatch({ type: "saveRequestStarted" });
       async function postOptions() {

@@ -394,7 +394,6 @@ function App() {
         );
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
-          console.log(optionsJson);
           dispatch({ type: "fetchComplete", value: optionsJson });
         }
       } catch (e) {

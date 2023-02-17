@@ -205,9 +205,8 @@ function Woocommerce(props) {
           "/farazsms/v1/woocommerce_options"
         );
         if (getOptions.data) {
-          const optsionsJson = JSON.parse(getOptions.data);
-          console.log(optsionsJson);
-          dispatch({ type: "fetchComplete", value: optsionsJson });
+          const optionsJson = JSON.parse(getOptions.data);
+          dispatch({ type: "fetchComplete", value: optionsJson });
         }
       } catch (e) {
         console.log(e);
@@ -224,10 +223,10 @@ function Woocommerce(props) {
        * @return Object with arrays.
        */
 
-      const optsionsArray = Object.values(state.inputs).map(
+      const optionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
       console.log(optionsJsonForPost);
 
       dispatch({ type: "saveRequestStarted" });

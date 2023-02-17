@@ -389,7 +389,6 @@ function Aff(props) {
          * endpoint and retrieve the 10 latest posts.
          */
         const getUsermeta = await AxiosWp.get("/farazsms/v1/usermeta", {});
-        console.log(getUsermeta.data);
         const usermetaArrayObject = Object.keys(getUsermeta.data).map(
           (key) => ({
             value: getUsermeta.data[key].meta_key,
@@ -400,7 +399,6 @@ function Aff(props) {
           type: "aff_user_mobile_fieldOptions",
           value: usermetaArrayObject,
         });
-        console.log(usermetaArrayObject);
       } catch (e) {
         console.log(e);
       }

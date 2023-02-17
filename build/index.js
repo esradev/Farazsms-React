@@ -10322,7 +10322,6 @@ function App() {
         const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_20__["default"].get("/farazsms/v1/integrations_options", {});
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
-          console.log(optionsJson);
           dispatch({
             type: "fetchComplete",
             value: optionsJson
@@ -10779,7 +10778,6 @@ function Aff(props) {
          * endpoint and retrieve the 10 latest posts.
          */
         const getUsermeta = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/usermeta", {});
-        console.log(getUsermeta.data);
         const usermetaArrayObject = Object.keys(getUsermeta.data).map(key => ({
           value: getUsermeta.data[key].meta_key,
           label: getUsermeta.data[key].meta_key
@@ -10788,7 +10786,6 @@ function Aff(props) {
           type: "aff_user_mobile_fieldOptions",
           value: usermetaArrayObject
         });
-        console.log(usermetaArrayObject);
       } catch (e) {
         console.log(e);
       }
@@ -11084,8 +11081,7 @@ function Comments() {
       try {
         //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getPhonebooks;
-        console.log(phonebooks);
-        const phonebooksArrayObject = phonebooks["data"].map(_ref => {
+        const phonebooksArrayObject = phonebooks.data.map(_ref => {
           let {
             id,
             title
@@ -11099,7 +11095,6 @@ function Comments() {
           type: "comment_phonebookOptions",
           value: phonebooksArrayObject
         });
-        console.log(phonebooksArrayObject);
       } catch (e) {
         console.log(e);
       }
@@ -11118,11 +11113,10 @@ function Comments() {
         // Get Options from site DB Options table
         const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/comments_options");
         if (getOptions.data) {
-          const optsionsJson = JSON.parse(getOptions.data);
-          console.log(optsionsJson);
+          const optionsJson = JSON.parse(getOptions.data);
           dispatch({
             type: "fetchComplete",
-            value: optsionsJson
+            value: optionsJson
           });
         }
       } catch (e) {
@@ -11139,15 +11133,14 @@ function Comments() {
        * @return Object with arrays.
        */
 
-      const optsionsArray = Object.values(state.inputs).map(_ref2 => {
+      const optionsArray = Object.values(state.inputs).map(_ref2 => {
         let {
           value,
           name
         } = _ref2;
         return [name, value];
       });
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
-      console.log(optionsJsonForPost);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
       dispatch({
         type: "saveRequestStarted"
       });
@@ -11410,7 +11403,6 @@ function Edd(props) {
       try {
         //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getphonebooks;
-        console.log(phonebooks);
         const phonebooksArrayObject = phonebooks.map(_ref => {
           let {
             id,
@@ -11425,7 +11417,6 @@ function Edd(props) {
           type: "edd_phonebookOptions",
           value: phonebooksArrayObject
         });
-        console.log(phonebooksArrayObject);
       } catch (e) {
         console.log(e);
       }
@@ -11444,11 +11435,10 @@ function Edd(props) {
         // Get Options from site DB Options table
         const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/edd_options");
         if (getOptions.data) {
-          const optsionsJson = JSON.parse(getOptions.data);
-          console.log(optsionsJson);
+          const optionsJson = JSON.parse(getOptions.data);
           dispatch({
             type: "fetchComplete",
-            value: optsionsJson
+            value: optionsJson
           });
         }
       } catch (e) {
@@ -11465,15 +11455,14 @@ function Edd(props) {
        * @return Object with arrays.
        */
 
-      const optsionsArray = Object.values(state.inputs).map(_ref2 => {
+      const optionsArray = Object.values(state.inputs).map(_ref2 => {
         let {
           value,
           name
         } = _ref2;
         return [name, value];
       });
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
-      console.log(optionsJsonForPost);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
       dispatch({
         type: "saveRequestStarted"
       });
@@ -11742,7 +11731,6 @@ function Integrations(props) {
         return [name, use];
       });
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
-      console.log(optionsJsonForPost);
       appDispatch({
         type: "saveRequestStarted"
       });
@@ -11780,7 +11768,6 @@ function Integrations(props) {
           async function checkPlugin() {
             try {
               const getPlugins = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/wp/v2/plugins", {});
-              console.log(getPlugins);
               if (getPlugins.data) {
                 const findPlugin = getPlugins.data.find(element => element.plugin === plugin.plugin);
                 if (findPlugin) {
@@ -12096,7 +12083,6 @@ function Settings() {
         const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/login_notify_options");
         if (getOptions.data) {
           const optsionsJson = JSON.parse(getOptions.data);
-          console.log(optsionsJson);
           dispatch({
             type: "fetchComplete",
             value: optsionsJson
@@ -12162,7 +12148,6 @@ function Settings() {
       value: key,
       label: rolesObject[key]
     }));
-    console.log(rolesArrayObject);
     dispatch({
       type: "select_rolesOptions",
       value: rolesArrayObject
@@ -12937,7 +12922,7 @@ function Newsletter() {
         });
         dispatch({
           type: "updateCurrentSubscribers",
-          value: JSON.parse(get_subscribers_from_db.data).length()
+          value: JSON.parse(get_subscribers_from_db.data)
         });
       } catch (e) {
         console.log(e);
@@ -13041,11 +13026,13 @@ function Newsletter() {
   }, state.newsletterSubscribers.map(subscriber => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("li", {
     key: subscriber.id,
     className: "contact-list-item"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    className: "contact-details"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, subscriber.name)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    className: "contact-details"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", {
     className: "contact-details"
-  }, subscriber.name), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", {
-    className: "contact-details"
-  }, subscriber.phone), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
+  }, subscriber.phone)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
     className: "contact-delete",
     onClick: () => {
       deleteSubscriber(subscriber);
@@ -13331,7 +13318,6 @@ function Phonebook(props) {
         const getIntegrationsOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/integrations_options", {});
         if (getIntegrationsOptions.data) {
           const optionsJson = JSON.parse(getIntegrationsOptions.data);
-          console.log(optionsJson);
           dispatch({
             type: "fetchIntegrationsOptions",
             value: optionsJson
@@ -13353,7 +13339,6 @@ function Phonebook(props) {
     async function getGfForms() {
       try {
         const getGfForms = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/gf/v2/forms", {});
-        console.log(getGfForms);
         const gfFormsArrayObject = Object.keys(getGfForms.data).map(form => ({
           value: getGfForms.data[form].id,
           label: getGfForms.data[form].title
@@ -13378,7 +13363,6 @@ function Phonebook(props) {
     async function getGfFormsFileds() {
       try {
         const getGfFormsFileds = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/gf/v2/forms/1/field-filters", {});
-        console.log(getGfFormsFileds.data);
         const gfFormsFiledsArrayObject = Object.keys(getGfFormsFileds.data).map(field => ({
           value: getGfFormsFileds.data[field].key,
           label: getGfFormsFileds.data[field].text
@@ -13409,7 +13393,6 @@ function Phonebook(props) {
         const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/phonebook_options", {});
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
-          console.log(optionsJson);
           dispatch({
             type: "fetchComplete",
             value: optionsJson
@@ -13443,7 +13426,6 @@ function Phonebook(props) {
           type: "custom_phone_meta_keysOptions",
           value: usermetaArrayObject
         });
-        console.log(usermetaArrayObject);
       } catch (e) {
         console.log(e);
       }
@@ -13477,7 +13459,6 @@ function Phonebook(props) {
           type: "all_phonebookOptions",
           value: phonebooksArrayObject
         });
-        console.log(phonebooksArrayObject);
       } catch (e) {
         console.log(e);
       }
@@ -13500,7 +13481,6 @@ function Phonebook(props) {
         return [name, value];
       });
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
-      console.log(optionsJsonForPost);
       dispatch({
         type: "saveRequestStarted"
       });
@@ -13726,8 +13706,6 @@ function Settings() {
         if (action.value) {
           draft.inputs.apikey.hasErrors = true;
           draft.inputs.apikey.errorMessage = __("That apikey is not valid.", "farazsms");
-        } else {
-          draft.inputs.apikey.isValid = true;
         }
         return;
       case "apikeyIsEmpty":
@@ -13746,19 +13724,13 @@ function Settings() {
       case "usernameIsValid":
         if (action.value) {
           draft.inputs.username.hasErrors = true;
-          draft.inputs.username.isValid = false;
           draft.inputs.username.errorMessage = __("That username is not valid.", "farazsms");
-        } else {
-          draft.inputs.username.isValid = true;
         }
         return;
       case "usernameNotAccessApikey":
         if (action.value) {
           draft.inputs.username.hasErrors = true;
-          draft.inputs.username.isValid = false;
           draft.inputs.username.errorMessage = __("That username is not access to the provided apikey.", "farazsms");
-        } else {
-          draft.inputs.username.isValid = true;
         }
         return;
       case "passwordChange":
@@ -13871,7 +13843,6 @@ function Settings() {
         const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/settings_options", {});
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
-          console.log(optionsJson);
           dispatch({
             type: "fetchComplete",
             value: optionsJson
@@ -13905,7 +13876,6 @@ function Settings() {
         return [name, value];
       });
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
-      console.log(optionsJsonForPost);
       dispatch({
         type: "saveRequestStarted"
       });
@@ -13956,7 +13926,6 @@ function Settings() {
           const validateApikey = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/validate_apikey", {
             apikey: state.inputs.apikey.value
           });
-          console.log(validateApikey);
           if (validateApikey.data.status === "OK") {
             dispatch({
               type: "ippanelUsername",
@@ -14587,11 +14556,10 @@ function Woocommerce(props) {
         // Get Options from site DB Options table
         const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/woocommerce_options");
         if (getOptions.data) {
-          const optsionsJson = JSON.parse(getOptions.data);
-          console.log(optsionsJson);
+          const optionsJson = JSON.parse(getOptions.data);
           dispatch({
             type: "fetchComplete",
-            value: optsionsJson
+            value: optionsJson
           });
         }
       } catch (e) {
@@ -14608,14 +14576,14 @@ function Woocommerce(props) {
        * @return Object with arrays.
        */
 
-      const optsionsArray = Object.values(state.inputs).map(_ref => {
+      const optionsArray = Object.values(state.inputs).map(_ref => {
         let {
           value,
           name
         } = _ref;
         return [name, value];
       });
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
       console.log(optionsJsonForPost);
       dispatch({
         type: "saveRequestStarted"

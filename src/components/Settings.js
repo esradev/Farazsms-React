@@ -144,8 +144,6 @@ function Settings() {
             "That apikey is not valid.",
             "farazsms"
           );
-        } else {
-          draft.inputs.apikey.isValid = true;
         }
         return;
       case "apikeyIsEmpty":
@@ -167,25 +165,19 @@ function Settings() {
       case "usernameIsValid":
         if (action.value) {
           draft.inputs.username.hasErrors = true;
-          draft.inputs.username.isValid = false;
           draft.inputs.username.errorMessage = __(
             "That username is not valid.",
             "farazsms"
           );
-        } else {
-          draft.inputs.username.isValid = true;
         }
         return;
       case "usernameNotAccessApikey":
         if (action.value) {
           draft.inputs.username.hasErrors = true;
-          draft.inputs.username.isValid = false;
           draft.inputs.username.errorMessage = __(
             "That username is not access to the provided apikey.",
             "farazsms"
           );
-        } else {
-          draft.inputs.username.isValid = true;
         }
         return;
       case "passwordChange":
@@ -326,7 +318,6 @@ function Settings() {
         );
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
-          console.log(optionsJson);
           dispatch({ type: "fetchComplete", value: optionsJson });
         }
       } catch (e) {
@@ -354,7 +345,6 @@ function Settings() {
         ({ value, name }) => [name, value]
       );
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
-      console.log(optionsJsonForPost);
 
       dispatch({ type: "saveRequestStarted" });
 
@@ -409,7 +399,6 @@ function Settings() {
             "/farazsms/v1/validate_apikey",
             { apikey: state.inputs.apikey.value }
           );
-          console.log(validateApikey);
           if (validateApikey.data.status === "OK") {
             dispatch({
               type: "ippanelUsername",

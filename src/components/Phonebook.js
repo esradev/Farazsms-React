@@ -263,7 +263,6 @@ function Phonebook(props) {
         );
         if (getIntegrationsOptions.data) {
           const optionsJson = JSON.parse(getIntegrationsOptions.data);
-          console.log(optionsJson);
           dispatch({ type: "fetchIntegrationsOptions", value: optionsJson });
         }
       } catch (e) {
@@ -282,7 +281,6 @@ function Phonebook(props) {
     async function getGfForms() {
       try {
         const getGfForms = await AxiosWp.get("/gf/v2/forms", {});
-        console.log(getGfForms);
         const gfFormsArrayObject = Object.keys(getGfForms.data).map((form) => ({
           value: getGfForms.data[form].id,
           label: getGfForms.data[form].title,
@@ -310,7 +308,6 @@ function Phonebook(props) {
           "/gf/v2/forms/1/field-filters",
           {}
         );
-        console.log(getGfFormsFileds.data);
         const gfFormsFiledsArrayObject = Object.keys(getGfFormsFileds.data).map(
           (field) => ({
             value: getGfFormsFileds.data[field].key,
@@ -346,7 +343,6 @@ function Phonebook(props) {
         );
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
-          console.log(optionsJson);
           dispatch({ type: "fetchComplete", value: optionsJson });
         }
       } catch (e) {
@@ -379,7 +375,6 @@ function Phonebook(props) {
           type: "custom_phone_meta_keysOptions",
           value: usermetaArrayObject,
         });
-        console.log(usermetaArrayObject);
       } catch (e) {
         console.log(e);
       }
@@ -410,7 +405,6 @@ function Phonebook(props) {
           type: "all_phonebookOptions",
           value: phonebooksArrayObject,
         });
-        console.log(phonebooksArrayObject);
       } catch (e) {
         console.log(e);
       }
@@ -430,7 +424,6 @@ function Phonebook(props) {
         ({ value, name }) => [name, value]
       );
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
-      console.log(optionsJsonForPost);
 
       dispatch({ type: "saveRequestStarted" });
 

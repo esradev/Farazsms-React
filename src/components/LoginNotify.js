@@ -246,7 +246,6 @@ function Settings() {
         );
         if (getOptions.data) {
           const optsionsJson = JSON.parse(getOptions.data);
-          console.log(optsionsJson);
           dispatch({ type: "fetchComplete", value: optsionsJson });
         }
       } catch (e) {
@@ -306,7 +305,6 @@ function Settings() {
       value: key,
       label: rolesObject[key],
     }));
-    console.log(rolesArrayObject);
     dispatch({
       type: "select_rolesOptions",
       value: rolesArrayObject,

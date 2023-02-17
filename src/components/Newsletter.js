@@ -409,7 +409,7 @@ function Newsletter() {
         });
         dispatch({
           type: "updateCurrentSubscribers",
-          value: JSON.parse(get_subscribers_from_db.data).length(),
+          value: JSON.parse(get_subscribers_from_db.data),
         });
       } catch (e) {
         console.log(e);
@@ -532,8 +532,12 @@ function Newsletter() {
           <ol className="contact-list">
             {state.newsletterSubscribers.map((subscriber) => (
               <li key={subscriber.id} className="contact-list-item">
-                <p className="contact-details">{subscriber.name}</p>
-                <p className="contact-details">{subscriber.phone}</p>
+                <div className="contact-details">
+                  <p>{subscriber.name}</p>
+                </div>
+                <div className="contact-details">
+                  <p className="contact-details">{subscriber.phone}</p>
+                </div>
                 <button
                   className="contact-delete"
                   onClick={() => {

@@ -59,8 +59,6 @@ function Integrations(props) {
         ({ use, name }) => [name, use]
       );
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
-      console.log(optionsJsonForPost);
-
       appDispatch({ type: "saveRequestStarted" });
 
       async function postOptions() {
@@ -98,7 +96,6 @@ function Integrations(props) {
           async function checkPlugin() {
             try {
               const getPlugins = await AxiosWp.get("/wp/v2/plugins", {});
-              console.log(getPlugins);
               if (getPlugins.data) {
                 const findPlugin = getPlugins.data.find(
                   (element) => element.plugin === plugin.plugin
