@@ -13,6 +13,8 @@ const __ = wp.i18n.__;
 // Plugin Context
 import StateContext from "./StateContext";
 import DispatchContext from "./DispatchContext";
+import { ConfirmContextProvider } from "./store/ConfirmContextProvider";
+import ConfirmDialog from "./components/ConfirmDialog";
 // Plugin Components
 import Header from "./components/Header";
 import FlashMessages from "./views/FlashMessages";
@@ -38,6 +40,10 @@ function App() {
     flashMessages: {
       message: [],
       type: "",
+    },
+    confirm: {
+      show: false,
+      text: "",
     },
     plugins: {
       woocommerce: {
@@ -197,6 +203,14 @@ function App() {
       case "flashMessage":
         draft.flashMessages.message.push(action.value.message);
         draft.flashMessages.type = action.value.type;
+        return;
+      case "ShowConfirm":
+        draft.confirm.show = true;
+        draft.confirm.text = action.value;
+        return;
+      case "HideConfirm":
+        draft.confirm.show = false;
+        draft.confirm.text = action.value;
         return;
       case "fetchComplete":
         //Init state values by action.value
@@ -409,25 +423,28 @@ function App() {
     <HashRouter>
       <StateContext.Provider value={state}>
         <DispatchContext.Provider value={dispatch}>
-          <Header />
-          <FlashMessages flashMessages={state.flashMessages} />
-          <Sidebar>
-            <Routes>
-              {SidebarItems.map((item, index) => (
-                <Route
-                  key={index}
-                  path={item.path}
-                  element={
-                    <item.element
-                      integratedPlugins={state.plugins}
-                      sendCount={state.sendCount}
-                    />
-                  }
-                />
-              ))}
-            </Routes>
-          </Sidebar>
-          <Footer />
+          <ConfirmContextProvider>
+            <Header />
+            <FlashMessages flashMessages={state.flashMessages} />
+            <ConfirmDialog />
+            <Sidebar>
+              <Routes>
+                {SidebarItems.map((item, index) => (
+                  <Route
+                    key={index}
+                    path={item.path}
+                    element={
+                      <item.element
+                        integratedPlugins={state.plugins}
+                        sendCount={state.sendCount}
+                      />
+                    }
+                  />
+                ))}
+              </Routes>
+            </Sidebar>
+            <Footer />
+          </ConfirmContextProvider>
         </DispatchContext.Provider>
       </StateContext.Provider>
     </HashRouter>

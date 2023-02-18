@@ -9938,28 +9938,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _StateContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StateContext */ "./src/StateContext.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Header */ "./src/components/Header.js");
-/* harmony import */ var _views_FlashMessages__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./views/FlashMessages */ "./src/views/FlashMessages.js");
-/* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Sidebar */ "./src/components/Sidebar.js");
-/* harmony import */ var _views_SidebarItems__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/SidebarItems */ "./src/views/SidebarItems.js");
-/* harmony import */ var _components_Footer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Footer */ "./src/components/Footer.js");
-/* harmony import */ var _assets_images_woocommerce_logo_jpg__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./assets/images/woocommerce-logo.jpg */ "./src/assets/images/woocommerce-logo.jpg");
-/* harmony import */ var _assets_images_digits_logo_jpg__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./assets/images/digits-logo.jpg */ "./src/assets/images/digits-logo.jpg");
-/* harmony import */ var _assets_images_edd_logo_jpg__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./assets/images/edd-logo.jpg */ "./src/assets/images/edd-logo.jpg");
-/* harmony import */ var _assets_images_bookly_logo_jpg__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./assets/images/bookly-logo.jpg */ "./src/assets/images/bookly-logo.jpg");
-/* harmony import */ var _assets_images_gravity_logo_jpg__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./assets/images/gravity-logo.jpg */ "./src/assets/images/gravity-logo.jpg");
-/* harmony import */ var _assets_images_ultimatemembershippro_logo_jpg__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./assets/images/ultimatemembershippro-logo.jpg */ "./src/assets/images/ultimatemembershippro-logo.jpg");
-/* harmony import */ var _assets_images_paidmembershipspro_logo_jpg__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./assets/images/paidmembershipspro-logo.jpg */ "./src/assets/images/paidmembershipspro-logo.jpg");
-/* harmony import */ var _assets_images_affiliatewp_logo_jpg__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./assets/images/affiliatewp-logo.jpg */ "./src/assets/images/affiliatewp-logo.jpg");
-/* harmony import */ var _assets_images_ultimateaffiliatepro_logo_jpg__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./assets/images/ultimateaffiliatepro-logo.jpg */ "./src/assets/images/ultimateaffiliatepro-logo.jpg");
-/* harmony import */ var _assets_images_yithwoocommerceaffiliates_logo_jpg__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./assets/images/yithwoocommerceaffiliates-logo.jpg */ "./src/assets/images/yithwoocommerceaffiliates-logo.jpg");
-/* harmony import */ var _assets_images_elementor_logo_jpg__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./assets/images/elementor-logo.jpg */ "./src/assets/images/elementor-logo.jpg");
-/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./function/AxiosWp */ "./src/function/AxiosWp.js");
+/* harmony import */ var _store_ConfirmContextProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/ConfirmContextProvider */ "./src/store/ConfirmContextProvider.js");
+/* harmony import */ var _components_ConfirmDialog__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/ConfirmDialog */ "./src/components/ConfirmDialog.js");
+/* harmony import */ var _components_Header__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Header */ "./src/components/Header.js");
+/* harmony import */ var _views_FlashMessages__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/FlashMessages */ "./src/views/FlashMessages.js");
+/* harmony import */ var _components_Sidebar__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/Sidebar */ "./src/components/Sidebar.js");
+/* harmony import */ var _views_SidebarItems__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./views/SidebarItems */ "./src/views/SidebarItems.js");
+/* harmony import */ var _components_Footer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/Footer */ "./src/components/Footer.js");
+/* harmony import */ var _assets_images_woocommerce_logo_jpg__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./assets/images/woocommerce-logo.jpg */ "./src/assets/images/woocommerce-logo.jpg");
+/* harmony import */ var _assets_images_digits_logo_jpg__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./assets/images/digits-logo.jpg */ "./src/assets/images/digits-logo.jpg");
+/* harmony import */ var _assets_images_edd_logo_jpg__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./assets/images/edd-logo.jpg */ "./src/assets/images/edd-logo.jpg");
+/* harmony import */ var _assets_images_bookly_logo_jpg__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./assets/images/bookly-logo.jpg */ "./src/assets/images/bookly-logo.jpg");
+/* harmony import */ var _assets_images_gravity_logo_jpg__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./assets/images/gravity-logo.jpg */ "./src/assets/images/gravity-logo.jpg");
+/* harmony import */ var _assets_images_ultimatemembershippro_logo_jpg__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./assets/images/ultimatemembershippro-logo.jpg */ "./src/assets/images/ultimatemembershippro-logo.jpg");
+/* harmony import */ var _assets_images_paidmembershipspro_logo_jpg__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./assets/images/paidmembershipspro-logo.jpg */ "./src/assets/images/paidmembershipspro-logo.jpg");
+/* harmony import */ var _assets_images_affiliatewp_logo_jpg__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./assets/images/affiliatewp-logo.jpg */ "./src/assets/images/affiliatewp-logo.jpg");
+/* harmony import */ var _assets_images_ultimateaffiliatepro_logo_jpg__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./assets/images/ultimateaffiliatepro-logo.jpg */ "./src/assets/images/ultimateaffiliatepro-logo.jpg");
+/* harmony import */ var _assets_images_yithwoocommerceaffiliates_logo_jpg__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./assets/images/yithwoocommerceaffiliates-logo.jpg */ "./src/assets/images/yithwoocommerceaffiliates-logo.jpg");
+/* harmony import */ var _assets_images_elementor_logo_jpg__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./assets/images/elementor-logo.jpg */ "./src/assets/images/elementor-logo.jpg");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./function/AxiosWp */ "./src/function/AxiosWp.js");
 
 /**
  * Import remote dependencies.
@@ -9974,6 +9976,8 @@ const __ = wp.i18n.__;
  */
 
 // Plugin Context
+
+
 
 
 // Plugin Components
@@ -10001,13 +10005,17 @@ function App() {
       message: [],
       type: ""
     },
+    confirm: {
+      show: false,
+      text: ""
+    },
     plugins: {
       woocommerce: {
         use: false,
         name: "woocommerce",
         label: "WooCommerce",
         imgUrl: {
-          logo: _assets_images_woocommerce_logo_jpg__WEBPACK_IMPORTED_MODULE_9__
+          logo: _assets_images_woocommerce_logo_jpg__WEBPACK_IMPORTED_MODULE_11__
         },
         onChange: "wooChange",
         check: "wooCheck",
@@ -10022,7 +10030,7 @@ function App() {
         name: "elementorPro",
         label: "Elementor Pro",
         imgUrl: {
-          logo: _assets_images_elementor_logo_jpg__WEBPACK_IMPORTED_MODULE_19__
+          logo: _assets_images_elementor_logo_jpg__WEBPACK_IMPORTED_MODULE_21__
         },
         onChange: "elementorProChange",
         check: "elementorProCheck",
@@ -10037,7 +10045,7 @@ function App() {
         name: "digits",
         label: "digits",
         imgUrl: {
-          logo: _assets_images_digits_logo_jpg__WEBPACK_IMPORTED_MODULE_10__
+          logo: _assets_images_digits_logo_jpg__WEBPACK_IMPORTED_MODULE_12__
         },
         onChange: "digitsChange",
         check: "digitsCheck",
@@ -10052,7 +10060,7 @@ function App() {
         name: "edd",
         label: "Edd",
         imgUrl: {
-          logo: _assets_images_edd_logo_jpg__WEBPACK_IMPORTED_MODULE_11__
+          logo: _assets_images_edd_logo_jpg__WEBPACK_IMPORTED_MODULE_13__
         },
         onChange: "eddChange",
         check: "eddCheck",
@@ -10067,7 +10075,7 @@ function App() {
         name: "bookly",
         label: "Bookly",
         imgUrl: {
-          logo: _assets_images_bookly_logo_jpg__WEBPACK_IMPORTED_MODULE_12__
+          logo: _assets_images_bookly_logo_jpg__WEBPACK_IMPORTED_MODULE_14__
         },
         onChange: "booklyChange",
         check: "booklyCheck",
@@ -10082,7 +10090,7 @@ function App() {
         name: "gravityForms",
         label: "Gravity Forms",
         imgUrl: {
-          logo: _assets_images_gravity_logo_jpg__WEBPACK_IMPORTED_MODULE_13__
+          logo: _assets_images_gravity_logo_jpg__WEBPACK_IMPORTED_MODULE_15__
         },
         onChange: "gfChange",
         check: "gfCheck",
@@ -10097,7 +10105,7 @@ function App() {
         name: "indeedMembershipPro",
         label: "Indeed Membership Pro",
         imgUrl: {
-          logo: _assets_images_ultimatemembershippro_logo_jpg__WEBPACK_IMPORTED_MODULE_14__
+          logo: _assets_images_ultimatemembershippro_logo_jpg__WEBPACK_IMPORTED_MODULE_16__
         },
         onChange: "impChange",
         check: "impCheck",
@@ -10112,7 +10120,7 @@ function App() {
         name: "paidMembershipsPro",
         label: "Paid Memberships Pro",
         imgUrl: {
-          logo: _assets_images_paidmembershipspro_logo_jpg__WEBPACK_IMPORTED_MODULE_15__
+          logo: _assets_images_paidmembershipspro_logo_jpg__WEBPACK_IMPORTED_MODULE_17__
         },
         onChange: "pmpChange",
         check: "pmpCheck",
@@ -10127,7 +10135,7 @@ function App() {
         name: "affiliateWp",
         label: "Affiliate Wp",
         imgUrl: {
-          logo: _assets_images_affiliatewp_logo_jpg__WEBPACK_IMPORTED_MODULE_16__
+          logo: _assets_images_affiliatewp_logo_jpg__WEBPACK_IMPORTED_MODULE_18__
         },
         onChange: "affChange",
         check: "affCheck",
@@ -10142,7 +10150,7 @@ function App() {
         name: "indeedAffiliatePro",
         label: "Indeed Affiliate Pro",
         imgUrl: {
-          logo: _assets_images_ultimateaffiliatepro_logo_jpg__WEBPACK_IMPORTED_MODULE_17__
+          logo: _assets_images_ultimateaffiliatepro_logo_jpg__WEBPACK_IMPORTED_MODULE_19__
         },
         onChange: "uapChange",
         check: "uapCheck",
@@ -10157,7 +10165,7 @@ function App() {
         name: "yithWoocommerceAffiliates",
         label: "Yith Woocommerce Affiliates",
         imgUrl: {
-          logo: _assets_images_yithwoocommerceaffiliates_logo_jpg__WEBPACK_IMPORTED_MODULE_18__
+          logo: _assets_images_yithwoocommerceaffiliates_logo_jpg__WEBPACK_IMPORTED_MODULE_20__
         },
         onChange: "ywaChange",
         check: "ywaCheck",
@@ -10177,6 +10185,14 @@ function App() {
       case "flashMessage":
         draft.flashMessages.message.push(action.value.message);
         draft.flashMessages.type = action.value.type;
+        return;
+      case "ShowConfirm":
+        draft.confirm.show = true;
+        draft.confirm.text = action.value;
+        return;
+      case "HideConfirm":
+        draft.confirm.show = false;
+        draft.confirm.text = action.value;
         return;
       case "fetchComplete":
         //Init state values by action.value
@@ -10319,7 +10335,7 @@ function App() {
          * Use the AxiosWp object to call the /farazsms/v1/farazsms_integrations_options
          * endpoint and retrieve the 10 latest posts.
          */
-        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_20__["default"].get("/farazsms/v1/integrations_options", {});
+        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_22__["default"].get("/farazsms/v1/integrations_options", {});
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
           dispatch({
@@ -10333,21 +10349,21 @@ function App() {
     }
     getOptions();
   }, []);
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_21__.useImmerReducer)(ourReducer, initialState);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_22__.HashRouter, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_StateContext__WEBPACK_IMPORTED_MODULE_2__["default"].Provider, {
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_23__.useImmerReducer)(ourReducer, initialState);
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_24__.HashRouter, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_StateContext__WEBPACK_IMPORTED_MODULE_2__["default"].Provider, {
     value: state
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"].Provider, {
     value: dispatch
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Header__WEBPACK_IMPORTED_MODULE_4__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_FlashMessages__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_store_ConfirmContextProvider__WEBPACK_IMPORTED_MODULE_4__.ConfirmContextProvider, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Header__WEBPACK_IMPORTED_MODULE_6__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_FlashMessages__WEBPACK_IMPORTED_MODULE_7__["default"], {
     flashMessages: state.flashMessages
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_23__.Routes, null, _views_SidebarItems__WEBPACK_IMPORTED_MODULE_7__["default"].map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_23__.Route, {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ConfirmDialog__WEBPACK_IMPORTED_MODULE_5__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_8__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_25__.Routes, null, _views_SidebarItems__WEBPACK_IMPORTED_MODULE_9__["default"].map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_25__.Route, {
     key: index,
     path: item.path,
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(item.element, {
       integratedPlugins: state.plugins,
       sendCount: state.sendCount
     })
-  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Footer__WEBPACK_IMPORTED_MODULE_8__["default"], null))));
+  })))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Footer__WEBPACK_IMPORTED_MODULE_10__["default"], null)))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (App);
 
@@ -11203,6 +11219,55 @@ function Comments() {
   }))));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Comments);
+
+/***/ }),
+
+/***/ "./src/components/ConfirmDialog.js":
+/*!*****************************************!*\
+  !*** ./src/components/ConfirmDialog.js ***!
+  \*****************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ "react-dom");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _hooks_useConfirm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../hooks/useConfirm */ "./src/hooks/useConfirm.js");
+
+/**
+ * @see https://devrecipes.net/custom-confirm-dialog-with-react-hooks-and-the-context-api/
+ */
+
+
+
+
+const ConfirmDialog = () => {
+  const {
+    onConfirm,
+    onCancel,
+    confirmState
+  } = (0,_hooks_useConfirm__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  const portalElement = document.getElementById("farazsms-portal");
+  const component = confirmState.show ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "farazsms-portal-overlay"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "confirm-dialog"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", null, (confirmState === null || confirmState === void 0 ? void 0 : confirmState.text) && confirmState.text), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "confirm-dialog__footer"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "btn btn-danger mx-1",
+    onClick: onConfirm
+  }, "Yes"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "btn btn btn-outline-dark mx-1",
+    onClick: onCancel
+  }, "Cancel")))) : null;
+  return (0,react_dom__WEBPACK_IMPORTED_MODULE_2__.createPortal)(component, portalElement);
+};
+/* harmony default export */ __webpack_exports__["default"] = (ConfirmDialog);
 
 /***/ }),
 
@@ -12557,18 +12622,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
-/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
-/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
-/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var _hooks_useConfirm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../hooks/useConfirm */ "./src/hooks/useConfirm.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
+/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
+/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
+/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 
 
 /**
  * Import remote dependencies.
  */
+
 
 
 // Used as const not import, for Loco translate plugin compatibility.
@@ -12584,7 +12651,7 @@ const __ = wp.i18n.__;
 
 
 function Newsletter() {
-  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_4__["default"]);
   /**
    *
    * First init state.
@@ -12828,7 +12895,7 @@ function Newsletter() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_9__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
 
   /**
    *
@@ -12893,7 +12960,7 @@ function Newsletter() {
     async function getOptions() {
       try {
         // Get Options from site DB Options table
-        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/newsletter_options");
+        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_8__["default"].get("/farazsms/v1/newsletter_options");
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
           dispatch({
@@ -12910,7 +12977,7 @@ function Newsletter() {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function get_subscribers_from_db() {
       try {
-        const getSubscribers = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/get_subscribers_from_db");
+        const getSubscribers = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_8__["default"].get("/farazsms/v1/get_subscribers_from_db");
         dispatch({
           type: "getNewsletterSubscribers",
           value: JSON.parse(getSubscribers.data)
@@ -12946,7 +13013,7 @@ function Newsletter() {
       async function postOptions() {
         try {
           // Post Options from site DB Options table
-          const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/newsletter_options", optionsJsonForPost);
+          const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_8__["default"].post("/farazsms/v1/newsletter_options", optionsJsonForPost);
           dispatch({
             type: "saveRequestFinished"
           });
@@ -12963,27 +13030,47 @@ function Newsletter() {
       postOptions();
     }
   }, [state.sendCount]);
-  function deleteSubscriber(subscriber) {
-    async function deleteSubscriberFromDb() {
-      try {
-        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/delete_subscriber_from_db", {
-          subscriber_id: subscriber.id
-        });
-        dispatch({
-          type: "updateCurrentSubscribers",
-          value: state.currentSubscribers - 1
-        });
-        appDispatch({
-          type: "flashMessage",
-          value: __("Congrats. Subscriber deleted successfully.", "farazsms")
-        });
-        console.log(subscriber.id);
-      } catch (e) {
-        console.log(e);
+  const {
+    confirm
+  } = (0,_hooks_useConfirm__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  const deleteSubscriber = async subscriber => {
+    const isConfirmed = await confirm(__("Do you want to delete that subscriber?", "farazsms"));
+    if (isConfirmed) {
+      async function deleteSubscriberFromDb() {
+        try {
+          await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_8__["default"].post("/farazsms/v1/delete_subscriber_from_db", {
+            subscriber_id: subscriber.id
+          });
+          dispatch({
+            type: "updateCurrentSubscribers",
+            value: state.currentSubscribers - 1
+          });
+          appDispatch({
+            type: "flashMessage",
+            value: {
+              message: __("Congrats. Subscriber deleted successfully.", "farazsms")
+            }
+          });
+          console.log(subscriber.id);
+        } catch (e) {
+          console.log(e);
+        }
       }
+      deleteSubscriberFromDb();
+    } else {
+      appDispatch({
+        type: "flashMessage",
+        value: {
+          message: __("Canceled. Subscriber still there.", "farazsms"),
+          type: "error"
+        }
+      });
     }
-    deleteSubscriberFromDb();
-  }
+  };
+
+  // function deleteSubscriber(subscriber) {
+  //
+  // }
 
   /**
    * The settings form created by mapping over originalState as the main state.
@@ -12993,14 +13080,14 @@ function Newsletter() {
    */
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "farazsms-newsletter-component"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_9__["default"], {
     sectionName: state.sectionName
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
     onSubmit: handleSubmit
   }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.name,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     isMulti: input.isMulti
   }, input, {
     onChange: input.type === "select" ? selectedOption => dispatch({
@@ -13016,7 +13103,7 @@ function Newsletter() {
       type: input.rules,
       value: e.target.value
     })
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_6__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_7__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
     isSaving: state.isSaving
   }))), state.newsletterSubscribers && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     className: "list-contacts"
@@ -14721,6 +14808,158 @@ const AxiosWp = axios__WEBPACK_IMPORTED_MODULE_0__["default"].create({
   }
 });
 /* harmony default export */ __webpack_exports__["default"] = (AxiosWp);
+
+/***/ }),
+
+/***/ "./src/hooks/useConfirm.js":
+/*!*********************************!*\
+  !*** ./src/hooks/useConfirm.js ***!
+  \*********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store_ConfirmContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/ConfirmContext */ "./src/store/ConfirmContext.js");
+/* harmony import */ var _store_Reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/Reducer */ "./src/store/Reducer.js");
+/**
+ * @see https://devrecipes.net/custom-confirm-dialog-with-react-hooks-and-the-context-api/
+ */
+
+
+
+
+let resolveCallback;
+function useConfirm() {
+  const [confirmState, dispatch] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useContext)(_store_ConfirmContext__WEBPACK_IMPORTED_MODULE_1__["default"]);
+  const onConfirm = () => {
+    closeConfirm();
+    resolveCallback(true);
+  };
+  const onCancel = () => {
+    closeConfirm();
+    resolveCallback(false);
+  };
+  const confirm = text => {
+    dispatch({
+      type: _store_Reducer__WEBPACK_IMPORTED_MODULE_2__.SHOW_CONFIRM,
+      payload: {
+        text
+      }
+    });
+    return new Promise((res, rej) => {
+      resolveCallback = res;
+    });
+  };
+  const closeConfirm = () => {
+    dispatch({
+      type: _store_Reducer__WEBPACK_IMPORTED_MODULE_2__.HIDE_CONFIRM
+    });
+  };
+  return {
+    confirm,
+    onConfirm,
+    onCancel,
+    confirmState
+  };
+}
+/* harmony default export */ __webpack_exports__["default"] = (useConfirm);
+
+/***/ }),
+
+/***/ "./src/store/ConfirmContext.js":
+/*!*************************************!*\
+  !*** ./src/store/ConfirmContext.js ***!
+  \*************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/**
+ * @see https://devrecipes.net/custom-confirm-dialog-with-react-hooks-and-the-context-api/
+ */
+
+
+const ConfirmContext = react__WEBPACK_IMPORTED_MODULE_0___default().createContext();
+/* harmony default export */ __webpack_exports__["default"] = (ConfirmContext);
+
+/***/ }),
+
+/***/ "./src/store/ConfirmContextProvider.js":
+/*!*********************************************!*\
+  !*** ./src/store/ConfirmContextProvider.js ***!
+  \*********************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ConfirmContextProvider": function() { return /* binding */ ConfirmContextProvider; }
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Reducer */ "./src/store/Reducer.js");
+/* harmony import */ var _ConfirmContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./ConfirmContext */ "./src/store/ConfirmContext.js");
+
+/**
+ * @see https://devrecipes.net/custom-confirm-dialog-with-react-hooks-and-the-context-api/
+ */
+
+
+
+
+const ConfirmContextProvider = _ref => {
+  let {
+    children
+  } = _ref;
+  const [state, dispatch] = (0,react__WEBPACK_IMPORTED_MODULE_1__.useReducer)(_Reducer__WEBPACK_IMPORTED_MODULE_2__.reducer, _Reducer__WEBPACK_IMPORTED_MODULE_2__.initialState);
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ConfirmContext__WEBPACK_IMPORTED_MODULE_3__["default"].Provider, {
+    value: [state, dispatch]
+  }, children);
+};
+
+/***/ }),
+
+/***/ "./src/store/Reducer.js":
+/*!******************************!*\
+  !*** ./src/store/Reducer.js ***!
+  \******************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "HIDE_CONFIRM": function() { return /* binding */ HIDE_CONFIRM; },
+/* harmony export */   "SHOW_CONFIRM": function() { return /* binding */ SHOW_CONFIRM; },
+/* harmony export */   "initialState": function() { return /* binding */ initialState; },
+/* harmony export */   "reducer": function() { return /* binding */ reducer; }
+/* harmony export */ });
+const SHOW_CONFIRM = "SHOW_CONFIRM";
+const HIDE_CONFIRM = "HIDE_CONFIRM";
+const initialState = {
+  show: false,
+  text: ""
+};
+const reducer = function () {
+  let state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+  let action = arguments.length > 1 ? arguments[1] : undefined;
+  switch (action.type) {
+    case SHOW_CONFIRM:
+      return {
+        show: true,
+        text: action.payload.text
+      };
+    case HIDE_CONFIRM:
+      return initialState;
+    default:
+      return initialState;
+  }
+};
 
 /***/ }),
 
@@ -47935,8 +48174,11 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App */ "./src/App.js");
-/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./index.scss */ "./src/index.scss");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ "./src/App.js");
+/* harmony import */ var _index_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./index.scss */ "./src/index.scss");
+
 
 
 const __ = wp.i18n.__;
@@ -47945,7 +48187,7 @@ const __ = wp.i18n.__;
 
 
 // Render the App component into the DOM
-(0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_App__WEBPACK_IMPORTED_MODULE_1__["default"], null), document.querySelector("#farazsms-admin-page"));
+(0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.render)((0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_App__WEBPACK_IMPORTED_MODULE_2__["default"], null), document.querySelector("#farazsms-admin-page"));
 }();
 /******/ })()
 ;

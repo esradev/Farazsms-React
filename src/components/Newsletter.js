@@ -3,6 +3,7 @@
  */
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
+import useConfirm from "../hooks/useConfirm";
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
@@ -429,27 +430,52 @@ function Newsletter() {
     }
   }, [state.sendCount]);
 
-  function deleteSubscriber(subscriber) {
-    async function deleteSubscriberFromDb() {
-      try {
-        await AxiosWp.post("/farazsms/v1/delete_subscriber_from_db", {
-          subscriber_id: subscriber.id,
-        });
-        dispatch({
-          type: "updateCurrentSubscribers",
-          value: state.currentSubscribers - 1,
-        });
-        appDispatch({
-          type: "flashMessage",
-          value: __("Congrats. Subscriber deleted successfully.", "farazsms"),
-        });
-        console.log(subscriber.id);
-      } catch (e) {
-        console.log(e);
+  const { confirm } = useConfirm();
+
+  const deleteSubscriber = async (subscriber) => {
+    const isConfirmed = await confirm(
+      __("Do you want to delete that subscriber?", "farazsms")
+    );
+
+    if (isConfirmed) {
+      async function deleteSubscriberFromDb() {
+        try {
+          await AxiosWp.post("/farazsms/v1/delete_subscriber_from_db", {
+            subscriber_id: subscriber.id,
+          });
+          dispatch({
+            type: "updateCurrentSubscribers",
+            value: state.currentSubscribers - 1,
+          });
+          appDispatch({
+            type: "flashMessage",
+            value: {
+              message: __(
+                "Congrats. Subscriber deleted successfully.",
+                "farazsms"
+              ),
+            },
+          });
+          console.log(subscriber.id);
+        } catch (e) {
+          console.log(e);
+        }
       }
+      deleteSubscriberFromDb();
+    } else {
+      appDispatch({
+        type: "flashMessage",
+        value: {
+          message: __("Canceled. Subscriber still there.", "farazsms"),
+          type: "error",
+        },
+      });
     }
-    deleteSubscriberFromDb();
-  }
+  };
+
+  // function deleteSubscriber(subscriber) {
+  //
+  // }
 
   /**
    * The settings form created by mapping over originalState as the main state.

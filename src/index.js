@@ -1,4 +1,5 @@
 import { render } from "@wordpress/element";
+import React from "react";
 const __ = wp.i18n.__;
 
 import App from "./App";

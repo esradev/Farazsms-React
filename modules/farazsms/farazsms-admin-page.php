@@ -2,3 +2,4 @@
 <div id="farazsms-admin-page">
     <h2>Loading...</h2>
 </div>
+<div id="farazsms-portal"></div>
