@@ -220,7 +220,7 @@ function Settings() {
         draft.isSaving = true;
         return;
 
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
     }
@@ -245,8 +245,8 @@ function Settings() {
           "/farazsms/v1/login_notify_options"
         );
         if (getOptions.data) {
-          const optsionsJson = JSON.parse(getOptions.data);
-          dispatch({ type: "fetchComplete", value: optsionsJson });
+          const optionsJson = JSON.parse(getOptions.data);
+          dispatch({ type: "fetchComplete", value: optionsJson });
         }
       } catch (e) {
         console.log(e);
@@ -262,10 +262,10 @@ function Settings() {
        * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
-      const optsionsArray = Object.values(state.inputs).map(
+      const optionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
       console.log(optionsJsonForPost);
 
       dispatch({ type: "saveRequestStarted" });
@@ -276,10 +276,15 @@ function Settings() {
             "/farazsms/v1/login_notify_options",
             optionsJsonForPost
           );
-          dispatch({ type: "saveRequestFininshed" });
+          dispatch({ type: "saveRequestFinished" });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms"),
+            value: {
+              message: __(
+                "Congrats. Form was updated successfully.",
+                "farazsms"
+              ),
+            },
           });
         } catch (e) {
           console.log(e);
@@ -334,6 +339,7 @@ function Settings() {
                 }
               >
                 <FormInput
+                  isMulti={input.isMulti}
                   {...input}
                   onChange={
                     input.type === "select"

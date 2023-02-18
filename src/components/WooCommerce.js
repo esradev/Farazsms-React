@@ -179,7 +179,7 @@ function Woocommerce(props) {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
     }
@@ -237,10 +237,15 @@ function Woocommerce(props) {
             "/farazsms/v1/woocommerce_options",
             optionsJsonForPost
           );
-          dispatch({ type: "saveRequestFininshed" });
+          dispatch({ type: "saveRequestFinished" });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms"),
+            value: {
+              message: __(
+                "Congrats. Form was updated successfully.",
+                "farazsms"
+              ),
+            },
           });
         } catch (e) {
           console.log(e);
@@ -274,6 +279,7 @@ function Woocommerce(props) {
                   }
                 >
                   <FormInput
+                    isMulti={input.isMulti}
                     {...input}
                     value={input.value}
                     checked={input.value}

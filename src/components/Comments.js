@@ -212,7 +212,7 @@ function Comments() {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
     }
@@ -302,10 +302,15 @@ function Comments() {
             "/farazsms/v1/comments_options",
             optionsJsonForPost
           );
-          dispatch({ type: "saveRequestFininshed" });
+          dispatch({ type: "saveRequestFinished" });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms"),
+            value: {
+              message: __(
+                "Congrats. Form was updated successfully.",
+                "farazsms"
+              ),
+            },
           });
         } catch (e) {
           console.log(e);
@@ -339,6 +344,7 @@ function Comments() {
                 }
               >
                 <FormInput
+                  isMulti={input.isMulti}
                   {...input}
                   onChange={
                     input.type === "select"

@@ -437,7 +437,12 @@ function Phonebook(props) {
           dispatch({ type: "saveRequestFininshed" });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms"),
+            value: {
+              message: __(
+                "Congrats. Form was updated successfully.",
+                "farazsms"
+              ),
+            },
           });
         } catch (e) {
           console.log(e);
@@ -493,6 +498,8 @@ function Phonebook(props) {
           {Object.values(state.inputs).map((input) => (
             <div key={input.name} className={"form-group"}>
               <FormInput
+                isMulti={input.isMulti}
+                isMulti={input.isMulti}
                 {...input}
                 onChange={(selectedOption) =>
                   dispatch({

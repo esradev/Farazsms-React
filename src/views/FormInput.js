@@ -1,18 +1,18 @@
 /**
  * Import remote dependencies.
  */
-import React from 'react'
-import Select from 'react-select'
-import makeAnimated from 'react-select/animated'
-import { AiOutlineExclamationCircle } from 'react-icons/ai'
-import Button from 'react-bootstrap/Button'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Tooltip from 'react-bootstrap/Tooltip'
-import { CSSTransition } from 'react-transition-group'
+import React from "react";
+import Select from "react-select";
+import makeAnimated from "react-select/animated";
+import { AiOutlineExclamationCircle } from "react-icons/ai";
+import Button from "react-bootstrap/Button";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
+import { CSSTransition } from "react-transition-group";
 // Used as const not import, for Loco translate plugin compatibility.
-const __ = wp.i18n.__
+const __ = wp.i18n.__;
 
-const animatedComponents = makeAnimated()
+const animatedComponents = makeAnimated();
 
 /**
  * This component power the settings component.
@@ -37,8 +37,9 @@ const FormInput = (props) => {
     noOptionsMessage,
     groupTitle,
     hasErrors,
+    isMulti,
     ...inputProps
-  } = props
+  } = props;
 
   return (
     <>
@@ -52,13 +53,13 @@ const FormInput = (props) => {
               overlay={<Tooltip>{tooltip}</Tooltip>}
             >
               <Button variant="outline-dark" size="sm" className="mx-2">
-                {__('Info ', 'farazsms')}
-                <AiOutlineExclamationCircle/>
+                {__("Info ", "farazsms")}
+                <AiOutlineExclamationCircle />
               </Button>
             </OverlayTrigger>
           )}
 
-          {type === 'text' && (
+          {type === "text" && (
             <input
               id={id}
               value={value}
@@ -70,7 +71,7 @@ const FormInput = (props) => {
             />
           )}
 
-          {type === 'checkbox' && (
+          {type === "checkbox" && (
             <input
               id={id}
               value={value}
@@ -82,9 +83,9 @@ const FormInput = (props) => {
               {...inputProps}
             />
           )}
-          {type === 'checkbox' && <span className="control"></span>}
+          {type === "checkbox" && <span className="control"></span>}
 
-          {type === 'textarea' && (
+          {type === "textarea" && (
             <textarea
               value={value}
               type={type}
@@ -96,9 +97,9 @@ const FormInput = (props) => {
               rows="5"
             />
           )}
-          {type === 'select' && (
+          {type === "select" && (
             <Select
-              isMulti
+              isMulti={isMulti}
               value={value}
               type={type}
               placeholder="Select..."
@@ -132,7 +133,7 @@ const FormInput = (props) => {
         </div>
       </CSSTransition>
     </>
-  )
-}
+  );
+};
 
-export default FormInput
+export default FormInput;

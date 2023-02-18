@@ -9997,8 +9997,10 @@ const __ = wp.i18n.__;
 
 function App() {
   const initialState = {
-    flashMessages: [],
-    flashMessageType: "success",
+    flashMessages: {
+      message: [],
+      type: ""
+    },
     plugins: {
       woocommerce: {
         use: false,
@@ -10173,10 +10175,8 @@ function App() {
   function ourReducer(draft, action) {
     switch (action.type) {
       case "flashMessage":
-        draft.flashMessages.push(action.value);
-        return;
-      case "flashMessageType":
-        draft.flashMessageType = action.value;
+        draft.flashMessages.message.push(action.value.message);
+        draft.flashMessages.type = action.value.type;
         return;
       case "fetchComplete":
         //Init state values by action.value
@@ -10300,7 +10300,7 @@ function App() {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
     }
@@ -10339,8 +10339,7 @@ function App() {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"].Provider, {
     value: dispatch
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Header__WEBPACK_IMPORTED_MODULE_4__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_FlashMessages__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    messages: state.flashMessages,
-    type: state.flashMessageType
+    flashMessages: state.flashMessages
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_6__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_23__.Routes, null, _views_SidebarItems__WEBPACK_IMPORTED_MODULE_7__["default"].map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_23__.Route, {
     key: index,
     path: item.path,
@@ -10665,7 +10664,7 @@ function Aff(props) {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
     }
@@ -10720,7 +10719,7 @@ function Aff(props) {
 
   /**
    *
-   * Save Aff options on DB when saveRequestFininshed = true
+   * Save Aff options on DB when saveRequestFinished = true
    *
    * @since 2.0.0
    */
@@ -10733,14 +10732,14 @@ function Aff(props) {
        *
        * @return Object with arrays.
        */
-      const optsionsArray = Object.values(state.inputs).map(_ref => {
+      const optionsArray = Object.values(state.inputs).map(_ref => {
         let {
           value,
           name
         } = _ref;
         return [name, value];
       });
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
       console.log(optionsJsonForPost);
       dispatch({
         type: "saveRequestStarted"
@@ -10751,11 +10750,13 @@ function Aff(props) {
           // Post Options from site DB Options table
           const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/aff_options", optionsJsonForPost);
           dispatch({
-            type: "saveRequestFininshed"
+            type: "saveRequestFinished"
           });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms")
+            value: {
+              message: __("Congrats. Form was updated successfully.", "farazsms")
+            }
           });
         } catch (e) {
           console.log(e);
@@ -10808,7 +10809,9 @@ function Aff(props) {
     }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
       key: input.name,
       className: input.type === "checkbox" ? "toggle-control" : "form-group"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      isMulti: input.isMulti
+    }, input, {
       value: input.value,
       checked: input.value,
       onChange: e => {
@@ -11049,7 +11052,7 @@ function Comments() {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
     }
@@ -11149,11 +11152,13 @@ function Comments() {
           // Post Options from site DB Options table
           const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/comments_options", optionsJsonForPost);
           dispatch({
-            type: "saveRequestFininshed"
+            type: "saveRequestFinished"
           });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms")
+            value: {
+              message: __("Congrats. Form was updated successfully.", "farazsms")
+            }
           });
         } catch (e) {
           console.log(e);
@@ -11177,7 +11182,9 @@ function Comments() {
   }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.name,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    isMulti: input.isMulti
+  }, input, {
     onChange: input.type === "select" ? selectedOption => dispatch({
       type: input.onChange,
       value: selectedOption
@@ -11371,7 +11378,7 @@ function Edd(props) {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
     }
@@ -11471,11 +11478,13 @@ function Edd(props) {
           // Post Options from site DB Options table
           const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/edd_options", optionsJsonForPost);
           dispatch({
-            type: "saveRequestFininshed"
+            type: "saveRequestFinished"
           });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms")
+            value: {
+              message: __("Congrats. Form was updated successfully.", "farazsms")
+            }
           });
         } catch (e) {
           console.log(e);
@@ -11500,7 +11509,9 @@ function Edd(props) {
     }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
       key: input.name,
       className: input.type === "checkbox" ? "toggle-control" : "form-group"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      isMulti: input.isMulti
+    }, input, {
       value: input.value,
       checked: input.value,
       onChange: e => {
@@ -11712,7 +11723,7 @@ function Integrations(props) {
 
   /**
    *
-   * Save settings options on DB when saveRequestFininshed = true
+   * Save settings options on DB when saveRequestFinished = true
    *
    * @since 2.0.0
    */
@@ -11723,14 +11734,14 @@ function Integrations(props) {
        * Then Convert array to key: use pair for send Axios post request to DB.
        * @return Object with arrays.
        */
-      const optsionsArray = Object.values(props.integratedPlugins).map(_ref => {
+      const optionsArray = Object.values(props.integratedPlugins).map(_ref => {
         let {
           use,
           name
         } = _ref;
         return [name, use];
       });
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
       appDispatch({
         type: "saveRequestStarted"
       });
@@ -11739,11 +11750,13 @@ function Integrations(props) {
           // Post Options from site DB Options table
           const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/integrations_options", optionsJsonForPost);
           appDispatch({
-            type: "saveRequestFininshed"
+            type: "saveRequestFinished"
           });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms")
+            value: {
+              message: __("Congrats. Form was updated successfully.", "farazsms")
+            }
           });
         } catch (e) {
           console.log(e);
@@ -12057,7 +12070,7 @@ function Settings() {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
     }
@@ -12082,10 +12095,10 @@ function Settings() {
         // Get Options from site DB Options table
         const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/login_notify_options");
         if (getOptions.data) {
-          const optsionsJson = JSON.parse(getOptions.data);
+          const optionsJson = JSON.parse(getOptions.data);
           dispatch({
             type: "fetchComplete",
-            value: optsionsJson
+            value: optionsJson
           });
         }
       } catch (e) {
@@ -12101,14 +12114,14 @@ function Settings() {
        * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
-      const optsionsArray = Object.values(state.inputs).map(_ref => {
+      const optionsArray = Object.values(state.inputs).map(_ref => {
         let {
           value,
           name
         } = _ref;
         return [name, value];
       });
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
       console.log(optionsJsonForPost);
       dispatch({
         type: "saveRequestStarted"
@@ -12118,11 +12131,13 @@ function Settings() {
           // Post Options from site DB Options table
           const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/login_notify_options", optionsJsonForPost);
           dispatch({
-            type: "saveRequestFininshed"
+            type: "saveRequestFinished"
           });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms")
+            value: {
+              message: __("Congrats. Form was updated successfully.", "farazsms")
+            }
           });
         } catch (e) {
           console.log(e);
@@ -12168,7 +12183,9 @@ function Settings() {
   }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.name,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    isMulti: input.isMulti
+  }, input, {
     onChange: input.type === "select" ? selectedOption => dispatch({
       type: input.onChange,
       value: selectedOption
@@ -12383,7 +12400,7 @@ function Membership(props) {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
     }
@@ -12438,7 +12455,7 @@ function Membership(props) {
 
   /**
    *
-   * Save Aff options on DB when saveRequestFininshed = true
+   * Save Aff options on DB when saveRequestFinished = true
    *
    * @since 2.0.0
    */
@@ -12451,14 +12468,14 @@ function Membership(props) {
        *
        * @return Object with arrays.
        */
-      const optsionsArray = Object.values(state.inputs).map(_ref => {
+      const optionsArray = Object.values(state.inputs).map(_ref => {
         let {
           value,
           name
         } = _ref;
         return [name, value];
       });
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
       console.log(optionsJsonForPost);
       dispatch({
         type: "saveRequestStarted"
@@ -12469,11 +12486,13 @@ function Membership(props) {
           // Post Options from site DB Options table
           const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/membership_options", optionsJsonForPost);
           dispatch({
-            type: "saveRequestFininshed"
+            type: "saveRequestFinished"
           });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms")
+            value: {
+              message: __("Congrats. Form was updated successfully.", "farazsms")
+            }
           });
         } catch (e) {
           console.log(e);
@@ -12501,7 +12520,9 @@ function Membership(props) {
   }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.id,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    isMulti: input.isMulti
+  }, input, {
     onChange: input.type === "select" ? selectedOption => dispatch({
       type: input.onChange,
       value: selectedOption
@@ -12678,7 +12699,7 @@ function Newsletter() {
     },
     newsPhonebookID: "",
     newsletterSubscribers: "",
-    currentSubcribers: 0,
+    currentSubscribers: 0,
     isFetching: true,
     isSaving: false,
     sendCount: 0,
@@ -12773,9 +12794,7 @@ function Newsletter() {
         if (action.value === true) {
           draft.inputs.news_product_notify_msg.isDependencyUsed = true;
         } else {
-          {
-            draft.inputs.news_product_notify_msg.isDependencyUsed = false;
-          }
+          draft.inputs.news_product_notify_msg.isDependencyUsed = false;
         }
         return;
       case "news_product_notify_msgChange":
@@ -12789,7 +12808,7 @@ function Newsletter() {
         draft.newsletterSubscribers = action.value;
         return;
       case "updateCurrentSubscribers":
-        draft.currentSubcribers = action.value;
+        draft.currentSubscribers = action.value;
         return;
       case "submitOptions":
         draft.sendCount++;
@@ -12797,7 +12816,7 @@ function Newsletter() {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
       //Input Rules and logic validations, and set errorMessages.
@@ -12844,7 +12863,7 @@ function Newsletter() {
       try {
         //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getPhonebooks;
-        const phonebooksArrayObject = phonebooks["data"].map(_ref => {
+        const phonebooksArrayObject = phonebooks.data.map(_ref => {
           let {
             id,
             title
@@ -12881,30 +12900,6 @@ function Newsletter() {
             type: "fetchComplete",
             value: optionsJson
           });
-          /*// Get newsletter phonebook numbers.
-          const newsPhonebookId = optionsJson.news_phonebook[0].value;
-          dispatch({
-            type: "setNewsPhonebookID",
-            value: newsPhonebookId,
-          });
-          if (newsPhonebookId) {
-            async function getPhonebookNumbers() {
-              try {
-                const getNewsletterSubscribers = await AxiosWp.post(
-                  "/farazsms/v1/get_phonebook_numbers",
-                  { phonebook_id: newsPhonebookId }
-                );
-                console.log(getNewsletterSubscribers["data"]["data"]);
-                dispatch({
-                  type: "getNewsletterSubscribers",
-                  value: getNewsletterSubscribers["data"]["data"],
-                });
-              } catch (e) {
-                console.log(e);
-              }
-            }
-            getPhonebookNumbers();
-          }*/
         }
       } catch (e) {
         console.log(e);
@@ -12915,21 +12910,21 @@ function Newsletter() {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function get_subscribers_from_db() {
       try {
-        const get_subscribers_from_db = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/get_subscribers_from_db");
+        const getSubscribers = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/get_subscribers_from_db");
         dispatch({
           type: "getNewsletterSubscribers",
-          value: JSON.parse(get_subscribers_from_db.data)
+          value: JSON.parse(getSubscribers.data)
         });
         dispatch({
           type: "updateCurrentSubscribers",
-          value: JSON.parse(get_subscribers_from_db.data)
+          value: JSON.parse(getSubscribers.data)
         });
       } catch (e) {
         console.log(e);
       }
     }
     get_subscribers_from_db();
-  }, [[], state.currentSubcribers]);
+  }, [[], state.currentSubscribers]);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
       /**
@@ -12937,14 +12932,14 @@ function Newsletter() {
        * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
-      const optsionsArray = Object.values(state.inputs).map(_ref2 => {
+      const optionsArray = Object.values(state.inputs).map(_ref2 => {
         let {
           value,
           name
         } = _ref2;
         return [name, value];
       });
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
       dispatch({
         type: "saveRequestStarted"
       });
@@ -12953,11 +12948,13 @@ function Newsletter() {
           // Post Options from site DB Options table
           const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/newsletter_options", optionsJsonForPost);
           dispatch({
-            type: "saveRequestFininshed"
+            type: "saveRequestFinished"
           });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms")
+            value: {
+              message: __("Congrats. Form was updated successfully.", "farazsms")
+            }
           });
         } catch (e) {
           console.log(e);
@@ -12967,14 +12964,14 @@ function Newsletter() {
     }
   }, [state.sendCount]);
   function deleteSubscriber(subscriber) {
-    async function delete_subscriber_from_db() {
+    async function deleteSubscriberFromDb() {
       try {
-        const delete_subscriber_from_db = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/delete_subscriber_from_db", {
+        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/delete_subscriber_from_db", {
           subscriber_id: subscriber.id
         });
         dispatch({
           type: "updateCurrentSubscribers",
-          value: state.currentSubcribers - 1
+          value: state.currentSubscribers - 1
         });
         appDispatch({
           type: "flashMessage",
@@ -12985,7 +12982,7 @@ function Newsletter() {
         console.log(e);
       }
     }
-    delete_subscriber_from_db();
+    deleteSubscriberFromDb();
   }
 
   /**
@@ -13003,7 +13000,9 @@ function Newsletter() {
   }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.name,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    isMulti: input.isMulti
+  }, input, {
     onChange: input.type === "select" ? selectedOption => dispatch({
       type: input.onChange,
       value: selectedOption
@@ -13493,7 +13492,9 @@ function Phonebook(props) {
           });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms")
+            value: {
+              message: __("Congrats. Form was updated successfully.", "farazsms")
+            }
           });
         } catch (e) {
           console.log(e);
@@ -13537,7 +13538,10 @@ function Phonebook(props) {
   }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.name,
     className: "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    isMulti: input.isMulti,
+    isMulti: input.isMulti
+  }, input, {
     onChange: selectedOption => dispatch({
       type: input.onChange,
       value: selectedOption
@@ -13888,7 +13892,9 @@ function Settings() {
           });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms")
+            value: {
+              message: __("Congrats. Form was updated successfully.", "farazsms")
+            }
           });
         } catch (e) {
           console.log(e);
@@ -14008,7 +14014,9 @@ function Settings() {
   }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
     key: input.name,
     className: input.type === "checkbox" ? "toggle-control" : "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_6__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_6__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    isMulti: input.isMulti
+  }, input, {
     value: input.value,
     checked: input.value,
     onChange: e => {
@@ -14062,7 +14070,7 @@ function Sidebar(_ref) {
     className: "container faraz-sidebar"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      width: '250px'
+      width: "250px"
     },
     className: "sidebar"
   }, _views_SidebarItems__WEBPACK_IMPORTED_MODULE_2__["default"].map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.NavLink, {
@@ -14074,7 +14082,7 @@ function Sidebar(_ref) {
     className: "icon"
   }, item.icon), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
-      display: 'block'
+      display: "block"
     },
     className: "link_text"
   }, item.name)))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("main", null, children));
@@ -14192,7 +14200,6 @@ function Synchronization(props) {
         const getPhonebooks = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].get("/farazsms/v1/phonebook_options", {});
         if (getPhonebooks.data) {
           const optionsJson = JSON.parse(getPhonebooks.data);
-          console.log(optionsJson);
           dispatch({
             type: "fetchComplete",
             value: optionsJson
@@ -14216,19 +14223,29 @@ function Synchronization(props) {
       let res;
       try {
         res = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_woo");
-        if (res === true) {
+        console.log(res);
+        if (res.data === true) {
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Woocommerce user(s) synced successfully.", "farazsms")
+            value: {
+              message: __("Congrats. Woocommerce user(s) synced successfully.", "farazsms")
+            }
           });
-        } else if (res === false) {
+        } else if (res.data === "noPhonebook") {
           appDispatch({
             type: "flashMessage",
-            value: __("Warning! an error occurred, please try again later.", "farazsms")
+            value: {
+              message: __("Warning! please select a phonebook first, in phonebooks section.", "farazsms"),
+              type: "error"
+            }
           });
+        } else if (res.data === false) {
           appDispatch({
-            type: "flashMessageType",
-            value: "danger"
+            type: "flashMessage",
+            value: {
+              message: __("Warning! an error occurred, please try again later.", "farazsms"),
+              type: "error"
+            }
           });
         }
       } catch (e) {
@@ -14249,19 +14266,28 @@ function Synchronization(props) {
       let res;
       try {
         res = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_digits");
-        if (res === true) {
+        if (res.data === true) {
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Digits user(s) synced successfully.", "farazsms")
+            value: {
+              message: __("Congrats. Digits user(s) synced successfully.", "farazsms")
+            }
+          });
+        } else if (res.data === "noPhonebook") {
+          appDispatch({
+            type: "flashMessage",
+            value: {
+              message: __("Warning! please select a phonebook first, in phonebooks section.", "farazsms"),
+              type: "error"
+            }
           });
         } else {
           appDispatch({
             type: "flashMessage",
-            value: __("Warning! an error occurred, please try again later.", "farazsms")
-          });
-          appDispatch({
-            type: "flashMessageType",
-            value: "danger"
+            value: {
+              message: __("Warning! an error occurred, please try again later.", "farazsms"),
+              type: "error"
+            }
           });
         }
       } catch (e) {
@@ -14282,19 +14308,29 @@ function Synchronization(props) {
       let res;
       try {
         res = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/sync_bookly");
-        if (res === true) {
+        console.log(res);
+        if (res.data === true) {
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Bookly user(s) synced successfully.", "farazsms")
+            value: {
+              message: __("Congrats. Bookly user(s) synced successfully.", "farazsms")
+            }
+          });
+        } else if (res.data === "noPhonebook") {
+          appDispatch({
+            type: "flashMessage",
+            value: {
+              message: __("Warning! please select a phonebook first, in phonebooks section.", "farazsms"),
+              type: "error"
+            }
           });
         } else {
           appDispatch({
             type: "flashMessage",
-            value: __("Warning! an error occurred, please try again later.", "farazsms")
-          });
-          appDispatch({
-            type: "flashMessageType",
-            value: "danger"
+            value: {
+              message: __("Warning! an error occurred, please try again later.", "farazsms"),
+              type: "error"
+            }
           });
         }
       } catch (e) {
@@ -14531,7 +14567,7 @@ function Woocommerce(props) {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
     }
@@ -14593,11 +14629,13 @@ function Woocommerce(props) {
           // Post Options from site DB Options table
           const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/woocommerce_options", optionsJsonForPost);
           dispatch({
-            type: "saveRequestFininshed"
+            type: "saveRequestFinished"
           });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms")
+            value: {
+              message: __("Congrats. Form was updated successfully.", "farazsms")
+            }
           });
         } catch (e) {
           console.log(e);
@@ -14622,7 +14660,9 @@ function Woocommerce(props) {
     }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
       key: input.name,
       className: input.type === "checkbox" ? "toggle-control" : "form-group"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, input, {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+      isMulti: input.isMulti
+    }, input, {
       value: input.value,
       checked: input.value,
       onChange: e => {
@@ -14704,10 +14744,10 @@ __webpack_require__.r(__webpack_exports__);
 function FlashMessages(props) {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "floating-alerts"
-  }, props.messages.map((msg, index) => {
+  }, props.flashMessages.message.map((msg, index) => {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       key: index,
-      className: "alert text-center floating-alert shadow-sm " + (props.type === "success" ? "alert-success" : "alert-danger")
+      className: "alert text-center floating-alert shadow-sm " + (props.flashMessages.type === "error" ? "alert-danger" : "alert-success")
     }, msg);
   }));
 }
@@ -14775,6 +14815,7 @@ const FormInput = props => {
     noOptionsMessage,
     groupTitle,
     hasErrors,
+    isMulti,
     ...inputProps
   } = props;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
@@ -14791,14 +14832,14 @@ const FormInput = props => {
     variant: "outline-dark",
     size: "sm",
     className: "mx-2"
-  }, __('Info ', 'farazsms'), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_7__.AiOutlineExclamationCircle, null))), type === 'text' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  }, __("Info ", "farazsms"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_7__.AiOutlineExclamationCircle, null))), type === "text" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     id: id,
     value: value,
     type: type,
     onChange: onChange,
     onBlur: onBlur,
     autoComplete: "off"
-  }, inputProps)), type === 'checkbox' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  }, inputProps)), type === "checkbox" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     id: id,
     value: value,
     checked: value,
@@ -14806,9 +14847,9 @@ const FormInput = props => {
     onChange: onChange,
     onBlur: onBlur,
     autoComplete: "off"
-  }, inputProps)), type === 'checkbox' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("span", {
+  }, inputProps)), type === "checkbox" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("span", {
     className: "control"
-  }), type === 'textarea' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("textarea", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+  }), type === "textarea" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("textarea", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     value: value,
     type: type,
     onChange: onChange,
@@ -14817,8 +14858,8 @@ const FormInput = props => {
   }, inputProps, {
     className: "form-control",
     rows: "5"
-  })), type === 'select' && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_8__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    isMulti: true,
+  })), type === "select" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_8__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    isMulti: isMulti,
     value: value,
     type: type,
     placeholder: "Select...",

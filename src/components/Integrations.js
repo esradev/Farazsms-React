@@ -44,7 +44,7 @@ function Integrations(props) {
 
   /**
    *
-   * Save settings options on DB when saveRequestFininshed = true
+   * Save settings options on DB when saveRequestFinished = true
    *
    * @since 2.0.0
    */
@@ -55,10 +55,10 @@ function Integrations(props) {
        * Then Convert array to key: use pair for send Axios post request to DB.
        * @return Object with arrays.
        */
-      const optsionsArray = Object.values(props.integratedPlugins).map(
+      const optionsArray = Object.values(props.integratedPlugins).map(
         ({ use, name }) => [name, use]
       );
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
       appDispatch({ type: "saveRequestStarted" });
 
       async function postOptions() {
@@ -68,10 +68,15 @@ function Integrations(props) {
             "/farazsms/v1/integrations_options",
             optionsJsonForPost
           );
-          appDispatch({ type: "saveRequestFininshed" });
+          appDispatch({ type: "saveRequestFinished" });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms"),
+            value: {
+              message: __(
+                "Congrats. Form was updated successfully.",
+                "farazsms"
+              ),
+            },
           });
         } catch (e) {
           console.log(e);

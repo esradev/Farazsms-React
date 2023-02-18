@@ -144,7 +144,7 @@ function Newsletter() {
     },
     newsPhonebookID: "",
     newsletterSubscribers: "",
-    currentSubcribers: 0,
+    currentSubscribers: 0,
     isFetching: true,
     isSaving: false,
     sendCount: 0,
@@ -257,9 +257,7 @@ function Newsletter() {
         if (action.value === true) {
           draft.inputs.news_product_notify_msg.isDependencyUsed = true;
         } else {
-          {
-            draft.inputs.news_product_notify_msg.isDependencyUsed = false;
-          }
+          draft.inputs.news_product_notify_msg.isDependencyUsed = false;
         }
         return;
 
@@ -277,7 +275,7 @@ function Newsletter() {
         return;
 
       case "updateCurrentSubscribers":
-        draft.currentSubcribers = action.value;
+        draft.currentSubscribers = action.value;
         return;
 
       case "submitOptions":
@@ -287,7 +285,7 @@ function Newsletter() {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
       //Input Rules and logic validations, and set errorMessages.
@@ -334,12 +332,10 @@ function Newsletter() {
       try {
         //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getPhonebooks;
-        const phonebooksArrayObject = phonebooks["data"].map(
-          ({ id, title }) => ({
-            label: title,
-            value: id,
-          })
-        );
+        const phonebooksArrayObject = phonebooks.data.map(({ id, title }) => ({
+          label: title,
+          value: id,
+        }));
         dispatch({
           type: "news_phonebookOptions",
           value: phonebooksArrayObject,
@@ -365,30 +361,6 @@ function Newsletter() {
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
           dispatch({ type: "fetchComplete", value: optionsJson });
-          /*// Get newsletter phonebook numbers.
-          const newsPhonebookId = optionsJson.news_phonebook[0].value;
-          dispatch({
-            type: "setNewsPhonebookID",
-            value: newsPhonebookId,
-          });
-          if (newsPhonebookId) {
-            async function getPhonebookNumbers() {
-              try {
-                const getNewsletterSubscribers = await AxiosWp.post(
-                  "/farazsms/v1/get_phonebook_numbers",
-                  { phonebook_id: newsPhonebookId }
-                );
-                console.log(getNewsletterSubscribers["data"]["data"]);
-                dispatch({
-                  type: "getNewsletterSubscribers",
-                  value: getNewsletterSubscribers["data"]["data"],
-                });
-              } catch (e) {
-                console.log(e);
-              }
-            }
-            getPhonebookNumbers();
-          }*/
         }
       } catch (e) {
         console.log(e);
@@ -400,23 +372,23 @@ function Newsletter() {
   useEffect(() => {
     async function get_subscribers_from_db() {
       try {
-        const get_subscribers_from_db = await AxiosWp.get(
+        const getSubscribers = await AxiosWp.get(
           "/farazsms/v1/get_subscribers_from_db"
         );
         dispatch({
           type: "getNewsletterSubscribers",
-          value: JSON.parse(get_subscribers_from_db.data),
+          value: JSON.parse(getSubscribers.data),
         });
         dispatch({
           type: "updateCurrentSubscribers",
-          value: JSON.parse(get_subscribers_from_db.data),
+          value: JSON.parse(getSubscribers.data),
         });
       } catch (e) {
         console.log(e);
       }
     }
     get_subscribers_from_db();
-  }, [[], state.currentSubcribers]);
+  }, [[], state.currentSubscribers]);
 
   useEffect(() => {
     if (state.sendCount) {
@@ -425,10 +397,10 @@ function Newsletter() {
        * Then Convert array to key: value pair for send Axios post request to DB.
        * @return Object with arrays.
        */
-      const optsionsArray = Object.values(state.inputs).map(
+      const optionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
       dispatch({ type: "saveRequestStarted" });
 
       async function postOptions() {
@@ -438,10 +410,15 @@ function Newsletter() {
             "/farazsms/v1/newsletter_options",
             optionsJsonForPost
           );
-          dispatch({ type: "saveRequestFininshed" });
+          dispatch({ type: "saveRequestFinished" });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms"),
+            value: {
+              message: __(
+                "Congrats. Form was updated successfully.",
+                "farazsms"
+              ),
+            },
           });
         } catch (e) {
           console.log(e);
@@ -453,15 +430,14 @@ function Newsletter() {
   }, [state.sendCount]);
 
   function deleteSubscriber(subscriber) {
-    async function delete_subscriber_from_db() {
+    async function deleteSubscriberFromDb() {
       try {
-        const delete_subscriber_from_db = await AxiosWp.post(
-          "/farazsms/v1/delete_subscriber_from_db",
-          { subscriber_id: subscriber.id }
-        );
+        await AxiosWp.post("/farazsms/v1/delete_subscriber_from_db", {
+          subscriber_id: subscriber.id,
+        });
         dispatch({
           type: "updateCurrentSubscribers",
-          value: state.currentSubcribers - 1,
+          value: state.currentSubscribers - 1,
         });
         appDispatch({
           type: "flashMessage",
@@ -472,7 +448,7 @@ function Newsletter() {
         console.log(e);
       }
     }
-    delete_subscriber_from_db();
+    deleteSubscriberFromDb();
   }
 
   /**
@@ -497,6 +473,7 @@ function Newsletter() {
                 }
               >
                 <FormInput
+                  isMulti={input.isMulti}
                   {...input}
                   onChange={
                     input.type === "select"

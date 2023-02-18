@@ -96,7 +96,6 @@ function Synchronization(props) {
         );
         if (getPhonebooks.data) {
           const optionsJson = JSON.parse(getPhonebooks.data);
-          console.log(optionsJson);
           dispatch({ type: "fetchComplete", value: optionsJson });
         }
       } catch (e) {
@@ -117,25 +116,38 @@ function Synchronization(props) {
       let res;
       try {
         res = await AxiosWp.post("/farazsms/v1/sync_woo");
-        if (res === true) {
+        console.log(res);
+        if (res.data === true) {
           appDispatch({
             type: "flashMessage",
-            value: __(
-              "Congrats. Woocommerce user(s) synced successfully.",
-              "farazsms"
-            ),
+            value: {
+              message: __(
+                "Congrats. Woocommerce user(s) synced successfully.",
+                "farazsms"
+              ),
+            },
           });
-        } else if (res === false) {
+        } else if (res.data === "noPhonebook") {
           appDispatch({
             type: "flashMessage",
-            value: __(
-              "Warning! an error occurred, please try again later.",
-              "farazsms"
-            ),
+            value: {
+              message: __(
+                "Warning! please select a phonebook first, in phonebooks section.",
+                "farazsms"
+              ),
+              type: "error",
+            },
           });
+        } else if (res.data === false) {
           appDispatch({
-            type: "flashMessageType",
-            value: "danger",
+            type: "flashMessage",
+            value: {
+              message: __(
+                "Warning! an error occurred, please try again later.",
+                "farazsms"
+              ),
+              type: "error",
+            },
           });
         }
       } catch (e) {
@@ -156,25 +168,37 @@ function Synchronization(props) {
       let res;
       try {
         res = await AxiosWp.post("/farazsms/v1/sync_digits");
-        if (res === true) {
+        if (res.data === true) {
           appDispatch({
             type: "flashMessage",
-            value: __(
-              "Congrats. Digits user(s) synced successfully.",
-              "farazsms"
-            ),
+            value: {
+              message: __(
+                "Congrats. Digits user(s) synced successfully.",
+                "farazsms"
+              ),
+            },
+          });
+        } else if (res.data === "noPhonebook") {
+          appDispatch({
+            type: "flashMessage",
+            value: {
+              message: __(
+                "Warning! please select a phonebook first, in phonebooks section.",
+                "farazsms"
+              ),
+              type: "error",
+            },
           });
         } else {
           appDispatch({
             type: "flashMessage",
-            value: __(
-              "Warning! an error occurred, please try again later.",
-              "farazsms"
-            ),
-          });
-          appDispatch({
-            type: "flashMessageType",
-            value: "danger",
+            value: {
+              message: __(
+                "Warning! an error occurred, please try again later.",
+                "farazsms"
+              ),
+              type: "error",
+            },
           });
         }
       } catch (e) {
@@ -195,25 +219,38 @@ function Synchronization(props) {
       let res;
       try {
         res = await AxiosWp.post("/farazsms/v1/sync_bookly");
-        if (res === true) {
+        console.log(res);
+        if (res.data === true) {
           appDispatch({
             type: "flashMessage",
-            value: __(
-              "Congrats. Bookly user(s) synced successfully.",
-              "farazsms"
-            ),
+            value: {
+              message: __(
+                "Congrats. Bookly user(s) synced successfully.",
+                "farazsms"
+              ),
+            },
+          });
+        } else if (res.data === "noPhonebook") {
+          appDispatch({
+            type: "flashMessage",
+            value: {
+              message: __(
+                "Warning! please select a phonebook first, in phonebooks section.",
+                "farazsms"
+              ),
+              type: "error",
+            },
           });
         } else {
           appDispatch({
             type: "flashMessage",
-            value: __(
-              "Warning! an error occurred, please try again later.",
-              "farazsms"
-            ),
-          });
-          appDispatch({
-            type: "flashMessageType",
-            value: "danger",
+            value: {
+              message: __(
+                "Warning! an error occurred, please try again later.",
+                "farazsms"
+              ),
+              type: "error",
+            },
           });
         }
       } catch (e) {

@@ -35,8 +35,10 @@ import AxiosWp from "./function/AxiosWp";
 
 function App() {
   const initialState = {
-    flashMessages: [],
-    flashMessageType: "success",
+    flashMessages: {
+      message: [],
+      type: "",
+    },
     plugins: {
       woocommerce: {
         use: false,
@@ -193,10 +195,8 @@ function App() {
   function ourReducer(draft, action) {
     switch (action.type) {
       case "flashMessage":
-        draft.flashMessages.push(action.value);
-        return;
-      case "flashMessageType":
-        draft.flashMessageType = action.value;
+        draft.flashMessages.message.push(action.value.message);
+        draft.flashMessages.type = action.value.type;
         return;
       case "fetchComplete":
         //Init state values by action.value
@@ -369,7 +369,7 @@ function App() {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
     }
@@ -410,10 +410,7 @@ function App() {
       <StateContext.Provider value={state}>
         <DispatchContext.Provider value={dispatch}>
           <Header />
-          <FlashMessages
-            messages={state.flashMessages}
-            type={state.flashMessageType}
-          />
+          <FlashMessages flashMessages={state.flashMessages} />
           <Sidebar>
             <Routes>
               {SidebarItems.map((item, index) => (

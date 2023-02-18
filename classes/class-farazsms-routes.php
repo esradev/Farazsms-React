@@ -598,7 +598,7 @@ class Farazsms_Routes {
 	 */
 	public function sync_woo() {
 		if ( ! Farazsms_Base::$woo_phonebook_id ) {
-			return false;
+			return 'noPhonebook';
 		} else {
 			$query     = new WC_Order_Query( [ 'limit' => 9999, 'type' => 'shop_order', 'return' => 'ids' ] );
 			$order_ids = $query->get_orders();
@@ -627,7 +627,7 @@ class Farazsms_Routes {
 	 */
 	public function sync_digits() {
 		if ( ! Farazsms_Base::$digits_phonebook_id ) {
-			return false;
+			return 'noPhonebook';
 		} else {
 			$users = get_users( [ 'fields' => 'ID' ] );
 
@@ -660,7 +660,7 @@ class Farazsms_Routes {
 	 */
 	public function sync_bookly() {
 		if ( ! Farazsms_Base::$bookly_phonebook_id ) {
-			return false;
+			return 'noPhonebook';
 		} else {
 			global $wpdb;
 			$bookly_customers = $wpdb->get_results( 'SELECT phone,full_name FROM ' . $wpdb->prefix . 'bookly_customers' );

@@ -6,13 +6,15 @@ import React, { useEffect } from "react";
 function FlashMessages(props) {
   return (
     <div className="floating-alerts">
-      {props.messages.map((msg, index) => {
+      {props.flashMessages.message.map((msg, index) => {
         return (
           <div
             key={index}
             className={
               "alert text-center floating-alert shadow-sm " +
-              (props.type === "success" ? "alert-success" : "alert-danger")
+              (props.flashMessages.type === "error"
+                ? "alert-danger"
+                : "alert-success")
             }
           >
             {msg}

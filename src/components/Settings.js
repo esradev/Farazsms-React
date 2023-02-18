@@ -358,7 +358,12 @@ function Settings() {
           dispatch({ type: "saveRequestFininshed" });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms"),
+            value: {
+              message: __(
+                "Congrats. Form was updated successfully.",
+                "farazsms"
+              ),
+            },
           });
         } catch (e) {
           console.log(e);
@@ -489,6 +494,7 @@ function Settings() {
               }
             >
               <FormInput
+                isMulti={input.isMulti}
                 {...input}
                 value={input.value}
                 checked={input.value}

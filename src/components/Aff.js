@@ -286,7 +286,7 @@ function Aff(props) {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
     }
@@ -335,7 +335,7 @@ function Aff(props) {
 
   /**
    *
-   * Save Aff options on DB when saveRequestFininshed = true
+   * Save Aff options on DB when saveRequestFinished = true
    *
    * @since 2.0.0
    */
@@ -348,10 +348,10 @@ function Aff(props) {
        *
        * @return Object with arrays.
        */
-      const optsionsArray = Object.values(state.inputs).map(
+      const optionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
       console.log(optionsJsonForPost);
 
       dispatch({ type: "saveRequestStarted" });
@@ -363,10 +363,15 @@ function Aff(props) {
             "/farazsms/v1/aff_options",
             optionsJsonForPost
           );
-          dispatch({ type: "saveRequestFininshed" });
+          dispatch({ type: "saveRequestFinished" });
           appDispatch({
             type: "flashMessage",
-            value: __("Congrats. Form was updated successfully.", "farazsms"),
+            value: {
+              message: __(
+                "Congrats. Form was updated successfully.",
+                "farazsms"
+              ),
+            },
           });
         } catch (e) {
           console.log(e);
@@ -431,6 +436,7 @@ function Aff(props) {
                 }
               >
                 <FormInput
+                  isMulti={input.isMulti}
                   {...input}
                   value={input.value}
                   checked={input.value}
