@@ -16,6 +16,7 @@ import FormInputError from "../views/FormInputError";
 import AxiosWp from "../function/AxiosWp";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
+import LoadingDotsIcon from "../views/LoadingDotsIcon";
 
 function Edd(props) {
   const appDispatch = useContext(DispatchContext);
@@ -261,13 +262,13 @@ function Edd(props) {
     }
   }, [state.sendCount]);
 
+  if (state.isFetching) return <LoadingDotsIcon />;
   /**
    * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
    */
-
   if (props.integratedPlugins.edd.use) {
     return (
       <div>

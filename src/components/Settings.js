@@ -16,6 +16,7 @@ import SectionHeader from "../views/SectionHeader";
 import FormInput from "../views/FormInput";
 import FormInputError from "../views/FormInputError";
 import SaveButton from "../views/SaveButton";
+import LoadingDotsIcon from "../views/LoadingDotsIcon";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);
@@ -474,6 +475,8 @@ function Settings() {
       return () => clearTimeout(delay);
     }
   }, [state.inputs.admin_number.value]);
+
+  if (state.isFetching) return <LoadingDotsIcon />;
 
   /**
    * The settings form created by mapping over originalState as the main state.

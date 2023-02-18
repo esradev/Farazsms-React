@@ -10414,7 +10414,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
@@ -10422,6 +10422,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
+/* harmony import */ var _views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingDotsIcon */ "./src/views/LoadingDotsIcon.js");
 
 
 /**
@@ -10435,6 +10436,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -10685,7 +10687,7 @@ function Aff(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
 
   /**
    *
@@ -10809,6 +10811,7 @@ function Aff(props) {
     }
     getUsermeta();
   }, []);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_10__["default"], null);
 
   /**
    *
@@ -10866,13 +10869,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/LoadingDotsIcon */ "./src/views/LoadingDotsIcon.js");
 
 
 /**
@@ -10886,6 +10890,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -11073,7 +11078,7 @@ function Comments() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_9__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     //Set every input to the state with dispatch function.
@@ -11183,6 +11188,7 @@ function Comments() {
       postOptions();
     }
   }, [state.sendCount]);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_9__["default"], null);
 
   /**
    * The settings form created by mapping over originalState as the main state.
@@ -11190,7 +11196,6 @@ function Comments() {
    *
    * @since 2.0.0
    */
-
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
     sectionName: state.sectionName
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
@@ -11284,7 +11289,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
@@ -11292,6 +11297,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
+/* harmony import */ var _views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingDotsIcon */ "./src/views/LoadingDotsIcon.js");
 
 
 /**
@@ -11305,6 +11311,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -11448,7 +11455,7 @@ function Edd(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     //Set every input to the state with dispatch function.
@@ -11558,14 +11565,13 @@ function Edd(props) {
       postOptions();
     }
   }, [state.sendCount]);
-
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_10__["default"], null);
   /**
    * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
    */
-
   if (props.integratedPlugins.edd.use) {
     return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
       sectionName: state.sectionName
@@ -11736,12 +11742,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_PluginsCardCheckbox__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/PluginsCardCheckbox */ "./src/views/PluginsCardCheckbox.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/LoadingDotsIcon */ "./src/views/LoadingDotsIcon.js");
 
 
 /**
@@ -11760,6 +11767,7 @@ const __ = wp.i18n.__;
 
 
 
+
 function Integrations(props) {
   const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_4__["default"]);
   /**
@@ -11771,7 +11779,7 @@ function Integrations(props) {
   function ourReduser(draft, action) {
     switch (action.type) {}
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_8__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_9__.useImmerReducer)(ourReduser, originalState);
 
   /**
    *
@@ -11830,14 +11838,13 @@ function Integrations(props) {
       postOptions();
     }
   }, [props.sendCount]);
-
+  if (props.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_8__["default"], null);
   /**
    *
    * Check user chosen plugin is installed and activated.
    *
    * @since 2.0.0
    */
-
   const pluginsInt = Object.values(props.integratedPlugins);
   pluginsInt.map(plugin => {
     (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
@@ -11926,13 +11933,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/LoadingDotsIcon */ "./src/views/LoadingDotsIcon.js");
 
 
 /**
@@ -11946,6 +11954,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -12140,7 +12149,7 @@ function Settings() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_9__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     //Set every input to the state with dispatch function.
@@ -12241,6 +12250,7 @@ function Settings() {
    * @since 2.0.0
    */
 
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_9__["default"], null);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
     sectionName: state.sectionName
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
@@ -12285,7 +12295,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
@@ -12293,6 +12303,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
+/* harmony import */ var _views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingDotsIcon */ "./src/views/LoadingDotsIcon.js");
 
 
 /**
@@ -12306,6 +12317,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -12470,7 +12482,7 @@ function Membership(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
 
   /**
    *
@@ -12566,7 +12578,7 @@ function Membership(props) {
       postOptions();
     }
   }, [state.sendCount]);
-
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_10__["default"], null);
   /**
    *
    * The Membership form created by mapping over originalState.
@@ -12622,7 +12634,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _hooks_useConfirm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../hooks/useConfirm */ "./src/hooks/useConfirm.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
@@ -12630,6 +12642,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingDotsIcon */ "./src/views/LoadingDotsIcon.js");
 
 
 /**
@@ -12644,6 +12657,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -12895,7 +12909,7 @@ function Newsletter() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
 
   /**
    *
@@ -13067,11 +13081,7 @@ function Newsletter() {
       });
     }
   };
-
-  // function deleteSubscriber(subscriber) {
-  //
-  // }
-
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_10__["default"], null);
   /**
    * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
@@ -13142,7 +13152,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
@@ -13150,6 +13160,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
+/* harmony import */ var _views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingDotsIcon */ "./src/views/LoadingDotsIcon.js");
 
 
 /**
@@ -13163,6 +13174,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -13268,7 +13280,8 @@ function Phonebook(props) {
           name: "gf_forms",
           type: "select",
           label: __("Gravity Form forms:", "farazsms"),
-          tooltip: __("In this section, you can specify the fields you want to register in the Gravity Form phonebook", "farazsms"),
+          infoTitle: __("Info:", "farazsms"),
+          infoBody: __("In this section, you can specify the form you want to register in the Gravity Form phonebook", "farazsms"),
           options: [],
           noOptionsMessage: __("No options is available", "farazsms")
         },
@@ -13278,12 +13291,14 @@ function Phonebook(props) {
           name: "gf_selected_field",
           type: "select",
           label: __("Gravity Form fields:", "farazsms"),
-          tooltip: __("In this section, you can specify the fields you want to register in the Gravity Form phonebook", "farazsms"),
+          infoTitle: __("Info:", "farazsms"),
+          infoBody: __("In this section, you can specify the fields you want to register in the Gravity Form phonebook", "farazsms"),
           options: [],
           noOptionsMessage: __("No options is available", "farazsms")
         }
       })
     },
+    gfSelectedFormId: "",
     isFetching: true,
     isSaving: false,
     sendCount: 0,
@@ -13359,6 +13374,12 @@ function Phonebook(props) {
       case "gf_phonebookChange":
         draft.inputs.gf_phonebook.value = action.value;
         return;
+      case "gf_formsChange":
+        draft.inputs.gf_forms.value = action.value;
+        return;
+      case "setGfSelectedFormId":
+        draft.gfSelectedFormId = action.value;
+        return;
       case "gf_selected_fieldChange":
         draft.inputs.gf_selected_field.value = action.value;
         return;
@@ -13373,7 +13394,7 @@ function Phonebook(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     //Set every input to the state with dispatch function.
@@ -13429,6 +13450,7 @@ function Phonebook(props) {
           value: getGfForms.data[form].id,
           label: getGfForms.data[form].title
         }));
+        console.log(getGfForms);
         dispatch({
           type: "gf_formsOptions",
           value: gfFormsArrayObject
@@ -13448,7 +13470,8 @@ function Phonebook(props) {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getGfFormsFileds() {
       try {
-        const getGfFormsFileds = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/gf/v2/forms/1/field-filters", {});
+        console.log(state.gfSelectedFormId);
+        const getGfFormsFileds = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/gf/v2/forms/" + "1" + "/field-filters", {});
         const gfFormsFiledsArrayObject = Object.keys(getGfFormsFileds.data).map(field => ({
           value: getGfFormsFileds.data[field].key,
           label: getGfFormsFileds.data[field].text
@@ -13482,6 +13505,10 @@ function Phonebook(props) {
           dispatch({
             type: "fetchComplete",
             value: optionsJson
+          });
+          dispatch({
+            type: "setGfSelectedFormId",
+            value: optionsJson.gf_forms.value
           });
         }
       } catch (e) {
@@ -13590,6 +13617,7 @@ function Phonebook(props) {
       postOptions();
     }
   }, [state.sendCount]);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_10__["default"], null);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
     sectionName: state.sectionName
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
@@ -13654,13 +13682,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
+/* harmony import */ var _views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/LoadingDotsIcon */ "./src/views/LoadingDotsIcon.js");
 
 
 /**
@@ -13675,6 +13704,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -13896,7 +13926,7 @@ function Settings() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_9__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
 
   /**
    *
@@ -14087,6 +14117,7 @@ function Settings() {
       return () => clearTimeout(delay);
     }
   }, [state.inputs.admin_number.value]);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_9__["default"], null);
 
   /**
    * The settings form created by mapping over originalState as the main state.
@@ -14190,11 +14221,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
+/* harmony import */ var _views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/LoadingDotsIcon */ "./src/views/LoadingDotsIcon.js");
 
 /**
  * Import remote dependencies.
@@ -14207,6 +14239,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -14273,7 +14306,7 @@ function Synchronization(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_6__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_7__.useImmerReducer)(ourReduser, originalState);
 
   /**
    *
@@ -14426,6 +14459,7 @@ function Synchronization(props) {
     }
     syncBookly();
   }
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_6__["default"], null);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
     sectionName: state.sectionName
   }), props.integratedPlugins.bookly.use ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -14480,7 +14514,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
@@ -14488,6 +14522,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
+/* harmony import */ var _views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingDotsIcon */ "./src/views/LoadingDotsIcon.js");
 
 
 /**
@@ -14501,6 +14536,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -14659,7 +14695,7 @@ function Woocommerce(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     //Set every input to the state with dispatch function.
@@ -14731,6 +14767,7 @@ function Woocommerce(props) {
       postOptions();
     }
   }, [state.sendCount]);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingDotsIcon__WEBPACK_IMPORTED_MODULE_10__["default"], null);
 
   /**
    * The settings form created by mapping over originalState as the main state.
@@ -15070,7 +15107,7 @@ const FormInput = props => {
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_bootstrap_Button__WEBPACK_IMPORTED_MODULE_6__["default"], {
     variant: "outline-dark",
     size: "sm",
-    className: "mx-2"
+    className: "m-2"
   }, __("Info ", "farazsms"), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_7__.AiOutlineExclamationCircle, null))), type === "text" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("input", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     id: id,
     value: value,
@@ -15090,7 +15127,6 @@ const FormInput = props => {
     className: "control"
   }), type === "textarea" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("textarea", (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     value: value,
-    type: type,
     onChange: onChange,
     onBlur: onBlur,
     autoComplete: "off"
@@ -15100,7 +15136,6 @@ const FormInput = props => {
   })), type === "select" && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_8__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
     isMulti: isMulti,
     value: value,
-    type: type,
     placeholder: "Select...",
     options: options,
     onChange: onChange,
@@ -15173,6 +15208,29 @@ const FormInputError = props => {
   }, errorMessage));
 };
 /* harmony default export */ __webpack_exports__["default"] = (FormInputError);
+
+/***/ }),
+
+/***/ "./src/views/LoadingDotsIcon.js":
+/*!**************************************!*\
+  !*** ./src/views/LoadingDotsIcon.js ***!
+  \**************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+
+
+function LoadingDotsIcon() {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "dots-loading"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null));
+}
+/* harmony default export */ __webpack_exports__["default"] = (LoadingDotsIcon);
 
 /***/ }),
 

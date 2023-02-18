@@ -16,6 +16,7 @@ import SaveButton from "../views/SaveButton";
 import FormInputError from "../views/FormInputError";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
+import LoadingDotsIcon from "../views/LoadingDotsIcon";
 
 function Phonebook(props) {
   const appDispatch = useContext(DispatchContext);
@@ -47,7 +48,6 @@ function Phonebook(props) {
         },
       }),
     },
-
     inputs: {
       custom_phonebook: {
         value: [],
@@ -116,8 +116,9 @@ function Phonebook(props) {
           name: "gf_forms",
           type: "select",
           label: __("Gravity Form forms:", "farazsms"),
-          tooltip: __(
-            "In this section, you can specify the fields you want to register in the Gravity Form phonebook",
+          infoTitle: __("Info:", "farazsms"),
+          infoBody: __(
+            "In this section, you can specify the form you want to register in the Gravity Form phonebook",
             "farazsms"
           ),
           options: [],
@@ -129,7 +130,8 @@ function Phonebook(props) {
           name: "gf_selected_field",
           type: "select",
           label: __("Gravity Form fields:", "farazsms"),
-          tooltip: __(
+          infoTitle: __("Info:", "farazsms"),
+          infoBody: __(
             "In this section, you can specify the fields you want to register in the Gravity Form phonebook",
             "farazsms"
           ),
@@ -138,6 +140,7 @@ function Phonebook(props) {
         },
       }),
     },
+    gfSelectedFormId: "",
     isFetching: true,
     isSaving: false,
     sendCount: 0,
@@ -217,6 +220,12 @@ function Phonebook(props) {
       case "gf_phonebookChange":
         draft.inputs.gf_phonebook.value = action.value;
         return;
+      case "gf_formsChange":
+        draft.inputs.gf_forms.value = action.value;
+        return;
+      case "setGfSelectedFormId":
+        draft.gfSelectedFormId = action.value;
+        return;
       case "gf_selected_fieldChange":
         draft.inputs.gf_selected_field.value = action.value;
         return;
@@ -285,6 +294,7 @@ function Phonebook(props) {
           value: getGfForms.data[form].id,
           label: getGfForms.data[form].title,
         }));
+        console.log(getGfForms);
         dispatch({
           type: "gf_formsOptions",
           value: gfFormsArrayObject,
@@ -304,8 +314,9 @@ function Phonebook(props) {
   useEffect(() => {
     async function getGfFormsFileds() {
       try {
+        console.log(state.gfSelectedFormId);
         const getGfFormsFileds = await AxiosWp.get(
-          "/gf/v2/forms/1/field-filters",
+          "/gf/v2/forms/" + "1" + "/field-filters",
           {}
         );
         const gfFormsFiledsArrayObject = Object.keys(getGfFormsFileds.data).map(
@@ -344,6 +355,10 @@ function Phonebook(props) {
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
           dispatch({ type: "fetchComplete", value: optionsJson });
+          dispatch({
+            type: "setGfSelectedFormId",
+            value: optionsJson.gf_forms.value,
+          });
         }
       } catch (e) {
         console.log(e);
@@ -451,6 +466,8 @@ function Phonebook(props) {
       postOptions();
     }
   }, [state.sendCount]);
+
+  if (state.isFetching) return <LoadingDotsIcon />;
 
   return (
     <>

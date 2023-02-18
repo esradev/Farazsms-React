@@ -15,6 +15,7 @@ import SaveButton from "../views/SaveButton";
 import FormInputError from "../views/FormInputError";
 import AxiosWp from "../function/AxiosWp";
 import SectionHeader from "../views/SectionHeader";
+import LoadingDotsIcon from "../views/LoadingDotsIcon";
 
 function Comments() {
   const appDispatch = useContext(DispatchContext);
@@ -321,13 +322,14 @@ function Comments() {
     }
   }, [state.sendCount]);
 
+  if (state.isFetching) return <LoadingDotsIcon />;
+
   /**
    * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
    */
-
   return (
     <div>
       <SectionHeader sectionName={state.sectionName} />

@@ -52,7 +52,7 @@ const FormInput = (props) => {
               placement="top"
               overlay={<Tooltip>{tooltip}</Tooltip>}
             >
-              <Button variant="outline-dark" size="sm" className="mx-2">
+              <Button variant="outline-dark" size="sm" className="m-2">
                 {__("Info ", "farazsms")}
                 <AiOutlineExclamationCircle />
               </Button>
@@ -88,7 +88,6 @@ const FormInput = (props) => {
           {type === "textarea" && (
             <textarea
               value={value}
-              type={type}
               onChange={onChange}
               onBlur={onBlur}
               autoComplete="off"
@@ -101,7 +100,6 @@ const FormInput = (props) => {
             <Select
               isMulti={isMulti}
               value={value}
-              type={type}
               placeholder="Select..."
               options={options}
               onChange={onChange}

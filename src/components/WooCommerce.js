@@ -16,6 +16,7 @@ import FormInputError from "../views/FormInputError";
 import AxiosWp from "../function/AxiosWp";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
+import LoadingDotsIcon from "../views/LoadingDotsIcon";
 
 function Woocommerce(props) {
   const appDispatch = useContext(DispatchContext);
@@ -254,6 +255,8 @@ function Woocommerce(props) {
       postOptions();
     }
   }, [state.sendCount]);
+
+  if (state.isFetching) return <LoadingDotsIcon />;
 
   /**
    * The settings form created by mapping over originalState as the main state.

@@ -16,6 +16,7 @@ import SaveButton from "../views/SaveButton";
 import FormInputError from "../views/FormInputError";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
+import LoadingDotsIcon from "../views/LoadingDotsIcon";
 
 function Aff(props) {
   const appDispatch = useContext(DispatchContext);
@@ -410,6 +411,8 @@ function Aff(props) {
     }
     getUsermeta();
   }, []);
+
+  if (state.isFetching) return <LoadingDotsIcon />;
 
   /**
    *
