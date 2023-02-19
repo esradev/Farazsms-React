@@ -11321,49 +11321,122 @@ main {
 
 /* Dots Loading Animation */
 .dots-loading {
-  margin: 0 auto;
-  text-align: center;
+  position: relative;
+  margin: 50px auto;
+  width: 100px;
+  height: 100px;
+  zoom: 1.7;
 }
-
-.dots-loading::before,
-.dots-loading::after {
-  content: " ";
+.dots-loading .circle {
+  animation: rotate 2s linear infinite;
+  height: 100px;
+  position: relative;
+  width: 100px;
 }
-
-.dots-loading div,
-.dots-loading::before,
-.dots-loading::after {
-  margin: 35px 5px;
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: #c4c4c4;
-  opacity: 0;
+.dots-loading .path {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  animation: dash 1.5s ease-in-out infinite;
+  stroke: #d62d20;
+  stroke-linecap: round;
 }
-
-.dots-loading::before {
-  animation: opacitychange 1s ease-in-out infinite;
+.dots-loading .path2 {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  animation: dash2 1.5s ease-in-out infinite;
+  stroke: #ffa700;
+  stroke-linecap: round;
 }
-
-.dots-loading div {
-  animation: opacitychange 1s ease-in-out 0.33s infinite;
-  animation-fill-mode: initial;
+.dots-loading .path3 {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  animation: dash3 1.5s ease-in-out infinite;
+  stroke: #008744;
+  stroke-linecap: round;
 }
-
-.dots-loading::after {
-  animation: opacitychange 1s ease-in-out 0.66s infinite;
-  animation-fill-mode: initial;
+.dots-loading .path4 {
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  animation: dash4 1.5s ease-in-out infinite;
+  stroke: #0057e7;
+  stroke-linecap: round;
 }
-
-@keyframes opacitychange {
-  0%, 100% {
-    opacity: 0;
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
   }
-  60% {
-    opacity: 1;
+}
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124;
   }
 }
+@keyframes dash2 {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -50;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124;
+  }
+}
+@keyframes dash3 {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -75;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124;
+  }
+}
+@keyframes dash4 {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -100;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124;
+  }
+}
+@keyframes color {
+  100%, 0% {
+    stroke: #d62d20;
+  }
+  40% {
+    stroke: #0057e7;
+  }
+  66% {
+    stroke: #008744;
+  }
+  80%, 90% {
+    stroke: #ffa700;
+  }
+}
+
 /* ListContacts */
 .list-contacts {
   padding-top: 60px;

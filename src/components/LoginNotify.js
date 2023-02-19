@@ -15,7 +15,7 @@ import SaveButton from "../views/SaveButton";
 import FormInputError from "../views/FormInputError";
 import AxiosWp from "../function/AxiosWp";
 import SectionHeader from "../views/SectionHeader";
-import LoadingDotsIcon from "../views/LoadingDotsIcon";
+import LoadingSpinner from "../views/LoadingSpinner";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);
@@ -327,7 +327,7 @@ function Settings() {
    * @since 2.0.0
    */
 
-  if (state.isFetching) return <LoadingDotsIcon />;
+  if (state.isFetching) return <LoadingSpinner />;
 
   return (
     <div>

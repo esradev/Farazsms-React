@@ -13,7 +13,7 @@ import DispatchContext from "../DispatchContext";
 import SectionError from "../views/SectionError";
 import SectionHeader from "../views/SectionHeader";
 import AxiosWp from "../function/AxiosWp";
-import LoadingDotsIcon from "../views/LoadingDotsIcon";
+import LoadingSpinner from "../views/LoadingSpinner";
 
 function Synchronization(props) {
   const appDispatch = useContext(DispatchContext);
@@ -265,7 +265,7 @@ function Synchronization(props) {
     syncBookly();
   }
 
-  if (state.isFetching) return <LoadingDotsIcon />;
+  if (state.isFetching) return <LoadingSpinner />;
 
   return (
     <>

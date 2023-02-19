@@ -16,7 +16,7 @@ import SaveButton from "../views/SaveButton";
 import FormInputError from "../views/FormInputError";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
-import LoadingDotsIcon from "../views/LoadingDotsIcon";
+import LoadingSpinner from "../views/LoadingSpinner";
 
 function Membership(props) {
   const appDispatch = useContext(DispatchContext);
@@ -297,7 +297,7 @@ function Membership(props) {
     }
   }, [state.sendCount]);
 
-  if (state.isFetching) return <LoadingDotsIcon />;
+  if (state.isFetching) return <LoadingSpinner />;
   /**
    *
    * The Membership form created by mapping over originalState.

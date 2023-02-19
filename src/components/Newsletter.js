@@ -16,7 +16,7 @@ import SaveButton from "../views/SaveButton";
 import FormInputError from "../views/FormInputError";
 import AxiosWp from "../function/AxiosWp";
 import SectionHeader from "../views/SectionHeader";
-import LoadingDotsIcon from "../views/LoadingDotsIcon";
+import LoadingSpinner from "../views/LoadingSpinner";
 
 function Newsletter() {
   const appDispatch = useContext(DispatchContext);
@@ -477,7 +477,7 @@ function Newsletter() {
     }
   };
 
-  if (state.isFetching) return <LoadingDotsIcon />;
+  if (state.isFetching) return <LoadingSpinner />;
   /**
    * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.

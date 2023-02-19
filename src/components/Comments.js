@@ -15,7 +15,7 @@ import SaveButton from "../views/SaveButton";
 import FormInputError from "../views/FormInputError";
 import AxiosWp from "../function/AxiosWp";
 import SectionHeader from "../views/SectionHeader";
-import LoadingDotsIcon from "../views/LoadingDotsIcon";
+import LoadingSpinner from "../views/LoadingSpinner";
 
 function Comments() {
   const appDispatch = useContext(DispatchContext);
@@ -325,7 +325,7 @@ function Comments() {
     }
   }, [state.sendCount]);
 
-  if (state.isFetching) return <LoadingDotsIcon />;
+  if (state.isFetching) return <LoadingSpinner />;
 
   /**
    * The settings form created by mapping over originalState as the main state.

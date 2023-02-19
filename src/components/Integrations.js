@@ -14,7 +14,7 @@ import DispatchContext from "../DispatchContext";
 import PluginsCardCheckbox from "../views/PluginsCardCheckbox";
 import SaveButton from "../views/SaveButton";
 import SectionHeader from "../views/SectionHeader";
-import LoadingDotsIcon from "../views/LoadingDotsIcon";
+import LoadingSpinner from "../views/LoadingSpinner";
 
 function Integrations(props) {
   const appDispatch = useContext(DispatchContext);
@@ -87,7 +87,7 @@ function Integrations(props) {
     }
   }, [props.sendCount]);
 
-  if (props.isFetching) return <LoadingDotsIcon />;
+  if (props.isFetching) return <LoadingSpinner />;
   /**
    *
    * Check user chosen plugin is installed and activated.

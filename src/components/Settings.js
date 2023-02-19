@@ -16,7 +16,7 @@ import SectionHeader from "../views/SectionHeader";
 import FormInput from "../views/FormInput";
 import FormInputError from "../views/FormInputError";
 import SaveButton from "../views/SaveButton";
-import LoadingDotsIcon from "../views/LoadingDotsIcon";
+import LoadingSpinner from "../views/LoadingSpinner";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);
@@ -480,7 +480,7 @@ function Settings() {
     }
   }, [state.inputs.admin_number.value]);
 
-  if (state.isFetching) return <LoadingDotsIcon />;
+  if (state.isFetching) return <LoadingSpinner />;
 
   /**
    * The settings form created by mapping over originalState as the main state.
