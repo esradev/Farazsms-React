@@ -173,6 +173,9 @@ function Phonebook(props) {
 
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "all_phonebookOptions":
         draft.inputs.custom_phonebook.options = action.value;
         if (props.integratedPlugins.digits.use) {
@@ -362,6 +365,7 @@ function Phonebook(props) {
         }
       } catch (e) {
         console.log(e);
+        dispatch({ type: "cantFetching" });
       }
     }
     getOptions();

@@ -71,6 +71,9 @@ function Synchronization(props) {
 
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
@@ -101,6 +104,7 @@ function Synchronization(props) {
         }
       } catch (e) {
         console.log(e);
+        dispatch({ type: "cantFetching" });
       }
     }
     getPhonebooks();

@@ -225,6 +225,9 @@ function Aff(props) {
 
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "aff_user_mobile_fieldChange":
         draft.inputs.aff_user_mobile_field.hasErrors = false;
         draft.inputs.aff_user_mobile_field.value = action.value;
@@ -328,6 +331,7 @@ function Aff(props) {
           dispatch({ type: "fetchComplete", value: optionsJson });
         }
       } catch (e) {
+        dispatch({ type: "cantFetching" });
         console.log(e);
       }
     }

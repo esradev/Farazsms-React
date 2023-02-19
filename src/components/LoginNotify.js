@@ -154,7 +154,9 @@ function Settings() {
         draft.inputs.select_roles.value = action.value.select_roles;
         draft.isFetching = false;
         return;
-
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "welcome_smsChange":
         draft.inputs.welcome_sms.hasErrors = false;
         draft.inputs.welcome_sms.value = action.value;
@@ -251,6 +253,7 @@ function Settings() {
         }
       } catch (e) {
         console.log(e);
+        dispatch({ type: "cantFetching" });
       }
     }
     getOptions();

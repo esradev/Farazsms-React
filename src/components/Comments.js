@@ -158,7 +158,9 @@ function Comments() {
 
         draft.isFetching = false;
         return;
-
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "add_mobile_fieldChange":
         draft.inputs.add_mobile_field.hasErrors = false;
         draft.inputs.add_mobile_field.value = action.value;
@@ -274,6 +276,7 @@ function Comments() {
           dispatch({ type: "fetchComplete", value: optionsJson });
         }
       } catch (e) {
+        dispatch({ type: "cantFetching" });
         console.log(e);
       }
     }

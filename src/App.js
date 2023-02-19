@@ -230,7 +230,9 @@ function App() {
 
         draft.isFetching = false;
         return;
-
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "wooChange":
         draft.plugins.woocommerce.hasErrors = false;
         draft.plugins.woocommerce.use = action.value;
@@ -412,6 +414,7 @@ function App() {
         }
       } catch (e) {
         console.log(e);
+        dispatch({ type: "cantFetching" });
       }
     }
     getOptions();

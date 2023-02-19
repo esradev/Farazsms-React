@@ -115,7 +115,9 @@ function Edd(props) {
 
         draft.isFetching = false;
         return;
-
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "edd_phonebookChange":
         draft.inputs.edd_phonebook.hasErrors = false;
         draft.inputs.edd_phonebook.value = action.value;
@@ -217,6 +219,7 @@ function Edd(props) {
           dispatch({ type: "fetchComplete", value: optionsJson });
         }
       } catch (e) {
+        dispatch({ type: "cantFetching" });
         console.log(e);
       }
     }

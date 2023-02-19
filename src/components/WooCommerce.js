@@ -135,7 +135,9 @@ function Woocommerce(props) {
 
         draft.isFetching = false;
         return;
-
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "woo_checkout_otpChange":
         draft.inputs.woo_checkout_otp.hasErrors = false;
         draft.inputs.woo_checkout_otp.value = action.value;
@@ -211,6 +213,7 @@ function Woocommerce(props) {
         }
       } catch (e) {
         console.log(e);
+        dispatch({ type: "cantFetching" });
       }
     }
     getOptions();

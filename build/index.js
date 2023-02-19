@@ -10209,6 +10209,9 @@ function App() {
         draft.plugins.yithWoocommerceAffiliates.use = action.value.yithWoocommerceAffiliates;
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "wooChange":
         draft.plugins.woocommerce.hasErrors = false;
         draft.plugins.woocommerce.use = action.value;
@@ -10345,6 +10348,9 @@ function App() {
         }
       } catch (e) {
         console.log(e);
+        dispatch({
+          type: "cantFetching"
+        });
       }
     }
     getOptions();
@@ -10621,6 +10627,9 @@ function Aff(props) {
         draft.inputs.aff_admin_user_on_approval_pattern.value = action.value.aff_admin_user_on_approval_pattern;
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "aff_user_mobile_fieldChange":
         draft.inputs.aff_user_mobile_field.hasErrors = false;
         draft.inputs.aff_user_mobile_field.value = action.value;
@@ -10729,6 +10738,9 @@ function Aff(props) {
           });
         }
       } catch (e) {
+        dispatch({
+          type: "cantFetching"
+        });
         console.log(e);
       }
     }
@@ -11020,6 +11032,9 @@ function Comments() {
         draft.inputs.notify_admin_for_comment_pattern.value = action.value.notify_admin_for_comment_pattern;
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "add_mobile_fieldChange":
         draft.inputs.add_mobile_field.hasErrors = false;
         draft.inputs.add_mobile_field.value = action.value;
@@ -11144,6 +11159,9 @@ function Comments() {
           });
         }
       } catch (e) {
+        dispatch({
+          type: "cantFetching"
+        });
         console.log(e);
       }
     }
@@ -11411,6 +11429,9 @@ function Edd(props) {
         draft.inputs.edd_admin_pattern.value = action.value.edd_admin_pattern;
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "edd_phonebookChange":
         draft.inputs.edd_phonebook.hasErrors = false;
         draft.inputs.edd_phonebook.value = action.value;
@@ -11521,6 +11542,9 @@ function Edd(props) {
           });
         }
       } catch (e) {
+        dispatch({
+          type: "cantFetching"
+        });
         console.log(e);
       }
     }
@@ -12088,6 +12112,9 @@ function Settings() {
         draft.inputs.select_roles.value = action.value.select_roles;
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "welcome_smsChange":
         draft.inputs.welcome_sms.hasErrors = false;
         draft.inputs.welcome_sms.value = action.value;
@@ -12177,6 +12204,9 @@ function Settings() {
         }
       } catch (e) {
         console.log(e);
+        dispatch({
+          type: "cantFetching"
+        });
       }
     }
     getOptions();
@@ -12447,6 +12477,9 @@ function Membership(props) {
         }
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "ihc_send_first_notifyChange":
         draft.inputs.ihc_send_first_notify.hasErrors = false;
         draft.inputs.ihc_send_first_notify.value = action.value;
@@ -12525,6 +12558,9 @@ function Membership(props) {
         }
       } catch (e) {
         console.log(e);
+        dispatch({
+          type: "cantFetching"
+        });
       }
     }
     getOptions();
@@ -12823,6 +12859,9 @@ function Newsletter() {
         draft.inputs.news_product_notify_msg.value = action.value.news_product_notify_msg;
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "news_phonebookChange":
         draft.inputs.news_phonebook.hasErrors = false;
         draft.inputs.news_phonebook.value = action.value;
@@ -12984,6 +13023,9 @@ function Newsletter() {
         }
       } catch (e) {
         console.log(e);
+        dispatch({
+          type: "cantFetching"
+        });
       }
     }
     getOptions();
@@ -13328,6 +13370,9 @@ function Phonebook(props) {
         }
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "all_phonebookOptions":
         draft.inputs.custom_phonebook.options = action.value;
         if (props.integratedPlugins.digits.use) {
@@ -13513,6 +13558,9 @@ function Phonebook(props) {
         }
       } catch (e) {
         console.log(e);
+        dispatch({
+          type: "cantFetching"
+        });
       }
     }
     getOptions();
@@ -13816,6 +13864,9 @@ function Settings() {
         draft.inputs.from_number_adver.value = action.value.from_number_adver;
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "apikeyChange":
         draft.inputs.apikey.hasErrors = false;
         draft.inputs.apikey.value = action.value;
@@ -13971,6 +14022,9 @@ function Settings() {
         }
       } catch (e) {
         console.log(e);
+        dispatch({
+          type: "cantFetching"
+        });
       }
     }
     getOptions();
@@ -14298,6 +14352,9 @@ function Synchronization(props) {
         }
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
@@ -14327,6 +14384,9 @@ function Synchronization(props) {
         }
       } catch (e) {
         console.log(e);
+        dispatch({
+          type: "cantFetching"
+        });
       }
     }
     getPhonebooks();
@@ -14648,6 +14708,9 @@ function Woocommerce(props) {
         draft.inputs.woo_tracking_pattern.value = action.value.woo_tracking_pattern;
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "woo_checkout_otpChange":
         draft.inputs.woo_checkout_otp.hasErrors = false;
         draft.inputs.woo_checkout_otp.value = action.value;
@@ -14723,6 +14786,9 @@ function Woocommerce(props) {
         }
       } catch (e) {
         console.log(e);
+        dispatch({
+          type: "cantFetching"
+        });
       }
     }
     getOptions();

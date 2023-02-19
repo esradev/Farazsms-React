@@ -198,7 +198,9 @@ function Newsletter() {
 
         draft.isFetching = false;
         return;
-
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "news_phonebookChange":
         draft.inputs.news_phonebook.hasErrors = false;
         draft.inputs.news_phonebook.value = action.value;
@@ -366,6 +368,7 @@ function Newsletter() {
         }
       } catch (e) {
         console.log(e);
+        dispatch({ type: "cantFetching" });
       }
     }
     getOptions();

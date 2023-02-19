@@ -131,6 +131,9 @@ function Settings() {
 
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "apikeyChange":
         draft.inputs.apikey.hasErrors = false;
         draft.inputs.apikey.value = action.value;
@@ -323,6 +326,7 @@ function Settings() {
         }
       } catch (e) {
         console.log(e);
+        dispatch({ type: "cantFetching" });
       }
     }
 

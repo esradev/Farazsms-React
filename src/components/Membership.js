@@ -165,6 +165,9 @@ function Membership(props) {
         }
         draft.isFetching = false;
         return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
       case "ihc_send_first_notifyChange":
         draft.inputs.ihc_send_first_notify.hasErrors = false;
         draft.inputs.ihc_send_first_notify.value = action.value;
@@ -240,6 +243,7 @@ function Membership(props) {
         }
       } catch (e) {
         console.log(e);
+        dispatch({ type: "cantFetching" });
       }
     }
     getOptions();
