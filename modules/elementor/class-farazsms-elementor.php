@@ -54,7 +54,7 @@ class Farazsms_Elementor {
 			add_action( 'elementor_pro/forms/actions/register', [ $this, 'add_new_farazsms_newsletter_form_action' ] );
 		}
 
-		add_action( 'elementor/widgets/register', [ $this, 'register_newsletter_widget' ] );
+//		add_action( 'elementor/widgets/register', [ $this, 'register_newsletter_widget' ] );
 	}
 
 	/**

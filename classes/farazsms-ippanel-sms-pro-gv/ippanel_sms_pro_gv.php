@@ -23,7 +23,7 @@ function gravitysms_load_textdomain() {
 
 require_once( GF_SMS_DIR . 'includes/main.php' );
 
-add_action( 'plugins_loaded', array( 'GFMSMSSMS_Pro', 'construct' ), 10 );
+add_action( 'plugins_loaded', [ 'GFMSMSSMS_Pro', 'construct' ], 10 );
 
-register_activation_hook( __FILE__, array( 'GFMSMSSMS_Pro', 'active' ) );
-register_deactivation_hook( __FILE__, array( 'GFMSMSSMS_Pro', 'deactive' ) );
+register_activation_hook( __FILE__, [ 'GFMSMSSMS_Pro', 'active' ] );
+register_deactivation_hook( __FILE__, [ 'GFMSMSSMS_Pro', 'deactive' ] );

@@ -520,7 +520,6 @@ function Phonebook(props) {
             <div key={input.name} className={"form-group"}>
               <FormInput
                 isMulti={input.isMulti}
-                isMulti={input.isMulti}
                 {...input}
                 onChange={(selectedOption) =>
                   dispatch({

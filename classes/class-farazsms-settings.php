@@ -48,7 +48,9 @@ class Farazsms_Settings {
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_styles' ] );
 		add_action( 'admin_menu', [ $this, 'init_menu' ] );
-		add_action( 'admin_bar_menu', [ $this, 'admin_bar_menu' ], 60 );
+        if(Farazsms_Base::$apiKey) {
+	        add_action( 'admin_bar_menu', [ $this, 'admin_bar_menu' ], 60 );
+        }
 		add_filter( 'plugin_action_links_' . FARAZSMS_BASE, [ $this, 'settings_link' ] );
 		add_action( 'wp_dashboard_setup', [ $this, 'rss_meta_box' ] );
 		add_action( 'init', [ $this, 'check_remaining_days' ] );
