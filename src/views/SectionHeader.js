@@ -17,7 +17,7 @@ const SectionHeader = (props) => {
 
   return (
     <h3 className="p-3 mb-4 border-bottom border-dark bg-light rounded section-header">
-      {__(sectionName + " settings:", "farazsms")}
+      {sectionName}
     </h3>
   );
 };

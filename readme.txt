@@ -9,7 +9,7 @@ Stable tag: 2.0.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
-By using the Farazsms plugin, you can professionally equip your site with a powerful sms tool for information and marketing. Saving customers\' numbers in the phone book, sending welcome sms, sending reply sms to comments, etc. are part of the features of this powerful sms plugin.
+By using the Farazsms plugin, you can professionally equip your site with a powerful sms tool for information and marketing. Saving customers numbers in the phone book, sending welcome sms, sending reply sms to comments, etc. are part of the features of this powerful sms plugin.
 
 
 == Description ==
@@ -33,7 +33,7 @@ By purchasing an advertising sms panel and using the Faraz sms plugin, you can e
 
 * Sending a welcome sms when joining the site through the Digits plugin
 * Sending a notification sms to the site user when replying to the comment is sent along with the reply link
-* The possibility of sending an sms tracking code for postal shipments in WooCommerce
+* The possibility of sending a sms tracking code for postal shipments in WooCommerce
 * Sending a survey sms 7 days after the purchase of the customer along with the product link in order to comment on the site
 
 This sms platform helps to communicate with customers and convert them into regular customers.
@@ -63,7 +63,7 @@ Notification to the site manager; Find out about the smallest events of your sit
 
 Another useful feature of Faraz WordPress plugin is sms notification to the site manager. You can find out about the smallest events and movements of the site.
 
-* Sending an sms notification of entry to the site administration along with the entry time
+* Sending a sms notification of entry to the site administration along with the entry time
 * Notifying the site manager before completing the sms panel charge or ending the sms system subscription
 * Send a notification sms to the administrator when a new comment is posted on the site
 
@@ -72,7 +72,7 @@ Always be in touch with your customers by purchasing sms panel and using Faraz s
 
 In this article, we discussed the use of the Faraz sms plugin on the website of large and small businesses and explained all the benefits of using this plugin for you. By using the sms panel, increase the number of your customers and boost your business.
 
-If you have the experience of using Faraz sms sms panel and extension, share it with us and other users.
+If you have the experience of using Farazsms panel and extension, share it with us and other users.
 
 
 

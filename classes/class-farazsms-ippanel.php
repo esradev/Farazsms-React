@@ -302,9 +302,9 @@ class Farazsms_Ippanel {
 		if ( strpos( $response[1], '/' ) ) {
 			$separator = '/';
 		}
-		if ( strpos( $response[1], '.' ) ) {
-			$separator = '.';
-		}
+//		if ( strpos( $response[1], '.' ) ) {
+//			$separator = '.';
+//		}
 
 		$credit_rial = explode( $separator, $response[1] )[0];
 

@@ -11674,6 +11674,383 @@ function Footer() {
 
 /***/ }),
 
+/***/ "./src/components/GravityForms.js":
+/*!****************************************!*\
+  !*** ./src/components/GravityForms.js ***!
+  \****************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
+/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
+/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
+/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
+/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+
+
+/**
+ * Import remote dependencies.
+ */
+
+
+// Used as const not import, for Loco translate plugin compatibility.
+const __ = wp.i18n.__;
+
+/**
+ * Import local dependencies
+ */
+
+
+
+
+
+
+
+
+function GravityForms(props) {
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_4__["default"]);
+  // Init States
+  const originalState = {
+    notUsedPlugins: {
+      ...(!props.integratedPlugins.gravityForms.use && {
+        gravityForms: {
+          id: "gravityForms",
+          name: "Gravity Forms"
+        }
+      })
+    },
+    inputs: {
+      ...(props.integratedPlugins.gravityForms.use && {
+        gf_phonebook: {
+          value: [],
+          onChange: "gf_phonebookChange",
+          name: "gf_phonebook",
+          type: "select",
+          label: __("Select phonebook for Gravity Form:", "farazsms"),
+          options: [],
+          noOptionsMessage: __("No options is available", "farazsms")
+        },
+        gf_forms: {
+          value: [],
+          onChange: "gf_formsChange",
+          name: "gf_forms",
+          type: "select",
+          label: __("Gravity Form forms:", "farazsms"),
+          infoTitle: __("Info:", "farazsms"),
+          infoBody: __("In this section, you can specify the form you want to register in the Gravity Form phonebook", "farazsms"),
+          options: [],
+          noOptionsMessage: __("No options is available", "farazsms")
+        },
+        gf_selected_field: {
+          value: [],
+          onChange: "gf_selected_fieldChange",
+          name: "gf_selected_field",
+          type: "select",
+          label: __("Gravity Form fields:", "farazsms"),
+          infoTitle: __("Info:", "farazsms"),
+          infoBody: __("In this section, you can specify the fields you want to register in the Gravity Form phonebook", "farazsms"),
+          options: [],
+          noOptionsMessage: __("No options is available", "farazsms")
+        }
+      })
+    },
+    gfSelectedFormId: "",
+    isFetching: true,
+    isSaving: false,
+    sendCount: 0,
+    sectionName: __("Gravity Forms", "farazsms")
+  };
+  function ourReduser(draft, action) {
+    switch (action.type) {
+      case "fetchIntegrationsOptions":
+        return;
+      case "fetchComplete":
+        //Init state values by action.value
+        if (props.integratedPlugins.gravityForms.use) {
+          draft.inputs.gf_phonebook.value = action.value.gf_phonebook;
+          draft.inputs.gf_forms.value = action.value.gf_forms;
+          draft.inputs.gf_selected_field.value = action.value.gf_selected_field;
+        }
+        draft.isFetching = false;
+        return;
+      case "cantFetching":
+        draft.isFetching = false;
+        return;
+      case "all_phonebookOptions":
+        if (props.integratedPlugins.gravityForms.use) {
+          draft.inputs.gf_phonebook.options = action.value;
+        }
+        return;
+      case "gf_formsOptions":
+        if (props.integratedPlugins.gravityForms.use) {
+          draft.inputs.gf_forms.options = action.value;
+        }
+        return;
+      case "gf_selected_fieldOptions":
+        if (props.integratedPlugins.gravityForms.use && draft.inputs.gf_forms.options) {
+          draft.inputs.gf_selected_field.options = action.value;
+        }
+        return;
+      case "gf_phonebookChange":
+        draft.inputs.gf_phonebook.value = action.value;
+        return;
+      case "gf_formsChange":
+        draft.inputs.gf_forms.value = action.value;
+        return;
+      case "setGfSelectedFormId":
+        draft.gfSelectedFormId = action.value;
+        return;
+      case "gf_selected_fieldChange":
+        draft.inputs.gf_selected_field.value = action.value;
+        return;
+      case "submitOptions":
+        draft.sendCount++;
+        return;
+      case "saveRequestStarted":
+        draft.isSaving = true;
+        return;
+      case "saveRequestFinished":
+        draft.isSaving = false;
+        return;
+    }
+  }
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
+  function handleSubmit(e) {
+    e.preventDefault();
+    //Set every input to the state with dispatch function.
+    Object.values(state.inputs).map(input => {
+      dispatch({
+        type: input.rules,
+        value: input.value
+      });
+    });
+    dispatch({
+      type: "submitOptions"
+    });
+  }
+
+  /**
+   *
+   * Get integrations options from DB on integrations component loaded
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getIntegrationsOptions() {
+      try {
+        /*
+         * Use the AxiosWp object to call the /farazsms/v1/farazsms_integrations_options
+         * endpoint and retrieve the 10 latest posts.
+         */
+        const getIntegrationsOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/integrations_options", {});
+        if (getIntegrationsOptions.data) {
+          const optionsJson = JSON.parse(getIntegrationsOptions.data);
+          dispatch({
+            type: "fetchIntegrationsOptions",
+            value: optionsJson
+          });
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getIntegrationsOptions();
+  }, []);
+
+  /**
+   * Get Gravity forms from /gf/v2/forms
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getGfForms() {
+      try {
+        const getGfForms = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/gf/v2/forms", {});
+        const gfFormsArrayObject = Object.keys(getGfForms.data).map(form => ({
+          value: getGfForms.data[form].id,
+          label: getGfForms.data[form].title
+        }));
+        console.log(getGfForms);
+        dispatch({
+          type: "gf_formsOptions",
+          value: gfFormsArrayObject
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getGfForms();
+  }, []);
+
+  /**
+   * Get Gravity form filed /gf/v2/forms/1/field-filters
+   * TODO: the /1/ should be dynamic form id selected from previous input filed
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getGfFormsFields() {
+      try {
+        console.log(state.gfSelectedFormId);
+        const getGfFormsFields = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/gf/v2/forms/" + "1" + "/field-filters", {});
+        const gfFormsFieldsArrayObject = Object.keys(getGfFormsFields.data).map(field => ({
+          value: getGfFormsFields.data[field].key,
+          label: getGfFormsFields.data[field].text
+        }));
+        dispatch({
+          type: "gf_selected_fieldOptions",
+          value: gfFormsFieldsArrayObject
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getGfFormsFields();
+  }, []);
+
+  /**
+   * Get options from DB rest routes
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getOptions() {
+      try {
+        /*
+         * Use the AxiosWp object to call the /farazsms/v1/farazsms_phonebook_options
+         * endpoint and retrieve the 10 latest posts.
+         */
+        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/phonebook_options", {});
+        if (getOptions.data) {
+          const optionsJson = JSON.parse(getOptions.data);
+          dispatch({
+            type: "fetchComplete",
+            value: optionsJson
+          });
+          dispatch({
+            type: "setGfSelectedFormId",
+            value: optionsJson.gf_forms.value
+          });
+        }
+      } catch (e) {
+        console.log(e);
+        dispatch({
+          type: "cantFetching"
+        });
+      }
+    }
+    getOptions();
+  }, []);
+
+  /**
+   * Get phonebooks.
+   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
+   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
+   *
+   * @since 2.0.0
+   */
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    async function getPhonebooks() {
+      try {
+        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
+        const phonebooks = await farazsmsJsObject.getPhonebooks;
+        const phonebooksArrayObject = phonebooks.data.map(_ref => {
+          let {
+            id,
+            title
+          } = _ref;
+          return {
+            label: title,
+            value: id
+          };
+        });
+        dispatch({
+          type: "all_phonebookOptions",
+          value: phonebooksArrayObject
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getPhonebooks();
+  }, []);
+  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (state.sendCount) {
+      /**
+       * Get options values and set "name: value" in an array.
+       * Then Convert array to key: value pair for send Axios post request to DB.
+       * @return Object with arrays.
+       */
+
+      const optionsArray = Object.values(state.inputs).map(_ref2 => {
+        let {
+          value,
+          name
+        } = _ref2;
+        return [name, value];
+      });
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
+      dispatch({
+        type: "saveRequestStarted"
+      });
+      async function postOptions() {
+        try {
+          // Post Options from site DB Options table
+          const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/phonebook_options", optionsJsonForPost);
+          dispatch({
+            type: "saveRequestFinished"
+          });
+          appDispatch({
+            type: "flashMessage",
+            value: {
+              message: __("Congrats. Form was updated successfully.", "farazsms")
+            }
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      postOptions();
+    }
+  }, [state.sendCount]);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__["default"], null);
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    sectionName: state.sectionName
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    className: "container"
+  }), Object.values(state.notUsedPlugins).map(plugin => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    key: plugin.id
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    sectionName: plugin.name
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
+    onSubmit: handleSubmit
+  }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    key: input.name,
+    className: "form-group"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    isMulti: input.isMulti
+  }, input, {
+    onChange: selectedOption => dispatch({
+      type: input.onChange,
+      value: selectedOption
+    })
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_7__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    isSaving: state.isSaving
+  }))));
+}
+/* harmony default export */ __webpack_exports__["default"] = (GravityForms);
+
+/***/ }),
+
 /***/ "./src/components/Header.js":
 /*!**********************************!*\
   !*** ./src/components/Header.js ***!
@@ -13246,12 +13623,6 @@ function Phonebook(props) {
           id: "bookly",
           name: "Bookly"
         }
-      }),
-      ...(!props.integratedPlugins.gravityForms.use && {
-        gravityForms: {
-          id: "gravityForms",
-          name: "Gravity Forms"
-        }
       })
     },
     inputs: {
@@ -13305,39 +13676,6 @@ function Phonebook(props) {
           options: [],
           noOptionsMessage: __("No options is available", "farazsms")
         }
-      }),
-      ...(props.integratedPlugins.gravityForms.use && {
-        gf_phonebook: {
-          value: [],
-          onChange: "gf_phonebookChange",
-          name: "gf_phonebook",
-          type: "select",
-          label: __("Select phonebook for Gravity Form:", "farazsms"),
-          options: [],
-          noOptionsMessage: __("No options is available", "farazsms")
-        },
-        gf_forms: {
-          value: [],
-          onChange: "gf_formsChange",
-          name: "gf_forms",
-          type: "select",
-          label: __("Gravity Form forms:", "farazsms"),
-          infoTitle: __("Info:", "farazsms"),
-          infoBody: __("In this section, you can specify the form you want to register in the Gravity Form phonebook", "farazsms"),
-          options: [],
-          noOptionsMessage: __("No options is available", "farazsms")
-        },
-        gf_selected_field: {
-          value: [],
-          onChange: "gf_selected_fieldChange",
-          name: "gf_selected_field",
-          type: "select",
-          label: __("Gravity Form fields:", "farazsms"),
-          infoTitle: __("Info:", "farazsms"),
-          infoBody: __("In this section, you can specify the fields you want to register in the Gravity Form phonebook", "farazsms"),
-          options: [],
-          noOptionsMessage: __("No options is available", "farazsms")
-        }
       })
     },
     gfSelectedFormId: "",
@@ -13363,11 +13701,6 @@ function Phonebook(props) {
         if (props.integratedPlugins.bookly.use) {
           draft.inputs.bookly_phonebook.value = action.value.bookly_phonebook;
         }
-        if (props.integratedPlugins.gravityForms.use) {
-          draft.inputs.gf_phonebook.value = action.value.gf_phonebook;
-          draft.inputs.gf_forms.value = action.value.gf_forms;
-          draft.inputs.gf_selected_field.value = action.value.gf_selected_field;
-        }
         draft.isFetching = false;
         return;
       case "cantFetching":
@@ -13384,22 +13717,9 @@ function Phonebook(props) {
         if (props.integratedPlugins.bookly.use) {
           draft.inputs.bookly_phonebook.options = action.value;
         }
-        if (props.integratedPlugins.gravityForms.use) {
-          draft.inputs.gf_phonebook.options = action.value;
-        }
         return;
       case "custom_phone_meta_keysOptions":
         draft.inputs.custom_phone_meta_keys.options = action.value;
-        return;
-      case "gf_formsOptions":
-        if (props.integratedPlugins.gravityForms.use) {
-          draft.inputs.gf_forms.options = action.value;
-        }
-        return;
-      case "gf_selected_fieldOptions":
-        if (props.integratedPlugins.gravityForms.use) {
-          draft.inputs.gf_selected_field.options = action.value;
-        }
         return;
       case "custom_phonebookChange":
         draft.inputs.custom_phonebook.value = action.value;
@@ -13415,18 +13735,6 @@ function Phonebook(props) {
         return;
       case "bookly_phonebookChange":
         draft.inputs.bookly_phonebook.value = action.value;
-        return;
-      case "gf_phonebookChange":
-        draft.inputs.gf_phonebook.value = action.value;
-        return;
-      case "gf_formsChange":
-        draft.inputs.gf_forms.value = action.value;
-        return;
-      case "setGfSelectedFormId":
-        draft.gfSelectedFormId = action.value;
-        return;
-      case "gf_selected_fieldChange":
-        draft.inputs.gf_selected_field.value = action.value;
         return;
       case "submitOptions":
         draft.sendCount++;
@@ -13455,7 +13763,6 @@ function Phonebook(props) {
   }
 
   /**
-   *
    * Get integrations options from DB on integrations component loaded
    *
    * @since 2.0.0
@@ -13483,56 +13790,6 @@ function Phonebook(props) {
   }, []);
 
   /**
-   * Get Gravity forms from /gf/v2/forms
-   *
-   * @since 2.0.0
-   */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getGfForms() {
-      try {
-        const getGfForms = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/gf/v2/forms", {});
-        const gfFormsArrayObject = Object.keys(getGfForms.data).map(form => ({
-          value: getGfForms.data[form].id,
-          label: getGfForms.data[form].title
-        }));
-        console.log(getGfForms);
-        dispatch({
-          type: "gf_formsOptions",
-          value: gfFormsArrayObject
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getGfForms();
-  }, []);
-
-  /**
-   * Get Gravity form filed /gf/v2/forms/1/field-filters
-   * TODO: the /1/ should be dynamic form id selected from previous input filed
-   * @since 2.0.0
-   */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getGfFormsFileds() {
-      try {
-        console.log(state.gfSelectedFormId);
-        const getGfFormsFileds = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/gf/v2/forms/" + "1" + "/field-filters", {});
-        const gfFormsFiledsArrayObject = Object.keys(getGfFormsFileds.data).map(field => ({
-          value: getGfFormsFileds.data[field].key,
-          label: getGfFormsFileds.data[field].text
-        }));
-        dispatch({
-          type: "gf_selected_fieldOptions",
-          value: gfFormsFiledsArrayObject
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getGfFormsFileds();
-  }, []);
-
-  /**
    * Get options from DB rest routes
    *
    * @since 2.0.0
@@ -13550,10 +13807,6 @@ function Phonebook(props) {
           dispatch({
             type: "fetchComplete",
             value: optionsJson
-          });
-          dispatch({
-            type: "setGfSelectedFormId",
-            value: optionsJson.gf_forms.value
           });
         }
       } catch (e) {
@@ -15507,7 +15760,7 @@ const SectionHeader = props => {
   } = props;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
     className: "p-3 mb-4 border-bottom border-dark bg-light rounded section-header"
-  }, __(sectionName + " settings:", "farazsms"));
+  }, sectionName);
 };
 /* harmony default export */ __webpack_exports__["default"] = (SectionHeader);
 
@@ -15525,8 +15778,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_icons_ai__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! react-icons/ai */ "./node_modules/react-icons/ai/index.esm.js");
-/* harmony import */ var react_icons_tb__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-icons/tb */ "./node_modules/react-icons/tb/index.esm.js");
+/* harmony import */ var react_icons_ai__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! react-icons/ai */ "./node_modules/react-icons/ai/index.esm.js");
+/* harmony import */ var react_icons_tb__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! react-icons/tb */ "./node_modules/react-icons/tb/index.esm.js");
 /* harmony import */ var _components_Settings__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Settings */ "./src/components/Settings.js");
 /* harmony import */ var _components_LoginNotify__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/LoginNotify */ "./src/components/LoginNotify.js");
 /* harmony import */ var _components_Phonebook__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/Phonebook */ "./src/components/Phonebook.js");
@@ -15538,6 +15791,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Aff__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../components/Aff */ "./src/components/Aff.js");
 /* harmony import */ var _components_Membership__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../components/Membership */ "./src/components/Membership.js");
 /* harmony import */ var _components_Integrations__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../components/Integrations */ "./src/components/Integrations.js");
+/* harmony import */ var _components_GravityForms__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../components/GravityForms */ "./src/components/GravityForms.js");
 
 /**
  * Import remote dependencies.
@@ -15562,61 +15816,67 @@ const __ = wp.i18n.__;
 
 
 
+
 const SidebarItems = [{
-  path: '/',
+  path: "/",
   element: _components_Settings__WEBPACK_IMPORTED_MODULE_2__["default"],
-  name: __('Settings', 'farazsms'),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineSetting, null)
+  name: __("Settings", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_14__.AiOutlineSetting, null)
 }, {
-  path: '/login_notify',
+  path: "/login_notify",
   element: _components_LoginNotify__WEBPACK_IMPORTED_MODULE_3__["default"],
-  name: __('Login Notify', 'farazsms'),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineLogin, null)
+  name: __("Login Notify", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_14__.AiOutlineLogin, null)
 }, {
-  path: '/phonebook',
+  path: "/phonebook",
   element: _components_Phonebook__WEBPACK_IMPORTED_MODULE_4__["default"],
-  name: __('Phonebook', 'farazsms'),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlinePhone, null)
+  name: __("Phonebook", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_14__.AiOutlinePhone, null)
 }, {
-  path: '/synchronization',
+  path: "/gravity_forms",
+  element: _components_GravityForms__WEBPACK_IMPORTED_MODULE_13__["default"],
+  name: __("Gravity Forms", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_14__.AiOutlineUnorderedList, null)
+}, {
+  path: "/synchronization",
   element: _components_Synchronization__WEBPACK_IMPORTED_MODULE_5__["default"],
-  name: __('Synchronization', 'farazsms'),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineSync, null)
+  name: __("Synchronization", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_14__.AiOutlineSync, null)
 }, {
-  path: '/comments',
+  path: "/comments",
   element: _components_Comments__WEBPACK_IMPORTED_MODULE_6__["default"],
-  name: __('Comments', 'farazsms'),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineComment, null)
+  name: __("Comments", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_14__.AiOutlineComment, null)
 }, {
-  path: '/woocommerce',
+  path: "/woocommerce",
   element: _components_WooCommerce__WEBPACK_IMPORTED_MODULE_7__["default"],
-  name: __('WooCommerce', 'farazsms'),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineShoppingCart, null)
+  name: __("WooCommerce", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_14__.AiOutlineShoppingCart, null)
 }, {
-  path: '/edd',
+  path: "/edd",
   element: _components_Edd__WEBPACK_IMPORTED_MODULE_8__["default"],
-  name: __('Edd Settings', 'farazsms'),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineCloudDownload, null)
+  name: __("Edd Settings", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_14__.AiOutlineCloudDownload, null)
 }, {
-  path: '/newsletter',
+  path: "/newsletter",
   element: _components_Newsletter__WEBPACK_IMPORTED_MODULE_9__["default"],
-  name: __('Newsletter', 'farazsms'),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineNotification, null)
+  name: __("Newsletter", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_14__.AiOutlineNotification, null)
 }, {
-  path: '/aff',
+  path: "/aff",
   element: _components_Aff__WEBPACK_IMPORTED_MODULE_10__["default"],
-  name: __('Affiliate', 'farazsms'),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_tb__WEBPACK_IMPORTED_MODULE_14__.TbAffiliate, null)
+  name: __("Affiliate", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_tb__WEBPACK_IMPORTED_MODULE_15__.TbAffiliate, null)
 }, {
-  path: '/membership',
+  path: "/membership",
   element: _components_Membership__WEBPACK_IMPORTED_MODULE_11__["default"],
-  name: __('Membership', 'farazsms'),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineUserSwitch, null)
+  name: __("Membership", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_14__.AiOutlineUserSwitch, null)
 }, {
-  path: '/integrations',
+  path: "/integrations",
   element: _components_Integrations__WEBPACK_IMPORTED_MODULE_12__["default"],
-  name: __('Integrations', 'farazsms'),
-  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_13__.AiOutlineApartment, null)
+  name: __("Integrations", "farazsms"),
+  icon: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_icons_ai__WEBPACK_IMPORTED_MODULE_14__.AiOutlineApartment, null)
 }];
 /* harmony default export */ __webpack_exports__["default"] = (SidebarItems);
 

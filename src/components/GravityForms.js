@@ -18,78 +18,54 @@ import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
 
-function Phonebook(props) {
+function GravityForms(props) {
   const appDispatch = useContext(DispatchContext);
   // Init States
   const originalState = {
     notUsedPlugins: {
-      ...(!props.integratedPlugins.digits.use && {
-        digits: {
-          id: "digits",
-          name: "Digits",
-        },
-      }),
-      ...(!props.integratedPlugins.woocommerce.use && {
-        woocommerce: {
-          id: "woocommerce",
-          name: "Woocommerce",
-        },
-      }),
-      ...(!props.integratedPlugins.bookly.use && {
-        bookly: {
-          id: "bookly",
-          name: "Bookly",
+      ...(!props.integratedPlugins.gravityForms.use && {
+        gravityForms: {
+          id: "gravityForms",
+          name: "Gravity Forms",
         },
       }),
     },
     inputs: {
-      custom_phonebook: {
-        value: [],
-        onChange: "custom_phonebookChange",
-        name: "custom_phonebook",
-        type: "select",
-        label: __("Select the custom field phonebook:", "farazsms"),
-        options: [],
-        noOptionsMessage: __("No options is available", "farazsms"),
-      },
-      custom_phone_meta_keys: {
-        value: [],
-        onChange: "custom_phone_meta_keysChange",
-        name: "custom_phone_meta_keys",
-        type: "select",
-        label: __("Select the mobile number custom field:", "farazsms"),
-        options: [],
-        noOptionsMessage: __("No options is available", "farazsms"),
-      },
-      ...(props.integratedPlugins.digits.use && {
-        digits_phonebook: {
+      ...(props.integratedPlugins.gravityForms.use && {
+        gf_phonebook: {
           value: [],
-          onChange: "digits_phonebookChange",
-          name: "digits_phonebook",
+          onChange: "gf_phonebookChange",
+          name: "gf_phonebook",
           type: "select",
-          label: __("Select phonebook for Digits:", "farazsms"),
+          label: __("Select phonebook for Gravity Form:", "farazsms"),
           options: [],
           noOptionsMessage: __("No options is available", "farazsms"),
         },
-      }),
-      ...(props.integratedPlugins.woocommerce.use && {
-        woo_phonebook: {
+        gf_forms: {
           value: [],
-          onChange: "woo_phonebookChange",
-          name: "woo_phonebook",
+          onChange: "gf_formsChange",
+          name: "gf_forms",
           type: "select",
-          label: __("select a phonebook for WooCommerce:", "farazsms"),
+          label: __("Gravity Form forms:", "farazsms"),
+          infoTitle: __("Info:", "farazsms"),
+          infoBody: __(
+            "In this section, you can specify the form you want to register in the Gravity Form phonebook",
+            "farazsms"
+          ),
           options: [],
           noOptionsMessage: __("No options is available", "farazsms"),
         },
-      }),
-      ...(props.integratedPlugins.bookly.use && {
-        bookly_phonebook: {
+        gf_selected_field: {
           value: [],
-          onChange: "bookly_phonebookChange",
-          name: "bookly_phonebook",
+          onChange: "gf_selected_fieldChange",
+          name: "gf_selected_field",
           type: "select",
-          label: __("Choosing a phonebook for Bookly:", "farazsms"),
+          label: __("Gravity Form fields:", "farazsms"),
+          infoTitle: __("Info:", "farazsms"),
+          infoBody: __(
+            "In this section, you can specify the fields you want to register in the Gravity Form phonebook",
+            "farazsms"
+          ),
           options: [],
           noOptionsMessage: __("No options is available", "farazsms"),
         },
@@ -99,7 +75,7 @@ function Phonebook(props) {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
-    sectionName: __("Phonebook", "farazsms"),
+    sectionName: __("Gravity Forms", "farazsms"),
   };
 
   function ourReduser(draft, action) {
@@ -108,17 +84,10 @@ function Phonebook(props) {
         return;
       case "fetchComplete":
         //Init state values by action.value
-        draft.inputs.custom_phonebook.value = action.value.custom_phonebook;
-        draft.inputs.custom_phone_meta_keys.value =
-          action.value.custom_phone_meta_keys;
-        if (props.integratedPlugins.digits.use) {
-          draft.inputs.digits_phonebook.value = action.value.digits_phonebook;
-        }
-        if (props.integratedPlugins.woocommerce.use) {
-          draft.inputs.woo_phonebook.value = action.value.woo_phonebook;
-        }
-        if (props.integratedPlugins.bookly.use) {
-          draft.inputs.bookly_phonebook.value = action.value.bookly_phonebook;
+        if (props.integratedPlugins.gravityForms.use) {
+          draft.inputs.gf_phonebook.value = action.value.gf_phonebook;
+          draft.inputs.gf_forms.value = action.value.gf_forms;
+          draft.inputs.gf_selected_field.value = action.value.gf_selected_field;
         }
         draft.isFetching = false;
         return;
@@ -126,34 +95,34 @@ function Phonebook(props) {
         draft.isFetching = false;
         return;
       case "all_phonebookOptions":
-        draft.inputs.custom_phonebook.options = action.value;
-        if (props.integratedPlugins.digits.use) {
-          draft.inputs.digits_phonebook.options = action.value;
-        }
-        if (props.integratedPlugins.woocommerce.use) {
-          draft.inputs.woo_phonebook.options = action.value;
-        }
-        if (props.integratedPlugins.bookly.use) {
-          draft.inputs.bookly_phonebook.options = action.value;
+        if (props.integratedPlugins.gravityForms.use) {
+          draft.inputs.gf_phonebook.options = action.value;
         }
         return;
-      case "custom_phone_meta_keysOptions":
-        draft.inputs.custom_phone_meta_keys.options = action.value;
+      case "gf_formsOptions":
+        if (props.integratedPlugins.gravityForms.use) {
+          draft.inputs.gf_forms.options = action.value;
+        }
         return;
-      case "custom_phonebookChange":
-        draft.inputs.custom_phonebook.value = action.value;
+      case "gf_selected_fieldOptions":
+        if (
+          props.integratedPlugins.gravityForms.use &&
+          draft.inputs.gf_forms.options
+        ) {
+          draft.inputs.gf_selected_field.options = action.value;
+        }
         return;
-      case "custom_phone_meta_keysChange":
-        draft.inputs.custom_phone_meta_keys.value = action.value;
+      case "gf_phonebookChange":
+        draft.inputs.gf_phonebook.value = action.value;
         return;
-      case "digits_phonebookChange":
-        draft.inputs.digits_phonebook.value = action.value;
+      case "gf_formsChange":
+        draft.inputs.gf_forms.value = action.value;
         return;
-      case "woo_phonebookChange":
-        draft.inputs.woo_phonebook.value = action.value;
+      case "setGfSelectedFormId":
+        draft.gfSelectedFormId = action.value;
         return;
-      case "bookly_phonebookChange":
-        draft.inputs.bookly_phonebook.value = action.value;
+      case "gf_selected_fieldChange":
+        draft.inputs.gf_selected_field.value = action.value;
         return;
       case "submitOptions":
         draft.sendCount++;
@@ -161,7 +130,7 @@ function Phonebook(props) {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
     }
@@ -180,6 +149,7 @@ function Phonebook(props) {
   }
 
   /**
+   *
    * Get integrations options from DB on integrations component loaded
    *
    * @since 2.0.0
@@ -207,6 +177,61 @@ function Phonebook(props) {
   }, []);
 
   /**
+   * Get Gravity forms from /gf/v2/forms
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function getGfForms() {
+      try {
+        const getGfForms = await AxiosWp.get("/gf/v2/forms", {});
+        const gfFormsArrayObject = Object.keys(getGfForms.data).map((form) => ({
+          value: getGfForms.data[form].id,
+          label: getGfForms.data[form].title,
+        }));
+        console.log(getGfForms);
+        dispatch({
+          type: "gf_formsOptions",
+          value: gfFormsArrayObject,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getGfForms();
+  }, []);
+
+  /**
+   * Get Gravity form filed /gf/v2/forms/1/field-filters
+   * TODO: the /1/ should be dynamic form id selected from previous input filed
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function getGfFormsFields() {
+      try {
+        console.log(state.gfSelectedFormId);
+        const getGfFormsFields = await AxiosWp.get(
+          "/gf/v2/forms/" + "1" + "/field-filters",
+          {}
+        );
+        const gfFormsFieldsArrayObject = Object.keys(getGfFormsFields.data).map(
+          (field) => ({
+            value: getGfFormsFields.data[field].key,
+            label: getGfFormsFields.data[field].text,
+          })
+        );
+        dispatch({
+          type: "gf_selected_fieldOptions",
+          value: gfFormsFieldsArrayObject,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getGfFormsFields();
+  }, []);
+
+  /**
    * Get options from DB rest routes
    *
    * @since 2.0.0
@@ -225,6 +250,10 @@ function Phonebook(props) {
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
           dispatch({ type: "fetchComplete", value: optionsJson });
+          dispatch({
+            type: "setGfSelectedFormId",
+            value: optionsJson.gf_forms.value,
+          });
         }
       } catch (e) {
         console.log(e);
@@ -232,36 +261,6 @@ function Phonebook(props) {
       }
     }
     getOptions();
-  }, []);
-
-  /**
-   * Get usermeta keys from DB rest routes
-   *
-   * @since 2.0.0
-   */
-  useEffect(() => {
-    async function getUsermeta() {
-      try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_usermeta
-         * endpoint and retrieve the 10 latest posts.
-         */
-        const getUsermeta = await AxiosWp.get("/farazsms/v1/usermeta", {});
-        const usermetaArrayObject = Object.keys(getUsermeta.data).map(
-          (key) => ({
-            value: getUsermeta.data[key].meta_key,
-            label: getUsermeta.data[key].meta_key,
-          })
-        );
-        dispatch({
-          type: "custom_phone_meta_keysOptions",
-          value: usermetaArrayObject,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getUsermeta();
   }, []);
 
   /**
@@ -277,12 +276,10 @@ function Phonebook(props) {
         //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getPhonebooks;
 
-        const phonebooksArrayObject = phonebooks["data"].map(
-          ({ id, title }) => ({
-            label: title,
-            value: id,
-          })
-        );
+        const phonebooksArrayObject = phonebooks.data.map(({ id, title }) => ({
+          label: title,
+          value: id,
+        }));
         dispatch({
           type: "all_phonebookOptions",
           value: phonebooksArrayObject,
@@ -302,10 +299,10 @@ function Phonebook(props) {
        * @return Object with arrays.
        */
 
-      const optsionsArray = Object.values(state.inputs).map(
+      const optionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
 
       dispatch({ type: "saveRequestStarted" });
 
@@ -316,7 +313,7 @@ function Phonebook(props) {
             "/farazsms/v1/phonebook_options",
             optionsJsonForPost
           );
-          dispatch({ type: "saveRequestFininshed" });
+          dispatch({ type: "saveRequestFinished" });
           appDispatch({
             type: "flashMessage",
             value: {
@@ -339,40 +336,8 @@ function Phonebook(props) {
   return (
     <>
       <SectionHeader sectionName={state.sectionName} />
-      <div className="container">
-        <div className="container card bg-light mb-3 mt-1">
-          <div className="card-body">
-            <h5 className="card-title">{__("Special Offer:", "farazsms")}</h5>
-            <p className="card-text">
-              {__(
-                "If you have a physical store, use the mobile number storage device to collect your customers mobile numbers. Click on the link below to see the details",
-                "farazsms"
-              )}
-            </p>
-            <a
-              href="https://farazsms.com/pos/"
-              className="btn btn-success"
-              target="_blank"
-            >
-              {__("Buying a mobile number storage device", "farazsms")}
-            </a>
-          </div>
-        </div>
-      </div>
-      <div className="container">
-        <div className="container card bg-warning mb-3">
-          <div className="card-body">
-            <h5 className="card-title">{__("Warning:", "farazsms")}</h5>
-            <p className="card-text">
-              {__(
-                "You have not registered a phone book yet. Please create your phone book in the FarazSMS panel first.",
-                "farazsms"
-              )}
-            </p>
-          </div>
-        </div>
-      </div>
       <div>
+        <div className="container"></div>
         {Object.values(state.notUsedPlugins).map((plugin) => (
           <div key={plugin.id}>
             <SectionError sectionName={plugin.name} />
@@ -401,4 +366,4 @@ function Phonebook(props) {
   );
 }
 
-export default Phonebook;
+export default GravityForms;
