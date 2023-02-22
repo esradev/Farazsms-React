@@ -3,24 +3,11 @@
 /**
  * Fired during plugin activation.
  *
- * This class defines all code necessary to run during the plugin's activation.
- *
- * @link       https://farazsms.com/
  * @since      2.0.0
- *
- * @package    Farazsms
- * @subpackage Farazsms/classes
  */
 
 class Farazsms_Activator {
 
-	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
-	 *
-	 * @since    1.0.0
-	 */
 	public static function activate() {
 		global $wpdb;
 		$collate                = $wpdb->get_charset_collate();
@@ -42,13 +29,6 @@ class Farazsms_Activator {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $query );
 		dbDelta( $query2 );
-
-
-		//copy bookly specific files to bookly plugin directory
-		if ( in_array( 'bookly-responsive-appointment-booking-tool/main.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
-			copy( WP_CONTENT_DIR . '/plugins/farazsms/classes/bookly_files/SMS.php', WP_CONTENT_DIR . '/plugins/bookly-responsive-appointment-booking-tool/lib/cloud/SMS.php' );
-			copy( WP_CONTENT_DIR . '/plugins/farazsms/classes/bookly_files/ippanel.js', WP_CONTENT_DIR . '/plugins/bookly-responsive-appointment-booking-tool/lib/cloud/ippanel.js' );
-		}
 
 		// This option added for redirect after activation
 		add_option( 'farazsms_do_activation_redirect', true );

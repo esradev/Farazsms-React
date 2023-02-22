@@ -1,17 +1,17 @@
 (function ($) {
   "use strict";
-  var newsletter_send_ver_code = $("#newsletter_send_ver_code");
-  var submit_div = $(".fsms_newsletter_submit");
-  var submit_button = $("#fsms_newsletter_submit_button");
-  var submit_code = $("#fsms_newsletter_submit_code");
-  var resend_code = $("#fsms_newsletter_resend_code");
-  var newsletter_completion_div = $("#fsms_newsletter_completion");
-  var name = $("#fsms_newsletter_name");
-  var mobile = $("#fsms_newsletter_mobile");
-  var verify_code = $("#fsms_newsletter_verify_code");
-  var newsletter_message = $("#fsms_newsletter_message");
+  let newsletter_send_ver_code = $("#newsletter_send_ver_code");
+  let submit_div = $(".fsms_newsletter_submit");
+  let submit_button = $("#fsms_newsletter_submit_button");
+  let submit_code = $("#fsms_newsletter_submit_code");
+  let resend_code = $("#fsms_newsletter_resend_code");
+  let newsletter_completion_div = $("#fsms_newsletter_completion");
+  let name = $("#fsms_newsletter_name");
+  let mobile = $("#fsms_newsletter_mobile");
+  let verify_code = $("#fsms_newsletter_verify_code");
+  let newsletter_message = $("#fsms_newsletter_message");
 
-  var has_error = false;
+  let has_error = false;
   submit_button.click(function () {
     has_error = false;
     name.removeClass("error");
@@ -27,7 +27,7 @@
     if (has_error) {
       return;
     }
-    var data = {
+    let data = {
       action: "fsms_newsletter_send_verification_code",
       mobile: mobile.val(),
       name: name.val(),
@@ -49,8 +49,8 @@
           $(".fsms_newsletter_input.a").hide();
           newsletter_completion_div.show();
           $(".fsms_newsletter_input.b").show();
-          var seconds = 90;
-          var interval;
+          let seconds = 90;
+          let interval;
           resend_code.prop("disabled", true);
           interval = setInterval(function () {
             resend_code
@@ -86,7 +86,7 @@
     if (has_error) {
       return;
     }
-    var data = {
+    let data = {
       action: "fsms_add_phone_to_newsletter",
       code: verify_code.val(),
       name: name.val(),
