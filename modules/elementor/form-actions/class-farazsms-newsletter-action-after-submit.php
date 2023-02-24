@@ -96,7 +96,7 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
 		        'farazsms'
             ),
 	        'type'        => Controls_Manager::TEXT,
-	        'placeholder' => 'Example: [field id="mobile"]',
+	        'placeholder' => esc_html__('Example: [field id="mobile"]', 'farazsms'),
 	        'label_block' => true,
 	        'condition'   => [
 		        'sms_to_visitor' => 'yes',
@@ -109,7 +109,7 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
 
         // send settings
         $widget->add_control( 'sms_send_type', [
-	        'label'     => esc_html__( 'How to send', 'farazsms' ),
+	        'label'     => esc_html__( 'How to send?', 'farazsms' ),
 	        'type'      => Controls_Manager::SELECT,
 	        'default'   => 'none',
 	        'condition' => [
@@ -141,15 +141,15 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
 	        'condition'   => [
 		        'sms_to_visitor' => 'yes',
             ],
-	        'description' => esc_html__("If you choose the web service sending method, enter the text of your SMS. If you use a pattern, enter a variable along with its value with: in each line. The value can be a constant or a shortcode of any of the fields. For example<br> PersonName:[field id='name'] companyName:Farazsms'", 'farazsms' ),
+	        'description' => esc_html__("If you choose the web service sending method, enter the text of your SMS. If you use a pattern, enter a variable along with its value with: in each line. The value can be a constant or a shortcode of the fields. For example<br> PersonName:[field id='name'] companyName:Farazsms'", 'farazsms' ),
 	        'separator'   => 'after',
         ]);
 
         $widget->add_control( 'sms_add_to_phonebook', [
 	        'label'        => esc_html__( 'Save in the system phonebook', 'farazsms' ),
 	        'type'         => Controls_Manager::SWITCHER,
-	        'label_on'     => esc_html__( 'Enable', 'your-plugin' ),
-	        'label_off'    => esc_html__( 'Disable', 'your-plugin' ),
+	        'label_on'     => esc_html__( 'Enable', 'farazsms' ),
+	        'label_off'    => esc_html__( 'Disable', 'farazsms' ),
 	        'return_value' => 'yes',
 	        'default'      => 'yes',
 	        'condition'    => [
@@ -169,7 +169,7 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
 	        'return_value' => 'yes',
 	        'default'      => 'yes',
 	        'description'  => esc_html__(
-                "If you want an SMS alert to be sent to the manager's number as soon as the visitor completes the form, check this option.",
+                'If you want an SMS alert to be sent to the admin number as soon as the visitor completes the form, check this option.',
 		        'farazsms'
             ),
 	        'separator'    => 'before',
@@ -192,7 +192,7 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
         $widget->add_control( 'sms_admin_pattern', [
 	        'label'       => esc_html__( 'Pattern code', 'farazsms' ),
 	        'type'        => Controls_Manager::TEXT,
-	        'placeholder' => 'Enter your pattern code',
+	        'placeholder' => esc_html__('Enter your pattern code', 'farazsms'),
 	        'label_block' => true,
 	        'condition'   => [
 	            'sms_to_admin'     => 'yes',
@@ -254,6 +254,16 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
         $to = $record->replace_setting_shortcodes($settings['sms_recipient']);
         $farazpattern = $settings['sms_pattern_code'];
         $content = $settings['sms_content'];
+
+		if ($settings['sms_add_to_phonebook'] == 'yes') {
+			$list[0] = (object) [
+				'number'       => $to,
+				'name'         => '',
+				'phonebook_id' => (int) Farazsms_Base::$custom_phonebook_id
+			];
+
+	    Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
+		}
 
         // Send to visitor with pattern 
         if ( $settings['sms_to_visitor'] == 'yes' && $settings['sms_send_type'] == 'pattern' ) {

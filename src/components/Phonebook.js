@@ -48,7 +48,7 @@ function Phonebook(props) {
         onChange: "custom_phonebookChange",
         name: "custom_phonebook",
         type: "select",
-        label: __("Select the custom field phonebook:", "farazsms"),
+        label: __("Select the custom phonebook:", "farazsms"),
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
       },
@@ -95,7 +95,7 @@ function Phonebook(props) {
         },
       }),
     },
-    gfSelectedFormId: "",
+    noPhonebooks: true,
     isFetching: true,
     isSaving: false,
     sendCount: 0,
@@ -104,10 +104,7 @@ function Phonebook(props) {
 
   function ourReduser(draft, action) {
     switch (action.type) {
-      case "fetchIntegrationsOptions":
-        return;
       case "fetchComplete":
-        //Init state values by action.value
         draft.inputs.custom_phonebook.value = action.value.custom_phonebook;
         draft.inputs.custom_phone_meta_keys.value =
           action.value.custom_phone_meta_keys;
@@ -126,6 +123,7 @@ function Phonebook(props) {
         draft.isFetching = false;
         return;
       case "all_phonebookOptions":
+        draft.noPhonebooks = false;
         draft.inputs.custom_phonebook.options = action.value;
         if (props.integratedPlugins.digits.use) {
           draft.inputs.digits_phonebook.options = action.value;
@@ -155,6 +153,9 @@ function Phonebook(props) {
       case "bookly_phonebookChange":
         draft.inputs.bookly_phonebook.value = action.value;
         return;
+      case "noPhonebooks":
+        draft.noPhonebooks = true;
+        return;
       case "submitOptions":
         draft.sendCount++;
         return;
@@ -180,33 +181,6 @@ function Phonebook(props) {
   }
 
   /**
-   * Get integrations options from DB on integrations component loaded
-   *
-   * @since 2.0.0
-   */
-  useEffect(() => {
-    async function getIntegrationsOptions() {
-      try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_integrations_options
-         * endpoint and retrieve the 10 latest posts.
-         */
-        const getIntegrationsOptions = await AxiosWp.get(
-          "/farazsms/v1/integrations_options",
-          {}
-        );
-        if (getIntegrationsOptions.data) {
-          const optionsJson = JSON.parse(getIntegrationsOptions.data);
-          dispatch({ type: "fetchIntegrationsOptions", value: optionsJson });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getIntegrationsOptions();
-  }, []);
-
-  /**
    * Get options from DB rest routes
    *
    * @since 2.0.0
@@ -214,10 +188,6 @@ function Phonebook(props) {
   useEffect(() => {
     async function getOptions() {
       try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_phonebook_options
-         * endpoint and retrieve the 10 latest posts.
-         */
         const getOptions = await AxiosWp.get(
           "/farazsms/v1/phonebook_options",
           {}
@@ -242,10 +212,6 @@ function Phonebook(props) {
   useEffect(() => {
     async function getUsermeta() {
       try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_usermeta
-         * endpoint and retrieve the 10 latest posts.
-         */
         const getUsermeta = await AxiosWp.get("/farazsms/v1/usermeta", {});
         const usermetaArrayObject = Object.keys(getUsermeta.data).map(
           (key) => ({
@@ -267,7 +233,6 @@ function Phonebook(props) {
   /**
    * Get phonebooks.
    * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
-   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
    *
    * @since 2.0.0
    */
@@ -276,17 +241,20 @@ function Phonebook(props) {
       try {
         //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getPhonebooks;
-
-        const phonebooksArrayObject = phonebooks["data"].map(
-          ({ id, title }) => ({
-            label: title,
-            value: id,
-          })
-        );
-        dispatch({
-          type: "all_phonebookOptions",
-          value: phonebooksArrayObject,
-        });
+        if (phonebooks.data.length === 0) {
+          dispatch({ type: "noPhonebooks" });
+        } else {
+          const phonebooksArrayObject = phonebooks.data.map(
+            ({ id, title }) => ({
+              label: title,
+              value: id,
+            })
+          );
+          dispatch({
+            type: "all_phonebookOptions",
+            value: phonebooksArrayObject,
+          });
+        }
       } catch (e) {
         console.log(e);
       }
@@ -294,14 +262,13 @@ function Phonebook(props) {
     getPhonebooks();
   }, []);
 
+  /**
+   * Post options to DB rest routes
+   *
+   * @since 2.0.0
+   */
   useEffect(() => {
     if (state.sendCount) {
-      /**
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       * @return Object with arrays.
-       */
-
       const optsionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
@@ -359,19 +326,24 @@ function Phonebook(props) {
           </div>
         </div>
       </div>
-      <div className="container">
-        <div className="container card bg-warning mb-3">
-          <div className="card-body">
-            <h5 className="card-title">{__("Warning:", "farazsms")}</h5>
-            <p className="card-text">
-              {__(
-                "You have not registered a phone book yet. Please create your phone book in the FarazSMS panel first.",
-                "farazsms"
-              )}
-            </p>
+      {state.noPhonebooks ? (
+        <div className="container">
+          <div className="container card bg-warning mb-3">
+            <div className="card-body">
+              <h5 className="card-title">{__("Warning:", "farazsms")}</h5>
+              <p className="card-text">
+                {__(
+                  "You have not registered a phone book yet. Please create your phone book in the FarazSMS panel first.",
+                  "farazsms"
+                )}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <></>
+      )}
+
       <div>
         {Object.values(state.notUsedPlugins).map((plugin) => (
           <div key={plugin.id}>
