@@ -10467,7 +10467,6 @@ function Aff(props) {
         name: "aff_user_mobile_field",
         type: "select",
         label: __("Select the mobile number custom field:", "farazsms"),
-        rules: "aff_user_mobile_fieldRules",
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
         groupTitle: __("Users settings:", "farazsms")
@@ -10479,8 +10478,7 @@ function Aff(props) {
         onChange: "aff_user_registerChange",
         name: "aff_user_register",
         type: "checkbox",
-        label: __("Send sms to user on registration:", "farazsms"),
-        rules: "aff_user_registerRules"
+        label: __("Send sms to user on registration:", "farazsms")
       },
       aff_user_register_pattern: {
         value: "",
@@ -10489,8 +10487,7 @@ function Aff(props) {
         onChange: "aff_user_register_patternChange",
         name: "aff_user_register_pattern",
         type: "text",
-        label: __("User registration SMS pattern code:", "farazsms"),
-        rules: "aff_user_register_patternRules"
+        label: __("User registration SMS pattern code:", "farazsms")
       },
       aff_user_new_ref: {
         value: "",
@@ -10499,8 +10496,7 @@ function Aff(props) {
         onChange: "aff_user_new_refChange",
         name: "aff_user_new_ref",
         type: "checkbox",
-        label: __("Send sms to user on new referral:", "farazsms"),
-        rules: "aff_user_new_refRules"
+        label: __("Send sms to user on new referral:", "farazsms")
       },
       aff_user_new_ref_pattern: {
         value: "",
@@ -10509,8 +10505,7 @@ function Aff(props) {
         onChange: "aff_user_new_ref_patternChange",
         name: "aff_user_new_ref_pattern",
         type: "text",
-        label: __("New referral SMS pattern code:", "farazsms"),
-        rules: "aff_user_new_ref_patternRules"
+        label: __("New referral SMS pattern code:", "farazsms")
       },
       aff_user_on_approval: {
         value: "",
@@ -10519,8 +10514,7 @@ function Aff(props) {
         onChange: "aff_user_on_approvalChange",
         name: "aff_user_on_approval",
         type: "checkbox",
-        label: __("Confirmation of the cooperation account in sales for user", "farazsms"),
-        rules: "aff_user_on_approvalRules"
+        label: __("Confirmation of the cooperation account in sales for user", "farazsms")
       },
       aff_user_on_approval_pattern: {
         value: "",
@@ -10529,8 +10523,7 @@ function Aff(props) {
         onChange: "aff_user_on_approval_patternChange",
         name: "aff_user_on_approval_pattern",
         type: "text",
-        label: __("Account confirmation pattern code for cooperation in sales", "farazsms"),
-        rules: "aff_user_on_approval_patternRules"
+        label: __("Account confirmation pattern code for cooperation in sales", "farazsms")
       },
       aff_admin_user_register: {
         value: "",
@@ -10540,7 +10533,6 @@ function Aff(props) {
         name: "aff_admin_user_register",
         type: "checkbox",
         label: __("Send sms to admin on registration:", "farazsms"),
-        rules: "aff_admin_user_registerRules",
         groupTitle: __("Admin settings:", "farazsms")
       },
       aff_admin_user_register_pattern: {
@@ -10550,8 +10542,7 @@ function Aff(props) {
         onChange: "aff_admin_user_register_patternChange",
         name: "aff_admin_user_register_pattern",
         type: "text",
-        label: __("User registration SMS pattern code:", "farazsms"),
-        rules: "aff_admin_user_register_patternRules"
+        label: __("User registration SMS pattern code:", "farazsms")
       },
       aff_admin_user_new_ref: {
         value: "",
@@ -10560,8 +10551,7 @@ function Aff(props) {
         onChange: "aff_admin_user_new_refChange",
         name: "aff_admin_user_new_ref",
         type: "checkbox",
-        label: __("Send sms to admin on new referral:", "farazsms"),
-        rules: "aff_admin_user_new_refRules"
+        label: __("Send sms to admin on new referral:", "farazsms")
       },
       aff_admin_user_new_ref_pattern: {
         value: "",
@@ -10570,8 +10560,7 @@ function Aff(props) {
         onChange: "aff_admin_user_new_ref_patternChange",
         name: "aff_admin_user_new_ref_pattern",
         type: "text",
-        label: __("New referral SMS pattern code:", "farazsms"),
-        rules: "aff_admin_user_new_ref_patternRules"
+        label: __("New referral SMS pattern code:", "farazsms")
       },
       aff_admin_user_on_approval: {
         value: "",
@@ -10580,8 +10569,7 @@ function Aff(props) {
         onChange: "aff_admin_user_on_approvalChange",
         name: "aff_admin_user_on_approval",
         type: "checkbox",
-        label: __("Confirmation of the cooperation account in sales for user", "farazsms"),
-        rules: "aff_admin_user_on_approvalRules"
+        label: __("Confirmation of the cooperation account in sales for user", "farazsms")
       },
       aff_admin_user_on_approval_pattern: {
         value: "",
@@ -10591,7 +10579,6 @@ function Aff(props) {
         name: "aff_admin_user_on_approval_pattern",
         type: "text",
         label: __("Account confirmation pattern code for cooperation in sales", "farazsms"),
-        rules: "aff_admin_user_on_approval_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("username %user_login% nickname %user_nickname% email %user_email% display name %display_name% mobile number %user_mobile% referral amount %amount%", "farazsms")
       }
@@ -10611,7 +10598,6 @@ function Aff(props) {
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
-        //Init state values by action.value
         draft.inputs.aff_user_mobile_field.value = action.value.aff_user_mobile_field;
         draft.inputs.aff_user_register.value = action.value.aff_user_register;
         draft.inputs.aff_user_register_pattern.value = action.value.aff_user_register_pattern;
@@ -10699,27 +10685,18 @@ function Aff(props) {
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
 
   /**
-   *
    * HandelSubmit function
    *
    * @since 2.0.0
    */
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map(input => {
-      dispatch({
-        type: input.rules,
-        value: input.value
-      });
-    });
     dispatch({
       type: "submitOptions"
     });
   }
 
   /**
-   *
    * Get Aff options from DB on Aff component loaded
    *
    * @since 2.0.0
@@ -10727,7 +10704,6 @@ function Aff(props) {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getOptions() {
       try {
-        // Use the AxiosWp object to call the /farazsms/v1/farazsms_aff_options
         const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/aff_options", {});
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
@@ -10755,13 +10731,6 @@ function Aff(props) {
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
-      /**
-       *
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       *
-       * @return Object with arrays.
-       */
       const optionsArray = Object.values(state.inputs).map(_ref => {
         let {
           value,
@@ -10804,10 +10773,6 @@ function Aff(props) {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getUsermeta() {
       try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_usermeta
-         * endpoint and retrieve the 10 latest posts.
-         */
         const getUsermeta = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/usermeta", {});
         const usermetaArrayObject = Object.keys(getUsermeta.data).map(key => ({
           value: getUsermeta.data[key].meta_key,
@@ -10826,7 +10791,6 @@ function Aff(props) {
   if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__["default"], null);
 
   /**
-   *
    * The Aff form created by mapping over originalState.
    * For every value on inputs rendered a SettingsFormInput.
    *
@@ -10850,11 +10814,7 @@ function Aff(props) {
           type: input.onChange,
           value: input.type === "checkbox" ? e.target.checked : e.target.value
         });
-      },
-      onBlur: e => dispatch({
-        type: input.rules,
-        value: e.target.value
-      })
+      }
     })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_7__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
       isSaving: state.isSaving
     }))));
@@ -10925,8 +10885,7 @@ function Comments() {
         onChange: "add_mobile_fieldChange",
         name: "add_mobile_field",
         type: "checkbox",
-        label: __("Add the mobile field to the comment submission form?", "farazsms"),
-        rules: "add_mobile_fieldRules"
+        label: __("Add the mobile field to the comment submission form?", "farazsms")
       },
       required_mobile_field: {
         value: "",
@@ -10936,7 +10895,6 @@ function Comments() {
         name: "required_mobile_field",
         type: "checkbox",
         label: __("Is the mobile number field in comments mandatory?", "farazsms"),
-        rules: "required_mobile_fieldRules",
         isDependencyUsed: false
       },
       comment_phonebook: {
@@ -10947,7 +10905,6 @@ function Comments() {
         name: "comment_phonebook",
         type: "select",
         label: __("Save the phone number in the phonebook?", "farazsms"),
-        rules: "comment_phonebookRules",
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
         isDependencyUsed: false
@@ -10960,7 +10917,6 @@ function Comments() {
         name: "comment_pattern",
         type: "text",
         label: __("Comment submit pattern code:", "farazsms"),
-        rules: "comment_patternRules",
         isDependencyUsed: false
       },
       approved_comment_pattern: {
@@ -10971,7 +10927,6 @@ function Comments() {
         name: "approved_comment_pattern",
         type: "text",
         label: __("Comment response pattern code:", "farazsms"),
-        rules: "approved_comment_patternRules",
         isDependencyUsed: false
       },
       notify_admin_for_comment: {
@@ -10981,8 +10936,7 @@ function Comments() {
         onChange: "notify_admin_for_commentChange",
         name: "notify_admin_for_comment",
         type: "checkbox",
-        label: __("Send notification SMS to admin when a comment add to site?", "farazsms"),
-        rules: "notify_admin_for_commentRules"
+        label: __("Send notification SMS to admin when a comment add to site?", "farazsms")
       },
       notify_admin_for_comment_pattern: {
         value: "",
@@ -10992,7 +10946,6 @@ function Comments() {
         name: "notify_admin_for_comment_pattern",
         type: "text",
         label: __("Admin pattern code:", "farazsms"),
-        rules: "notify_admin_for_comment_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("Post title: %title% Comment authors name: %name% Comment authors email: %email% Comment link: %link% Comment text: %content%", "farazsms"),
         isDependencyUsed: false
@@ -11096,13 +11049,6 @@ function Comments() {
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map(input => {
-      dispatch({
-        type: input.rules,
-        value: input.value
-      });
-    });
     dispatch({
       type: "submitOptions"
     });
@@ -11111,7 +11057,6 @@ function Comments() {
   /**
    * Get phonebooks.
    * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
-   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
    *
    * @since 2.0.0
    */
@@ -11149,7 +11094,6 @@ function Comments() {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getOptions() {
       try {
-        // Get Options from site DB Options table
         const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/comments_options");
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
@@ -11167,14 +11111,14 @@ function Comments() {
     }
     getOptions();
   }, []);
+
+  /**
+   * Post options to DB.
+   *
+   * @since 2.0.0
+   */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
-      /**
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       * @return Object with arrays.
-       */
-
       const optionsArray = Object.values(state.inputs).map(_ref2 => {
         let {
           value,
@@ -11232,11 +11176,7 @@ function Comments() {
         type: input.onChange,
         value: input.type === "checkbox" ? e.target.checked : e.target.value
       });
-    },
-    onBlur: e => dispatch({
-      type: input.rules,
-      value: e.target.value
-    })
+    }
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_6__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
     isSaving: state.isSaving
   }))));
@@ -11354,7 +11294,6 @@ function Edd(props) {
         name: "edd_phonebook",
         type: "select",
         label: __("Save the phone number in the phonebook?", "farazsms"),
-        rules: "edd_phonebookRules",
         options: [],
         noOptionsMessage: __("No options is available", "farazsms")
       },
@@ -11365,8 +11304,7 @@ function Edd(props) {
         onChange: "edd_send_to_userChange",
         name: "edd_send_to_user",
         type: "checkbox",
-        label: __("Send sms to the user?", "farazsms"),
-        rules: "edd_send_to_userRules"
+        label: __("Send sms to the user?", "farazsms")
       },
       edd_user_pattern: {
         value: "",
@@ -11376,7 +11314,6 @@ function Edd(props) {
         name: "edd_user_pattern",
         type: "text",
         label: __("SMS pattern code for the user:", "farazsms"),
-        rules: "edd_user_patternRules",
         isDependencyUsed: false
       },
       edd_send_to_admin: {
@@ -11386,8 +11323,7 @@ function Edd(props) {
         onChange: "edd_send_to_adminChange",
         name: "edd_send_to_admin",
         type: "checkbox",
-        label: __("Send sms to the admin?", "farazsms"),
-        rules: "edd_send_to_adminRules"
+        label: __("Send sms to the admin?", "farazsms")
       },
       edd_admin_pattern: {
         value: "",
@@ -11397,7 +11333,6 @@ function Edd(props) {
         name: "edd_admin_pattern",
         type: "text",
         label: __("SMS pattern code for the admin:", "farazsms"),
-        rules: "edd_admin_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("mobile number: %phone% | Email: %email% | Name: %first_name% | Last name: %last_name% | Purchased products: %product% | Total amount (not including discount): %price% | Total discount amount: %discount% | Paid amount (including discount): %total_price% | Direct download link (not encrypted): %link% | Order number: %payment_id%", "farazsms"),
         isDependencyUsed: false
@@ -11479,13 +11414,6 @@ function Edd(props) {
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map(input => {
-      dispatch({
-        type: input.rules,
-        value: input.value
-      });
-    });
     dispatch({
       type: "submitOptions"
     });
@@ -11494,7 +11422,6 @@ function Edd(props) {
   /**
    * Get phonebooks.
    * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
-   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
    *
    * @since 2.0.0
    */
@@ -11550,14 +11477,14 @@ function Edd(props) {
     }
     getOptions();
   }, []);
+
+  /**
+   * Post options to DB
+   *
+   * @since 2.0.0
+   */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
-      /**
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       * @return Object with arrays.
-       */
-
       const optionsArray = Object.values(state.inputs).map(_ref2 => {
         let {
           value,
@@ -11571,7 +11498,6 @@ function Edd(props) {
       });
       async function postOptions() {
         try {
-          // Post Options from site DB Options table
           const postOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/edd_options", optionsJsonForPost);
           dispatch({
             type: "saveRequestFinished"
@@ -11590,6 +11516,7 @@ function Edd(props) {
     }
   }, [state.sendCount]);
   if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__["default"], null);
+
   /**
    * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
@@ -11614,11 +11541,7 @@ function Edd(props) {
           type: input.onChange,
           value: input.type === "checkbox" ? e.target.checked : e.target.value
         });
-      },
-      onBlur: e => dispatch({
-        type: input.rules,
-        value: e.target.value
-      })
+      }
     })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_6__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
       isSaving: state.isSaving
     }))));
@@ -11772,8 +11695,6 @@ function GravityForms(props) {
   };
   function ourReduser(draft, action) {
     switch (action.type) {
-      case "fetchIntegrationsOptions":
-        return;
       case "fetchComplete":
         //Init state values by action.value
         if (props.integratedPlugins.gravityForms.use) {
@@ -11827,45 +11748,10 @@ function GravityForms(props) {
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map(input => {
-      dispatch({
-        type: input.rules,
-        value: input.value
-      });
-    });
     dispatch({
       type: "submitOptions"
     });
   }
-
-  /**
-   *
-   * Get integrations options from DB on integrations component loaded
-   *
-   * @since 2.0.0
-   */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getIntegrationsOptions() {
-      try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_integrations_options
-         * endpoint and retrieve the 10 latest posts.
-         */
-        const getIntegrationsOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/integrations_options", {});
-        if (getIntegrationsOptions.data) {
-          const optionsJson = JSON.parse(getIntegrationsOptions.data);
-          dispatch({
-            type: "fetchIntegrationsOptions",
-            value: optionsJson
-          });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getIntegrationsOptions();
-  }, []);
 
   /**
    * Get Gravity forms from /gf/v2/forms
@@ -11925,10 +11811,6 @@ function GravityForms(props) {
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function getOptions() {
       try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_phonebook_options
-         * endpoint and retrieve the 10 latest posts.
-         */
         const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/phonebook_options", {});
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
@@ -11954,7 +11836,6 @@ function GravityForms(props) {
   /**
    * Get phonebooks.
    * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
-   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
    *
    * @since 2.0.0
    */
@@ -11983,14 +11864,15 @@ function GravityForms(props) {
     }
     getPhonebooks();
   }, []);
+
+  /**
+   * Post options to DB
+   *
+   * @since 2.0.0
+   */
+
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
-      /**
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       * @return Object with arrays.
-       */
-
       const optionsArray = Object.values(state.inputs).map(_ref2 => {
         let {
           value,
@@ -12183,8 +12065,7 @@ function Integrations(props) {
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_9__.useImmerReducer)(ourReduser, originalState);
 
   /**
-   *
-   * HandelSubmit function
+   * HandelSubmit
    *
    * @since 2.0.0
    */
@@ -12196,18 +12077,12 @@ function Integrations(props) {
   }
 
   /**
-   *
-   * Save settings options on DB when saveRequestFinished = true
+   * Post options to DB
    *
    * @since 2.0.0
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (props.sendCount) {
-      /**
-       * Get options uses and set "name: use" in an array.
-       * Then Convert array to key: use pair for send Axios post request to DB.
-       * @return Object with arrays.
-       */
       const optionsArray = Object.values(props.integratedPlugins).map(_ref => {
         let {
           use,
@@ -12378,8 +12253,7 @@ function Settings() {
         onChange: "welcome_smsChange",
         name: "welcome_sms",
         type: "checkbox",
-        label: __("Send a welcome sms to the user?", "farazsms"),
-        rules: "welcome_smsRules"
+        label: __("Send a welcome sms to the user?", "farazsms")
       },
       welcome_sms_use_pattern: {
         value: "",
@@ -12389,7 +12263,6 @@ function Settings() {
         name: "welcome_sms_use_pattern",
         type: "checkbox",
         label: __("Send welcome sms via pattern?", "farazsms"),
-        rules: "welcome_sms_use_patternRules",
         isDependencyUsed: false
       },
       welcome_sms_pattern: {
@@ -12400,7 +12273,6 @@ function Settings() {
         name: "welcome_sms_pattern",
         type: "text",
         label: __("Welcome sms pattern code:", "farazsms"),
-        rules: "welcome_sms_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("%display_name% and %username%", "farazsms"),
         isDependencyUsed: false
@@ -12413,7 +12285,6 @@ function Settings() {
         name: "welcome_sms_msg",
         type: "textarea",
         label: __("welcome message:", "farazsms"),
-        rules: "welcome_sms_msgRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("%display_name% and %username%", "farazsms"),
         isDependencyUsed: false
@@ -12425,8 +12296,7 @@ function Settings() {
         onChange: "admin_login_notifyChange",
         name: "admin_login_notify",
         type: "checkbox",
-        label: __("Notify admin when a user from selected rule(s) Login to the site?", "farazsms"),
-        rules: "admin_login_notifyRules"
+        label: __("Notify admin when a user from selected rule(s) Login to the site?", "farazsms")
       },
       select_roles: {
         value: "",
@@ -12436,7 +12306,6 @@ function Settings() {
         name: "select_roles",
         type: "select",
         label: __("Select rule(s):", "farazsms"),
-        rules: "select_rolesRules",
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
         isDependencyUsed: false
@@ -12449,7 +12318,6 @@ function Settings() {
         name: "admin_login_notify_pattern",
         type: "text",
         label: __("Notify admin pattern code:", "farazsms"),
-        rules: "admin_login_notify_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("username %user_login% and user name %display_name% and login date %date%", "farazsms"),
         isDependencyUsed: false
@@ -12556,13 +12424,6 @@ function Settings() {
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map(input => {
-      dispatch({
-        type: input.rules,
-        value: input.value
-      });
-    });
     dispatch({
       type: "submitOptions"
     });
@@ -12676,11 +12537,7 @@ function Settings() {
         type: input.onChange,
         value: input.type === "checkbox" ? e.target.checked : e.target.value
       });
-    },
-    onBlur: e => dispatch({
-      type: input.rules,
-      value: e.target.value
-    })
+    }
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_6__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
     isSaving: state.isSaving
   }))));
@@ -12764,8 +12621,7 @@ function Membership(props) {
           name: "ihc_send_first_notify",
           type: "checkbox",
           label: __("Send the first SMS warning of membership expiration?", "farazsms"),
-          groupTitle: __("Ultimate Membership PRO plugin settings:", "farazsms"),
-          rules: "ihc_send_first_notifyRules"
+          groupTitle: __("Ultimate Membership PRO plugin settings:", "farazsms")
         },
         ihc_send_second_notify: {
           value: "",
@@ -12774,8 +12630,7 @@ function Membership(props) {
           onChange: "ihc_send_second_notifyChange",
           name: "ihc_send_second_notify",
           type: "checkbox",
-          label: __("Send the second SMS warning of membership expiration?", "farazsms"),
-          rules: "ihc_send_second_notifyRules"
+          label: __("Send the second SMS warning of membership expiration?", "farazsms")
         },
         ihc_send_third_notify: {
           value: "",
@@ -12784,8 +12639,7 @@ function Membership(props) {
           onChange: "ihc_send_third_notifyChange",
           name: "ihc_send_third_notify",
           type: "checkbox",
-          label: __("Send the third SMS warning of membership expiration?", "farazsms"),
-          rules: "ihc_send_third_notifyRules"
+          label: __("Send the third SMS warning of membership expiration?", "farazsms")
         },
         ihc_first_notify_msg: {
           value: "",
@@ -12795,7 +12649,6 @@ function Membership(props) {
           name: "ihc_first_notify_msg",
           type: "textarea",
           label: __("Membership expiration warning SMS text:", "farazsms"),
-          rules: "ihc_first_notify_msgRules",
           infoTitle: __("Usable variables:", "farazsms"),
           infoBody: __("username %name% | time remaining (to day) %time%", "farazsms")
         }
@@ -12809,7 +12662,6 @@ function Membership(props) {
           name: "pmp_send_expire_notify",
           type: "checkbox",
           label: __("Send SMS membership expiration?", "farazsms"),
-          rules: "pmp_send_expire_notifyRules",
           groupTitle: __("Paid Membership PRO plugin settings:", "farazsms")
         },
         pmp_expire_notify_msg: {
@@ -12820,7 +12672,6 @@ function Membership(props) {
           name: "pmp_expire_notify_msg",
           type: "textarea",
           label: __("The text of the membership expiration SMS:", "farazsms"),
-          rules: "pmp_expire_notify_msgRules",
           infoTitle: __("Usable variables:", "farazsms"),
           infoBody: __("username %display_name%", "farazsms")
         }
@@ -12895,27 +12746,18 @@ function Membership(props) {
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
 
   /**
-   *
-   * HandelSubmit function
+   * HandelSubmit
    *
    * @since 2.0.0
    */
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map(input => {
-      dispatch({
-        type: input.rules,
-        value: input.value
-      });
-    });
     dispatch({
       type: "submitOptions"
     });
   }
 
   /**
-   *
    * Get Aff options from DB on Aff component loaded
    *
    * @since 2.0.0
@@ -12944,20 +12786,12 @@ function Membership(props) {
   }, []);
 
   /**
-   *
-   * Save Aff options on DB when saveRequestFinished = true
+   * Post Aff options to DB
    *
    * @since 2.0.0
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
-      /**
-       *
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       *
-       * @return Object with arrays.
-       */
       const optionsArray = Object.values(state.inputs).map(_ref => {
         let {
           value,
@@ -12992,8 +12826,8 @@ function Membership(props) {
     }
   }, [state.sendCount]);
   if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__["default"], null);
+
   /**
-   *
    * The Membership form created by mapping over originalState.
    * For every value on inputs rendered a SettingsFormInput.
    *
@@ -13021,11 +12855,7 @@ function Membership(props) {
         type: input.onChange,
         value: input.type === "checkbox" ? e.target.checked : e.target.value
       });
-    },
-    onBlur: e => dispatch({
-      type: input.rules,
-      value: e.target.value
-    })
+    }
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_7__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
     isSaving: state.isSaving
   }))));
@@ -13094,7 +12924,6 @@ function Newsletter() {
         name: "news_phonebook",
         type: "select",
         label: __("Select phone book for newsletter", "farazsms"),
-        rules: "news_phonebookRules",
         options: [],
         noOptionsMessage: __("No options is available", "farazsms")
       },
@@ -13105,8 +12934,7 @@ function Newsletter() {
         onChange: "news_send_verify_via_patternChange",
         name: "news_send_verify_via_pattern",
         type: "checkbox",
-        label: __("Confirm subscription by sending verification code?", "farazsms"),
-        rules: "news_send_verify_via_patternRules"
+        label: __("Confirm subscription by sending verification code?", "farazsms")
       },
       news_send_verify_pattern: {
         value: "",
@@ -13116,7 +12944,6 @@ function Newsletter() {
         name: "news_send_verify_pattern",
         type: "text",
         label: __("Newsletter membership verification pattern code:", "farazsms"),
-        rules: "news_send_verify_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("%name% and confirmation code: %code%", "farazsms"),
         isDependencyUsed: false
@@ -13128,8 +12955,7 @@ function Newsletter() {
         onChange: "news_welcomeChange",
         name: "news_welcome",
         type: "checkbox",
-        label: __("Welcome SMS to subscriber of the newsletter?", "farazsms"),
-        rules: "news_welcomeRules"
+        label: __("Welcome SMS to subscriber of the newsletter?", "farazsms")
       },
       news_welcome_pattern: {
         value: "",
@@ -13139,7 +12965,6 @@ function Newsletter() {
         name: "news_welcome_pattern",
         type: "text",
         label: __("Welcome SMS pattern code", "farazsms"),
-        rules: "news_welcome_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("%name%", "farazsms"),
         isDependencyUsed: false
@@ -13151,8 +12976,7 @@ function Newsletter() {
         onChange: "news_post_notifyChange",
         name: "news_post_notify",
         type: "checkbox",
-        label: __("Send new posts to newsletter members?", "farazsms"),
-        rules: "news_post_notifyRules"
+        label: __("Send new posts to newsletter members?", "farazsms")
       },
       news_post_notify_msg: {
         value: "",
@@ -13162,7 +12986,6 @@ function Newsletter() {
         name: "news_post_notify_msg",
         type: "textarea",
         label: __("Message content for new post", "farazsms"),
-        rules: "news_post_notify_msgRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("the title of the article %title% and the address of the article %url%", "farazsms"),
         isDependencyUsed: false
@@ -13174,8 +12997,7 @@ function Newsletter() {
         onChange: "news_product_notifyChange",
         name: "news_product_notify",
         type: "checkbox",
-        label: __("Send new product to newsletter members?", "farazsms"),
-        rules: "news_product_notifyRules"
+        label: __("Send new product to newsletter members?", "farazsms")
       },
       news_product_notify_msg: {
         value: "",
@@ -13185,7 +13007,6 @@ function Newsletter() {
         name: "news_product_notify_msg",
         type: "textarea",
         label: __("Message content for new product", "farazsms"),
-        rules: "news_product_notify_msgRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("site title %site_title% product name %product_name% price %price% and product link %url%", "farazsms"),
         isDependencyUsed: false
@@ -13328,20 +13149,12 @@ function Newsletter() {
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
 
   /**
-   *
-   * HandelSubmit function
+   * HandelSubmit
    *
    * @since 2.0.0
    */
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map(input => {
-      dispatch({
-        type: input.rules,
-        value: input.value
-      });
-    });
     dispatch({
       type: "submitOptions"
     });
@@ -13350,7 +13163,6 @@ function Newsletter() {
   /**
    * Get phonebooks.
    * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
-   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
    *
    * @since 2.0.0
    */
@@ -13407,6 +13219,10 @@ function Newsletter() {
     }
     getOptions();
   }, []);
+
+  /**
+   * Get subscribers list from DB
+   */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     async function get_subscribers_from_db() {
       try {
@@ -13425,13 +13241,12 @@ function Newsletter() {
     }
     get_subscribers_from_db();
   }, [[], state.currentSubscribers]);
+
+  /**
+   * Post options to DB
+   */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
-      /**
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       * @return Object with arrays.
-       */
       const optionsArray = Object.values(state.inputs).map(_ref2 => {
         let {
           value,
@@ -13466,6 +13281,13 @@ function Newsletter() {
   const {
     confirm
   } = (0,_hooks_useConfirm__WEBPACK_IMPORTED_MODULE_3__["default"])();
+
+  /**
+   * Delete Subscriber from DB.
+   * @param subscriber
+   * @returns {Promise<void>}
+   */
+
   const deleteSubscriber = async subscriber => {
     const isConfirmed = await confirm(__("Do you want to delete that subscriber?", "farazsms"));
     if (isConfirmed) {
@@ -13527,11 +13349,7 @@ function Newsletter() {
         type: input.onChange,
         value: input.type === "checkbox" ? e.target.checked : e.target.value
       });
-    },
-    onBlur: e => dispatch({
-      type: input.rules,
-      value: e.target.value
-    })
+    }
   })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_7__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
     isSaving: state.isSaving
   }))), state.newsletterSubscribers && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
@@ -13751,13 +13569,6 @@ function Phonebook(props) {
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map(input => {
-      dispatch({
-        type: input.rules,
-        value: input.value
-      });
-    });
     dispatch({
       type: "submitOptions"
     });
@@ -13852,7 +13663,7 @@ function Phonebook(props) {
   }, []);
 
   /**
-   * Post options to DB rest routes
+   * Post options to DB
    *
    * @since 2.0.0
    */
@@ -14078,7 +13889,6 @@ function Settings() {
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
-        //Init state values by action.value
         draft.inputs.apikey.value = action.value.apikey;
         draft.inputs.username.value = action.value.username;
         draft.inputs.password.value = action.value.password;
@@ -14152,9 +13962,7 @@ function Settings() {
         draft.inputs.from_number_adver.value = action.value;
         return;
       case "submitOptions":
-        if (
-        //Check is any input hasErrors, and prevent form submit on that case.
-        !draft.inputs.apikey.hasErrors && !draft.inputs.username.hasErrors && !draft.inputs.password.hasErrors && !draft.inputs.admin_number.hasErrors && !draft.inputs.from_number.hasErrors) {
+        if (!draft.inputs.apikey.hasErrors && !draft.inputs.username.hasErrors && !draft.inputs.password.hasErrors && !draft.inputs.admin_number.hasErrors && !draft.inputs.from_number.hasErrors) {
           draft.sendCount++;
         }
         return;
@@ -14164,7 +13972,6 @@ function Settings() {
       case "saveRequestFininshed":
         draft.isSaving = false;
         return;
-      //Input Rules and logic validations, and set errorMessages.
       case "apikeyRules":
         if (!action.value.trim()) {
           draft.inputs.apikey.hasErrors = true;
@@ -14203,8 +14010,7 @@ function Settings() {
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
 
   /**
-   *
-   * HandelSubmit function
+   * HandelSubmit
    *
    * @since 2.0.0
    */
@@ -14223,7 +14029,6 @@ function Settings() {
   }
 
   /**
-   *
    * Get settings options from DB on settings component loaded
    *
    * @since 2.0.0
@@ -14254,18 +14059,12 @@ function Settings() {
   }, []);
 
   /**
-   *
-   * Save settings options on DB when saveRequestFininshed = true
+   * Post options to DB
    *
    * @since 2.0.0
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
-      /**
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       * @return Object with arrays.
-       */
       const optsionsArray = Object.values(state.inputs).map(_ref => {
         let {
           value,
@@ -14299,7 +14098,6 @@ function Settings() {
   }, [state.sendCount]);
 
   /**
-   *
    * Validate Apikey, check if the Apikey is existing on Ippanel.
    *
    * @since 2.0.0
@@ -14312,12 +14110,6 @@ function Settings() {
       return () => clearTimeout(delay);
     }
   }, [state.inputs.apikey.value]);
-
-  /**
-   * Validate apikey.
-   *
-   * @since 2.0.0
-   */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.inputs.apikey.checkCount) {
       async function validateApikey() {
@@ -14381,8 +14173,7 @@ function Settings() {
   }, [state.inputs.username.checkCount]);
 
   /**
-   *
-   * init admin_numberAfterDelay on admin_number.value
+   * Init admin_numberAfterDelay on admin_number.value
    *
    * @since 2.0.0
    */
@@ -14589,7 +14380,6 @@ function Synchronization(props) {
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_7__.useImmerReducer)(ourReduser, originalState);
 
   /**
-   *
    * Check is phonebooks exist from DB on settings component loaded
    *
    * @since 2.0.0
@@ -14839,8 +14629,7 @@ function Woocommerce(props) {
         onChange: "woo_checkout_otpChange",
         name: "woo_checkout_otp",
         type: "checkbox",
-        label: __("Mobile number verification on the account checkout page?", "farazsms"),
-        rules: "woo_checkout_otpRules"
+        label: __("Mobile number verification on the account checkout page?", "farazsms")
       },
       woo_checkout_otp_pattern: {
         value: "",
@@ -14850,7 +14639,6 @@ function Woocommerce(props) {
         name: "woo_checkout_otp_pattern",
         type: "text",
         label: __("Mobile number verification pattern code:", "farazsms"),
-        rules: "woo_checkout_otp_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("The verification code variable is %code%", "farazsms"),
         isDependencyUsed: false
@@ -14862,8 +14650,7 @@ function Woocommerce(props) {
         onChange: "woo_pollChange",
         name: "woo_poll",
         type: "checkbox",
-        label: __("Sending a timed survey SMS for WooCommerce?", "farazsms"),
-        rules: "woo_pollRules"
+        label: __("Sending a timed survey SMS for WooCommerce?", "farazsms")
       },
       woo_poll_time: {
         value: "",
@@ -14873,7 +14660,6 @@ function Woocommerce(props) {
         name: "woo_poll_time",
         type: "text",
         label: __("Days of sending SMS after placing the order:", "farazsms"),
-        rules: "woo_poll_timeRules",
         isDependencyUsed: false
       },
       woo_poll_msg: {
@@ -14884,7 +14670,6 @@ function Woocommerce(props) {
         name: "woo_poll_msg",
         type: "textarea",
         label: __("message content:", "farazsms"),
-        rules: "woo_poll_msgRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("time %time% | store name %sitename% | product name %item% | product link %item_link%", "farazsms"),
         isDependencyUsed: false
@@ -14897,7 +14682,6 @@ function Woocommerce(props) {
         name: "woo_tracking_pattern",
         type: "text",
         label: __("Pattern code to send tracking code:", "farazsms"),
-        rules: "woo_tracking_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("tracking code %tracking_code% (required) | order number %order_id% | order status %order_status% | full name in billing address %billing_full_name% | full name in shipping address %shipping_full_name%", "farazsms")
       }
@@ -14984,13 +14768,6 @@ function Woocommerce(props) {
   const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map(input => {
-      dispatch({
-        type: input.rules,
-        value: input.value
-      });
-    });
     dispatch({
       type: "submitOptions"
     });
@@ -15083,11 +14860,7 @@ function Woocommerce(props) {
           type: input.onChange,
           value: input.type === "checkbox" ? e.target.checked : e.target.value
         });
-      },
-      onBlur: e => dispatch({
-        type: input.rules,
-        value: e.target.value
-      })
+      }
     })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_6__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
       isSaving: state.isSaving
     }))));

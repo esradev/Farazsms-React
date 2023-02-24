@@ -37,7 +37,6 @@ function Comments() {
           "Add the mobile field to the comment submission form?",
           "farazsms"
         ),
-        rules: "add_mobile_fieldRules",
       },
       required_mobile_field: {
         value: "",
@@ -50,7 +49,6 @@ function Comments() {
           "Is the mobile number field in comments mandatory?",
           "farazsms"
         ),
-        rules: "required_mobile_fieldRules",
         isDependencyUsed: false,
       },
       comment_phonebook: {
@@ -61,7 +59,6 @@ function Comments() {
         name: "comment_phonebook",
         type: "select",
         label: __("Save the phone number in the phonebook?", "farazsms"),
-        rules: "comment_phonebookRules",
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
         isDependencyUsed: false,
@@ -74,7 +71,6 @@ function Comments() {
         name: "comment_pattern",
         type: "text",
         label: __("Comment submit pattern code:", "farazsms"),
-        rules: "comment_patternRules",
         isDependencyUsed: false,
       },
       approved_comment_pattern: {
@@ -85,7 +81,6 @@ function Comments() {
         name: "approved_comment_pattern",
         type: "text",
         label: __("Comment response pattern code:", "farazsms"),
-        rules: "approved_comment_patternRules",
         isDependencyUsed: false,
       },
       notify_admin_for_comment: {
@@ -99,7 +94,6 @@ function Comments() {
           "Send notification SMS to admin when a comment add to site?",
           "farazsms"
         ),
-        rules: "notify_admin_for_commentRules",
       },
       notify_admin_for_comment_pattern: {
         value: "",
@@ -109,7 +103,6 @@ function Comments() {
         name: "notify_admin_for_comment_pattern",
         type: "text",
         label: __("Admin pattern code:", "farazsms"),
-        rules: "notify_admin_for_comment_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
           "Post title: %title% Comment authors name: %name% Comment authors email: %email% Comment link: %link% Comment text: %content%",
@@ -225,18 +218,12 @@ function Comments() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map((input) => {
-      dispatch({ type: input.rules, value: input.value });
-    });
-
     dispatch({ type: "submitOptions" });
   }
 
   /**
    * Get phonebooks.
    * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
-   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
    *
    * @since 2.0.0
    */
@@ -269,7 +256,6 @@ function Comments() {
   useEffect(() => {
     async function getOptions() {
       try {
-        // Get Options from site DB Options table
         const getOptions = await AxiosWp.get("/farazsms/v1/comments_options");
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
@@ -284,14 +270,13 @@ function Comments() {
     getOptions();
   }, []);
 
+  /**
+   * Post options to DB.
+   *
+   * @since 2.0.0
+   */
   useEffect(() => {
     if (state.sendCount) {
-      /**
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       * @return Object with arrays.
-       */
-
       const optionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
@@ -367,9 +352,6 @@ function Comments() {
                                 : e.target.value,
                           });
                         }
-                  }
-                  onBlur={(e) =>
-                    dispatch({ type: input.rules, value: e.target.value })
                   }
                 />
                 <FormInputError />

@@ -34,7 +34,6 @@ function Woocommerce(props) {
           "Mobile number verification on the account checkout page?",
           "farazsms"
         ),
-        rules: "woo_checkout_otpRules",
       },
       woo_checkout_otp_pattern: {
         value: "",
@@ -44,7 +43,6 @@ function Woocommerce(props) {
         name: "woo_checkout_otp_pattern",
         type: "text",
         label: __("Mobile number verification pattern code:", "farazsms"),
-        rules: "woo_checkout_otp_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("The verification code variable is %code%", "farazsms"),
         isDependencyUsed: false,
@@ -57,7 +55,6 @@ function Woocommerce(props) {
         name: "woo_poll",
         type: "checkbox",
         label: __("Sending a timed survey SMS for WooCommerce?", "farazsms"),
-        rules: "woo_pollRules",
       },
       woo_poll_time: {
         value: "",
@@ -67,7 +64,6 @@ function Woocommerce(props) {
         name: "woo_poll_time",
         type: "text",
         label: __("Days of sending SMS after placing the order:", "farazsms"),
-        rules: "woo_poll_timeRules",
         isDependencyUsed: false,
       },
       woo_poll_msg: {
@@ -78,7 +74,6 @@ function Woocommerce(props) {
         name: "woo_poll_msg",
         type: "textarea",
         label: __("message content:", "farazsms"),
-        rules: "woo_poll_msgRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
           "time %time% | store name %sitename% | product name %item% | product link %item_link%",
@@ -94,7 +89,6 @@ function Woocommerce(props) {
         name: "woo_tracking_pattern",
         type: "text",
         label: __("Pattern code to send tracking code:", "farazsms"),
-        rules: "woo_tracking_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
           "tracking code %tracking_code% (required) | order number %order_id% | order status %order_status% | full name in billing address %billing_full_name% | full name in shipping address %shipping_full_name%",
@@ -192,11 +186,6 @@ function Woocommerce(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map((input) => {
-      dispatch({ type: input.rules, value: input.value });
-    });
-
     dispatch({ type: "submitOptions" });
   }
 
@@ -298,9 +287,6 @@ function Woocommerce(props) {
                             : e.target.value,
                       });
                     }}
-                    onBlur={(e) =>
-                      dispatch({ type: input.rules, value: e.target.value })
-                    }
                   />
                   <FormInputError />
                 </div>

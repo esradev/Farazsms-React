@@ -35,7 +35,6 @@ function Newsletter() {
         name: "news_phonebook",
         type: "select",
         label: __("Select phone book for newsletter", "farazsms"),
-        rules: "news_phonebookRules",
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
       },
@@ -50,7 +49,6 @@ function Newsletter() {
           "Confirm subscription by sending verification code?",
           "farazsms"
         ),
-        rules: "news_send_verify_via_patternRules",
       },
       news_send_verify_pattern: {
         value: "",
@@ -63,7 +61,6 @@ function Newsletter() {
           "Newsletter membership verification pattern code:",
           "farazsms"
         ),
-        rules: "news_send_verify_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("%name% and confirmation code: %code%", "farazsms"),
         isDependencyUsed: false,
@@ -76,7 +73,6 @@ function Newsletter() {
         name: "news_welcome",
         type: "checkbox",
         label: __("Welcome SMS to subscriber of the newsletter?", "farazsms"),
-        rules: "news_welcomeRules",
       },
       news_welcome_pattern: {
         value: "",
@@ -86,7 +82,6 @@ function Newsletter() {
         name: "news_welcome_pattern",
         type: "text",
         label: __("Welcome SMS pattern code", "farazsms"),
-        rules: "news_welcome_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("%name%", "farazsms"),
         isDependencyUsed: false,
@@ -99,7 +94,6 @@ function Newsletter() {
         name: "news_post_notify",
         type: "checkbox",
         label: __("Send new posts to newsletter members?", "farazsms"),
-        rules: "news_post_notifyRules",
       },
       news_post_notify_msg: {
         value: "",
@@ -109,7 +103,6 @@ function Newsletter() {
         name: "news_post_notify_msg",
         type: "textarea",
         label: __("Message content for new post", "farazsms"),
-        rules: "news_post_notify_msgRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
           "the title of the article %title% and the address of the article %url%",
@@ -125,7 +118,6 @@ function Newsletter() {
         name: "news_product_notify",
         type: "checkbox",
         label: __("Send new product to newsletter members?", "farazsms"),
-        rules: "news_product_notifyRules",
       },
       news_product_notify_msg: {
         value: "",
@@ -135,7 +127,6 @@ function Newsletter() {
         name: "news_product_notify_msg",
         type: "textarea",
         label: __("Message content for new product", "farazsms"),
-        rules: "news_product_notify_msgRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
           "site title %site_title% product name %product_name% price %price% and product link %url%",
@@ -308,25 +299,18 @@ function Newsletter() {
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
 
   /**
-   *
-   * HandelSubmit function
+   * HandelSubmit
    *
    * @since 2.0.0
    */
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map((input) => {
-      dispatch({ type: input.rules, value: input.value });
-    });
-
     dispatch({ type: "submitOptions" });
   }
 
   /**
    * Get phonebooks.
    * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
-   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
    *
    * @since 2.0.0
    */
@@ -374,6 +358,9 @@ function Newsletter() {
     getOptions();
   }, []);
 
+  /**
+   * Get subscribers list from DB
+   */
   useEffect(() => {
     async function get_subscribers_from_db() {
       try {
@@ -395,13 +382,11 @@ function Newsletter() {
     get_subscribers_from_db();
   }, [[], state.currentSubscribers]);
 
+  /**
+   * Post options to DB
+   */
   useEffect(() => {
     if (state.sendCount) {
-      /**
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       * @return Object with arrays.
-       */
       const optionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
@@ -435,6 +420,12 @@ function Newsletter() {
   }, [state.sendCount]);
 
   const { confirm } = useConfirm();
+
+  /**
+   * Delete Subscriber from DB.
+   * @param subscriber
+   * @returns {Promise<void>}
+   */
 
   const deleteSubscriber = async (subscriber) => {
     const isConfirmed = await confirm(
@@ -518,9 +509,6 @@ function Newsletter() {
                                 : e.target.value,
                           });
                         }
-                  }
-                  onBlur={(e) =>
-                    dispatch({ type: input.rules, value: e.target.value })
                   }
                 />
                 <FormInputError />

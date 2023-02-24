@@ -86,7 +86,6 @@ function Synchronization(props) {
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
 
   /**
-   *
    * Check is phonebooks exist from DB on settings component loaded
    *
    * @since 2.0.0

@@ -35,7 +35,6 @@ function Edd(props) {
         name: "edd_phonebook",
         type: "select",
         label: __("Save the phone number in the phonebook?", "farazsms"),
-        rules: "edd_phonebookRules",
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
       },
@@ -47,7 +46,6 @@ function Edd(props) {
         name: "edd_send_to_user",
         type: "checkbox",
         label: __("Send sms to the user?", "farazsms"),
-        rules: "edd_send_to_userRules",
       },
       edd_user_pattern: {
         value: "",
@@ -57,7 +55,6 @@ function Edd(props) {
         name: "edd_user_pattern",
         type: "text",
         label: __("SMS pattern code for the user:", "farazsms"),
-        rules: "edd_user_patternRules",
         isDependencyUsed: false,
       },
       edd_send_to_admin: {
@@ -68,7 +65,6 @@ function Edd(props) {
         name: "edd_send_to_admin",
         type: "checkbox",
         label: __("Send sms to the admin?", "farazsms"),
-        rules: "edd_send_to_adminRules",
       },
       edd_admin_pattern: {
         value: "",
@@ -78,7 +74,6 @@ function Edd(props) {
         name: "edd_admin_pattern",
         type: "text",
         label: __("SMS pattern code for the admin:", "farazsms"),
-        rules: "edd_admin_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
           "mobile number: %phone% | Email: %email% | Name: %first_name% | Last name: %last_name% | Purchased products: %product% | Total amount (not including discount): %price% | Total discount amount: %discount% | Paid amount (including discount): %total_price% | Direct download link (not encrypted): %link% | Order number: %payment_id%",
@@ -169,18 +164,12 @@ function Edd(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map((input) => {
-      dispatch({ type: input.rules, value: input.value });
-    });
-
     dispatch({ type: "submitOptions" });
   }
 
   /**
    * Get phonebooks.
    * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
-   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
    *
    * @since 2.0.0
    */
@@ -226,14 +215,13 @@ function Edd(props) {
     getOptions();
   }, []);
 
+  /**
+   * Post options to DB
+   *
+   * @since 2.0.0
+   */
   useEffect(() => {
     if (state.sendCount) {
-      /**
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       * @return Object with arrays.
-       */
-
       const optionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
@@ -242,7 +230,6 @@ function Edd(props) {
       dispatch({ type: "saveRequestStarted" });
       async function postOptions() {
         try {
-          // Post Options from site DB Options table
           const postOptions = await AxiosWp.post(
             "/farazsms/v1/edd_options",
             optionsJsonForPost
@@ -266,6 +253,7 @@ function Edd(props) {
   }, [state.sendCount]);
 
   if (state.isFetching) return <LoadingSpinner />;
+
   /**
    * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
@@ -302,9 +290,6 @@ function Edd(props) {
                             : e.target.value,
                       });
                     }}
-                    onBlur={(e) =>
-                      dispatch({ type: input.rules, value: e.target.value })
-                    }
                   />
                   <FormInputError />
                 </div>

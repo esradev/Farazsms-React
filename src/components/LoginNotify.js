@@ -34,7 +34,6 @@ function Settings() {
         name: "welcome_sms",
         type: "checkbox",
         label: __("Send a welcome sms to the user?", "farazsms"),
-        rules: "welcome_smsRules",
       },
       welcome_sms_use_pattern: {
         value: "",
@@ -44,7 +43,6 @@ function Settings() {
         name: "welcome_sms_use_pattern",
         type: "checkbox",
         label: __("Send welcome sms via pattern?", "farazsms"),
-        rules: "welcome_sms_use_patternRules",
         isDependencyUsed: false,
       },
       welcome_sms_pattern: {
@@ -55,7 +53,6 @@ function Settings() {
         name: "welcome_sms_pattern",
         type: "text",
         label: __("Welcome sms pattern code:", "farazsms"),
-        rules: "welcome_sms_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("%display_name% and %username%", "farazsms"),
         isDependencyUsed: false,
@@ -68,7 +65,6 @@ function Settings() {
         name: "welcome_sms_msg",
         type: "textarea",
         label: __("welcome message:", "farazsms"),
-        rules: "welcome_sms_msgRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("%display_name% and %username%", "farazsms"),
         isDependencyUsed: false,
@@ -84,7 +80,6 @@ function Settings() {
           "Notify admin when a user from selected rule(s) Login to the site?",
           "farazsms"
         ),
-        rules: "admin_login_notifyRules",
       },
       select_roles: {
         value: "",
@@ -94,7 +89,6 @@ function Settings() {
         name: "select_roles",
         type: "select",
         label: __("Select rule(s):", "farazsms"),
-        rules: "select_rolesRules",
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
         isDependencyUsed: false,
@@ -107,7 +101,6 @@ function Settings() {
         name: "admin_login_notify_pattern",
         type: "text",
         label: __("Notify admin pattern code:", "farazsms"),
-        rules: "admin_login_notify_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
           "username %user_login% and user name %display_name% and login date %date%",
@@ -233,10 +226,6 @@ function Settings() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map((input) => {
-      dispatch({ type: input.rules, value: input.value });
-    });
     dispatch({ type: "submitOptions" });
   }
 
@@ -363,9 +352,6 @@ function Settings() {
                                 : e.target.value,
                           });
                         }
-                  }
-                  onBlur={(e) =>
-                    dispatch({ type: input.rules, value: e.target.value })
                   }
                 />
                 <FormInputError />

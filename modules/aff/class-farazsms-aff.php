@@ -60,7 +60,7 @@ class Farazsms_Aff {
 	public function __construct() {
 		$aff_options = json_decode( get_option( 'farazsms_aff_options' ), true );
 		if ( $aff_options ) {
-			self::$aff_user_mobile_field              = current( array_column( $aff_options['aff_user_mobile_field'], 'value' ) );
+			self::$aff_user_mobile_field              = $aff_options['aff_user_mobile_field']['value'] ?? '';
 			self::$aff_user_register                  = $aff_options['aff_user_register'];
 			self::$aff_user_register_pattern          = $aff_options['aff_user_register_pattern'];
 			self::$aff_user_new_ref                   = $aff_options['aff_user_new_ref'];
@@ -334,10 +334,10 @@ class Farazsms_Aff {
 		}
 
 		if ( empty( $mobile ) && ! empty( self::$aff_user_mobile_field ) ) {
-				$mobile = get_user_meta( $user_id, self::$aff_user_mobile_field, true );
-				if ( ! empty( $mobile ) && Farazsms_Base::validate_mobile_number( $mobile ) ) {
-					return;
-				}
+			$mobile = get_user_meta( $user_id, self::$aff_user_mobile_field, true );
+			if ( ! empty( $mobile ) && Farazsms_Base::validate_mobile_number( $mobile ) ) {
+				return;
+			}
 		}
 		if ( empty( $mobile ) ) {
 			return;
@@ -350,7 +350,7 @@ class Farazsms_Aff {
 			}
 		}
 		if ( self::$aff_admin_user_new_ref == 'true' ) {
-			$admin_mobile                   = Farazsms_Base::$admin_number;
+			$admin_mobile = Farazsms_Base::$admin_number;
 			if ( ! empty( self::$aff_admin_user_new_ref_pattern ) && ! empty( $admin_mobile ) ) {
 				$this->affs_send_sms( $admin_mobile, self::$aff_admin_user_new_ref_pattern, $data );
 			}

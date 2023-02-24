@@ -121,7 +121,6 @@ function Settings() {
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
-        //Init state values by action.value
         draft.inputs.apikey.value = action.value.apikey;
         draft.inputs.username.value = action.value.username;
         draft.inputs.password.value = action.value.password;
@@ -217,7 +216,6 @@ function Settings() {
 
       case "submitOptions":
         if (
-          //Check is any input hasErrors, and prevent form submit on that case.
           !draft.inputs.apikey.hasErrors &&
           !draft.inputs.username.hasErrors &&
           !draft.inputs.password.hasErrors &&
@@ -233,7 +231,6 @@ function Settings() {
       case "saveRequestFininshed":
         draft.isSaving = false;
         return;
-      //Input Rules and logic validations, and set errorMessages.
       case "apikeyRules":
         if (!action.value.trim()) {
           draft.inputs.apikey.hasErrors = true;
@@ -288,8 +285,7 @@ function Settings() {
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
 
   /**
-   *
-   * HandelSubmit function
+   * HandelSubmit
    *
    * @since 2.0.0
    */
@@ -304,7 +300,6 @@ function Settings() {
   }
 
   /**
-   *
    * Get settings options from DB on settings component loaded
    *
    * @since 2.0.0
@@ -334,18 +329,12 @@ function Settings() {
   }, []);
 
   /**
-   *
-   * Save settings options on DB when saveRequestFininshed = true
+   * Post options to DB
    *
    * @since 2.0.0
    */
   useEffect(() => {
     if (state.sendCount) {
-      /**
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       * @return Object with arrays.
-       */
       const optsionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
@@ -380,7 +369,6 @@ function Settings() {
   }, [state.sendCount]);
 
   /**
-   *
    * Validate Apikey, check if the Apikey is existing on Ippanel.
    *
    * @since 2.0.0
@@ -395,11 +383,6 @@ function Settings() {
     }
   }, [state.inputs.apikey.value]);
 
-  /**
-   * Validate apikey.
-   *
-   * @since 2.0.0
-   */
   useEffect(() => {
     if (state.inputs.apikey.checkCount) {
       async function validateApikey() {
@@ -465,8 +448,7 @@ function Settings() {
   }, [state.inputs.username.checkCount]);
 
   /**
-   *
-   * init admin_numberAfterDelay on admin_number.value
+   * Init admin_numberAfterDelay on admin_number.value
    *
    * @since 2.0.0
    */

@@ -172,10 +172,6 @@ function Phonebook(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map((input) => {
-      dispatch({ type: input.rules, value: input.value });
-    });
 
     dispatch({ type: "submitOptions" });
   }
@@ -263,7 +259,7 @@ function Phonebook(props) {
   }, []);
 
   /**
-   * Post options to DB rest routes
+   * Post options to DB
    *
    * @since 2.0.0
    */

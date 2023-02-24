@@ -56,7 +56,7 @@ class Farazsms_Newsletter {
 		add_shortcode( 'farazsms', [ $this, 'farazsms_newsletter' ] );
 		$newsletter_options = json_decode( get_option( 'farazsms_newsletter_options' ), true );
 		if ( $newsletter_options ) {
-			self::$news_phonebook_id            = current( array_column( $newsletter_options['news_phonebook'], 'value' ) );
+			self::$news_phonebook_id            = $newsletter_options['news_phonebook']['value'] ?? '';
 			self::$news_welcome                 = $newsletter_options['news_welcome'];
 			self::$news_welcome_pattern         = $newsletter_options['news_welcome_pattern'];
 			self::$news_send_verify_via_pattern = $newsletter_options['news_send_verify_via_pattern'];

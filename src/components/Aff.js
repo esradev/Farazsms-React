@@ -35,7 +35,6 @@ function Aff(props) {
         name: "aff_user_mobile_field",
         type: "select",
         label: __("Select the mobile number custom field:", "farazsms"),
-        rules: "aff_user_mobile_fieldRules",
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
         groupTitle: __("Users settings:", "farazsms"),
@@ -48,7 +47,6 @@ function Aff(props) {
         name: "aff_user_register",
         type: "checkbox",
         label: __("Send sms to user on registration:", "farazsms"),
-        rules: "aff_user_registerRules",
       },
       aff_user_register_pattern: {
         value: "",
@@ -58,7 +56,6 @@ function Aff(props) {
         name: "aff_user_register_pattern",
         type: "text",
         label: __("User registration SMS pattern code:", "farazsms"),
-        rules: "aff_user_register_patternRules",
       },
       aff_user_new_ref: {
         value: "",
@@ -68,7 +65,6 @@ function Aff(props) {
         name: "aff_user_new_ref",
         type: "checkbox",
         label: __("Send sms to user on new referral:", "farazsms"),
-        rules: "aff_user_new_refRules",
       },
       aff_user_new_ref_pattern: {
         value: "",
@@ -78,7 +74,6 @@ function Aff(props) {
         name: "aff_user_new_ref_pattern",
         type: "text",
         label: __("New referral SMS pattern code:", "farazsms"),
-        rules: "aff_user_new_ref_patternRules",
       },
       aff_user_on_approval: {
         value: "",
@@ -91,7 +86,6 @@ function Aff(props) {
           "Confirmation of the cooperation account in sales for user",
           "farazsms"
         ),
-        rules: "aff_user_on_approvalRules",
       },
       aff_user_on_approval_pattern: {
         value: "",
@@ -104,7 +98,6 @@ function Aff(props) {
           "Account confirmation pattern code for cooperation in sales",
           "farazsms"
         ),
-        rules: "aff_user_on_approval_patternRules",
       },
       aff_admin_user_register: {
         value: "",
@@ -114,7 +107,6 @@ function Aff(props) {
         name: "aff_admin_user_register",
         type: "checkbox",
         label: __("Send sms to admin on registration:", "farazsms"),
-        rules: "aff_admin_user_registerRules",
         groupTitle: __("Admin settings:", "farazsms"),
       },
       aff_admin_user_register_pattern: {
@@ -125,7 +117,6 @@ function Aff(props) {
         name: "aff_admin_user_register_pattern",
         type: "text",
         label: __("User registration SMS pattern code:", "farazsms"),
-        rules: "aff_admin_user_register_patternRules",
       },
       aff_admin_user_new_ref: {
         value: "",
@@ -135,7 +126,6 @@ function Aff(props) {
         name: "aff_admin_user_new_ref",
         type: "checkbox",
         label: __("Send sms to admin on new referral:", "farazsms"),
-        rules: "aff_admin_user_new_refRules",
       },
       aff_admin_user_new_ref_pattern: {
         value: "",
@@ -145,7 +135,6 @@ function Aff(props) {
         name: "aff_admin_user_new_ref_pattern",
         type: "text",
         label: __("New referral SMS pattern code:", "farazsms"),
-        rules: "aff_admin_user_new_ref_patternRules",
       },
       aff_admin_user_on_approval: {
         value: "",
@@ -158,7 +147,6 @@ function Aff(props) {
           "Confirmation of the cooperation account in sales for user",
           "farazsms"
         ),
-        rules: "aff_admin_user_on_approvalRules",
       },
       aff_admin_user_on_approval_pattern: {
         value: "",
@@ -171,7 +159,6 @@ function Aff(props) {
           "Account confirmation pattern code for cooperation in sales",
           "farazsms"
         ),
-        rules: "aff_admin_user_on_approval_patternRules",
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
           "username %user_login% nickname %user_nickname% email %user_email% display name %display_name% mobile number %user_mobile% referral amount %amount%",
@@ -197,7 +184,6 @@ function Aff(props) {
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
-        //Init state values by action.value
         draft.inputs.aff_user_mobile_field.value =
           action.value.aff_user_mobile_field;
         draft.inputs.aff_user_register.value = action.value.aff_user_register;
@@ -299,23 +285,16 @@ function Aff(props) {
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
 
   /**
-   *
    * HandelSubmit function
    *
    * @since 2.0.0
    */
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map((input) => {
-      dispatch({ type: input.rules, value: input.value });
-    });
-
     dispatch({ type: "submitOptions" });
   }
 
   /**
-   *
    * Get Aff options from DB on Aff component loaded
    *
    * @since 2.0.0
@@ -323,7 +302,6 @@ function Aff(props) {
   useEffect(() => {
     async function getOptions() {
       try {
-        // Use the AxiosWp object to call the /farazsms/v1/farazsms_aff_options
         const getOptions = await AxiosWp.get("/farazsms/v1/aff_options", {});
         if (getOptions.data) {
           const optionsJson = JSON.parse(getOptions.data);
@@ -346,13 +324,6 @@ function Aff(props) {
    */
   useEffect(() => {
     if (state.sendCount) {
-      /**
-       *
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       *
-       * @return Object with arrays.
-       */
       const optionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
@@ -394,10 +365,6 @@ function Aff(props) {
   useEffect(() => {
     async function getUsermeta() {
       try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_usermeta
-         * endpoint and retrieve the 10 latest posts.
-         */
         const getUsermeta = await AxiosWp.get("/farazsms/v1/usermeta", {});
         const usermetaArrayObject = Object.keys(getUsermeta.data).map(
           (key) => ({
@@ -419,7 +386,6 @@ function Aff(props) {
   if (state.isFetching) return <LoadingSpinner />;
 
   /**
-   *
    * The Aff form created by mapping over originalState.
    * For every value on inputs rendered a SettingsFormInput.
    *
@@ -456,9 +422,6 @@ function Aff(props) {
                           : e.target.value,
                     });
                   }}
-                  onBlur={(e) =>
-                    dispatch({ type: input.rules, value: e.target.value })
-                  }
                 />
                 <FormInputError />
               </div>

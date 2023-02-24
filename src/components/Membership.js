@@ -57,7 +57,6 @@ function Membership(props) {
             "Ultimate Membership PRO plugin settings:",
             "farazsms"
           ),
-          rules: "ihc_send_first_notifyRules",
         },
         ihc_send_second_notify: {
           value: "",
@@ -70,7 +69,6 @@ function Membership(props) {
             "Send the second SMS warning of membership expiration?",
             "farazsms"
           ),
-          rules: "ihc_send_second_notifyRules",
         },
         ihc_send_third_notify: {
           value: "",
@@ -83,7 +81,6 @@ function Membership(props) {
             "Send the third SMS warning of membership expiration?",
             "farazsms"
           ),
-          rules: "ihc_send_third_notifyRules",
         },
         ihc_first_notify_msg: {
           value: "",
@@ -93,7 +90,6 @@ function Membership(props) {
           name: "ihc_first_notify_msg",
           type: "textarea",
           label: __("Membership expiration warning SMS text:", "farazsms"),
-          rules: "ihc_first_notify_msgRules",
           infoTitle: __("Usable variables:", "farazsms"),
           infoBody: __(
             "username %name% | time remaining (to day) %time%",
@@ -111,7 +107,6 @@ function Membership(props) {
           name: "pmp_send_expire_notify",
           type: "checkbox",
           label: __("Send SMS membership expiration?", "farazsms"),
-          rules: "pmp_send_expire_notifyRules",
           groupTitle: __("Paid Membership PRO plugin settings:", "farazsms"),
         },
         pmp_expire_notify_msg: {
@@ -122,7 +117,6 @@ function Membership(props) {
           name: "pmp_expire_notify_msg",
           type: "textarea",
           label: __("The text of the membership expiration SMS:", "farazsms"),
-          rules: "pmp_expire_notify_msgRules",
           infoTitle: __("Usable variables:", "farazsms"),
           infoBody: __("username %display_name%", "farazsms"),
         },
@@ -207,23 +201,16 @@ function Membership(props) {
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
 
   /**
-   *
-   * HandelSubmit function
+   * HandelSubmit
    *
    * @since 2.0.0
    */
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map((input) => {
-      dispatch({ type: input.rules, value: input.value });
-    });
-
     dispatch({ type: "submitOptions" });
   }
 
   /**
-   *
    * Get Aff options from DB on Aff component loaded
    *
    * @since 2.0.0
@@ -250,20 +237,12 @@ function Membership(props) {
   }, []);
 
   /**
-   *
-   * Save Aff options on DB when saveRequestFinished = true
+   * Post Aff options to DB
    *
    * @since 2.0.0
    */
   useEffect(() => {
     if (state.sendCount) {
-      /**
-       *
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       *
-       * @return Object with arrays.
-       */
       const optionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );
@@ -298,8 +277,8 @@ function Membership(props) {
   }, [state.sendCount]);
 
   if (state.isFetching) return <LoadingSpinner />;
+
   /**
-   *
    * The Membership form created by mapping over originalState.
    * For every value on inputs rendered a SettingsFormInput.
    *
@@ -341,9 +320,6 @@ function Membership(props) {
                               : e.target.value,
                         });
                       }
-                }
-                onBlur={(e) =>
-                  dispatch({ type: input.rules, value: e.target.value })
                 }
               />
               <FormInputError />

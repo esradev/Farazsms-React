@@ -80,8 +80,6 @@ function GravityForms(props) {
 
   function ourReduser(draft, action) {
     switch (action.type) {
-      case "fetchIntegrationsOptions":
-        return;
       case "fetchComplete":
         //Init state values by action.value
         if (props.integratedPlugins.gravityForms.use) {
@@ -140,41 +138,9 @@ function GravityForms(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    //Set every input to the state with dispatch function.
-    Object.values(state.inputs).map((input) => {
-      dispatch({ type: input.rules, value: input.value });
-    });
 
     dispatch({ type: "submitOptions" });
   }
-
-  /**
-   *
-   * Get integrations options from DB on integrations component loaded
-   *
-   * @since 2.0.0
-   */
-  useEffect(() => {
-    async function getIntegrationsOptions() {
-      try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_integrations_options
-         * endpoint and retrieve the 10 latest posts.
-         */
-        const getIntegrationsOptions = await AxiosWp.get(
-          "/farazsms/v1/integrations_options",
-          {}
-        );
-        if (getIntegrationsOptions.data) {
-          const optionsJson = JSON.parse(getIntegrationsOptions.data);
-          dispatch({ type: "fetchIntegrationsOptions", value: optionsJson });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getIntegrationsOptions();
-  }, []);
 
   /**
    * Get Gravity forms from /gf/v2/forms
@@ -239,10 +205,6 @@ function GravityForms(props) {
   useEffect(() => {
     async function getOptions() {
       try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_phonebook_options
-         * endpoint and retrieve the 10 latest posts.
-         */
         const getOptions = await AxiosWp.get(
           "/farazsms/v1/phonebook_options",
           {}
@@ -266,7 +228,6 @@ function GravityForms(props) {
   /**
    * Get phonebooks.
    * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
-   * Axios.post("http://ippanel.com/api/select", {uname: "9300410381", pass: "Faraz@2282037154", op: "booklist",},{ headers: { "Content-Type": "application/json" } });
    *
    * @since 2.0.0
    */
@@ -291,14 +252,14 @@ function GravityForms(props) {
     getPhonebooks();
   }, []);
 
+  /**
+   * Post options to DB
+   *
+   * @since 2.0.0
+   */
+
   useEffect(() => {
     if (state.sendCount) {
-      /**
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       * @return Object with arrays.
-       */
-
       const optionsArray = Object.values(state.inputs).map(
         ({ value, name }) => [name, value]
       );

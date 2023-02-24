@@ -33,8 +33,7 @@ function Integrations(props) {
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
 
   /**
-   *
-   * HandelSubmit function
+   * HandelSubmit
    *
    * @since 2.0.0
    */
@@ -44,18 +43,12 @@ function Integrations(props) {
   }
 
   /**
-   *
-   * Save settings options on DB when saveRequestFinished = true
+   * Post options to DB
    *
    * @since 2.0.0
    */
   useEffect(() => {
     if (props.sendCount) {
-      /**
-       * Get options uses and set "name: use" in an array.
-       * Then Convert array to key: use pair for send Axios post request to DB.
-       * @return Object with arrays.
-       */
       const optionsArray = Object.values(props.integratedPlugins).map(
         ({ use, name }) => [name, use]
       );

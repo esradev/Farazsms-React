@@ -87,14 +87,14 @@ class Farazsms_Base {
 
 		$phonebook_options = json_decode( get_option( 'farazsms_phonebook_options' ), true );
 		if ( $phonebook_options ) {
-			self::$custom_phonebook_id       = current( array_column( $phonebook_options['custom_phonebook'], 'value' ) );
-			self::$custom_phone_meta_keys_id = current( array_column( $phonebook_options['custom_phone_meta_keys'], 'value' ) );
-			self::$digits_phonebook_id       = current( array_column( $phonebook_options['digits_phonebook'], 'value' ) );
-			self::$woo_phonebook_id          = current( array_column( $phonebook_options['woo_phonebook'], 'value' ) );
-			self::$bookly_phonebook_id       = current( array_column( $phonebook_options['bookly_phonebook'], 'value' ) );
-			self::$gf_forms_id               = current( array_column( $phonebook_options['gf_forms'], 'value' ) );
-			self::$gf_phonebook_id           = current( array_column( $phonebook_options['gf_phonebook'], 'value' ) );
-			self::$gf_selected_field_id      = current( array_column( $phonebook_options['gf_selected_field'], 'value' ) );
+			self::$custom_phonebook_id       = $phonebook_options['custom_phonebook']['value'] ?? '';
+			self::$custom_phone_meta_keys_id = $phonebook_options['custom_phone_meta_keys']['value'] ?? '';
+			self::$digits_phonebook_id       = $phonebook_options['digits_phonebook']['value'] ?? '';
+			self::$woo_phonebook_id          = $phonebook_options['woo_phonebook']['value'] ?? '';
+			self::$bookly_phonebook_id       = $phonebook_options['bookly_phonebook']['value'] ?? '';
+			self::$gf_forms_id               = $phonebook_options['gf_forms']['value'] ?? '';
+			self::$gf_phonebook_id           = $phonebook_options['gf_phonebook']['value'] ?? '';
+			self::$gf_selected_field_id      = $phonebook_options['gf_selected_field']['value'] ?? '';
 		}
 	}
 

@@ -59,7 +59,7 @@ class Farazsms_Comments {
 			self::$approved_comment_pattern         = $comments_options['approved_comment_pattern'];
 			self::$comment_pattern                  = $comments_options['comment_pattern'];
 			self::$notify_admin_for_comment_pattern = $comments_options['notify_admin_for_comment_pattern'];
-			self::$comment_phonebook_id             = current( array_column( $comments_options['comment_phonebook'], 'value' ) );
+			self::$comment_phonebook_id             = $comments_options['comment_phonebook']['value'] ?? '';
 		}
 
 		add_filter( 'manage_edit-comments_columns', [ $this, 'comments_fsms_table_columns' ] );
@@ -147,6 +147,9 @@ class Farazsms_Comments {
 		$user      = get_user_by( 'id', $comment->user_id );
 		$user_name = $user->first_name . ' ' . $user->last_name;
 		$is_admin  = in_array( 'administrator', $user->roles );
+		if (self::$comment_phonebook_id) {
+			$this->save_comment_mobile_to_phonebook( $mobile, $user_name );
+		}
 		if ( $comment->comment_parent == 0 ) {
 			$mobile = get_comment_meta( $comment_id )['mobile'][0] ?? '';
 			if ( ! empty( self::$approved_comment_pattern ) || ! empty( $mobile ) ) {
@@ -166,9 +169,6 @@ class Farazsms_Comments {
 			$comment = get_comment( $comment->comment_parent );
 			$data    = $this->comments_farazsms_shortcode( $comment, $comment_id );
 			$this->send_comment_reply_sms( $mobile, self::$comment_pattern, $data );
-		}
-		if (self::$comment_phonebook_id) {
-			$this->save_comment_mobile_to_phonebook( $mobile, $user_name );
 		}
 	}
 
@@ -245,7 +245,6 @@ class Farazsms_Comments {
 	 * Save comment mobile to phonebook.
 	 */
 	public function save_comment_mobile_to_phonebook( $number, $name ) {
-
 		$list[0] = (object) [
 			'number'       => $number,
 			'name'         => $name,

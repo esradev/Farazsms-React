@@ -52,7 +52,7 @@ class Farazsms_Edd {
 	public function __construct() {
 		$edd_options = json_decode( get_option( 'farazsms_edd_options' ), true );
 		if ( $edd_options ) {
-			self::$edd_phonebook_id  = current( array_column( $edd_options['edd_phonebook'], 'value' ) );
+			self::$edd_phonebook_id  = $edd_options['edd_phonebook']['value'] ?? '';
 			self::$edd_send_to_user  = $edd_options['edd_send_to_user'];
 			self::$edd_user_pattern  = $edd_options['edd_user_pattern'];
 			self::$edd_send_to_admin = $edd_options['edd_send_to_admin'];
