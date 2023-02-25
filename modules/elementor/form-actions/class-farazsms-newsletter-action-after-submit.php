@@ -259,7 +259,7 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base
 			$list[0] = (object) [
 				'number'       => $to,
 				'name'         => '',
-				'phonebook_id' => (int) Farazsms_Base::$custom_phonebook_id
+				'phonebook_id' => (int) Farazsms_Elementor::$elementor_phonebook_id
 			];
 
 	    Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );

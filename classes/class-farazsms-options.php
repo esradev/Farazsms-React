@@ -53,6 +53,7 @@ class Farazsms_Options
 		add_action( 'init', [ $this , 'register_comments_options' ] );
 		add_action( 'init', [ $this , 'register_newsletter_options' ] );
 		add_action( 'init', [ $this , 'register_woocommerce_options' ] );
+		add_action( 'init', [ $this , 'register_elementor_options' ] );
 		add_action( 'init', [ $this , 'register_edd_options' ] );
 		add_action( 'init', [ $this , 'register_aff_options' ] );
 		add_action( 'init', [ $this , 'register_membership_options' ] );
@@ -123,6 +124,17 @@ class Farazsms_Options
 	public function register_woocommerce_options() {
 		$farazsms_woocommerce_options = '';
 		add_option( 'farazsms_woocommerce_options', $farazsms_woocommerce_options );
+	}
+
+	/**
+	 * Register Elementor options.
+	 *
+	 * @return void
+	 * @since 2.0.0
+	 */
+	public function register_elementor_options() {
+		$farazsms_elementor_options = '';
+		add_option( 'farazsms_elementor_options', $farazsms_elementor_options );
 	}
 
 	/**

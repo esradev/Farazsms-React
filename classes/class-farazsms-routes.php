@@ -98,16 +98,6 @@ class Farazsms_Routes {
 			],
 		] );
 
-		//Register user meta rest route
-		register_rest_route( $namespace, '/' . 'usermeta', [
-			[
-				'methods'             => 'GET',
-				'callback'            => [ $this, 'get_usermeta' ],
-				'permission_callback' => [ $this, 'permissions_check' ],
-
-			],
-		] );
-
 		//Register comments_options rest route
 		register_rest_route( $namespace, '/' . 'comments_options', [
 			[
@@ -132,6 +122,20 @@ class Farazsms_Routes {
 			[
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'add_newsletter_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+		] );
+
+		//Register elementor_options rest route
+		register_rest_route( $namespace, '/' . 'elementor_options', [
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_elementor_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'add_elementor_options' ],
 				'permission_callback' => [ $this, 'permissions_check' ],
 			],
 		] );
@@ -203,6 +207,16 @@ class Farazsms_Routes {
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'add_integrations_options' ],
 				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+		] );
+
+		//Register user meta rest route
+		register_rest_route( $namespace, '/' . 'usermeta', [
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_usermeta' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+
 			],
 		] );
 
@@ -429,6 +443,30 @@ class Farazsms_Routes {
 		$option_json = wp_json_encode( $option );
 
 		return update_option( 'farazsms_newsletter_options', $option_json );
+	}
+
+	/**
+	 * Get elementor options.
+	 */
+	public function get_elementor_options() {
+		$farazsms_elementor_options = get_option( 'farazsms_elementor_options' );
+		if ( empty( $farazsms_elementor_options ) ) {
+			return new WP_Error( 'no_option', 'Invalid options', [ 'status' => 404 ] );
+		}
+
+		return $farazsms_elementor_options;
+	}
+
+	/**
+	 * Add elementor options.
+	 */
+	public function add_elementor_options( $data ) {
+		$option      = [
+			'elementor_phonebook'               => $data['elementor_phonebook'] ?: [],
+		];
+		$option_json = wp_json_encode( $option );
+
+		return update_option( 'farazsms_elementor_options', $option_json );
 	}
 
 	/**

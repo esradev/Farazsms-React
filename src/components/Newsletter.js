@@ -141,7 +141,7 @@ function Newsletter() {
     isFetching: true,
     isSaving: false,
     sendCount: 0,
-    sectionName: __("Login Notify", "farazsms"),
+    sectionName: __("Newsletter", "farazsms"),
   };
 
   function ourReduser(draft, action) {
@@ -282,16 +282,6 @@ function Newsletter() {
         return;
       case "saveRequestFinished":
         draft.isSaving = false;
-        return;
-      //Input Rules and logic validations, and set errorMessages.
-      case "apikeyRules":
-        if (!action.value.trim()) {
-          draft.inputs.apikey.hasErrors = true;
-          draft.inputs.apikey.errorMessage = __(
-            "You must provide an API Key.",
-            "farazsms"
-          );
-        }
         return;
     }
   }

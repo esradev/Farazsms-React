@@ -19,16 +19,6 @@
  * @package Farazsms
  */
 
-/**
- * The main plugin class
- *
- * @link       https://farazsms.com/
- * @since      2.0.0
- *
- * @package    Farazsms
- * @subpackage Farazsms/classes
- */
-
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

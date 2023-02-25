@@ -18,6 +18,7 @@ import {
   AiOutlineUnorderedList,
 } from "react-icons/ai";
 import { TbAffiliate } from "react-icons/tb";
+import { FaElementor } from "react-icons/fa";
 
 /**
  * Import local dependencies
@@ -34,6 +35,7 @@ import Aff from "../components/Aff";
 import Membership from "../components/Membership";
 import Integrations from "../components/Integrations";
 import GravityForms from "../components/GravityForms";
+import Elementor from "../components/Elementor";
 
 const SidebarItems = [
   {
@@ -77,6 +79,12 @@ const SidebarItems = [
     element: WooCommerce,
     name: __("WooCommerce", "farazsms"),
     icon: <AiOutlineShoppingCart />,
+  },
+  {
+    path: "/elementor",
+    element: Elementor,
+    name: __("Elementor", "farazsms"),
+    icon: <FaElementor />,
   },
   {
     path: "/edd",

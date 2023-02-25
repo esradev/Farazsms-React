@@ -162,10 +162,12 @@ class Farazsms_Newsletter {
 	 * Newsletter send verification code
 	 */
 	public function fsms_newsletter_send_verification_code() {
-
 		$mobile = $_POST['mobile'];
 		$name   = $_POST['name'];
 
+		if (self::check_if_phone_already_exist($mobile)) {
+			wp_send_json_error();
+		}
 
 		if ( self::$news_send_verify_via_pattern !== true ) {
 			$data = [

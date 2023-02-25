@@ -1,0 +1,991 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: FarazSMS\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-02-19 05:44+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: \n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.6.3; wp-6.1.1\n"
+"X-Domain: farazsms"
+
+#: classes/class-farazsms-settings.php:307 build/index.js:11747
+msgid " $IR_T"
+msgstr ""
+
+#: build/index.js:15469
+msgid " Attention Needed:"
+msgstr ""
+
+#: build/index.js:15510
+msgid " settings:"
+msgstr ""
+
+#: build/index.js:15471
+msgid " usage toggle, Then come bake here."
+msgstr ""
+
+#: build/index.js:12028 build/index.js:12041
+msgid "%display_name% and %username%"
+msgstr ""
+
+#: build/index.js:12767
+msgid "%name%"
+msgstr ""
+
+#: build/index.js:12744
+msgid "%name% and confirmation code: %code%"
+msgstr ""
+
+#: build/index.js:11671
+msgid ". All rights reserved."
+msgstr ""
+
+#: build/index.js:11667
+msgid "2022"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:224
+msgid ""
+"A copy of this SMS will be sent to these numbers, while sending to the "
+"administrator. (Separate with english commas.)"
+msgstr ""
+
+#: build/index.js:11661
+msgid "About Us"
+msgstr ""
+
+#: build/index.js:10532 build/index.js:10593
+msgid "Account confirmation pattern code for cooperation in sales"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:307 build/index.js:11747
+msgid "Account credit: "
+msgstr ""
+
+#: build/index.js:10040
+msgid "Add action after elementor pro forms submitting."
+msgstr ""
+
+#: build/index.js:11937
+msgid "Add some cool options for the "
+msgstr ""
+
+#: build/index.js:10928
+msgid "Add the mobile field to the comment submission form?"
+msgstr ""
+
+#: build/index.js:13817
+msgid "Admin Number"
+msgstr ""
+
+#: build/index.js:13818
+msgid "Admin Number:"
+msgstr ""
+
+#: build/index.js:10994
+msgid "Admin pattern code:"
+msgstr ""
+
+#: build/index.js:10544
+msgid "Admin settings:"
+msgstr ""
+
+#: build/index.js:13842
+msgid "Advertising sender number"
+msgstr ""
+
+#: build/index.js:13843
+msgid "Advertising sender number:"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:246 build/index.js:15608
+msgid "Affiliate"
+msgstr ""
+
+#: build/index.js:10602
+msgid ""
+"Affiliate wp plugin or Ultimate Affiliate Pro or Yith Woocommerce Affiliate"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:87
+msgid ""
+"After completing the form and pressing the send button, an SMS will be sent "
+"to the visitor."
+msgstr ""
+
+#: modules/woocommerce/class-farazsms-woocommerce.php:457
+msgid "An error occurred"
+msgstr ""
+
+#: build/index.js:13777
+msgid "API key"
+msgstr ""
+
+#: build/index.js:14533
+msgid "Bookley synchronization"
+msgstr ""
+
+#: build/index.js:13685
+msgid "Buying a mobile number storage device"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:211
+msgid ""
+"By completing the form, an SMS will be sent to the admin. The administrator "
+"number must be defined in the plugin settings."
+msgstr ""
+
+#. Description of the plugin
+msgid ""
+"By using the Farazsms plugin, you can professionally equip your site with a "
+"powerful SMS tool for information and marketing. Saving customers numbers in "
+"the phone book, sending welcome SMS, sending reply SMS to comments, etc. are "
+"part of the features of this powerful SMS plugin."
+msgstr ""
+
+#: build/index.js:13120
+msgid "Canceled. Subscriber still there."
+msgstr ""
+
+#: build/index.js:13304
+msgid "Choosing a phonebook for Bookly:"
+msgstr ""
+
+#: build/index.js:10973
+msgid "Comment response pattern code:"
+msgstr ""
+
+#: build/index.js:10962
+msgid "Comment submit pattern code:"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:202 build/index.js:11004
+#: build/index.js:15588
+msgid "Comments"
+msgstr ""
+
+#: build/index.js:12731
+msgid "Confirm subscription by sending verification code?"
+msgstr ""
+
+#: build/index.js:10522 build/index.js:10583
+msgid "Confirmation of the cooperation account in sales for user"
+msgstr ""
+
+#: build/index.js:14495
+msgid "Congrats. Bookly user(s) synced successfully."
+msgstr ""
+
+#: build/index.js:14452
+msgid "Congrats. Digits user(s) synced successfully."
+msgstr ""
+
+#: build/index.js:10788 build/index.js:11199 build/index.js:11582
+#: build/index.js:11855 build/index.js:12243 build/index.js:12607
+#: build/index.js:13079 build/index.js:13658 build/index.js:14066
+#: build/index.js:14825
+msgid "Congrats. Form was updated successfully."
+msgstr ""
+
+#: build/index.js:13107
+msgid "Congrats. Subscriber deleted successfully."
+msgstr ""
+
+#: build/index.js:14410
+msgid "Congrats. Woocommerce user(s) synced successfully."
+msgstr ""
+
+#: build/index.js:11667
+msgid "Copyright"
+msgstr ""
+
+#: modules/woocommerce/class-farazsms-woocommerce.php:155
+msgid "Customer phone number not entered."
+msgstr ""
+
+#: build/index.js:14651
+msgid "Days of sending SMS after placing the order:"
+msgstr ""
+
+#: classes/class-farazsms-ippanel.php:327
+msgid ""
+"Dear user, The charge for your SMS panel is less than 10 thousand tomans, "
+"and your sites SMS may not be sent soon and your site may be blocked. I will "
+"charge the SMS system as soon as possible. www.farazsms.com, +982171333036"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:416
+msgid ""
+"Dear user, your panel will expire less than a month from now. To renew your "
+"SMS panel, contact Faraz SMS"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:425
+msgid ""
+"Dear user, your panel will expire less than a week from now. To renew your "
+"SMS panel, contact Faraz SMS."
+msgstr ""
+
+#: build/index.js:14555
+msgid "Digits synchronization"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:84
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:168
+msgid "Disable"
+msgstr ""
+
+#: build/index.js:13093
+msgid "Do you want to delete that subscriber?"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:224 build/index.js:11409
+msgid "Edd"
+msgstr ""
+
+#: build/index.js:15598
+msgid "Edd Settings"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:83
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:167
+msgid "Enable"
+msgstr ""
+
+#: modules/edd/class-farazsms-edd.php:196
+msgid "Enter a valid phone number."
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:140
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:207
+msgid "Enter SMS text or pattern variables"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:128
+msgid "Enter your pattern code"
+msgstr ""
+
+#: modules/farazsms/core/class-farazsms-comments.php:135
+msgid "Error: Mobile number is required."
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:219
+msgid "Example: 09121234567,09351234567"
+msgstr ""
+
+#. Name of the plugin
+#. Author of the plugin
+#: classes/class-farazsms-settings.php:157
+#: classes/class-farazsms-settings.php:168
+#: classes/class-farazsms-settings.php:179
+#: classes/class-farazsms-settings.php:190
+#: classes/class-farazsms-settings.php:201
+#: classes/class-farazsms-settings.php:212
+#: classes/class-farazsms-settings.php:223
+#: classes/class-farazsms-settings.php:234
+#: classes/class-farazsms-settings.php:245
+#: classes/class-farazsms-settings.php:256
+#: classes/class-farazsms-settings.php:324
+msgid "FarazSMS"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:144
+#: classes/class-farazsms-settings.php:145 build/index.js:11671
+#: build/index.js:11730
+msgid "Farazsms"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:294
+msgid "FarazSms "
+msgstr ""
+
+#: classes/class-farazsms-settings.php:358
+msgid "Farazsms latest news"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:48
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:66
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:45
+msgid "Farazsms Newsletter"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:104
+msgid "Find the field id in each of form fields in the advanced tab."
+msgstr ""
+
+#: build/index.js:10222 build/index.js:10231 build/index.js:10240
+#: build/index.js:10249 build/index.js:10258 build/index.js:10267
+#: build/index.js:10276 build/index.js:10285 build/index.js:10294
+#: build/index.js:10303 build/index.js:10312
+msgid "First install & activate plugin."
+msgstr ""
+
+#: build/index.js:13851
+msgid "General"
+msgstr ""
+
+#: build/index.js:13335
+msgid "Gravity Form fields:"
+msgstr ""
+
+#: build/index.js:13324
+msgid "Gravity Form forms:"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:112
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:179
+msgid "How to send"
+msgstr ""
+
+#. URI of the plugin
+#. Author URI of the plugin
+msgid "https://farazsms.com/"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:144
+msgid ""
+"If you choose the web service sending method, enter the text of your SMS. If "
+"you use a pattern, enter a variable along with its value with: in each line. "
+"The value can be a constant or a shortcode of any of the fields. For "
+"example<br> PersonName:[field id='name'] companyName:Farazsms'"
+msgstr ""
+
+#: build/index.js:13681
+msgid ""
+"If you have a physical store, use the mobile number storage device to "
+"collect your customers mobile numbers. Click on the link below to see the "
+"details"
+msgstr ""
+
+#: build/index.js:13845
+msgid ""
+"If you have Enamad, it is suggested that you purchase a dedicated 9000 line "
+"for sending web service SMS and sending SMS to customers. Send a support "
+"ticket for this."
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:171
+msgid ""
+"If you want an SMS alert to be sent to the manager's number as soon as the "
+"visitor completes the form, check this option."
+msgstr ""
+
+#: build/index.js:13337
+msgid ""
+"In this section, you can specify the fields you want to register in the "
+"Gravity Form phonebook"
+msgstr ""
+
+#: build/index.js:13326
+msgid ""
+"In this section, you can specify the form you want to register in the "
+"Gravity Form phonebook"
+msgstr ""
+
+#: build/index.js:15176
+msgid "Info "
+msgstr ""
+
+#: build/index.js:13325 build/index.js:13336
+msgid "Info:"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:257 build/index.js:11801
+#: build/index.js:15618
+msgid "Integrations"
+msgstr ""
+
+#: build/index.js:10938
+msgid "Is the mobile number field in comments mandatory?"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:169 build/index.js:12084
+#: build/index.js:12823 build/index.js:15573
+msgid "Login Notify"
+msgstr ""
+
+#: build/index.js:15613
+msgid "Membership"
+msgstr ""
+
+#: build/index.js:12420
+msgid "Membership expiration warning SMS text:"
+msgstr ""
+
+#: build/index.js:12787
+msgid "Message content for new post"
+msgstr ""
+
+#: build/index.js:12810
+msgid "Message content for new product"
+msgstr ""
+
+#: build/index.js:14662
+msgid "message content:"
+msgstr ""
+
+#: modules/farazsms/core/class-farazsms-comments.php:81
+msgid "Mobile"
+msgstr ""
+
+#: build/index.js:14618
+msgid "Mobile number verification on the account checkout page?"
+msgstr ""
+
+#: build/index.js:14628
+msgid "Mobile number verification pattern code:"
+msgstr ""
+
+#: build/index.js:11402
+msgid ""
+"mobile number: %phone% | Email: %email% | Name: %first_name% | Last name: "
+"%last_name% | Purchased products: %product% | Total amount (not including "
+"discount): %price% | Total discount amount: %discount% | Paid amount "
+"(including discount): %total_price% | Direct download link (not encrypted): "
+"%link% | Order number: %payment_id%"
+msgstr ""
+
+#: build/index.js:10512 build/index.js:10573
+msgid "New referral SMS pattern code:"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:235 build/index.js:15603
+msgid "Newsletter"
+msgstr ""
+
+#: build/index.js:12741
+msgid "Newsletter membership verification pattern code:"
+msgstr ""
+
+#: modules/newsletter/class-farazsms-newsletter.php:107
+msgid "No one is a subscriber of the newsletter yet"
+msgstr ""
+
+#: build/index.js:10472 build/index.js:10952 build/index.js:11359
+#: build/index.js:12064 build/index.js:12722 build/index.js:13265
+#: build/index.js:13274 build/index.js:13284 build/index.js:13295
+#: build/index.js:13306 build/index.js:13317 build/index.js:13328
+#: build/index.js:13339
+msgid "No options is available"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:121
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:188
+msgid "None"
+msgstr ""
+
+#: build/index.js:12074
+msgid "Notify admin pattern code:"
+msgstr ""
+
+#: build/index.js:12051
+msgid "Notify admin when a user from selected rule(s) Login to the site?"
+msgstr ""
+
+#: build/index.js:11737
+msgid "Official Website"
+msgstr ""
+
+#: build/index.js:12436
+msgid "Paid Membership PRO plugin settings:"
+msgstr ""
+
+#: build/index.js:13804
+msgid "Password"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:120
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:187
+msgid "Pattern"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:126
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:193
+msgid "Pattern code"
+msgstr ""
+
+#: build/index.js:14675
+msgid "Pattern code to send tracking code:"
+msgstr ""
+
+#: modules/woocommerce/class-farazsms-woocommerce.php:178
+msgid "Pattern not entered to send tracking code"
+msgstr ""
+
+#: modules/aff/class-farazsms-aff.php:375
+#: modules/aff/class-farazsms-aff.php:377
+#: modules/aff/class-farazsms-aff.php:390
+#: modules/aff/class-farazsms-aff.php:394
+#: modules/aff/class-farazsms-aff.php:408
+#: modules/aff/class-farazsms-aff.php:412
+#: modules/farazsms/core/class-farazsms-comments.php:109
+msgid "Phone number"
+msgstr ""
+
+#: modules/edd/class-farazsms-edd.php:76 modules/edd/class-farazsms-edd.php:170
+#: modules/edd/class-farazsms-edd.php:175
+msgid "Phone number: "
+msgstr ""
+
+#: classes/class-farazsms-settings.php:180
+msgid "PhoneBook"
+msgstr ""
+
+#: build/index.js:13347 build/index.js:15578
+msgid "Phonebook"
+msgstr ""
+
+#: modules/woocommerce/class-farazsms-woocommerce.php:433
+msgid "Please confirm your phone number first"
+msgstr ""
+
+#: modules/newsletter/class-farazsms-newsletter.php:376
+msgid "Please enter manual numbers in the correct format"
+msgstr ""
+
+#: modules/woocommerce/class-farazsms-woocommerce.php:448
+msgid "Please enter phone number."
+msgstr ""
+
+#: modules/newsletter/class-farazsms-newsletter.php:103
+msgid "Please enter the api key first in the Settings tab."
+msgstr ""
+
+#: modules/woocommerce/class-farazsms-woocommerce.php:149
+msgid "Please enter the tracking code correctly."
+msgstr ""
+
+#: build/index.js:13885
+msgid "Please fill API key filed first"
+msgstr ""
+
+#: modules/newsletter/class-farazsms-newsletter.php:393
+msgid ""
+"Please select at least one phonebook or manual number or newsletter members"
+msgstr ""
+
+#: build/index.js:10997
+msgid ""
+"Post title: %title% Comment authors name: %name% Comment authors email: "
+"%email% Comment link: %link% Comment text: %content%"
+msgstr ""
+
+#: modules/woocommerce/class-farazsms-woocommerce.php:185
+msgid "Probably your pattern has not been approved"
+msgstr ""
+
+#: build/index.js:11743
+msgid "Report Issues"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:149
+msgid "Save in the system phonebook"
+msgstr ""
+
+#: build/index.js:15422
+msgid "Save Settings"
+msgstr ""
+
+#: build/index.js:10949 build/index.js:11356
+msgid "Save the phone number in the phonebook?"
+msgstr ""
+
+#: build/index.js:13293
+msgid "select a phonebook for WooCommerce:"
+msgstr ""
+
+#: build/index.js:12719
+msgid "Select phone book for newsletter"
+msgstr ""
+
+#: build/index.js:13282
+msgid "Select phonebook for Digits:"
+msgstr ""
+
+#: build/index.js:13315
+msgid "Select phonebook for Gravity Form:"
+msgstr ""
+
+#: build/index.js:12061
+msgid "Select rule(s):"
+msgstr ""
+
+#: build/index.js:13263
+msgid "Select the custom field phonebook:"
+msgstr ""
+
+#: build/index.js:10469 build/index.js:13272
+msgid "Select the mobile number custom field:"
+msgstr ""
+
+#: modules/woocommerce/class-farazsms-woocommerce.php:412
+msgid "Send"
+msgstr ""
+
+#: build/index.js:12004
+msgid "Send a welcome sms to the user?"
+msgstr ""
+
+#: build/index.js:12777
+msgid "Send new posts to newsletter members?"
+msgstr ""
+
+#: build/index.js:12800
+msgid "Send new product to newsletter members?"
+msgstr ""
+
+#: build/index.js:10984
+msgid "Send notification SMS to admin when a comment add to site?"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:316
+msgid "Send Sms"
+msgstr ""
+
+#: modules/woocommerce/class-farazsms-woocommerce.php:137
+msgid "Send sms"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:217
+msgid "Send sms copy to others"
+msgstr ""
+
+#: build/index.js:12434
+msgid "Send SMS membership expiration?"
+msgstr ""
+
+#: build/index.js:10563
+msgid "Send sms to admin on new referral:"
+msgstr ""
+
+#: build/index.js:10542
+msgid "Send sms to admin on registration:"
+msgstr ""
+
+#: build/index.js:11389
+msgid "Send sms to the admin?"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:165
+msgid "Send SMS to the manager"
+msgstr ""
+
+#: build/index.js:11368
+msgid "Send sms to the user?"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:81
+msgid "Send sms to the visitor"
+msgstr ""
+
+#: build/index.js:10502
+msgid "Send sms to user on new referral:"
+msgstr ""
+
+#: build/index.js:10482
+msgid "Send sms to user on registration:"
+msgstr ""
+
+#: build/index.js:12389
+msgid "Send the first SMS warning of membership expiration?"
+msgstr ""
+
+#: build/index.js:12400
+msgid "Send the second SMS warning of membership expiration?"
+msgstr ""
+
+#: build/index.js:12410
+msgid "Send the third SMS warning of membership expiration?"
+msgstr ""
+
+#: modules/woocommerce/class-farazsms-woocommerce.php:122
+msgid "Send tracking code"
+msgstr ""
+
+#: build/index.js:12014
+msgid "Send welcome sms via pattern?"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:74
+msgid "Sender number"
+msgstr ""
+
+#: build/index.js:14641
+msgid "Sending a timed survey SMS for WooCommerce?"
+msgstr ""
+
+#: build/index.js:13830
+msgid "Service sender number"
+msgstr ""
+
+#: build/index.js:13831
+msgid "Service sender number:"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:158 build/index.js:15568
+msgid "Settings"
+msgstr ""
+
+#: build/index.js:12813
+msgid ""
+"site title %site_title% product name %product_name% price %price% and "
+"product link %url%"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:137
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:204
+msgid "Sms content"
+msgstr ""
+
+#: build/index.js:11399
+msgid "SMS pattern code for the admin:"
+msgstr ""
+
+#: build/index.js:11378
+msgid "SMS pattern code for the user:"
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:94
+msgid "SMS recipient number (field shortcode)"
+msgstr ""
+
+#: build/index.js:13679
+msgid "Special Offer:"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:191 build/index.js:14337
+#: build/index.js:15583
+msgid "Synchronization"
+msgstr ""
+
+#: build/index.js:14530
+msgid "Synchronization bookley users with phonebook"
+msgstr ""
+
+#: build/index.js:14552
+msgid "Synchronization digits users with phonebook"
+msgstr ""
+
+#: build/index.js:14541
+msgid "Synchronization woocommerce users with phonebook"
+msgstr ""
+
+#: build/index.js:11665
+msgid "Terms"
+msgstr ""
+
+#: build/index.js:13879
+msgid "That apikey is not valid."
+msgstr ""
+
+#: build/index.js:13904
+msgid "That username is not access to the provided apikey."
+msgstr ""
+
+#: build/index.js:13898
+msgid "That username is not valid."
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:158
+msgid ""
+"The number entered by the visitor in the form will be saved in the phonebook "
+"of Farazsms system."
+msgstr ""
+
+#: build/index.js:12445
+msgid "The text of the membership expiration SMS:"
+msgstr ""
+
+#: build/index.js:12790
+msgid "the title of the article %title% and the address of the article %url%"
+msgstr ""
+
+#: modules/woocommerce/class-farazsms-woocommerce.php:438
+msgid "The verification code entered is not valid"
+msgstr ""
+
+#: build/index.js:14631
+msgid "The verification code variable is %code%"
+msgstr ""
+
+#: build/index.js:14665
+msgid ""
+"time %time% | store name %sitename% | product name %item% | product link "
+"%item_link%"
+msgstr ""
+
+#: build/index.js:13782
+msgid ""
+"To get the access key in your farazsms panel, refer to the web service menu "
+"in the access keys section"
+msgstr ""
+
+#: build/index.js:14678
+msgid ""
+"tracking code %tracking_code% (required) | order number %order_id% | order "
+"status %order_status% | full name in billing address %billing_full_name% | "
+"full name in shipping address %shipping_full_name%"
+msgstr ""
+
+#: build/index.js:12455
+msgid "Ultimate Membership Pro and Paid Memberships Pro"
+msgstr ""
+
+#: build/index.js:12390
+msgid "Ultimate Membership PRO plugin settings:"
+msgstr ""
+
+#: build/index.js:10595 build/index.js:10996 build/index.js:11401
+#: build/index.js:12027 build/index.js:12040 build/index.js:12076
+#: build/index.js:12422 build/index.js:12447 build/index.js:12743
+#: build/index.js:12766 build/index.js:12789 build/index.js:12812
+#: build/index.js:14630 build/index.js:14664 build/index.js:14677
+msgid "Usable variables:"
+msgstr ""
+
+#: modules/edd/class-farazsms-edd.php:74
+msgid "User not logged in"
+msgstr ""
+
+#: build/index.js:10492 build/index.js:10553
+msgid "User registration SMS pattern code:"
+msgstr ""
+
+#: build/index.js:12448
+msgid "username %display_name%"
+msgstr ""
+
+#: build/index.js:12423
+msgid "username %name% | time remaining (to day) %time%"
+msgstr ""
+
+#: build/index.js:12077
+msgid ""
+"username %user_login% and user name %display_name% and login date %date%"
+msgstr ""
+
+#: build/index.js:10596
+msgid ""
+"username %user_login% nickname %user_nickname% email %user_email% display "
+"name %display_name% mobile number %user_mobile% referral amount %amount%"
+msgstr ""
+
+#: build/index.js:13792
+msgid "Username:"
+msgstr ""
+
+#: build/index.js:10473
+msgid "Users settings:"
+msgstr ""
+
+#: modules/woocommerce/class-farazsms-woocommerce.php:392
+#: modules/woocommerce/class-farazsms-woocommerce.php:402
+msgid "Verification code"
+msgstr ""
+
+#: modules/woocommerce/class-farazsms-woocommerce.php:459
+msgid "Verification code sent successfully"
+msgstr ""
+
+#: build/index.js:15465
+msgid "Warning!"
+msgstr ""
+
+#: build/index.js:14425 build/index.js:14467 build/index.js:14510
+msgid "Warning! an error occurred, please try again later."
+msgstr ""
+
+#: build/index.js:14417 build/index.js:14459 build/index.js:14502
+msgid "Warning! please select a phonebook first, in phonebooks section."
+msgstr ""
+
+#: build/index.js:13693
+msgid "Warning:"
+msgstr ""
+
+#: modules/edd/class-farazsms-edd.php:172
+msgid "We use this to send order information."
+msgstr ""
+
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:119
+#: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:186
+msgid "Web Service"
+msgstr ""
+
+#: build/index.js:12038
+msgid "welcome message:"
+msgstr ""
+
+#: build/index.js:12764
+msgid "Welcome SMS pattern code"
+msgstr ""
+
+#: build/index.js:12025
+msgid "Welcome sms pattern code:"
+msgstr ""
+
+#: build/index.js:12754
+msgid "Welcome SMS to subscriber of the newsletter?"
+msgstr ""
+
+#: build/index.js:15593
+msgid "WooCommerce"
+msgstr ""
+
+#: classes/class-farazsms-settings.php:213 build/index.js:14684
+msgid "Woocommerce"
+msgstr ""
+
+#: build/index.js:14544
+msgid "Woocommerce synchronization"
+msgstr ""
+
+#: build/index.js:13695
+msgid ""
+"You have not registered a phone book yet. Please create your phone book in "
+"the FarazSMS panel first."
+msgstr ""
+
+#: build/index.js:13959
+msgid "You must provide a Password."
+msgstr ""
+
+#: build/index.js:13971
+msgid "You must provide a service sender number."
+msgstr ""
+
+#: build/index.js:13953
+msgid "You must provide a Username."
+msgstr ""
+
+#: build/index.js:13918
+msgid "You must provide a valid phone number for admin."
+msgstr ""
+
+#: build/index.js:12946 build/index.js:13947
+msgid "You must provide an API Key."
+msgstr ""
+
+#: build/index.js:13965
+msgid "You must provide your admin number."
+msgstr ""
+
+#: build/index.js:13778
+msgid "Your API key:"
+msgstr ""
+
+#: build/index.js:13805
+msgid "Your Password:"
+msgstr ""
+
+#: build/index.js:13791
+msgid "Your Username"
+msgstr ""

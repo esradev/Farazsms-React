@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Farazsms membership.
+ * Farazsms settings.
  *
  * @package Farazsms
  * @since 2.0.0
@@ -12,9 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/**
- * Class Farazsms_Settings.
- */
 class Farazsms_Settings {
 	/**
 	 * Instance
