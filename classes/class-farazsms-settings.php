@@ -85,7 +85,6 @@ class Farazsms_Settings {
 	 */
 	public function admin_enqueue_styles() {
 		wp_enqueue_style( 'farazsms-style', FARAZSMS_URL . 'build/index.css' );
-
 	}
 
 	/**

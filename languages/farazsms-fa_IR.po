@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Farazsms-React\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-17 18:28+0000\n"
-"PO-Revision-Date: 2023-02-19 06:02+0000\n"
+"PO-Revision-Date: 2023-02-27 20:02+0000\n"
 "Last-Translator: \n"
 "Language-Team: Persian\n"
 "Language: fa_IR\n"
@@ -680,11 +680,11 @@ msgstr "دفترچه تلفن را برای خبرنامه انتخاب کنید
 
 #: build/index.js:13282
 msgid "Select phonebook for Digits:"
-msgstr "دفترچه تلفن را برای رقم انتخاب کنید:"
+msgstr "دفترچه تلفن را برای افزونه Digits انتخاب کنید:"
 
 #: build/index.js:13315
 msgid "Select phonebook for Gravity Form:"
-msgstr "دفترچه تلفن را برای Gravity Form انتخاب کنید:"
+msgstr "دفترچه تلفن را برای افزونه Gravity Form انتخاب کنید:"
 
 #: build/index.js:12061
 #, fuzzy

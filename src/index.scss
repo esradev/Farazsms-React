@@ -15,12 +15,10 @@
   font-weight: normal;
   src: url("./assets/fonts/IRANSansWeb.woff") format("woff");
 }
-.rtl h1, .rtl h2, .rtl h3, .rtl h4, .rtl h5, .rtl h6 {
-  font-family: IRANSans, Tahoma, sans-serif !important;
-}
 
-#farazsms-app-php {
+#farazsms-admin-page {
   font-family: IRANSans, Tahoma, sans-serif !important;
+
   height: 100vh;
   background: #fff;
   .app-title {
@@ -29,6 +27,9 @@
     margin-bottom: 1em;
   }
 
+
+  h1, h2, h3, h4, h5, h6 {  font-family: IRANSans, Tahoma, sans-serif !important;
+  }
 }
 
 .farazsms-portal-overlay {

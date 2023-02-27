@@ -5,6 +5,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import useConfirm from "../hooks/useConfirm";
+const __ = wp.i18n.__;
 
 const ConfirmDialog = () => {
   const { onConfirm, onCancel, confirmState } = useConfirm();
@@ -16,10 +17,10 @@ const ConfirmDialog = () => {
         <h5>{confirmState?.text && confirmState.text}</h5>
         <div className="confirm-dialog__footer">
           <div className="btn btn-danger mx-1" onClick={onConfirm}>
-            Yes
+            {__("Yes", "farazsms")}
           </div>
           <div className="btn btn btn-outline-dark mx-1" onClick={onCancel}>
-            Cancel
+            {__("Yes", "Cancel")}
           </div>
         </div>
       </div>

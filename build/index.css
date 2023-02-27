@@ -11568,19 +11568,18 @@ main {
   font-weight: normal;
   src: url(fonts/IRANSansWeb.9ffdcda0.woff) format("woff");
 }
-.rtl h1, .rtl .h1, .rtl h2, .rtl .h2, .rtl h3, .rtl .h3, .rtl h4, .rtl .h4, .rtl h5, .rtl .h5, .rtl h6, .rtl .h6 {
-  font-family: IRANSans, Tahoma, sans-serif !important;
-}
-
-#farazsms-app-php {
+#farazsms-admin-page {
   font-family: IRANSans, Tahoma, sans-serif !important;
   height: 100vh;
   background: #fff;
 }
-#farazsms-app-php .app-title {
+#farazsms-admin-page .app-title {
   font-size: 1.5em;
   font-weight: bold;
   margin-bottom: 1em;
+}
+#farazsms-admin-page h1, #farazsms-admin-page .h1, #farazsms-admin-page h2, #farazsms-admin-page .h2, #farazsms-admin-page h3, #farazsms-admin-page .h3, #farazsms-admin-page h4, #farazsms-admin-page .h4, #farazsms-admin-page h5, #farazsms-admin-page .h5, #farazsms-admin-page h6, #farazsms-admin-page .h6 {
+  font-family: IRANSans, Tahoma, sans-serif !important;
 }
 
 .farazsms-portal-overlay {
