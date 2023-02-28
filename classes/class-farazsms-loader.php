@@ -20,6 +20,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Farazsms_Loader {
 
+	private static $woocommerce;
+	private static $elementorPro;
+	private static $digits;
+	private static $edd;
+	private static $bookly;
+	private static $gravityForms;
+	private static $indeedMembershipPro;
+	private static $paidMembershipsPro;
+	private static $affiliateWp;
+	private static $indeedAffiliatePro;
+	private static $yithWoocommerceAffiliates;
 
 	/**
 	 * Instance
@@ -48,6 +59,20 @@ class Farazsms_Loader {
 	 * Constructor
 	 */
 	public function __construct() {
+		$integrations_options = json_decode( get_option( 'farazsms_integrations_options' ), true );
+		if ( $integrations_options ) {
+			self::$woocommerce               = $integrations_options['woocommerce'] ?? '';
+			self::$elementorPro              = $integrations_options['elementorPro'] ?? '';
+			self::$digits                    = $integrations_options['digits'] ?? '';
+			self::$edd                       = $integrations_options['edd'] ?? '';
+			self::$bookly                    = $integrations_options['bookly'] ?? '';
+			self::$gravityForms              = $integrations_options['gravityForms'] ?? '';
+			self::$indeedMembershipPro       = $integrations_options['indeedMembershipPro '] ?? '';
+			self::$paidMembershipsPro        = $integrations_options['paidMembershipsPro  '] ?? '';
+			self::$affiliateWp               = $integrations_options['affiliateWp'] ?? '';
+			self::$indeedAffiliatePro        = $integrations_options['indeedAffiliatePro'] ?? '';
+			self::$yithWoocommerceAffiliates = $integrations_options['yithWoocommerceAffiliates'] ?? '';
+		}
 		$this->load_dependencies();
 	}
 
@@ -78,7 +103,9 @@ class Farazsms_Loader {
 		require_once FARAZSMS_MODULES_PATH . 'elementor/class-farazsms-elementor.php';
 
 		// The class responsible for defining all actions for woocommerce.
-		require_once FARAZSMS_MODULES_PATH . 'woocommerce/class-farazsms-woocommerce.php';
+		if ( self::$woocommerce ) {
+			require_once FARAZSMS_MODULES_PATH . 'woocommerce/class-farazsms-woocommerce.php';
+		}
 
 		// The class responsible for defining all actions for edd.
 		require_once FARAZSMS_MODULES_PATH . 'edd/class-farazsms-edd.php';

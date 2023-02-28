@@ -89,7 +89,7 @@ const SidebarItems = [
   {
     path: "/edd",
     element: Edd,
-    name: __("Edd Settings", "farazsms"),
+    name: __("Edd", "farazsms"),
     icon: <AiOutlineCloudDownload />,
   },
   {

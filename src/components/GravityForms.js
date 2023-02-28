@@ -47,7 +47,7 @@ function GravityForms(props) {
           name: "gf_forms",
           type: "select",
           label: __("Gravity Form forms:", "farazsms"),
-          infoTitle: __("Info:", "farazsms"),
+          infoTitle: __("Info", "farazsms"),
           infoBody: __(
             "In this section, you can specify the form you want to register in the Gravity Form phonebook",
             "farazsms"
@@ -61,7 +61,7 @@ function GravityForms(props) {
           name: "gf_selected_field",
           type: "select",
           label: __("Gravity Form fields:", "farazsms"),
-          infoTitle: __("Info:", "farazsms"),
+          infoTitle: __("Info", "farazsms"),
           infoBody: __(
             "In this section, you can specify the fields you want to register in the Gravity Form phonebook",
             "farazsms"

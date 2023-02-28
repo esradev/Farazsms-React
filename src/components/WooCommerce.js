@@ -73,7 +73,7 @@ function Woocommerce(props) {
         onChange: "woo_poll_msgChange",
         name: "woo_poll_msg",
         type: "textarea",
-        label: __("message content:", "farazsms"),
+        label: __("Message content:", "farazsms"),
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
           "time %time% | store name %sitename% | product name %item% | product link %item_link%",

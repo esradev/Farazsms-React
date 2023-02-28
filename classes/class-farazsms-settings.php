@@ -150,7 +150,7 @@ class Farazsms_Settings {
 		);
 		add_submenu_page(
 			FARAZSMS_SLUG,
-			__( 'FarazSMS', 'farazsms' ),
+			__( 'Farazsms', 'farazsms' ),
 			__( 'Settings', 'farazsms' ),
 			'manage_options',
 			FARAZSMS_SLUG,
@@ -161,7 +161,7 @@ class Farazsms_Settings {
 		);
 		add_submenu_page(
 			FARAZSMS_SLUG,
-			__( 'FarazSMS', 'farazsms' ),
+			__( 'Farazsms', 'farazsms' ),
 			__( 'Login Notify', 'farazsms' ),
 			'manage_options',
 			FARAZSMS_SLUG . '#/login_notify',
@@ -172,8 +172,8 @@ class Farazsms_Settings {
 		);
 		add_submenu_page(
 			FARAZSMS_SLUG,
-			__( 'FarazSMS', 'farazsms' ),
-			__( 'PhoneBook', 'farazsms' ),
+			__( 'Farazsms', 'farazsms' ),
+			__( 'Phonebook', 'farazsms' ),
 			'manage_options',
 			FARAZSMS_SLUG . '#/phonebook',
 			[
@@ -183,7 +183,7 @@ class Farazsms_Settings {
 		);
 		add_submenu_page(
 			FARAZSMS_SLUG,
-			__( 'FarazSMS', 'farazsms' ),
+			__( 'Farazsms', 'farazsms' ),
 			__( 'Synchronization', 'farazsms' ),
 			'manage_options',
 			FARAZSMS_SLUG . '#/synchronization',
@@ -194,7 +194,7 @@ class Farazsms_Settings {
 		);
 		add_submenu_page(
 			FARAZSMS_SLUG,
-			__( 'FarazSMS', 'farazsms' ),
+			__( 'Farazsms', 'farazsms' ),
 			__( 'Comments', 'farazsms' ),
 			'manage_options',
 			FARAZSMS_SLUG . '#/comments',
@@ -205,7 +205,7 @@ class Farazsms_Settings {
 		);
 		add_submenu_page(
 			FARAZSMS_SLUG,
-			__( 'FarazSMS', 'farazsms' ),
+			__( 'Farazsms', 'farazsms' ),
 			__( 'Woocommerce', 'farazsms' ),
 			'manage_options',
 			FARAZSMS_SLUG . '#/woocommerce',
@@ -216,7 +216,7 @@ class Farazsms_Settings {
 		);
 		add_submenu_page(
 			FARAZSMS_SLUG,
-			__( 'FarazSMS', 'farazsms' ),
+			__( 'Farazsms', 'farazsms' ),
 			__( 'Edd', 'farazsms' ),
 			'manage_options',
 			FARAZSMS_SLUG . '#/edd',
@@ -227,7 +227,7 @@ class Farazsms_Settings {
 		);
 		add_submenu_page(
 			FARAZSMS_SLUG,
-			__( 'FarazSMS', 'farazsms' ),
+			__( 'Farazsms', 'farazsms' ),
 			__( 'Newsletter', 'farazsms' ),
 			'manage_options',
 			FARAZSMS_SLUG . '#/newsletter',
@@ -238,7 +238,7 @@ class Farazsms_Settings {
 		);
 		add_submenu_page(
 			FARAZSMS_SLUG,
-			__( 'FarazSMS', 'farazsms' ),
+			__( 'Farazsms', 'farazsms' ),
 			__( 'Affiliate', 'farazsms' ),
 			'manage_options',
 			FARAZSMS_SLUG . '#/aff',
@@ -249,7 +249,7 @@ class Farazsms_Settings {
 		);
 		add_submenu_page(
 			FARAZSMS_SLUG,
-			__( 'FarazSMS', 'farazsms' ),
+			__( 'Farazsms', 'farazsms' ),
 			__( 'Integrations', 'farazsms' ),
 			'manage_options',
 			FARAZSMS_SLUG . '#/integrations',
@@ -287,9 +287,9 @@ class Farazsms_Settings {
 				'id'     => 'farazsms',
 				'parent' => null,
 				'group'  => null,
-				'title'  => __( 'FarazSms ', 'farazsms' ),
+				'title'  => __( 'Farazsms ', 'farazsms' ),
 				'meta'   => [
-					'title' => __( 'FarazSMS', 'textdomain' ),
+					'title' => __( 'Farazsms', 'textdomain' ),
 					// This title will show on hover
 				],
 			]
@@ -309,7 +309,7 @@ class Farazsms_Settings {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => 'farazsms',
-				'title'  => __( 'Send Sms', 'farazsms' ),
+				'title'  => __( 'Send sms', 'farazsms' ),
 				'id'     => 'farazsms-admin-bar-send-sms',
 				'href'   => get_bloginfo( 'url' ) . '/wp-admin/admin.php?page=farazsms_settings#/sendsms',
 			]
@@ -317,7 +317,7 @@ class Farazsms_Settings {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => 'farazsms',
-				'title'  => __( 'FarazSMS', 'farazsms' ),
+				'title'  => __( 'Farazsms', 'farazsms' ),
 				'id'     => 'farazsms-admin-bar-go-to-site',
 				'href'   => 'https://farazsms.com/',
 			]

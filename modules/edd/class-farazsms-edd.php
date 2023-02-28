@@ -73,7 +73,7 @@ class Farazsms_Edd {
 	public function fsms_edd_show_phone( $payment_meta, $user_info ) {
 		$phone = $payment_meta['phone'] ?? __( 'User not logged in', 'farazsms' );
 		?>
-        <li style="list-style: none; margin-top: 5px;">'<?php esc_attr_e( 'Phone number: ', 'farazsms' ) ?>
+        <li style="list-style: none; margin-top: 5px;">'<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>
             '<?php echo $phone ?></li>
 		<?php
 	}
@@ -167,12 +167,12 @@ class Farazsms_Edd {
 		}
 		?>
         <p id="edd-phone-wrap">
-            <label class="edd-label" for="edd-phone"><?php esc_attr_e( 'Phone number: ', 'farazsms' ) ?></label>
+            <label class="edd-label" for="edd-phone"><?php esc_attr_e( 'Phone number', 'farazsms' ) ?></label>
             <span class="edd-description">
                 <?php esc_attr_e( 'We use this to send order information.', 'farazsms' ) ?>
             </span>
             <input class="edd-input" type="text" name="edd_phone" id="edd-phone"
-                   placeholder="<?php esc_attr_e( 'Phone number: ', 'farazsms' ) ?>" value="<?php echo $mobile ?>"/>
+                   placeholder="<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>" value="<?php echo $mobile ?>"/>
         </p>
 		<?php
 	}

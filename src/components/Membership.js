@@ -106,7 +106,7 @@ function Membership(props) {
           onChange: "pmp_send_expire_notifyChange",
           name: "pmp_send_expire_notify",
           type: "checkbox",
-          label: __("Send SMS membership expiration?", "farazsms"),
+          label: __("Send sms membership expiration?", "farazsms"),
           groupTitle: __("Paid Membership PRO plugin settings:", "farazsms"),
         },
         pmp_expire_notify_msg: {
