@@ -94,19 +94,27 @@ function Integrations(props) {
             try {
               const getPlugins = await AxiosWp.get("/wp/v2/plugins", {});
               if (getPlugins.data) {
-                const findPlugin = getPlugins.data.find(
-                  (element) => element.plugin === plugin.plugin
-                );
-                if (findPlugin) {
-                  if (findPlugin.status === "inactive") {
+                if (plugin.plugin !== "digits/digits") {
+                  const findPlugin = getPlugins.data.find(
+                    (element) => element.plugin === plugin.plugin
+                  );
+                  if (findPlugin) {
+                    if (findPlugin.status === "inactive") {
+                      appDispatch({
+                        type: plugin.check,
+                      });
+                    }
+                  } else {
                     appDispatch({
                       type: plugin.check,
                     });
                   }
                 } else {
-                  appDispatch({
-                    type: plugin.check,
-                  });
+                  if (!farazsmsJsObject.isDigitsInstalled) {
+                    appDispatch({
+                      type: plugin.check,
+                    });
+                  }
                 }
               }
             } catch (e) {
@@ -129,21 +137,30 @@ function Integrations(props) {
           try {
             const getPlugins = await AxiosWp.get("/wp/v2/plugins", {});
             if (getPlugins.data) {
-              const findPlugin = getPlugins.data.find(
-                (element) => element.plugin === plugin.plugin
-              );
-              if (findPlugin) {
-                if (findPlugin.status === "inactive") {
+              if (plugin.plugin !== "digits/digits") {
+                const findPlugin = getPlugins.data.find(
+                  (element) => element.plugin === plugin.plugin
+                );
+                if (findPlugin) {
+                  if (findPlugin.status === "inactive") {
+                    appDispatch({
+                      type: plugin.inactive,
+                    });
+                    appDispatch({ type: "submitOptions" });
+                  }
+                } else {
                   appDispatch({
                     type: plugin.inactive,
                   });
                   appDispatch({ type: "submitOptions" });
                 }
               } else {
-                appDispatch({
-                  type: plugin.inactive,
-                });
-                appDispatch({ type: "submitOptions" });
+                if (!farazsmsJsObject.isDigitsInstalled) {
+                  appDispatch({
+                    type: plugin.inactive,
+                  });
+                  appDispatch({ type: "submitOptions" });
+                }
               }
             }
           } catch (e) {

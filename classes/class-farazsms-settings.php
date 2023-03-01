@@ -111,12 +111,13 @@ class Farazsms_Settings {
 			'farazsms-script',
 			'farazsmsJsObject',
 			[
-				'rootapiurl'         => esc_url_raw( rest_url() ),
-				'nonce'              => wp_create_nonce( 'wp_rest' ),
-				'wproules'           => wp_roles(),
-				'getPhonebooks'      => Farazsms_Ippanel::get_phonebooks(),
-				'getCredit'          => Farazsms_Ippanel::get_credit(),
+				'rootapiurl'       => esc_url_raw( rest_url() ),
+				'nonce'            => wp_create_nonce( 'wp_rest' ),
+				'wproules'         => wp_roles(),
+				'getPhonebooks'    => Farazsms_Ippanel::get_phonebooks(),
+				'getCredit'        => Farazsms_Ippanel::get_credit(),
 				'getActivePlugins' => get_option( 'active_plugins' ),
+                'isDigitsInstalled' => function_exists('digit_ready'),
 			]
 		);
 
