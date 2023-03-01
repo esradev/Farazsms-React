@@ -178,7 +178,8 @@ function Edd(props) {
       try {
         //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getPhonebooks;
-        const phonebooksArrayObject = phonebooks.map(({ id, title }) => ({
+
+        const phonebooksArrayObject = phonebooks.data.map(({ id, title }) => ({
           label: title,
           value: id,
         }));
@@ -287,6 +288,8 @@ function Edd(props) {
                         value:
                           input.type === "checkbox"
                             ? e.target.checked
+                            : input.type === "select"
+                            ? e
                             : e.target.value,
                       });
                     }}

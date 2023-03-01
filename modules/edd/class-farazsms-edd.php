@@ -59,33 +59,51 @@ class Farazsms_Edd {
 			self::$edd_admin_pattern = $edd_options['edd_admin_pattern'];
 		}
 
-		add_action( 'edd_payment_personal_details_list', [ $this, 'fsms_edd_show_phone' ], 10, 2 );
-		add_action( 'edd_complete_purchase', [ $this, 'fsms_edd_complete_purchase_action' ], 10, 3 );
+		add_action( 'edd_payment_view_details', [ $this, 'fsms_edd_view_order_details' ], 10, 1 );
 		add_action( 'edd_purchase_form_user_info_fields', [ $this, 'fsms_show_mobile_field_checkout_field' ] );
-		add_action( 'edd_payment_meta', [ $this, 'fsms_show_mobile_meta' ] );
+		add_action( 'edd_built_order', [ $this, 'fsms_store_mobile_meta' ], 10, 2 );
 		add_action( 'edd_checkout_error_checks', [ $this, 'fsms_validate_mobile_field' ], 10, 2 );
-
+		add_action( 'edd_complete_purchase', [ $this, 'fsms_edd_complete_purchase_action' ], 10, 3 );
 	}
 
 	/**
-	 * EDD show phone.
+	 * Add the phone number to the "View Order Details" page
 	 */
-	public function fsms_edd_show_phone( $payment_meta, $user_info ) {
-		$phone = $payment_meta['phone'] ?? __( 'User not logged in', 'farazsms' );
+	public function fsms_edd_view_order_details( $order_id ) {
+		$phone = edd_get_order_meta( $order_id, 'phone', true );
 		?>
-        <li style="list-style: none; margin-top: 5px;">'<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>
-            '<?php echo $phone ?></li>
+
+        <div class="column-container">
+
+            <div class="column">
+                <strong><?php esc_attr_e( 'Phone number: ', 'farazsms' ) ?></strong>
+				<?php echo $phone; ?>
+            </div>
+
+        </div>
+
 		<?php
+	}
+
+	/**
+	 * Store mobile meta.
+	 */
+	public function fsms_store_mobile_meta( $order_id, $order_data ) {
+		if ( 0 !== did_action( 'edd_pre_process_purchase' ) ) {
+			$phone = isset( $_POST['edd_phone'] ) ? sanitize_text_field( $_POST['edd_phone'] ) : '';
+			edd_add_order_meta( $order_id, 'phone', $phone );
+		}
 	}
 
 	/**
 	 * EDD complete purchase action.
 	 */
-	public function fsms_edd_complete_purchase_action( $payment_id, $payment, $customer ) {
+	public function fsms_edd_complete_purchase_action( $payment_id ) {
 
-		$payment_meta = edd_get_payment_meta( $payment_id );
-		$mobile       = $payment_meta['phone'];
-		$data         = $this->get_edd_order_data( $payment_meta );
+		$payment_meta = edd_get_payment_meta( $payment_id, '_edd_payment_meta', false );
+		$mobile       = edd_get_order_meta( $payment_id, 'phone', true );
+		$name         = $payment_meta['user_info']['first_name'];
+		$data         = $this->get_edd_order_data( $payment_meta, $payment_id );
 		if ( self::$edd_send_to_user ) {
 			$this->send_edd_sms( $mobile, self::$edd_user_pattern, $data );
 		}
@@ -93,23 +111,26 @@ class Farazsms_Edd {
 			$this->send_edd_sms( Farazsms_Base::$admin_number, self::$edd_admin_pattern, $data );
 		}
 
-		$list[0] = (object) [
-			'number'       => $mobile,
-			'name'         => '',
-			'phonebook_id' => (int) self::$edd_phonebook_id
-		];
-		Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
+		if ( self::$edd_phonebook_id ) {
+			$list[0] = (object) [
+				'number'       => $mobile,
+				'name'         => $name,
+				'phonebook_id' => (int) self::$edd_phonebook_id
+			];
+			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
+		}
 	}
 
 	/**
 	 * Get edd order data.
 	 */
-	public function get_edd_order_data( $payment_meta ) {
+	public function get_edd_order_data( $payment_meta, $payment_id ) {
 		$result               = null;
-		$result['phone']      = $payment_meta['phone'];
+		$result['phone']      = edd_get_order_meta( $payment_id, 'phone', true );
 		$result['email']      = $payment_meta['email'];
 		$result['first_name'] = $payment_meta['user_info']['first_name'];
 		$result['last_name']  = $payment_meta['user_info']['last_name'];
+
 
 		for ( $i = 0; $i < count( $payment_meta['cart_details'] ); $i ++ ) {
 			if ( isset( $result['product'] ) ) {
@@ -158,13 +179,6 @@ class Farazsms_Edd {
 	 * Show mobile field checkout field.
 	 */
 	public function fsms_show_mobile_field_checkout_field() {
-		$user   = wp_get_current_user();
-		$mobile = get_user_meta( $user->ID, 'digits_phone' )[0];
-		if ( str_contains( $mobile, '+98' ) ) {
-			$mobile = str_replace( '+98', '0', $mobile );
-		} else {
-			$mobile = '';
-		}
 		?>
         <p id="edd-phone-wrap">
             <label class="edd-label" for="edd-phone"><?php esc_attr_e( 'Phone number', 'farazsms' ) ?></label>
@@ -172,21 +186,11 @@ class Farazsms_Edd {
                 <?php esc_attr_e( 'We use this to send order information.', 'farazsms' ) ?>
             </span>
             <input class="edd-input" type="text" name="edd_phone" id="edd-phone"
-                   placeholder="<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>" value="<?php echo $mobile ?>"/>
+                   placeholder="<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>"/>
         </p>
 		<?php
 	}
 
-	/**
-	 * Show mobile meta.
-	 */
-	public function fsms_show_mobile_meta( $payment_meta ) {
-		if ( 0 !== did_action( 'edd_pre_process_purchase' ) ) {
-			$payment_meta['phone'] = isset( $_POST['edd_phone'] ) ? sanitize_text_field( $_POST['edd_phone'] ) : '';
-		}
-
-		return $payment_meta;
-	}
 
 	/**
 	 * Show validate mobile field.
