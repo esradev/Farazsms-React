@@ -14,7 +14,6 @@ import DispatchContext from "../DispatchContext";
 import PluginsCardCheckbox from "../views/PluginsCardCheckbox";
 import SaveButton from "../views/SaveButton";
 import SectionHeader from "../views/SectionHeader";
-import LoadingSpinner from "../views/LoadingSpinner";
 
 function Integrations(props) {
   const appDispatch = useContext(DispatchContext);
@@ -80,7 +79,6 @@ function Integrations(props) {
     }
   }, [props.sendCount]);
 
-  if (props.isFetching) return <LoadingSpinner />;
   /**
    *
    * Check user chosen plugin is installed and activated.
@@ -122,12 +120,47 @@ function Integrations(props) {
   });
 
   /**
+   * Disable plugin usage when user deactivated or uninstalled the plugin.
+   */
+  pluginsInt.map((plugin) => {
+    useEffect(() => {
+      if (plugin.use) {
+        async function deactivatePlugin() {
+          try {
+            const getPlugins = await AxiosWp.get("/wp/v2/plugins", {});
+            if (getPlugins.data) {
+              const findPlugin = getPlugins.data.find(
+                (element) => element.plugin === plugin.plugin
+              );
+              if (findPlugin) {
+                if (findPlugin.status === "inactive") {
+                  appDispatch({
+                    type: plugin.inactive,
+                  });
+                  appDispatch({ type: "submitOptions" });
+                }
+              } else {
+                appDispatch({
+                  type: plugin.inactive,
+                });
+                appDispatch({ type: "submitOptions" });
+              }
+            }
+          } catch (e) {
+            console.log(e);
+          }
+        }
+        deactivatePlugin();
+      }
+    }, [plugin.use]);
+  });
+
+  /**
    * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
    */
-
   return (
     <div>
       <SectionHeader sectionName={state.sectionName} />

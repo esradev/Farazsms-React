@@ -20,17 +20,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Farazsms_Loader {
 
-	private static $woocommerce;
-	private static $elementorPro;
-	private static $digits;
-	private static $edd;
-	private static $bookly;
-	private static $gravityForms;
-	private static $indeedMembershipPro;
-	private static $paidMembershipsPro;
-	private static $affiliateWp;
-	private static $indeedAffiliatePro;
-	private static $yithWoocommerceAffiliates;
+	public static $woocommerce;
+	public static $elementorPro;
+	public static $digits;
+	public static $edd;
+	public static $bookly;
+	public static $gravityForms;
+	public static $indeedMembershipPro;
+	public static $paidMembershipsPro;
+	public static $affiliateWp;
+	public static $indeedAffiliatePro;
+	public static $yithWoocommerceAffiliates;
 
 	/**
 	 * Instance

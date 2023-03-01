@@ -9,7 +9,6 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
-
 // Plugin Context
 import StateContext from "./StateContext";
 import DispatchContext from "./DispatchContext";
@@ -53,6 +52,7 @@ function App() {
         imgUrl: { logo: WoocommerceLogo },
         onChange: "wooChange",
         check: "wooCheck",
+        inactive: "wooInactive",
         plugin: "woocommerce/woocommerce",
         hasErrors: false,
         errorMessage: "",
@@ -66,6 +66,7 @@ function App() {
         imgUrl: { logo: ElementorLogo },
         onChange: "elementorProChange",
         check: "elementorProCheck",
+        inactive: "elementorProInactive",
         plugin: "elementor-pro/elementor-pro",
         hasErrors: false,
         errorMessage: "",
@@ -82,6 +83,7 @@ function App() {
         imgUrl: { logo: DigitsLogo },
         onChange: "digitsChange",
         check: "digitsCheck",
+        inactive: "digitsInactive",
         plugin: "digits/digits",
         hasErrors: false,
         errorMessage: "",
@@ -95,6 +97,7 @@ function App() {
         imgUrl: { logo: EddLogo },
         onChange: "eddChange",
         check: "eddCheck",
+        inactive: "eddInactive",
         plugin: "easy-digital-downloads/easy-digital-downloads",
         hasErrors: false,
         errorMessage: "",
@@ -108,6 +111,7 @@ function App() {
         imgUrl: { logo: BooklyLogo },
         onChange: "booklyChange",
         check: "booklyCheck",
+        inactive: "booklyInactive",
         plugin: "bookly-responsive-appointment-booking-tool/main",
         hasErrors: false,
         errorMessage: "",
@@ -121,6 +125,7 @@ function App() {
         imgUrl: { logo: GravityFormsLogo },
         onChange: "gfChange",
         check: "gfCheck",
+        inactive: "gfInactive",
         plugin: "gravityforms/gravityforms",
         hasErrors: false,
         errorMessage: "",
@@ -134,6 +139,7 @@ function App() {
         imgUrl: { logo: IndeedMembershipProLogo },
         onChange: "impChange",
         check: "impCheck",
+        inactive: "impInactive",
         plugin: "indeed-membership-pro/indeed-membership-pro",
         hasErrors: false,
         errorMessage: "",
@@ -147,6 +153,7 @@ function App() {
         imgUrl: { logo: PaidMembershipsProLogo },
         onChange: "pmpChange",
         check: "pmpCheck",
+        inactive: "pmpInactive",
         plugin: "paid-memberships-pro/paid-memberships-pro",
         hasErrors: false,
         errorMessage: "",
@@ -160,6 +167,7 @@ function App() {
         imgUrl: { logo: AffiliateWpLogo },
         onChange: "affChange",
         check: "affCheck",
+        inactive: "affInactive",
         plugin: "affiliate-wp/affiliate-wp",
         hasErrors: false,
         errorMessage: "",
@@ -173,6 +181,7 @@ function App() {
         imgUrl: { logo: IndeedAffiliateProLogo },
         onChange: "uapChange",
         check: "uapCheck",
+        inactive: "uapInactive",
         plugin: "indeed-affiliate-pro/indeed-affiliate-pro",
         hasErrors: false,
         errorMessage: "",
@@ -186,6 +195,7 @@ function App() {
         imgUrl: { logo: YithWoocommerceAffiliatesLogo },
         onChange: "ywaChange",
         check: "ywaCheck",
+        inactive: "ywaInactive",
         plugin: "yith-woocommerce-affiliates/init",
         hasErrors: false,
         errorMessage: "",
@@ -245,6 +255,9 @@ function App() {
           "farazsms"
         );
         return;
+      case "wooInactive":
+        draft.plugins.woocommerce.use = false;
+        return;
       case "elementorProChange":
         draft.plugins.elementorPro.hasErrors = false;
         draft.plugins.elementorPro.use = action.value;
@@ -256,6 +269,9 @@ function App() {
           "First install & activate plugin.",
           "farazsms"
         );
+        return;
+      case "elementorProInactive":
+        draft.plugins.elementorPro.use = false;
         return;
       case "digitsChange":
         draft.plugins.digits.hasErrors = false;
@@ -269,6 +285,9 @@ function App() {
           "farazsms"
         );
         return;
+      case "digitsInactive":
+        draft.plugins.digits.use = false;
+        return;
       case "eddChange":
         draft.plugins.edd.hasErrors = false;
         draft.plugins.edd.use = action.value;
@@ -280,6 +299,9 @@ function App() {
           "First install & activate plugin.",
           "farazsms"
         );
+        return;
+      case "eddInactive":
+        draft.plugins.edd.use = false;
         return;
       case "booklyChange":
         draft.plugins.bookly.hasErrors = false;
@@ -293,6 +315,9 @@ function App() {
           "farazsms"
         );
         return;
+      case "booklyInactive":
+        draft.plugins.bookly.use = false;
+        return;
       case "gfChange":
         draft.plugins.gravityForms.hasErrors = false;
         draft.plugins.gravityForms.use = action.value;
@@ -304,6 +329,9 @@ function App() {
           "First install & activate plugin.",
           "farazsms"
         );
+        return;
+      case "gfInactive":
+        draft.plugins.gravityForms.use = false;
         return;
       case "impChange":
         draft.plugins.indeedMembershipPro.hasErrors = false;
@@ -317,6 +345,9 @@ function App() {
           "farazsms"
         );
         return;
+      case "impInactive":
+        draft.plugins.indeedMembershipPro.use = false;
+        return;
       case "pmpChange":
         draft.plugins.paidMembershipsPro.hasErrors = false;
         draft.plugins.paidMembershipsPro.use = action.value;
@@ -328,6 +359,9 @@ function App() {
           "First install & activate plugin.",
           "farazsms"
         );
+        return;
+      case "pmpInactive":
+        draft.plugins.paidMembershipsPro.use = false;
         return;
       case "affChange":
         draft.plugins.affiliateWp.hasErrors = false;
@@ -341,6 +375,9 @@ function App() {
           "farazsms"
         );
         return;
+      case "affInactive":
+        draft.plugins.affiliateWp.use = false;
+        return;
       case "uapChange":
         draft.plugins.indeedAffiliatePro.hasErrors = false;
         draft.plugins.indeedAffiliatePro.use = action.value;
@@ -353,6 +390,9 @@ function App() {
           "farazsms"
         );
         return;
+      case "uapInactive":
+        draft.plugins.indeedAffiliatePro.use = false;
+        return;
       case "ywaChange":
         draft.plugins.yithWoocommerceAffiliates.hasErrors = false;
         draft.plugins.yithWoocommerceAffiliates.use = action.value;
@@ -364,6 +404,9 @@ function App() {
           "First install & activate plugin.",
           "farazsms"
         );
+        return;
+      case "ywaInactive":
+        draft.plugins.yithWoocommerceAffiliates.use = false;
         return;
       case "submitOptions":
         if (
@@ -392,7 +435,6 @@ function App() {
   }
 
   /**
-   *
    * Get integrations options from DB on integrations component loaded
    *
    * @since 2.0.0

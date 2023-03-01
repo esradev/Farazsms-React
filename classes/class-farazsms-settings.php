@@ -45,14 +45,13 @@ class Farazsms_Settings {
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_styles' ] );
 		add_action( 'admin_menu', [ $this, 'init_menu' ] );
-        if(Farazsms_Base::$apiKey) {
-	        add_action( 'admin_bar_menu', [ $this, 'admin_bar_menu' ], 60 );
-        }
+		if ( Farazsms_Base::$apiKey ) {
+			add_action( 'admin_bar_menu', [ $this, 'admin_bar_menu' ], 60 );
+		}
 		add_filter( 'plugin_action_links_' . FARAZSMS_BASE, [ $this, 'settings_link' ] );
 		add_action( 'wp_dashboard_setup', [ $this, 'rss_meta_box' ] );
 		add_action( 'init', [ $this, 'check_remaining_days' ] );
 	}
-
 
 
 	/**
@@ -70,13 +69,13 @@ class Farazsms_Settings {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_register_script( 'farazsms-newsletter', FARAZSMS_URL . 'assets/js/farazsms-newsletter.js', [ 'jquery' ], '2.0.1',  true);
+		wp_register_script( 'farazsms-newsletter', FARAZSMS_URL . 'assets/js/farazsms-newsletter.js', [ 'jquery' ], '2.0.1', true );
 		wp_localize_script(
 			'farazsms-newsletter',
 			'fsms_ajax_object',
 			[ 'ajax_url' => admin_url( 'admin-ajax.php' ) ]
 		);
-    }
+	}
 
 	/**
 	 * Register the stylesheets for the admin area.
@@ -112,11 +111,12 @@ class Farazsms_Settings {
 			'farazsms-script',
 			'farazsmsJsObject',
 			[
-				'rootapiurl'    => esc_url_raw( rest_url() ),
-				'nonce'         => wp_create_nonce( 'wp_rest' ),
-				'wproules'      => wp_roles(),
-				'getPhonebooks' => Farazsms_Ippanel::get_phonebooks(),
-				'getCredit'     => Farazsms_Ippanel::get_credit(),
+				'rootapiurl'         => esc_url_raw( rest_url() ),
+				'nonce'              => wp_create_nonce( 'wp_rest' ),
+				'wproules'           => wp_roles(),
+				'getPhonebooks'      => Farazsms_Ippanel::get_phonebooks(),
+				'getCredit'          => Farazsms_Ippanel::get_credit(),
+				'getActivePlugins' => get_option( 'active_plugins' ),
 			]
 		);
 

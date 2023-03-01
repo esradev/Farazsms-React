@@ -67,19 +67,22 @@ class Farazsms_Woocommerce {
 			self::$woo_retention_msg         = $woocommerce_options['woo_retention_msg'];
 		}
 
-		add_action( 'add_meta_boxes', [ $this, 'tracking_code_order_postbox' ] );
-		add_action( 'wp_ajax_fsms_send_tracking_code_sms', [ $this, 'send_tracking_code_sms' ] );
-		add_action( 'wp_ajax_nopriv_fsms_send_tracking_code_sms', [ $this, 'send_tracking_code_sms' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
-		add_action( 'woocommerce_thankyou', [ $this, 'woo_payment_finished' ] );
+		if ( Farazsms_Loader::$woocommerce === false ) {
+			add_action( 'add_meta_boxes', [ $this, 'tracking_code_order_postbox' ] );
+			add_action( 'wp_ajax_fsms_send_tracking_code_sms', [ $this, 'send_tracking_code_sms' ] );
+			add_action( 'wp_ajax_nopriv_fsms_send_tracking_code_sms', [ $this, 'send_tracking_code_sms' ] );
+			add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
+			add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+			add_action( 'woocommerce_thankyou', [ $this, 'woo_payment_finished' ] );
 //		add_action( 'woocommerce_thankyou', [ $this, 'woo_send_timed_message' ] );
 //		add_action( 'init', [$this, 'fsms_woo_retention_action' ]);
-		add_action( 'woocommerce_checkout_get_value', [ $this, 'fsms_pre_populate_checkout_fields' ], 10, 2 );
-		add_filter( 'woocommerce_billing_fields', [ $this, 'fsms_woocommerce_checkout_fields' ] );
-		add_action( 'woocommerce_checkout_process', [ $this, 'fsms_woocommerce_checkout_process' ] );
-		add_action( 'wp_ajax_fsms_send_otp_code', [ $this, 'fsms_send_otp_code' ] );
-		add_action( 'wp_ajax_nopriv_fsms_send_otp_code', [ $this, 'fsms_send_otp_code' ] );
+			add_action( 'woocommerce_checkout_get_value', [ $this, 'fsms_pre_populate_checkout_fields' ], 10, 2 );
+			add_filter( 'woocommerce_billing_fields', [ $this, 'fsms_woocommerce_checkout_fields' ] );
+			add_action( 'woocommerce_checkout_process', [ $this, 'fsms_woocommerce_checkout_process' ] );
+			add_action( 'wp_ajax_fsms_send_otp_code', [ $this, 'fsms_send_otp_code' ] );
+			add_action( 'wp_ajax_nopriv_fsms_send_otp_code', [ $this, 'fsms_send_otp_code' ] );
+		}
+
 	}
 
 	/**
@@ -207,7 +210,7 @@ class Farazsms_Woocommerce {
 	 * Send woocommerce verification code.
 	 */
 	public function send_woocommerce_verification_code( $phone, $data ) {
-		$phone   = Farazsms_Base::fsms_tr_num( $phone );
+		$phone = Farazsms_Base::fsms_tr_num( $phone );
 		if ( empty( $phone ) || empty( self::$woo_checkout_otp_pattern ) || empty( $data ) ) {
 			return false;
 		}
@@ -297,15 +300,16 @@ class Farazsms_Woocommerce {
 	 * Woocommerce payment finished.
 	 */
 	public function woo_payment_finished( $id ) {
-		$order     = wc_get_order( $id );
-		$phone     = $order->get_billing_phone();
+		$order = wc_get_order( $id );
+		$phone = $order->get_billing_phone();
 
 		if ( empty( $phone ) ) {
 			return;
 		}
 
 		Farazsms_Ippanel::save_a_phone_to_phonebook( $phone, Farazsms_Base::$woo_phonebook_id );
-		$this->fsms_delete_otp_code($order);
+		$this->fsms_delete_otp_code( $order );
+
 		return true;
 	}
 
@@ -316,9 +320,9 @@ class Farazsms_Woocommerce {
 	 */
 	public function woo_send_timed_message( $order_id ) {
 
-		$order     = wc_get_order( $order_id );
-		$phone     = $order->get_billing_phone();
-		$products  = [];
+		$order    = wc_get_order( $order_id );
+		$phone    = $order->get_billing_phone();
+		$products = [];
 		/*
 		 * TODO: need to fix this or have another approach
 		 */
@@ -474,11 +478,10 @@ class Farazsms_Woocommerce {
 	 *
 	 */
 
-	public function fsms_pre_populate_checkout_fields($input, $key)
-	{
+	public function fsms_pre_populate_checkout_fields( $input, $key ) {
 		global $current_user;
-		$digits_mobile = get_user_meta($current_user->ID, 'digits_phone_no', TRUE);
-		switch ($key):
+		$digits_mobile = get_user_meta( $current_user->ID, 'digits_phone_no', true );
+		switch ( $key ):
 			case 'billing_first_name':
 			case 'shipping_first_name':
 				return $current_user->first_name;
@@ -489,7 +492,7 @@ class Farazsms_Woocommerce {
 				return $current_user->last_name;
 				break;
 			case 'billing_phone':
-				return !empty($digits_mobile) ? '0' . $digits_mobile : '';
+				return ! empty( $digits_mobile ) ? '0' . $digits_mobile : '';
 				break;
 
 		endswitch;
