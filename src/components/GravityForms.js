@@ -136,10 +136,32 @@ function GravityForms(props) {
 
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
 
+  // function handleSubmit(e) {
+  //   e.preventDefault();
+  //
+  //   dispatch({ type: "submitOptions" });
+  // }
+
   function handleSubmit(e) {
     e.preventDefault();
 
-    dispatch({ type: "submitOptions" });
+    async function save_new_gravity_forms_action_to_db() {
+      try {
+        const newAction = await AxiosWp.post(
+          "/farazsms/v1/save_new_gravity_forms_action_to_db",
+          {
+            phonebook_id: 123,
+            form_id: 555,
+            field_id: 3,
+            action: "after-submit",
+          }
+        );
+        console.log(newAction);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    save_new_gravity_forms_action_to_db();
   }
 
   /**

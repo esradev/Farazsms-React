@@ -282,6 +282,15 @@ class Farazsms_Routes {
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
+
+		//Register save_new_gravity_forms_action_to_db rest route
+		register_rest_route( $namespace, '/' . 'save_new_gravity_forms_action_to_db', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'save_new_gravity_forms_action_to_db' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
 	}
 
 	/**
@@ -786,6 +795,24 @@ class Farazsms_Routes {
 		$table = $wpdb->prefix . 'farazsms_newsletter';
 
 		return json_decode($wpdb->delete( $table, [ 'id' => $subscriber_id['subscriber_id'] ] ), true);
+	}
+
+	/**
+	 * Add new gravity forms action to DB.
+	 */
+	public static function save_new_gravity_forms_action_to_db($incomingData) {
+		global $wpdb;
+		$data = [
+			'phonebook_id' => $incomingData['phonebook_id'],
+			'form_id'       => $incomingData['form_id'],
+			'field_id' => $incomingData['field_id'],
+			'action' => $incomingData['action'],
+		];
+		$table_name = $wpdb->prefix . 'farazsms_gravity_forms';
+
+		$wpdb->insert( $table_name, $data );
+
+		return true;
 	}
 
 	/**
