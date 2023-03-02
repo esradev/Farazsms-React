@@ -98,7 +98,6 @@ class Farazsms_Digits {
 
 		Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
 
-
 		$already_sent_one = get_user_meta( $user_id, 'sent_welcome_message', true );
 		if ( ! empty( $already_sent_one ) && $already_sent_one == '1' ) {
 			return;

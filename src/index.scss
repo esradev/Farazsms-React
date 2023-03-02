@@ -1,13 +1,13 @@
-@import "~bootstrap/scss/bootstrap";
-@import "./styles/header.scss";
-@import "./styles/flash-messages.scss";
-@import "./styles/variables.scss";
-@import "./styles/sidebar.scss";
-@import "./styles/settings.scss";
-@import "./styles/live-validate-message.scss";
-@import "./styles/plugins-card-checkbox.scss";
-@import "./styles/loading-spinner.scss";
-@import "./styles/newsletter.scss";
+@use "~bootstrap/scss/bootstrap";
+@use "./styles/header.scss";
+@use "./styles/flash-messages.scss";
+@use "./styles/variables.scss";
+@use "./styles/sidebar.scss";
+@use "./styles/settings.scss";
+@use "./styles/live-validate-message.scss";
+@use "./styles/plugins-card-checkbox.scss";
+@use "./styles/loading-spinner.scss";
+@use "./styles/newsletter.scss";
 
 @font-face {
   font-family: IRANSans;
@@ -17,8 +17,6 @@
 }
 
 #farazsms-admin-page {
-  font-family: IRANSans, Tahoma, sans-serif !important;
-
   height: 100vh;
   background: #fff;
   .app-title {

@@ -67,7 +67,6 @@ class Farazsms_Woocommerce {
 			self::$woo_retention_msg         = $woocommerce_options['woo_retention_msg'];
 		}
 
-		if ( Farazsms_Loader::$woocommerce === false ) {
 			add_action( 'add_meta_boxes', [ $this, 'tracking_code_order_postbox' ] );
 			add_action( 'wp_ajax_fsms_send_tracking_code_sms', [ $this, 'send_tracking_code_sms' ] );
 			add_action( 'wp_ajax_nopriv_fsms_send_tracking_code_sms', [ $this, 'send_tracking_code_sms' ] );
@@ -81,8 +80,6 @@ class Farazsms_Woocommerce {
 			add_action( 'woocommerce_checkout_process', [ $this, 'fsms_woocommerce_checkout_process' ] );
 			add_action( 'wp_ajax_fsms_send_otp_code', [ $this, 'fsms_send_otp_code' ] );
 			add_action( 'wp_ajax_nopriv_fsms_send_otp_code', [ $this, 'fsms_send_otp_code' ] );
-		}
-
 	}
 
 	/**

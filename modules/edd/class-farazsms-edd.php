@@ -130,6 +130,7 @@ class Farazsms_Edd {
 		$result['email']      = $payment_meta['email'];
 		$result['first_name'] = $payment_meta['user_info']['first_name'];
 		$result['last_name']  = $payment_meta['user_info']['last_name'];
+        $result['payment_id'] = $payment_id;
 
 
 		for ( $i = 0; $i < count( $payment_meta['cart_details'] ); $i ++ ) {

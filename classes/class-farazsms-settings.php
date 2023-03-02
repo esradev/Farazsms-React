@@ -13,6 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class Farazsms_Settings {
+	public static $actual_link;
 	/**
 	 * Instance
 	 *
@@ -51,7 +52,9 @@ class Farazsms_Settings {
 		add_filter( 'plugin_action_links_' . FARAZSMS_BASE, [ $this, 'settings_link' ] );
 		add_action( 'wp_dashboard_setup', [ $this, 'rss_meta_box' ] );
 		add_action( 'init', [ $this, 'check_remaining_days' ] );
-	}
+		self::$actual_link = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http' ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+    }
 
 
 	/**
@@ -83,7 +86,10 @@ class Farazsms_Settings {
 	 * @since 1.0.0
 	 */
 	public function admin_enqueue_styles() {
-		wp_enqueue_style( 'farazsms-style', FARAZSMS_URL . 'build/index.css' );
+		if ( self::$actual_link === FARAZSMS_SETTINGS_LINK ) {
+			wp_enqueue_style( 'farazsms-style', FARAZSMS_URL . 'build/index.css' );
+		}
+
 	}
 
 	/**
@@ -111,13 +117,13 @@ class Farazsms_Settings {
 			'farazsms-script',
 			'farazsmsJsObject',
 			[
-				'rootapiurl'       => esc_url_raw( rest_url() ),
-				'nonce'            => wp_create_nonce( 'wp_rest' ),
-				'wproules'         => wp_roles(),
-				'getPhonebooks'    => Farazsms_Ippanel::get_phonebooks(),
-				'getCredit'        => Farazsms_Ippanel::get_credit(),
-				'getActivePlugins' => get_option( 'active_plugins' ),
-                'isDigitsInstalled' => function_exists('digit_ready'),
+				'rootapiurl'        => esc_url_raw( rest_url() ),
+				'nonce'             => wp_create_nonce( 'wp_rest' ),
+				'wproules'          => wp_roles(),
+				'getPhonebooks'     => Farazsms_Ippanel::get_phonebooks(),
+				'getCredit'         => Farazsms_Ippanel::get_credit(),
+				'getActivePlugins'  => get_option( 'active_plugins' ),
+				'isDigitsInstalled' => function_exists( 'digit_ready' ),
 			]
 		);
 

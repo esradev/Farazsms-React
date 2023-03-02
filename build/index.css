@@ -10877,7 +10877,7 @@ textarea.form-control-lg {
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
 }
-.faraz-header .header-logo a h2, .faraz-header .header-logo a .h2 {
+.faraz-header .header-logo a h2 {
   font-size: 30px;
   font-weight: bold;
 }
@@ -11254,7 +11254,7 @@ main {
 .plugins-card .card-header div span img {
   max-height: 100%;
 }
-.plugins-card .card-header div h3, .plugins-card .card-header div .h3 {
+.plugins-card .card-header div h3 {
   margin-left: 0.75rem;
   font-weight: 500;
 }
@@ -11569,7 +11569,6 @@ main {
   src: url(fonts/IRANSansWeb.9ffdcda0.woff) format("woff");
 }
 #farazsms-admin-page {
-  font-family: IRANSans, Tahoma, sans-serif !important;
   height: 100vh;
   background: #fff;
 }
@@ -11578,7 +11577,7 @@ main {
   font-weight: bold;
   margin-bottom: 1em;
 }
-#farazsms-admin-page h1, #farazsms-admin-page .h1, #farazsms-admin-page h2, #farazsms-admin-page .h2, #farazsms-admin-page h3, #farazsms-admin-page .h3, #farazsms-admin-page h4, #farazsms-admin-page .h4, #farazsms-admin-page h5, #farazsms-admin-page .h5, #farazsms-admin-page h6, #farazsms-admin-page .h6 {
+#farazsms-admin-page h1, #farazsms-admin-page h2, #farazsms-admin-page h3, #farazsms-admin-page h4, #farazsms-admin-page h5, #farazsms-admin-page h6 {
   font-family: IRANSans, Tahoma, sans-serif !important;
 }
 
