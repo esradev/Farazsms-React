@@ -283,11 +283,29 @@ class Farazsms_Routes {
 			]
 		] );
 
-		//Register save_new_gravity_forms_action_to_db rest route
-		register_rest_route( $namespace, '/' . 'save_new_gravity_forms_action_to_db', [
+		//Register add_new_gravity_forms_action_to_db rest route
+		register_rest_route( $namespace, '/' . 'add_new_gravity_forms_action_to_db', [
 			[
 				'methods'             => 'POST',
-				'callback'            => [ $this, 'save_new_gravity_forms_action_to_db' ],
+				'callback'            => [ $this, 'add_new_gravity_forms_action_to_db' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
+
+		//Register get_gravity_forms_actions_from_db rest route
+		register_rest_route( $namespace, '/' . 'get_gravity_forms_actions_from_db', [
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_gravity_forms_actions_from_db' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
+
+		//Register delete_gravity_forms_actions_from_db rest route
+		register_rest_route( $namespace, '/' . 'delete_gravity_forms_actions_from_db', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'delete_gravity_forms_actions_from_db' ],
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
@@ -800,7 +818,7 @@ class Farazsms_Routes {
 	/**
 	 * Add new gravity forms action to DB.
 	 */
-	public static function save_new_gravity_forms_action_to_db($incomingData) {
+	public static function add_new_gravity_forms_action_to_db($incomingData) {
 		global $wpdb;
 		$data = [
 			'phonebook_id' => $incomingData['phonebook_id'],
@@ -814,6 +832,27 @@ class Farazsms_Routes {
 
 		return true;
 	}
+
+	/**
+	 * Get gravity forms actions.
+	 */
+	public static function get_gravity_forms_actions_from_db() {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'farazsms_gravity_forms';
+
+		return json_encode($wpdb->get_results( "SELECT * FROM $table_name" ), true);
+	}
+
+	/**
+	 * Delete subscriber.
+	 */
+	public static function delete_gravity_forms_actions_from_db( $action_id ) {
+		global $wpdb;
+		$table = $wpdb->prefix . 'farazsms_gravity_forms';
+
+		return json_decode($wpdb->delete( $table, [ 'id' => $action_id['action_id'] ] ), true);
+	}
+
 
 	/**
 	 * Check if a given request has permissions

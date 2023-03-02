@@ -409,13 +409,12 @@ function Newsletter() {
     }
   }, [state.sendCount]);
 
-  const { confirm } = useConfirm();
-
   /**
    * Delete Subscriber from DB.
    * @param subscriber
    * @returns {Promise<void>}
    */
+  const { confirm } = useConfirm();
 
   const deleteSubscriber = async (subscriber) => {
     const isConfirmed = await confirm(

@@ -3,6 +3,8 @@
  */
 import React, { useState, useEffect, useContext } from "react";
 import { useImmerReducer } from "use-immer";
+import useConfirm from "../hooks/useConfirm";
+
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
 
@@ -72,6 +74,8 @@ function GravityForms(props) {
       }),
     },
     gfSelectedFormId: "",
+    gravityFormsActions: "",
+    currentActions: 0,
     isFetching: true,
     isSaving: false,
     sendCount: 0,
@@ -122,6 +126,12 @@ function GravityForms(props) {
       case "gf_selected_fieldChange":
         draft.inputs.gf_selected_field.value = action.value;
         return;
+      case "getGravityFormsActions":
+        draft.gravityFormsActions = action.value;
+        return;
+      case "updateCurrentActions":
+        draft.currentActions = action.value;
+        return;
       case "submitOptions":
         draft.sendCount++;
         return;
@@ -145,10 +155,10 @@ function GravityForms(props) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    async function save_new_gravity_forms_action_to_db() {
+    async function add_new_gravity_forms_action_to_db() {
       try {
         const newAction = await AxiosWp.post(
-          "/farazsms/v1/save_new_gravity_forms_action_to_db",
+          "/farazsms/v1/add_new_gravity_forms_action_to_db",
           {
             phonebook_id: 123,
             form_id: 555,
@@ -161,7 +171,7 @@ function GravityForms(props) {
         console.log(e);
       }
     }
-    save_new_gravity_forms_action_to_db();
+    add_new_gravity_forms_action_to_db();
   }
 
   /**
@@ -279,7 +289,6 @@ function GravityForms(props) {
    *
    * @since 2.0.0
    */
-
   useEffect(() => {
     if (state.sendCount) {
       const optionsArray = Object.values(state.inputs).map(
@@ -314,6 +323,73 @@ function GravityForms(props) {
     }
   }, [state.sendCount]);
 
+  /**
+   * Get Gravity Forms action list from DB
+   */
+  useEffect(() => {
+    async function get_gravity_forms_actions_from_db() {
+      try {
+        const getActions = await AxiosWp.get(
+          "/farazsms/v1/get_gravity_forms_actions_from_db"
+        );
+        dispatch({
+          type: "getGravityFormsActions",
+          value: JSON.parse(getActions.data),
+        });
+        dispatch({
+          type: "updateCurrentActions",
+          value: JSON.parse(getActions.data),
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    get_gravity_forms_actions_from_db();
+  }, [[], state.currentSubscribers]);
+
+  /**
+   * Delete Gravity Forms action from DB.
+   * @param subscriber
+   * @returns {Promise<void>}
+   */
+  const { confirm } = useConfirm();
+  const deleteAction = async (action) => {
+    const isConfirmed = await confirm(
+      __("Do you want to delete that action?", "farazsms")
+    );
+
+    if (isConfirmed) {
+      async function deleteActionFromDb() {
+        try {
+          await AxiosWp.post(
+            "/farazsms/v1/delete_gravity_forms_actions_from_db",
+            {
+              action_id: action.id,
+            }
+          );
+          appDispatch({
+            type: "flashMessage",
+            value: {
+              message: __("Congrats. Action deleted successfully.", "farazsms"),
+            },
+          });
+          console.log(action.id);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      deleteActionFromDb();
+    } else {
+      appDispatch({
+        type: "flashMessage",
+        value: {
+          message: __("Canceled. Action still there.", "farazsms"),
+          type: "error",
+        },
+      });
+    }
+  };
+
   if (state.isFetching) return <LoadingSpinner />;
 
   return (
@@ -345,6 +421,30 @@ function GravityForms(props) {
           <SaveButton isSaving={state.isSaving} />
         </form>
       </div>
+      {state.gravityFormsActions && (
+        <div className="list-contacts">
+          <ol className="contact-list">
+            {state.gravityFormsActions.map((action) => (
+              <li key={action.id} className="contact-list-item">
+                <div className="contact-details">
+                  <p>{action.phonebook_id}</p>
+                </div>
+                <div className="contact-details">
+                  <p className="contact-details">{action.action}</p>
+                </div>
+                <button
+                  className="contact-delete"
+                  onClick={() => {
+                    deleteAction(action);
+                  }}
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ol>
+        </div>
+      )}
     </>
   );
 }
