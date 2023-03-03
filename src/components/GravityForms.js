@@ -33,45 +33,57 @@ function GravityForms(props) {
       }),
     },
     inputs: {
-      ...(props.integratedPlugins.gravityForms.use && {
-        gf_phonebook: {
-          value: [],
-          onChange: "gf_phonebookChange",
-          name: "gf_phonebook",
-          type: "select",
-          label: __("Select phonebook for Gravity Form:", "farazsms"),
-          options: [],
-          noOptionsMessage: __("No options is available", "farazsms"),
-        },
-        gf_forms: {
-          value: [],
-          onChange: "gf_formsChange",
-          name: "gf_forms",
-          type: "select",
-          label: __("Gravity Form forms:", "farazsms"),
-          infoTitle: __("Info", "farazsms"),
-          infoBody: __(
-            "In this section, you can specify the form you want to register in the Gravity Form phonebook",
-            "farazsms"
-          ),
-          options: [],
-          noOptionsMessage: __("No options is available", "farazsms"),
-        },
-        gf_selected_field: {
-          value: [],
-          onChange: "gf_selected_fieldChange",
-          name: "gf_selected_field",
-          type: "select",
-          label: __("Gravity Form fields:", "farazsms"),
-          infoTitle: __("Info", "farazsms"),
-          infoBody: __(
-            "In this section, you can specify the fields you want to register in the Gravity Form phonebook",
-            "farazsms"
-          ),
-          options: [],
-          noOptionsMessage: __("No options is available", "farazsms"),
-        },
-      }),
+      gf_phonebook: {
+        value: [],
+        onChange: "gf_phonebookChange",
+        name: "gf_phonebook",
+        type: "select",
+        label: __("Select phonebook for Gravity Form:", "farazsms"),
+        options: [],
+        noOptionsMessage: __("No options is available", "farazsms"),
+      },
+      gf_forms: {
+        value: [],
+        onChange: "gf_formsChange",
+        name: "gf_forms",
+        type: "select",
+        label: __("Gravity Form forms:", "farazsms"),
+        infoTitle: __("Info", "farazsms"),
+        infoBody: __(
+          "In this section, you can specify the form you want to register in the Gravity Form phonebook",
+          "farazsms"
+        ),
+        options: [],
+        noOptionsMessage: __("No options is available", "farazsms"),
+      },
+      gf_selected_field: {
+        value: [],
+        onChange: "gf_selected_fieldChange",
+        name: "gf_selected_field",
+        type: "select",
+        label: __("Gravity Form fields:", "farazsms"),
+        infoTitle: __("Info", "farazsms"),
+        infoBody: __(
+          "In this section, you can specify the fields you want to register in the Gravity Form phonebook",
+          "farazsms"
+        ),
+        options: [],
+        noOptionsMessage: __("No options is available", "farazsms"),
+      },
+      gf_action: {
+        value: [],
+        onChange: "gf_actionChange",
+        name: "gf_action",
+        type: "select",
+        label: __("Gravity Form action:", "farazsms"),
+        infoTitle: __("Info", "farazsms"),
+        infoBody: __(
+          "In this section, you can specify the action you want to do with the value of the selected fields.",
+          "farazsms"
+        ),
+        options: [],
+        noOptionsMessage: __("No options is available", "farazsms"),
+      },
     },
     gfSelectedFormId: "",
     gravityFormsActions: "",
@@ -90,6 +102,7 @@ function GravityForms(props) {
           draft.inputs.gf_phonebook.value = action.value.gf_phonebook;
           draft.inputs.gf_forms.value = action.value.gf_forms;
           draft.inputs.gf_selected_field.value = action.value.gf_selected_field;
+          draft.inputs.gf_action.value = action.value.gf_action;
         }
         draft.isFetching = false;
         return;
@@ -125,6 +138,9 @@ function GravityForms(props) {
         return;
       case "gf_selected_fieldChange":
         draft.inputs.gf_selected_field.value = action.value;
+        return;
+      case "gf_actionChange":
+        draft.inputs.gf_action.value = action.value;
         return;
       case "getGravityFormsActions":
         draft.gravityFormsActions = action.value;
@@ -392,61 +408,60 @@ function GravityForms(props) {
 
   if (state.isFetching) return <LoadingSpinner />;
 
-  return (
-    <>
-      <SectionHeader sectionName={state.sectionName} />
-      <div>
-        <div className="container"></div>
-        {Object.values(state.notUsedPlugins).map((plugin) => (
-          <div key={plugin.id}>
-            <SectionError sectionName={plugin.name} />
-          </div>
-        ))}
-        <form onSubmit={handleSubmit}>
-          {Object.values(state.inputs).map((input) => (
-            <div key={input.name} className={"form-group"}>
-              <FormInput
-                isMulti={input.isMulti}
-                {...input}
-                onChange={(selectedOption) =>
-                  dispatch({
-                    type: input.onChange,
-                    value: selectedOption,
-                  })
-                }
-              />
-              <FormInputError />
-            </div>
-          ))}
-          <SaveButton isSaving={state.isSaving} />
-        </form>
-      </div>
-      {state.gravityFormsActions && (
-        <div className="list-contacts">
-          <ol className="contact-list">
-            {state.gravityFormsActions.map((action) => (
-              <li key={action.id} className="contact-list-item">
-                <div className="contact-details">
-                  <p>{action.phonebook_id}</p>
-                </div>
-                <div className="contact-details">
-                  <p className="contact-details">{action.action}</p>
-                </div>
-                <button
-                  className="contact-delete"
-                  onClick={() => {
-                    deleteAction(action);
-                  }}
-                >
-                  Delete
-                </button>
-              </li>
+  if (props.integratedPlugins.gravityForms.use) {
+    return (
+      <>
+        <SectionHeader sectionName={state.sectionName} />
+        <div>
+          <div className="container"></div>
+          <form onSubmit={handleSubmit}>
+            {Object.values(state.inputs).map((input) => (
+              <div key={input.name} className={"form-group"}>
+                <FormInput
+                  isMulti={input.isMulti}
+                  {...input}
+                  onChange={(selectedOption) =>
+                    dispatch({
+                      type: input.onChange,
+                      value: selectedOption,
+                    })
+                  }
+                />
+                <FormInputError />
+              </div>
             ))}
-          </ol>
+            <SaveButton isSaving={state.isSaving} />
+          </form>
         </div>
-      )}
-    </>
-  );
+        {state.gravityFormsActions && (
+          <div className="list-contacts">
+            <ol className="contact-list">
+              {state.gravityFormsActions.map((action) => (
+                <li key={action.id} className="contact-list-item">
+                  <div className="contact-details">
+                    <p>{action.phonebook_id}</p>
+                  </div>
+                  <div className="contact-details">
+                    <p className="contact-details">{action.action}</p>
+                  </div>
+                  <button
+                    className="contact-delete"
+                    onClick={() => {
+                      deleteAction(action);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+      </>
+    );
+  } else {
+    return <SectionError sectionName={state.sectionName} />;
+  }
 }
 
 export default GravityForms;

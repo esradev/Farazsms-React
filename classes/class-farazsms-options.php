@@ -94,6 +94,17 @@ class Farazsms_Options
 	}
 
 	/**
+	 * Register Gravity Forms options
+	 *
+	 * @return void
+	 * @since 2.0.0
+	 */
+	public function register_gravity_forms_options() {
+		$farazsms_gravity_forms_options = '';
+		add_option( 'farazsms_gravity_forms_options', $farazsms_gravity_forms_options );
+	}
+
+	/**
 	 * Register comments options.
 	 *
 	 * @return void

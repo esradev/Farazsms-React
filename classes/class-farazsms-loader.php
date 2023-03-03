@@ -108,10 +108,14 @@ class Farazsms_Loader {
 		}
 
 		// The class responsible for defining all actions for edd.
-		require_once FARAZSMS_MODULES_PATH . 'edd/class-farazsms-edd.php';
+		if ( self::$edd ) {
+			require_once FARAZSMS_MODULES_PATH . 'edd/class-farazsms-edd.php';
+		}
 
 		// The class responsible for defining all actions for aff.
-		require_once FARAZSMS_MODULES_PATH . 'aff/class-farazsms-aff.php';
+		if ( self::$indeedAffiliatePro || self::$affiliateWp || self::$yithWoocommerceAffiliates ) {
+			require_once FARAZSMS_MODULES_PATH . 'aff/class-farazsms-aff.php';
+		}
 
 		// The class responsible for defining all actions for newsletter.
 		require_once FARAZSMS_MODULES_PATH . 'newsletter/class-farazsms-newsletter.php';
@@ -126,14 +130,20 @@ class Farazsms_Loader {
 		require_once FARAZSMS_MODULES_PATH . 'farazsms/core/class-farazsms-comments.php';
 
 		// The class responsible for defining all actions for membership.
-		require_once FARAZSMS_MODULES_PATH . 'membership/class-farazsms-membership.php';
+		if ( self::$paidMembershipsPro || self::$indeedMembershipPro ) {
+			require_once FARAZSMS_MODULES_PATH . 'membership/class-farazsms-membership.php';
+		}
 
 		// The class responsible for defining all actions for gravity-forms.
-		require_once FARAZSMS_MODULES_PATH . 'gravity-forms/class-farazsms-gravity-forms.php';
-
+		if ( self::$gravityForms ) {
+			require_once FARAZSMS_MODULES_PATH . 'gravity-forms/class-farazsms-gravity-forms.php';
+		}
 		// The class responsible for defining all actions for digits.
-		require_once FARAZSMS_MODULES_PATH . 'digits/class-farazsms-digits.php';
+		if ( self::$digits ) {
+			require_once FARAZSMS_MODULES_PATH . 'digits/class-farazsms-digits.php';
+		}
 	}
+
 }
 
 Farazsms_Loader::get_instance();

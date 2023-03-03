@@ -98,6 +98,21 @@ class Farazsms_Routes {
 			],
 		] );
 
+		//Register gravity_forms_options rest route
+		register_rest_route( $namespace, '/' . 'gravity_forms_options', [
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_gravity_forms_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+
+			],
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'add_gravity_forms_options' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			],
+		] );
+
 		//Register comments_options rest route
 		register_rest_route( $namespace, '/' . 'comments_options', [
 			[
@@ -402,6 +417,32 @@ class Farazsms_Routes {
 	}
 
 	/**
+	 * Get gravity_forms options.
+	 */
+	public function get_gravity_forms_options() {
+		$farazsms_gravity_forms_options = get_option( 'farazsms_gravity_forms_options' );
+		if ( empty( $farazsms_gravity_forms_options ) ) {
+			return new WP_Error( 'no_option', 'Invalid options', [ 'status' => 404 ] );
+		}
+
+		return $farazsms_gravity_forms_options;
+	}
+
+	/**
+	 * Add login notify options.
+	 */
+	public function add_gravity_forms_options( $data ) {
+		$option      = [
+			'gf_gravity_forms'       => $data['gf_gravity_forms'] ?: [],
+			'gf_forms'               => $data['gf_forms'] ?: [],
+			'gf_selected_field'      => $data['gf_selected_field'] ?: [],
+		];
+		$option_json = wp_json_encode( $option );
+
+		return update_option( 'farazsms_gravity_forms_options', $option_json );
+	}
+
+	/**
 	 * Get usermeta.
 	 */
 	public function get_usermeta() {
@@ -489,7 +530,7 @@ class Farazsms_Routes {
 	 */
 	public function add_elementor_options( $data ) {
 		$option      = [
-			'elementor_phonebook'               => $data['elementor_phonebook'] ?: [],
+			'elementor_phonebook' => $data['elementor_phonebook'] ?: [],
 		];
 		$option_json = wp_json_encode( $option );
 
@@ -782,7 +823,7 @@ class Farazsms_Routes {
 	 */
 	public function get_phonebook_numbers( $phonebook_id ) {
 
-		$handler = curl_init( 'http://api.ippanel.com/api/v1/phonebook/numbers?phonebook=' . $phonebook_id['phonebook_id'] .'&page=1&per_page=10' );
+		$handler = curl_init( 'http://api.ippanel.com/api/v1/phonebook/numbers?phonebook=' . $phonebook_id['phonebook_id'] . '&page=1&per_page=10' );
 		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'GET' );
 		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
 		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
@@ -802,7 +843,7 @@ class Farazsms_Routes {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'farazsms_newsletter';
 
-		return json_encode($wpdb->get_results( "SELECT * FROM $table_name" ), true);
+		return json_encode( $wpdb->get_results( "SELECT * FROM $table_name" ), true );
 	}
 
 	/**
@@ -812,19 +853,19 @@ class Farazsms_Routes {
 		global $wpdb;
 		$table = $wpdb->prefix . 'farazsms_newsletter';
 
-		return json_decode($wpdb->delete( $table, [ 'id' => $subscriber_id['subscriber_id'] ] ), true);
+		return json_decode( $wpdb->delete( $table, [ 'id' => $subscriber_id['subscriber_id'] ] ), true );
 	}
 
 	/**
 	 * Add new gravity forms action to DB.
 	 */
-	public static function add_new_gravity_forms_action_to_db($incomingData) {
+	public static function add_new_gravity_forms_action_to_db( $incomingData ) {
 		global $wpdb;
-		$data = [
+		$data       = [
 			'phonebook_id' => $incomingData['phonebook_id'],
-			'form_id'       => $incomingData['form_id'],
-			'field_id' => $incomingData['field_id'],
-			'action' => $incomingData['action'],
+			'form_id'      => $incomingData['form_id'],
+			'field_id'     => $incomingData['field_id'],
+			'action'       => $incomingData['action'],
 		];
 		$table_name = $wpdb->prefix . 'farazsms_gravity_forms';
 
@@ -840,7 +881,7 @@ class Farazsms_Routes {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'farazsms_gravity_forms';
 
-		return json_encode($wpdb->get_results( "SELECT * FROM $table_name" ), true);
+		return json_encode( $wpdb->get_results( "SELECT * FROM $table_name" ), true );
 	}
 
 	/**
@@ -850,7 +891,7 @@ class Farazsms_Routes {
 		global $wpdb;
 		$table = $wpdb->prefix . 'farazsms_gravity_forms';
 
-		return json_decode($wpdb->delete( $table, [ 'id' => $action_id['action_id'] ] ), true);
+		return json_decode( $wpdb->delete( $table, [ 'id' => $action_id['action_id'] ] ), true );
 	}
 
 

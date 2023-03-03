@@ -11569,6 +11569,7 @@ main {
   src: url(fonts/IRANSansWeb.9ffdcda0.woff) format("woff");
 }
 #farazsms-admin-page {
+  display: contents;
   height: 100vh;
   background: #fff;
 }
