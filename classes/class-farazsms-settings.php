@@ -275,7 +275,6 @@ class Farazsms_Settings {
 	 */
 	public function admin_page() {
 		include_once FARAZSMS_MODULES_PATH . 'farazsms/farazsms-admin-page.php';
-
 	}
 
 	/**
@@ -318,7 +317,7 @@ class Farazsms_Settings {
 				'parent' => 'farazsms',
 				'title'  => __( 'Send sms', 'farazsms' ),
 				'id'     => 'farazsms-admin-bar-send-sms',
-				'href'   => get_bloginfo( 'url' ) . '/wp-admin/admin.php?page=farazsms_settings#/sendsms',
+				'href'   => get_bloginfo( 'url' ) . '/wp-admin/admin.php?page=farazsms_settings#/send_sms',
 			]
 		);
 		$wp_admin_bar->add_menu(

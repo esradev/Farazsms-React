@@ -16,6 +16,7 @@ import {
   AiOutlineLogin,
   AiOutlineUserSwitch,
   AiOutlineUnorderedList,
+  AiOutlineSend,
 } from "react-icons/ai";
 import { TbAffiliate } from "react-icons/tb";
 import { FaElementor } from "react-icons/fa";
@@ -36,6 +37,7 @@ import Membership from "../components/Membership";
 import Integrations from "../components/Integrations";
 import GravityForms from "../components/GravityForms";
 import Elementor from "../components/Elementor";
+import SendSms from "../components/SendSms";
 
 const SidebarItems = [
   {
@@ -109,6 +111,12 @@ const SidebarItems = [
     element: Membership,
     name: __("Membership", "farazsms"),
     icon: <AiOutlineUserSwitch />,
+  },
+  {
+    path: "/send_sms",
+    element: SendSms,
+    name: __("Send Sms", "farazsms"),
+    icon: <AiOutlineSend />,
   },
   {
     path: "/integrations",
