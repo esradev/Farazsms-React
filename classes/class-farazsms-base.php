@@ -209,6 +209,17 @@ class Farazsms_Base {
 
 		return $wpdb->insert( $table, $data );
 	}
+
+	/**
+	 * Get subscribers.
+	 */
+
+	public static function get_subscribers()
+	{
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'farazsms_newsletter';
+		return $wpdb->get_results("SELECT * FROM $table_name");
+	}
 }
 
 Farazsms_Base::get_instance();

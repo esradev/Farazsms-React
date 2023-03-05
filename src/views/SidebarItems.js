@@ -20,6 +20,7 @@ import {
 } from "react-icons/ai";
 import { TbAffiliate } from "react-icons/tb";
 import { FaElementor } from "react-icons/fa";
+import { BiSupport } from "react-icons/bi";
 
 /**
  * Import local dependencies
@@ -38,6 +39,7 @@ import Integrations from "../components/Integrations";
 import GravityForms from "../components/GravityForms";
 import Elementor from "../components/Elementor";
 import SendSms from "../components/SendSms";
+import Support from "../components/Support";
 
 const SidebarItems = [
   {
@@ -117,6 +119,12 @@ const SidebarItems = [
     element: SendSms,
     name: __("Send Sms", "farazsms"),
     icon: <AiOutlineSend />,
+  },
+  {
+    path: "/support",
+    element: Support,
+    name: __("Support", "farazsms"),
+    icon: <BiSupport />,
   },
   {
     path: "/integrations",

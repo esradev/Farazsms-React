@@ -4,8 +4,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import FarazsmsLogo from "../assets/images/farazsms-logo.jpg";
 import { AiOutlineBell } from "react-icons/ai";
+import { BiSupport } from "react-icons/bi";
 // Used as const not import, for Loco translate plugin compatibility.
-const __ = wp.i18n.__;
+const { __, sprintf } = wp.i18n;
 
 function Header() {
   const [credit, setCredit] = useState(0);
@@ -44,28 +45,22 @@ function Header() {
             <a href="https://farazsms.com/" target="_blank">
               {__("Official Website", "farazsms")}
             </a>
-            <a
-              href="https://farazsms.com/farazsms-wordpress-plugin/"
-              target="_blank"
-            ></a>
-            <a
-              href="https://github.com/esradev/Farazsms-React/issues"
-              target="_blank"
-            >
+            <a href={`${farazsmsJsObject.settingsUrl}#/support`}>
               {__("Report Issues", "farazsms")}
             </a>
           </nav>
           <div className="header-navigation-actions">
             <p className="button">
               <span>
-                {__("Account credit: ", "farazsms") +
-                  credit +
-                  __(" $IR_T", "farazsms")}
+                {sprintf(__("Account credit: %s $IR_T", "farazsms"), credit)}
               </span>
             </p>
-            {/* <a href="#" className="icon-button">
-              <AiOutlineSetting />
-            </a> */}
+            <a
+              href={`${farazsmsJsObject.settingsUrl}#/support`}
+              className="icon-button"
+            >
+              <BiSupport />
+            </a>
             <a href="#" className="icon-button">
               <AiOutlineBell />
             </a>

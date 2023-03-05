@@ -20,7 +20,7 @@ const SectionError = (props) => {
         <div class="card-header">{__("Warning!", "farazsms")}</div>
         <div className="card-body">
           <h5 className="card-title">
-            {sprintf(__("%s  Attention Needed:", "farazsms"), "farazsms")}
+            {sprintf(__("%s  Attention Needed:", "farazsms"), sectionName)}
           </h5>
           <p className="card-text">
             {sprintf(

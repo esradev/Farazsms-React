@@ -54,7 +54,7 @@ class Farazsms_Settings {
 		add_action( 'init', [ $this, 'check_remaining_days' ] );
 		self::$actual_link = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http' ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-    }
+	}
 
 
 	/**
@@ -124,6 +124,7 @@ class Farazsms_Settings {
 				'getCredit'         => Farazsms_Ippanel::get_credit(),
 				'getActivePlugins'  => get_option( 'active_plugins' ),
 				'isDigitsInstalled' => function_exists( 'digit_ready' ),
+				'settingsUrl'       => FARAZSMS_SETTINGS_LINK,
 			]
 		);
 

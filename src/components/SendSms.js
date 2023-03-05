@@ -11,10 +11,10 @@ const __ = wp.i18n.__;
  */
 import DispatchContext from "../DispatchContext";
 import FormInput from "../views/FormInput";
-import SaveButton from "../views/SaveButton";
 import FormInputError from "../views/FormInputError";
 import SectionHeader from "../views/SectionHeader";
 import LoadingSpinner from "../views/LoadingSpinner";
+import AxiosWp from "../function/AxiosWp";
 
 function SendSms(props) {
   const appDispatch = useContext(DispatchContext);
@@ -26,6 +26,7 @@ function SendSms(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "messageChange",
+        rules: "messageRules",
         name: "message",
         type: "textarea",
         label: __("Message:", "farazsms"),
@@ -35,36 +36,49 @@ function SendSms(props) {
         hasErrors: false,
         errorMessage: "",
         onChange: "toSubscribersChange",
+        rules: "toSubscribersRules",
         name: "toSubscribers",
         type: "checkbox",
         label: __("Send to newsletter subscribers:", "farazsms"),
+        infoTitle: __("Usable variables:", "farazsms"),
+        infoBody: __(
+          "You can use %name% on message content if you want to send sms to subscribers.",
+          "farazsms"
+        ),
       },
       manuallyNumbers: {
         value: "",
         hasErrors: false,
         errorMessage: "",
         onChange: "manuallyNumbersChange",
+        rules: "manuallyNumbersRules",
         name: "manuallyNumbers",
         type: "textarea",
         label: __("Enter numbers manually:", "farazsms"),
-        tooltip: __("Separate numbers with English commas.", "farazsms"),
+        tooltip: __(
+          "Separate numbers with English commas without any spaces.",
+          "farazsms"
+        ),
       },
       phonebook: {
         value: [],
         hasErrors: false,
         errorMessage: "",
         onChange: "phonebookChange",
+        rules: "phonebookRules",
         name: "phonebook",
         type: "select",
         label: __("Select phonebook:", "farazsms"),
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
+        isMulti: "isMulti",
       },
       senderNumber: {
         value: [],
         hasErrors: false,
         errorMessage: "",
         onChange: "senderNumberChange",
+        rules: "senderNumberRules",
         name: "senderNumber",
         type: "select",
         label: __("Select sender number:", "farazsms"),
@@ -73,6 +87,7 @@ function SendSms(props) {
           { value: "2", label: __("Advertising number", "farazsms") },
         ],
         noOptionsMessage: __("No options is available", "farazsms"),
+        required: true,
       },
     },
     noPhonebooks: true,
@@ -84,16 +99,6 @@ function SendSms(props) {
 
   function ourReduser(draft, action) {
     switch (action.type) {
-      case "fetchComplete":
-        //Init state values by action.value
-        draft.inputs.message.value = action.value.message;
-        draft.inputs.phonebook.value = action.value.phonebook;
-        draft.inputs.toSubscribers.value = action.value.toSubscribers;
-        draft.inputs.manuallyNumbers.value = action.value.manuallyNumbers;
-        draft.inputs.senderNumber.value = action.value.senderNumber;
-
-        draft.isFetching = false;
-        return;
       case "cantFetching":
         draft.isFetching = false;
         return;
@@ -107,6 +112,15 @@ function SendSms(props) {
       case "messageChange":
         draft.inputs.message.hasErrors = false;
         draft.inputs.message.value = action.value;
+        return;
+      case "messageRules":
+        if (!action.value.trim()) {
+          draft.inputs.message.hasErrors = true;
+          draft.inputs.message.errorMessage = __(
+            "You must provide a message.",
+            "farazsms"
+          );
+        }
         return;
       case "phonebookChange":
         draft.inputs.phonebook.hasErrors = false;
@@ -125,7 +139,15 @@ function SendSms(props) {
         draft.inputs.senderNumber.value = action.value;
         return;
       case "submitOptions":
-        draft.sendCount++;
+        if (
+          !draft.inputs.message.hasErrors &&
+          !draft.inputs.phonebook.hasErrors &&
+          !draft.inputs.toSubscribers.hasErrors &&
+          !draft.inputs.manuallyNumbers.hasErrors &&
+          !draft.inputs.senderNumber.hasErrors
+        ) {
+          draft.sendCount++;
+        }
         return;
       case "saveRequestStarted":
         draft.isSaving = true;
@@ -140,7 +162,60 @@ function SendSms(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch({ type: "submitOptions" });
+    async function sendSms() {
+      if (
+        !state.inputs.manuallyNumbers.value &&
+        !state.inputs.phonebook.value &&
+        !state.inputs.toSubscribers.value
+      ) {
+        appDispatch({
+          type: "flashMessage",
+          value: {
+            type: "error",
+            message: __(
+              "Please select at least one phonebook or enter manual number or chose send to newsletter subscribers.",
+              "farazsms"
+            ),
+          },
+        });
+      } else {
+        try {
+          const res = await AxiosWp.post("/farazsms/v1/send_sms", {
+            message: state.inputs.message.value,
+            phonebooks: state.inputs.phonebook.value,
+            send_to_subscribers: state.inputs.toSubscribers.value,
+            send_formnum_choice: state.inputs.senderNumber.value.value,
+            phones: state.inputs.manuallyNumbers.value,
+          });
+          if (res.data === "noSubscribers") {
+            appDispatch({
+              type: "flashMessage",
+              value: {
+                type: "error",
+                message: __(
+                  "Sorry. No one is subscriber of newsletter yet.",
+                  "farazsms"
+                ),
+              },
+            });
+          } else {
+            appDispatch({
+              type: "flashMessage",
+              value: {
+                message: __(
+                  "Congrats. Message was sent successfully.",
+                  "farazsms"
+                ),
+              },
+            });
+          }
+          console.log(res);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    }
+    sendSms();
   }
 
   /**
@@ -219,6 +294,9 @@ function SendSms(props) {
                                 : e.target.value,
                           });
                         }
+                  }
+                  onBlur={(e) =>
+                    dispatch({ type: input.rules, value: e.target.value })
                   }
                 />
                 <FormInputError />

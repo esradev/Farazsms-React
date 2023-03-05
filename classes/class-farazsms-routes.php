@@ -324,6 +324,24 @@ class Farazsms_Routes {
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
+
+		//Register send_feedback_message rest route
+		register_rest_route( $namespace, '/' . 'send_feedback_message', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'send_feedback_message' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
+
+		//Register send_sms rest route
+		register_rest_route( $namespace, '/' . 'send_sms', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'send_sms' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
 	}
 
 	/**
@@ -433,9 +451,9 @@ class Farazsms_Routes {
 	 */
 	public function add_gravity_forms_options( $data ) {
 		$option      = [
-			'gf_gravity_forms'       => $data['gf_gravity_forms'] ?: [],
-			'gf_forms'               => $data['gf_forms'] ?: [],
-			'gf_selected_field'      => $data['gf_selected_field'] ?: [],
+			'gf_gravity_forms'  => $data['gf_gravity_forms'] ?: [],
+			'gf_forms'          => $data['gf_forms'] ?: [],
+			'gf_selected_field' => $data['gf_selected_field'] ?: [],
 		];
 		$option_json = wp_json_encode( $option );
 
@@ -893,6 +911,92 @@ class Farazsms_Routes {
 
 		return json_decode( $wpdb->delete( $table, [ 'id' => $action_id['action_id'] ] ), true );
 	}
+
+	/**
+	 * Send feedback message to server.
+	 */
+	public function send_feedback_message( $feedback ) {
+		$body = [
+			'uname'            => Farazsms_Base::$username,
+			'pass'             => Farazsms_Base::$password,
+			'subject'          => $feedback['subject'],
+			'description'      => $feedback['message'] . PHP_EOL . get_site_url(),
+			'type'             => 'fiscal',   //'fiscal','webservice','problem','lineservices'
+			'importance'       => 'low',  //'low','middle','quick','acute'
+			'sms_notification' => 'no', //'yes','no'
+			'file'             => '',
+			'op'               => 'ticketadd'
+		];
+
+		$handler = curl_init( 'http://ippanel.com/services.jspd' );
+		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'POST' );
+		curl_setopt( $handler, CURLOPT_POSTFIELDS, $body );
+		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
+		$response = curl_exec( $handler );
+		$response = json_decode( $response );
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+		if ( $response[0] !== 0 || ! $response[1] ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Send SMS to phonebooks or manually numbers.
+	 */
+
+	public function send_sms( $send_sms ) {
+		$message             = $send_sms['message'];
+		$phonebooks          = json_decode($send_sms['phonebooks'], true);
+		$send_to_subscribers = $send_sms['send_to_subscribers'];
+		$send_fromnum_choice = $send_sms['send_fromnum_choice'];
+		$phones              = $send_sms['phones'];
+		$fixed_phones        = [];
+
+		if ( $send_fromnum_choice === '1' ) {
+			$send_fromnum_choice = Farazsms_Base::$fromNum;
+		} else {
+			$send_fromnum_choice = Farazsms_Base::$fromNumAdver;
+		}
+		$phones = explode( ',', $phones );
+		foreach ( $phones as $phone ) {
+			if ( Farazsms_Base::validate_mobile_number( $phone ) ) {
+				$fixed_phones[] = Farazsms_Base::validate_mobile_number( $phone );
+			}
+		}
+		if ( ! empty( $fixed_phones ) ) {
+			Farazsms_Ippanel::send_message( $fixed_phones, $message, $send_fromnum_choice );
+		}
+		foreach ( $phonebooks as $phonebook ) {
+			$phonebook_numbers = self::get_phonebook_numbers( $phonebook['value'] );
+			Farazsms_Ippanel::send_message( $phonebook_numbers, $message, $send_fromnum_choice );
+		}
+
+		if($send_to_subscribers) {
+			$subscribers = Farazsms_Base::get_subscribers();
+			if (empty($subscribers)) {
+				return 'noSubscribers';
+			}
+			if ( str_contains( $message, '%name%' ) ) {
+				foreach ($subscribers as $subscriber) {
+					$message_fixed = str_replace('%name%', $subscriber->name, $message);
+					Farazsms_Ippanel::send_message([$subscriber->phone], $message_fixed, '+98club' );
+				}
+			} else {
+				$phones = [];
+				foreach ($subscribers as $subscriber) {
+					$phones[] = $subscriber->phone;
+				}
+				Farazsms_Ippanel::send_message($phones, $message, '+98club' );
+			}
+			wp_send_json_success();
+		}
+	}
+
+
 
 
 	/**
