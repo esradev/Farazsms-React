@@ -839,7 +839,7 @@ class Farazsms_Routes {
 	 * @return mixed|null
 	 * @since 2.0.0
 	 */
-	public function get_phonebook_numbers( $phonebook_id ) {
+	public static function get_phonebook_numbers( $phonebook_id ) {
 
 		$handler = curl_init( 'http://api.ippanel.com/api/v1/phonebook/numbers?phonebook=' . $phonebook_id['phonebook_id'] . '&page=1&per_page=10' );
 		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'GET' );
@@ -915,7 +915,7 @@ class Farazsms_Routes {
 	/**
 	 * Send feedback message to server.
 	 */
-	public function send_feedback_message( $feedback ) {
+	public static function send_feedback_message( $feedback ) {
 		$body = [
 			'uname'            => Farazsms_Base::$username,
 			'pass'             => Farazsms_Base::$password,
@@ -948,18 +948,21 @@ class Farazsms_Routes {
 	 * Send SMS to phonebooks or manually numbers.
 	 */
 
-	public function send_sms( $send_sms ) {
+	public static function send_sms( $send_sms ) {
 		$message             = $send_sms['message'];
-		$phonebooks          = json_decode($send_sms['phonebooks'], true);
+		$phonebooks          = $send_sms['phonebooks'];
 		$send_to_subscribers = $send_sms['send_to_subscribers'];
-		$send_fromnum_choice = $send_sms['send_fromnum_choice'];
+		$sender = $send_sms['send_fromnum_choice'];
 		$phones              = $send_sms['phones'];
 		$fixed_phones        = [];
 
-		if ( $send_fromnum_choice === '1' ) {
-			$send_fromnum_choice = Farazsms_Base::$fromNum;
+		if (!strpos($phones, ',')) {
+			return 'uncorrectedFormat';
+		}
+		if ( $sender === '1' ) {
+			$sender = Farazsms_Base::$fromNum;
 		} else {
-			$send_fromnum_choice = Farazsms_Base::$fromNumAdver;
+			$sender = Farazsms_Base::$fromNumAdver;
 		}
 		$phones = explode( ',', $phones );
 		foreach ( $phones as $phone ) {
@@ -968,35 +971,33 @@ class Farazsms_Routes {
 			}
 		}
 		if ( ! empty( $fixed_phones ) ) {
-			Farazsms_Ippanel::send_message( $fixed_phones, $message, $send_fromnum_choice );
+			Farazsms_Ippanel::send_message( $fixed_phones, $message, $sender );
 		}
 		foreach ( $phonebooks as $phonebook ) {
 			$phonebook_numbers = self::get_phonebook_numbers( $phonebook['value'] );
-			Farazsms_Ippanel::send_message( $phonebook_numbers, $message, $send_fromnum_choice );
+			Farazsms_Ippanel::send_message( $phonebook_numbers, $message, $sender );
 		}
 
-		if($send_to_subscribers) {
+		if ( $send_to_subscribers ) {
 			$subscribers = Farazsms_Base::get_subscribers();
-			if (empty($subscribers)) {
+			if ( empty( $subscribers ) ) {
 				return 'noSubscribers';
 			}
 			if ( str_contains( $message, '%name%' ) ) {
-				foreach ($subscribers as $subscriber) {
-					$message_fixed = str_replace('%name%', $subscriber->name, $message);
-					Farazsms_Ippanel::send_message([$subscriber->phone], $message_fixed, '+98club' );
+				foreach ( $subscribers as $subscriber ) {
+					$message_fixed = str_replace( '%name%', $subscriber->name, $message );
+					Farazsms_Ippanel::send_message( [ $subscriber->phone ], $message_fixed, '+98club' );
 				}
 			} else {
 				$phones = [];
-				foreach ($subscribers as $subscriber) {
+				foreach ( $subscribers as $subscriber ) {
 					$phones[] = $subscriber->phone;
 				}
-				Farazsms_Ippanel::send_message($phones, $message, '+98club' );
+				Farazsms_Ippanel::send_message( $phones, $message, '+98club' );
 			}
-			wp_send_json_success();
+			return $fixed_phones;
 		}
 	}
-
-
 
 
 	/**

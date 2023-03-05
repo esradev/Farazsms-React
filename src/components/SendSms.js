@@ -30,48 +30,12 @@ function SendSms(props) {
         name: "message",
         type: "textarea",
         label: __("Message:", "farazsms"),
-      },
-      toSubscribers: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "toSubscribersChange",
-        rules: "toSubscribersRules",
-        name: "toSubscribers",
-        type: "checkbox",
-        label: __("Send to newsletter subscribers:", "farazsms"),
+        required: true,
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
           "You can use %name% on message content if you want to send sms to subscribers.",
           "farazsms"
         ),
-      },
-      manuallyNumbers: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "manuallyNumbersChange",
-        rules: "manuallyNumbersRules",
-        name: "manuallyNumbers",
-        type: "textarea",
-        label: __("Enter numbers manually:", "farazsms"),
-        tooltip: __(
-          "Separate numbers with English commas without any spaces.",
-          "farazsms"
-        ),
-      },
-      phonebook: {
-        value: [],
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "phonebookChange",
-        rules: "phonebookRules",
-        name: "phonebook",
-        type: "select",
-        label: __("Select phonebook:", "farazsms"),
-        options: [],
-        noOptionsMessage: __("No options is available", "farazsms"),
-        isMulti: "isMulti",
       },
       senderNumber: {
         value: [],
@@ -89,6 +53,43 @@ function SendSms(props) {
         noOptionsMessage: __("No options is available", "farazsms"),
         required: true,
       },
+      toSubscribers: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "toSubscribersChange",
+        rules: "toSubscribersRules",
+        name: "toSubscribers",
+        type: "checkbox",
+        label: __("Send to newsletter subscribers:", "farazsms"),
+      },
+      manuallyNumbers: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "manuallyNumbersChange",
+        rules: "manuallyNumbersRules",
+        name: "manuallyNumbers",
+        type: "textarea",
+        label: __("Enter numbers manually:", "farazsms"),
+        tooltip: __(
+          "Separate numbers with English commas without any spaces.",
+          "farazsms"
+        ),
+      },
+      phonebooks: {
+        value: [],
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "phonebooksChange",
+        rules: "phonebooksRules",
+        name: "phonebooks",
+        type: "select",
+        label: __("Select phonebooks:", "farazsms"),
+        options: [],
+        noOptionsMessage: __("No options is available", "farazsms"),
+        isMulti: "isMulti",
+      },
     },
     noPhonebooks: true,
     isFetching: false,
@@ -102,9 +103,9 @@ function SendSms(props) {
       case "cantFetching":
         draft.isFetching = false;
         return;
-      case "all_phonebookOptions":
+      case "all_phonebooksOptions":
         draft.noPhonebooks = false;
-        draft.inputs.phonebook.options = action.value;
+        draft.inputs.phonebooks.options = action.value;
         return;
       case "noPhonebooks":
         draft.noPhonebooks = true;
@@ -122,9 +123,9 @@ function SendSms(props) {
           );
         }
         return;
-      case "phonebookChange":
-        draft.inputs.phonebook.hasErrors = false;
-        draft.inputs.phonebook.value = action.value;
+      case "senderNumberChange":
+        draft.inputs.senderNumber.hasErrors = false;
+        draft.inputs.senderNumber.value = action.value;
         return;
       case "toSubscribersChange":
         draft.inputs.toSubscribers.hasErrors = false;
@@ -134,14 +135,14 @@ function SendSms(props) {
         draft.inputs.manuallyNumbers.hasErrors = false;
         draft.inputs.manuallyNumbers.value = action.value;
         return;
-      case "senderNumberChange":
-        draft.inputs.senderNumber.hasErrors = false;
-        draft.inputs.senderNumber.value = action.value;
+      case "phonebooksChange":
+        draft.inputs.phonebooks.hasErrors = false;
+        draft.inputs.phonebooks.value = action.value;
         return;
       case "submitOptions":
         if (
           !draft.inputs.message.hasErrors &&
-          !draft.inputs.phonebook.hasErrors &&
+          !draft.inputs.phonebooks.hasErrors &&
           !draft.inputs.toSubscribers.hasErrors &&
           !draft.inputs.manuallyNumbers.hasErrors &&
           !draft.inputs.senderNumber.hasErrors
@@ -165,7 +166,7 @@ function SendSms(props) {
     async function sendSms() {
       if (
         !state.inputs.manuallyNumbers.value &&
-        !state.inputs.phonebook.value &&
+        !state.inputs.phonebooks.value &&
         !state.inputs.toSubscribers.value
       ) {
         appDispatch({
@@ -182,9 +183,9 @@ function SendSms(props) {
         try {
           const res = await AxiosWp.post("/farazsms/v1/send_sms", {
             message: state.inputs.message.value,
-            phonebooks: state.inputs.phonebook.value,
+            phonebooks: state.inputs.phonebooks.value,
             send_to_subscribers: state.inputs.toSubscribers.value,
-            send_formnum_choice: state.inputs.senderNumber.value.value,
+            send_fromnum_choice: state.inputs.senderNumber.value.value,
             phones: state.inputs.manuallyNumbers.value,
           });
           if (res.data === "noSubscribers") {
@@ -194,6 +195,17 @@ function SendSms(props) {
                 type: "error",
                 message: __(
                   "Sorry. No one is subscriber of newsletter yet.",
+                  "farazsms"
+                ),
+              },
+            });
+          } else if (res.data === "uncorrectedFormat") {
+            appDispatch({
+              type: "flashMessage",
+              value: {
+                type: "error",
+                message: __(
+                  "Please enter manually numbers in the correct format. separate every number with an english comma.",
                   "farazsms"
                 ),
               },
