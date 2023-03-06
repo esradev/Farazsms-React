@@ -352,11 +352,22 @@ function Phonebook(props) {
               <FormInput
                 isMulti={input.isMulti}
                 {...input}
-                onChange={(selectedOption) =>
-                  dispatch({
-                    type: input.onChange,
-                    value: selectedOption,
-                  })
+                onChange={
+                  input.type === "select"
+                    ? (selectedOption) =>
+                        dispatch({
+                          type: input.onChange,
+                          value: selectedOption,
+                        })
+                    : (e) => {
+                        dispatch({
+                          type: input.onChange,
+                          value:
+                            input.type === "checkbox"
+                              ? e.target.checked
+                              : e.target.value,
+                        });
+                      }
                 }
               />
               <FormInputError />

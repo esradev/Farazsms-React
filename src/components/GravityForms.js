@@ -14,7 +14,6 @@ const __ = wp.i18n.__;
 import AxiosWp from "../function/AxiosWp";
 import DispatchContext from "../DispatchContext";
 import FormInput from "../views/FormInput";
-import SaveButton from "../views/SaveButton";
 import FormInputError from "../views/FormInputError";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
@@ -33,6 +32,13 @@ function GravityForms(props) {
       }),
     },
     inputs: {
+      title: {
+        value: "",
+        onChange: "titleChange",
+        name: "title",
+        type: "text",
+        label: __("Title:", "farazsms"),
+      },
       gf_phonebook: {
         value: [],
         onChange: "gf_phonebookChange",
@@ -56,15 +62,15 @@ function GravityForms(props) {
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
       },
-      gf_selected_field: {
+      gf_field: {
         value: [],
-        onChange: "gf_selected_fieldChange",
-        name: "gf_selected_field",
+        onChange: "gf_fieldChange",
+        name: "gf_field",
         type: "select",
         label: __("Gravity Form fields:", "farazsms"),
         infoTitle: __("Info", "farazsms"),
         infoBody: __(
-          "In this section, you can specify the fields you want to register in the Gravity Form phonebook",
+          "In this section, you must specify the mobile field, that you want to do the action on it.",
           "farazsms"
         ),
         options: [],
@@ -81,7 +87,17 @@ function GravityForms(props) {
           "In this section, you can specify the action you want to do with the value of the selected fields.",
           "farazsms"
         ),
-        options: [],
+        options: [
+          {
+            value: "saveToPhonebook",
+            label: __("Save to phonebook", "farazsms"),
+          },
+          // { value: "sendSmsToUser", label: __("Send sms to user", "farazsms") },
+          // {
+          //   value: "sendSmsToAdmin",
+          //   label: __("Send sms to admin", "farazsms"),
+          // },
+        ],
         noOptionsMessage: __("No options is available", "farazsms"),
       },
     },
@@ -97,19 +113,12 @@ function GravityForms(props) {
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
-        //Init state values by action.value
-        if (props.integratedPlugins.gravityForms.use) {
-          draft.inputs.gf_phonebook.value = action.value.gf_phonebook;
-          draft.inputs.gf_forms.value = action.value.gf_forms;
-          draft.inputs.gf_selected_field.value = action.value.gf_selected_field;
-          draft.inputs.gf_action.value = action.value.gf_action;
-        }
         draft.isFetching = false;
         return;
-      case "cantFetching":
+      case "cantFetchPhonebooks":
         draft.isFetching = false;
         return;
-      case "all_phonebookOptions":
+      case "phonebookOptions":
         if (props.integratedPlugins.gravityForms.use) {
           draft.inputs.gf_phonebook.options = action.value;
         }
@@ -119,25 +128,27 @@ function GravityForms(props) {
           draft.inputs.gf_forms.options = action.value;
         }
         return;
-      case "gf_selected_fieldOptions":
+      case "gf_fieldOptions":
         if (
           props.integratedPlugins.gravityForms.use &&
           draft.inputs.gf_forms.options
         ) {
-          draft.inputs.gf_selected_field.options = action.value;
+          draft.inputs.gf_field.options = action.value;
         }
+        return;
+      case "titleChange":
+        draft.inputs.title.value = action.value;
         return;
       case "gf_phonebookChange":
         draft.inputs.gf_phonebook.value = action.value;
         return;
       case "gf_formsChange":
         draft.inputs.gf_forms.value = action.value;
+        draft.gfSelectedFormId = action.value.value;
+        draft.sendCount++;
         return;
-      case "setGfSelectedFormId":
-        draft.gfSelectedFormId = action.value;
-        return;
-      case "gf_selected_fieldChange":
-        draft.inputs.gf_selected_field.value = action.value;
+      case "gf_fieldChange":
+        draft.inputs.gf_field.value = action.value;
         return;
       case "gf_actionChange":
         draft.inputs.gf_action.value = action.value;
@@ -148,8 +159,15 @@ function GravityForms(props) {
       case "updateCurrentActions":
         draft.currentActions = action.value;
         return;
-      case "submitOptions":
+      case "formId":
         draft.sendCount++;
+        return;
+      case "clearForm":
+        draft.inputs.title.value = "";
+        draft.inputs.gf_phonebook.value = [];
+        draft.inputs.gf_forms.value = [];
+        draft.inputs.gf_field.value = [];
+        draft.inputs.gf_action.value = [];
         return;
       case "saveRequestStarted":
         draft.isSaving = true;
@@ -162,32 +180,32 @@ function GravityForms(props) {
 
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
 
-  // function handleSubmit(e) {
-  //   e.preventDefault();
-  //
-  //   dispatch({ type: "submitOptions" });
-  // }
-
   function handleSubmit(e) {
     e.preventDefault();
-
-    async function add_new_gravity_forms_action_to_db() {
+    dispatch({ type: "saveRequestStarted" });
+    async function add_gravity_forms_action_to_db() {
       try {
         const newAction = await AxiosWp.post(
-          "/farazsms/v1/add_new_gravity_forms_action_to_db",
+          "/farazsms/v1/add_gravity_forms_action_to_db",
           {
-            phonebook_id: 123,
-            form_id: 555,
-            field_id: 3,
-            action: "after-submit",
+            title: state.inputs.title.value,
+            phonebook_id: state.inputs.gf_phonebook.value.value,
+            form_id: state.inputs.gf_forms.value.value,
+            field_id: state.inputs.gf_field.value.value,
+            phonebook_label: state.inputs.gf_phonebook.value.label,
+            form_label: state.inputs.gf_forms.value.label,
+            field_label: state.inputs.gf_field.value.label,
+            action_type: state.inputs.gf_action.value.value,
+            action_label: state.inputs.gf_action.value.label,
           }
         );
-        console.log(newAction);
+        dispatch({ type: "saveRequestFinished" });
+        dispatch({ type: "clearForm" });
       } catch (e) {
         console.log(e);
       }
     }
-    add_new_gravity_forms_action_to_db();
+    add_gravity_forms_action_to_db();
   }
 
   /**
@@ -208,6 +226,7 @@ function GravityForms(props) {
           type: "gf_formsOptions",
           value: gfFormsArrayObject,
         });
+        dispatch({ type: "fetchComplete" });
       } catch (e) {
         console.log(e);
       }
@@ -225,7 +244,7 @@ function GravityForms(props) {
       try {
         console.log(state.gfSelectedFormId);
         const getGfFormsFields = await AxiosWp.get(
-          "/gf/v2/forms/" + "1" + "/field-filters",
+          "/gf/v2/forms/" + state.gfSelectedFormId + "/field-filters",
           {}
         );
         const gfFormsFieldsArrayObject = Object.keys(getGfFormsFields.data).map(
@@ -235,7 +254,7 @@ function GravityForms(props) {
           })
         );
         dispatch({
-          type: "gf_selected_fieldOptions",
+          type: "gf_fieldOptions",
           value: gfFormsFieldsArrayObject,
         });
       } catch (e) {
@@ -243,35 +262,7 @@ function GravityForms(props) {
       }
     }
     getGfFormsFields();
-  }, []);
-
-  /**
-   * Get options from DB rest routes
-   *
-   * @since 2.0.0
-   */
-  useEffect(() => {
-    async function getOptions() {
-      try {
-        const getOptions = await AxiosWp.get(
-          "/farazsms/v1/phonebook_options",
-          {}
-        );
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          dispatch({ type: "fetchComplete", value: optionsJson });
-          dispatch({
-            type: "setGfSelectedFormId",
-            value: optionsJson.gf_forms.value,
-          });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({ type: "cantFetching" });
-      }
-    }
-    getOptions();
-  }, []);
+  }, [state.sendCount]);
 
   /**
    * Get phonebooks.
@@ -290,57 +281,19 @@ function GravityForms(props) {
           value: id,
         }));
         dispatch({
-          type: "all_phonebookOptions",
+          type: "phonebookOptions",
           value: phonebooksArrayObject,
         });
       } catch (e) {
         console.log(e);
+        dispatch({ type: "cantFetchPhonebooks" });
       }
     }
     getPhonebooks();
   }, []);
 
   /**
-   * Post options to DB
-   *
-   * @since 2.0.0
-   */
-  useEffect(() => {
-    if (state.sendCount) {
-      const optionsArray = Object.values(state.inputs).map(
-        ({ value, name }) => [name, value]
-      );
-      const optionsJsonForPost = Object.fromEntries(optionsArray);
-
-      dispatch({ type: "saveRequestStarted" });
-
-      async function postOptions() {
-        try {
-          // Post Options from site DB Options table
-          const postOptions = await AxiosWp.post(
-            "/farazsms/v1/phonebook_options",
-            optionsJsonForPost
-          );
-          dispatch({ type: "saveRequestFinished" });
-          appDispatch({
-            type: "flashMessage",
-            value: {
-              message: __(
-                "Congrats. Form was updated successfully.",
-                "farazsms"
-              ),
-            },
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      }
-      postOptions();
-    }
-  }, [state.sendCount]);
-
-  /**
-   * Get Gravity Forms action list from DB
+   * Get Gravity Forms actions list from DB
    */
   useEffect(() => {
     async function get_gravity_forms_actions_from_db() {
@@ -348,6 +301,7 @@ function GravityForms(props) {
         const getActions = await AxiosWp.get(
           "/farazsms/v1/get_gravity_forms_actions_from_db"
         );
+        console.log(getActions);
         dispatch({
           type: "getGravityFormsActions",
           value: JSON.parse(getActions.data),
@@ -361,7 +315,7 @@ function GravityForms(props) {
       }
     }
     get_gravity_forms_actions_from_db();
-  }, [[], state.currentSubscribers]);
+  }, []);
 
   /**
    * Delete Gravity Forms action from DB.
@@ -420,17 +374,34 @@ function GravityForms(props) {
                 <FormInput
                   isMulti={input.isMulti}
                   {...input}
-                  onChange={(selectedOption) =>
-                    dispatch({
-                      type: input.onChange,
-                      value: selectedOption,
-                    })
+                  onChange={
+                    input.type === "select"
+                      ? (selectedOption) =>
+                          dispatch({
+                            type: input.onChange,
+                            value: selectedOption,
+                          })
+                      : (e) => {
+                          dispatch({
+                            type: input.onChange,
+                            value:
+                              input.type === "checkbox"
+                                ? e.target.checked
+                                : e.target.value,
+                          });
+                        }
                   }
                 />
                 <FormInputError />
               </div>
             ))}
-            <SaveButton isSaving={state.isSaving} />
+            <button
+              type="submit"
+              className="btn btn-primary mt-3"
+              disabled={state.isSaving}
+            >
+              {__("Add Action", "farazsms")}
+            </button>{" "}
           </form>
         </div>
         {state.gravityFormsActions && (
@@ -439,10 +410,19 @@ function GravityForms(props) {
               {state.gravityFormsActions.map((action) => (
                 <li key={action.id} className="contact-list-item">
                   <div className="contact-details">
-                    <p>{action.phonebook_id}</p>
+                    <p>{action.title}</p>
                   </div>
                   <div className="contact-details">
-                    <p className="contact-details">{action.action}</p>
+                    <p>{action.phonebook_label}</p>
+                  </div>
+                  <div className="contact-details">
+                    <p>{action.form_label}</p>
+                  </div>
+                  <div className="contact-details">
+                    <p>{action.field_label}</p>
+                  </div>
+                  <div className="contact-details">
+                    <p>{action.action_label}</p>
                   </div>
                   <button
                     className="contact-delete"

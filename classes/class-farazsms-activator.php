@@ -29,10 +29,15 @@ class Farazsms_Activator {
 					) $collate";
 		$gravity_forms            = "CREATE TABLE IF NOT EXISTS `$gravity_forms_table_name` (
 					 `id` int(10) NOT NULL AUTO_INCREMENT,
-					 `phonebook_id` int(10) DEFAULT NULL,
-					 `form_id` int(10) DEFAULT NULL,
-					 `field_id` int(10) DEFAULT NULL,
-					 `action` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+					 `title` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+					 `phonebook_id` int(10),
+					 `form_id` int(10) NOT NULL,
+					 `field_id` int(10) NOT NULL,
+					 `phonebook_label` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+					 `form_label` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+					 `field_label` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+					 `action_type` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+					 `action_label` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
 					 PRIMARY KEY (`id`)
 					) $collate";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );

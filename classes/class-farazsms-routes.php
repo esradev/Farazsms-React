@@ -98,21 +98,6 @@ class Farazsms_Routes {
 			],
 		] );
 
-		//Register gravity_forms_options rest route
-		register_rest_route( $namespace, '/' . 'gravity_forms_options', [
-			[
-				'methods'             => 'GET',
-				'callback'            => [ $this, 'get_gravity_forms_options' ],
-				'permission_callback' => [ $this, 'permissions_check' ],
-
-			],
-			[
-				'methods'             => 'POST',
-				'callback'            => [ $this, 'add_gravity_forms_options' ],
-				'permission_callback' => [ $this, 'permissions_check' ],
-			],
-		] );
-
 		//Register comments_options rest route
 		register_rest_route( $namespace, '/' . 'comments_options', [
 			[
@@ -298,11 +283,11 @@ class Farazsms_Routes {
 			]
 		] );
 
-		//Register add_new_gravity_forms_action_to_db rest route
-		register_rest_route( $namespace, '/' . 'add_new_gravity_forms_action_to_db', [
+		//Register add_gravity_forms_action_to_db rest route
+		register_rest_route( $namespace, '/' . 'add_gravity_forms_action_to_db', [
 			[
 				'methods'             => 'POST',
-				'callback'            => [ $this, 'add_new_gravity_forms_action_to_db' ],
+				'callback'            => [ $this, 'add_gravity_forms_action_to_db' ],
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
@@ -432,32 +417,6 @@ class Farazsms_Routes {
 		$option_json = wp_json_encode( $option );
 
 		return update_option( 'farazsms_phonebook_options', $option_json );
-	}
-
-	/**
-	 * Get gravity_forms options.
-	 */
-	public function get_gravity_forms_options() {
-		$farazsms_gravity_forms_options = get_option( 'farazsms_gravity_forms_options' );
-		if ( empty( $farazsms_gravity_forms_options ) ) {
-			return new WP_Error( 'no_option', 'Invalid options', [ 'status' => 404 ] );
-		}
-
-		return $farazsms_gravity_forms_options;
-	}
-
-	/**
-	 * Add login notify options.
-	 */
-	public function add_gravity_forms_options( $data ) {
-		$option      = [
-			'gf_gravity_forms'  => $data['gf_gravity_forms'] ?: [],
-			'gf_forms'          => $data['gf_forms'] ?: [],
-			'gf_selected_field' => $data['gf_selected_field'] ?: [],
-		];
-		$option_json = wp_json_encode( $option );
-
-		return update_option( 'farazsms_gravity_forms_options', $option_json );
 	}
 
 	/**
@@ -877,19 +836,23 @@ class Farazsms_Routes {
 	/**
 	 * Add new gravity forms action to DB.
 	 */
-	public static function add_new_gravity_forms_action_to_db( $incomingData ) {
+	public static function add_gravity_forms_action_to_db( $incomingData ) {
 		global $wpdb;
+
 		$data       = [
-			'phonebook_id' => $incomingData['phonebook_id'],
-			'form_id'      => $incomingData['form_id'],
-			'field_id'     => $incomingData['field_id'],
-			'action'       => $incomingData['action'],
+			'title'           => $incomingData['title'],
+			'phonebook_id'    => $incomingData['phonebook_id'],
+			'form_id'         => $incomingData['form_id'],
+			'field_id'        => $incomingData['field_id'],
+			'phonebook_label' => $incomingData['phonebook_label'],
+			'form_label'      => $incomingData['form_label'],
+			'field_label'     => $incomingData['field_label'],
+			'action_type'     => $incomingData['action_type'],
+			'action_label'    => $incomingData['action_label'],
 		];
 		$table_name = $wpdb->prefix . 'farazsms_gravity_forms';
 
-		$wpdb->insert( $table_name, $data );
-
-		return true;
+		return $wpdb->insert( $table_name, $data );
 	}
 
 	/**
@@ -952,11 +915,11 @@ class Farazsms_Routes {
 		$message             = $send_sms['message'];
 		$phonebooks          = $send_sms['phonebooks'];
 		$send_to_subscribers = $send_sms['send_to_subscribers'];
-		$sender = $send_sms['send_fromnum_choice'];
+		$sender              = $send_sms['send_fromnum_choice'];
 		$phones              = $send_sms['phones'];
 		$fixed_phones        = [];
 
-		if (!strpos($phones, ',')) {
+		if ( ! strpos( $phones, ',' ) ) {
 			return 'uncorrectedFormat';
 		}
 		if ( $sender === '1' ) {
@@ -995,6 +958,7 @@ class Farazsms_Routes {
 				}
 				Farazsms_Ippanel::send_message( $phones, $message, '+98club' );
 			}
+
 			return $fixed_phones;
 		}
 	}
