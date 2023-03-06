@@ -20,7 +20,7 @@ const ConfirmDialog = () => {
             {__("Yes", "farazsms")}
           </div>
           <div className="btn btn btn-outline-dark mx-1" onClick={onCancel}>
-            {__("Yes", "Cancel")}
+            {__("No", "Cancel")}
           </div>
         </div>
       </div>

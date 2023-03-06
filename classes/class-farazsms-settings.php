@@ -189,6 +189,17 @@ class Farazsms_Settings {
 				'admin_page',
 			]
 		);
+        add_submenu_page(
+			FARAZSMS_SLUG,
+			__( 'Farazsms', 'farazsms' ),
+			__( 'Gravity Forms', 'farazsms' ),
+			'manage_options',
+			FARAZSMS_SLUG . '#/gravity_forms',
+			[
+				$this,
+				'admin_page',
+			]
+		);
 		add_submenu_page(
 			FARAZSMS_SLUG,
 			__( 'Farazsms', 'farazsms' ),
@@ -222,6 +233,17 @@ class Farazsms_Settings {
 				'admin_page',
 			]
 		);
+        add_submenu_page(
+			FARAZSMS_SLUG,
+			__( 'Farazsms', 'farazsms' ),
+			__( 'Elementor', 'farazsms' ),
+			'manage_options',
+			FARAZSMS_SLUG . '#/elementor',
+			[
+				$this,
+				'admin_page',
+			]
+		);
 		add_submenu_page(
 			FARAZSMS_SLUG,
 			__( 'Farazsms', 'farazsms' ),
@@ -250,6 +272,39 @@ class Farazsms_Settings {
 			__( 'Affiliate', 'farazsms' ),
 			'manage_options',
 			FARAZSMS_SLUG . '#/aff',
+			[
+				$this,
+				'admin_page',
+			]
+		);
+        add_submenu_page(
+			FARAZSMS_SLUG,
+			__( 'Farazsms', 'farazsms' ),
+			__( 'Membership', 'farazsms' ),
+			'manage_options',
+			FARAZSMS_SLUG . '#/membership',
+			[
+				$this,
+				'admin_page',
+			]
+		);
+        add_submenu_page(
+			FARAZSMS_SLUG,
+			__( 'Farazsms', 'farazsms' ),
+			__( 'Send Sms', 'farazsms' ),
+			'manage_options',
+			FARAZSMS_SLUG . '#/send_sms',
+			[
+				$this,
+				'admin_page',
+			]
+		);
+        add_submenu_page(
+			FARAZSMS_SLUG,
+			__( 'Farazsms', 'farazsms' ),
+			__( 'Support', 'farazsms' ),
+			'manage_options',
+			FARAZSMS_SLUG . '#/support',
 			[
 				$this,
 				'admin_page',
