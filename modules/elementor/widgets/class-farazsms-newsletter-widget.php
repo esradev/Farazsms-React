@@ -3,6 +3,7 @@
 use Elementor\Controls_Manager;
 use Elementor\Group_Control_Text_Shadow;
 use Elementor\Group_Control_Typography;
+use Elementor\Group_Control_Border;
 use Elementor\Repeater;
 use Elementor\Widget_Base;
 
@@ -139,26 +140,250 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 			'send_verify_code', [
 				'label'        => 'Send Verify Code?',
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => esc_html__( 'Show', 'textdomain' ),
-				'label_off'    => esc_html__( 'Hide', 'textdomain' ),
+				'label_on'     => esc_html__( 'Enable', 'farazsms' ),
+				'label_off'    => esc_html__( 'Disable', 'farazsms' ),
 				'return_value' => 'yes',
 				'default'      => 'yes',
 			]
 		);
+		$this->end_controls_section();
 
-		$this->add_control(
-			'name',
+		// Name Field Section
+		$this->start_controls_section(
+			'name_field_section',
 			[
-				'label' => __( 'Name', 'plugin-name' ),
-				'type'  => Controls_Manager::TEXT,
+				'label' => __( 'Name Field', 'farazsms' ),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+		// Name Field Controls
+		$this->add_control(
+			'name_label',
+			[
+				'label'   => __( 'Name Field Label', 'farazsms' ),
+				'type'    => Controls_Manager::TEXT,
+				'default' => __( 'Name:', 'farazsms' ),
 			]
 		);
 
 		$this->add_control(
-			'phone',
+			'name_placeholder',
 			[
-				'label' => __( 'Phone', 'plugin-name' ),
-				'type'  => Controls_Manager::TEXT,
+				'label'   => __( 'Name Field Placeholder', 'farazsms' ),
+				'type'    => Controls_Manager::TEXT,
+				'default' => __( 'Name:', 'farazsms' ),
+			]
+		);
+
+		$this->add_control(
+			'name_filed_color',
+			[
+				'label'     => __( 'Background Color', 'farazsms' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .name-field' => 'background-color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'name_filed_text_color',
+			[
+				'label'     => __( 'Text Color', 'farazsms' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .name-field' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'name_filed_label_color',
+			[
+				'label'     => __( 'Label Color', 'farazsms' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .name-field-label' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'name_filed_margin',
+			[
+				'label'      => __( 'Margin', 'farazsms' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'selectors'  => [
+					'{{WRAPPER}} .name-field' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'name_filed_padding',
+			[
+				'label'      => __( 'Padding', 'farazsms' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'selectors'  => [
+					'{{WRAPPER}} .name-field' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->end_controls_section();
+
+		// Phone Field Section
+		$this->start_controls_section(
+			'phone_field_section',
+			[
+				'label' => __( 'Phone Field', 'farazsms' ),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+		// Phone Field Controls
+		$this->add_control(
+			'phone_label',
+			[
+				'label'   => __( 'Phone Field Label', 'farazsms' ),
+				'type'    => Controls_Manager::TEXT,
+				'default' => __( 'Phone:', 'farazsms' ),
+			]
+		);
+
+		$this->add_control(
+			'phone_placeholder',
+			[
+				'label'   => __( 'Phone Field Placeholder', 'farazsms' ),
+				'type'    => Controls_Manager::TEXT,
+				'default' => __( 'Phone:', 'farazsms' ),
+			]
+		);
+
+		$this->add_control(
+			'phone_filed_color',
+			[
+				'label'     => __( 'Background Color', 'farazsms' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .phone-field' => 'background-color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'phone_filed_text_color',
+			[
+				'label'     => __( 'Text Color', 'farazsms' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .phone-field' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'phone_filed_label_color',
+			[
+				'label'     => __( 'Label Color', 'farazsms' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .phone-field-label' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'phone_filed_margin',
+			[
+				'label'      => __( 'Margin', 'farazsms' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'selectors'  => [
+					'{{WRAPPER}} .phone-field' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'phone_filed_padding',
+			[
+				'label'      => __( 'Padding', 'farazsms' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'selectors'  => [
+					'{{WRAPPER}} .phone-field' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->end_controls_section();
+
+		// Submit Button Section
+		$this->start_controls_section(
+			'submit_button_section',
+			[
+				'label' => __( 'Submit Button', 'farazsms' ),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+		// Submit Button Controls
+		$this->add_control(
+			'submit_button_text',
+			[
+				'label'   => __( 'Button Text', 'farazsms' ),
+				'type'    => Controls_Manager::TEXT,
+				'default' => __( 'Submit', 'farazsms' ),
+			]
+		);
+
+		$this->add_control(
+			'submit_button_color',
+			[
+				'label'     => __( 'Button Background Color', 'farazsms' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .submit-button' => 'background-color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'submit_button_text_color',
+			[
+				'label'     => __( 'Button Text Color', 'farazsms' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .submit-button' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'submit_button_margin',
+			[
+				'label'      => __( 'Margin', 'farazsms' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'selectors'  => [
+					'{{WRAPPER}} .submit-button' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'submit_button_padding',
+			[
+				'label'      => __( 'Padding', 'farazsms' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'selectors'  => [
+					'{{WRAPPER}} .submit-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
 			]
 		);
 
@@ -167,18 +392,25 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 	}
 
 	protected function render() {
+		wp_enqueue_script( 'elementor-frontend' );
 		$settings = $this->get_settings_for_display();
 		?>
         <div id="fsms_newsletter">
             <form id="fsms_newsletter_form">
                 <input type="hidden" name="phonebook_id" value="<?php echo esc_attr( $settings['phonebook'] ); ?>">
                 <div class="fsms_newsletter_input a">
-                    <input id="fsms_newsletter_name" type="text" class="fsms_newsletter_text" placeholder=" نام و نام
-                           خانوادگی">
+                    <label class="name-filed-label" style="color:<?php echo $settings['name_filed_label_color']; ?>"><?php echo esc_attr( $settings['name_label'] ); ?></label>
+                    <input id="fsms_newsletter_name" type="text" class="name-field"
+                           placeholder="<?php echo esc_attr( $settings['name_placeholder'] ); ?>"
+                           style="color:<?php echo $settings['name_filed_text_color']; ?>;background-color:<?php echo $settings['name_filed_color']; ?>;margin:<?php echo $settings['name_filed_margin']; ?>;padding:<?php echo $settings['name_filed_padding']; ?>;"
+                    >
                 </div>
                 <div class="fsms_newsletter_input a">
-                    <input id="fsms_newsletter_mobile" type="text" class="fsms_newsletter_text"
-                           placeholder="شماره موبایل">
+                    <label class="phone-filed-label" style="color:<?php echo $settings['phone_filed_label_color']; ?>"><?php echo esc_attr( $settings['phone_label'] ); ?></label>
+                    <input id="fsms_newsletter_mobile" type="text" class="phone-field"
+                           placeholder="<?php echo esc_attr( $settings['phone_placeholder'] ); ?>"
+                           style="color:<?php echo $settings['phone_filed_text_color']; ?>;background-color:<?php echo $settings['phone_filed_color']; ?>;margin:<?php echo $settings['phone_filed_margin']; ?>;padding:<?php echo $settings['phone_filed_padding']; ?>;"
+                    >
                 </div>
                 <div class="fsms_newsletter_input b" style="display: none;">
                     <input id="fsms_newsletter_verify_code" type="text" class="fsms_newsletter_text"
@@ -190,8 +422,8 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
             <div id="fsms_newsletter_message" style="display: none;">
             </div>
             <div class="fsms_newsletter_submit">
-                <button id="fsms_newsletter_submit_button" class="fsms_newsletter_button"><span class="button__text">اشتراک</span>
-                </button>
+                <button class="submit-button" id="fsms_newsletter_submit_button"
+                        style="color:<?php echo $settings['submit_button_text_color']; ?>;background-color:<?php echo $settings['submit_button_color']; ?>;margin:<?php echo $settings['submit_button_margin']; ?>;padding:<?php echo $settings['submit_button_padding']; ?>;"><?php echo esc_attr( $settings['submit_button_text'] ); ?></button>
             </div>
             <div id="fsms_newsletter_completion" class="fsms_newsletter_submit" style="display: none;">
                 <button id="fsms_newsletter_submit_code" class="fsms_newsletter_button"><span class="button__text">ارسال کد</span>
@@ -200,15 +432,6 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
                 </button>
             </div>
         </div>
-        <!--<form action="#" method="post" id="farazsms-form">
-            <label for="name">Name: <input type="text" name="name" id="name" required></label><br>
-            <label for="phone">Phone: <input type="tel" name="phone" id="phone" required></label><br>
-            <input type="hidden" name="phonebook_id" value="<?php /*echo esc_attr( $settings['phonebook'] ); */ ?>">
-			<?php /*wp_nonce_field( 'farazsms_form_nonce', 'farazsms_form_nonce_field' ); */ ?>
-            <button type="submit" id="submit-button">Submit</button>
-        </form>
-
-        <div id="form-response"></div>-->
 
         <script>
           jQuery(document).ready(function ($) {
@@ -326,45 +549,6 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
               })
             })
           })
-          //jQuery(document).ready(function ($) {
-          //  $('#farazsms-form').submit(function (event) {
-          //    event.preventDefault()
-          //
-          //    // Disable submit button to prevent multiple submissions
-          //    $('#submit-button').prop('disabled', true)
-          //
-          //    // Get form data
-          //    let form_data = {
-          //      'name': $('#name').val(),
-          //      'phone': $('#phone').val(),
-          //      'phonebook': $('#phonebook').val(),
-          //      'action': 'farazsms_process_form',
-          //      'security': '<?php //echo wp_create_nonce( 'farazsms_form_nonce' ); ?>//'
-          //    }
-          //
-          //    // Submit form data via AJAX
-          //    $.ajax({
-          //      type: 'POST',
-          //      url: '<?php //echo admin_url( 'admin-ajax.php' ); ?>//',
-          //      data: form_data,
-          //      dataType: 'json',
-          //      success: function (response) {
-          //        if (response.success) {
-          //          $('#form-response').html(response)
-          //        } else {
-          //          $('#form-response').html('<div class="error">' + response + '</div>')
-          //        }
-          //      },
-          //      error: function (jqXHR, textStatus, errorThrown) {
-          //        $('#form-response').html('<div class="error">There was an error submitting the form.</div>')
-          //      },
-          //      complete: function () {
-          //        // Re-enable submit button
-          //        $('#submit-button').prop('disabled', false)
-          //      }
-          //    })
-          //  })
-          //})
         </script>
 		<?php
 
