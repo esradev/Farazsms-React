@@ -24,9 +24,9 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 	 *
 	 * Retrieve list widget name.
 	 *
+	 * @return string Widget name.
 	 * @since 1.0.0
 	 * @access public
-	 * @return string Widget name.
 	 */
 	public function get_name() {
 		return 'farazsms-news';
@@ -37,9 +37,9 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 	 *
 	 * Retrieve list widget title.
 	 *
+	 * @return string Widget title.
 	 * @since 1.0.0
 	 * @access public
-	 * @return string Widget title.
 	 */
 	public function get_title() {
 		return esc_html__( 'Farazsms Newsletter', 'farazsms' );
@@ -50,9 +50,9 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 	 *
 	 * Retrieve list widget icon.
 	 *
+	 * @return string Widget icon.
 	 * @since 1.0.0
 	 * @access public
-	 * @return string Widget icon.
 	 */
 	public function get_icon() {
 		return 'eicon-bullet-list';
@@ -63,9 +63,9 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 	 *
 	 * Retrieve a URL where the user can get more information about the widget.
 	 *
+	 * @return string Widget help URL.
 	 * @since 1.0.0
 	 * @access public
-	 * @return string Widget help URL.
 	 */
 	public function get_custom_help_url() {
 		return 'https://developers.farazsms.com/docs/widgets/';
@@ -76,9 +76,9 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 	 *
 	 * Retrieve the list of categories the list widget belongs to.
 	 *
+	 * @return array Widget categories.
 	 * @since 1.0.0
 	 * @access public
-	 * @return array Widget categories.
 	 */
 	public function get_categories() {
 		return [ 'general' ];
@@ -89,12 +89,12 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 	 *
 	 * Retrieve the list of keywords the list widget belongs to.
 	 *
+	 * @return array Widget keywords.
 	 * @since 1.0.0
 	 * @access public
-	 * @return array Widget keywords.
 	 */
 	public function get_keywords() {
-		return [ 'list', 'lists', 'ordered', 'unordered' ];
+		return [ 'farazsms', 'form', 'newsletter' ];
 	}
 
 	/**
@@ -110,204 +110,55 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'content_section',
 			[
-				'label' => esc_html__( 'List Content', 'elementor-list-widget' ),
-				'tab' => Controls_Manager::TAB_CONTENT,
+				'label' => esc_html__( 'Farazsms Newsletter', 'farazsms' ),
+				'tab'   => Controls_Manager::TAB_CONTENT,
 			]
 		);
 
-		/* Start repeater */
+		$phonebook_options = [];
 
-		$repeater = new Repeater();
+		// Get phonebooks from your plugin
+		$phonebooks = Farazsms_Ippanel::get_phonebooks()['data'];
 
-		$repeater->add_control(
-			'text',
-			[
-				'label' => esc_html__( 'Text', 'elementor-list-widget' ),
-				'type' => Controls_Manager::TEXT,
-				'placeholder' => esc_html__( 'List Item', 'elementor-list-widget' ),
-				'default' => esc_html__( 'List Item', 'elementor-list-widget' ),
-				'label_block' => true,
-				'dynamic' => [
-					'active' => true,
-				],
-			]
-		);
-
-		$repeater->add_control(
-			'link',
-			[
-				'label' => esc_html__( 'Link', 'elementor-list-widget' ),
-				'type' => Controls_Manager::URL,
-				'placeholder' => esc_html__( 'https://your-link.com', 'elementor-list-widget' ),
-				'dynamic' => [
-					'active' => true,
-				],
-			]
-		);
-
-		/* End repeater */
+		// Loop through phonebooks and add as select options
+		foreach ( $phonebooks as $phonebook ) {
+			$phonebook_options[ $phonebook['id'] ] = $phonebook['title'];
+		}
 
 		$this->add_control(
-			'list_items',
+			'phonebook',
 			[
-				'label' => esc_html__( 'List Items', 'elementor-list-widget' ),
-				'type' => Controls_Manager::REPEATER,
-				'fields' => $repeater->get_controls(),           /* Use our repeater */
-				'default' => [
-					[
-						'text' => esc_html__( 'List Item #1', 'elementor-list-widget' ),
-						'link' => '',
-					],
-					[
-						'text' => esc_html__( 'List Item #2', 'elementor-list-widget' ),
-						'link' => '',
-					],
-					[
-						'text' => esc_html__( 'List Item #3', 'elementor-list-widget' ),
-						'link' => '',
-					],
-				],
-				'title_field' => '{{{ text }}}',
-			]
-		);
-
-		$this->end_controls_section();
-
-		$this->start_controls_section(
-			'marker_section',
-			[
-				'label' => esc_html__( 'List Marker', 'elementor-list-widget' ),
-				'tab' => Controls_Manager::TAB_CONTENT,
+				'label'   => 'Phonebook',
+				'type'    => Controls_Manager::SELECT,
+				'default' => '0',
+				'options' => $phonebook_options,
 			]
 		);
 
 		$this->add_control(
-			'marker_type',
-			[
-				'label' => esc_html__( 'Marker Type', 'elementor-list-widget' ),
-				'type' => Controls_Manager::CHOOSE,
-				'options' => [
-					'ordered' => [
-						'title' => esc_html__( 'Ordered List', 'elementor-list-widget' ),
-						'icon' => 'eicon-editor-list-ol',
-					],
-					'unordered' => [
-						'title' => esc_html__( 'Unordered List', 'elementor-list-widget' ),
-						'icon' => 'eicon-editor-list-ul',
-					],
-					'other' => [
-						'title' => esc_html__( 'Custom List', 'elementor-list-widget' ),
-						'icon' => 'eicon-edit',
-					],
-				],
-				'default' => 'ordered',
-				'toggle' => false,
+			'send_verify_code', [
+				'label'        => 'Send Verify Code?',
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Show', 'textdomain' ),
+				'label_off'    => esc_html__( 'Hide', 'textdomain' ),
+				'return_value' => 'yes',
+				'default'      => 'yes',
 			]
 		);
 
 		$this->add_control(
-			'marker_content',
+			'name',
 			[
-				'label' => esc_html__( 'Custom Marker', 'elementor-list-widget' ),
-				'type' => Controls_Manager::TEXT,
-				'placeholder' => esc_html__( 'Enter custom marker', 'elementor-list-widget' ),
-				'default' => '🧡',
-				'condition' => [
-					'marker_type[value]' => 'other',
-				],
-				'selectors' => [
-					'{{WRAPPER}} .elementor-list-widget-text::marker' => 'content: "{{VALUE}}";',
-				],
-			]
-		);
-
-		$this->end_controls_section();
-
-		$this->start_controls_section(
-			'style_content_section',
-			[
-				'label' => esc_html__( 'List Style', 'elementor-list-widget' ),
-				'tab' => Controls_Manager::TAB_STYLE,
+				'label' => __( 'Name', 'plugin-name' ),
+				'type'  => Controls_Manager::TEXT,
 			]
 		);
 
 		$this->add_control(
-			'title_color',
+			'phone',
 			[
-				'label' => esc_html__( 'Color', 'elementor-list-widget' ),
-				'type' => Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .elementor-list-widget-text' => 'color: {{VALUE}};',
-					'{{WRAPPER}} .elementor-list-widget-text > a' => 'color: {{VALUE}};',
-				],
-			]
-		);
-
-		$this->add_group_control(
-			Group_Control_Typography::get_type(),
-			[
-				'name' => 'icon_typography',
-				'selector' => '{{WRAPPER}} .elementor-list-widget-text, {{WRAPPER}} .elementor-list-widget-text > a',
-			]
-		);
-
-		$this->add_group_control(
-			Group_Control_Text_Shadow::get_type(),
-			[
-				'name' => 'text_shadow',
-				'selector' => '{{WRAPPER}} .elementor-list-widget-text',
-			]
-		);
-
-		$this->end_controls_section();
-
-		$this->start_controls_section(
-			'style_marker_section',
-			[
-				'label' => esc_html__( 'Marker Style', 'elementor-list-widget' ),
-				'tab' => Controls_Manager::TAB_STYLE,
-			]
-		);
-
-		$this->add_control(
-			'marker_color',
-			[
-				'label' => esc_html__( 'Color', 'elementor-list-widget' ),
-				'type' => Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .elementor-list-widget-text::marker' => 'color: {{VALUE}};',
-				],
-			]
-		);
-
-		$this->add_control(
-			'marker_spacing',
-			[
-				'label' => esc_html__( 'Spacing', 'elementor-list-widget' ),
-				'type' => Controls_Manager::SLIDER,
-				'size_units' => [ 'px', 'em', 'rem', 'custom' ],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 100,
-					],
-					'em' => [
-						'min' => 0,
-						'max' => 10,
-					],
-					'rem' => [
-						'min' => 0,
-						'max' => 10,
-					],
-				],
-				'default' => [
-					'unit' => 'px',
-					'size' => 40,
-				],
-				'selectors' => [
-					// '{{WRAPPER}} .elementor-list-widget' => 'padding-left: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .elementor-list-widget' => 'padding-inline-start: {{SIZE}}{{UNIT}};',
-				],
+				'label' => __( 'Phone', 'plugin-name' ),
+				'type'  => Controls_Manager::TEXT,
 			]
 		);
 
@@ -315,88 +166,207 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 
 	}
 
-	/**
-	 * Render list widget output on the frontend.
-	 *
-	 * Written in PHP and used to generate the final HTML.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 */
 	protected function render() {
 		$settings = $this->get_settings_for_display();
-		$html_tag = [
-			'ordered' => 'ol',
-			'unordered' => 'ul',
-			'other' => 'ul',
-		];
-		$this->add_render_attribute( 'list', 'class', 'elementor-list-widget' );
 		?>
-		<<?php echo $html_tag[ $settings['marker_type'] ]; ?> <?php $this->print_render_attribute_string( 'list' ); ?>>
-		<?php
-		foreach ( $settings['list_items'] as $index => $item ) {
-			$repeater_setting_key = $this->get_repeater_setting_key( 'text', 'list_items', $index );
-			$this->add_render_attribute( $repeater_setting_key, 'class', 'elementor-list-widget-text' );
-			$this->add_inline_editing_attributes( $repeater_setting_key );
-			?>
-			<li <?php $this->print_render_attribute_string( $repeater_setting_key ); ?>>
-				<?php
-				$title = $settings['list_items'][$index]['text'];
+        <div id="fsms_newsletter">
+            <form id="fsms_newsletter_form">
+                <input type="hidden" name="phonebook_id" value="<?php echo esc_attr( $settings['phonebook'] ); ?>">
+                <div class="fsms_newsletter_input a">
+                    <input id="fsms_newsletter_name" type="text" class="fsms_newsletter_text" placeholder=" نام و نام
+                           خانوادگی">
+                </div>
+                <div class="fsms_newsletter_input a">
+                    <input id="fsms_newsletter_mobile" type="text" class="fsms_newsletter_text"
+                           placeholder="شماره موبایل">
+                </div>
+                <div class="fsms_newsletter_input b" style="display: none;">
+                    <input id="fsms_newsletter_verify_code" type="text" class="fsms_newsletter_text"
+                           placeholder="کد تایید">
+                </div>
+                <input id="newsletter_send_ver_code" type="hidden"
+                       value="<?php echo $settings['send_verify_code'] ?>">
+            </form>
+            <div id="fsms_newsletter_message" style="display: none;">
+            </div>
+            <div class="fsms_newsletter_submit">
+                <button id="fsms_newsletter_submit_button" class="fsms_newsletter_button"><span class="button__text">اشتراک</span>
+                </button>
+            </div>
+            <div id="fsms_newsletter_completion" class="fsms_newsletter_submit" style="display: none;">
+                <button id="fsms_newsletter_submit_code" class="fsms_newsletter_button"><span class="button__text">ارسال کد</span>
+                </button>
+                <button id="fsms_newsletter_resend_code" class="fsms_newsletter_button"><span class="button__text">ارسال مجدد کد</span>
+                </button>
+            </div>
+        </div>
+        <!--<form action="#" method="post" id="farazsms-form">
+            <label for="name">Name: <input type="text" name="name" id="name" required></label><br>
+            <label for="phone">Phone: <input type="tel" name="phone" id="phone" required></label><br>
+            <input type="hidden" name="phonebook_id" value="<?php /*echo esc_attr( $settings['phonebook'] ); */ ?>">
+			<?php /*wp_nonce_field( 'farazsms_form_nonce', 'farazsms_form_nonce_field' ); */ ?>
+            <button type="submit" id="submit-button">Submit</button>
+        </form>
 
-				if ( ! empty( $item['link']['url'] ) ) {
-					$this->add_link_attributes( "link_{$index}", $item['link'] );
-					$linked_title = sprintf( '<a %1$s>%2$s</a>', $this->get_render_attribute_string( "link_{$index}" ), $title );
-					echo $linked_title;
-				} else {
-					echo $title;
-				}
-				?>
-			</li>
-			<?php
-		}
-		?>
-		</<?php echo $html_tag[ $settings['marker_type'] ]; ?>>
+        <div id="form-response"></div>-->
+
+        <script>
+          jQuery(document).ready(function ($) {
+            'use strict'
+            let newsletter_send_ver_code = $('#newsletter_send_ver_code')
+            let submit_div = $('.fsms_newsletter_submit')
+            let submit_button = $('#fsms_newsletter_submit_button')
+            let submit_code = $('#fsms_newsletter_submit_code')
+            let resend_code = $('#fsms_newsletter_resend_code')
+            let newsletter_completion_div = $('#fsms_newsletter_completion')
+            let name = $('#fsms_newsletter_name')
+            let mobile = $('#fsms_newsletter_mobile')
+            let verify_code = $('#fsms_newsletter_verify_code')
+            let newsletter_message = $('#fsms_newsletter_message')
+
+            let has_error = false
+            submit_button.click(function () {
+              has_error = false
+              name.removeClass('error')
+              mobile.removeClass('error')
+              if (name.val() == '') {
+                has_error = true
+                name.addClass('error')
+              }
+              if (mobile.val().length < 10) {
+                has_error = true
+                mobile.addClass('error')
+              }
+              if (has_error) {
+                return
+              }
+              let data = {
+                action: 'fsms_newsletter_send_verification_code',
+                mobile: mobile.val(),
+                name: name.val(),
+              }
+              submit_button.addClass('fsms_button--loading')
+              submit_button.prop('disabled', true)
+              $.post('<?php echo admin_url( 'admin-ajax.php' ); ?>', data, function (response) {
+                submit_button.removeClass('fsms_button--loading')
+                if (response.success) {
+                  if (newsletter_send_ver_code.val().length === 0) {
+                    newsletter_message.removeClass('success error')
+                    newsletter_message.hide()
+                    newsletter_message.empty()
+                    newsletter_message.addClass('success')
+                    newsletter_message.append('ثبت نام با موفقیت انجام شد')
+                    newsletter_message.show()
+                  } else {
+                    submit_div.hide()
+                    $('.fsms_newsletter_input.a').hide()
+                    newsletter_completion_div.show()
+                    $('.fsms_newsletter_input.b').show()
+                    let seconds = 90
+                    let interval
+                    resend_code.prop('disabled', true)
+                    interval = setInterval(function () {
+                      resend_code
+                        .find('span')
+                        .html('ارسال مجدد کد' + ' (' + seconds + ')')
+                      if (seconds === 0) {
+                        resend_code.find('span').html('ارسال مجدد کد')
+                        resend_code.prop('disabled', false)
+                        clearInterval(interval)
+                      }
+                      seconds--
+                    }, 1000)
+                  }
+                } else {
+                  newsletter_message.addClass('error')
+                  newsletter_message.append('شما عضو خبرنامه هستید')
+                  newsletter_message.show()
+                }
+              })
+            })
+
+            resend_code.click(function () {
+              submit_button.click()
+            })
+
+            submit_code.click(function () {
+              has_error = false
+              verify_code.removeClass('error')
+              if (verify_code.val() == '' || verify_code.val().length !== 4) {
+                has_error = true
+                verify_code.addClass('error')
+              }
+              if (has_error) {
+                return
+              }
+              let data = {
+                action: 'fsms_add_phone_to_newsletter',
+                code: verify_code.val(),
+                name: name.val(),
+                mobile: mobile.val(),
+              }
+              submit_code.addClass('fsms_button--loading')
+              submit_code.prop('disabled', true)
+              $.post('<?php echo admin_url( 'admin-ajax.php' ); ?>', data, function (response) {
+                submit_code.removeClass('fsms_button--loading')
+                submit_code.prop('disabled', false)
+                newsletter_message.removeClass('success error')
+                newsletter_message.hide()
+                newsletter_message.empty()
+                if (response.success) {
+                  newsletter_message.addClass('success')
+                  newsletter_message.append('ثبت نام با موفقیت انجام شد')
+                  newsletter_message.show()
+                  newsletter_completion_div.hide()
+                } else {
+                  newsletter_message.addClass('error')
+                  newsletter_message.append('کد وارد شده صحیح نیست')
+                  newsletter_message.show()
+                }
+              })
+            })
+          })
+          //jQuery(document).ready(function ($) {
+          //  $('#farazsms-form').submit(function (event) {
+          //    event.preventDefault()
+          //
+          //    // Disable submit button to prevent multiple submissions
+          //    $('#submit-button').prop('disabled', true)
+          //
+          //    // Get form data
+          //    let form_data = {
+          //      'name': $('#name').val(),
+          //      'phone': $('#phone').val(),
+          //      'phonebook': $('#phonebook').val(),
+          //      'action': 'farazsms_process_form',
+          //      'security': '<?php //echo wp_create_nonce( 'farazsms_form_nonce' ); ?>//'
+          //    }
+          //
+          //    // Submit form data via AJAX
+          //    $.ajax({
+          //      type: 'POST',
+          //      url: '<?php //echo admin_url( 'admin-ajax.php' ); ?>//',
+          //      data: form_data,
+          //      dataType: 'json',
+          //      success: function (response) {
+          //        if (response.success) {
+          //          $('#form-response').html(response)
+          //        } else {
+          //          $('#form-response').html('<div class="error">' + response + '</div>')
+          //        }
+          //      },
+          //      error: function (jqXHR, textStatus, errorThrown) {
+          //        $('#form-response').html('<div class="error">There was an error submitting the form.</div>')
+          //      },
+          //      complete: function () {
+          //        // Re-enable submit button
+          //        $('#submit-button').prop('disabled', false)
+          //      }
+          //    })
+          //  })
+          //})
+        </script>
 		<?php
+
 	}
-
-	/**
-	 * Render list widget output in the editor.
-	 *
-	 * Written as a Backbone JavaScript template and used to generate the live preview.
-	 *
-	 * @since 1.0.0
-	 * @access protected
-	 */
-	protected function content_template() {
-		?>
-		<#
-		html_tag = {
-		'ordered': 'ol',
-		'unordered': 'ul',
-		'other': 'ul',
-		};
-		view.addRenderAttribute( 'list', 'class', 'elementor-list-widget' );
-		#>
-		<{{{ html_tag[ settings.marker_type ] }}} {{{ view.getRenderAttributeString( 'list' ) }}}>
-		<# _.each( settings.list_items, function( item, index ) {
-		var repeater_setting_key = view.getRepeaterSettingKey( 'text', 'list_items', index );
-		view.addRenderAttribute( repeater_setting_key, 'class', 'elementor-list-widget-text' );
-		view.addInlineEditingAttributes( repeater_setting_key );
-		#>
-		<li {{{ view.getRenderAttributeString( repeater_setting_key ) }}}>
-			<# var title = item.text; #>
-			<# if ( item.link ) { #>
-			<# view.addRenderAttribute( `link_${index}`, item.link ); #>
-			<a href="{{ item.link.url }}" {{{ view.getRenderAttributeString( `link_${index}` ) }}}>
-				{{{title}}}
-			</a>
-			<# } else { #>
-			{{{title}}}
-			<# } #>
-		</li>
-		<# } ); #>
-		</{{{ html_tag[ settings.marker_type ] }}}>
-		<?php
-	}
-
 }

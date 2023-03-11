@@ -122,7 +122,7 @@ class Farazsms_Comments {
 	// Save mobile field.
 	public function save_mobile_field( $comment_id ) {
 		if ( isset( $_POST['mobile'] ) ) {
-		$mobile = Farazsms_Base::validate_mobile_number( esc_attr( $_POST['mobile'] ) );
+			$mobile = Farazsms_Base::validate_mobile_number( esc_attr( $_POST['mobile'] ) );
 			add_comment_meta( $comment_id, 'mobile', $mobile );
 		}
 		$this->response_to_comment( $comment_id );
@@ -143,13 +143,15 @@ class Farazsms_Comments {
 	public function response_to_comment( $comment_id ) {
 		$comment   = get_comment( $comment_id );
 		$data      = $this->comments_farazsms_shortcode( $comment, $comment_id );
-		$mobile    = get_comment_meta( $data['parent'] )['mobile'][0] ?? '';
+		$mobile    = get_comment_meta( $comment_id )['mobile'][0] ?? '';
+		$user_name = $comment->comment_author;
 		$user      = get_user_by( 'id', $comment->user_id );
-		$user_name = $user->first_name . ' ' . $user->last_name;
 		$is_admin  = in_array( 'administrator', $user->roles );
-		if (self::$comment_phonebook_id) {
+
+		if ( self::$comment_phonebook_id ) {
 			$this->save_comment_mobile_to_phonebook( $mobile, $user_name );
 		}
+
 		if ( $comment->comment_parent == 0 ) {
 			$mobile = get_comment_meta( $comment_id )['mobile'][0] ?? '';
 			if ( ! empty( self::$approved_comment_pattern ) || ! empty( $mobile ) ) {

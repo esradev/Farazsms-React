@@ -44,55 +44,50 @@ class Farazsms_Gravity_Forms {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_action( 'gform_entry_created', [ $this, 'fsms_club_gform_post_update_entry' ] );
-		add_action( 'gform_pre_submission', [ $this, 'fsms_gf_pre_submission' ] );
+		add_action( 'gform_after_submission', [ $this, 'process_submissions' ], 10, 2 );
 	}
 
 	/**
-	 * Gravity Form post update entry.
+	 * Process Submissions
+	 *
+	 * This function is called when a Gravity Forms submission is made.
+	 * It retrieves the relevant rows from the database table and performs
+	 * an action on each row, such as sending an email or updating a custom table.
+	 *
+	 * @param array $entry The current form submission's entry.
+	 * @param array $form The current form's metadata.
 	 */
-	public function fsms_club_gform_post_update_entry( $entry ) {
-		$fsc_gravity_forms_fields = Farazsms_Base::$gf_selected_field_id;
-		$form_ids                 = [];
-		$field_ids                = [];
-		foreach ( $fsc_gravity_forms_fields as $field ) {
-			$exploded    = explode( '-', $field );
-			$form_ids[]  = $exploded[0];
-			$field_ids[] = $exploded[1];
-		}
-		$form_id = $entry['form_id'];
-		if ( ! in_array( $form_id, $form_ids ) ) {
-			return;
-		}
-		foreach ( $field_ids as $field_id ) {
-			$value = $entry[ $field_id ];
-			$phone = Farazsms_Base::validate_mobile_number( $value );
-			if ( ! $phone ) {
-				return;
-			}
-			if ( $value !== null ) {
+	public function process_submissions( $entry, $form ) {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'farazsms_gravity_forms';
 
-				$list[0] = (object) [
-					'number'       => $phone,
-					'name'         => '',
-					'phonebook_id' => (int) Farazsms_Base::$gf_phonebook_id
-				];
-				Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
+		// Retrieve rows from the database table where action is "saveToPhonebook"
+		$results = $wpdb->get_results(
+			"SELECT * FROM $table_name WHERE action_type = 'saveToPhonebook'"
+		);
 
+		// Loop through the results and perform an action on each row
+		foreach ( $results as $row ) {
+			$phone_form_id  = $row->form_id;
+			$phone_field_id = $row->field_id;
+			$phonebook_id   = $row->phonebook_id;
+
+			if ( $form['id'] == $phone_form_id ) {
+				$phone_number = rgar( $entry, $phone_field_id );
+
+				if ( $row->action_type === 'saveToPhonebook' ) {// Check if the form ID matches the current form
+					// Get the phone number entered by the user
+
+					$list[0] = (object) [
+						'number'       => $phone_number,
+						'name'         => '',
+						'phonebook_id' => (int) $phonebook_id
+					];
+					Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
+				}
 			}
 		}
 	}
-
-	/**
-	 * Gravity form pre submission.
-	 */
-	public function fsms_gf_pre_submission( $form ) {
-		foreach ( $_POST as $name => $value ) {
-			$_POST[ $name ] = Farazsms_Base::fsms_tr_num( $value );
-		}
-	}
-
-
 }
 
 Farazsms_Gravity_Forms::get_instance();

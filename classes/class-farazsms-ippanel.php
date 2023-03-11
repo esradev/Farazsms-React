@@ -151,12 +151,8 @@ class Farazsms_Ippanel {
 		] );
 
 		$res = curl_exec( $handler );
-		$res = json_decode( $res );
-		if ( $res->status->code !== 0 ) {
-			return false;
-		}
 
-		return true;
+		return json_decode( $res );
 	}
 
 	/**

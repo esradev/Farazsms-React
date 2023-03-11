@@ -25,15 +25,15 @@ class Farazsms_Newsletter {
 	 */
 	private static $instance;
 
-	private static $news_welcome;
-	private static $news_welcome_pattern;
-	private static $news_send_verify_pattern;
-	private static $news_phonebook_id;
-	private static $news_send_verify_via_pattern;
-	private static $news_post_notify;
-	private static $news_post_notify_msg;
-	private static $news_product_notify;
-	private static $news_product_notify_msg;
+	public static $news_welcome;
+	public static $news_welcome_pattern;
+	public static $news_send_verify_pattern;
+	public static $news_phonebook_id;
+	public static $news_send_verify_via_pattern;
+	public static $news_post_notify;
+	public static $news_post_notify_msg;
+	public static $news_product_notify;
+	public static $news_product_notify_msg;
 
 	/**
 	 * Initiator
@@ -169,7 +169,7 @@ class Farazsms_Newsletter {
 			wp_send_json_error();
 		}
 
-		if ( self::$news_send_verify_via_pattern !== true ) {
+		if ( !self::$news_send_verify_via_pattern ) {
 			$data = [
 				'phone'      => $mobile,
 				'name'       => $name,
