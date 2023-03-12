@@ -58,30 +58,6 @@ class Farazsms_Elementor {
 		}
 
 		add_action( 'elementor/widgets/register', [ $this, 'register_newsletter_widget' ] );
-		add_action( 'wp_ajax_farazsms_process_form', [$this, 'farazsms_process_form'] );
-		add_action( 'wp_ajax_nopriv_farazsms_process_form', [$this, 'farazsms_process_form'] );
-	}
-
-	public function farazsms_process_form() {
-		// Check security nonce
-		check_ajax_referer( 'farazsms_form_nonce', 'farazsms_form_nonce' );
-
-		// Get form data
-		parse_str( $_POST['formData'], $form_data );
-
-		$list      = [];
-
-		$list[0] = (object) [
-			'number'       => sanitize_text_field( $form_data['phone'] ),
-			'name'         => sanitize_text_field( $form_data['name'] ),
-			'phonebook_id' => (int) sanitize_text_field( $form_data['phonebook'] )
-		];
-
-		// Call existing function with form data
-		$result = Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
-
-//		// Return JSON response
-//		wp_send_json( $result );
 	}
 
 	/**

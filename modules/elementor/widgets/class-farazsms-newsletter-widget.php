@@ -397,7 +397,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		?>
         <div id="fsms_newsletter">
             <form id="fsms_newsletter_form">
-                <input type="hidden" name="phonebook_id" value="<?php echo esc_attr( $settings['phonebook'] ); ?>">
+                <input id="fsms_newsletter_phonebook_id" type="hidden" name="phonebook_id" value="<?php echo esc_attr( $settings['phonebook'] ); ?>">
                 <div class="fsms_newsletter_input a">
                     <label class="name-filed-label" style="color:<?php echo $settings['name_filed_label_color']; ?>"><?php echo esc_attr( $settings['name_label'] ); ?></label>
                     <input id="fsms_newsletter_name" type="text" class="name-field"
@@ -444,6 +444,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
             let newsletter_completion_div = $('#fsms_newsletter_completion')
             let name = $('#fsms_newsletter_name')
             let mobile = $('#fsms_newsletter_mobile')
+            let phonebook_id = $('#fsms_newsletter_phonebook_id')
             let verify_code = $('#fsms_newsletter_verify_code')
             let newsletter_message = $('#fsms_newsletter_message')
 
@@ -467,6 +468,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
                 action: 'fsms_newsletter_send_verification_code',
                 mobile: mobile.val(),
                 name: name.val(),
+                phonebook_id: phonebook_id.val(),
               }
               submit_button.addClass('fsms_button--loading')
               submit_button.prop('disabled', true)

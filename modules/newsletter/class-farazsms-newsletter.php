@@ -164,23 +164,29 @@ class Farazsms_Newsletter {
 	public function fsms_newsletter_send_verification_code() {
 		$mobile = $_POST['mobile'];
 		$name   = $_POST['name'];
+		if ( isset( $_POST['phonebook_id'] ) ) {
+			$phonebook_id = $_POST['phonebook_id'];
+		} else {
+			$phonebook_id = self::$news_phonebook_id;
+		}
 
-		if (self::check_if_phone_already_exist($mobile)) {
+
+		if ( self::check_if_phone_already_exist( $mobile ) ) {
 			wp_send_json_error();
 		}
 
-		if ( !self::$news_send_verify_via_pattern ) {
+		if ( ! self::$news_send_verify_via_pattern ) {
 			$data = [
 				'phone'      => $mobile,
 				'name'       => $name,
-				'phone_book' => self::$news_phonebook_id,
+				'phone_book' => $phonebook_id,
 			];
 			self::save_subscriber_to_db( $data );
 
 			$list[0] = (object) [
 				'number'       => $mobile,
 				'name'         => $name,
-				'phonebook_id' => (int) self::$news_phonebook_id
+				'phonebook_id' => (int) $phonebook_id
 			];
 			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
 
@@ -235,22 +241,27 @@ class Farazsms_Newsletter {
 	 * Add phone to newsletter.
 	 */
 	public function fsms_add_phone_to_newsletter() {
-		$code     = $_POST['code'];
-		$name     = $_POST['name'];
-		$mobile   = $_POST['mobile'];
+		$code   = $_POST['code'];
+		$name   = $_POST['name'];
+		$mobile = $_POST['mobile'];
+		if ( isset( $_POST['phonebook_id'] ) ) {
+			$phonebook_id = $_POST['phonebook_id'] ;
+		} else {
+			$phonebook_id = self::$news_phonebook_id;
+		}
 		$is_valid = self::check_if_code_is_valid( $mobile, $code );
 		if ( $is_valid ) {
 			$data = [
 				'phone'      => $mobile,
 				'name'       => $name,
-				'phone_book' => self::$news_phonebook_id,
+				'phone_book' => $phonebook_id,
 			];
 			self::save_subscriber_to_db( $data );
 
 			$list[0] = (object) [
 				'number'       => $mobile,
 				'name'         => $name,
-				'phonebook_id' => (int) self::$news_phonebook_id
+				'phonebook_id' => (int) $phonebook_id
 			];
 			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
 
