@@ -8,8 +8,7 @@
  * Version: 2.0.0
  * Requires at least: 5.5
  * Requires PHP: 7.1
- * Author: FarazSMS
- * Author URI: https://farazsms.com/
+ * Author: farazsmsdeveloper, wpstormdev
  * Text Domain: farazsms
  * Domain Path: /languages
  *

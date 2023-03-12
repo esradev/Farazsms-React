@@ -26,6 +26,42 @@ function Comments() {
    */
   const originalState = {
     inputs: {
+      un_require_email_filed: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "un_require_email_filedChange",
+        name: "un_require_email_filed",
+        type: "checkbox",
+        label: __("Un require email filed on comment form?", "farazsms"),
+      },
+      disable_email_filed: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "disable_email_filedChange",
+        name: "disable_email_filed",
+        type: "checkbox",
+        label: __("Remove email filed from comment form?", "farazsms"),
+      },
+      disable_website_filed: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "disable_website_filedChange",
+        name: "disable_website_filed",
+        type: "checkbox",
+        label: __("Remove website filed from comment form?", "farazsms"),
+      },
+      disable_cookies: {
+        value: "",
+        hasErrors: false,
+        errorMessage: "",
+        onChange: "disable_cookiesChange",
+        name: "disable_cookies",
+        type: "checkbox",
+        label: __("Remove cookies checkbox from comment form?", "farazsms"),
+      },
       add_mobile_field: {
         value: "",
         hasErrors: false,
@@ -120,7 +156,14 @@ function Comments() {
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
-        //Init state values by action.value
+        // Init state values by action.value
+        draft.inputs.un_require_email_filed.value =
+          action.value.un_require_email_filed;
+        draft.inputs.disable_email_filed.value =
+          action.value.disable_email_filed;
+        draft.inputs.disable_website_filed.value =
+          action.value.disable_website_filed;
+        draft.inputs.disable_cookies.value = action.value.disable_cookies;
         draft.inputs.add_mobile_field.value = action.value.add_mobile_field;
         if (action.value.add_mobile_field === true) {
           draft.inputs.required_mobile_field.isDependencyUsed = true;
@@ -168,6 +211,22 @@ function Comments() {
           draft.inputs.comment_pattern.isDependencyUsed = false;
           draft.inputs.approved_comment_pattern.isDependencyUsed = false;
         }
+        return;
+      case "un_require_email_filedChange":
+        draft.inputs.un_require_email_filed.hasErrors = false;
+        draft.inputs.un_require_email_filed.value = action.value;
+        return;
+      case "disable_email_filedChange":
+        draft.inputs.disable_email_filed.hasErrors = false;
+        draft.inputs.disable_email_filed.value = action.value;
+        return;
+      case "disable_website_filedChange":
+        draft.inputs.disable_website_filed.hasErrors = false;
+        draft.inputs.disable_website_filed.value = action.value;
+        return;
+      case "disable_cookiesChange":
+        draft.inputs.disable_cookies.hasErrors = false;
+        draft.inputs.disable_cookies.value = action.value;
         return;
       case "required_mobile_fieldChange":
         draft.inputs.required_mobile_field.hasErrors = false;

@@ -452,6 +452,10 @@ class Farazsms_Routes {
 			'comment_pattern'                  => $data['comment_pattern'] ?: '',
 			'approved_comment_pattern'         => $data['approved_comment_pattern'] ?: '',
 			'comment_phonebook'                => $data['comment_phonebook'] ?: [],
+			'un_require_email_filed'           => $data['un_require_email_filed'] ?: '',
+			'disable_email_filed'              => $data['disable_email_filed'] ?: '',
+			'disable_website_filed'            => $data['disable_website_filed'] ?: '',
+			'disable_cookies'            => $data['disable_cookies'] ?: '',
 		];
 		$option_json = wp_json_encode( $option );
 

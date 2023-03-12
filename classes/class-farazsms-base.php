@@ -135,6 +135,9 @@ class Farazsms_Base {
 	/**
 	 * Validate mobile number.
 	 *
+	 * @param $phone
+	 *
+	 * @return false|string
 	 * @since 2.0.0
 	 */
 	public static function validate_mobile_number( $phone ) {

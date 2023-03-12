@@ -51,7 +51,7 @@ class Farazsms_Digits {
 	 * Monitor update user metadata.
 	 */
 	public function monitor_update_user_metadata( $check, $object_id, $meta_key, $meta_value ) {
-		$selected_meta_keys = Farazsms_Base::$custom_phone_meta_keys_id ?? [];
+		$selected_meta_keys = Farazsms_Base::$custom_phone_meta_keys_id ?? '';
 		if ( $meta_key === $selected_meta_keys ) {
 			return $check;
 		}
@@ -89,7 +89,7 @@ class Farazsms_Digits {
 
 		$user_info = get_userdata( $user_id );
 
-		$list   = [];
+		$list    = [];
 		$list[0] = (object) [
 			'number'       => $digits_phone,
 			'name'         => $user_info->display_name ?? '',
