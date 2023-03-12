@@ -76,7 +76,7 @@ class Farazsms_Edd {
         <div class="column-container">
 
             <div class="column">
-                <strong><?php esc_attr_e( 'Phone number: ', 'farazsms' ) ?></strong>
+                <strong><?php esc_attr_e( 'Phone number', 'farazsms' ) . ': ' ?></strong>
 				<?php echo $phone; ?>
             </div>
 

@@ -201,6 +201,10 @@ function GravityForms(props) {
         );
         dispatch({ type: "saveRequestFinished" });
         dispatch({ type: "clearForm" });
+        dispatch({
+          type: "updateCurrentActions",
+          value: state.currentActions + 1,
+        });
       } catch (e) {
         console.log(e);
       }
@@ -301,7 +305,6 @@ function GravityForms(props) {
         const getActions = await AxiosWp.get(
           "/farazsms/v1/get_gravity_forms_actions_from_db"
         );
-        console.log(getActions);
         dispatch({
           type: "getGravityFormsActions",
           value: JSON.parse(getActions.data),
@@ -315,7 +318,7 @@ function GravityForms(props) {
       }
     }
     get_gravity_forms_actions_from_db();
-  }, []);
+  }, [[], state.currentActions]);
 
   /**
    * Delete Gravity Forms action from DB.
@@ -337,13 +340,16 @@ function GravityForms(props) {
               action_id: action.id,
             }
           );
+          dispatch({
+            type: "updateCurrentActions",
+            value: state.currentActions - 1,
+          });
           appDispatch({
             type: "flashMessage",
             value: {
               message: __("Congrats. Action deleted successfully.", "farazsms"),
             },
           });
-          console.log(action.id);
         } catch (e) {
           console.log(e);
         }

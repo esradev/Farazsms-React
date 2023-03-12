@@ -179,7 +179,7 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base {
 
 		// send to admin
 		$widget->add_control( 'sms_to_admin', [
-			'label'        => esc_html__( 'Send sms to the manager', 'farazsms' ),
+			'label'        => esc_html__( 'Send sms to the admin', 'farazsms' ),
 			'type'         => Controls_Manager::SWITCHER,
 			'label_on'     => esc_html__( 'Enable', 'farazsms' ),
 			'label_off'    => esc_html__( 'Disable', 'farazsms' ),

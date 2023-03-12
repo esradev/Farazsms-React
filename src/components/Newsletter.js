@@ -440,7 +440,6 @@ function Newsletter() {
               ),
             },
           });
-          console.log(subscriber.id);
         } catch (e) {
           console.log(e);
         }

@@ -349,7 +349,7 @@ class Farazsms_Settings {
 				'id'     => 'farazsms',
 				'parent' => null,
 				'group'  => null,
-				'title'  => __( 'Farazsms ', 'farazsms' ),
+				'title'  => __( 'Farazsms', 'farazsms' ),
 				'meta'   => [
 					'title' => __( 'Farazsms', 'textdomain' ),
 					// This title will show on hover
@@ -371,7 +371,7 @@ class Farazsms_Settings {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => 'farazsms',
-				'title'  => __( 'Send sms', 'farazsms' ),
+				'title'  => __( 'Send Sms', 'farazsms' ),
 				'id'     => 'farazsms-admin-bar-send-sms',
 				'href'   => get_bloginfo( 'url' ) . '/wp-admin/admin.php?page=farazsms_settings#/send_sms',
 			]

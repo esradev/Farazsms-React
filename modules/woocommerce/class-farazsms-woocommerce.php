@@ -134,7 +134,7 @@ class Farazsms_Woocommerce {
 
 	public function add_order_tracking_box( $post ) {
 		echo '<div id="fsms-tracking-code-input"><input type="text" name="tracking_code" id="fsms_tracking_code" /></div>';
-		echo '<div id="fsms-tracking-code-button"><div class="fsms_button" id="send_tracking_code_button"><span class="button__text">' . __( 'Send sms', 'farazsms' ) . '</span></div></div>';
+		echo '<div id="fsms-tracking-code-button"><div class="fsms_button" id="send_tracking_code_button"><span class="button__text">' . __( 'Send Sms', 'farazsms' ) . '</span></div></div>';
 		echo ' <input type="hidden" id="fsms-tracking-code-order_id" value="' . $post->ID . '">';
 		echo '<div id="send_tracking_code_response" style="display: none;"></div>';
 

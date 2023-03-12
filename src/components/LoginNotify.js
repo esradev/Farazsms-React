@@ -64,7 +64,7 @@ function Settings() {
         onChange: "welcome_sms_msgChange",
         name: "welcome_sms_msg",
         type: "textarea",
-        label: __("welcome message:", "farazsms"),
+        label: __("Welcome message:", "farazsms"),
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __("%display_name% and %username%", "farazsms"),
         isDependencyUsed: false,
