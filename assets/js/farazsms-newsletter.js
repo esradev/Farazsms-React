@@ -16,7 +16,7 @@
     has_error = false;
     name.removeClass("error");
     mobile.removeClass("error");
-    if (name.val() == "") {
+    if (name.val() === "") {
       has_error = true;
       name.addClass("error");
     }

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Elementor widget that inserts an embeddable content into the page, from any given URL.
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 class Farazsms_Newsletter_Widget extends Widget_Base {
 
@@ -26,7 +26,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 	 * Retrieve list widget name.
 	 *
 	 * @return string Widget name.
-	 * @since 1.0.0
+	 * @since 2.0.0
 	 * @access public
 	 */
 	public function get_name() {
@@ -39,7 +39,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 	 * Retrieve list widget title.
 	 *
 	 * @return string Widget title.
-	 * @since 1.0.0
+	 * @since 2.0.0
 	 * @access public
 	 */
 	public function get_title() {
@@ -52,7 +52,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 	 * Retrieve list widget icon.
 	 *
 	 * @return string Widget icon.
-	 * @since 1.0.0
+	 * @since 2.0.0
 	 * @access public
 	 */
 	public function get_icon() {
@@ -65,7 +65,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 	 * Retrieve a URL where the user can get more information about the widget.
 	 *
 	 * @return string Widget help URL.
-	 * @since 1.0.0
+	 * @since 2.0.0
 	 * @access public
 	 */
 	public function get_custom_help_url() {
@@ -78,7 +78,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 	 * Retrieve the list of categories the list widget belongs to.
 	 *
 	 * @return array Widget categories.
-	 * @since 1.0.0
+	 * @since 2.0.0
 	 * @access public
 	 */
 	public function get_categories() {
@@ -91,12 +91,23 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 	 * Retrieve the list of keywords the list widget belongs to.
 	 *
 	 * @return array Widget keywords.
-	 * @since 1.0.0
+	 * @since 2.0.0
 	 * @access public
 	 */
 	public function get_keywords() {
 		return [ 'farazsms', 'form', 'newsletter' ];
 	}
+
+	/**
+	 * Load widget scripts.
+	 *
+	 * @return
+	 * @since 2.0.0
+	 * @access public
+	 */
+//	public function get_style_depends() {
+//		return [ 'farazsms-newsletter' ];
+//	}
 
 	/**
 	 * Register list widget controls.
@@ -129,7 +140,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'phonebook',
 			[
-				'label'   => 'Phonebook',
+				'label'   => __( 'Phonebook', 'farazsms' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => '0',
 				'options' => $phonebook_options,
@@ -138,14 +149,59 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 
 		$this->add_control(
 			'send_verify_code', [
-				'label'        => 'Send Verify Code?',
+				'label'        => __( 'Send Verify Code?', 'farazsms' ),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_on'     => esc_html__( 'Enable', 'farazsms' ),
-				'label_off'    => esc_html__( 'Disable', 'farazsms' ),
+				'label_on'     => esc_html__( 'Yes', 'farazsms' ),
+				'label_off'    => esc_html__( 'No', 'farazsms' ),
 				'return_value' => 'yes',
-				'default'      => 'yes',
+				'default'      => 'no',
 			]
 		);
+
+		$this->add_control(
+			'verify_code_pattern', [
+				'label' => __( 'Verify Code Pattern', 'farazsms' ),
+				'type'  => Controls_Manager::TEXT,
+			]
+		);
+
+		$this->add_control(
+			'send_welcome_msg', [
+				'label'        => __( 'Send Welcome Message?', 'farazsms' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => esc_html__( 'Yes', 'farazsms' ),
+				'label_off'    => esc_html__( 'No', 'farazsms' ),
+				'return_value' => 'yes',
+				'default'      => 'no',
+			]
+		);
+
+		$this->add_control(
+			'welcome_msg_pattern', [
+				'label' => __( 'Welcome Message Pattern', 'farazsms' ),
+				'type'  => Controls_Manager::TEXT,
+			]
+		);
+
+		$this->end_controls_section();
+
+		// Form Section
+		$this->start_controls_section(
+			'form_section',
+			[
+				__( 'Form', 'farazsms' ),
+				'tab' => Controls_Manager::TAB_STYLE
+			]
+		);
+
+		$this->add_control(
+			'form_title',
+			[
+				'label' => __( 'Form Title', 'farazsms' ),
+				'type'  => Controls_Manager::TEXT,
+			]
+		);
+
 		$this->end_controls_section();
 
 		// Name Field Section
@@ -153,26 +209,17 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 			'name_field_section',
 			[
 				'label' => __( 'Name Field', 'farazsms' ),
-				'tab'   => Controls_Manager::TAB_CONTENT,
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
 		// Name Field Controls
 		$this->add_control(
-			'name_label',
-			[
-				'label'   => __( 'Name Field Label', 'farazsms' ),
-				'type'    => Controls_Manager::TEXT,
-				'default' => __( 'Name:', 'farazsms' ),
-			]
-		);
-
-		$this->add_control(
 			'name_placeholder',
 			[
 				'label'   => __( 'Name Field Placeholder', 'farazsms' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => __( 'Name:', 'farazsms' ),
+				'default' => __( 'Like: Ghafary', 'farazsms' ),
 			]
 		);
 
@@ -194,17 +241,6 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .name-field' => 'color: {{VALUE}};',
-				],
-			]
-		);
-
-		$this->add_control(
-			'name_filed_label_color',
-			[
-				'label'     => __( 'Label Color', 'farazsms' ),
-				'type'      => Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .name-field-label' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -240,26 +276,17 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 			'phone_field_section',
 			[
 				'label' => __( 'Phone Field', 'farazsms' ),
-				'tab'   => Controls_Manager::TAB_CONTENT,
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
 		// Phone Field Controls
 		$this->add_control(
-			'phone_label',
-			[
-				'label'   => __( 'Phone Field Label', 'farazsms' ),
-				'type'    => Controls_Manager::TEXT,
-				'default' => __( 'Phone:', 'farazsms' ),
-			]
-		);
-
-		$this->add_control(
 			'phone_placeholder',
 			[
 				'label'   => __( 'Phone Field Placeholder', 'farazsms' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => __( 'Phone:', 'farazsms' ),
+				'default' => __( 'Like: 09300410381', 'farazsms' ),
 			]
 		);
 
@@ -281,17 +308,6 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .phone-field' => 'color: {{VALUE}};',
-				],
-			]
-		);
-
-		$this->add_control(
-			'phone_filed_label_color',
-			[
-				'label'     => __( 'Label Color', 'farazsms' ),
-				'type'      => Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .phone-field-label' => 'color: {{VALUE}};',
 				],
 			]
 		);
@@ -327,7 +343,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 			'submit_button_section',
 			[
 				'label' => __( 'Submit Button', 'farazsms' ),
-				'tab'   => Controls_Manager::TAB_CONTENT,
+				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
 
@@ -396,34 +412,42 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$settings = $this->get_settings_for_display();
 		?>
         <div id="fsms_newsletter">
+            <h3><?php echo esc_attr( $settings['form_title'] ); ?></h3>
             <form id="fsms_newsletter_form">
-                <input id="fsms_newsletter_phonebook_id" type="hidden" name="phonebook_id" value="<?php echo esc_attr( $settings['phonebook'] ); ?>">
+                <input id="fsms_newsletter_phonebook_id" type="hidden" name="phonebook_id"
+                       value="<?php echo esc_attr( $settings['phonebook'] ); ?>">
+                <input id="fsms_newsletter_send_verify_code" type="hidden"
+                       value="<?php echo $settings['send_verify_code'] ?>">
+                <input id="fsms_newsletter_verify_code_pattern" type="hidden" name="verify_code_pattern"
+                       value="<?php echo esc_attr( $settings['verify_code_pattern'] ); ?>">
+                <input id="fsms_newsletter_send_welcome_msg" type="hidden" name="send_welcome_msg"
+                       value="<?php echo esc_attr( $settings['send_welcome_msg'] ); ?>">
+                <input id="fsms_newsletter_welcome_msg_pattern" type="hidden" name="welcome_msg_pattern"
+                       value="<?php echo esc_attr( $settings['welcome_msg_pattern'] ); ?>">
+
                 <div class="fsms_newsletter_input a">
-                    <label class="name-filed-label" style="color:<?php echo $settings['name_filed_label_color']; ?>"><?php echo esc_attr( $settings['name_label'] ); ?></label>
-                    <input id="fsms_newsletter_name" type="text" class="name-field"
+                    <input id="fsms_newsletter_name" type="text" class="fsms_newsletter_text"
                            placeholder="<?php echo esc_attr( $settings['name_placeholder'] ); ?>"
-                           style="color:<?php echo $settings['name_filed_text_color']; ?>;background-color:<?php echo $settings['name_filed_color']; ?>;margin:<?php echo $settings['name_filed_margin']; ?>;padding:<?php echo $settings['name_filed_padding']; ?>;"
-                    >
+                           style="color:<?php echo $settings['name_filed_text_color']; ?>;background-color:<?php echo $settings['name_filed_color']; ?>;margin:<?php echo $settings['name_filed_margin']; ?>;padding:<?php echo $settings['name_filed_padding']; ?>;">
                 </div>
                 <div class="fsms_newsletter_input a">
-                    <label class="phone-filed-label" style="color:<?php echo $settings['phone_filed_label_color']; ?>"><?php echo esc_attr( $settings['phone_label'] ); ?></label>
-                    <input id="fsms_newsletter_mobile" type="text" class="phone-field"
+                    <input id="fsms_newsletter_mobile" type="text" class="fsms_newsletter_text"
                            placeholder="<?php echo esc_attr( $settings['phone_placeholder'] ); ?>"
-                           style="color:<?php echo $settings['phone_filed_text_color']; ?>;background-color:<?php echo $settings['phone_filed_color']; ?>;margin:<?php echo $settings['phone_filed_margin']; ?>;padding:<?php echo $settings['phone_filed_padding']; ?>;"
-                    >
+                           style="color:<?php echo $settings['phone_filed_text_color']; ?>;background-color:<?php echo $settings['phone_filed_color']; ?>;margin:<?php echo $settings['phone_filed_margin']; ?>;padding:<?php echo $settings['phone_filed_padding']; ?>;">
                 </div>
                 <div class="fsms_newsletter_input b" style="display: none;">
                     <input id="fsms_newsletter_verify_code" type="text" class="fsms_newsletter_text"
                            placeholder="کد تایید">
                 </div>
-                <input id="newsletter_send_ver_code" type="hidden"
-                       value="<?php echo $settings['send_verify_code'] ?>">
+
             </form>
             <div id="fsms_newsletter_message" style="display: none;">
             </div>
             <div class="fsms_newsletter_submit">
-                <button class="submit-button" id="fsms_newsletter_submit_button"
-                        style="color:<?php echo $settings['submit_button_text_color']; ?>;background-color:<?php echo $settings['submit_button_color']; ?>;margin:<?php echo $settings['submit_button_margin']; ?>;padding:<?php echo $settings['submit_button_padding']; ?>;"><?php echo esc_attr( $settings['submit_button_text'] ); ?></button>
+                <button id="fsms_newsletter_submit_button" class="fsms_newsletter_button submit-button"
+                        style="color:<?php echo $settings['submit_button_text_color']; ?>;background-color:<?php echo $settings['submit_button_color']; ?>;margin:<?php echo $settings['submit_button_margin']; ?>;padding:<?php echo $settings['submit_button_padding']; ?>;">
+                    <span class="button__text"><?php echo esc_attr( $settings['submit_button_text'] ); ?></span>
+                </button>
             </div>
             <div id="fsms_newsletter_completion" class="fsms_newsletter_submit" style="display: none;">
                 <button id="fsms_newsletter_submit_code" class="fsms_newsletter_button"><span class="button__text">ارسال کد</span>
@@ -445,6 +469,10 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
             let name = $('#fsms_newsletter_name')
             let mobile = $('#fsms_newsletter_mobile')
             let phonebook_id = $('#fsms_newsletter_phonebook_id')
+            let send_verify_code = $('#fsms_newsletter_send_verify_code')
+            let verify_code_pattern = $('#fsms_newsletter_verify_code_pattern')
+            let send_welcome_msg = $('#fsms_newsletter_send_welcome_msg')
+            let welcome_msg_pattern = $('#fsms_newsletter_welcome_msg_pattern')
             let verify_code = $('#fsms_newsletter_verify_code')
             let newsletter_message = $('#fsms_newsletter_message')
 
@@ -469,13 +497,17 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
                 mobile: mobile.val(),
                 name: name.val(),
                 phonebook_id: phonebook_id.val(),
+                send_verify_code: send_verify_code.val(),
+                verify_code_pattern: verify_code_pattern.val(),
+                send_welcome_msg: send_welcome_msg.val(),
+                welcome_msg_pattern: welcome_msg_pattern.val(),
               }
               submit_button.addClass('fsms_button--loading')
               submit_button.prop('disabled', true)
               $.post('<?php echo admin_url( 'admin-ajax.php' ); ?>', data, function (response) {
                 submit_button.removeClass('fsms_button--loading')
                 if (response.success) {
-                  if (newsletter_send_ver_code.val().length === 0) {
+                  if (newsletter_send_ver_code.val() === false) {
                     newsletter_message.removeClass('success error')
                     newsletter_message.hide()
                     newsletter_message.empty()
@@ -529,6 +561,8 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
                 code: verify_code.val(),
                 name: name.val(),
                 mobile: mobile.val(),
+                phonebook_id: phonebook_id.val(),
+                welcome_msg_pattern: welcome_msg_pattern.val(),
               }
               submit_code.addClass('fsms_button--loading')
               submit_code.prop('disabled', true)
