@@ -452,7 +452,6 @@ class Farazsms_Routes {
 			'comment_pattern'                  => $data['comment_pattern'] ?: '',
 			'approved_comment_pattern'         => $data['approved_comment_pattern'] ?: '',
 			'comment_phonebook'                => $data['comment_phonebook'] ?: [],
-			'un_require_email_filed'           => $data['un_require_email_filed'] ?: '',
 			'disable_email_filed'              => $data['disable_email_filed'] ?: '',
 			'disable_website_filed'            => $data['disable_website_filed'] ?: '',
 			'disable_cookies'            => $data['disable_cookies'] ?: '',
@@ -492,30 +491,6 @@ class Farazsms_Routes {
 		$option_json = wp_json_encode( $option );
 
 		return update_option( 'farazsms_newsletter_options', $option_json );
-	}
-
-	/**
-	 * Get elementor options.
-	 */
-	public function get_elementor_options() {
-		$farazsms_elementor_options = get_option( 'farazsms_elementor_options' );
-		if ( empty( $farazsms_elementor_options ) ) {
-			return new WP_Error( 'no_option', 'Invalid options', [ 'status' => 404 ] );
-		}
-
-		return $farazsms_elementor_options;
-	}
-
-	/**
-	 * Add elementor options.
-	 */
-	public function add_elementor_options( $data ) {
-		$option      = [
-			'elementor_phonebook' => $data['elementor_phonebook'] ?: [],
-		];
-		$option_json = wp_json_encode( $option );
-
-		return update_option( 'farazsms_elementor_options', $option_json );
 	}
 
 	/**

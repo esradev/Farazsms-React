@@ -10,14 +10,12 @@
 // Exit if accessed directly.
 use Elementor\Widgets_Manager;
 
-if (!defined('ABSPATH')) {
-    exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
 
 class Farazsms_Elementor {
 	private static $elementorPro;
-	public static $elementor_phonebook_id;
-
 	/**
 	 * Instance
 	 *
@@ -45,10 +43,6 @@ class Farazsms_Elementor {
 	 * Constructor
 	 */
 	public function __construct() {
-		$elementor_options = json_decode( get_option( 'farazsms_elementor_options' ), true );
-		if ( $elementor_options ) {
-			self::$elementor_phonebook_id = $elementor_options['elementor_phonebook']['value'] ?? '';
-		}
 		$integrations_options = json_decode( get_option( 'farazsms_integrations_options' ), true );
 		if ( $integrations_options ) {
 			self::$elementorPro = $integrations_options['elementorPro'] ?? '';
@@ -89,4 +83,5 @@ class Farazsms_Elementor {
 	}
 
 }
+
 Farazsms_Elementor::get_instance();

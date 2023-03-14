@@ -25,7 +25,6 @@ class Farazsms_Comments {
 	 */
 	private static $instance;
 
-	private static $un_require_email_filed;
 	private static $disable_email_filed;
 	private static $disable_website_filed;
 	private static $disable_cookies;
@@ -57,7 +56,6 @@ class Farazsms_Comments {
 	public function __construct() {
 		$comments_options = json_decode( get_option( 'farazsms_comments_options' ), true );
 		if ( $comments_options ) {
-			self::$un_require_email_filed           = $comments_options['un_require_email_filed'];
 			self::$disable_email_filed              = $comments_options['disable_email_filed'];
 			self::$disable_website_filed            = $comments_options['disable_website_filed'];
 			self::$disable_cookies                  = $comments_options['disable_cookies'];
@@ -77,6 +75,7 @@ class Farazsms_Comments {
 		add_action( 'preprocess_comment', [ $this, 'verify_comment_input' ] );
 		add_action( 'comment_post', [ $this, 'save_mobile_field' ] );
 		add_filter( 'comment_form_default_fields', [ $this, 'disable_comment_fields' ], 99, 1 );
+
 	}
 
 	/**
@@ -93,7 +92,6 @@ class Farazsms_Comments {
 	}
 
 	public function comments_fsms_table_columns_content( $column, $comment_ID ) {
-		global $comment;
 		switch ( $column ) :
 
 			case 'mobile' :
@@ -119,10 +117,7 @@ class Farazsms_Comments {
 		}
 		$mobile_filed .= '<input class="uk-input uk-width-large uk-display-block" type="text" name="mobile" id="mobile /></p>';
 
-
 		echo $mobile_filed;
-
-
 	}
 
 	// Save mobile field.
@@ -285,9 +280,6 @@ class Farazsms_Comments {
 	 * @return mixed
 	 */
 	public function disable_comment_fields( $fields ) {
-		if ( self::$un_require_email_filed ) {
-			$fields['email'] = str_replace( '<span class="required">*</span>', '', $fields['email'] );
-		}
 		if ( self::$disable_email_filed ) {
 			unset( $fields['email'] );
 		}

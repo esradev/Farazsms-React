@@ -136,7 +136,7 @@ class Farazsms_Newsletter {
 		return '<div id="fsms_newsletter">
                   <form id="fsms_newsletter_form">
                     <div class="fsms_newsletter_input a">
-                      <input id="fsms_newsletter_name" type="text" class="fsms_newsletter_text" placeholder=""نام و نام خانوادگی"">
+                      <input id="fsms_newsletter_name" type="text" class="fsms_newsletter_text" placeholder="نام و نام خانوادگی">
                     </div>
                     <div class="fsms_newsletter_input a">
                       <input id="fsms_newsletter_mobile" type="text" class="fsms_newsletter_text" placeholder="شماره موبایل">

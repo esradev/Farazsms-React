@@ -26,15 +26,6 @@ function Comments() {
    */
   const originalState = {
     inputs: {
-      un_require_email_filed: {
-        value: "",
-        hasErrors: false,
-        errorMessage: "",
-        onChange: "un_require_email_filedChange",
-        name: "un_require_email_filed",
-        type: "checkbox",
-        label: __("Un require email filed on comment form?", "farazsms"),
-      },
       disable_email_filed: {
         value: "",
         hasErrors: false,
@@ -157,8 +148,6 @@ function Comments() {
     switch (action.type) {
       case "fetchComplete":
         // Init state values by action.value
-        draft.inputs.un_require_email_filed.value =
-          action.value.un_require_email_filed;
         draft.inputs.disable_email_filed.value =
           action.value.disable_email_filed;
         draft.inputs.disable_website_filed.value =
@@ -211,10 +200,6 @@ function Comments() {
           draft.inputs.comment_pattern.isDependencyUsed = false;
           draft.inputs.approved_comment_pattern.isDependencyUsed = false;
         }
-        return;
-      case "un_require_email_filedChange":
-        draft.inputs.un_require_email_filed.hasErrors = false;
-        draft.inputs.un_require_email_filed.value = action.value;
         return;
       case "disable_email_filedChange":
         draft.inputs.disable_email_filed.hasErrors = false;
