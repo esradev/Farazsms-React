@@ -31,7 +31,7 @@ class Farazsms_Comments {
 	private static $add_mobile_field;
 	private static $required_mobile_field;
 	private static $notify_admin_for_comment;
-	private static $approved_comment_pattern;
+	private static $comment_reply_pattern;
 	private static $comment_pattern;
 	private static $notify_admin_for_comment_pattern;
 	private static $comment_phonebook_id;
@@ -62,7 +62,7 @@ class Farazsms_Comments {
 			self::$add_mobile_field                 = $comments_options['add_mobile_field'];
 			self::$required_mobile_field            = $comments_options['required_mobile_field'];
 			self::$notify_admin_for_comment         = $comments_options['notify_admin_for_comment'];
-			self::$approved_comment_pattern         = $comments_options['approved_comment_pattern'];
+			self::$comment_reply_pattern            = $comments_options['comment_reply_pattern'];
 			self::$comment_pattern                  = $comments_options['comment_pattern'];
 			self::$notify_admin_for_comment_pattern = $comments_options['notify_admin_for_comment_pattern'];
 			self::$comment_phonebook_id             = $comments_options['comment_phonebook']['value'] ?? '';
@@ -76,6 +76,9 @@ class Farazsms_Comments {
 		add_action( 'comment_post', [ $this, 'save_mobile_field' ] );
 		add_filter( 'comment_form_default_fields', [ $this, 'disable_comment_fields' ], 99, 1 );
 
+		// Hook into WordPress comment hooks to trigger sending SMS notifications
+		add_action( 'wp_insert_comment', [ $this, 'send_admin_sms_on_new_comment' ], 10, 2 );
+		add_action( 'wp_set_comment_status', [ $this, 'send_author_sms_on_approved_comment' ], 10, 1 );
 	}
 
 	/**
@@ -110,12 +113,12 @@ class Farazsms_Comments {
 			return;
 		}
 
-		$mobile_filed = '<p class="comment-form-phone uk-margin-top"><label for="mobile">' . __( 'Phone number', 'farazsms' ) . '</label>';
+		$mobile_filed = '<p class="comment-form-phone uk-margin-top">';
 		if ( self::$required_mobile_field === true ) {
 			$mobile_filed .= ' <span class="required">*</span>';
 			$required     = 'required="required"';
 		}
-		$mobile_filed .= '<input class="uk-input uk-width-large uk-display-block" type="text" name="mobile" id="mobile /></p>';
+		$mobile_filed .= '<input class="uk-input uk-width-large uk-display-block" type="text" name="mobile" id="mobile" placeholder=" ' . __( 'Like: 09300410381', 'farazsms' ) . '" /></p>';
 
 		echo $mobile_filed;
 	}
@@ -126,59 +129,76 @@ class Farazsms_Comments {
 			$mobile = Farazsms_Base::validate_mobile_number( esc_attr( $_POST['mobile'] ) );
 			add_comment_meta( $comment_id, 'mobile', $mobile );
 		}
-		$this->response_to_comment( $comment_id );
+		$this->send_admin_sms_on_new_comment( $comment_id );
 	}
 
 	// Verify comment input
 	public function verify_comment_input( $comment_data ) {
-		if ( empty( $comment_data['comment_parent'] ) && self::$required_mobile_field === true ) {
-			if ( ! isset( $_POST['mobile'] ) or empty( $_POST['mobile'] ) ) {
-				wp_die( __( 'Error: Mobile number is required.', 'farazsms' ) );
-			}
+		if ( empty( $comment_data['comment_parent'] ) && self::$required_mobile_field === true && empty( $_POST['mobile'] ) ) {
+			wp_die( esc_html__( 'Error: Mobile number is required.', 'farazsms' ) );
 		}
 
 		return $comment_data;
 	}
 
-	// Response to comment
-	public function response_to_comment( $comment_id ) {
-		$comment   = get_comment( $comment_id );
-		$data      = $this->comments_farazsms_shortcode( $comment, $comment_id );
-		$mobile    = get_comment_meta( $comment_id )['mobile'][0] ?? '';
-		$user_name = $comment->comment_author;
-		$user      = get_user_by( 'id', $comment->user_id );
-		$is_admin  = in_array( 'administrator', $user->roles );
+
+	/**
+	 * Sends an SMS notification to the site admin when a new comment is submitted.
+	 *
+	 * @param int $comment_ID ID of the comment being submitted.
+	 */
+	public function send_admin_sms_on_new_comment( $comment_ID ) {
+		$comment               = get_comment( $comment_ID );
+		$data                  = $this->comments_farazsms_shortcode( $comment, $comment_ID );
+		$comment_author_mobile = get_comment_meta( $comment_ID, 'mobile', true ) ?? '';
+		$user_name             = $comment->comment_author;
+		$comment_parent        = $comment->comment_parent;
+		$user                  = get_user_by( 'id', $comment->user_id );
+		if ( isset( $user ) && is_object( $user ) ) {
+			$is_admin = in_array( 'administrator', $user->roles );
+		} else {
+			$is_admin = false;
+		}
+		$admin_number = Farazsms_Base::$admin_number;
 
 		if ( self::$comment_phonebook_id ) {
-			$this->save_comment_mobile_to_phonebook( $mobile, $user_name );
+			$this->save_comment_mobile_to_phonebook( $comment_author_mobile, $user_name );
 		}
 
-		if ( $comment->comment_parent == 0 ) {
-			$mobile = get_comment_meta( $comment_id )['mobile'][0] ?? '';
-			if ( ! empty( self::$approved_comment_pattern ) || ! empty( $mobile ) ) {
-				$this->send_comment_reply_sms( $mobile, self::$approved_comment_pattern, $data );
-			}
+		if ( self::$notify_admin_for_comment && ! $is_admin && ! empty( $admin_number ) ) {
+			$this->send_comment_sms( $admin_number, self::$notify_admin_for_comment_pattern, $data );
 		}
-		if ( self::$notify_admin_for_comment == 1 && ! $is_admin ) {
-			$this->send_comment_reply_sms( Farazsms_Base::$admin_number, self::$notify_admin_for_comment_pattern, $data );
+
+		if ( self::$notify_admin_for_comment && $comment_parent !== '0' && ! empty( $admin_number ) ) {
+			$this->send_comment_sms( $admin_number, self::$comment_reply_pattern, $data );
 		}
-		if ( $is_admin ) {
-			if ( empty( $mobile ) ) {
-				return false;
-			}
-			if ( $comment->comment_parent == 0 ) {
-				return false;
-			}
-			$comment = get_comment( $comment->comment_parent );
-			$data    = $this->comments_farazsms_shortcode( $comment, $comment_id );
-			$this->send_comment_reply_sms( $mobile, self::$comment_pattern, $data );
+
+		if ( ! empty( $comment_author_mobile ) && $comment_parent !== '0' ) {
+			$this->send_comment_sms( $comment_author_mobile, self::$comment_reply_pattern, $data );
+		}
+
+	}
+
+	/**
+	 * Sends an SMS notification to the author of a comment when their comment is approved, and they provided a mobile number.
+	 *
+	 * @param int $comment_ID ID of the comment being approved.
+	 */
+	public function send_author_sms_on_approved_comment( $comment_ID ) {
+		$comment_author_mobile = get_comment_meta( $comment_ID, 'mobile', true ) ?? '';
+		$comment               = get_comment( $comment_ID );
+		$data                  = $this->comments_farazsms_shortcode( $comment, $comment_ID );
+
+		if ( wp_get_comment_status( $comment_ID ) === 'approved' && ! empty( $comment_author_mobile ) ) {
+			$this->send_comment_sms( $comment_author_mobile, self::$comment_pattern, $data );
 		}
 	}
+
 
 	/**
 	 * Send comment replay sms.
 	 */
-	public function send_comment_reply_sms( $phone, $pattern, $data ) {
+	public function send_comment_sms( $phone, $pattern, $data ) {
 		$phone = Farazsms_Base::fsms_tr_num( $phone );
 		if ( empty( $pattern ) ) {
 			return;
@@ -206,41 +226,6 @@ class Farazsms_Comments {
 		}
 
 		return Farazsms_Ippanel::send_pattern( $pattern, $phone, $input_data );
-
-	}
-
-	/**
-	 * Send comment replay sms to admin
-	 */
-	public function send_comment_reply_sms_to_admin( $data ) {
-		$fsms_admin_notify_pattern_code = Farazsms_Base::fsms_tr_num( Farazsms_Base::$admin_login_notify_pattern );
-		if ( empty( $fsms_admin_notify_pattern_code ) || empty( Farazsms_Base::$admin_number ) ) {
-			return;
-		}
-
-		$input_data     = [];
-		$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( $fsms_admin_notify_pattern_code );
-		if ( $patternMessage === null ) {
-			return;
-		}
-
-		if ( str_contains( $patternMessage, '%title%' ) ) {
-			$input_data['title'] = $data['title'];
-		}
-		if ( str_contains( $patternMessage, '%name%' ) ) {
-			$input_data['name'] = $data['name'];
-		}
-		if ( str_contains( $patternMessage, '%email%' ) ) {
-			$input_data['email'] = $data['email'];
-		}
-		if ( str_contains( $patternMessage, '%link%' ) ) {
-			$input_data['link'] = $data['link'];
-		}
-		if ( str_contains( $patternMessage, '%content%' ) ) {
-			$input_data['content'] = $data['content'];
-		}
-
-		return Farazsms_Ippanel::send_pattern( $fsms_admin_notify_pattern_code, Farazsms_Base::$admin_number, $input_data );
 
 	}
 

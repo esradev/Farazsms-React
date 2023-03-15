@@ -379,9 +379,9 @@ class Farazsms_Ippanel {
 		}
 
 		$response = json_decode( $response['body'] , true );
-		if ( $response['status']['code'] !== 0 ) {
-			return false;
-		}
+//		if ( $response['status']['code'] !== 0 ) {
+//			return false;
+//		}
 
 		return true;
 	}

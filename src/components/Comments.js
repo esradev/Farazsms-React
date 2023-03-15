@@ -97,15 +97,15 @@ function Comments() {
         onChange: "comment_patternChange",
         name: "comment_pattern",
         type: "text",
-        label: __("Comment submit pattern code:", "farazsms"),
+        label: __("Comment approved pattern code:", "farazsms"),
         isDependencyUsed: false,
       },
-      approved_comment_pattern: {
+      comment_reply_pattern: {
         value: "",
         hasErrors: false,
         errorMessage: "",
-        onChange: "approved_comment_patternChange",
-        name: "approved_comment_pattern",
+        onChange: "comment_reply_patternChange",
+        name: "comment_reply_pattern",
         type: "text",
         label: __("Comment response pattern code:", "farazsms"),
         isDependencyUsed: false,
@@ -158,19 +158,19 @@ function Comments() {
           draft.inputs.required_mobile_field.isDependencyUsed = true;
           draft.inputs.comment_phonebook.isDependencyUsed = true;
           draft.inputs.comment_pattern.isDependencyUsed = true;
-          draft.inputs.approved_comment_pattern.isDependencyUsed = true;
+          draft.inputs.comment_reply_pattern.isDependencyUsed = true;
         } else {
           draft.inputs.required_mobile_field.isDependencyUsed = false;
           draft.inputs.comment_phonebook.isDependencyUsed = false;
           draft.inputs.comment_pattern.isDependencyUsed = false;
-          draft.inputs.approved_comment_pattern.isDependencyUsed = false;
+          draft.inputs.comment_reply_pattern.isDependencyUsed = false;
         }
         draft.inputs.required_mobile_field.value =
           action.value.required_mobile_field;
         draft.inputs.comment_phonebook.value = action.value.comment_phonebook;
         draft.inputs.comment_pattern.value = action.value.comment_pattern;
-        draft.inputs.approved_comment_pattern.value =
-          action.value.approved_comment_pattern;
+        draft.inputs.comment_reply_pattern.value =
+          action.value.comment_reply_pattern;
         draft.inputs.notify_admin_for_comment.value =
           action.value.notify_admin_for_comment;
         if (action.value.notify_admin_for_comment === true) {
@@ -193,12 +193,12 @@ function Comments() {
           draft.inputs.required_mobile_field.isDependencyUsed = true;
           draft.inputs.comment_phonebook.isDependencyUsed = true;
           draft.inputs.comment_pattern.isDependencyUsed = true;
-          draft.inputs.approved_comment_pattern.isDependencyUsed = true;
+          draft.inputs.comment_reply_pattern.isDependencyUsed = true;
         } else {
           draft.inputs.required_mobile_field.isDependencyUsed = false;
           draft.inputs.comment_phonebook.isDependencyUsed = false;
           draft.inputs.comment_pattern.isDependencyUsed = false;
-          draft.inputs.approved_comment_pattern.isDependencyUsed = false;
+          draft.inputs.comment_reply_pattern.isDependencyUsed = false;
         }
         return;
       case "disable_email_filedChange":
@@ -228,9 +228,9 @@ function Comments() {
         draft.inputs.comment_pattern.hasErrors = false;
         draft.inputs.comment_pattern.value = action.value;
         return;
-      case "approved_comment_patternChange":
-        draft.inputs.approved_comment_pattern.hasErrors = false;
-        draft.inputs.approved_comment_pattern.value = action.value;
+      case "comment_reply_patternChange":
+        draft.inputs.comment_reply_pattern.hasErrors = false;
+        draft.inputs.comment_reply_pattern.value = action.value;
         return;
       case "notify_admin_for_commentChange":
         draft.inputs.notify_admin_for_comment.hasErrors = false;
