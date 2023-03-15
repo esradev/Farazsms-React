@@ -1,10 +1,6 @@
 <?php
 
 use Elementor\Controls_Manager;
-use Elementor\Group_Control_Text_Shadow;
-use Elementor\Group_Control_Typography;
-use Elementor\Group_Control_Border;
-use Elementor\Repeater;
 use Elementor\Widget_Base;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -97,17 +93,6 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 	public function get_keywords() {
 		return [ 'farazsms', 'form', 'newsletter' ];
 	}
-
-	/**
-	 * Load widget scripts.
-	 *
-	 * @return
-	 * @since 2.0.0
-	 * @access public
-	 */
-//	public function get_style_depends() {
-//		return [ 'farazsms-newsletter' ];
-//	}
 
 	/**
 	 * Register list widget controls.
@@ -427,8 +412,8 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 
                 <div class="fsms_newsletter_input a">
                     <input id="fsms_newsletter_name" type="text" class="fsms_newsletter_text"
-                           placeholder="<?php echo esc_attr( $settings['name_placeholder'] ); ?>"
-                           style="color:<?php echo $settings['name_filed_text_color']; ?>;background-color:<?php echo $settings['name_filed_color']; ?>;margin:<?php echo $settings['name_filed_margin']; ?>;padding:<?php echo $settings['name_filed_padding']; ?>;">
+                                                                     placeholder="<?php echo esc_attr( $settings['name_placeholder'] ); ?>"
+                                                                     style="color:<?php echo $settings['name_filed_text_color']; ?>;background-color:<?php echo $settings['name_filed_color']; ?>;margin:<?php echo $settings['name_filed_margin']; ?>;padding:<?php echo $settings['name_filed_padding']; ?>;">
                 </div>
                 <div class="fsms_newsletter_input a">
                     <input id="fsms_newsletter_mobile" type="text" class="fsms_newsletter_text"
@@ -481,7 +466,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
               has_error = false
               name.removeClass('error')
               mobile.removeClass('error')
-              if (name.val() == '') {
+              if (name.val() === '') {
                 has_error = true
                 name.addClass('error')
               }
@@ -549,7 +534,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
             submit_code.click(function () {
               has_error = false
               verify_code.removeClass('error')
-              if (verify_code.val() == '' || verify_code.val().length !== 4) {
+              if (verify_code.val() === '' || verify_code.val().length !== 4) {
                 has_error = true
                 verify_code.addClass('error')
               }

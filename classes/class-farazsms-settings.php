@@ -72,6 +72,7 @@ class Farazsms_Settings {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
+		wp_enqueue_script( 'jquery', 'https://code.jquery.com/jquery-3.6.0.min.js', [], '3.6.0', true );
 		wp_register_script( 'farazsms-newsletter', FARAZSMS_URL . 'assets/js/farazsms-newsletter.js', [ 'jquery' ], '2.0.1', true );
 		wp_localize_script(
 			'farazsms-newsletter',
@@ -189,7 +190,7 @@ class Farazsms_Settings {
 				'admin_page',
 			]
 		);
-        add_submenu_page(
+		add_submenu_page(
 			FARAZSMS_SLUG,
 			__( 'Farazsms', 'farazsms' ),
 			__( 'Gravity Forms', 'farazsms' ),
@@ -233,7 +234,7 @@ class Farazsms_Settings {
 				'admin_page',
 			]
 		);
-        add_submenu_page(
+		add_submenu_page(
 			FARAZSMS_SLUG,
 			__( 'Farazsms', 'farazsms' ),
 			__( 'Elementor', 'farazsms' ),
@@ -277,7 +278,7 @@ class Farazsms_Settings {
 				'admin_page',
 			]
 		);
-        add_submenu_page(
+		add_submenu_page(
 			FARAZSMS_SLUG,
 			__( 'Farazsms', 'farazsms' ),
 			__( 'Membership', 'farazsms' ),
@@ -288,7 +289,7 @@ class Farazsms_Settings {
 				'admin_page',
 			]
 		);
-        add_submenu_page(
+		add_submenu_page(
 			FARAZSMS_SLUG,
 			__( 'Farazsms', 'farazsms' ),
 			__( 'Send Sms', 'farazsms' ),
@@ -299,7 +300,7 @@ class Farazsms_Settings {
 				'admin_page',
 			]
 		);
-        add_submenu_page(
+		add_submenu_page(
 			FARAZSMS_SLUG,
 			__( 'Farazsms', 'farazsms' ),
 			__( 'Support', 'farazsms' ),

@@ -187,7 +187,7 @@ class Farazsms_Newsletter {
 				'phonebook_id' => (int) $phonebook_id
 			];
 			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
-			if ( $send_welcome_msg ) {
+			if ( $send_welcome_msg !== 'no' ) {
 				self::send_newsletter_welcome_message( $mobile, $name, $welcome_msg_pattern );
 			}
 		} else {
@@ -210,7 +210,7 @@ class Farazsms_Newsletter {
 	 * Send newsletter verification code.
 	 */
 	public function send_newsletter_verification_code( $phone, $data ) {
-		$phone = Farazsms_Base::fsms_tr_num( $phone );
+		$phone              = Farazsms_Base::fsms_tr_num( $phone );
 		$verify_code_patten = $data['verify_code_pattern'];
 
 		if ( empty( $phone ) || empty( $verify_code_patten ) || empty( $data ) ) {
@@ -268,12 +268,10 @@ class Farazsms_Newsletter {
 				'phonebook_id' => (int) $phonebook_id
 			];
 			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
-			if ( ! $send_welcome_msg || $send_welcome_msg !== 'yes' ) {
-				wp_send_json_success();
-			} else {
+			if ( $send_welcome_msg !== 'no' ) {
 				self::send_newsletter_welcome_message( $mobile, $name, $welcome_msg_pattern );
-				wp_send_json_success();
 			}
+			wp_send_json_success();
 
 		} else {
 			wp_send_json_error();
