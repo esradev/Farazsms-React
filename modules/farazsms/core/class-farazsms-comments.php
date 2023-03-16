@@ -147,12 +147,11 @@ class Farazsms_Comments {
 	 *
 	 * @param int $comment_ID ID of the comment being submitted.
 	 */
-	public function send_admin_sms_on_new_comment( $comment_ID ) {
+	public function send_admin_sms_on_new_comment( int $comment_ID ) {
 		$comment               = get_comment( $comment_ID );
 		$data                  = $this->comments_farazsms_shortcode( $comment, $comment_ID );
 		$comment_author_mobile = get_comment_meta( $comment_ID, 'mobile', true ) ?? '';
 		$user_name             = $comment->comment_author;
-		$comment_parent        = $comment->comment_parent;
 		$user                  = get_user_by( 'id', $comment->user_id );
 		if ( isset( $user ) && is_object( $user ) ) {
 			$is_admin = in_array( 'administrator', $user->roles );
@@ -169,34 +168,50 @@ class Farazsms_Comments {
 			$this->send_comment_sms( $admin_number, self::$notify_admin_for_comment_pattern, $data );
 		}
 
-		if ( self::$notify_admin_for_comment && $comment_parent !== '0' && ! empty( $admin_number ) ) {
-			$this->send_comment_sms( $admin_number, self::$comment_reply_pattern, $data );
-		}
-
-		if ( ! empty( $comment_author_mobile ) && $comment_parent !== '0' ) {
-			$this->send_comment_sms( $comment_author_mobile, self::$comment_reply_pattern, $data );
-		}
-
 	}
+
 
 	/**
 	 * Sends an SMS notification to the author of a comment when their comment is approved, and they provided a mobile number.
 	 *
-	 * @param int $comment_ID ID of the comment being approved.
+	 * @param int $comment_ID
+	 *
+	 * @return void
 	 */
-	public function send_author_sms_on_approved_comment( $comment_ID ) {
-		$comment_author_mobile = get_comment_meta( $comment_ID, 'mobile', true ) ?? '';
-		$comment               = get_comment( $comment_ID );
-		$data                  = $this->comments_farazsms_shortcode( $comment, $comment_ID );
+	public function send_author_sms_on_approved_comment( int $comment_ID ): void {
+		$comment = get_comment( $comment_ID );
 
-		if ( wp_get_comment_status( $comment_ID ) === 'approved' && ! empty( $comment_author_mobile ) ) {
+		$comment_author_mobile        = get_comment_meta( $comment_ID, 'mobile', true ) ?? '';
+		$comment_parent_author_mobile = '';
+		$comment_parent               = $comment->comment_parent;
+
+		if ( $comment_parent !== '0' ) {
+			$comment_parent_author_mobile = get_comment_meta( $comment_parent, 'mobile', true ) ?? '';
+		}
+
+		if ( wp_get_comment_status( $comment_ID ) !== 'approved' ) {
+			return;
+		}
+
+		$data = $this->comments_farazsms_shortcode( $comment, $comment_ID );
+
+		if ( ! empty( $comment_author_mobile ) ) {
 			$this->send_comment_sms( $comment_author_mobile, self::$comment_pattern, $data );
+		}
+
+		if ( ! empty( $comment_parent_author_mobile ) ) {
+			$this->send_comment_sms( $comment_parent_author_mobile, self::$comment_reply_pattern, $data );
 		}
 	}
 
-
 	/**
-	 * Send comment replay sms.
+	 * Send comment sms.
+	 *
+	 * @param $phone
+	 * @param $pattern
+	 * @param $data
+	 *
+	 * @return bool|void
 	 */
 	public function send_comment_sms( $phone, $pattern, $data ) {
 		$phone = Farazsms_Base::fsms_tr_num( $phone );
