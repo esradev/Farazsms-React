@@ -18,6 +18,7 @@ import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
 import useFetchOptions from "../hooks/useFetchOptions";
+import useSaveOptions from "../hooks/useSaveOptions";
 
 function Membership(props) {
   const appDispatch = useContext(DispatchContext);
@@ -221,44 +222,11 @@ function Membership(props) {
   useFetchOptions(endpoint, dispatch);
 
   /**
-   * Post Aff options to DB
+   * Post options to DB
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    if (state.sendCount) {
-      const optionsArray = Object.values(state.inputs).map(
-        ({ value, name }) => [name, value]
-      );
-      const optionsJsonForPost = Object.fromEntries(optionsArray);
-      console.log(optionsJsonForPost);
-
-      dispatch({ type: "saveRequestStarted" });
-      // postOptions function for save options on DB
-      async function postOptions() {
-        try {
-          // Post Options from site DB Options table
-          const postOptions = await AxiosWp.post(
-            "/farazsms/v1/membership_options",
-            optionsJsonForPost
-          );
-          dispatch({ type: "saveRequestFinished" });
-          appDispatch({
-            type: "flashMessage",
-            value: {
-              message: __(
-                "Congrats. Form was updated successfully.",
-                "farazsms"
-              ),
-            },
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      }
-      postOptions();
-    }
-  }, [state.sendCount]);
+  useSaveOptions(endpoint, state, dispatch, appDispatch);
 
   if (state.isFetching) return <LoadingSpinner />;
 

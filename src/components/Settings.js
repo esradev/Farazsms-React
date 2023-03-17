@@ -18,6 +18,7 @@ import FormInputError from "../views/FormInputError";
 import SaveButton from "../views/SaveButton";
 import LoadingSpinner from "../views/LoadingSpinner";
 import useFetchOptions from "../hooks/useFetchOptions";
+import useSaveOptions from "../hooks/useSaveOptions";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);
@@ -314,40 +315,7 @@ function Settings() {
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    if (state.sendCount) {
-      const optsionsArray = Object.values(state.inputs).map(
-        ({ value, name }) => [name, value]
-      );
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
-
-      dispatch({ type: "saveRequestStarted" });
-
-      async function postOptions() {
-        try {
-          // Post Options from site DB Options table
-          const postOptions = await AxiosWp.post(
-            "/farazsms/v1/settings_options",
-            optionsJsonForPost
-          );
-          dispatch({ type: "saveRequestFininshed" });
-          appDispatch({
-            type: "flashMessage",
-            value: {
-              message: __(
-                "Congrats. Form was updated successfully.",
-                "farazsms"
-              ),
-            },
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      }
-
-      postOptions();
-    }
-  }, [state.sendCount]);
+  useSaveOptions(endpoint, state, dispatch, appDispatch);
 
   /**
    * Validate Apikey, check if the Apikey is existing on Ippanel.

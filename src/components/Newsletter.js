@@ -19,6 +19,7 @@ import SectionHeader from "../views/SectionHeader";
 import LoadingSpinner from "../views/LoadingSpinner";
 import usePhonebooks from "../hooks/usePhonebooks";
 import useFetchOptions from "../hooks/useFetchOptions";
+import useSaveOptions from "../hooks/useSaveOptions";
 
 function Newsletter() {
   const appDispatch = useContext(DispatchContext);
@@ -331,6 +332,13 @@ function Newsletter() {
   useFetchOptions(endpoint, dispatch);
 
   /**
+   * Post options to DB
+   *
+   * @since 2.0.0
+   */
+  useSaveOptions(endpoint, state, dispatch, appDispatch);
+
+  /**
    * Get subscribers list from DB
    */
   useEffect(() => {
@@ -354,43 +362,6 @@ function Newsletter() {
 
     get_subscribers_from_db();
   }, [[], state.currentSubscribers]);
-
-  /**
-   * Post options to DB
-   */
-  useEffect(() => {
-    if (state.sendCount) {
-      const optionsArray = Object.values(state.inputs).map(
-        ({ value, name }) => [name, value]
-      );
-      const optionsJsonForPost = Object.fromEntries(optionsArray);
-      dispatch({ type: "saveRequestStarted" });
-
-      async function postOptions() {
-        try {
-          // Post Options from site DB Options table
-          const postOptions = await AxiosWp.post(
-            "/farazsms/v1/newsletter_options",
-            optionsJsonForPost
-          );
-          dispatch({ type: "saveRequestFinished" });
-          appDispatch({
-            type: "flashMessage",
-            value: {
-              message: __(
-                "Congrats. Form was updated successfully.",
-                "farazsms"
-              ),
-            },
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      }
-
-      postOptions();
-    }
-  }, [state.sendCount]);
 
   /**
    * Delete Subscriber from DB.

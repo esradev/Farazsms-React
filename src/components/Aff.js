@@ -18,6 +18,7 @@ import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
 import useFetchOptions from "../hooks/useFetchOptions";
+import useSaveOptions from "../hooks/useSaveOptions";
 
 function Aff(props) {
   const appDispatch = useContext(DispatchContext);
@@ -305,45 +306,11 @@ function Aff(props) {
   useFetchOptions(endpoint, dispatch);
 
   /**
-   *
-   * Save Aff options on DB when saveRequestFinished = true
+   * Post options to DB
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    if (state.sendCount) {
-      const optionsArray = Object.values(state.inputs).map(
-        ({ value, name }) => [name, value]
-      );
-      const optionsJsonForPost = Object.fromEntries(optionsArray);
-      console.log(optionsJsonForPost);
-
-      dispatch({ type: "saveRequestStarted" });
-      // postOptions function for save options on DB
-      async function postOptions() {
-        try {
-          // Post Options from site DB Options table
-          const postOptions = await AxiosWp.post(
-            "/farazsms/v1/aff_options",
-            optionsJsonForPost
-          );
-          dispatch({ type: "saveRequestFinished" });
-          appDispatch({
-            type: "flashMessage",
-            value: {
-              message: __(
-                "Congrats. Form was updated successfully.",
-                "farazsms"
-              ),
-            },
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      }
-      postOptions();
-    }
-  }, [state.sendCount]);
+  useSaveOptions(endpoint, state, dispatch, appDispatch);
 
   /**
    * Get usermeta keys from DB rest routes

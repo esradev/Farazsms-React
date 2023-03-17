@@ -13,10 +13,10 @@ import DispatchContext from "../DispatchContext";
 import FormInput from "../views/FormInput";
 import SaveButton from "../views/SaveButton";
 import FormInputError from "../views/FormInputError";
-import AxiosWp from "../function/AxiosWp";
 import SectionHeader from "../views/SectionHeader";
 import LoadingSpinner from "../views/LoadingSpinner";
 import useFetchOptions from "../hooks/useFetchOptions";
+import useSaveOptions from "../hooks/useSaveOptions";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);
@@ -239,44 +239,12 @@ function Settings() {
 
   useFetchOptions(endpoint, dispatch);
 
-  useEffect(() => {
-    if (state.sendCount) {
-      /**
-       * Get options values and set "name: value" in an array.
-       * Then Convert array to key: value pair for send Axios post request to DB.
-       * @return Object with arrays.
-       */
-      const optionsArray = Object.values(state.inputs).map(
-        ({ value, name }) => [name, value]
-      );
-      const optionsJsonForPost = Object.fromEntries(optionsArray);
-      console.log(optionsJsonForPost);
-
-      dispatch({ type: "saveRequestStarted" });
-      async function postOptions() {
-        try {
-          // Post Options from site DB Options table
-          const postOptions = await AxiosWp.post(
-            "/farazsms/v1/login_notify_options",
-            optionsJsonForPost
-          );
-          dispatch({ type: "saveRequestFinished" });
-          appDispatch({
-            type: "flashMessage",
-            value: {
-              message: __(
-                "Congrats. Form was updated successfully.",
-                "farazsms"
-              ),
-            },
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      }
-      postOptions();
-    }
-  }, [state.sendCount]);
+  /**
+   * Post options to DB
+   *
+   * @since 2.0.0
+   */
+  useSaveOptions(endpoint, state, dispatch, appDispatch);
 
   /**
    * Get user roles keys from DB

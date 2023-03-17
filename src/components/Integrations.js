@@ -14,6 +14,7 @@ import DispatchContext from "../DispatchContext";
 import PluginsCardCheckbox from "../views/PluginsCardCheckbox";
 import SaveButton from "../views/SaveButton";
 import SectionHeader from "../views/SectionHeader";
+import useSaveOptions from "../hooks/useSaveOptions";
 
 function Integrations(props) {
   const appDispatch = useContext(DispatchContext);
@@ -46,38 +47,8 @@ function Integrations(props) {
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    if (props.sendCount) {
-      const optionsArray = Object.values(props.integratedPlugins).map(
-        ({ use, name }) => [name, use]
-      );
-      const optionsJsonForPost = Object.fromEntries(optionsArray);
-      appDispatch({ type: "saveRequestStarted" });
-
-      async function postOptions() {
-        try {
-          // Post Options from site DB Options table
-          const postOptions = await AxiosWp.post(
-            "/farazsms/v1/integrations_options",
-            optionsJsonForPost
-          );
-          appDispatch({ type: "saveRequestFinished" });
-          appDispatch({
-            type: "flashMessage",
-            value: {
-              message: __(
-                "Congrats. Form was updated successfully.",
-                "farazsms"
-              ),
-            },
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      }
-      postOptions();
-    }
-  }, [props.sendCount]);
+  const endpoint = "/farazsms/v1/integrations_options";
+  useSaveOptions(endpoint, state, dispatch, appDispatch);
 
   /**
    *
@@ -121,6 +92,7 @@ function Integrations(props) {
               console.log(e);
             }
           }
+
           checkPlugin();
         }
       }
@@ -167,6 +139,7 @@ function Integrations(props) {
             console.log(e);
           }
         }
+
         deactivatePlugin();
       }
     }, [plugin.use]);

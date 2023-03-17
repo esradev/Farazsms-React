@@ -19,6 +19,7 @@ import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
 import usePhonebooks from "../hooks/usePhonebooks";
 import useFetchOptions from "../hooks/useFetchOptions";
+import useSaveOptions from "../hooks/useSaveOptions";
 
 function Phonebook(props) {
   const appDispatch = useContext(DispatchContext);
@@ -188,6 +189,13 @@ function Phonebook(props) {
   useFetchOptions(endpoint, dispatch);
 
   /**
+   * Post options to DB
+   *
+   * @since 2.0.0
+   */
+  useSaveOptions(endpoint, state, dispatch, appDispatch);
+
+  /**
    * Get usermeta keys from DB rest routes
    *
    * @since 2.0.0
@@ -231,46 +239,6 @@ function Phonebook(props) {
   }
 
   usePhonebooks(handleNoPhonebooks, handleAllPhonebooks);
-
-  /**
-   * Post options to DB
-   *
-   * @since 2.0.0
-   */
-  useEffect(() => {
-    if (state.sendCount) {
-      const optsionsArray = Object.values(state.inputs).map(
-        ({ value, name }) => [name, value]
-      );
-      const optionsJsonForPost = Object.fromEntries(optsionsArray);
-
-      dispatch({ type: "saveRequestStarted" });
-
-      async function postOptions() {
-        try {
-          // Post Options from site DB Options table
-          const postOptions = await AxiosWp.post(
-            "/farazsms/v1/phonebook_options",
-            optionsJsonForPost
-          );
-          dispatch({ type: "saveRequestFininshed" });
-          appDispatch({
-            type: "flashMessage",
-            value: {
-              message: __(
-                "Congrats. Form was updated successfully.",
-                "farazsms"
-              ),
-            },
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      }
-
-      postOptions();
-    }
-  }, [state.sendCount]);
 
   if (state.isFetching) return <LoadingSpinner />;
 
