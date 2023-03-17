@@ -10436,23 +10436,19 @@ const StateContext = (0,react__WEBPACK_IMPORTED_MODULE_0__.createContext)();
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
-/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
-/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
-/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
-/* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
-/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
-/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
-/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
-
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _views_SettingsForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/SettingsForm */ "./src/views/SettingsForm.js");
+/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
+/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
+/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
 
 /**
  * Import remote dependencies.
@@ -10473,10 +10469,8 @@ const __ = wp.i18n.__;
 
 
 
-
-
 function Aff(props) {
-  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_4__["default"]);
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
   /**
    *
    * First init state.
@@ -10707,7 +10701,7 @@ function Aff(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_13__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
 
   /**
    * HandelSubmit function
@@ -10727,24 +10721,24 @@ function Aff(props) {
    * @since 2.0.0
    */
   const endpoint = "/farazsms/v1/aff_options";
-  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__["default"])(endpoint, dispatch);
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_8__["default"])(endpoint, dispatch);
 
   /**
    * Post options to DB
    *
    * @since 2.0.0
    */
-  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_12__["default"])(endpoint, state, dispatch, appDispatch);
+  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_9__["default"])(endpoint, state, dispatch, appDispatch);
 
   /**
    * Get usermeta keys from DB rest routes
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     async function getUsermeta() {
       try {
-        const getUsermeta = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/usermeta", {});
+        const getUsermeta = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_2__["default"].get("/farazsms/v1/usermeta", {});
         const usermetaArrayObject = Object.keys(getUsermeta.data).map(key => ({
           value: getUsermeta.data[key].meta_key,
           label: getUsermeta.data[key].meta_key
@@ -10759,7 +10753,7 @@ function Aff(props) {
     }
     getUsermeta();
   }, []);
-  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__["default"], null);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_7__["default"], null);
 
   /**
    * The Aff form created by mapping over originalState.
@@ -10768,29 +10762,17 @@ function Aff(props) {
    * @since 2.0.0
    */
   if (props.integratedPlugins.affiliateWp.use || props.integratedPlugins.indeedAffiliatePro.use || props.integratedPlugins.yithWoocommerceAffiliates.use) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_5__["default"], {
       sectionName: state.sectionName
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
-      onSubmit: handleSubmit
-    }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-      key: input.name,
-      className: input.type === "checkbox" ? "toggle-control" : "form-group"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-      isMulti: input.isMulti
-    }, input, {
-      value: input.value,
-      checked: input.value,
-      onChange: e => {
-        dispatch({
-          type: input.onChange,
-          value: input.type === "checkbox" ? e.target.checked : e.target.value
-        });
-      }
-    })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_7__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SettingsForm__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      sectionName: state.sectionName,
+      inputs: state.inputs,
+      handleSubmit: handleSubmit,
+      dispatch: dispatch,
       isSaving: state.isSaving
-    }))));
+    })));
   } else {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_6__["default"], {
       sectionName: state.sectionName
     });
   }
@@ -10807,22 +10789,18 @@ function Aff(props) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
-/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
-/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
-/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
-/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
-/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
-/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
-
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _views_SettingsForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/SettingsForm */ "./src/views/SettingsForm.js");
+/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
+/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
 
 /**
  * Import remote dependencies.
@@ -10842,10 +10820,8 @@ const __ = wp.i18n.__;
 
 
 
-
-
 function Comments() {
-  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
   /**
    *
    * First init state.
@@ -11067,7 +11043,7 @@ function Comments() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_12__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_9__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({
@@ -11091,7 +11067,7 @@ function Comments() {
       value: phonebooksArrayObject
     });
   }
-  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_9__["default"])(handleNoPhonebooks, handleAllPhonebooks);
+  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_6__["default"])(handleNoPhonebooks, handleAllPhonebooks);
 
   /**
    * Get options from DB rest routes
@@ -11099,15 +11075,15 @@ function Comments() {
    * @since 2.0.0
    */
   const endpoint = "/farazsms/v1/comments_options";
-  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_10__["default"])(endpoint, dispatch);
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_7__["default"])(endpoint, dispatch);
 
   /**
    * Post options to DB
    *
    * @since 2.0.0
    */
-  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_11__["default"])(endpoint, state, dispatch, appDispatch);
-  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_8__["default"], null);
+  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_8__["default"])(endpoint, state, dispatch, appDispatch);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_5__["default"], null);
 
   /**
    * The settings form created by mapping over originalState as the main state.
@@ -11115,28 +11091,15 @@ function Comments() {
    *
    * @since 2.0.0
    */
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
     sectionName: state.sectionName
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
-    onSubmit: handleSubmit
-  }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: input.name,
-    className: input.type === "checkbox" ? "toggle-control" : "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    isMulti: input.isMulti
-  }, input, {
-    onChange: input.type === "select" ? selectedOption => dispatch({
-      type: input.onChange,
-      value: selectedOption
-    }) : e => {
-      dispatch({
-        type: input.onChange,
-        value: input.type === "checkbox" ? e.target.checked : e.target.value
-      });
-    }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_6__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SettingsForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    sectionName: state.sectionName,
+    inputs: state.inputs,
+    handleSubmit: handleSubmit,
+    dispatch: dispatch,
     isSaving: state.isSaving
-  }))));
+  })));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Comments);
 
@@ -11200,23 +11163,19 @@ const ConfirmDialog = () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
-/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
-/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
-/* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
-/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
-/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
-/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
-/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
-
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _views_SettingsForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/SettingsForm */ "./src/views/SettingsForm.js");
+/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
+/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
+/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
 
 /**
  * Import remote dependencies.
@@ -11237,10 +11196,8 @@ const __ = wp.i18n.__;
 
 
 
-
-
 function Edd(props) {
-  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
   /**
    *
    * First init state.
@@ -11377,7 +11334,7 @@ function Edd(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_13__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({
@@ -11401,7 +11358,7 @@ function Edd(props) {
       value: phonebooksArrayObject
     });
   }
-  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_10__["default"])(handleNoPhonebooks, handleAllPhonebooks);
+  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_7__["default"])(handleNoPhonebooks, handleAllPhonebooks);
 
   /**
    * Get options from DB rest routes
@@ -11409,15 +11366,15 @@ function Edd(props) {
    * @since 2.0.0
    */
   const endpoint = "/farazsms/v1/edd_options";
-  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__["default"])(endpoint, dispatch);
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_8__["default"])(endpoint, dispatch);
 
   /**
    * Post options to DB
    *
    * @since 2.0.0
    */
-  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_12__["default"])(endpoint, state, dispatch, appDispatch);
-  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_9__["default"], null);
+  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_9__["default"])(endpoint, state, dispatch, appDispatch);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_6__["default"], null);
 
   /**
    * The settings form created by mapping over originalState as the main state.
@@ -11426,29 +11383,17 @@ function Edd(props) {
    * @since 2.0.0
    */
   if (props.integratedPlugins.edd.use) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
       sectionName: state.sectionName
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
-      onSubmit: handleSubmit
-    }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-      key: input.name,
-      className: input.type === "checkbox" ? "toggle-control" : "form-group"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-      isMulti: input.isMulti
-    }, input, {
-      value: input.value,
-      checked: input.value,
-      onChange: e => {
-        dispatch({
-          type: input.onChange,
-          value: input.type === "checkbox" ? e.target.checked : input.type === "select" ? e : e.target.value
-        });
-      }
-    })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_6__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SettingsForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      sectionName: state.sectionName,
+      inputs: state.inputs,
+      handleSubmit: handleSubmit,
+      dispatch: dispatch,
       isSaving: state.isSaving
-    }))));
+    })));
   } else {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_5__["default"], {
       sectionName: state.sectionName
     });
   }
@@ -11507,22 +11452,19 @@ function Footer() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _hooks_useConfirm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../hooks/useConfirm */ "./src/hooks/useConfirm.js");
-/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
-/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
-/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
-/* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
-/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
-/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
-
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var _hooks_useConfirm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hooks/useConfirm */ "./src/hooks/useConfirm.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _views_SettingsForm__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SettingsForm */ "./src/views/SettingsForm.js");
+/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
+/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
 
 /**
  * Import remote dependencies.
@@ -11544,9 +11486,8 @@ const __ = wp.i18n.__;
 
 
 
-
 function GravityForms(props) {
-  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_5__["default"]);
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_4__["default"]);
   // Init States
   const originalState = {
     notUsedPlugins: {
@@ -11691,7 +11632,7 @@ function GravityForms(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_12__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({
@@ -11699,7 +11640,7 @@ function GravityForms(props) {
     });
     async function add_gravity_forms_action_to_db() {
       try {
-        const newAction = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_4__["default"].post("/farazsms/v1/add_gravity_forms_action_to_db", {
+        const newAction = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/add_gravity_forms_action_to_db", {
           title: state.inputs.title.value,
           phonebook_id: state.inputs.gf_phonebook.value.value,
           form_id: state.inputs.gf_forms.value.value,
@@ -11732,10 +11673,10 @@ function GravityForms(props) {
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     async function getGfForms() {
       try {
-        const getGfForms = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_4__["default"].get("/gf/v2/forms", {});
+        const getGfForms = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/gf/v2/forms", {});
         const gfFormsArrayObject = Object.keys(getGfForms.data).map(form => ({
           value: getGfForms.data[form].id,
           label: getGfForms.data[form].title
@@ -11760,11 +11701,11 @@ function GravityForms(props) {
    * TODO: the /1/ should be dynamic form id selected from previous input filed
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     async function getGfFormsFields() {
       try {
         console.log(state.gfSelectedFormId);
-        const getGfFormsFields = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_4__["default"].get("/gf/v2/forms/" + state.gfSelectedFormId + "/field-filters", {});
+        const getGfFormsFields = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/gf/v2/forms/" + state.gfSelectedFormId + "/field-filters", {});
         const gfFormsFieldsArrayObject = Object.keys(getGfFormsFields.data).map(field => ({
           value: getGfFormsFields.data[field].key,
           label: getGfFormsFields.data[field].text
@@ -11796,15 +11737,15 @@ function GravityForms(props) {
       value: phonebooksArrayObject
     });
   }
-  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__["default"])(handleNoPhonebooks, handleAllPhonebooks);
+  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_9__["default"])(handleNoPhonebooks, handleAllPhonebooks);
 
   /**
    * Get Gravity Forms actions list from DB
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     async function get_gravity_forms_actions_from_db() {
       try {
-        const getActions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_4__["default"].get("/farazsms/v1/get_gravity_forms_actions_from_db");
+        const getActions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/get_gravity_forms_actions_from_db");
         dispatch({
           type: "getGravityFormsActions",
           value: JSON.parse(getActions.data)
@@ -11827,13 +11768,13 @@ function GravityForms(props) {
    */
   const {
     confirm
-  } = (0,_hooks_useConfirm__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  } = (0,_hooks_useConfirm__WEBPACK_IMPORTED_MODULE_2__["default"])();
   const deleteAction = async action => {
     const isConfirmed = await confirm(__("Do you want to delete that action?", "farazsms"));
     if (isConfirmed) {
       async function deleteActionFromDb() {
         try {
-          await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_4__["default"].post("/farazsms/v1/delete_gravity_forms_actions_from_db", {
+          await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/delete_gravity_forms_actions_from_db", {
             action_id: action.id
           });
           dispatch({
@@ -11861,58 +11802,44 @@ function GravityForms(props) {
       });
     }
   };
-  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__["default"], null);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_8__["default"], null);
   if (props.integratedPlugins.gravityForms.use) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_6__["default"], {
       sectionName: state.sectionName
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "container"
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
-      onSubmit: handleSubmit
-    }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-      key: input.name,
-      className: "form-group"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_6__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-      isMulti: input.isMulti
-    }, input, {
-      onChange: input.type === "select" ? selectedOption => dispatch({
-        type: input.onChange,
-        value: selectedOption
-      }) : e => {
-        dispatch({
-          type: input.onChange,
-          value: input.type === "checkbox" ? e.target.checked : e.target.value
-        });
-      }
-    })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_7__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
-      type: "submit",
-      className: "btn btn-primary mt-3",
-      disabled: state.isSaving
-    }, __("Add Action", "farazsms")), " ")), state.gravityFormsActions && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SettingsForm__WEBPACK_IMPORTED_MODULE_5__["default"], {
+      sectionName: state.sectionName,
+      inputs: state.inputs,
+      handleSubmit: handleSubmit,
+      dispatch: dispatch,
+      isSaving: state.isSaving,
+      buttonText: __("Add Action", "farazsms")
+    })), state.gravityFormsActions && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "list-contacts"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("ol", {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ol", {
       className: "contact-list"
-    }, state.gravityFormsActions.map(action => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("li", {
+    }, state.gravityFormsActions.map(action => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
       key: action.id,
       className: "contact-list-item"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "contact-details"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, action.title)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, action.title)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "contact-details"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, action.phonebook_label)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, action.phonebook_label)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "contact-details"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, action.form_label)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, action.form_label)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "contact-details"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, action.field_label)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, action.field_label)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
       className: "contact-details"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, action.action_label)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
+    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, action.action_label)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
       className: "contact-delete",
       onClick: () => {
         deleteAction(action);
       }
     }, "Delete"))))));
   } else {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_9__["default"], {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_7__["default"], {
       sectionName: state.sectionName
     });
   }
@@ -12221,21 +12148,17 @@ function Integrations(props) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
-/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
-/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
-/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
-/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
-/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
-
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _views_SettingsForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/SettingsForm */ "./src/views/SettingsForm.js");
+/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
+/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
 
 /**
  * Import remote dependencies.
@@ -12254,10 +12177,8 @@ const __ = wp.i18n.__;
 
 
 
-
-
 function Settings() {
-  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
   /**
    *
    * First init state.
@@ -12440,7 +12361,7 @@ function Settings() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_8__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({
@@ -12454,21 +12375,21 @@ function Settings() {
    * @since 2.0.0
    */
   const endpoint = "/farazsms/v1/login_notify_options";
-  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_9__["default"])(endpoint, dispatch);
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_6__["default"])(endpoint, dispatch);
 
   /**
    * Post options to DB
    *
    * @since 2.0.0
    */
-  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_10__["default"])(endpoint, state, dispatch, appDispatch);
+  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_7__["default"])(endpoint, state, dispatch, appDispatch);
 
   /**
    * Get user roles keys from DB
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     /**
      * Get the global $wp_roles; and make it work for Select react
      *
@@ -12492,29 +12413,16 @@ function Settings() {
    * @since 2.0.0
    */
 
-  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_8__["default"], null);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_7__["default"], {
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_5__["default"], null);
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
     sectionName: state.sectionName
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
-    onSubmit: handleSubmit
-  }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: input.name,
-    className: input.type === "checkbox" ? "toggle-control" : "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    isMulti: input.isMulti
-  }, input, {
-    onChange: input.type === "select" ? selectedOption => dispatch({
-      type: input.onChange,
-      value: selectedOption
-    }) : e => {
-      dispatch({
-        type: input.onChange,
-        value: input.type === "checkbox" ? e.target.checked : e.target.value
-      });
-    }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_6__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SettingsForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    sectionName: state.sectionName,
+    inputs: state.inputs,
+    handleSubmit: handleSubmit,
+    dispatch: dispatch,
     isSaving: state.isSaving
-  }))));
+  })));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Settings);
 
@@ -12528,23 +12436,18 @@ function Settings() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
-/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
-/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
-/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
-/* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
-/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
-/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
-/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
-
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _views_SettingsForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/SettingsForm */ "./src/views/SettingsForm.js");
+/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
+/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
+/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
 
 /**
  * Import remote dependencies.
@@ -12565,10 +12468,8 @@ const __ = wp.i18n.__;
 
 
 
-
-
 function Membership(props) {
-  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_4__["default"]);
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
   /**
    *
    * First init state.
@@ -12721,7 +12622,7 @@ function Membership(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_13__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_9__.useImmerReducer)(ourReduser, originalState);
 
   /**
    * HandelSubmit
@@ -12741,15 +12642,15 @@ function Membership(props) {
    * @since 2.0.0
    */
   const endpoint = "/farazsms/v1/membership_options";
-  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__["default"])(endpoint, dispatch);
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_7__["default"])(endpoint, dispatch);
 
   /**
    * Post options to DB
    *
    * @since 2.0.0
    */
-  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_12__["default"])(endpoint, state, dispatch, appDispatch);
-  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__["default"], null);
+  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_8__["default"])(endpoint, state, dispatch, appDispatch);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_6__["default"], null);
 
   /**
    * The Membership form created by mapping over originalState.
@@ -12757,32 +12658,19 @@ function Membership(props) {
    *
    * @since 2.0.0
    */
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
     sectionName: state.sectionName
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, Object.values(state.notUsedPlugins).map(plugin => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, Object.values(state.notUsedPlugins).map(plugin => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     key: plugin.name
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_5__["default"], {
     sectionName: plugin.name
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
-    onSubmit: handleSubmit
-  }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: input.id,
-    className: input.type === "checkbox" ? "toggle-control" : "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    isMulti: input.isMulti
-  }, input, {
-    onChange: input.type === "select" ? selectedOption => dispatch({
-      type: input.onChange,
-      value: selectedOption
-    }) : e => {
-      dispatch({
-        type: input.onChange,
-        value: input.type === "checkbox" ? e.target.checked : e.target.value
-      });
-    }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_7__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SettingsForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    sectionName: state.sectionName,
+    inputs: state.inputs,
+    handleSubmit: handleSubmit,
+    dispatch: dispatch,
     isSaving: state.isSaving
-  }))));
+  })));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Membership);
 
@@ -12796,24 +12684,20 @@ function Membership(props) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _hooks_useConfirm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../hooks/useConfirm */ "./src/hooks/useConfirm.js");
-/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
-/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
-/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
-/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
-/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
-/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
-/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
-/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
-
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var _hooks_useConfirm__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../hooks/useConfirm */ "./src/hooks/useConfirm.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
+/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
+/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
+/* harmony import */ var _views_SettingsForm__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/SettingsForm */ "./src/views/SettingsForm.js");
 
 /**
  * Import remote dependencies.
@@ -12835,10 +12719,8 @@ const __ = wp.i18n.__;
 
 
 
-
-
 function Newsletter() {
-  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_4__["default"]);
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
   /**
    *
    * First init state.
@@ -13073,7 +12955,7 @@ function Newsletter() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_14__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
 
   /**
    * HandelSubmit
@@ -13103,7 +12985,7 @@ function Newsletter() {
       value: phonebooksArrayObject
     });
   }
-  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__["default"])(handleNoPhonebooks, handleAllPhonebooks);
+  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_7__["default"])(handleNoPhonebooks, handleAllPhonebooks);
 
   /**
    * Get options from DB rest routes
@@ -13111,22 +12993,22 @@ function Newsletter() {
    * @since 2.0.0
    */
   const endpoint = "/farazsms/v1/newsletter_options";
-  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_12__["default"])(endpoint, dispatch);
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_8__["default"])(endpoint, dispatch);
 
   /**
    * Post options to DB
    *
    * @since 2.0.0
    */
-  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_13__["default"])(endpoint, state, dispatch, appDispatch);
+  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_9__["default"])(endpoint, state, dispatch, appDispatch);
 
   /**
    * Get subscribers list from DB
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     async function get_subscribers_from_db() {
       try {
-        const getSubscribers = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_8__["default"].get("/farazsms/v1/get_subscribers_from_db");
+        const getSubscribers = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_4__["default"].get("/farazsms/v1/get_subscribers_from_db");
         dispatch({
           type: "getNewsletterSubscribers",
           value: JSON.parse(getSubscribers.data)
@@ -13149,13 +13031,13 @@ function Newsletter() {
    */
   const {
     confirm
-  } = (0,_hooks_useConfirm__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  } = (0,_hooks_useConfirm__WEBPACK_IMPORTED_MODULE_2__["default"])();
   const deleteSubscriber = async subscriber => {
     const isConfirmed = await confirm(__("Do you want to delete that subscriber?", "farazsms"));
     if (isConfirmed) {
       async function deleteSubscriberFromDb() {
         try {
-          await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_8__["default"].post("/farazsms/v1/delete_subscriber_from_db", {
+          await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_4__["default"].post("/farazsms/v1/delete_subscriber_from_db", {
             subscriber_id: subscriber.id
           });
           dispatch({
@@ -13183,50 +13065,37 @@ function Newsletter() {
       });
     }
   };
-  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__["default"], null);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_6__["default"], null);
   /**
    * The settings form created by mapping over originalState as the main state.
    * For every value on inputs rendered a SettingsFormInput.
    *
    * @since 2.0.0
    */
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "farazsms-newsletter-component"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_5__["default"], {
     sectionName: state.sectionName
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
-    onSubmit: handleSubmit
-  }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: input.name,
-    className: input.type === "checkbox" ? "toggle-control" : "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    isMulti: input.isMulti
-  }, input, {
-    onChange: input.type === "select" ? selectedOption => dispatch({
-      type: input.onChange,
-      value: selectedOption
-    }) : e => {
-      dispatch({
-        type: input.onChange,
-        value: input.type === "checkbox" ? e.target.checked : e.target.value
-      });
-    }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_7__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SettingsForm__WEBPACK_IMPORTED_MODULE_10__["default"], {
+    sectionName: state.sectionName,
+    inputs: state.inputs,
+    handleSubmit: handleSubmit,
+    dispatch: dispatch,
     isSaving: state.isSaving
-  }))), state.newsletterSubscribers && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  })), state.newsletterSubscribers && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "list-contacts"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("ol", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("ol", {
     className: "contact-list"
-  }, state.newsletterSubscribers.map(subscriber => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("li", {
+  }, state.newsletterSubscribers.map(subscriber => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", {
     key: subscriber.id,
     className: "contact-list-item"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "contact-details"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", null, subscriber.name)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, subscriber.name)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "contact-details"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     className: "contact-details"
-  }, subscriber.phone)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
+  }, subscriber.phone)), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: "contact-delete",
     onClick: () => {
       deleteSubscriber(subscriber);
@@ -13245,24 +13114,23 @@ function Newsletter() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
-/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
-/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
-/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
-/* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
-/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
-/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
-/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
-/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
-
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
+/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
+/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
+/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
+/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
+/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
+/* harmony import */ var _views_SettingsForm__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../views/SettingsForm */ "./src/views/SettingsForm.js");
 
 /**
  * Import remote dependencies.
@@ -13286,8 +13154,9 @@ const __ = wp.i18n.__;
 
 
 
+
 function Phonebook(props) {
-  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_4__["default"]);
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
   // Init States
   const originalState = {
     notUsedPlugins: {
@@ -13447,24 +13316,24 @@ function Phonebook(props) {
    * @since 2.0.0
    */
   const endpoint = "/farazsms/v1/phonebook_options";
-  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_12__["default"])(endpoint, dispatch);
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__["default"])(endpoint, dispatch);
 
   /**
    * Post options to DB
    *
    * @since 2.0.0
    */
-  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_13__["default"])(endpoint, state, dispatch, appDispatch);
+  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_12__["default"])(endpoint, state, dispatch, appDispatch);
 
   /**
    * Get usermeta keys from DB rest routes
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     async function getUsermeta() {
       try {
-        const getUsermeta = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/usermeta", {});
+        const getUsermeta = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_2__["default"].get("/farazsms/v1/usermeta", {});
         const usermetaArrayObject = Object.keys(getUsermeta.data).map(key => ({
           value: getUsermeta.data[key].meta_key,
           label: getUsermeta.data[key].meta_key
@@ -13496,58 +13365,45 @@ function Phonebook(props) {
       value: phonebooksArrayObject
     });
   }
-  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__["default"])(handleNoPhonebooks, handleAllPhonebooks);
-  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__["default"], null);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_10__["default"])(handleNoPhonebooks, handleAllPhonebooks);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_9__["default"], null);
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_7__["default"], {
     sectionName: state.sectionName
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "container"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "container card bg-light mb-3 mt-1"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "card-body"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h5", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", {
     className: "card-title"
-  }, __("Special Offer:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", {
+  }, __("Special Offer:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     className: "card-text"
-  }, __("If you have a physical store, use the mobile number storage device to collect your customers mobile numbers. Click on the link below to see the details", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("a", {
+  }, __("If you have a physical store, use the mobile number storage device to collect your customers mobile numbers. Click on the link below to see the details", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "https://farazsms.com/pos/",
     className: "btn btn-success",
     target: "_blank"
-  }, __("Buying a mobile number storage device", "farazsms"))))), state.noPhonebooks ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, __("Buying a mobile number storage device", "farazsms"))))), state.noPhonebooks ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "container"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "container card bg-warning mb-3"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "card-body"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("h5", {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h5", {
     className: "card-title"
-  }, __("Warning:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("p", {
+  }, __("Warning:", "farazsms")), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     className: "card-text"
-  }, __("You have not registered a phone book yet. Please create your phone book in the FarazSMS panel first.", "farazsms"))))) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, Object.values(state.notUsedPlugins).map(plugin => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+  }, __("You have not registered a phone book yet. Please create your phone book in the FarazSMS panel first.", "farazsms"))))) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, Object.values(state.notUsedPlugins).map(plugin => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     key: plugin.id
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_9__["default"], {
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_8__["default"], {
     sectionName: plugin.name
-  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
-    onSubmit: handleSubmit
-  }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: input.name,
-    className: "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_5__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    isMulti: input.isMulti
-  }, input, {
-    onChange: input.type === "select" ? selectedOption => dispatch({
-      type: input.onChange,
-      value: selectedOption
-    }) : e => {
-      dispatch({
-        type: input.onChange,
-        value: input.type === "checkbox" ? e.target.checked : e.target.value
-      });
-    }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_7__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  }))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SettingsForm__WEBPACK_IMPORTED_MODULE_13__["default"], {
+    sectionName: state.sectionName,
+    inputs: state.inputs,
+    handleSubmit: handleSubmit,
+    dispatch: dispatch,
     isSaving: state.isSaving
-  }))));
+  })));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Phonebook);
 
@@ -13845,22 +13701,21 @@ function SendSms(props) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
-/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
-/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
-/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
-/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
-/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
-/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
-
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
+/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
+/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
+/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
+/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
+/* harmony import */ var _views_SettingsForm__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../views/SettingsForm */ "./src/views/SettingsForm.js");
 
 /**
  * Import remote dependencies.
@@ -13883,8 +13738,9 @@ const __ = wp.i18n.__;
 
 
 
+
 function Settings() {
-  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_4__["default"]);
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
   /**
    *
    * First init state.
@@ -14124,21 +13980,21 @@ function Settings() {
    * @since 2.0.0
    */
   const endpoint = "/farazsms/v1/settings_options";
-  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_10__["default"])(endpoint, dispatch);
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_9__["default"])(endpoint, dispatch);
 
   /**
    * Post options to DB
    *
    * @since 2.0.0
    */
-  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_11__["default"])(endpoint, state, dispatch, appDispatch);
+  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_10__["default"])(endpoint, state, dispatch, appDispatch);
 
   /**
    * Validate Apikey, check if the Apikey is existing on Ippanel.
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (state.inputs.apikey.value) {
       const delay = setTimeout(() => dispatch({
         type: "apikeyAfterDelay"
@@ -14146,12 +14002,12 @@ function Settings() {
       return () => clearTimeout(delay);
     }
   }, [state.inputs.apikey.value]);
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (state.inputs.apikey.checkCount) {
       async function validateApikey() {
         let apikey;
         try {
-          const validateApikey = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].post("/farazsms/v1/validate_apikey", {
+          const validateApikey = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_2__["default"].post("/farazsms/v1/validate_apikey", {
             apikey: state.inputs.apikey.value
           });
           if (validateApikey.data.status === "OK") {
@@ -14180,7 +14036,7 @@ function Settings() {
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (state.inputs.username.value) {
       const delay = setTimeout(() => dispatch({
         type: "usernameAfterDelay"
@@ -14188,7 +14044,7 @@ function Settings() {
       return () => clearTimeout(delay);
     }
   }, [state.inputs.username.value]);
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (state.inputs.username.checkCount) {
       async function validateUsername() {
         try {
@@ -14213,7 +14069,7 @@ function Settings() {
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (state.inputs.admin_number.value) {
       const delay = setTimeout(() => dispatch({
         type: "admin_numberAfterDelay"
@@ -14221,7 +14077,7 @@ function Settings() {
       return () => clearTimeout(delay);
     }
   }, [state.inputs.admin_number.value]);
-  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_9__["default"], null);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_8__["default"], null);
 
   /**
    * The settings form created by mapping over originalState as the main state.
@@ -14229,31 +14085,15 @@ function Settings() {
    *
    * @since 2.0.0
    */
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_5__["default"], {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
     sectionName: state.sectionName
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
-    onSubmit: handleSubmit
-  }, Object.values(state.inputs).map(input => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: input.name,
-    className: input.type === "checkbox" ? "toggle-control" : "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_6__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    isMulti: input.isMulti
-  }, input, {
-    value: input.value,
-    checked: input.value,
-    onChange: e => {
-      dispatch({
-        type: input.onChange,
-        value: input.type === "checkbox" ? e.target.checked : e.target.value
-      });
-    },
-    onBlur: e => dispatch({
-      type: input.rules,
-      value: e.target.value
-    })
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_7__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_8__["default"], {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SettingsForm__WEBPACK_IMPORTED_MODULE_11__["default"], {
+    sectionName: state.sectionName,
+    inputs: state.inputs,
+    handleSubmit: handleSubmit,
+    dispatch: dispatch,
     isSaving: state.isSaving
-  }))));
+  })));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Settings);
 
@@ -14321,18 +14161,15 @@ function Sidebar(_ref) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
-/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
-/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
-
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _views_SettingsForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/SettingsForm */ "./src/views/SettingsForm.js");
+/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 
 /**
  * Import remote dependencies.
@@ -14349,9 +14186,8 @@ const __ = wp.i18n.__;
 
 
 
-
 function Support(props) {
-  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
   // Init States
   const originalState = {
     inputs: {
@@ -14391,16 +14227,16 @@ function Support(props) {
         draft.inputs.message.value = "";
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_8__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_6__.useImmerReducer)(ourReduser, originalState);
 
   /**
    * Report issues to server.
    */
-  const reportIssues = async e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     async function reportIssues() {
       try {
-        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].post("/farazsms/v1/send_feedback_message", {
+        await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].post("/farazsms/v1/send_feedback_message", {
           subject: state.inputs.subject.value,
           message: state.inputs.message.value
         });
@@ -14426,32 +14262,16 @@ function Support(props) {
    *
    * @since 2.0.0
    */
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
     sectionName: state.sectionName
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
-    onSubmit: reportIssues
-  }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-    key: input.name,
-    className: input.type === "checkbox" ? "toggle-control" : "form-group"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-    isMulti: input.isMulti
-  }, input, {
-    value: input.value,
-    checked: input.value,
-    onChange: input.type === "select" ? selectedOption => dispatch({
-      type: input.onChange,
-      value: selectedOption
-    }) : e => {
-      dispatch({
-        type: input.onChange,
-        value: input.type === "checkbox" ? e.target.checked : e.target.value
-      });
-    }
-  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_5__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("button", {
-    type: "submit",
-    className: "btn btn-primary mt-3",
-    disabled: state.isSaving
-  }, __("Report Issues", "farazsms")), " ")));
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SettingsForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    sectionName: state.sectionName,
+    inputs: state.inputs,
+    handleSubmit: handleSubmit,
+    dispatch: dispatch,
+    isSaving: state.isSaving,
+    buttonText: __("Report Issues", "farazsms")
+  })));
 }
 /* harmony default export */ __webpack_exports__["default"] = (Support);
 
@@ -14746,22 +14566,18 @@ function Synchronization(props) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
-/* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
-/* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
-/* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
-/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
-/* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
-/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
-/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
-/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
-
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
+/* harmony import */ var _views_SettingsForm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/SettingsForm */ "./src/views/SettingsForm.js");
+/* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
+/* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
+/* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
+/* harmony import */ var _hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../hooks/useSaveOptions */ "./src/hooks/useSaveOptions.js");
 
 /**
  * Import remote dependencies.
@@ -14781,10 +14597,8 @@ const __ = wp.i18n.__;
 
 
 
-
-
 function Woocommerce(props) {
-  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_2__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  const appDispatch = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_DispatchContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
   // Init States
   const originalState = {
     inputs: {
@@ -14931,7 +14745,7 @@ function Woocommerce(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_12__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_9__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({
@@ -14945,15 +14759,15 @@ function Woocommerce(props) {
    * @since 2.0.0
    */
   const endpoint = "/farazsms/v1/woocommerce_options";
-  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_10__["default"])(endpoint, dispatch);
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_7__["default"])(endpoint, dispatch);
 
   /**
    * Post options to DB
    *
    * @since 2.0.0
    */
-  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_11__["default"])(endpoint, state, dispatch, appDispatch);
-  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_9__["default"], null);
+  (0,_hooks_useSaveOptions__WEBPACK_IMPORTED_MODULE_8__["default"])(endpoint, state, dispatch, appDispatch);
+  if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_6__["default"], null);
 
   /**
    * The settings form created by mapping over originalState as the main state.
@@ -14963,29 +14777,17 @@ function Woocommerce(props) {
    */
 
   if (props.integratedPlugins.woocommerce.use) {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__["default"], {
       sectionName: state.sectionName
-    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
-      onSubmit: handleSubmit
-    }, Object.values(state.inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
-      key: input.name,
-      className: input.type === "checkbox" ? "toggle-control" : "form-group"
-    }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInput__WEBPACK_IMPORTED_MODULE_4__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
-      isMulti: input.isMulti
-    }, input, {
-      value: input.value,
-      checked: input.value,
-      onChange: e => {
-        dispatch({
-          type: input.onChange,
-          value: input.type === "checkbox" ? e.target.checked : e.target.value
-        });
-      }
-    })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_FormInputError__WEBPACK_IMPORTED_MODULE_6__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SaveButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SettingsForm__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      sectionName: state.sectionName,
+      inputs: state.inputs,
+      handleSubmit: handleSubmit,
+      dispatch: dispatch,
       isSaving: state.isSaving
-    }))));
+    })));
   } else {
-    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_8__["default"], {
+    return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_SectionError__WEBPACK_IMPORTED_MODULE_5__["default"], {
       sectionName: state.sectionName
     });
   }
@@ -15685,13 +15487,14 @@ const __ = wp.i18n.__;
 
 const SaveButton = props => {
   const {
-    isSaving
+    isSaving,
+    buttonText
   } = props;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     type: "submit",
     className: "btn btn-primary mt-3",
     disabled: isSaving
-  }, __('Save Settings', 'farazsms'));
+  }, buttonText ? buttonText : __("Save Settings", "farazsms"));
 };
 /* harmony default export */ __webpack_exports__["default"] = (SaveButton);
 
@@ -15785,6 +15588,66 @@ const SectionHeader = props => {
   }, sectionName);
 };
 /* harmony default export */ __webpack_exports__["default"] = (SectionHeader);
+
+/***/ }),
+
+/***/ "./src/views/SettingsForm.js":
+/*!***********************************!*\
+  !*** ./src/views/SettingsForm.js ***!
+  \***********************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/esm/extends.js");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _FormInput__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./FormInput */ "./src/views/FormInput.js");
+/* harmony import */ var _FormInputError__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./FormInputError */ "./src/views/FormInputError.js");
+/* harmony import */ var _SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./SaveButton */ "./src/views/SaveButton.js");
+
+
+
+
+
+
+function SettingsForm(_ref) {
+  let {
+    inputs,
+    handleSubmit,
+    dispatch,
+    isSaving,
+    buttonText
+  } = _ref;
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("form", {
+    onSubmit: handleSubmit
+  }, Object.values(inputs).map(input => input.isDependencyUsed === false ? (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.Fragment, null) : (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)("div", {
+    key: input.name,
+    className: input.type === "checkbox" ? "toggle-control" : "form-group"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_FormInput__WEBPACK_IMPORTED_MODULE_3__["default"], (0,_babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({
+    isMulti: input.isMulti
+  }, input, {
+    onChange: input.type === "select" ? selectedOption => dispatch({
+      type: input.onChange,
+      value: selectedOption
+    }) : e => {
+      dispatch({
+        type: input.onChange,
+        value: input.type === "checkbox" ? e.target.checked : e.target.value
+      });
+    },
+    onBlur: e => dispatch({
+      type: input.rules,
+      value: e.target.value
+    })
+  })), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_FormInputError__WEBPACK_IMPORTED_MODULE_4__["default"], null))), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_SaveButton__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    isSaving: isSaving,
+    buttonText: buttonText
+  }));
+}
+/* harmony default export */ __webpack_exports__["default"] = (SettingsForm);
 
 /***/ }),
 

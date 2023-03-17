@@ -13,8 +13,7 @@ const __ = wp.i18n.__;
  */
 import AxiosWp from "../function/AxiosWp";
 import DispatchContext from "../DispatchContext";
-import FormInput from "../views/FormInput";
-import FormInputError from "../views/FormInputError";
+import SettingsForm from "../views/SettingsForm";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
@@ -372,41 +371,14 @@ function GravityForms(props) {
         <SectionHeader sectionName={state.sectionName} />
         <div>
           <div className="container"></div>
-          <form onSubmit={handleSubmit}>
-            {Object.values(state.inputs).map((input) => (
-              <div key={input.name} className={"form-group"}>
-                <FormInput
-                  isMulti={input.isMulti}
-                  {...input}
-                  onChange={
-                    input.type === "select"
-                      ? (selectedOption) =>
-                          dispatch({
-                            type: input.onChange,
-                            value: selectedOption,
-                          })
-                      : (e) => {
-                          dispatch({
-                            type: input.onChange,
-                            value:
-                              input.type === "checkbox"
-                                ? e.target.checked
-                                : e.target.value,
-                          });
-                        }
-                  }
-                />
-                <FormInputError />
-              </div>
-            ))}
-            <button
-              type="submit"
-              className="btn btn-primary mt-3"
-              disabled={state.isSaving}
-            >
-              {__("Add Action", "farazsms")}
-            </button>{" "}
-          </form>
+          <SettingsForm
+            sectionName={state.sectionName}
+            inputs={state.inputs}
+            handleSubmit={handleSubmit}
+            dispatch={dispatch}
+            isSaving={state.isSaving}
+            buttonText={__("Add Action", "farazsms")}
+          />
         </div>
         {state.gravityFormsActions && (
           <div className="list-contacts">

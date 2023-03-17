@@ -10,9 +10,7 @@ const __ = wp.i18n.__;
  * Import local dependencies
  */
 import DispatchContext from "../DispatchContext";
-import FormInput from "../views/FormInput";
-import SaveButton from "../views/SaveButton";
-import FormInputError from "../views/FormInputError";
+import SettingsForm from "../views/SettingsForm";
 import SectionHeader from "../views/SectionHeader";
 import LoadingSpinner from "../views/LoadingSpinner";
 import usePhonebooks from "../hooks/usePhonebooks";
@@ -317,44 +315,13 @@ function Comments() {
     <div>
       <SectionHeader sectionName={state.sectionName} />
       <div>
-        <form onSubmit={handleSubmit}>
-          {Object.values(state.inputs).map((input) =>
-            input.isDependencyUsed === false ? (
-              <></>
-            ) : (
-              <div
-                key={input.name}
-                className={
-                  input.type === "checkbox" ? "toggle-control" : "form-group"
-                }
-              >
-                <FormInput
-                  isMulti={input.isMulti}
-                  {...input}
-                  onChange={
-                    input.type === "select"
-                      ? (selectedOption) =>
-                          dispatch({
-                            type: input.onChange,
-                            value: selectedOption,
-                          })
-                      : (e) => {
-                          dispatch({
-                            type: input.onChange,
-                            value:
-                              input.type === "checkbox"
-                                ? e.target.checked
-                                : e.target.value,
-                          });
-                        }
-                  }
-                />
-                <FormInputError />
-              </div>
-            )
-          )}
-          <SaveButton isSaving={state.isSaving} />
-        </form>
+        <SettingsForm
+          sectionName={state.sectionName}
+          inputs={state.inputs}
+          handleSubmit={handleSubmit}
+          dispatch={dispatch}
+          isSaving={state.isSaving}
+        />
       </div>
     </div>
   );

@@ -10,8 +10,7 @@ const __ = wp.i18n.__;
  * Import local dependencies
  */
 import DispatchContext from "../DispatchContext";
-import FormInput from "../views/FormInput";
-import FormInputError from "../views/FormInputError";
+import SettingsForm from "../views/SettingsForm";
 import SectionHeader from "../views/SectionHeader";
 import AxiosWp from "../function/AxiosWp";
 
@@ -63,8 +62,9 @@ function Support(props) {
   /**
    * Report issues to server.
    */
-  const reportIssues = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     async function reportIssues() {
       try {
         await AxiosWp.post("/farazsms/v1/send_feedback_message", {
@@ -85,6 +85,7 @@ function Support(props) {
         console.log(e);
       }
     }
+
     reportIssues();
   };
 
@@ -98,52 +99,14 @@ function Support(props) {
     <div>
       <SectionHeader sectionName={state.sectionName} />
       <div>
-        <form onSubmit={reportIssues}>
-          {Object.values(state.inputs).map((input) =>
-            input.isDependencyUsed === false ? (
-              <></>
-            ) : (
-              <div
-                key={input.name}
-                className={
-                  input.type === "checkbox" ? "toggle-control" : "form-group"
-                }
-              >
-                <FormInput
-                  isMulti={input.isMulti}
-                  {...input}
-                  value={input.value}
-                  checked={input.value}
-                  onChange={
-                    input.type === "select"
-                      ? (selectedOption) =>
-                          dispatch({
-                            type: input.onChange,
-                            value: selectedOption,
-                          })
-                      : (e) => {
-                          dispatch({
-                            type: input.onChange,
-                            value:
-                              input.type === "checkbox"
-                                ? e.target.checked
-                                : e.target.value,
-                          });
-                        }
-                  }
-                />
-                <FormInputError />
-              </div>
-            )
-          )}
-          <button
-            type="submit"
-            className="btn btn-primary mt-3"
-            disabled={state.isSaving}
-          >
-            {__("Report Issues", "farazsms")}
-          </button>{" "}
-        </form>
+        <SettingsForm
+          sectionName={state.sectionName}
+          inputs={state.inputs}
+          handleSubmit={handleSubmit}
+          dispatch={dispatch}
+          isSaving={state.isSaving}
+          buttonText={__("Report Issues", "farazsms")}
+        />
       </div>
     </div>
   );

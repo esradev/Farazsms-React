@@ -19,6 +19,7 @@ import SaveButton from "../views/SaveButton";
 import LoadingSpinner from "../views/LoadingSpinner";
 import useFetchOptions from "../hooks/useFetchOptions";
 import useSaveOptions from "../hooks/useSaveOptions";
+import SettingsForm from "../views/SettingsForm";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);
@@ -423,37 +424,13 @@ function Settings() {
     <div>
       <SectionHeader sectionName={state.sectionName} />
       <div>
-        <form onSubmit={handleSubmit}>
-          {Object.values(state.inputs).map((input) => (
-            <div
-              key={input.name}
-              className={
-                input.type === "checkbox" ? "toggle-control" : "form-group"
-              }
-            >
-              <FormInput
-                isMulti={input.isMulti}
-                {...input}
-                value={input.value}
-                checked={input.value}
-                onChange={(e) => {
-                  dispatch({
-                    type: input.onChange,
-                    value:
-                      input.type === "checkbox"
-                        ? e.target.checked
-                        : e.target.value,
-                  });
-                }}
-                onBlur={(e) =>
-                  dispatch({ type: input.rules, value: e.target.value })
-                }
-              />
-              <FormInputError />
-            </div>
-          ))}
-          <SaveButton isSaving={state.isSaving} />
-        </form>
+        <SettingsForm
+          sectionName={state.sectionName}
+          inputs={state.inputs}
+          handleSubmit={handleSubmit}
+          dispatch={dispatch}
+          isSaving={state.isSaving}
+        />
       </div>
     </div>
   );

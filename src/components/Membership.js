@@ -9,11 +9,9 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
-import AxiosWp from "../function/AxiosWp";
+
 import DispatchContext from "../DispatchContext";
-import FormInput from "../views/FormInput";
-import SaveButton from "../views/SaveButton";
-import FormInputError from "../views/FormInputError";
+import SettingsForm from "../views/SettingsForm";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
@@ -245,40 +243,13 @@ function Membership(props) {
             <SectionError sectionName={plugin.name} />
           </div>
         ))}
-        <form onSubmit={handleSubmit}>
-          {Object.values(state.inputs).map((input) => (
-            <div
-              key={input.id}
-              className={
-                input.type === "checkbox" ? "toggle-control" : "form-group"
-              }
-            >
-              <FormInput
-                isMulti={input.isMulti}
-                {...input}
-                onChange={
-                  input.type === "select"
-                    ? (selectedOption) =>
-                        dispatch({
-                          type: input.onChange,
-                          value: selectedOption,
-                        })
-                    : (e) => {
-                        dispatch({
-                          type: input.onChange,
-                          value:
-                            input.type === "checkbox"
-                              ? e.target.checked
-                              : e.target.value,
-                        });
-                      }
-                }
-              />
-              <FormInputError />
-            </div>
-          ))}
-          <SaveButton isSaving={state.isSaving} />
-        </form>
+        <SettingsForm
+          sectionName={state.sectionName}
+          inputs={state.inputs}
+          handleSubmit={handleSubmit}
+          dispatch={dispatch}
+          isSaving={state.isSaving}
+        />
       </div>
     </div>
   );
