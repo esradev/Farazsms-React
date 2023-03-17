@@ -231,7 +231,7 @@ function Settings() {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
       case "apikeyRules":

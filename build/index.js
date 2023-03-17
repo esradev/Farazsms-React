@@ -11562,7 +11562,7 @@ function GravityForms(props) {
     gfSelectedFormId: "",
     gravityFormsActions: "",
     currentActions: 0,
-    isFetching: true,
+    isFetching: false,
     isSaving: false,
     sendCount: 0,
     sectionName: __("Gravity Forms", "farazsms")
@@ -13297,7 +13297,7 @@ function Phonebook(props) {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
     }
@@ -13915,7 +13915,7 @@ function Settings() {
       case "saveRequestStarted":
         draft.isSaving = true;
         return;
-      case "saveRequestFininshed":
+      case "saveRequestFinished":
         draft.isSaving = false;
         return;
       case "apikeyRules":
@@ -15471,10 +15471,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _styles_save_button_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../styles/save-button.scss */ "./src/styles/save-button.scss");
 
 /**
  * Import remote dependencies.
  */
+
+
 
 // Used as const not import, for Loco translate plugin compatibility.
 const __ = wp.i18n.__;
@@ -15486,15 +15489,27 @@ const __ = wp.i18n.__;
  */
 
 const SaveButton = props => {
+  const handleClick = () => {
+    const button = document.getElementsByClassName("farazsms-save-button")[0];
+    button.classList.add("loading");
+    setTimeout(function () {
+      button.classList.remove("loading");
+      button.classList.add("success");
+      setTimeout(function () {
+        button.classList.remove("success");
+      }, 2000);
+    }, 3000);
+  };
   const {
     isSaving,
     buttonText
   } = props;
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     type: "submit",
-    className: "btn btn-primary mt-3",
-    disabled: isSaving
-  }, buttonText ? buttonText : __("Save Settings", "farazsms"));
+    className: "farazsms-save-button",
+    disabled: isSaving,
+    onClick: handleClick
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, buttonText ? buttonText : __("Save Settings", "farazsms")));
 };
 /* harmony default export */ __webpack_exports__["default"] = (SaveButton);
 
@@ -16847,6 +16862,19 @@ function memoizeOne(resultFn, isEqual) {
 /*!************************!*\
   !*** ./src/index.scss ***!
   \************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./src/styles/save-button.scss":
+/*!*************************************!*\
+  !*** ./src/styles/save-button.scss ***!
+  \*************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

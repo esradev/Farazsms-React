@@ -1,0 +1,90 @@
+@import "./variables.scss";
+
+
+.farazsms-save-button{
+  font-size:20px;
+  margin-top: 2rem;
+  border:none;
+  height:60px;
+  width:200px;
+  background: $c-accent-primary;
+  border-radius:5px;
+  color:$c-background-tertiary;
+  cursor:pointer;
+  transition:0.2s;
+  position:relative;
+  overflow:hidden;
+}
+.farazsms-save-button:hover span{
+  transform: translateY(-3px);
+}
+.farazsms-save-button:focus{
+  outline:none;
+}
+
+.farazsms-save-button span{
+  position:absolute;
+  right:32px;
+  left: 32px;
+  top:16px;
+  bottom:16px;
+  transition:0.3s;
+  transition-delay:0.1s;
+
+}
+
+.farazsms-save-button.loading span{
+  top:-50px;
+  right:0;
+  display:none;
+}
+
+.farazsms-save-button.success span{
+  top:-50px;
+}
+
+.farazsms-save-button.success{
+  pointer-events:none;
+}
+
+.farazsms-save-button.loading{
+  width:60px;
+  border-radius:50%;
+  animation: bounce 1s infinite;
+  pointer-events:none;
+}
+
+
+.farazsms-save-button:after{
+  position:absolute;
+  content:"✔";
+  color: transparent;
+  text-shadow: 0 0 0 white;
+  display:block;
+  top:80px;
+  left:60px;
+  transition:0.3s;
+  transition-delay:0.1s;
+}
+
+.farazsms-save-button.success:after{
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+    height:60px;
+  }
+  40% {
+    transform: translateY(-30px);
+    height:68px;
+  }
+  60% {
+    transform: translateY(-15px);
+    height:68px;
+
+  }
+}

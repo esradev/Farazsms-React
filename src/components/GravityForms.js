@@ -104,7 +104,7 @@ function GravityForms(props) {
     gfSelectedFormId: "",
     gravityFormsActions: "",
     currentActions: 0,
-    isFetching: true,
+    isFetching: false,
     isSaving: false,
     sendCount: 0,
     sectionName: __("Gravity Forms", "farazsms"),

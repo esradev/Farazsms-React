@@ -292,15 +292,18 @@ class Farazsms_Ippanel {
 		if ( is_wp_error( $response ) ) {
 			return false;
 		}
+		if (!is_array($response) || !isset($response[1])) {
+			return false;
+		}
 		$response = json_decode( $response['body'], true );
 
 		$separator = '.';
 		if ( strpos( $response[1], '/' ) ) {
 			$separator = '/';
 		}
-//		if ( strpos( $response[1], '.' ) ) {
-//			$separator = '.';
-//		}
+		if ( strpos( $response[1], '.' ) ) {
+			$separator = '.';
+		}
 
 		$credit_rial = explode( $separator, $response[1] )[0];
 
