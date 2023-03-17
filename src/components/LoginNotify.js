@@ -16,6 +16,7 @@ import FormInputError from "../views/FormInputError";
 import AxiosWp from "../function/AxiosWp";
 import SectionHeader from "../views/SectionHeader";
 import LoadingSpinner from "../views/LoadingSpinner";
+import useFetchOptions from "../hooks/useFetchOptions";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);
@@ -229,24 +230,14 @@ function Settings() {
     dispatch({ type: "submitOptions" });
   }
 
-  useEffect(() => {
-    async function getOptions() {
-      try {
-        // Get Options from site DB Options table
-        const getOptions = await AxiosWp.get(
-          "/farazsms/v1/login_notify_options"
-        );
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          dispatch({ type: "fetchComplete", value: optionsJson });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({ type: "cantFetching" });
-      }
-    }
-    getOptions();
-  }, []);
+  /**
+   * Get options from DB rest routes
+   *
+   * @since 2.0.0
+   */
+  const endpoint = "/farazsms/v1/login_notify_options";
+
+  useFetchOptions(endpoint, dispatch);
 
   useEffect(() => {
     if (state.sendCount) {

@@ -18,6 +18,7 @@ import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
 import usePhonebooks from "../hooks/usePhonebooks";
+import useFetchOptions from "../hooks/useFetchOptions";
 
 function Edd(props) {
   const appDispatch = useContext(DispatchContext);
@@ -195,23 +196,9 @@ function Edd(props) {
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    async function getOptions() {
-      try {
-        // Get Options from site DB Options table
-        const getOptions = await AxiosWp.get("/farazsms/v1/edd_options");
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          dispatch({ type: "fetchComplete", value: optionsJson });
-        }
-      } catch (e) {
-        dispatch({ type: "cantFetching" });
-        console.log(e);
-      }
-    }
+  const endpoint = "/farazsms/v1/edd_options";
 
-    getOptions();
-  }, []);
+  useFetchOptions(endpoint, dispatch);
 
   /**
    * Post options to DB

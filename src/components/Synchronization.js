@@ -14,6 +14,7 @@ import SectionError from "../views/SectionError";
 import SectionHeader from "../views/SectionHeader";
 import AxiosWp from "../function/AxiosWp";
 import LoadingSpinner from "../views/LoadingSpinner";
+import useFetchOptions from "../hooks/useFetchOptions";
 
 function Synchronization(props) {
   const appDispatch = useContext(DispatchContext);
@@ -86,29 +87,13 @@ function Synchronization(props) {
   const [state, dispatch] = useImmerReducer(ourReduser, originalState);
 
   /**
-   * Check is phonebooks exist from DB on settings component loaded
+   * Get options from DB rest routes
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    async function getPhonebooksOptions() {
-      try {
-        const getPhonebooksOptions = await AxiosWp.get(
-          "/farazsms/v1/phonebook_options",
-          {}
-        );
-        if (getPhonebooksOptions.data) {
-          const optionsJson = JSON.parse(getPhonebooksOptions.data);
-          dispatch({ type: "fetchComplete", value: optionsJson });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({ type: "cantFetching" });
-      }
-    }
+  const endpoint = "/farazsms/v1/phonebook_options";
 
-    getPhonebooksOptions();
-  }, []);
+  useFetchOptions(endpoint, dispatch);
 
   /**
    * Sync woocommerce user('s) with selected phonebook.

@@ -17,6 +17,7 @@ import FormInputError from "../views/FormInputError";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
+import useFetchOptions from "../hooks/useFetchOptions";
 
 function Membership(props) {
   const appDispatch = useContext(DispatchContext);
@@ -211,30 +212,13 @@ function Membership(props) {
   }
 
   /**
-   * Get Aff options from DB on Aff component loaded
+   * Get options from DB rest routes
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    async function getOptions() {
-      try {
-        // Use the AxiosWp object to call the /farazsms/v1/farazsms_membership_options
-        const getOptions = await AxiosWp.get(
-          "/farazsms/v1/membership_options",
-          {}
-        );
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          console.log(optionsJson);
-          dispatch({ type: "fetchComplete", value: optionsJson });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({ type: "cantFetching" });
-      }
-    }
-    getOptions();
-  }, []);
+  const endpoint = "/farazsms/v1/membership_options";
+
+  useFetchOptions(endpoint, dispatch);
 
   /**
    * Post Aff options to DB

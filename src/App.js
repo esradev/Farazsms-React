@@ -4,6 +4,7 @@
 import React, { useState, useReducer, useEffect } from "react";
 import { useImmerReducer } from "use-immer";
 import { HashRouter, Route, Routes } from "react-router-dom";
+
 const __ = wp.i18n.__;
 
 /**
@@ -33,6 +34,7 @@ import IndeedAffiliateProLogo from "./assets/images/ultimateaffiliatepro-logo.jp
 import YithWoocommerceAffiliatesLogo from "./assets/images/yithwoocommerceaffiliates-logo.jpg";
 import ElementorLogo from "./assets/images/elementor-logo.jpg";
 import AxiosWp from "./function/AxiosWp";
+import useFetchOptions from "./hooks/useFetchOptions";
 
 function App() {
   const initialState = {
@@ -434,35 +436,15 @@ function App() {
     }
   }
 
+  const [state, dispatch] = useImmerReducer(ourReducer, initialState);
   /**
-   * Get integrations options from DB on integrations component loaded
+   * Get options from DB rest routes
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    async function getOptions() {
-      try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_integrations_options
-         * endpoint and retrieve the 10 latest posts.
-         */
-        const getOptions = await AxiosWp.get(
-          "/farazsms/v1/integrations_options",
-          {}
-        );
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          dispatch({ type: "fetchComplete", value: optionsJson });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({ type: "cantFetching" });
-      }
-    }
-    getOptions();
-  }, []);
+  const endpoint = "/farazsms/v1/integrations_options";
 
-  const [state, dispatch] = useImmerReducer(ourReducer, initialState);
+  useFetchOptions(endpoint, dispatch);
 
   return (
     <HashRouter>

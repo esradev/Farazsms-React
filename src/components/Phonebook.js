@@ -18,6 +18,7 @@ import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
 import usePhonebooks from "../hooks/usePhonebooks";
+import useFetchOptions from "../hooks/useFetchOptions";
 
 function Phonebook(props) {
   const appDispatch = useContext(DispatchContext);
@@ -182,25 +183,9 @@ function Phonebook(props) {
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    async function getOptions() {
-      try {
-        const getOptions = await AxiosWp.get(
-          "/farazsms/v1/phonebook_options",
-          {}
-        );
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          dispatch({ type: "fetchComplete", value: optionsJson });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({ type: "cantFetching" });
-      }
-    }
+  const endpoint = "/farazsms/v1/phonebook_options";
 
-    getOptions();
-  }, []);
+  useFetchOptions(endpoint, dispatch);
 
   /**
    * Get usermeta keys from DB rest routes

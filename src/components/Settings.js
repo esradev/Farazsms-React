@@ -17,6 +17,7 @@ import FormInput from "../views/FormInput";
 import FormInputError from "../views/FormInputError";
 import SaveButton from "../views/SaveButton";
 import LoadingSpinner from "../views/LoadingSpinner";
+import useFetchOptions from "../hooks/useFetchOptions";
 
 function Settings() {
   const appDispatch = useContext(DispatchContext);
@@ -300,33 +301,13 @@ function Settings() {
   }
 
   /**
-   * Get settings options from DB on settings component loaded
+   * Get options from DB rest routes
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    async function getOptions() {
-      try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_settings_options
-         * endpoint and retrieve the 10 latest posts.
-         */
-        const getOptions = await AxiosWp.get(
-          "/farazsms/v1/settings_options",
-          {}
-        );
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          dispatch({ type: "fetchComplete", value: optionsJson });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({ type: "cantFetching" });
-      }
-    }
+  const endpoint = "/farazsms/v1/settings_options";
 
-    getOptions();
-  }, []);
+  useFetchOptions(endpoint, dispatch);
 
   /**
    * Post options to DB

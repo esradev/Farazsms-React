@@ -17,6 +17,7 @@ import FormInputError from "../views/FormInputError";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
+import useFetchOptions from "../hooks/useFetchOptions";
 
 function Aff(props) {
   const appDispatch = useContext(DispatchContext);
@@ -295,26 +296,13 @@ function Aff(props) {
   }
 
   /**
-   * Get Aff options from DB on Aff component loaded
+   * Get options from DB rest routes
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    async function getOptions() {
-      try {
-        const getOptions = await AxiosWp.get("/farazsms/v1/aff_options", {});
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          console.log(optionsJson);
-          dispatch({ type: "fetchComplete", value: optionsJson });
-        }
-      } catch (e) {
-        dispatch({ type: "cantFetching" });
-        console.log(e);
-      }
-    }
-    getOptions();
-  }, []);
+  const endpoint = "/farazsms/v1/aff_options";
+
+  useFetchOptions(endpoint, dispatch);
 
   /**
    *

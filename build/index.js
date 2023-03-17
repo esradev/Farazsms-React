@@ -9938,9 +9938,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
 /* harmony import */ var _StateContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StateContext */ "./src/StateContext.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _store_ConfirmContextProvider__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/ConfirmContextProvider */ "./src/store/ConfirmContextProvider.js");
@@ -9962,6 +9962,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _assets_images_yithwoocommerceaffiliates_logo_jpg__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./assets/images/yithwoocommerceaffiliates-logo.jpg */ "./src/assets/images/yithwoocommerceaffiliates-logo.jpg");
 /* harmony import */ var _assets_images_elementor_logo_jpg__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./assets/images/elementor-logo.jpg */ "./src/assets/images/elementor-logo.jpg");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./function/AxiosWp */ "./src/function/AxiosWp.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
 
 /**
  * Import remote dependencies.
@@ -9986,6 +9987,7 @@ const __ = wp.i18n.__;
 
 
 // Integration plugins logo
+
 
 
 
@@ -10367,44 +10369,21 @@ function App() {
         return;
     }
   }
-
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_24__.useImmerReducer)(ourReducer, initialState);
   /**
-   * Get integrations options from DB on integrations component loaded
+   * Get options from DB rest routes
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    async function getOptions() {
-      try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_integrations_options
-         * endpoint and retrieve the 10 latest posts.
-         */
-        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_22__["default"].get("/farazsms/v1/integrations_options", {});
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          dispatch({
-            type: "fetchComplete",
-            value: optionsJson
-          });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({
-          type: "cantFetching"
-        });
-      }
-    }
-    getOptions();
-  }, []);
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_23__.useImmerReducer)(ourReducer, initialState);
-  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_24__.HashRouter, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_StateContext__WEBPACK_IMPORTED_MODULE_2__["default"].Provider, {
+  const endpoint = "/farazsms/v1/integrations_options";
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_23__["default"])(endpoint, dispatch);
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_25__.HashRouter, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_StateContext__WEBPACK_IMPORTED_MODULE_2__["default"].Provider, {
     value: state
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DispatchContext__WEBPACK_IMPORTED_MODULE_3__["default"].Provider, {
     value: dispatch
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_store_ConfirmContextProvider__WEBPACK_IMPORTED_MODULE_4__.ConfirmContextProvider, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Header__WEBPACK_IMPORTED_MODULE_6__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_views_FlashMessages__WEBPACK_IMPORTED_MODULE_7__["default"], {
     flashMessages: state.flashMessages
-  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ConfirmDialog__WEBPACK_IMPORTED_MODULE_5__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_8__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_25__.Routes, null, _views_SidebarItems__WEBPACK_IMPORTED_MODULE_9__["default"].map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_25__.Route, {
+  }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_ConfirmDialog__WEBPACK_IMPORTED_MODULE_5__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_Sidebar__WEBPACK_IMPORTED_MODULE_8__["default"], null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_26__.Routes, null, _views_SidebarItems__WEBPACK_IMPORTED_MODULE_9__["default"].map((item, index) => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_26__.Route, {
     key: index,
     path: item.path,
     element: (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(item.element, {
@@ -10462,7 +10441,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
@@ -10471,6 +10450,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
 
 
 /**
@@ -10484,6 +10464,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -10724,7 +10705,7 @@ function Aff(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_12__.useImmerReducer)(ourReduser, originalState);
 
   /**
    * HandelSubmit function
@@ -10739,31 +10720,12 @@ function Aff(props) {
   }
 
   /**
-   * Get Aff options from DB on Aff component loaded
+   * Get options from DB rest routes
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getOptions() {
-      try {
-        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/aff_options", {});
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          console.log(optionsJson);
-          dispatch({
-            type: "fetchComplete",
-            value: optionsJson
-          });
-        }
-      } catch (e) {
-        dispatch({
-          type: "cantFetching"
-        });
-        console.log(e);
-      }
-    }
-    getOptions();
-  }, []);
+  const endpoint = "/farazsms/v1/aff_options";
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__["default"])(endpoint, dispatch);
 
   /**
    *
@@ -10883,7 +10845,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
@@ -10892,6 +10854,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
 /* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
 
 
 /**
@@ -10905,6 +10868,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -11136,7 +11100,7 @@ function Comments() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_12__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({
@@ -11167,26 +11131,8 @@ function Comments() {
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getOptions() {
-      try {
-        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/comments_options");
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          dispatch({
-            type: "fetchComplete",
-            value: optionsJson
-          });
-        }
-      } catch (e) {
-        dispatch({
-          type: "cantFetching"
-        });
-        console.log(e);
-      }
-    }
-    getOptions();
-  }, []);
+  const endpoint = "/farazsms/v1/comments_options";
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__["default"])(endpoint, dispatch);
 
   /**
    * Post options to DB.
@@ -11324,7 +11270,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
@@ -11334,6 +11280,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
 /* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
 
 
 /**
@@ -11347,6 +11294,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -11494,7 +11442,7 @@ function Edd(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_12__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_13__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({
@@ -11525,27 +11473,8 @@ function Edd(props) {
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getOptions() {
-      try {
-        // Get Options from site DB Options table
-        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/edd_options");
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          dispatch({
-            type: "fetchComplete",
-            value: optionsJson
-          });
-        }
-      } catch (e) {
-        dispatch({
-          type: "cantFetching"
-        });
-        console.log(e);
-      }
-    }
-    getOptions();
-  }, []);
+  const endpoint = "/farazsms/v1/edd_options";
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_12__["default"])(endpoint, dispatch);
 
   /**
    * Post options to DB
@@ -12422,7 +12351,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
@@ -12430,6 +12359,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
 
 
 /**
@@ -12443,6 +12373,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -12634,34 +12565,21 @@ function Settings() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({
       type: "submitOptions"
     });
   }
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getOptions() {
-      try {
-        // Get Options from site DB Options table
-        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/login_notify_options");
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          dispatch({
-            type: "fetchComplete",
-            value: optionsJson
-          });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({
-          type: "cantFetching"
-        });
-      }
-    }
-    getOptions();
-  }, []);
+
+  /**
+   * Get options from DB rest routes
+   *
+   * @since 2.0.0
+   */
+  const endpoint = "/farazsms/v1/login_notify_options";
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_10__["default"])(endpoint, dispatch);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
       /**
@@ -12772,7 +12690,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
@@ -12781,6 +12699,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
 
 
 /**
@@ -12794,6 +12713,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -12956,7 +12876,7 @@ function Membership(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_12__.useImmerReducer)(ourReduser, originalState);
 
   /**
    * HandelSubmit
@@ -12971,32 +12891,12 @@ function Membership(props) {
   }
 
   /**
-   * Get Aff options from DB on Aff component loaded
+   * Get options from DB rest routes
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getOptions() {
-      try {
-        // Use the AxiosWp object to call the /farazsms/v1/farazsms_membership_options
-        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/membership_options", {});
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          console.log(optionsJson);
-          dispatch({
-            type: "fetchComplete",
-            value: optionsJson
-          });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({
-          type: "cantFetching"
-        });
-      }
-    }
-    getOptions();
-  }, []);
+  const endpoint = "/farazsms/v1/membership_options";
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__["default"])(endpoint, dispatch);
 
   /**
    * Post Aff options to DB
@@ -13090,7 +12990,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _hooks_useConfirm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../hooks/useConfirm */ "./src/hooks/useConfirm.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
@@ -13100,6 +13000,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
 /* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
 
 
 /**
@@ -13114,6 +13015,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -13358,7 +13260,7 @@ function Newsletter() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_12__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_13__.useImmerReducer)(ourReduser, originalState);
 
   /**
    * HandelSubmit
@@ -13395,27 +13297,8 @@ function Newsletter() {
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getOptions() {
-      try {
-        // Get Options from site DB Options table
-        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_8__["default"].get("/farazsms/v1/newsletter_options");
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          dispatch({
-            type: "fetchComplete",
-            value: optionsJson
-          });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({
-          type: "cantFetching"
-        });
-      }
-    }
-    getOptions();
-  }, []);
+  const endpoint = "/farazsms/v1/newsletter_options";
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_12__["default"])(endpoint, dispatch);
 
   /**
    * Get subscribers list from DB
@@ -13584,7 +13467,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
@@ -13594,6 +13477,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
 /* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
 
 
 /**
@@ -13607,6 +13491,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -13763,7 +13648,7 @@ function Phonebook(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_12__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_13__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({
@@ -13776,26 +13661,8 @@ function Phonebook(props) {
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getOptions() {
-      try {
-        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/phonebook_options", {});
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          dispatch({
-            type: "fetchComplete",
-            value: optionsJson
-          });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({
-          type: "cantFetching"
-        });
-      }
-    }
-    getOptions();
-  }, []);
+  const endpoint = "/farazsms/v1/phonebook_options";
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_12__["default"])(endpoint, dispatch);
 
   /**
    * Get usermeta keys from DB rest routes
@@ -14230,7 +14097,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
@@ -14238,6 +14105,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
 
 
 /**
@@ -14252,6 +14120,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -14473,7 +14342,7 @@ function Settings() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
 
   /**
    * HandelSubmit
@@ -14495,34 +14364,12 @@ function Settings() {
   }
 
   /**
-   * Get settings options from DB on settings component loaded
+   * Get options from DB rest routes
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getOptions() {
-      try {
-        /*
-         * Use the AxiosWp object to call the /farazsms/v1/farazsms_settings_options
-         * endpoint and retrieve the 10 latest posts.
-         */
-        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__["default"].get("/farazsms/v1/settings_options", {});
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          dispatch({
-            type: "fetchComplete",
-            value: optionsJson
-          });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({
-          type: "cantFetching"
-        });
-      }
-    }
-    getOptions();
-  }, []);
+  const endpoint = "/farazsms/v1/settings_options";
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_10__["default"])(endpoint, dispatch);
 
   /**
    * Post options to DB
@@ -14901,12 +14748,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
 
 /**
  * Import remote dependencies.
@@ -14919,6 +14767,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -14989,33 +14838,15 @@ function Synchronization(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_7__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_8__.useImmerReducer)(ourReduser, originalState);
 
   /**
-   * Check is phonebooks exist from DB on settings component loaded
+   * Get options from DB rest routes
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    async function getPhonebooksOptions() {
-      try {
-        const getPhonebooksOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].get("/farazsms/v1/phonebook_options", {});
-        if (getPhonebooksOptions.data) {
-          const optionsJson = JSON.parse(getPhonebooksOptions.data);
-          dispatch({
-            type: "fetchComplete",
-            value: optionsJson
-          });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({
-          type: "cantFetching"
-        });
-      }
-    }
-    getPhonebooksOptions();
-  }, []);
+  const endpoint = "/farazsms/v1/phonebook_options";
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_7__["default"])(endpoint, dispatch);
 
   /**
    * Sync woocommerce user('s) with selected phonebook.
@@ -15199,7 +15030,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
@@ -15208,6 +15039,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/useFetchOptions */ "./src/hooks/useFetchOptions.js");
 
 
 /**
@@ -15221,6 +15053,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -15377,34 +15210,21 @@ function Woocommerce(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_12__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({
       type: "submitOptions"
     });
   }
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getOptions() {
-      try {
-        // Get Options from site DB Options table
-        const getOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__["default"].get("/farazsms/v1/woocommerce_options");
-        if (getOptions.data) {
-          const optionsJson = JSON.parse(getOptions.data);
-          dispatch({
-            type: "fetchComplete",
-            value: optionsJson
-          });
-        }
-      } catch (e) {
-        console.log(e);
-        dispatch({
-          type: "cantFetching"
-        });
-      }
-    }
-    getOptions();
-  }, []);
+
+  /**
+   * Get options from DB rest routes
+   *
+   * @since 2.0.0
+   */
+  const endpoint = "/farazsms/v1/woocommerce_options";
+  (0,_hooks_useFetchOptions__WEBPACK_IMPORTED_MODULE_11__["default"])(endpoint, dispatch);
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
       /**
@@ -15576,6 +15396,51 @@ function useConfirm() {
   };
 }
 /* harmony default export */ __webpack_exports__["default"] = (useConfirm);
+
+/***/ }),
+
+/***/ "./src/hooks/useFetchOptions.js":
+/*!**************************************!*\
+  !*** ./src/hooks/useFetchOptions.js ***!
+  \**************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
+
+
+
+/**
+ * Get options from DB rest routes
+ *
+ * @since 2.0.0
+ */
+function useFetchOptions(endpoint, dispatch) {
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    async function getOptions() {
+      try {
+        const response = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_1__["default"].get(endpoint);
+        if (response.data) {
+          const optionsJson = JSON.parse(response.data);
+          dispatch({
+            type: "fetchComplete",
+            value: optionsJson
+          });
+        }
+      } catch (e) {
+        dispatch({
+          type: "cantFetching"
+        });
+        console.log(e);
+      }
+    }
+    getOptions();
+  }, []);
+}
+/* harmony default export */ __webpack_exports__["default"] = (useFetchOptions);
 
 /***/ }),
 
