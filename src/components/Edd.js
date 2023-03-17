@@ -17,6 +17,7 @@ import AxiosWp from "../function/AxiosWp";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
+import usePhonebooks from "../hooks/usePhonebooks";
 
 function Edd(props) {
   const appDispatch = useContext(DispatchContext);
@@ -82,6 +83,7 @@ function Edd(props) {
         isDependencyUsed: false,
       },
     },
+    noPhonebooks: false,
     isFetching: true,
     isSaving: false,
     sendCount: 0,
@@ -116,6 +118,9 @@ function Edd(props) {
       case "edd_phonebookChange":
         draft.inputs.edd_phonebook.hasErrors = false;
         draft.inputs.edd_phonebook.value = action.value;
+        return;
+      case "noPhonebooks":
+        draft.noPhonebooks = true;
         return;
       case "edd_phonebookOptions":
         draft.inputs.edd_phonebook.options = action.value;
@@ -169,30 +174,21 @@ function Edd(props) {
 
   /**
    * Get phonebooks.
-   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    async function getPhonebooks() {
-      try {
-        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-        const phonebooks = await farazsmsJsObject.getPhonebooks;
+  function handleNoPhonebooks() {
+    dispatch({ type: "noPhonebooks" });
+  }
 
-        const phonebooksArrayObject = phonebooks.data.map(({ id, title }) => ({
-          label: title,
-          value: id,
-        }));
-        dispatch({
-          type: "edd_phonebookOptions",
-          value: phonebooksArrayObject,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getPhonebooks();
-  }, []);
+  function handleAllPhonebooks(phonebooksArrayObject) {
+    dispatch({
+      type: "edd_phonebookOptions",
+      value: phonebooksArrayObject,
+    });
+  }
+
+  usePhonebooks(handleNoPhonebooks, handleAllPhonebooks);
 
   /**
    * Get options from DB rest routes
@@ -213,6 +209,7 @@ function Edd(props) {
         console.log(e);
       }
     }
+
     getOptions();
   }, []);
 
@@ -229,6 +226,7 @@ function Edd(props) {
       const optionsJsonForPost = Object.fromEntries(optionsArray);
 
       dispatch({ type: "saveRequestStarted" });
+
       async function postOptions() {
         try {
           const postOptions = await AxiosWp.post(
@@ -249,6 +247,7 @@ function Edd(props) {
           console.log(e);
         }
       }
+
       postOptions();
     }
   }, [state.sendCount]);

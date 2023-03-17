@@ -16,6 +16,7 @@ import FormInputError from "../views/FormInputError";
 import AxiosWp from "../function/AxiosWp";
 import SectionHeader from "../views/SectionHeader";
 import LoadingSpinner from "../views/LoadingSpinner";
+import usePhonebooks from "../hooks/usePhonebooks";
 
 function Comments() {
   const appDispatch = useContext(DispatchContext);
@@ -138,6 +139,7 @@ function Comments() {
         isDependencyUsed: false,
       },
     },
+    noPhonebooks: false,
     isFetching: true,
     isSaving: false,
     sendCount: 0,
@@ -221,6 +223,9 @@ function Comments() {
         draft.inputs.comment_phonebook.hasErrors = false;
         draft.inputs.comment_phonebook.value = action.value;
         return;
+      case "noPhonebooks":
+        draft.noPhonebooks = true;
+        return;
       case "comment_phonebookOptions":
         draft.inputs.comment_phonebook.options = action.value;
         return;
@@ -267,30 +272,21 @@ function Comments() {
 
   /**
    * Get phonebooks.
-   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    async function getPhonebooks() {
-      try {
-        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-        const phonebooks = await farazsmsJsObject.getPhonebooks;
-        const phonebooksArrayObject = phonebooks.data.map(({ id, title }) => ({
-          label: title,
-          value: id,
-        }));
-        dispatch({
-          type: "comment_phonebookOptions",
-          value: phonebooksArrayObject,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
+  function handleNoPhonebooks() {
+    dispatch({ type: "noPhonebooks" });
+  }
 
-    getPhonebooks();
-  }, []);
+  function handleAllPhonebooks(phonebooksArrayObject) {
+    dispatch({
+      type: "comment_phonebookOptions",
+      value: phonebooksArrayObject,
+    });
+  }
+
+  usePhonebooks(handleNoPhonebooks, handleAllPhonebooks);
 
   /**
    * Get options from DB rest routes

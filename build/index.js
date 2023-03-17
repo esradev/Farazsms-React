@@ -10883,7 +10883,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
@@ -10891,6 +10891,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
 
 
 /**
@@ -10904,6 +10905,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -11020,6 +11022,7 @@ function Comments() {
         isDependencyUsed: false
       }
     },
+    noPhonebooks: false,
     isFetching: true,
     isSaving: false,
     sendCount: 0,
@@ -11095,6 +11098,9 @@ function Comments() {
         draft.inputs.comment_phonebook.hasErrors = false;
         draft.inputs.comment_phonebook.value = action.value;
         return;
+      case "noPhonebooks":
+        draft.noPhonebooks = true;
+        return;
       case "comment_phonebookOptions":
         draft.inputs.comment_phonebook.options = action.value;
         return;
@@ -11130,7 +11136,7 @@ function Comments() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({
@@ -11140,35 +11146,21 @@ function Comments() {
 
   /**
    * Get phonebooks.
-   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getPhonebooks() {
-      try {
-        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-        const phonebooks = await farazsmsJsObject.getPhonebooks;
-        const phonebooksArrayObject = phonebooks.data.map(_ref => {
-          let {
-            id,
-            title
-          } = _ref;
-          return {
-            label: title,
-            value: id
-          };
-        });
-        dispatch({
-          type: "comment_phonebookOptions",
-          value: phonebooksArrayObject
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getPhonebooks();
-  }, []);
+  function handleNoPhonebooks() {
+    dispatch({
+      type: "noPhonebooks"
+    });
+  }
+  function handleAllPhonebooks(phonebooksArrayObject) {
+    dispatch({
+      type: "comment_phonebookOptions",
+      value: phonebooksArrayObject
+    });
+  }
+  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_10__["default"])(handleNoPhonebooks, handleAllPhonebooks);
 
   /**
    * Get options from DB rest routes
@@ -11203,11 +11195,11 @@ function Comments() {
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
-      const optionsArray = Object.values(state.inputs).map(_ref2 => {
+      const optionsArray = Object.values(state.inputs).map(_ref => {
         let {
           value,
           name
-        } = _ref2;
+        } = _ref;
         return [name, value];
       });
       const optionsJsonForPost = Object.fromEntries(optionsArray);
@@ -11332,7 +11324,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_SaveButton__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/SaveButton */ "./src/views/SaveButton.js");
@@ -11341,6 +11333,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
 
 
 /**
@@ -11354,6 +11347,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -11423,6 +11417,7 @@ function Edd(props) {
         isDependencyUsed: false
       }
     },
+    noPhonebooks: false,
     isFetching: true,
     isSaving: false,
     sendCount: 0,
@@ -11455,6 +11450,9 @@ function Edd(props) {
       case "edd_phonebookChange":
         draft.inputs.edd_phonebook.hasErrors = false;
         draft.inputs.edd_phonebook.value = action.value;
+        return;
+      case "noPhonebooks":
+        draft.noPhonebooks = true;
         return;
       case "edd_phonebookOptions":
         draft.inputs.edd_phonebook.options = action.value;
@@ -11496,7 +11494,7 @@ function Edd(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_12__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({
@@ -11506,35 +11504,21 @@ function Edd(props) {
 
   /**
    * Get phonebooks.
-   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getPhonebooks() {
-      try {
-        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-        const phonebooks = await farazsmsJsObject.getPhonebooks;
-        const phonebooksArrayObject = phonebooks.data.map(_ref => {
-          let {
-            id,
-            title
-          } = _ref;
-          return {
-            label: title,
-            value: id
-          };
-        });
-        dispatch({
-          type: "edd_phonebookOptions",
-          value: phonebooksArrayObject
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getPhonebooks();
-  }, []);
+  function handleNoPhonebooks() {
+    dispatch({
+      type: "noPhonebooks"
+    });
+  }
+  function handleAllPhonebooks(phonebooksArrayObject) {
+    dispatch({
+      type: "edd_phonebookOptions",
+      value: phonebooksArrayObject
+    });
+  }
+  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__["default"])(handleNoPhonebooks, handleAllPhonebooks);
 
   /**
    * Get options from DB rest routes
@@ -11570,11 +11554,11 @@ function Edd(props) {
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
-      const optionsArray = Object.values(state.inputs).map(_ref2 => {
+      const optionsArray = Object.values(state.inputs).map(_ref => {
         let {
           value,
           name
-        } = _ref2;
+        } = _ref;
         return [name, value];
       });
       const optionsJsonForPost = Object.fromEntries(optionsArray);
@@ -11695,7 +11679,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _hooks_useConfirm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../hooks/useConfirm */ "./src/hooks/useConfirm.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
@@ -11704,6 +11688,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
 
 
 /**
@@ -11719,6 +11704,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -11819,6 +11805,7 @@ function GravityForms(props) {
         if (props.integratedPlugins.gravityForms.use) {
           draft.inputs.gf_phonebook.options = action.value;
         }
+        draft.isFetching = false;
         return;
       case "gf_formsOptions":
         if (props.integratedPlugins.gravityForms.use) {
@@ -11871,7 +11858,7 @@ function GravityForms(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_12__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({
@@ -11962,38 +11949,21 @@ function GravityForms(props) {
 
   /**
    * Get phonebooks.
-   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getPhonebooks() {
-      try {
-        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-        const phonebooks = await farazsmsJsObject.getPhonebooks;
-        const phonebooksArrayObject = phonebooks.data.map(_ref => {
-          let {
-            id,
-            title
-          } = _ref;
-          return {
-            label: title,
-            value: id
-          };
-        });
-        dispatch({
-          type: "phonebookOptions",
-          value: phonebooksArrayObject
-        });
-      } catch (e) {
-        console.log(e);
-        dispatch({
-          type: "cantFetchPhonebooks"
-        });
-      }
-    }
-    getPhonebooks();
-  }, []);
+  function handleNoPhonebooks() {
+    dispatch({
+      type: "cantFetchPhonebooks"
+    });
+  }
+  function handleAllPhonebooks(phonebooksArrayObject) {
+    dispatch({
+      type: "phonebookOptions",
+      value: phonebooksArrayObject
+    });
+  }
+  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__["default"])(handleNoPhonebooks, handleAllPhonebooks);
 
   /**
    * Get Gravity Forms actions list from DB
@@ -13120,7 +13090,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _hooks_useConfirm__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../hooks/useConfirm */ "./src/hooks/useConfirm.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
@@ -13129,6 +13099,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
 
 
 /**
@@ -13143,6 +13114,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -13255,6 +13227,7 @@ function Newsletter() {
         isDependencyUsed: false
       }
     },
+    noPhonebooks: false,
     newsPhonebookID: "",
     newsletterSubscribers: "",
     currentSubscribers: 0,
@@ -13309,6 +13282,9 @@ function Newsletter() {
         return;
       case "news_phonebookOptions":
         draft.inputs.news_phonebook.options = action.value;
+        return;
+      case "noPhonebooks":
+        draft.noPhonebooks = true;
         return;
       case "news_send_verify_via_patternChange":
         draft.inputs.news_send_verify_via_pattern.hasErrors = false;
@@ -13382,7 +13358,7 @@ function Newsletter() {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_12__.useImmerReducer)(ourReduser, originalState);
 
   /**
    * HandelSubmit
@@ -13398,36 +13374,21 @@ function Newsletter() {
 
   /**
    * Get phonebooks.
-   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
    *
    * @since 2.0.0
    */
-
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getPhonebooks() {
-      try {
-        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-        const phonebooks = await farazsmsJsObject.getPhonebooks;
-        const phonebooksArrayObject = phonebooks.data.map(_ref => {
-          let {
-            id,
-            title
-          } = _ref;
-          return {
-            label: title,
-            value: id
-          };
-        });
-        dispatch({
-          type: "news_phonebookOptions",
-          value: phonebooksArrayObject
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getPhonebooks();
-  }, []);
+  function handleNoPhonebooks() {
+    dispatch({
+      type: "noPhonebooks"
+    });
+  }
+  function handleAllPhonebooks(phonebooksArrayObject) {
+    dispatch({
+      type: "news_phonebookOptions",
+      value: phonebooksArrayObject
+    });
+  }
+  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__["default"])(handleNoPhonebooks, handleAllPhonebooks);
 
   /**
    * Get options from DB rest routes
@@ -13483,11 +13444,11 @@ function Newsletter() {
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
-      const optionsArray = Object.values(state.inputs).map(_ref2 => {
+      const optionsArray = Object.values(state.inputs).map(_ref => {
         let {
           value,
           name
-        } = _ref2;
+        } = _ref;
         return [name, value];
       });
       const optionsJsonForPost = Object.fromEntries(optionsArray);
@@ -13623,7 +13584,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
@@ -13632,6 +13593,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_SectionError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../views/SectionError */ "./src/views/SectionError.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
+/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
 
 
 /**
@@ -13645,6 +13607,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -13800,7 +13763,7 @@ function Phonebook(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_11__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_12__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({
@@ -13860,41 +13823,21 @@ function Phonebook(props) {
 
   /**
    * Get phonebooks.
-   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getPhonebooks() {
-      try {
-        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-        const phonebooks = await farazsmsJsObject.getPhonebooks;
-        if (phonebooks.data.length === 0) {
-          dispatch({
-            type: "noPhonebooks"
-          });
-        } else {
-          const phonebooksArrayObject = phonebooks.data.map(_ref => {
-            let {
-              id,
-              title
-            } = _ref;
-            return {
-              label: title,
-              value: id
-            };
-          });
-          dispatch({
-            type: "all_phonebookOptions",
-            value: phonebooksArrayObject
-          });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getPhonebooks();
-  }, []);
+  function handleNoPhonebooks() {
+    dispatch({
+      type: "noPhonebooks"
+    });
+  }
+  function handleAllPhonebooks(phonebooksArrayObject) {
+    dispatch({
+      type: "all_phonebookOptions",
+      value: phonebooksArrayObject
+    });
+  }
+  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_11__["default"])(handleNoPhonebooks, handleAllPhonebooks);
 
   /**
    * Post options to DB
@@ -13903,11 +13846,11 @@ function Phonebook(props) {
    */
   (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (state.sendCount) {
-      const optsionsArray = Object.values(state.inputs).map(_ref2 => {
+      const optsionsArray = Object.values(state.inputs).map(_ref => {
         let {
           value,
           name
-        } = _ref2;
+        } = _ref;
         return [name, value];
       });
       const optionsJsonForPost = Object.fromEntries(optsionsArray);
@@ -14003,13 +13946,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
+/* harmony import */ var use_immer__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! use-immer */ "./node_modules/use-immer/dist/use-immer.module.js");
 /* harmony import */ var _DispatchContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../DispatchContext */ "./src/DispatchContext.js");
 /* harmony import */ var _views_FormInput__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../views/FormInput */ "./src/views/FormInput.js");
 /* harmony import */ var _views_FormInputError__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../views/FormInputError */ "./src/views/FormInputError.js");
 /* harmony import */ var _views_SectionHeader__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../views/SectionHeader */ "./src/views/SectionHeader.js");
 /* harmony import */ var _views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../views/LoadingSpinner */ "./src/views/LoadingSpinner.js");
 /* harmony import */ var _function_AxiosWp__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../function/AxiosWp */ "./src/function/AxiosWp.js");
+/* harmony import */ var _hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../hooks/usePhonebooks */ "./src/hooks/usePhonebooks.js");
 
 
 /**
@@ -14023,6 +13967,7 @@ const __ = wp.i18n.__;
 /**
  * Import local dependencies
  */
+
 
 
 
@@ -14158,7 +14103,7 @@ function SendSms(props) {
         return;
     }
   }
-  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_9__.useImmerReducer)(ourReduser, originalState);
+  const [state, dispatch] = (0,use_immer__WEBPACK_IMPORTED_MODULE_10__.useImmerReducer)(ourReduser, originalState);
   function handleSubmit(e) {
     e.preventDefault();
     async function sendSms() {
@@ -14214,41 +14159,21 @@ function SendSms(props) {
 
   /**
    * Get phonebooks.
-   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
    *
    * @since 2.0.0
    */
-  (0,react__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    async function getPhonebooks() {
-      try {
-        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-        const phonebooks = await farazsmsJsObject.getPhonebooks;
-        if (phonebooks.data.length === 0) {
-          dispatch({
-            type: "noPhonebooks"
-          });
-        } else {
-          const phonebooksArrayObject = phonebooks.data.map(_ref => {
-            let {
-              id,
-              title
-            } = _ref;
-            return {
-              label: title,
-              value: id
-            };
-          });
-          dispatch({
-            type: "all_phonebookOptions",
-            value: phonebooksArrayObject
-          });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getPhonebooks();
-  }, []);
+  function handleNoPhonebooks() {
+    dispatch({
+      type: "noPhonebooks"
+    });
+  }
+  function handleAllPhonebooks(phonebooksArrayObject) {
+    dispatch({
+      type: "all_phonebookOptions",
+      value: phonebooksArrayObject
+    });
+  }
+  (0,_hooks_usePhonebooks__WEBPACK_IMPORTED_MODULE_9__["default"])(handleNoPhonebooks, handleAllPhonebooks);
   if (state.isFetching) return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.createElement)(_views_LoadingSpinner__WEBPACK_IMPORTED_MODULE_7__["default"], null);
 
   /**
@@ -15072,11 +14997,11 @@ function Synchronization(props) {
    * @since 2.0.0
    */
   (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
-    async function getPhonebooks() {
+    async function getPhonebooksOptions() {
       try {
-        const getPhonebooks = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].get("/farazsms/v1/phonebook_options", {});
-        if (getPhonebooks.data) {
-          const optionsJson = JSON.parse(getPhonebooks.data);
+        const getPhonebooksOptions = await _function_AxiosWp__WEBPACK_IMPORTED_MODULE_5__["default"].get("/farazsms/v1/phonebook_options", {});
+        if (getPhonebooksOptions.data) {
+          const optionsJson = JSON.parse(getPhonebooksOptions.data);
           dispatch({
             type: "fetchComplete",
             value: optionsJson
@@ -15089,7 +15014,7 @@ function Synchronization(props) {
         });
       }
     }
-    getPhonebooks();
+    getPhonebooksOptions();
   }, []);
 
   /**
@@ -15651,6 +15576,56 @@ function useConfirm() {
   };
 }
 /* harmony default export */ __webpack_exports__["default"] = (useConfirm);
+
+/***/ }),
+
+/***/ "./src/hooks/usePhonebooks.js":
+/*!************************************!*\
+  !*** ./src/hooks/usePhonebooks.js ***!
+  \************************************/
+/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+
+/**
+ * Get phonebooks.
+ * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
+ *
+ * @since 2.0.0
+ */
+function usePhonebooks(dispatchNoPhonebooks, dispatchAllPhonebooks) {
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    async function getPhonebooks() {
+      try {
+        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
+        const phonebooks = await farazsmsJsObject.getPhonebooks;
+        if (phonebooks.data.length === 0) {
+          dispatchNoPhonebooks();
+        } else {
+          const phonebooksArrayObject = phonebooks.data.map(_ref => {
+            let {
+              id,
+              title
+            } = _ref;
+            return {
+              label: title,
+              value: id
+            };
+          });
+          dispatchAllPhonebooks(phonebooksArrayObject);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getPhonebooks();
+  }, []);
+}
+/* harmony default export */ __webpack_exports__["default"] = (usePhonebooks);
 
 /***/ }),
 

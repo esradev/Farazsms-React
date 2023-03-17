@@ -18,6 +18,7 @@ import FormInputError from "../views/FormInputError";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
+import usePhonebooks from "../hooks/usePhonebooks";
 
 function GravityForms(props) {
   const appDispatch = useContext(DispatchContext);
@@ -122,6 +123,7 @@ function GravityForms(props) {
         if (props.integratedPlugins.gravityForms.use) {
           draft.inputs.gf_phonebook.options = action.value;
         }
+        draft.isFetching = false;
         return;
       case "gf_formsOptions":
         if (props.integratedPlugins.gravityForms.use) {
@@ -183,6 +185,7 @@ function GravityForms(props) {
   function handleSubmit(e) {
     e.preventDefault();
     dispatch({ type: "saveRequestStarted" });
+
     async function add_gravity_forms_action_to_db() {
       try {
         const newAction = await AxiosWp.post(
@@ -209,6 +212,7 @@ function GravityForms(props) {
         console.log(e);
       }
     }
+
     add_gravity_forms_action_to_db();
   }
 
@@ -235,6 +239,7 @@ function GravityForms(props) {
         console.log(e);
       }
     }
+
     getGfForms();
   }, []);
 
@@ -265,36 +270,27 @@ function GravityForms(props) {
         console.log(e);
       }
     }
+
     getGfFormsFields();
   }, [state.sendCount]);
 
   /**
    * Get phonebooks.
-   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    async function getPhonebooks() {
-      try {
-        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-        const phonebooks = await farazsmsJsObject.getPhonebooks;
+  function handleNoPhonebooks() {
+    dispatch({ type: "cantFetchPhonebooks" });
+  }
 
-        const phonebooksArrayObject = phonebooks.data.map(({ id, title }) => ({
-          label: title,
-          value: id,
-        }));
-        dispatch({
-          type: "phonebookOptions",
-          value: phonebooksArrayObject,
-        });
-      } catch (e) {
-        console.log(e);
-        dispatch({ type: "cantFetchPhonebooks" });
-      }
-    }
-    getPhonebooks();
-  }, []);
+  function handleAllPhonebooks(phonebooksArrayObject) {
+    dispatch({
+      type: "phonebookOptions",
+      value: phonebooksArrayObject,
+    });
+  }
+
+  usePhonebooks(handleNoPhonebooks, handleAllPhonebooks);
 
   /**
    * Get Gravity Forms actions list from DB
@@ -317,6 +313,7 @@ function GravityForms(props) {
         console.log(e);
       }
     }
+
     get_gravity_forms_actions_from_db();
   }, [[], state.currentActions]);
 
@@ -354,6 +351,7 @@ function GravityForms(props) {
           console.log(e);
         }
       }
+
       deleteActionFromDb();
     } else {
       appDispatch({

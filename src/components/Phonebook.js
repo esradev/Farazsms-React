@@ -17,6 +17,7 @@ import FormInputError from "../views/FormInputError";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
+import usePhonebooks from "../hooks/usePhonebooks";
 
 function Phonebook(props) {
   const appDispatch = useContext(DispatchContext);
@@ -197,6 +198,7 @@ function Phonebook(props) {
         dispatch({ type: "cantFetching" });
       }
     }
+
     getOptions();
   }, []);
 
@@ -223,40 +225,27 @@ function Phonebook(props) {
         console.log(e);
       }
     }
+
     getUsermeta();
   }, []);
 
   /**
    * Get phonebooks.
-   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
    *
    * @since 2.0.0
    */
-  useEffect(() => {
-    async function getPhonebooks() {
-      try {
-        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-        const phonebooks = await farazsmsJsObject.getPhonebooks;
-        if (phonebooks.data.length === 0) {
-          dispatch({ type: "noPhonebooks" });
-        } else {
-          const phonebooksArrayObject = phonebooks.data.map(
-            ({ id, title }) => ({
-              label: title,
-              value: id,
-            })
-          );
-          dispatch({
-            type: "all_phonebookOptions",
-            value: phonebooksArrayObject,
-          });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getPhonebooks();
-  }, []);
+  function handleNoPhonebooks() {
+    dispatch({ type: "noPhonebooks" });
+  }
+
+  function handleAllPhonebooks(phonebooksArrayObject) {
+    dispatch({
+      type: "all_phonebookOptions",
+      value: phonebooksArrayObject,
+    });
+  }
+
+  usePhonebooks(handleNoPhonebooks, handleAllPhonebooks);
 
   /**
    * Post options to DB
@@ -293,6 +282,7 @@ function Phonebook(props) {
           console.log(e);
         }
       }
+
       postOptions();
     }
   }, [state.sendCount]);

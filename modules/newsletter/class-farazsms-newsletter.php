@@ -291,7 +291,7 @@ class Farazsms_Newsletter {
 		}
 
 		// Return if notification is disabled or message is not set.
-		if ( 'false' === self::$news_post_notify || empty( self::$news_post_notify_msg ) ) {
+		if ( false === self::$news_post_notify || empty( self::$news_post_notify_msg ) ) {
 			return;
 		}
 
@@ -336,11 +336,11 @@ class Farazsms_Newsletter {
 		}
 
 		// Use descriptive variable names
-		$notify_enabled       = self::$news_product_notify === 'true';
-		$notification_message = self::$news_product_notify_msg;
+		$product_notify_enabled = self::$news_product_notify === true;
+		$product_notify_message = self::$news_product_notify_msg;
 
 		// Use early return
-		if ( ! $notify_enabled || empty( $notification_message ) ) {
+		if ( ! $product_notify_enabled || empty( $product_notify_message ) ) {
 			return;
 		}
 
@@ -348,21 +348,13 @@ class Farazsms_Newsletter {
 		$message_template = str_replace(
 			[ '%site_title%', '%product_name%', '%price%', '%url%' ],
 			[ wp_title(), $product->get_name(), $product->get_price(), wp_get_shortlink( $post->ID ) ],
-			$notification_message
+			$product_notify_message
 		);
 
-		try {
-			// Retrieve subscribers' phone numbers.
-			$subscribers = self::get_subscribers();
-			$phones      = wp_list_pluck( $subscribers, 'phone' );
+		$subscribers = self::get_subscribers();
+		$phones      = wp_list_pluck( $subscribers, 'phone' );
 
-			Farazsms_Ippanel::send_message( $phones, $message_template );
-		} catch ( Exception $e ) {
-			// Use a logger for error handling
-//			$logger = new MyLogger();
-//			$logger->error( 'Failed to send notification', [ 'error' => $e ] );
-		}
-
+		Farazsms_Ippanel::send_message( $phones, $message_template );
 	}
 
 	/**

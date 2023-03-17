@@ -17,6 +17,7 @@ import FormInputError from "../views/FormInputError";
 import AxiosWp from "../function/AxiosWp";
 import SectionHeader from "../views/SectionHeader";
 import LoadingSpinner from "../views/LoadingSpinner";
+import usePhonebooks from "../hooks/usePhonebooks";
 
 function Newsletter() {
   const appDispatch = useContext(DispatchContext);
@@ -135,6 +136,7 @@ function Newsletter() {
         isDependencyUsed: false,
       },
     },
+    noPhonebooks: false,
     newsPhonebookID: "",
     newsletterSubscribers: "",
     currentSubscribers: 0,
@@ -200,7 +202,9 @@ function Newsletter() {
       case "news_phonebookOptions":
         draft.inputs.news_phonebook.options = action.value;
         return;
-
+      case "noPhonebooks":
+        draft.noPhonebooks = true;
+        return;
       case "news_send_verify_via_patternChange":
         draft.inputs.news_send_verify_via_pattern.hasErrors = false;
         draft.inputs.news_send_verify_via_pattern.value = action.value;
@@ -300,31 +304,21 @@ function Newsletter() {
 
   /**
    * Get phonebooks.
-   * Used wp_remote_post() from the php, for avoid No 'Access-Control-Allow-Origin' header is present on the requested resource. error when send this request with axios
    *
    * @since 2.0.0
    */
+  function handleNoPhonebooks() {
+    dispatch({ type: "noPhonebooks" });
+  }
 
-  useEffect(() => {
-    async function getPhonebooks() {
-      try {
-        //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
-        const phonebooks = await farazsmsJsObject.getPhonebooks;
-        const phonebooksArrayObject = phonebooks.data.map(({ id, title }) => ({
-          label: title,
-          value: id,
-        }));
-        dispatch({
-          type: "news_phonebookOptions",
-          value: phonebooksArrayObject,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    }
+  function handleAllPhonebooks(phonebooksArrayObject) {
+    dispatch({
+      type: "news_phonebookOptions",
+      value: phonebooksArrayObject,
+    });
+  }
 
-    getPhonebooks();
-  }, []);
+  usePhonebooks(handleNoPhonebooks, handleAllPhonebooks);
 
   /**
    * Get options from DB rest routes
@@ -345,6 +339,7 @@ function Newsletter() {
         dispatch({ type: "cantFetching" });
       }
     }
+
     getOptions();
   }, []);
 
@@ -369,6 +364,7 @@ function Newsletter() {
         console.log(e);
       }
     }
+
     get_subscribers_from_db();
   }, [[], state.currentSubscribers]);
 
@@ -444,6 +440,7 @@ function Newsletter() {
           console.log(e);
         }
       }
+
       deleteSubscriberFromDb();
     } else {
       appDispatch({

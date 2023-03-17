@@ -91,14 +91,14 @@ function Synchronization(props) {
    * @since 2.0.0
    */
   useEffect(() => {
-    async function getPhonebooks() {
+    async function getPhonebooksOptions() {
       try {
-        const getPhonebooks = await AxiosWp.get(
+        const getPhonebooksOptions = await AxiosWp.get(
           "/farazsms/v1/phonebook_options",
           {}
         );
-        if (getPhonebooks.data) {
-          const optionsJson = JSON.parse(getPhonebooks.data);
+        if (getPhonebooksOptions.data) {
+          const optionsJson = JSON.parse(getPhonebooksOptions.data);
           dispatch({ type: "fetchComplete", value: optionsJson });
         }
       } catch (e) {
@@ -106,7 +106,8 @@ function Synchronization(props) {
         dispatch({ type: "cantFetching" });
       }
     }
-    getPhonebooks();
+
+    getPhonebooksOptions();
   }, []);
 
   /**
@@ -116,6 +117,7 @@ function Synchronization(props) {
    */
   function syncWoo(e) {
     e.preventDefault();
+
     async function syncWoo() {
       let res;
       try {
@@ -158,6 +160,7 @@ function Synchronization(props) {
         console.log(e);
       }
     }
+
     syncWoo();
   }
 
@@ -168,6 +171,7 @@ function Synchronization(props) {
    */
   function syncDigits(e) {
     e.preventDefault();
+
     async function syncDigits() {
       let res;
       try {
@@ -209,6 +213,7 @@ function Synchronization(props) {
         console.log(e);
       }
     }
+
     syncDigits();
   }
 
@@ -219,6 +224,7 @@ function Synchronization(props) {
    */
   function syncBookly(e) {
     e.preventDefault();
+
     async function syncBookly() {
       let res;
       try {
@@ -261,6 +267,7 @@ function Synchronization(props) {
         console.log(e);
       }
     }
+
     syncBookly();
   }
 
