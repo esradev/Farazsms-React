@@ -292,11 +292,11 @@ class Farazsms_Ippanel {
 		if ( is_wp_error( $response ) ) {
 			return false;
 		}
+
+		$response = json_decode( $response['body'], true );
 		if (!is_array($response) || !isset($response[1])) {
 			return false;
 		}
-		$response = json_decode( $response['body'], true );
-
 		$separator = '.';
 		if ( strpos( $response[1], '/' ) ) {
 			$separator = '/';
