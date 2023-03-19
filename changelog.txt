@@ -1,3 +1,8 @@
+Version 2.1.0 - Sunday, 19th Mar 2023
+- Add newsletter farazsms widget for elementor
+- Add action after submit form for Gravity Forms plugin.
+- Fix Bugs and performance stability.
+=======
 Version 2.0.0 - Wednesday, 22nd Nov 2022
 - Fix Bugs and performance stability.
 - Internationalize the new version of Farazsms plugin.

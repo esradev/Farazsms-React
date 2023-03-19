@@ -351,7 +351,7 @@ class Farazsms_Routes {
 			'password'          => $data['password'] ?: '',
 			'admin_number'      => $data['admin_number'] ?: '',
 			'from_number'       => $data['from_number'] ?: '3000505',
-			'from_number_adver' => $data['from_number_adver'] ?: '',
+			'from_number_adver' => $data['from_number_adver'] ?: '+98club',
 		];
 		$option_json = wp_json_encode( $option );
 
