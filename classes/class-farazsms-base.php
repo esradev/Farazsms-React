@@ -129,6 +129,7 @@ class Farazsms_Base {
 			'۸',
 			'۹',
 		];
+
 		return str_replace( $key_a, $num_a, $str );
 	}
 
@@ -143,10 +144,14 @@ class Farazsms_Base {
 	public static function validate_mobile_number( $phone ) {
 		$phone          = self::fsms_tr_num( $phone );
 		$mobile_pattern = '/^(\s)*(\+98|0098|98|0)?(9\d{9})(\s*|$)/';
-		preg_match( $mobile_pattern, $phone, $matches );
-		if ( sizeof( $matches ) !== 5 ) {
+		$matches        = [];
+		if ( is_string( $phone ) ) {
+			preg_match( $mobile_pattern, $phone, $matches );
+		}
+		if ( count( $matches ) !== 5 ) {
 			return false;
 		}
+
 		return $matches[3];
 	}
 
@@ -217,11 +222,11 @@ class Farazsms_Base {
 	 * Get subscribers.
 	 */
 
-	public static function get_subscribers()
-	{
+	public static function get_subscribers() {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'farazsms_newsletter';
-		return $wpdb->get_results("SELECT * FROM $table_name");
+
+		return $wpdb->get_results( "SELECT * FROM $table_name" );
 	}
 }
 
