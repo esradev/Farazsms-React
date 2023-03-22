@@ -12,6 +12,18 @@
     "start:blocks": "wp-scripts build src/blocks/newsletter/index.js src/blocks/newsletter/frontend.js --output-path=build-blocks",
     "plugin-zip": "wp-scripts plugin-zip"
   },
+  "files": [
+    "assets/**",
+    "build/**",
+    "build-block/**",
+    "classes/**",
+    "languages/**",
+    "modules/**",
+    "readme.txt",
+    "changelog.txt",
+    "farazsms.php",
+    "index.php"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/esradev/Farazsms-React.git"

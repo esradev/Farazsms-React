@@ -47,8 +47,43 @@ function Integrations(props) {
    *
    * @since 2.0.0
    */
-  const endpoint = "/farazsms/v1/integrations_options";
-  useSaveOptions(endpoint, state, dispatch, appDispatch);
+  /**
+   * Post options to DB
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    if (props.sendCount) {
+      const optionsArray = Object.values(props.integratedPlugins).map(
+        ({ use, name }) => [name, use]
+      );
+      const optionsJsonForPost = Object.fromEntries(optionsArray);
+      appDispatch({ type: "saveRequestStarted" });
+
+      async function postOptions() {
+        try {
+          // Post Options from site DB Options table
+          const postOptions = await AxiosWp.post(
+            "/farazsms/v1/integrations_options",
+            optionsJsonForPost
+          );
+          appDispatch({ type: "saveRequestFinished" });
+          appDispatch({
+            type: "flashMessage",
+            value: {
+              message: __(
+                "Congrats. Form was updated successfully.",
+                "farazsms"
+              ),
+            },
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      postOptions();
+    }
+  }, [props.sendCount]);
 
   /**
    *

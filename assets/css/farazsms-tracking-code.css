@@ -1,24 +1,29 @@
-#fsms-tracking_send_sms .inside div {
-    text-align: center;
-    margin: 10px 0;
+/* Main container */
+#fsms-tracking-code-container {
+    padding: 20px;
 }
 
-#fsms-tracking-code-input input {
-    box-shadow: 1px 1px 4px #ebebeb;
-    -moz-box-shadow: 1px 1px 4px #EBEBEB;
-    -webkit-box-shadow: 1px 1px 4px #ebebeb;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    padding: 6px;
-    outline: none;
+/* Form inputs */
+#fsms-tracking-code-container input,
+#fsms-tracking-code-container select {
+    display: block;
     width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Submit button */
+#fsms-tracking-code-button {
+    text-align: center;
+    margin-top: 20px;
 }
 
 .fsms_button {
-    background-color: #2c3e50;
     border: none;
-    color: #FFFFFF;
-    padding: 10px 30px;
     text-align: center;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
@@ -27,9 +32,23 @@
     cursor: pointer;
     position: relative;
     font-family: inherit;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    transition: background-color 0.2s ease;
 }
+
 .fsms_button:hover {
-    box-shadow: 0 12px 16px 0 rgb(0 0 0 / 24%), 0 17px 50px 0 rgb(0 0 0 / 19%) !important;
+    background-color: #0056b3;
+}
+
+.fsms-success-message {
+    margin-top: 10px;
+    color: #2b7515;
+    background: #ecffd6;
+    border: 1px solid #617c42;
+    padding: 12px 8px;
 }
 
 .fsms_button--loading::after {
@@ -62,6 +81,7 @@
         transform: rotate(1turn);
     }
 }
+
 button.delete_subscriber.fsms_button {
     padding: 7px 16px;
 }
@@ -77,15 +97,30 @@ div#fsms-tracking-code-button {
 }
 
 .fsms-error-message {
+    margin-top: 10px;
     color: #ba3939;
     background: #ffe0e0;
     border: 1px solid #a33a3a;
     padding: 12px 8px;
 }
 
-.fsms-success-message {
-    color: #2b7515;
-    background: #ecffd6;
-    border: 1px solid #617c42;
-    padding: 12px 8px;
+/* Responsive layout */
+@media screen and (max-width: 600px) {
+    #fsms-tracking-code-container {
+        padding: 10px;
+    }
+
+    #fsms-tracking-code-container input,
+    #fsms-tracking-code-container select {
+        font-size: 14px;
+    }
+
+    .fsms_button {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
 }
+
+
+
+
