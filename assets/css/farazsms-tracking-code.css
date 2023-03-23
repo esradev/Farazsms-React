@@ -4,6 +4,11 @@
 }
 
 /* Form inputs */
+#fsms-tracking-code-container label {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
 #fsms-tracking-code-container input,
 #fsms-tracking-code-container select {
     display: block;
@@ -121,6 +126,49 @@ div#fsms-tracking-code-button {
     }
 }
 
+
+/* Style for the message displayed when no tracking code data is found */
+#fsms-already-sent-tracking-codes p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Style for the tracking code list */
+#fsms-already-sent-tracking-codes ul {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 10px;
+}
+
+#fsms-already-sent-tracking-codes li {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#fsms-already-sent-tracking-codes li strong {
+    font-weight: bold;
+}
+
+/* Style for the tracking code meta box */
+.already-sent-tracking-code {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.already-sent-tracking-code p {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.already-sent-tracking-code p strong {
+    font-weight: bold;
+}
 
 
 

@@ -45,8 +45,8 @@ class Farazsms_Activator {
 			 `id` int(10) NOT NULL AUTO_INCREMENT,
 			 `order_id` mediumint(9) NOT NULL,
              `tracking_code` varchar(255) NOT NULL,
-             `tracking_provider` varchar(255) NOT NULL,
-             `tracking_date` date NOT NULL,
+             `post_service_provider` varchar(255) NOT NULL,
+             `post_date` date NOT NULL,
              PRIMARY KEY  (id)
 		) $collate";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );

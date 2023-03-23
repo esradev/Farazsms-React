@@ -67,6 +67,7 @@ class Farazsms_Woocommerce {
 			self::$woo_retention_msg         = $woocommerce_options['woo_retention_msg'];
 		}
 
+		add_action( 'add_meta_boxes', [ $this, 'add_tracking_code_meta_box' ] );
 		add_action( 'add_meta_boxes', [ $this, 'tracking_code_order_postbox' ] );
 		add_action( 'wp_ajax_fsms_send_tracking_code_sms', [ $this, 'send_tracking_code_sms' ] );
 		add_action( 'wp_ajax_nopriv_fsms_send_tracking_code_sms', [ $this, 'send_tracking_code_sms' ] );
@@ -112,6 +113,74 @@ class Farazsms_Woocommerce {
 	}
 
 	/**
+	 * Show Already sent tracking codes for current order
+	 *
+	 * @return void
+	 */
+	public function already_sent_tracking_codes() {
+		// Get the current order ID
+		$order_id = get_the_ID();
+
+		// Retrieve the tracking code data from the custom table for this order
+		global $wpdb;
+		$table_name         = $wpdb->prefix . 'farazsms_tracking_codes';
+		$tracking_code_data = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name WHERE order_id = %d", $order_id ) );
+
+		// Display a message if no tracking code data is found
+		if ( empty( $tracking_code_data ) ) {
+			echo '<p> ' . __( 'No tracking code data found for this order.', 'farazsms' ) . '</p>';
+
+			return;
+		}
+
+		// Display all tracking code data if there is more than one record
+		if ( count( $tracking_code_data ) > 1 ) {
+			echo '<p>' . __( 'Multiple tracking codes found for this order:', 'farazsms' ) . '</p>';
+
+			foreach ( $tracking_code_data as $data ) {
+				echo '<ul>';
+				echo '<li><strong>' . __( 'Tracking Code: ', 'farazsms' ) . '</strong>' . $data->tracking_code . '</li>';
+				echo '<li><strong>' . __( 'Post Service Provider: ', 'farazsms' ) . '</strong> ' . $data->post_service_provider . '</li>';
+				echo '<li><strong>' . __( 'Post Date: ', 'farazsms' ) . '</strong>' . $data->post_date . '</li>';
+				echo '</ul>';
+			}
+
+		} else {
+			echo '<p>' . __( 'One tracking code found for this order:', 'farazsms' ) . '</p>';
+			?>
+            <div class="already-sent-tracking-code">
+                <p>
+                    <strong><?php echo __( 'Tracking Code: ', 'farazsms' ) ?></strong> <?php echo $tracking_code_data[0]->tracking_code; ?>
+                </p>
+                <p>
+                    <strong><?php echo __( 'Post Service Provider: ', 'farazsms' ) ?></strong> <?php echo $tracking_code_data[0]->post_service_provider; ?>
+                </p>
+                <p>
+                    <strong><?php echo __( 'Post Date: ', 'farazsms' ) ?></strong> <?php echo $tracking_code_data[0]->post_date; ?>
+                </p>
+            </div>
+			<?php
+		}
+	}
+
+	/**
+	 * Add the meta box to the order page for show already sent tracking code
+	 *
+	 * @return void
+	 */
+	public function add_tracking_code_meta_box() {
+		add_meta_box(
+			'fsms-already-sent-tracking-codes',
+			__( 'Already sent tracking code', 'farazsms' ),
+			[ $this, 'already_sent_tracking_codes' ],
+			'shop_order',
+			'side',
+			'default'
+		);
+	}
+
+
+	/**
 	 * Send Tracking code for orders.
 	 *
 	 * @since 1.0.0
@@ -132,8 +201,16 @@ class Farazsms_Woocommerce {
 	}
 
 
+	/**
+	 * Show send tracking code sms form in order page as meta box.
+	 *
+	 * @param $post
+	 *
+	 * @return void
+	 */
 	public function add_order_tracking_box( $post ) {
 		echo '<div id="fsms-tracking-code-container">';
+		echo '<label for="fsms-tracking-code-input">' . __( 'Tracking Code', 'farazsms' ) . '</label>';
 		echo '<div id="fsms-tracking-code-input"><input type="text" name="tracking_code" id="fsms_tracking_code" placeholder="' . __( 'Enter tracking code', 'farazsms' ) . '"/></div>';
 
 		// Select input for selecting the service provider
@@ -218,6 +295,19 @@ class Farazsms_Woocommerce {
 			$order_data['post_date']             = $post_date;
 
 			$this->send_tracking_code( $phone, $tracking_code, $order_data );
+
+			// Insert tracking code data into database
+			global $wpdb;
+			$table_name = $wpdb->prefix . 'farazsms_tracking_codes';
+			$wpdb->insert(
+				$table_name,
+				[
+					'tracking_code'         => $tracking_code,
+					'post_service_provider' => $post_service_provider,
+					'post_date'             => $post_date,
+					'order_id'              => $order_id
+				]
+			);
 
 			wp_send_json_success();
 		} catch ( Exception $e ) {
@@ -567,3 +657,4 @@ class Farazsms_Woocommerce {
 }
 
 Farazsms_Woocommerce::get_instance();
+
