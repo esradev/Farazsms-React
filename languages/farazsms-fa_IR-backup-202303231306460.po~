@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Farazsms-React\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-12-17 18:28+0000\n"
-"PO-Revision-Date: 2023-03-12 11:12+0000\n"
+"PO-Revision-Date: 2023-03-23 13:01+0000\n"
 "Last-Translator: \n"
 "Language-Team: Persian\n"
 "Language: fa_IR\n"
@@ -12,35 +12,36 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.6.3; wp-6.1.1\n"
+"X-Loco-Version: 2.6.4; wp-6.1.1\n"
 "X-Domain: farazsms"
 
-#: classes/class-farazsms-settings.php:365
+#: classes/class-farazsms-settings.php:366
 msgid " $IR_T"
 msgstr "تومان"
 
-#: src/components/LoginNotify.js:57 src/components/LoginNotify.js:69
+#: build/index.js:12217 build/index.js:12229 src/components/LoginNotify.js:56
+#: src/components/LoginNotify.js:68 build/index.js:10627 build/index.js:10639
 msgid "%display_name% and %username%"
 msgstr "%display_name% و %username%"
 
-#: src/components/Newsletter.js:86
+#: build/index.js:12781 src/components/Newsletter.js:87 build/index.js:11212
 msgid "%name%"
 msgstr "%name%"
 
-#: src/components/Newsletter.js:65
+#: build/index.js:12760 src/components/Newsletter.js:66 build/index.js:11191
 msgid "%name% and confirmation code: %code%"
 msgstr "%name% و کد تأیید: %code%"
 
-#: src/views/SectionError.js:23
+#: build/index.js:15570 src/views/SectionError.js:23 build/index.js:13940
 #| msgid " Attention Needed:"
 msgid "%s  Attention Needed:"
 msgstr "%s نیاز به بررسی دارد:"
 
-#: src/components/Footer.js:25
+#: build/index.js:11441 src/components/Footer.js:25 build/index.js:9862
 msgid ". All rights reserved."
 msgstr "تمامی حقوق محفوظ می باشد."
 
-#: src/components/Footer.js:21
+#: build/index.js:11437 src/components/Footer.js:21 build/index.js:9858
 msgid "2022"
 msgstr "2022"
 
@@ -52,65 +53,69 @@ msgstr ""
 "یک نسخه از این پیامک ضمن ارسال برای مدیر به این شماره ها ارسال می شود. (با "
 "ویرگول انگلیسی جدا کنید.)"
 
-#: src/components/Footer.js:13
+#: build/index.js:11431 src/components/Footer.js:13 build/index.js:9850
 msgid "About Us"
 msgstr "درباره ما"
 
-#: src/components/Aff.js:97 src/components/Aff.js:158
+#: build/index.js:10545 build/index.js:10600 src/components/Aff.js:97
+#: src/components/Aff.js:158 build/index.js:8960 build/index.js:9021
 msgid "Account confirmation pattern code for cooperation in sales"
 msgstr "کد پترن تأیید حساب جهت همکاری در فروش"
 
-#: classes/class-farazsms-settings.php:365
+#: classes/class-farazsms-settings.php:366
 msgid "Account credit: "
 msgstr "اعتبار حساب:"
 
-#: src/components/Header.js:55
+#: build/index.js:11922 src/components/Header.js:55 build/index.js:10348
 msgid "Account credit: %s $IR_T"
 msgstr "اعتبار حساب: %s تومان"
 
-#: src/components/GravityForms.js:409
+#: build/index.js:11817 src/components/GravityForms.js:380 build/index.js:10249
 msgid "Add Action"
 msgstr "افزودن عملگر"
 
-#: src/App.js:73
+#: build/index.js:10043 src/App.js:75 build/index.js:8444
 msgid "Add action after elementor pro forms submitting."
 msgstr "پس از ارسال فرم‌های elementor pro، اقدامی را اضافه کنید."
 
-#: src/components/Integrations.js:211
+#: build/index.js:12133 src/components/Integrations.js:184 build/index.js:10552
 msgid "Add some cool options for the "
 msgstr "چند گزینه جالب برای"
 
-#: src/components/Comments.js:36
+#: build/index.js:10866 src/components/Comments.js:63 build/index.js:9299
 #| msgid "Add the mobile field to the comment submmition form?"
 msgid "Add the mobile field to the comment submission form?"
 msgstr "آیا می خواهید فیلد موبایل را به فرم کامنت اضافه کنید؟"
 
-#: src/components/Settings.js:80 src/components/Settings.js:81
+#: build/index.js:13798 build/index.js:13799 src/components/Settings.js:83
+#: src/components/Settings.js:84 build/index.js:12296 build/index.js:12297
 msgid "Admin Number"
 msgstr "شماره همراه ادمین"
 
-#: src/components/Comments.js:105
+#: build/index.js:10926 src/components/Comments.js:132 build/index.js:9368
 msgid "Admin pattern code:"
 msgstr "کد پترن برای ادمین:"
 
-#: src/components/Aff.js:110
+#: build/index.js:10555 src/components/Aff.js:110 build/index.js:8973
 msgid "Admin settings:"
 msgstr ""
 "تنظیمات مدیریت:\n"
 
-#: src/components/SendSms.js:51
+#: build/index.js:13485 src/components/SendSms.js:52 build/index.js:11944
 msgid "Advertising number"
 msgstr "شماره تبلیغاتی"
 
-#: src/components/Settings.js:105 src/components/Settings.js:106
+#: build/index.js:13823 build/index.js:13824 src/components/Settings.js:108
+#: src/components/Settings.js:109 build/index.js:12321 build/index.js:12322
 msgid "Advertising sender number"
 msgstr "خط ارسال کننده پیامک تبلیغاتی"
 
-#: classes/class-farazsms-settings.php:272 src/views/SidebarItems.js:100
+#: classes/class-farazsms-settings.php:273 build/index.js:15782
+#: src/views/SidebarItems.js:100 build/index.js:14143
 msgid "Affiliate"
 msgstr "بازاریابی و همکاری در فروش"
 
-#: src/components/Aff.js:172
+#: build/index.js:10608 src/components/Aff.js:172 build/index.js:9035
 #| msgid ""
 #| "Affiliate wp plugin or Ultimate Affiliate Pro or Yith Woocommerce "
 #| "Affiliate:"
@@ -131,33 +136,35 @@ msgstr ""
 msgid "An error occurred"
 msgstr "خطایی رخ داده است"
 
-#: src/components/Settings.js:37
+#: build/index.js:13758 src/components/Settings.js:40 build/index.js:12253
 #| msgid "API Key:"
 msgid "API key"
 msgstr "کلید API"
 
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:182
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:269
-msgid "Background Color"
-msgstr "رنگ پس زمینه"
-
-#: src/components/Synchronization.js:279
+#: build/index.js:14531 src/components/Synchronization.js:271
+#: build/index.js:13076
 msgid "Bookley synchronization"
 msgstr "همگام سازی افزونه بوکلی"
 
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:347
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:477
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:544
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:611
 msgid "Button Background Color"
 msgstr "رنگ پس زمینه دکمه"
 
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:338
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:468
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:535
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:602
 msgid "Button Text"
 msgstr "متن دکمه"
 
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:358
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:489
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:556
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:623
 msgid "Button Text Color"
 msgstr "رنگ متن دکمه"
 
-#: src/components/Phonebook.js:320
+#: build/index.js:13386 src/components/Phonebook.js:264 build/index.js:11850
 msgid "Buying a mobile number storage device"
 msgstr "خرید دستگاه ذخیره شماره موبایل"
 
@@ -181,80 +188,85 @@ msgstr ""
 "مشتریان در دفترچه تلفن، ارسال پیامک خوش آمد گویی، ارسال پیامک پاسخ به نظرات "
 "و ... بخشی از امکانات این افزونه قدرتمند پیامکی است.\n"
 
-#: src/components/GravityForms.js:362
+#: build/index.js:11799 src/components/GravityForms.js:359 build/index.js:10228
 msgid "Canceled. Action still there."
 msgstr "لغو شد. عملگر هنوز وجود دارد."
 
-#: src/components/Newsletter.js:452
+#: build/index.js:13062 src/components/Newsletter.js:405 build/index.js:11530
 msgid "Canceled. Subscriber still there."
 msgstr "لغو گردید. مشترک حذف نشد."
 
-#: src/components/Phonebook.js:92
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:249
+msgid "Center"
+msgstr "وسط"
+
+#: build/index.js:13229 src/components/Phonebook.js:96 build/index.js:11682
 #| msgid "Choosing a phonebook for Bookley:"
 msgid "Choosing a phonebook for Bookly:"
 msgstr "یک دفترتلفن برای افزونه بوکلی انتخاب کنید:"
 
-#: src/components/Comments.js:83
+#: build/index.js:10897 src/components/Comments.js:100 build/index.js:9336
+msgid "Comment approved pattern code:"
+msgstr "کد پترن تأیید شدن کامنت"
+
+#: build/index.js:10907 src/components/Comments.js:110 build/index.js:9346
 msgid "Comment response pattern code:"
 msgstr "کد پترن پیامکی که هنگام دریافت پاسخ جدید کامنت ارسال می شود:"
 
-#: src/components/Comments.js:73
-msgid "Comment submit pattern code:"
-msgstr "کد پترن پیامکی که هنگام ثبت کامنت جدید ارسال می شود:"
-
-#: classes/class-farazsms-settings.php:217 src/components/Comments.js:117
-#: src/views/SidebarItems.js:76
+#: classes/class-farazsms-settings.php:218 build/index.js:10936
+#: build/index.js:15762 src/components/Comments.js:145
+#: src/views/SidebarItems.js:76 build/index.js:9381 build/index.js:14119
 msgid "Comments"
 msgstr "نظرات (Comments)"
 
-#: src/components/Newsletter.js:48
+#: build/index.js:12749 src/components/Newsletter.js:49 build/index.js:11174
 msgid "Confirm subscription by sending verification code?"
 msgstr ""
 "آیا می خواهید برای عضویت در خبرنامه، ابتداء شماره همراه کاربر را با کد تأیید "
 "ارسالی، احراز هویت کنید؟"
 
-#: src/components/Aff.js:85 src/components/Aff.js:146
+#: build/index.js:10536 build/index.js:10591 src/components/Aff.js:85
+#: src/components/Aff.js:146 build/index.js:8948 build/index.js:9009
 msgid "Confirmation of the cooperation account in sales for user"
 msgstr "تأیید اکانت همکاری در فروش برای کاربر"
 
-#: src/components/GravityForms.js:350
+#: build/index.js:11787 src/components/GravityForms.js:346 build/index.js:10215
 msgid "Congrats. Action deleted successfully."
 msgstr "تبریک! اقدام با موفقیت حذف شد."
 
-#: src/components/Synchronization.js:231
+#: build/index.js:14493 src/components/Synchronization.js:222
+#: build/index.js:13027
 msgid "Congrats. Bookly user(s) synced successfully."
 msgstr "تبریک! کاربر(های) Bookly با موفقیت همگام سازی شد."
 
-#: src/components/Synchronization.js:179
+#: build/index.js:14450 src/components/Synchronization.js:168
+#: build/index.js:12973
 msgid "Congrats. Digits user(s) synced successfully."
 msgstr "تبریک! کاربر(های) Digits با موفقیت همگام سازی شد."
 
-#: src/components/Aff.js:346 src/components/Comments.js:298
-#: src/components/Edd.js:242 src/components/Integrations.js:68
-#: src/components/LoginNotify.js:276 src/components/Membership.js:265
-#: src/components/Newsletter.js:397 src/components/Phonebook.js:286
-#: src/components/Settings.js:356 src/components/WooCommerce.js:237
+#: build/index.js:15032 src/hooks/useSaveOptions.js:29 build/index.js:13521
 msgid "Congrats. Form was updated successfully."
 msgstr "تبریک! اطلاعات فرم با موفقیت ثبت گردید."
 
-#: src/components/SendSms.js:217
+#: build/index.js:13623 src/components/SendSms.js:219 build/index.js:12111
 msgid "Congrats. Message was sent successfully."
 msgstr "تبریک! پیام با موفقیت ارسال شد."
 
-#: src/components/Support.js:78
+#: build/index.js:14246 src/components/Support.js:77 build/index.js:12766
 msgid "Congrats. Report Issues Posted successfully."
 msgstr "تبریک! گزارش مشکلات با موفقیت ارسال شد."
 
-#: src/components/Newsletter.js:437
+#: build/index.js:13050 src/components/Newsletter.js:389 build/index.js:11514
 msgid "Congrats. Subscriber deleted successfully."
 msgstr "تبریک! مشترک با موفقیت حذف شد."
 
-#: src/components/Synchronization.js:128
+#: build/index.js:14408 src/components/Synchronization.js:115
+#: build/index.js:12920
 msgid "Congrats. Woocommerce user(s) synced successfully."
 msgstr ""
 "تبریک! کاربر(های) Woocommerce با موفقیت همگام سازی شد.\n"
 
-#: src/components/Footer.js:21
+#: build/index.js:11437 src/components/Footer.js:21 build/index.js:9858
 msgid "Copyright"
 msgstr "حق کپی رایت برای"
 
@@ -262,11 +274,11 @@ msgstr "حق کپی رایت برای"
 msgid "Customer phone number not entered."
 msgstr "شماره همراه مشتری وارد نشده است."
 
-#: src/components/WooCommerce.js:66
+#: build/index.js:14642 src/components/WooCommerce.js:65 build/index.js:13186
 msgid "Days of sending SMS after placing the order:"
 msgstr "ارسال پیامک پس از ثبت سفارش (بعد از X روز):"
 
-#: classes/class-farazsms-ippanel.php:323
+#: classes/class-farazsms-ippanel.php:326
 msgid ""
 "Dear user, The charge for your SMS panel is less than 10 thousand tomans, "
 "and your sites SMS may not be sent soon and your site may be blocked. I will "
@@ -276,7 +288,7 @@ msgstr ""
 "زودی پیامک های سایت شما ارسال نشود، و عملکرد سایت شما مختل گردد. در اسرع وقت "
 "سامانه پیامکی خود را شارژ نمایید. www.farazsms.com، +982171333036"
 
-#: classes/class-farazsms-settings.php:474
+#: classes/class-farazsms-settings.php:475
 msgid ""
 "Dear user, your panel will expire less than a month from now. To renew your "
 "SMS panel, contact Faraz SMS"
@@ -284,7 +296,7 @@ msgstr ""
 "کاربر گرامی، پنل شما کمتر از یک ماه دیگر منقضی می شود. برای تمدید پنل پیامکی "
 "خود با فراز اس ام اس تماس بگیرید\n"
 
-#: classes/class-farazsms-settings.php:483
+#: classes/class-farazsms-settings.php:484
 msgid ""
 "Dear user, your panel will expire less than a week from now. To renew your "
 "SMS panel, contact Faraz SMS."
@@ -292,38 +304,38 @@ msgstr ""
 "کاربر گرامی، پنل شما کمتر از یک هفته دیگر منقضی می شود. برای تمدید پنل "
 "پیامکی خود با فراز اس ام اس تماس بگیرید.\n"
 
-#: src/components/Synchronization.js:312
+#: build/index.js:14553 src/components/Synchronization.js:304
+#: build/index.js:13109
 msgid "Digits synchronization"
 msgstr "همگام سازی افزونه دیجیتس"
 
 #: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:81
 #: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:149
 #: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:185
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:144
 msgid "Disable"
 msgstr "غیر فعال سازی"
 
-#: src/components/GravityForms.js:331
+#: build/index.js:11773 src/components/GravityForms.js:327 build/index.js:10196
 msgid "Do you want to delete that action?"
 msgstr "آیا می خواهید آن عملگر را حذف کنید؟"
 
-#: src/components/Newsletter.js:421
+#: build/index.js:13036 src/components/Newsletter.js:373 build/index.js:11498
 msgid "Do you want to delete that subscriber?"
 msgstr "آیا می خواهید این مشترک را  به طور کامل از خبرنامه حذف کنید؟"
 
-#: classes/class-farazsms-settings.php:250 src/components/Edd.js:88
-#: src/views/SidebarItems.js:88
+#: classes/class-farazsms-settings.php:251 build/index.js:11264
+#: build/index.js:15772 src/components/Edd.js:89 src/views/SidebarItems.js:88
+#: build/index.js:9689 build/index.js:14131
 msgid "Edd"
 msgstr "Edd"
 
-#: classes/class-farazsms-settings.php:239
+#: classes/class-farazsms-settings.php:240
 msgid "Elementor"
 msgstr "المنتور"
 
 #: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:80
 #: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:148
 #: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:184
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:143
 msgid "Enable"
 msgstr "فعال سازی"
 
@@ -331,7 +343,7 @@ msgstr "فعال سازی"
 msgid "Enter a valid phone number."
 msgstr "یک شماره همراه معتبر وارد کنید."
 
-#: src/components/SendSms.js:74
+#: build/index.js:13508 src/components/SendSms.js:75 build/index.js:11967
 msgid "Enter numbers manually:"
 msgstr "اعداد را به صورت دستی وارد کنید:"
 
@@ -345,7 +357,7 @@ msgstr "متن پیامک یا متغیرهای الگو را وارد کنید.
 msgid "Enter your pattern code"
 msgstr "کد پترن خود را وارد کنید."
 
-#: modules/farazsms/core/class-farazsms-comments.php:135
+#: modules/farazsms/core/class-farazsms-comments.php:138
 msgid "Error: Mobile number is required."
 msgstr "خطا: شماره همراه الزامی است."
 
@@ -358,45 +370,53 @@ msgid "Example: [field id=\"mobile\"]"
 msgstr "مثال: [field id=\"mobile\"]"
 
 #. Plugin Name of the plugin
-#. Author of the plugin
 msgid "FarazSMS"
 msgstr "فراز اس ام اس"
 
-#: classes/class-farazsms-settings.php:148
 #: classes/class-farazsms-settings.php:149
-#: classes/class-farazsms-settings.php:161
-#: classes/class-farazsms-settings.php:172
-#: classes/class-farazsms-settings.php:183
-#: classes/class-farazsms-settings.php:194
-#: classes/class-farazsms-settings.php:205
-#: classes/class-farazsms-settings.php:216
-#: classes/class-farazsms-settings.php:227
-#: classes/class-farazsms-settings.php:238
-#: classes/class-farazsms-settings.php:249
-#: classes/class-farazsms-settings.php:260
-#: classes/class-farazsms-settings.php:271
-#: classes/class-farazsms-settings.php:282
-#: classes/class-farazsms-settings.php:293
-#: classes/class-farazsms-settings.php:304
-#: classes/class-farazsms-settings.php:315
-#: classes/class-farazsms-settings.php:352
-#: classes/class-farazsms-settings.php:382 src/components/Footer.js:23
-#: src/components/Header.js:40
+#: classes/class-farazsms-settings.php:150
+#: classes/class-farazsms-settings.php:162
+#: classes/class-farazsms-settings.php:173
+#: classes/class-farazsms-settings.php:184
+#: classes/class-farazsms-settings.php:195
+#: classes/class-farazsms-settings.php:206
+#: classes/class-farazsms-settings.php:217
+#: classes/class-farazsms-settings.php:228
+#: classes/class-farazsms-settings.php:239
+#: classes/class-farazsms-settings.php:250
+#: classes/class-farazsms-settings.php:261
+#: classes/class-farazsms-settings.php:272
+#: classes/class-farazsms-settings.php:283
+#: classes/class-farazsms-settings.php:294
+#: classes/class-farazsms-settings.php:305
+#: classes/class-farazsms-settings.php:316
+#: classes/class-farazsms-settings.php:353
+#: classes/class-farazsms-settings.php:383 build/index.js:11441
+#: build/index.js:11909 src/components/Footer.js:23 src/components/Header.js:40
+#: build/index.js:9860 build/index.js:10333
 msgid "Farazsms"
 msgstr "فراز اس ام اس"
 
-#: classes/class-farazsms-settings.php:416
+#: classes/class-farazsms-settings.php:417
 #| msgid "FarazSMS latest news"
 msgid "Farazsms latest news"
 msgstr "آخرین اخبار فراز اس ام اس"
 
 #: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:45
 #: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:63
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:46
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:114
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:42
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:110
 msgid "Farazsms Newsletter"
 msgstr ""
 "خبرنامه فراز اس ام اس\n"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:176
+msgid "Farazsms Newsletter Form"
+msgstr "فرم خبرنامه فراز اس ام اس"
+
+#. Author of the plugin
+msgid "farazsmsdeveloper, wpstormdev"
+msgstr ""
 
 #: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:101
 msgid "Find the field id in each of form fields in the advanced tab."
@@ -404,32 +424,65 @@ msgstr ""
 "شناسه فیلد هر یک از فیلدها را، در قسمت تنظیمات پیشرفته ای که مربوط به همان "
 "فیلد است، پیدا کنید."
 
-#: src/App.js:253 src/App.js:268 src/App.js:283 src/App.js:298 src/App.js:313
-#: src/App.js:328 src/App.js:343 src/App.js:358 src/App.js:373 src/App.js:388
-#: src/App.js:403
+#: build/index.js:10234 build/index.js:10246 build/index.js:10258
+#: build/index.js:10270 build/index.js:10282 build/index.js:10294
+#: build/index.js:10306 build/index.js:10318 build/index.js:10330
+#: build/index.js:10342 build/index.js:10354 src/App.js:255 src/App.js:270
+#: src/App.js:285 src/App.js:300 src/App.js:315 src/App.js:330 src/App.js:345
+#: src/App.js:360 src/App.js:375 src/App.js:390 src/App.js:405
+#: build/index.js:8624 build/index.js:8639 build/index.js:8654
+#: build/index.js:8669 build/index.js:8684 build/index.js:8699
+#: build/index.js:8714 build/index.js:8729 build/index.js:8744
+#: build/index.js:8759 build/index.js:8774
 msgid "First install & activate plugin."
 msgstr "ابتدا افزونه را نصب و فعال کنید."
 
-#: src/components/Settings.js:117
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:241
+msgid "Form Alignment"
+msgstr "چینش فرم"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:210
+#| msgid "Background Color"
+msgid "Form Background Color"
+msgstr "رنگ پس زمینه فرم"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:222
+msgid "Form Border Radius"
+msgstr "انحناء حاشیه فرم"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:267
+msgid "Form Margin"
+msgstr "فاصله بیرونی فرم"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:285
+msgid "Form Padding"
+msgstr "فاصله درونی فرم"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:184
+msgid "Form Title"
+msgstr "تیتر فرم"
+
+#: build/index.js:13832 src/components/Settings.js:120 build/index.js:12333
 msgid "General"
 msgstr "عمومی"
 
-#: src/components/GravityForms.js:84
+#: build/index.js:11545 src/components/GravityForms.js:84 build/index.js:9953
 msgid "Gravity Form action:"
 msgstr "عملگر گرویتی فرم:"
 
-#: src/components/GravityForms.js:70
+#: build/index.js:11534 src/components/GravityForms.js:70 build/index.js:9939
 msgid "Gravity Form fields:"
 msgstr ""
 "فیلدهای گرویتی فرم:\n"
 
-#: src/components/GravityForms.js:56
+#: build/index.js:11523 src/components/GravityForms.js:56 build/index.js:9925
 msgid "Gravity Form forms:"
 msgstr ""
 "فرم های گرویتی فرم:\n"
 
-#: classes/class-farazsms-settings.php:195 src/components/GravityForms.js:110
-#: src/views/SidebarItems.js:64
+#: classes/class-farazsms-settings.php:196 build/index.js:11568
+#: build/index.js:15752 src/components/GravityForms.js:110
+#: src/views/SidebarItems.js:64 build/index.js:9979 build/index.js:14107
 msgid "Gravity Forms"
 msgstr "گرویتی فرم"
 
@@ -440,7 +493,6 @@ msgid "How to send?"
 msgstr "نحوه ارسال پیامک؟"
 
 #. Plugin URI of the plugin
-#. Author URI of the plugin
 msgid "https://farazsms.com/"
 msgstr ""
 
@@ -464,7 +516,7 @@ msgstr ""
 "سلام [field id='name'] عزیز، اطلاعات شما با موفقیت در سایت ما ثبت گردید، به "
 "زودی با شما تماس می گیریم. فراز اس ام اس"
 
-#: src/components/Phonebook.js:310
+#: build/index.js:13382 src/components/Phonebook.js:254 build/index.js:11840
 msgid ""
 "If you have a physical store, use the mobile number storage device to "
 "collect your customers mobile numbers. Click on the link below to see the "
@@ -474,7 +526,7 @@ msgstr ""
 "شماره موبایل مشتریان خود استفاده کنید. برای مشاهده جزئیات روی لینک زیر کلیک "
 "کنید:"
 
-#: src/components/Settings.js:108
+#: build/index.js:13826 src/components/Settings.js:111 build/index.js:12324
 msgid ""
 "If you have Enamad, it is suggested that you purchase a dedicated 9000 line "
 "for sending web service SMS and sending SMS to customers. Send a support "
@@ -495,7 +547,7 @@ msgstr ""
 "اگر می خواهید به محض تکمیل فرم توسط کاربر، یک اعلان پیامکی به شماره مدیر "
 "ارسال شود، این گزینه را علامت بزنید."
 
-#: src/components/GravityForms.js:86
+#: build/index.js:11547 src/components/GravityForms.js:86 build/index.js:9955
 msgid ""
 "In this section, you can specify the action you want to do with the value of "
 "the selected fields."
@@ -503,7 +555,7 @@ msgstr ""
 "در این قسمت می توانید عملگری را که می خواهید با مقدار فیلد انتخاب شده انجام "
 "دهید را مشخص کنید."
 
-#: src/components/GravityForms.js:58
+#: build/index.js:11525 src/components/GravityForms.js:58 build/index.js:9927
 msgid ""
 "In this section, you can specify the form you want to register in the "
 "Gravity Form phonebook"
@@ -511,7 +563,7 @@ msgstr ""
 "در این قسمت می توانید فرمی را که می خواهید در دفترچه تلفن گرویتی فرم ثبت "
 "کنید را مشخص کنید"
 
-#: src/components/GravityForms.js:72
+#: build/index.js:11536 src/components/GravityForms.js:72 build/index.js:9941
 msgid ""
 "In this section, you must specify the mobile field, that you want to do the "
 "action on it."
@@ -519,79 +571,113 @@ msgstr ""
 "در این قسمت باید فیلد موبایلی را مشخص کنید که می خواهید عملگر را روی آن "
 "انجام دهید."
 
+#: build/index.js:11524 build/index.js:11535 build/index.js:11546
 #: src/components/GravityForms.js:57 src/components/GravityForms.js:71
-#: src/components/GravityForms.js:85
+#: src/components/GravityForms.js:85 build/index.js:9926 build/index.js:9940
+#: build/index.js:9954
 msgid "Info"
 msgstr "راهنمایی"
 
-#: src/views/FormInput.js:56
+#: build/index.js:15250 src/views/FormInput.js:56 build/index.js:13673
 msgid "Info "
 msgstr "اطلاعات"
 
-#: classes/class-farazsms-settings.php:316 src/components/Integrations.js:24
-#: src/views/SidebarItems.js:124
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:334
+msgid "Input Margin"
+msgstr "فاصله بیرونی فیلد"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:352
+msgid "Input Padding"
+msgstr "فاصله درونی فیلد"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:370
+msgid "Input Text Direction"
+msgstr "جهت متن فیلد"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:304
+msgid "Input Width"
+msgstr "عرض فیلد"
+
+#: classes/class-farazsms-settings.php:317 build/index.js:11979
+#: build/index.js:15802 src/components/Integrations.js:25
+#: src/views/SidebarItems.js:124 build/index.js:10393 build/index.js:14167
 msgid "Integrations"
 msgstr "ادغام ها"
 
-#: src/components/Comments.js:48
+#: build/index.js:10875 src/components/Comments.js:75 build/index.js:9311
 msgid "Is the mobile number field in comments mandatory?"
 msgstr ""
 "آِیا می خواهید فیلد شماره همراه در بخش کامنت ها اجباری باشد؟\n"
 
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:204
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:291
-msgid "Label Color"
-msgstr "رنگ عنوان"
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:245
+msgid "Left"
+msgstr "چپ"
 
-#: classes/class-farazsms-settings.php:173 src/components/LoginNotify.js:115
-#: src/views/SidebarItems.js:52
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:374
+msgid "Left to Right"
+msgstr "چپ به راست"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:203
+#: modules/farazsms/core/class-farazsms-comments.php:121
+msgid "Like: 09300410381"
+msgstr "مثلاً: 09300410381"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:194
+msgid "Like: Ghafary"
+msgstr "مثلاً: غفاری"
+
+#: classes/class-farazsms-settings.php:174 build/index.js:12269
+#: build/index.js:15742 src/components/LoginNotify.js:114
+#: src/views/SidebarItems.js:52 build/index.js:10685 build/index.js:14095
 msgid "Login Notify"
 msgstr "إعلام ورود به سایت"
 
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:215
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:302
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:369
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:501
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:567
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:634
 msgid "Margin"
 msgstr "فاصله بیرونی"
 
-#: classes/class-farazsms-settings.php:283 src/views/SidebarItems.js:106
+#: classes/class-farazsms-settings.php:284 build/index.js:15787
+#: src/views/SidebarItems.js:106 build/index.js:14149
 msgid "Membership"
 msgstr "عضویت (ممبرشیپ)"
 
-#: src/components/Membership.js:92
+#: build/index.js:12530 src/components/Membership.js:92 build/index.js:10958
 msgid "Membership expiration warning SMS text:"
 msgstr "متن پیامک هشدار انقضای عضویت:"
 
-#: src/components/Newsletter.js:105
+#: build/index.js:12800 src/components/Newsletter.js:106 build/index.js:11231
 msgid "Message content for new post"
 msgstr "متن پیامک اطلاع رسانی پست جدید"
 
-#: src/components/Newsletter.js:129
+#: build/index.js:12821 src/components/Newsletter.js:130 build/index.js:11255
 msgid "Message content for new product"
 msgstr "متن پیامک اطلاع رسانی محصول جدید"
 
-#: src/components/WooCommerce.js:76
+#: build/index.js:14652 src/components/WooCommerce.js:75 build/index.js:13196
 msgid "Message content:"
 msgstr "متن پیام:"
 
-#: src/components/SendSms.js:32 src/components/Support.js:40
+#: build/index.js:13466 build/index.js:14210 src/components/SendSms.js:33
+#: src/components/Support.js:38 build/index.js:11925 build/index.js:12727
 msgid "Message:"
 msgstr "پیام:"
 
-#: modules/farazsms/core/class-farazsms-comments.php:81
+#: modules/farazsms/core/class-farazsms-comments.php:91
 msgid "Mobile"
 msgstr "تلفن همراه"
 
-#: src/components/WooCommerce.js:33
+#: build/index.js:14612 src/components/WooCommerce.js:32 build/index.js:13153
 #| msgid "Mobile number confirmation on the account checkout page?"
 msgid "Mobile number verification on the account checkout page?"
 msgstr "آیا می خواهید شماره همراه در صفحه تسویه حساب نیاز به تأیید داشته باشد؟"
 
-#: src/components/WooCommerce.js:45
+#: build/index.js:14621 src/components/WooCommerce.js:44 build/index.js:13165
 msgid "Mobile number verification pattern code:"
 msgstr "کد پترن تأیید شماره همراه:"
 
-#: src/components/Edd.js:78
+#: build/index.js:11256 src/components/Edd.js:78 build/index.js:9678
 msgid ""
 "mobile number: %phone% | Email: %email% | Name: %first_name% | Last name: "
 "%last_name% | Purchased products: %product% | Total amount (not including "
@@ -605,49 +691,54 @@ msgstr ""
 "%total_price% | لینک دانلود مستقیم (بدون رمز): %link% | شماره سفارش: "
 "%payment_id%"
 
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:155
-msgid "Name Field"
-msgstr "فیلد اسم"
-
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:164
-msgid "Name Field Label"
-msgstr "عنوان فیلد اسم"
-
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:173
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:192
 msgid "Name Field Placeholder"
 msgstr "جانگهدار فیلد اسم"
 
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:166
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:175
-msgid "Name:"
-msgstr "اسم:"
-
-#: src/components/Aff.js:76 src/components/Aff.js:137
+#: build/index.js:10527 build/index.js:10582 src/components/Aff.js:76
+#: src/components/Aff.js:137 build/index.js:8939 build/index.js:9000
 msgid "New referral SMS pattern code:"
 msgstr "کد پترن پیامک ارجاع جدید:"
 
-#: classes/class-farazsms-settings.php:261 src/components/Newsletter.js:144
-#: src/views/SidebarItems.js:94
+#: classes/class-farazsms-settings.php:262 build/index.js:12834
+#: build/index.js:15777 src/components/Newsletter.js:146
+#: src/views/SidebarItems.js:94 build/index.js:11271 build/index.js:14137
 #| msgid "Newsletters"
 msgid "Newsletter"
 msgstr "خبرنامه"
 
-#: src/components/Newsletter.js:60
+#: build/index.js:12758 src/components/Newsletter.js:61 build/index.js:11186
 msgid "Newsletter membership verification pattern code:"
 msgstr "کد پترن تأیید عضویت در خبرنامه:"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:140
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:158
+msgid "No"
+msgstr "خیر"
 
 #: modules/newsletter/class-farazsms-newsletter.php:107
 msgid "No one is a subscriber of the newsletter yet"
 msgstr "هنوز هیچ کسی مشترک خبرنامه نشده."
 
-#: src/components/Aff.js:39 src/components/Comments.js:63
+#: build/index.js:10490 build/index.js:10887 build/index.js:11217
+#: build/index.js:11516 build/index.js:11527 build/index.js:11538
+#: build/index.js:11559 build/index.js:12250 build/index.js:12740
+#: build/index.js:13190 build/index.js:13199 build/index.js:13209
+#: build/index.js:13220 build/index.js:13231 build/index.js:13487
+#: build/index.js:13521 src/components/Aff.js:39 src/components/Comments.js:90
 #: src/components/Edd.js:39 src/components/GravityForms.js:49
 #: src/components/GravityForms.js:63 src/components/GravityForms.js:77
-#: src/components/GravityForms.js:101 src/components/LoginNotify.js:93
-#: src/components/Newsletter.js:39 src/components/Phonebook.js:53
-#: src/components/Phonebook.js:62 src/components/Phonebook.js:72
-#: src/components/Phonebook.js:83 src/components/Phonebook.js:94
-#: src/components/SendSms.js:53 src/components/SendSms.js:90
+#: src/components/GravityForms.js:101 src/components/LoginNotify.js:92
+#: src/components/Newsletter.js:40 src/components/Phonebook.js:57
+#: src/components/Phonebook.js:66 src/components/Phonebook.js:76
+#: src/components/Phonebook.js:87 src/components/Phonebook.js:98
+#: src/components/SendSms.js:54 src/components/SendSms.js:91
+#: build/index.js:8902 build/index.js:9326 build/index.js:9639
+#: build/index.js:9918 build/index.js:9932 build/index.js:9946
+#: build/index.js:9970 build/index.js:10663 build/index.js:11165
+#: build/index.js:11643 build/index.js:11652 build/index.js:11662
+#: build/index.js:11673 build/index.js:11684 build/index.js:11946
+#: build/index.js:11983
 #| msgid "No options is avilable"
 msgid "No options is available"
 msgstr "هیچ گزینه ای در دسترس نیست"
@@ -657,31 +748,32 @@ msgstr "هیچ گزینه ای در دسترس نیست"
 msgid "None"
 msgstr "هیچ یک"
 
-#: src/components/LoginNotify.js:103
+#: build/index.js:12260 src/components/LoginNotify.js:102 build/index.js:10673
 msgid "Notify admin pattern code:"
 msgstr "کد پترن اطلاع رسانی مدیریت:"
 
-#: src/components/LoginNotify.js:79
+#: build/index.js:12239 src/components/LoginNotify.js:78 build/index.js:10649
 msgid "Notify admin when a user from selected rule(s) Login to the site?"
 msgstr ""
 "هنگامی که کاربری از مجموعه نقش(های) کاربری انتخاب شده، وارد سایت می شود به "
 "مدیر اطلاع داده شود؟"
 
-#: src/components/Header.js:46
+#: build/index.js:11916 src/components/Header.js:46 build/index.js:10339
 msgid "Official Website"
 msgstr "سایت شرکت"
 
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:227
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:314
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:381
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:513
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:579
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:646
 msgid "Padding"
 msgstr "فاصله درونی"
 
-#: src/components/Membership.js:110
+#: build/index.js:12544 src/components/Membership.js:110 build/index.js:10976
 msgid "Paid Membership PRO plugin settings:"
 msgstr "تنظیمات افزونه Paid Membership PRO:"
 
-#: src/components/Settings.js:67 src/components/Settings.js:68
+#: build/index.js:13785 build/index.js:13786 src/components/Settings.js:70
+#: src/components/Settings.js:71 build/index.js:12283 build/index.js:12284
 msgid "Password"
 msgstr "رمز عبور"
 
@@ -695,7 +787,7 @@ msgstr "کد پترن"
 msgid "Pattern code"
 msgstr "کد پترن"
 
-#: src/components/WooCommerce.js:91
+#: build/index.js:14664 src/components/WooCommerce.js:90 build/index.js:13211
 msgid "Pattern code to send tracking code:"
 msgstr "کد پترن برای ارسال کد رهگیری:"
 
@@ -704,15 +796,7 @@ msgid "Pattern not entered to send tracking code"
 msgstr ""
 "کد پترن ارسال کد رهگیری وارد نشده است\n"
 
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:242
-msgid "Phone Field"
-msgstr "فیلد موبایل"
-
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:251
-msgid "Phone Field Label"
-msgstr "عنوان فیلد موبایل"
-
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:260
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:201
 msgid "Phone Field Placeholder"
 msgstr "جانگهدار فیلد موبایل"
 
@@ -724,17 +808,13 @@ msgstr "جانگهدار فیلد موبایل"
 #: modules/aff/class-farazsms-aff.php:412 modules/edd/class-farazsms-edd.php:79
 #: modules/edd/class-farazsms-edd.php:185
 #: modules/edd/class-farazsms-edd.php:190
-#: modules/farazsms/core/class-farazsms-comments.php:109
 msgid "Phone number"
 msgstr "شماره همراه"
 
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:253
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:262
-msgid "Phone:"
-msgstr "موبایل:"
-
-#: classes/class-farazsms-settings.php:184 src/components/Phonebook.js:102
-#: src/views/SidebarItems.js:58
+#: classes/class-farazsms-settings.php:185
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:128
+#: build/index.js:13239 build/index.js:15747 src/components/Phonebook.js:106
+#: src/views/SidebarItems.js:58 build/index.js:11692 build/index.js:14101
 msgid "Phonebook"
 msgstr "دفترچه تلفن"
 
@@ -742,11 +822,11 @@ msgstr "دفترچه تلفن"
 msgid "Please confirm your phone number first"
 msgstr "لطفا ابتدا شماره همراه خود را تایید کنید"
 
-#: modules/newsletter/class-farazsms-newsletter.php:389
+#: modules/newsletter/class-farazsms-newsletter.php:414
 msgid "Please enter manual numbers in the correct format"
 msgstr "لطفا شماره های دستی را با فرمت صحیح وارد کنید"
 
-#: src/components/SendSms.js:207
+#: build/index.js:13616 src/components/SendSms.js:209 build/index.js:12101
 msgid ""
 "Please enter manually numbers in the correct format. separate every number "
 "with an english comma."
@@ -768,11 +848,11 @@ msgid "Please enter the tracking code correctly."
 msgstr ""
 "لطفا کد رهگیری را به درستی وارد کنید. (24 رقم باید باشد)\n"
 
-#: src/components/Settings.js:155
+#: build/index.js:13865 src/components/Settings.js:158 build/index.js:12371
 msgid "Please fill API key filed first"
 msgstr "لطفاً ابتدا کلید API را وارد کنید"
 
-#: src/components/SendSms.js:176
+#: build/index.js:13591 src/components/SendSms.js:178 build/index.js:12070
 msgid ""
 "Please select at least one phonebook or enter manual number or chose send to "
 "newsletter subscribers."
@@ -780,12 +860,12 @@ msgstr ""
 "لطفاً حداقل یک دفترچه تلفن انتخاب کنید یا شماره دستی را وارد کنید یا ارسال "
 "به مشترکین خبرنامه را انتخاب کنید."
 
-#: modules/newsletter/class-farazsms-newsletter.php:406
+#: modules/newsletter/class-farazsms-newsletter.php:431
 msgid ""
 "Please select at least one phonebook or manual number or newsletter members"
 msgstr "لطفاً حداقل یک دفترچه تلفن یا شماره دستی یا عضو خبرنامه را انتخاب کنید"
 
-#: src/components/Comments.js:107
+#: build/index.js:10928 src/components/Comments.js:134 build/index.js:9370
 msgid ""
 "Post title: %title% Comment authors name: %name% Comment authors email: "
 "%email% Comment link: %link% Comment text: %content%"
@@ -797,63 +877,95 @@ msgstr ""
 msgid "Probably your pattern has not been approved"
 msgstr "احتمالا کد پترن شما تایید نشده است"
 
-#: src/components/Header.js:49 src/components/Support.js:43
-#: src/components/Support.js:145
+#: build/index.js:10857 src/components/Comments.js:54 build/index.js:9290
+msgid "Remove cookies checkbox from comment form?"
+msgstr "آیا چک باکس کوکی ها را از فرم کامنت حذف می کنید؟"
+
+#: build/index.js:10839 src/components/Comments.js:36 build/index.js:9272
+msgid "Remove email filed from comment form?"
+msgstr "آیا می خواهید فیلد ایمیل را از فرم کامنت حذف کنید؟"
+
+#: build/index.js:10848 src/components/Comments.js:45 build/index.js:9281
+msgid "Remove website filed from comment form?"
+msgstr "آیا می خواهید فیلد وبسایت را از فرم کامنت حذف کنید؟"
+
+#: build/index.js:11918 build/index.js:14213 build/index.js:14273
+#: src/components/Header.js:49 src/components/Support.js:41
+#: src/components/Support.js:108 build/index.js:10342 build/index.js:12730
+#: build/index.js:12797
 msgid "Report Issues"
 msgstr "گزارش مشکل"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:604
+msgid "Resent Code"
+msgstr "ارسال مجدد کد"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:594
+msgid "Resent Code Button"
+msgstr "دکمه ارسال مجدد کد"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:253
+msgid "Right"
+msgstr "راست"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:373
+msgid "Right to Left"
+msgstr "چپ"
 
 #: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:146
 msgid "Save in the system phonebook"
 msgstr "در دفترچه تلفن سیستم ذخیره کنید"
 
-#: src/views/SaveButton.js:18
+#: build/index.js:15511 src/views/SaveButton.js:34 build/index.js:13904
 msgid "Save Settings"
 msgstr "ذخیره تنظیمات"
 
-#: src/components/Comments.js:61 src/components/Edd.js:37
+#: build/index.js:10885 build/index.js:11215 src/components/Comments.js:88
+#: src/components/Edd.js:37 build/index.js:9324 build/index.js:9637
 msgid "Save the phone number in the phonebook?"
 msgstr "شماره همراه در دفترچه تلفن ذخیره شود؟"
 
-#: src/components/GravityForms.js:93
+#: build/index.js:11550 src/components/GravityForms.js:93 build/index.js:9962
 msgid "Save to phonebook"
 msgstr "ذخیره در دفترچه تلفن"
 
-#: src/components/Phonebook.js:81
+#: build/index.js:13218 src/components/Phonebook.js:85 build/index.js:11671
 msgid "select a phonebook for WooCommerce:"
 msgstr "یک دفترچه تلفن برای افزونه ووکامرس انتخاب کنید:"
 
-#: src/components/Newsletter.js:37
+#: build/index.js:12738 src/components/Newsletter.js:38 build/index.js:11163
 msgid "Select phone book for newsletter"
 msgstr "دفترچه تلفن را برای خبرنامه انتخاب کنید"
 
-#: src/components/Phonebook.js:70
+#: build/index.js:13207 src/components/Phonebook.js:74 build/index.js:11660
 msgid "Select phonebook for Digits:"
 msgstr "دفترچه تلفن را برای افزونه دیجیتس انتخاب کنید:"
 
-#: src/components/GravityForms.js:47
+#: build/index.js:11514 src/components/GravityForms.js:47 build/index.js:9916
 msgid "Select phonebook for Gravity Form:"
 msgstr "دفترچه تلفن را برای افزونه گرویتی فرم انتخاب کنید:"
 
-#: src/components/SendSms.js:88
+#: build/index.js:13519 src/components/SendSms.js:89 build/index.js:11981
 msgid "Select phonebooks:"
 msgstr "انتخاب دفترچه تلفن:"
 
-#: src/components/LoginNotify.js:91
+#: build/index.js:12248 src/components/LoginNotify.js:90 build/index.js:10661
 #| msgid "Selecte rule(s):"
 msgid "Select rule(s):"
 msgstr "انتخاب نقش(های) کاربری:"
 
-#: src/components/SendSms.js:48
+#: build/index.js:13479 src/components/SendSms.js:49 build/index.js:11941
 #| msgid "Service sender number:"
 msgid "Select sender number:"
 msgstr "خط ارسال کننده را انتخاب کنید:"
 
-#: src/components/Phonebook.js:51
+#: build/index.js:13188 src/components/Phonebook.js:55 build/index.js:11641
 #| msgid "Select the custom field phonebook:"
 msgid "Select the custom phonebook:"
 msgstr "دفترچه تلفن سفارشی را انتخاب کنید:"
 
-#: src/components/Aff.js:37 src/components/Phonebook.js:60
+#: build/index.js:10488 build/index.js:13197 src/components/Aff.js:37
+#: src/components/Phonebook.js:64 build/index.js:8900 build/index.js:11650
 msgid "Select the mobile number custom field:"
 msgstr "فیلد سفارشی شماره همراه را انتخاب کنید:"
 
@@ -861,29 +973,30 @@ msgstr "فیلد سفارشی شماره همراه را انتخاب کنید:"
 msgid "Send"
 msgstr "ارسال"
 
-#: src/components/LoginNotify.js:36
+#: build/index.js:12196 src/components/LoginNotify.js:35 build/index.js:10606
 #| msgid "Send a welcome SMS to the user?"
 msgid "Send a welcome sms to the user?"
 msgstr "آیا می خواهید به کاربر جدید پیامک خوش آمد گویی ارسال کنید؟"
 
-#: src/components/Newsletter.js:96
+#: build/index.js:12791 src/components/Newsletter.js:97 build/index.js:11222
 msgid "Send new posts to newsletter members?"
 msgstr "ارسال پست های جدید برای اعضای خبرنامه؟"
 
-#: src/components/Newsletter.js:120
+#: build/index.js:12812 src/components/Newsletter.js:121 build/index.js:11246
 msgid "Send new product to newsletter members?"
 msgstr "ارسال إعلان محصول جدید به اعضای خبرنامه؟"
 
-#: src/components/Comments.js:93
+#: build/index.js:10917 src/components/Comments.js:120 build/index.js:9356
 msgid "Send notification SMS to admin when a comment add to site?"
 msgstr ""
 "هنگام اضافه شدن نظر جدید (comment) به سایت، پیامک اعلان به مدیر ارسال شود؟"
 
-#: classes/class-farazsms-settings.php:294
-#: classes/class-farazsms-settings.php:374
-#: modules/woocommerce/class-farazsms-woocommerce.php:137
-#: src/components/SendSms.js:98 src/components/SendSms.js:323
-#: src/views/SidebarItems.js:112
+#: classes/class-farazsms-settings.php:295
+#: classes/class-farazsms-settings.php:375
+#: modules/woocommerce/class-farazsms-woocommerce.php:137 build/index.js:13529
+#: build/index.js:13690 build/index.js:15792 src/components/SendSms.js:99
+#: src/components/SendSms.js:312 src/views/SidebarItems.js:112
+#: build/index.js:11991 build/index.js:12204 build/index.js:14155
 #| msgid "Send sms"
 msgid "Send Sms"
 msgstr "ارسال پیامک"
@@ -892,15 +1005,15 @@ msgstr "ارسال پیامک"
 msgid "Send sms copy to others"
 msgstr "ارسال یک نسخه از پیامک برای دیگران"
 
-#: src/components/Membership.js:109
+#: build/index.js:12543 src/components/Membership.js:109 build/index.js:10975
 msgid "Send sms membership expiration?"
 msgstr "آیا می خواهید پیامک انقضاء عضویت ارسال شود؟"
 
-#: src/components/Aff.js:128
+#: build/index.js:10573 src/components/Aff.js:128 build/index.js:8991
 msgid "Send sms to admin on new referral:"
 msgstr "ارسال پیامک به ادمین در ارجاع جدید:"
 
-#: src/components/Aff.js:109
+#: build/index.js:10554 src/components/Aff.js:109 build/index.js:8972
 msgid "Send sms to admin on registration:"
 msgstr "ارسال پیامک به ادمین هنگام ثبت نام:"
 
@@ -909,11 +1022,11 @@ msgid "Send sms to the admin"
 msgstr ""
 "برای ادمین پیامک بفرستید\n"
 
-#: src/components/Edd.js:67
+#: build/index.js:11245 src/components/Edd.js:67 build/index.js:9667
 msgid "Send sms to the admin?"
 msgstr "برای ادمین پیامک بفرستید؟"
 
-#: src/components/Edd.js:48
+#: build/index.js:11226 src/components/Edd.js:48 build/index.js:9648
 msgid "Send sms to the user?"
 msgstr "برای کاربر پیامک بفرستید؟"
 
@@ -921,28 +1034,28 @@ msgstr "برای کاربر پیامک بفرستید؟"
 msgid "Send sms to the visitor"
 msgstr "برای کاربر پیامک بفرستید"
 
-#: src/components/Aff.js:67
+#: build/index.js:10518 src/components/Aff.js:67 build/index.js:8930
 msgid "Send sms to user on new referral:"
 msgstr "ارسال پیامک به کاربر در ارجاع جدید:"
 
-#: src/components/Aff.js:49
+#: build/index.js:10500 src/components/Aff.js:49 build/index.js:8912
 msgid "Send sms to user on registration:"
 msgstr "ارسال پیامک به کاربر هنگام ثبت نام:"
 
-#: src/components/Membership.js:52
+#: build/index.js:12502 src/components/Membership.js:52 build/index.js:10918
 msgid "Send the first SMS warning of membership expiration?"
 msgstr "ارسال اولین پیامک هشدار پایان عضویت؟"
 
-#: src/components/Membership.js:68
+#: build/index.js:12512 src/components/Membership.js:68 build/index.js:10934
 msgid "Send the second SMS warning of membership expiration?"
 msgstr ""
 "ارسال پیامک دوم اخطار پایان عضویت؟\n"
 
-#: src/components/Membership.js:80
+#: build/index.js:12521 src/components/Membership.js:80 build/index.js:10946
 msgid "Send the third SMS warning of membership expiration?"
 msgstr "ارسال پیامک سوم اخطار پایان عضویت؟"
 
-#: src/components/SendSms.js:64
+#: build/index.js:13498 src/components/SendSms.js:65 build/index.js:11957
 msgid "Send to newsletter subscribers:"
 msgstr "ارسال به مشترکین خبرنامه:"
 
@@ -951,32 +1064,42 @@ msgstr "ارسال به مشترکین خبرنامه:"
 msgid "Send tracking code"
 msgstr "ارسال کد رهگیری"
 
-#: src/components/LoginNotify.js:45
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:137
+msgid "Send Verify Code?"
+msgstr "آیا کد تأیید ارسال شود؟"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:155
+msgid "Send Welcome Message?"
+msgstr "آیا متن خوش آمدگویی ارسال شود؟"
+
+#: build/index.js:12205 src/components/LoginNotify.js:44 build/index.js:10615
 msgid "Send welcome sms via pattern?"
 msgstr "آیا می خواهید پیامک خوش آمد گویی به صورت پترن ارسال شود؟"
 
 #: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:71
-#: src/components/Settings.js:93 src/components/Settings.js:94
+#: build/index.js:13811 build/index.js:13812 src/components/Settings.js:96
+#: src/components/Settings.js:97 build/index.js:12309 build/index.js:12310
 msgid "Sender number"
 msgstr "خط ارسال کننده"
 
-#: src/components/WooCommerce.js:57
+#: build/index.js:14633 src/components/WooCommerce.js:56 build/index.js:13177
 msgid "Sending a timed survey SMS for WooCommerce?"
 msgstr "ارسال پیامک نظرسنجی زمان بندی شده برای ووکامرس؟"
 
-#: src/components/SendSms.js:75
+#: build/index.js:13509 src/components/SendSms.js:76 build/index.js:11968
 msgid "Separate numbers with English commas without any spaces."
 msgstr "اعداد را با ویرگول انگلیسی بدون هیچ فاصله ای از هم جدا کنید."
 
-#: src/components/SendSms.js:50
+#: build/index.js:13482 src/components/SendSms.js:51 build/index.js:11943
 msgid "Servicing number"
 msgstr "خط خدماتی"
 
-#: classes/class-farazsms-settings.php:162 src/views/SidebarItems.js:46
+#: classes/class-farazsms-settings.php:163 build/index.js:15737
+#: src/views/SidebarItems.js:46 build/index.js:14089
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: src/components/Newsletter.js:131
+#: build/index.js:12823 src/components/Newsletter.js:132 build/index.js:11257
 msgid ""
 "site title %site_title% product name %product_name% price %price% and "
 "product link %url%"
@@ -989,11 +1112,11 @@ msgstr ""
 msgid "Sms content"
 msgstr "محتوای پیامک"
 
-#: src/components/Edd.js:76
+#: build/index.js:11254 src/components/Edd.js:76 build/index.js:9676
 msgid "SMS pattern code for the admin:"
 msgstr "کد پترن پیامک برای ادمین:"
 
-#: src/components/Edd.js:57
+#: build/index.js:11235 src/components/Edd.js:57 build/index.js:9657
 msgid "SMS pattern code for the user:"
 msgstr "کد پترن پیامک برای کاربر:"
 
@@ -1001,66 +1124,90 @@ msgstr "کد پترن پیامک برای کاربر:"
 msgid "SMS recipient number (field shortcode)"
 msgstr "شماره گیرنده پیامک (شورت کد فیلد)"
 
-#: src/components/SendSms.js:196
+#: build/index.js:13608 src/components/SendSms.js:198 build/index.js:12090
 msgid "Sorry. No one is subscriber of newsletter yet."
 msgstr "متاسف. هنوز کسی مشترک خبرنامه نیست."
 
-#: src/components/Phonebook.js:308
+#: build/index.js:13380 src/components/Phonebook.js:252 build/index.js:11838
 msgid "Special Offer:"
 msgstr "پیشنهاد ویژه:"
 
-#: src/components/Support.js:31
+#: build/index.js:14201 src/components/Support.js:29 build/index.js:12718
 msgid "Subject:"
 msgstr "موضوع:"
 
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:340
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:470
 msgid "Submit"
 msgstr "عضویت"
 
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:329
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:459
 msgid "Submit Button"
 msgstr "دکمه عضویت"
 
-#: classes/class-farazsms-settings.php:305 src/views/SidebarItems.js:118
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:537
+msgid "Submit Code"
+msgstr "ارسال کد"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:527
+msgid "Submit Code Button"
+msgstr "دکمه ارسال کد"
+
+#: classes/class-farazsms-settings.php:306 build/index.js:15797
+#: src/views/SidebarItems.js:118 build/index.js:14161
 msgid "Support"
 msgstr "پشتیبانی"
 
-#: classes/class-farazsms-settings.php:206 src/components/Synchronization.js:55
-#: src/views/SidebarItems.js:70
+#: classes/class-farazsms-settings.php:207 build/index.js:14354
+#: build/index.js:15757 src/components/Synchronization.js:56
+#: src/views/SidebarItems.js:70 build/index.js:12861 build/index.js:14113
 msgid "Synchronization"
 msgstr "همگام سازی"
 
-#: src/components/Synchronization.js:276
+#: build/index.js:14528 src/components/Synchronization.js:268
+#: build/index.js:13073
 msgid "Synchronization bookley users with phonebook"
 msgstr "همگام سازی کاربران افزونه بوکلی با دفترچه تلفن"
 
-#: src/components/Synchronization.js:309
+#: build/index.js:14550 src/components/Synchronization.js:301
+#: build/index.js:13106
 msgid "Synchronization digits users with phonebook"
 msgstr "همگام سازی کاربران افزونه دیجیتس با دفترچه تلفن"
 
-#: src/components/Synchronization.js:291
+#: build/index.js:14539 src/components/Synchronization.js:283
+#: build/index.js:13088
 msgid "Synchronization woocommerce users with phonebook"
 msgstr "همگام سازی کاربران افزونه ووکامرس با دفترچه تلفن"
 
-#: src/components/Footer.js:17
+#: build/index.js:11435 src/components/Footer.js:17 build/index.js:9854
 msgid "Terms"
 msgstr "شرایط"
 
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:193
-#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:280
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:405
+msgid "Text Background Color"
+msgstr "رنگ پس زمینه متن"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:386
+msgid "Text Border Radius"
+msgstr "انحناء حاشیه متن"
+
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:443
 msgid "Text Color"
 msgstr "رنگ متن"
 
-#: src/components/Settings.js:146
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:417
+msgid "Text Font Size"
+msgstr "سایز فونت متن"
+
+#: build/index.js:13859 src/components/Settings.js:149 build/index.js:12362
 msgid "That apikey is not valid."
 msgstr "کلید API ارائه شده معتبر نیست."
 
-#: src/components/Settings.js:180
+#: build/index.js:13884 src/components/Settings.js:183 build/index.js:12396
 msgid "That username is not access to the provided apikey."
 msgstr ""
 "نام کاربری وارد شده به API ارائه شده دسترسی ندارد.\n"
 
-#: src/components/Settings.js:171
+#: build/index.js:13878 src/components/Settings.js:174 build/index.js:12387
 msgid "That username is not valid."
 msgstr ""
 "نام کاربری معتبر نیست.\n"
@@ -1072,11 +1219,11 @@ msgid ""
 msgstr ""
 "شماره وارد شده در فرم توسط کاربر، در دفترچه تلفن انتخابی ذخیره خواهد شد."
 
-#: src/components/Membership.js:119
+#: build/index.js:12553 src/components/Membership.js:119 build/index.js:10985
 msgid "The text of the membership expiration SMS:"
 msgstr "متن پیامک پایان عضویت:"
 
-#: src/components/Newsletter.js:107
+#: build/index.js:12802 src/components/Newsletter.js:108 build/index.js:11233
 msgid "the title of the article %title% and the address of the article %url%"
 msgstr "عنوان پست %title%  و آدرس مقاله %url%"
 
@@ -1084,11 +1231,11 @@ msgstr "عنوان پست %title%  و آدرس مقاله %url%"
 msgid "The verification code entered is not valid"
 msgstr "کد تأیید وارد شده معتبر نیست"
 
-#: src/components/WooCommerce.js:47
+#: build/index.js:14623 src/components/WooCommerce.js:46 build/index.js:13167
 msgid "The verification code variable is %code%"
 msgstr "متغیر کد تأیید %code% است"
 
-#: src/components/WooCommerce.js:78
+#: build/index.js:14654 src/components/WooCommerce.js:77 build/index.js:13198
 msgid ""
 "time %time% | store name %sitename% | product name %item% | product link "
 "%item_link%"
@@ -1096,11 +1243,11 @@ msgstr ""
 "زمان  %time% | نام فروشگاه %sitename% |نام محصول %item% | لینک محصول "
 "%item_link%"
 
-#: src/components/GravityForms.js:40
+#: build/index.js:11507 src/components/GravityForms.js:40 build/index.js:9909
 msgid "Title:"
 msgstr "عنوان:"
 
-#: src/components/Settings.js:42
+#: build/index.js:13763 src/components/Settings.js:45 build/index.js:12258
 msgid ""
 "To get the access key in your farazsms panel, refer to the web service menu "
 "in the access keys section"
@@ -1108,7 +1255,7 @@ msgstr ""
 "برای دریافت کلید API خود در پنل فراز اس ام اس خود به منوی وب سرویس در قسمت "
 "کلیدهای دسترسی مراجعه کنید."
 
-#: src/components/WooCommerce.js:93
+#: build/index.js:14666 src/components/WooCommerce.js:92 build/index.js:13213
 msgid ""
 "tracking code %tracking_code% (required) | order number %order_id% | order "
 "status %order_status% | full name in billing address %billing_full_name% | "
@@ -1118,48 +1265,61 @@ msgstr ""
 "%order_status% | نام کامل در آدرس صورتحساب %billing_full_name% | نام کامل در "
 "آدرس حمل و نقل %shipping_full_name%"
 
-#: src/components/Membership.js:128
+#: build/index.js:12562 src/components/Membership.js:128 build/index.js:10994
 msgid "Ultimate Membership Pro and Paid Memberships Pro"
 msgstr "Ultimate Membership Pro و Paid Memberships Pro"
 
-#: src/components/Membership.js:56
+#: build/index.js:12503 src/components/Membership.js:56 build/index.js:10922
 msgid "Ultimate Membership PRO plugin settings:"
 msgstr "تنظیمات افزونه Ultimate Membership PRO:"
 
-#: src/components/Aff.js:162 src/components/Comments.js:106
-#: src/components/Edd.js:77 src/components/LoginNotify.js:56
-#: src/components/LoginNotify.js:68 src/components/LoginNotify.js:104
-#: src/components/Membership.js:93 src/components/Membership.js:120
-#: src/components/Newsletter.js:64 src/components/Newsletter.js:85
-#: src/components/Newsletter.js:106 src/components/Newsletter.js:130
-#: src/components/SendSms.js:34 src/components/WooCommerce.js:46
-#: src/components/WooCommerce.js:77 src/components/WooCommerce.js:92
+#: build/index.js:10601 build/index.js:10927 build/index.js:11255
+#: build/index.js:12216 build/index.js:12228 build/index.js:12261
+#: build/index.js:12531 build/index.js:12554 build/index.js:12759
+#: build/index.js:12780 build/index.js:12801 build/index.js:12822
+#: build/index.js:13468 build/index.js:14622 build/index.js:14653
+#: build/index.js:14665 src/components/Aff.js:162
+#: src/components/Comments.js:133 src/components/Edd.js:77
+#: src/components/LoginNotify.js:55 src/components/LoginNotify.js:67
+#: src/components/LoginNotify.js:103 src/components/Membership.js:93
+#: src/components/Membership.js:120 src/components/Newsletter.js:65
+#: src/components/Newsletter.js:86 src/components/Newsletter.js:107
+#: src/components/Newsletter.js:131 src/components/SendSms.js:35
+#: src/components/WooCommerce.js:45 src/components/WooCommerce.js:76
+#: src/components/WooCommerce.js:91 build/index.js:9025 build/index.js:9369
+#: build/index.js:9677 build/index.js:10626 build/index.js:10638
+#: build/index.js:10674 build/index.js:10959 build/index.js:10986
+#: build/index.js:11190 build/index.js:11211 build/index.js:11232
+#: build/index.js:11256 build/index.js:11927 build/index.js:13166
+#: build/index.js:13197 build/index.js:13212
 msgid "Usable variables:"
 msgstr "متغیرهای قابل استفاده:"
 
-#: src/components/Aff.js:58 src/components/Aff.js:119
+#: build/index.js:10509 build/index.js:10564 src/components/Aff.js:58
+#: src/components/Aff.js:119 build/index.js:8921 build/index.js:8982
 msgid "User registration SMS pattern code:"
 msgstr "کد پترن پیامک ثبت نام کاربر:"
 
-#: src/components/Settings.js:54 src/components/Settings.js:55
+#: build/index.js:13772 build/index.js:13773 src/components/Settings.js:57
+#: src/components/Settings.js:58 build/index.js:12270 build/index.js:12271
 msgid "Username"
 msgstr "نام کاربری"
 
-#: src/components/Membership.js:121
+#: build/index.js:12555 src/components/Membership.js:121 build/index.js:10987
 msgid "username %display_name%"
 msgstr "نام کاربر %display_name%"
 
-#: src/components/Membership.js:94
+#: build/index.js:12532 src/components/Membership.js:94 build/index.js:10960
 msgid "username %name% | time remaining (to day) %time%"
 msgstr "نام کاربری %name% | زمان باقی مانده (تا روز) %time%"
 
-#: src/components/LoginNotify.js:105
+#: build/index.js:12262 src/components/LoginNotify.js:104 build/index.js:10675
 msgid ""
 "username %user_login% and user name %display_name% and login date %date%"
 msgstr ""
 "نام کاربری %user_login% و نام کاربری %display_name% و تاریخ ورود %date%"
 
-#: src/components/Aff.js:163
+#: build/index.js:10602 src/components/Aff.js:163 build/index.js:9026
 #| msgid ""
 #| "username %user_login% nickname %user_nicename% email %user_email% display "
 #| "name %display_name% mobile number %user_mobile% referral amount %amount%"
@@ -1170,7 +1330,7 @@ msgstr ""
 "نام کاربری %user_login% نام مستعار %user_nikename% ایمیل %user_email% نام "
 "نمایشی %display_name% شماره همراه %user_mobile% مقدار ارجاع %amount%"
 
-#: src/components/Aff.js:40
+#: build/index.js:10491 src/components/Aff.js:40 build/index.js:8903
 #| msgid "EDD Settings:"
 msgid "Users settings:"
 msgstr "تنظیمات EDD"
@@ -1184,22 +1344,31 @@ msgstr "کد تأیید"
 msgid "Verification code sent successfully"
 msgstr "کد تأیید با موفقیت ارسال شد"
 
-#: src/views/SectionError.js:20
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:148
+msgid "Verify Code Pattern"
+msgstr "کد پترن برای ارسال کد تأیید"
+
+#: build/index.js:15566 src/views/SectionError.js:20 build/index.js:13937
 msgid "Warning!"
 msgstr "هشدار!"
 
-#: src/components/Synchronization.js:149 src/components/Synchronization.js:200
-#: src/components/Synchronization.js:252
+#: build/index.js:14423 build/index.js:14465 build/index.js:14508
+#: src/components/Synchronization.js:136 src/components/Synchronization.js:189
+#: src/components/Synchronization.js:243 build/index.js:12941
+#: build/index.js:12994 build/index.js:13048
 #| msgid "An error occurred. Please try again later."
 msgid "Warning! an error occurred, please try again later."
 msgstr "هشدار! خطایی رخ داده است، لطفاً بعداً تلاش کنید."
 
-#: src/components/Synchronization.js:138 src/components/Synchronization.js:189
-#: src/components/Synchronization.js:241
+#: build/index.js:14415 build/index.js:14457 build/index.js:14500
+#: src/components/Synchronization.js:125 src/components/Synchronization.js:178
+#: src/components/Synchronization.js:232 build/index.js:12930
+#: build/index.js:12983 build/index.js:13037
 msgid "Warning! please select a phonebook first, in phonebooks section."
 msgstr "هشدار! لطفا ابتدا یک دفترچه تلفن را در بخش دفترچه تلفن انتخاب کنید."
 
-#: src/components/Phonebook.js:329 src/views/NoPhonebookError.js:21
+#: build/index.js:13394 src/components/Phonebook.js:273
+#: src/views/NoPhonebookError.js:21 build/index.js:11859
 msgid "Warning:"
 msgstr "هشدار:"
 
@@ -1212,48 +1381,56 @@ msgstr "ما از این برای ارسال اطلاعات سفارش استف�
 msgid "Web Service"
 msgstr "وب سرویس"
 
-#: src/components/LoginNotify.js:67
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:166
+msgid "Welcome Message Pattern"
+msgstr "کد پترن متن خوش آمدگویی"
+
+#: build/index.js:12227 src/components/LoginNotify.js:66 build/index.js:10637
 #| msgid "welcome message:"
 msgid "Welcome message:"
 msgstr "متن پیام خوش آمد گویی:"
 
-#: src/components/Newsletter.js:84
+#: build/index.js:12779 src/components/Newsletter.js:85 build/index.js:11210
 msgid "Welcome SMS pattern code"
 msgstr ""
 "کد پترن پیامک خوش آمدگویی\n"
 
-#: src/components/LoginNotify.js:55
+#: build/index.js:12215 src/components/LoginNotify.js:54 build/index.js:10625
 msgid "Welcome sms pattern code:"
 msgstr "کد پترن پیامک خوش آمدگویی:"
 
-#: src/components/Newsletter.js:75
+#: build/index.js:12770 src/components/Newsletter.js:76 build/index.js:11201
 msgid "Welcome SMS to subscriber of the newsletter?"
 msgstr "آیا می خواهید به مشترک خبرنامه پیامک خوش آمد گویی ارسال کنید؟"
 
-#: src/views/SidebarItems.js:82
+#: build/index.js:15767 src/views/SidebarItems.js:82 build/index.js:14125
 msgid "WooCommerce"
 msgstr "ووکامرس"
 
-#: classes/class-farazsms-settings.php:228 src/components/WooCommerce.js:102
+#: classes/class-farazsms-settings.php:229 build/index.js:14672
+#: src/components/WooCommerce.js:101 build/index.js:13222
 msgid "Woocommerce"
 msgstr "ووکامرس"
 
-#: src/components/Synchronization.js:297
+#: build/index.js:14542 src/components/Synchronization.js:289
+#: build/index.js:13094
 msgid "Woocommerce synchronization"
 msgstr "همگام سازی ووکامرس"
 
-#: build/index.js:1 src/components/ConfirmDialog.js:20
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:139
+#: modules/elementor/widgets/class-farazsms-newsletter-widget.php:157
+#: build/index.js:11148 src/components/ConfirmDialog.js:20 build/index.js:9587
 msgid "Yes"
 msgstr "بله"
 
-#: src/components/SendSms.js:35
+#: build/index.js:13469 src/components/SendSms.js:36 build/index.js:11928
 msgid ""
 "You can use %name% on message content if you want to send sms to subscribers."
 msgstr ""
 "اگر می‌خواهید برای مشترکین پیامک ارسال کنید، می‌توانید از %name% در محتوای "
 "پیام استفاده کنید."
 
-#: src/views/SectionError.js:27
+#: build/index.js:15572 src/views/SectionError.js:27 build/index.js:13944
 #, javascript-format
 msgid ""
 "You have not checked %s in Integrations section. Please go first there and "
@@ -1262,7 +1439,7 @@ msgstr ""
 "شما تیک افزونه %s را در بخش ادغام ها فعال نکرده اید. لطفاً در ابتداء به آن "
 "بخش بروید و تیک افزونه %s را فعال کنید، سپس به این جا برگردید."
 
-#: src/components/Phonebook.js:331
+#: build/index.js:13396 src/components/Phonebook.js:275 build/index.js:11861
 msgid ""
 "You have not registered a phone book yet. Please create your phone book in "
 "the FarazSMS panel first."
@@ -1270,34 +1447,34 @@ msgstr ""
 "شما هیچ دفترچه تلفنی ثبت نکرده اید. لطفا ابتدا دفترچه تلفن خود را در پنل "
 "فراز اس ام اس ایجاد کنید."
 
-#: src/components/SendSms.js:120
+#: build/index.js:13550 src/components/SendSms.js:121 build/index.js:12013
 msgid "You must provide a message."
 msgstr "شما باید متن پیام را وارد کنید."
 
-#: src/components/Settings.js:255
+#: build/index.js:13936 src/components/Settings.js:258 build/index.js:12471
 msgid "You must provide a Password."
 msgstr "باید رمز عبور را وارد کنید."
 
-#: src/components/Settings.js:273
+#: build/index.js:13948 src/components/Settings.js:276 build/index.js:12489
 msgid "You must provide a service sender number."
 msgstr "باید خط ارسال کننده پیامک خدماتی را وارد کنید."
 
-#: src/components/Settings.js:246
+#: build/index.js:13930 src/components/Settings.js:249 build/index.js:12462
 msgid "You must provide a Username."
 msgstr "باید نام کاربری را وارد کنید."
 
-#: src/components/Settings.js:201
+#: build/index.js:13898 src/components/Settings.js:204 build/index.js:12417
 msgid "You must provide a valid phone number for admin."
 msgstr "شما باید یک شماره همراه معتبر برای ادمین ارائه دهید."
 
-#: src/components/Settings.js:237
+#: build/index.js:13924 src/components/Settings.js:240 build/index.js:12453
 msgid "You must provide an API Key."
 msgstr "باید کلید API را وارد کنید."
 
-#: src/components/Settings.js:264
+#: build/index.js:13942 src/components/Settings.js:267 build/index.js:12480
 msgid "You must provide your admin number."
 msgstr "باید شماره همراه ادمین را وارد کنید."
 
-#: src/components/Settings.js:38
+#: build/index.js:13759 src/components/Settings.js:41 build/index.js:12254
 msgid "Your API key:"
 msgstr "کلید API شما"
