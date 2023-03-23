@@ -90,7 +90,7 @@ function Woocommerce(props) {
         label: __("Pattern code to send tracking code:", "farazsms"),
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
-          "tracking code %tracking_code% (required) | order number %order_id% | order status %order_status% | full name in billing address %billing_full_name% | full name in shipping address %shipping_full_name%",
+          "tracking code %tracking_code% (required) | order number %order_id% | order status %order_status% | full name in billing address %billing_full_name% | full name in shipping address %shipping_full_name% | post service provider %post_service_provider% | post date %post_date%",
           "farazsms"
         ),
       },

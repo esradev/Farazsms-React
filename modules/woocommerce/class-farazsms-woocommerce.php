@@ -138,8 +138,8 @@ class Farazsms_Woocommerce {
 
 		// Select input for selecting the service provider
 		echo '<div id="fsms-tracking-code-provider">';
-		echo '<label for="fsms_tracking_provider">' . __( 'Service Provider', 'farazsms' ) . '</label>';
-		echo '<select name="tracking_provider" id="fsms_tracking_provider">';
+		echo '<label for="fsms_post_service_provider">' . __( 'Service Provider', 'farazsms' ) . '</label>';
+		echo '<select name="post_service_provider" id="fsms_post_service_provider">';
 
 		// Default options
 		echo '<option value="post_office">' . __( 'Post Office', 'farazsms' ) . '</option>';
@@ -153,8 +153,8 @@ class Farazsms_Woocommerce {
 
 		// Date picker for selecting the date of posting
 		echo '<div id="fsms-tracking-code-date">';
-		echo '<label for="fsms_tracking_date">' . __( 'Date of Posting', 'farazsms' ) . '</label>';
-		echo '<input type="date" name="tracking_date" id="fsms_tracking_date" />';
+		echo '<label for="fsms_post_date">' . __( 'Date of Posting', 'farazsms' ) . '</label>';
+		echo '<input type="date" name="post_date" id="fsms_post_date" />';
 		echo '</div>';
 
 		echo '<div id="fsms-tracking-code-button"><div class="fsms_button" id="send_tracking_code_button"><span class="button__text">' . __( 'Send Sms', 'farazsms' ) . '</span></div></div>';
@@ -165,11 +165,11 @@ class Farazsms_Woocommerce {
 		?>
         <script>
           // Handle custom provider input
-          const select = document.querySelector('#fsms_tracking_provider')
+          const select = document.querySelector('#fsms_post_service_provider')
           const input = document.createElement('input')
           input.type = 'text'
           input.style.display = 'none'
-          input.name = 'tracking_provider'
+          input.name = 'post_service_provider'
           input.id = 'fsms_custom_provider'
           input.placeholder = 'نام شرکت یا نحوه ارسال سفارش'
           select.after(input)
@@ -186,48 +186,21 @@ class Farazsms_Woocommerce {
 		<?php
 	}
 
-
 	public function send_tracking_code_sms() {
-		$tracking_code = ( $_POST['tracking_code'] ?? '' );
-		$order_id      = ( $_POST['order_id'] ?? '' );
+		$tracking_code         = ( $_POST['tracking_code'] ?? '' );
+		$post_service_provider = ( $_POST['post_service_provider'] ?? '' );
+		$post_date             = ( $_POST['post_date'] ?? '' );
+		$order_id              = ( $_POST['order_id'] ?? '' );
 		try {
-			if ( empty( $tracking_code ) || strlen( $tracking_code ) < 20 ) {
-				throw new Exception( __( 'Please enter the tracking code correctly.', 'farazsms' ) );
+			if ( empty( $tracking_code ) ) {
+				throw new Exception( __( 'Please enter the tracking code.', 'farazsms' ) );
 			}
 
-			$order = wc_get_order( $order_id );
-			$phone = $order->get_billing_phone();
-			if ( empty( $phone ) ) {
-				throw new Exception( __( 'Customer phone number not entered.', 'farazsms' ) );
-			}
-
-			$order_data['order_id']           = $order->get_id();
-			$order_data['order_status']       = wc_get_order_status_name( $order->get_status() );
-			$order_data['billing_full_name']  = $order->get_formatted_billing_full_name();
-			$order_data['shipping_full_name'] = $order->get_formatted_shipping_full_name();
-			$this->send_tracking_code( $phone, $tracking_code, $order_data );
-			wp_send_json_success();
-		} catch ( Exception $e ) {
-			wp_send_json_error( $e->getMessage() );
-		}
-
-	}
-
-	/*public function send_tracking_code_sms() {
-		$tracking_code = ( $_POST['tracking_code'] ?? '' );
-		$tracking_provider = ( $_POST['tracking_provider'] ?? '' );
-		$tracking_date = ( $_POST['tracking_date'] ?? '' );
-		$order_id = ( $_POST['order_id'] ?? '' );
-		try {
-			if ( empty( $tracking_code ) || strlen( $tracking_code ) < 20 ) {
-				throw new Exception( __( 'Please enter the tracking code correctly.', 'farazsms' ) );
-			}
-
-			if ( empty( $tracking_provider ) ) {
+			if ( empty( $post_service_provider ) || $post_service_provider == 'none' ) {
 				throw new Exception( __( 'Please select a service provider.', 'farazsms' ) );
 			}
 
-			if ( empty( $tracking_date ) ) {
+			if ( empty( $post_date ) ) {
 				throw new Exception( __( 'Please select the date of posting.', 'farazsms' ) );
 			}
 
@@ -237,12 +210,13 @@ class Farazsms_Woocommerce {
 				throw new Exception( __( 'Customer phone number not entered.', 'farazsms' ) );
 			}
 
-			$order_data['order_id']           = $order->get_id();
-			$order_data['order_status']       = wc_get_order_status_name( $order->get_status() );
-			$order_data['billing_full_name']  = $order->get_formatted_billing_full_name();
-			$order_data['shipping_full_name'] = $order->get_formatted_shipping_full_name();
+			$order_data['order_id']              = $order->get_id();
+			$order_data['order_status']          = wc_get_order_status_name( $order->get_status() );
+			$order_data['billing_full_name']     = $order->get_formatted_billing_full_name();
+			$order_data['shipping_full_name']    = $order->get_formatted_shipping_full_name();
+			$order_data['post_service_provider'] = $post_service_provider;
+			$order_data['post_date']             = $post_date;
 
-			$this->set_tracking_pattern( $tracking_provider, $tracking_date );
 			$this->send_tracking_code( $phone, $tracking_code, $order_data );
 
 			wp_send_json_success();
@@ -250,12 +224,16 @@ class Farazsms_Woocommerce {
 			wp_send_json_error( $e->getMessage() );
 		}
 	}
-*/
 
 
 	/**
 	 * Send tracking code.
 	 *
+	 * @param $phone
+	 * @param $tracking_code
+	 * @param $order_data
+	 *
+	 * @return bool
 	 * @throws Exception
 	 */
 	public function send_tracking_code( $phone, $tracking_code, $order_data ) {
@@ -285,47 +263,15 @@ class Farazsms_Woocommerce {
 		if ( str_contains( $patternMessage, '%shipping_full_name%' ) ) {
 			$input_data['shipping_full_name'] = strval( $order_data['shipping_full_name'] );
 		}
+		if ( str_contains( $patternMessage, '%post_service_provider%' ) ) {
+			$input_data['post_service_provider'] = strval( $order_data['post_service_provider'] );
+		}
+		if ( str_contains( $patternMessage, '%post_date%' ) ) {
+			$input_data['post_date'] = strval( $order_data['post_date'] );
+		}
 
 		return Farazsms_Ippanel::send_pattern( self::$woo_tracking_pattern, $phone, $input_data );
 	}
-
-	/*	public function send_tracking_code( $phone, $tracking_code, $order_data, $provider, $date ) {
-
-			if ( empty( self::$woo_tracking_pattern ) ) {
-				throw new Exception( __( 'Pattern not entered to send tracking code', 'farazsms' ) );
-			}
-
-			$phone          = Farazsms_Base::fsms_tr_num( $phone );
-			$input_data     = [];
-			$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( self::$woo_tracking_pattern );
-			if ( $patternMessage === null ) {
-				throw new Exception( __( 'Probably your pattern has not been approved', 'farazsms' ) );
-			}
-			if ( str_contains( $patternMessage, '%tracking_code%' ) ) {
-				$input_data['tracking_code'] = strval( $tracking_code );
-			}
-			if ( str_contains( $patternMessage, '%order_id%' ) ) {
-				$input_data['order_id'] = strval( $order_data['order_id'] );
-			}
-			if ( str_contains( $patternMessage, '%order_status%' ) ) {
-				$input_data['order_status'] = strval( $order_data['order_status'] );
-			}
-			if ( str_contains( $patternMessage, '%billing_full_name%' ) ) {
-				$input_data['billing_full_name'] = strval( $order_data['billing_full_name'] );
-			}
-			if ( str_contains( $patternMessage, '%shipping_full_name%' ) ) {
-				$input_data['shipping_full_name'] = strval( $order_data['shipping_full_name'] );
-			}
-			if ( str_contains( $patternMessage, '%provider%' ) ) {
-				$input_data['provider'] = strval( $provider );
-			}
-			if ( str_contains( $patternMessage, '%date%' ) ) {
-				$input_data['date'] = strval( $date );
-			}
-
-			return Farazsms_Ippanel::send_pattern( self::$woo_tracking_pattern, $phone, $input_data );
-		}*/
-
 
 	/**
 	 * Send woocommerce verification code.
