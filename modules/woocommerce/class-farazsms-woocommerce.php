@@ -91,7 +91,7 @@ class Farazsms_Woocommerce {
 	public function enqueue_styles() {
 		$woo_checkout_otp = self::$woo_checkout_otp;
 		if ( $woo_checkout_otp && is_checkout() ) {
-			wp_enqueue_style( 'farazsms-woo-otp', FARAZSMS_URL . 'assets/css/farazsms-woo-otp.css', [], '2.0', 'all' );
+			wp_enqueue_style( 'farazsms-woo-otp', FARAZSMS_URL . 'assets/css/farazsms-woo-otp.css', [], FARAZSMS_VERSION, 'all' );
 		}
 	}
 
@@ -103,7 +103,7 @@ class Farazsms_Woocommerce {
 	public function enqueue_scripts() {
 		$woo_checkout_otp = self::$woo_checkout_otp;
 		if ( $woo_checkout_otp && is_checkout() ) {
-			wp_enqueue_script( 'farazsms-woo-otp', FARAZSMS_URL . 'assets/js/farazsms-woo-otp.js', [ 'jquery' ], '2.0', true );
+			wp_enqueue_script( 'farazsms-woo-otp', FARAZSMS_URL . 'assets/js/farazsms-woo-otp.js', [ 'jquery' ], FARAZSMS_VERSION, true );
 			wp_localize_script(
 				'farazsms-woo-otp',
 				'fsms_ajax_url',

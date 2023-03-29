@@ -1,5 +1,5 @@
 === Farazsms ===
-Contributors: wpstormdev
+Contributors: wpstormdev, farazsmsdeveloper
 Tags: Mobile Verification, order notification, order sms, sms plugin, woocommerce sms integration, digits sms, gravity form sms, bookly sms
 Donate link: https://farazsms.com/
 Requires at least: 5.3

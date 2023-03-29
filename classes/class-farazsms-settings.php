@@ -53,7 +53,6 @@ class Farazsms_Settings {
 		add_action( 'wp_dashboard_setup', [ $this, 'rss_meta_box' ] );
 		add_action( 'init', [ $this, 'check_remaining_days' ] );
 		self::$actual_link = ( isset( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http' ) . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-
 	}
 
 
@@ -63,7 +62,7 @@ class Farazsms_Settings {
 	 * @return void
 	 */
 	public function enqueue_styles() {
-		wp_register_style( 'farazsms-newsletter', FARAZSMS_URL . 'assets/css/farazsms-newsletter.css', [], '2.0', 'all' );
+		wp_register_style( 'farazsms-newsletter', FARAZSMS_URL . 'assets/css/farazsms-newsletter.css', [], FARAZSMS_VERSION, 'all' );
 	}
 
 	/**
@@ -72,8 +71,8 @@ class Farazsms_Settings {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'jquery', 'https://code.jquery.com/jquery-3.6.0.min.js', [], '3.6.0', true );
-		wp_register_script( 'farazsms-newsletter', FARAZSMS_URL . 'assets/js/farazsms-newsletter.js', [ 'jquery' ], '2.0.1', true );
+		wp_enqueue_script( 'jquery', 'https://code.jquery.com/jquery-3.6.0.min.js', [], FARAZSMS_VERSION, true );
+		wp_register_script( 'farazsms-newsletter', FARAZSMS_URL . 'assets/js/farazsms-newsletter.js', [ 'jquery' ], FARAZSMS_VERSION, true );
 		wp_localize_script(
 			'farazsms-newsletter',
 			'fsms_ajax_object',
@@ -88,9 +87,8 @@ class Farazsms_Settings {
 	 */
 	public function admin_enqueue_styles() {
 		if ( self::$actual_link === FARAZSMS_SETTINGS_LINK ) {
-			wp_enqueue_style( 'farazsms-style', FARAZSMS_URL . 'build/index.css' );
+			wp_enqueue_style( 'farazsms-style', FARAZSMS_URL . 'build/index.css', [], FARAZSMS_VERSION );
 		}
-
 	}
 
 	/**
@@ -106,7 +104,7 @@ class Farazsms_Settings {
 				'wp-element',
 				'wp-i18n',
 			],
-			'1.0.0',
+			FARAZSMS_VERSION,
 			true
 		);
 
@@ -132,11 +130,11 @@ class Farazsms_Settings {
 		// Load Farazsms languages for JavaScript files.
 		wp_set_script_translations( 'farazsms-script', 'farazsms', FARAZSMS_PATH . '/languages' );
 
-		wp_enqueue_script( 'jquery-validate', FARAZSMS_URL . 'assets/js/jquery.validate.min.js', [ 'jquery' ], '2.0', true );
-		wp_enqueue_script( 'select2', '//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', [ 'jquery-validate' ], '1.0', true );
+		wp_enqueue_script( 'jquery-validate', FARAZSMS_URL . 'assets/js/jquery.validate.min.js', [ 'jquery' ], FARAZSMS_VERSION, true );
+		wp_enqueue_script( 'select2', '//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', [ 'jquery-validate' ], FARAZSMS_VERSION, true );
 
-		wp_enqueue_style( 'farazsms-tracking-code', FARAZSMS_URL . 'assets/css/farazsms-tracking-code.css', [], '2.3', 'all' );
-		wp_enqueue_script( 'farazsms-tracking-code', FARAZSMS_URL . 'assets/js/farazsms-tracking-code.js', [ 'jquery-validate' ], '2.1', true );
+		wp_enqueue_style( 'farazsms-tracking-code', FARAZSMS_URL . 'assets/css/farazsms-tracking-code.css', [], FARAZSMS_VERSION, 'all' );
+		wp_enqueue_script( 'farazsms-tracking-code', FARAZSMS_URL . 'assets/js/farazsms-tracking-code.js', [ 'jquery-validate' ], FARAZSMS_VERSION, true );
 	}
 
 	/**
@@ -237,17 +235,6 @@ class Farazsms_Settings {
 		add_submenu_page(
 			FARAZSMS_SLUG,
 			__( 'Farazsms', 'farazsms' ),
-			__( 'Elementor', 'farazsms' ),
-			'manage_options',
-			FARAZSMS_SLUG . '#/elementor',
-			[
-				$this,
-				'admin_page',
-			]
-		);
-		add_submenu_page(
-			FARAZSMS_SLUG,
-			__( 'Farazsms', 'farazsms' ),
 			__( 'Edd', 'farazsms' ),
 			'manage_options',
 			FARAZSMS_SLUG . '#/edd',
@@ -322,7 +309,6 @@ class Farazsms_Settings {
 				'admin_page',
 			]
 		);
-
 	}
 
 	/**
@@ -385,7 +371,6 @@ class Farazsms_Settings {
 				'href'   => 'https://farazsms.com/',
 			]
 		);
-
 	}
 
 	/**
@@ -402,7 +387,6 @@ class Farazsms_Settings {
 		array_push( $links, $settings_link, $doc_link );
 
 		return $links;
-
 	}
 
 	/**
@@ -424,7 +408,6 @@ class Farazsms_Settings {
 				'low'
 			);
 		}
-
 	}
 
 	public function rss_postbox_container() {
@@ -486,7 +469,6 @@ class Farazsms_Settings {
 			update_option( 'sent_low_remaining_days_7', '1' );
 		}
 	}
-
 }
 
 Farazsms_Settings::get_instance();

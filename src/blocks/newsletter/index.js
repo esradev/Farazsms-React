@@ -25,12 +25,12 @@ import { ChromePicker } from "react-color";
       .getBlocks()
       .filter(function (block) {
         return (
-          block.name == "farazsms/newsletter" &&
-          block.attributes.correctAnswer == undefined
+          block.name === "farazsms/newsletter" &&
+          block.attributes.correctAnswer === undefined
         );
       });
 
-    if (results.length && locked == false) {
+    if (results.length && locked === false) {
       locked = true;
       wp.data.dispatch("core/editor").lockPostSaving("noanswer");
     }
