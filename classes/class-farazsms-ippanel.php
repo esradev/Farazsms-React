@@ -53,51 +53,35 @@ class Farazsms_Ippanel {
 	 * @since 2.0.0
 	 */
 	public static function get_phonebooks() {
-		$handler = curl_init( 'http://api.ippanel.com/api/v1/phonebook/phonebooks' );
-		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'GET' );
-		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
-			'Authorization: ' . Farazsms_Base::$apiKey,
-			'Content-Type:application/json'
-		] );
+		$args = [
+			'method'      => 'GET',
+			'timeout'     => 5,
+			'redirection' => 5,
+			'httpversion' => '1.0',
+			'headers'     => [
+				'Authorization' => Farazsms_Base::$apiKey,
+				'Content-Type'  => 'application/json'
+			],
+		];
 
-		$res = curl_exec( $handler );
-		$res = json_decode( $res, true );
+		$response = wp_remote_request( 'http://api.ippanel.com/api/v1/phonebook/phonebooks', $args );
 
-		if ( ! $res ) {
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+		$response_code = wp_remote_retrieve_response_code( $response );
+		if ( $response_code != 200 ) {
+			return false;
+		}
+
+		$response_body = wp_remote_retrieve_body( $response );
+		$response_data = json_decode( $response_body, true );
+		if ( ! $response_data ) {
 			return false;
 		} else {
-			return $res;
+			return $response_data;
 		}
-
-	}
-
-	public static function get_phonebooks_old_version() {
-		$uname = Farazsms_Base::$username;
-		$pass  = Farazsms_Base::$password;
-		$body  = [
-			'uname' => $uname,
-			'pass'  => $pass,
-			'op'    => 'booklist',
-		];
-		$res   = wp_remote_post(
-			'http://ippanel.com/api/select',
-			[
-				'method'      => 'POST',
-				'headers'     => [ 'Content-Type' => 'application/json' ],
-				'data_format' => 'body',
-				'body'        => json_encode( $body ),
-			]
-		);
-		if ( is_wp_error( $res ) ) {
-			return $res;
-		}
-		$res = json_decode( $res['body'] );
-		if ( intval( $res[0] ) != 0 ) {
-			return $res;
-		}
-
-		return json_decode( $res[1] );
 	}
 
 	/**
@@ -114,13 +98,20 @@ class Farazsms_Ippanel {
 			'phoneBookId' => $phonebook_id,
 			'number'      => $phone,
 		];
-		$handler = curl_init( 'http://ippanel.com/api/select' );
-		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'POST' );
-		curl_setopt( $handler, CURLOPT_POSTFIELDS, json_encode( $body ) );
-		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $handler, CURLOPT_HTTPHEADER, [ 'Content-Type:application/json' ] );
-		$res = curl_exec( $handler );
-		$res = json_decode( $res, true );
+
+		$args = [
+			'body'        => json_encode( $body ),
+			'headers'     => [ 'Content-Type' => 'application/json' ],
+			'method'      => 'POST',
+			'data_format' => 'body',
+		];
+		$response = wp_remote_post( 'http://ippanel.com/api/select', $args );
+
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+		$res = json_decode( wp_remote_retrieve_body( $response ), true );
 //		if ( $res->status->code !== 0 ) {
 //			return false;
 //		}
@@ -133,26 +124,28 @@ class Farazsms_Ippanel {
 	 *
 	 * @param array $list
 	 *
-	 * @return bool
+	 * @return false|mixed|null
 	 * @since 2.0.0
-	 *
 	 */
 	public static function save_list_of_phones_to_phonebook( array $list ) {
-		$body    = [
+		$body = [
 			'list' => $list,
 		];
-		$handler = curl_init( 'http://api.ippanel.com/api/v1/phonebook/numbers-add-list' );
-		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'POST' );
-		curl_setopt( $handler, CURLOPT_POSTFIELDS, json_encode( $body ) );
-		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
-			'Authorization: ' . Farazsms_Base::$apiKey,
-			'Content-Type:application/json'
-		] );
-
-		$res = curl_exec( $handler );
-
-		return json_decode( $res );
+		$headers = [
+			'Authorization' => Farazsms_Base::$apiKey,
+			'Content-Type' => 'application/json',
+		];
+		$args = [
+			'method' => 'POST',
+			'headers' => $headers,
+			'body' => json_encode( $body ),
+		];
+		$response = wp_remote_post( 'http://api.ippanel.com/api/v1/phonebook/numbers-add-list', $args );
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+		$res = json_decode( wp_remote_retrieve_body( $response ), true );
+		return $res;
 	}
 
 	/**
@@ -245,25 +238,31 @@ class Farazsms_Ippanel {
 			$sender = Farazsms_Base::$fromNum;
 		}
 
-		$body    = [
+		$body = [
 			'recipient' => $recipient,
 			'sender'    => $sender,
 			'message'   => $message
 		];
-		$handler = curl_init( 'http://api.ippanel.com/api/v1/sms/send/webservice/single' );
-		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'POST' );
-		curl_setopt( $handler, CURLOPT_POSTFIELDS, json_encode( $body ) );
-		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
-			'accept: application/json',
-			'Authorization: ' . Farazsms_Base::$apiKey,
-			'Content-Type:application/json'
-		] );
 
-		$res = curl_exec( $handler );
-		$res = json_decode( $res );
+		$args = [
+			'method'      => 'POST',
+			'headers'     => [
+				'accept'        => 'application/json',
+				'Authorization' => Farazsms_Base::$apiKey,
+				'Content-Type'  => 'application/json'
+			],
+			'body'        => json_encode( $body ),
+			'data_format' => 'body',
+		];
 
-		return true;
+		$response = wp_remote_post( 'http://api.ippanel.com/api/v1/sms/send/webservice/single', $args );
+
+		if ( is_wp_error( $response ) ) {
+			return false;
+		} else {
+			$res = json_decode( wp_remote_retrieve_body( $response ) );
+			return true;
+		}
 	}
 
 

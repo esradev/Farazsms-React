@@ -71,7 +71,6 @@ class Farazsms_Settings {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'jquery', 'https://code.jquery.com/jquery-3.6.0.min.js', [], FARAZSMS_VERSION, true );
 		wp_register_script( 'farazsms-newsletter', FARAZSMS_URL . 'assets/js/farazsms-newsletter.js', [ 'jquery' ], FARAZSMS_VERSION, true );
 		wp_localize_script(
 			'farazsms-newsletter',
@@ -131,7 +130,7 @@ class Farazsms_Settings {
 		wp_set_script_translations( 'farazsms-script', 'farazsms', FARAZSMS_PATH . '/languages' );
 
 		wp_enqueue_script( 'jquery-validate', FARAZSMS_URL . 'assets/js/jquery.validate.min.js', [ 'jquery' ], FARAZSMS_VERSION, true );
-		wp_enqueue_script( 'select2', '//cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js', [ 'jquery-validate' ], FARAZSMS_VERSION, true );
+		wp_enqueue_script( 'select2', FARAZSMS_URL . 'assets/js/select2.min.js' , [ 'jquery-validate' ], FARAZSMS_VERSION, true );
 
 		wp_enqueue_style( 'farazsms-tracking-code', FARAZSMS_URL . 'assets/css/farazsms-tracking-code.css', [], FARAZSMS_VERSION, 'all' );
 		wp_enqueue_script( 'farazsms-tracking-code', FARAZSMS_URL . 'assets/js/farazsms-tracking-code.js', [ 'jquery-validate' ], FARAZSMS_VERSION, true );

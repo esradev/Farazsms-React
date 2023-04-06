@@ -405,11 +405,11 @@ class Farazsms_Newsletter {
 	 * @since 1.0.0
 	 */
 	public function ajax_send_message_to_phonebooks() {
-		$fsms_base           = Farazsms_Base::get_instance();
-		$message             = ( $_POST['message'] ?? '' );
-		$phonebooks          = ( $_POST['phonebooks'] ?? [] );
-		$send_to_subscribers = ( $_POST['send_to_subscribers'] ?? '' );
-		$send_formnum_choice = ( $_POST['send_formnum_choice'] ?? '' );
+		$message = sanitize_text_field( $_POST['message'] ?? '' );
+		$phonebooks = array_map( 'absint', ( $_POST['phonebooks'] ?? [] ) );
+		$send_to_subscribers = sanitize_text_field( $_POST['send_to_subscribers'] ?? '' );
+		$send_formnum_choice = sanitize_text_field( $_POST['send_formnum_choice'] ?? '' );
+
 		if ( $send_formnum_choice == '2' && ! strpos( $_POST['phones'], ',' ) ) {
 			wp_send_json_error( __( 'Please enter manual numbers in the correct format', 'farazsms' ) );
 		}
@@ -420,10 +420,12 @@ class Farazsms_Newsletter {
 			$send_formnum_choice = Farazsms_Base::$fromNumAdver;
 		}
 
-		$phones = explode( ',', ( $_POST['phones'] ?? '' ) );
+		$phones = array_map( 'sanitize_text_field', explode( ',', ( $_POST['phones'] ?? '' ) ) );
+		$fixed_phones = [];
+
 		foreach ( $phones as $phone ) {
-			if ( $fsms_base::validate_mobile_number( $phone ) ) {
-				$fixed_phones[] = $fsms_base::validate_mobile_number( $phone );
+			if ( preg_match( '/^\+?\d{10,}$/', $phone ) ) {
+				$fixed_phones[] = $phone;
 			}
 		}
 
@@ -442,7 +444,6 @@ class Farazsms_Newsletter {
 		}
 
 		wp_send_json_success();
-
 	}
 
 	/**

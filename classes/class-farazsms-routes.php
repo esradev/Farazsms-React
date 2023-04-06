@@ -876,16 +876,30 @@ class Farazsms_Routes {
 			'op'               => 'ticketadd'
 		];
 
-		$handler = curl_init( 'http://ippanel.com/services.jspd' );
-		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'POST' );
-		curl_setopt( $handler, CURLOPT_POSTFIELDS, $body );
-		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
-		$response = curl_exec( $handler );
-		$response = json_decode( $response );
+		$args = [
+			'body'        => $body,
+			'timeout'     => '5',
+			'redirection' => '5',
+			'httpversion' => '1.0',
+			'blocking'    => true,
+			'headers'     => [],
+			'cookies'     => []
+		];
+
+		$response = wp_remote_post( 'http://ippanel.com/services.jspd', $args );
+
 		if ( is_wp_error( $response ) ) {
 			return false;
 		}
-		if ( $response[0] !== 0 || ! $response[1] ) {
+
+		$response_code = wp_remote_retrieve_response_code( $response );
+		if ( $response_code != 200 ) {
+			return false;
+		}
+
+		$response_body = wp_remote_retrieve_body( $response );
+		$response_data = json_decode( $response_body );
+		if ( $response_data[0] !== 0 || ! $response_data[1] ) {
 			return false;
 		}
 

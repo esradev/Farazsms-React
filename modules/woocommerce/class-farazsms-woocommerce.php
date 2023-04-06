@@ -128,37 +128,37 @@ class Farazsms_Woocommerce {
 
 		// Display a message if no tracking code data is found
 		if ( empty( $tracking_code_data ) ) {
-			echo '<p> ' . __( 'No tracking code data found for this order.', 'farazsms' ) . '</p>';
+			echo '<p> ' . esc_html__( 'No tracking code data found for this order.', 'farazsms' ) . '</p>';
 
 			return;
 		}
 
 		// Display all tracking code data if there is more than one record
 		if ( count( $tracking_code_data ) > 1 ) {
-			echo '<p>' . __( 'Multiple tracking codes found for this order:', 'farazsms' ) . '</p>';
+			echo '<p>' . esc_html__( 'Multiple tracking codes found for this order:', 'farazsms' ) . '</p>';
 
 			foreach ( $tracking_code_data as $data ) {
 				echo '<ul>';
-				echo '<li><strong>' . __( 'Tracking Code: ', 'farazsms' ) . '</strong>' . $data->tracking_code . '</li>';
-				echo '<li><strong>' . __( 'Post Service Provider: ', 'farazsms' ) . '</strong> ' . $data->post_service_provider . '</li>';
-				echo '<li><strong>' . __( 'Post Date: ', 'farazsms' ) . '</strong>' . $data->post_date . '</li>';
+				echo '<li><strong>' . esc_html__( 'Tracking Code: ', 'farazsms' ) . '</strong>' . esc_html( $data->tracking_code ) . '</li>';
+				echo '<li><strong>' . esc_html__( 'Post Service Provider: ', 'farazsms' ) . '</strong> ' . esc_html( $data->post_service_provider ) . '</li>';
+				echo '<li><strong>' . esc_html__( 'Post Date: ', 'farazsms' ) . '</strong>' . esc_html( $data->post_date ) . '</li>';
 				echo '</ul>';
 			}
 
 		} else {
-			echo '<p>' . __( 'One tracking code found for this order:', 'farazsms' ) . '</p>';
+			echo '<p>' . esc_html__( 'One tracking code found for this order:', 'farazsms' ) . '</p>';
 			?>
-            <div class="already-sent-tracking-code">
-                <p>
-                    <strong><?php echo __( 'Tracking Code: ', 'farazsms' ) ?></strong> <?php echo $tracking_code_data[0]->tracking_code; ?>
-                </p>
-                <p>
-                    <strong><?php echo __( 'Post Service Provider: ', 'farazsms' ) ?></strong> <?php echo $tracking_code_data[0]->post_service_provider; ?>
-                </p>
-                <p>
-                    <strong><?php echo __( 'Post Date: ', 'farazsms' ) ?></strong> <?php echo $tracking_code_data[0]->post_date; ?>
-                </p>
-            </div>
+			<div class="already-sent-tracking-code">
+				<p>
+					<strong><?php echo esc_html__( 'Tracking Code: ', 'farazsms' ) ?></strong> <?php echo esc_html( $tracking_code_data[0]->tracking_code ); ?>
+				</p>
+				<p>
+					<strong><?php echo esc_html__( '...', 'farazsms' ) ?></strong> <?php echo esc_html( $tracking_code_data[0]->post_service_provider ); ?>
+				</p>
+				<p>
+					<strong><?php echo esc_html__( 'Post Date: ', 'farazsms' ) ?></strong> <?php echo esc_html( $tracking_code_data[0]->post_date ); ?>
+				</p>
+			</div>
 			<?php
 		}
 	}
