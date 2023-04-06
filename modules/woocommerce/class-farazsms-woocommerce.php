@@ -74,8 +74,8 @@ class Farazsms_Woocommerce {
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'woocommerce_thankyou', [ $this, 'woo_payment_finished' ] );
-//		add_action( 'woocommerce_thankyou', [ $this, 'woo_send_timed_message' ] );
-//		add_action( 'init', [$this, 'fsms_woo_retention_action' ]);
+		add_action( 'woocommerce_thankyou', [ $this, 'woo_send_timed_message' ] );
+		add_action( 'init', [$this, 'fsms_woo_retention_action' ]);
 		add_action( 'woocommerce_checkout_get_value', [ $this, 'fsms_pre_populate_checkout_fields' ], 10, 2 );
 		add_filter( 'woocommerce_billing_fields', [ $this, 'fsms_woocommerce_checkout_fields' ] );
 		add_action( 'woocommerce_checkout_process', [ $this, 'fsms_woocommerce_checkout_process' ] );

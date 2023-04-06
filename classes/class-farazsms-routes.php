@@ -346,7 +346,7 @@ class Farazsms_Routes {
 	 */
 	public function add_settings_options( $data ) {
 		$option      = [
-			'apikey'            => $data['apikey'],
+			'apikey'            => $data['apikey'] ?: '',
 			'username'          => $data['username'] ?: '',
 			'password'          => $data['password'] ?: '',
 			'admin_number'      => $data['admin_number'] ?: '',
@@ -819,15 +819,21 @@ class Farazsms_Routes {
 		global $wpdb;
 
 		$data       = [
-			'title'           => $incomingData['title'],
-			'phonebook_id'    => $incomingData['phonebook_id'],
-			'form_id'         => $incomingData['form_id'],
-			'field_id'        => $incomingData['field_id'],
-			'phonebook_label' => $incomingData['phonebook_label'],
-			'form_label'      => $incomingData['form_label'],
-			'field_label'     => $incomingData['field_label'],
-			'action_type'     => $incomingData['action_type'],
-			'action_label'    => $incomingData['action_label'],
+			'title'              => $incomingData['title'] ?: '',
+			'phonebook_id'       => $incomingData['phonebook_id'] ?: '',
+			'form_id'            => $incomingData['form_id'] ?: '',
+			'field_id'           => $incomingData['field_id'] ?: '',
+			'name_field_id'      => $incomingData['name_field_id'] ?: '',
+			'content_field_id'   => $incomingData['content_field_id'] ?: '',
+			'phonebook_label'    => $incomingData['phonebook_label'] ?: '',
+			'form_label'         => $incomingData['form_label'] ?: '',
+			'field_label'        => $incomingData['field_label'] ?: '',
+			'name_field_label'   => $incomingData['name_field_label'] ?: '',
+			'content_field_label'=> $incomingData['content_field_label'] ?: '',
+			'action_type'        => $incomingData['action_type'] ?: '',
+			'action_label'       => $incomingData['action_label'] ?: '',
+			'user_pattern_code'  => $incomingData['user_pattern_code'] ?: '',
+			'admin_pattern_code' => $incomingData['admin_pattern_code'] ?: '',
 		];
 		$table_name = $wpdb->prefix . 'farazsms_gravity_forms';
 
@@ -950,7 +956,7 @@ class Farazsms_Routes {
 	 */
 	public function permissions_check( $request ) {
 		//return true; <--use to make readable by all
-		return true;
+		return current_user_can( 'manage_options' );
 	}
 
 }

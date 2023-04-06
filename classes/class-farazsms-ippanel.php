@@ -184,7 +184,7 @@ class Farazsms_Ippanel {
 		}
 		$res = json_decode( $res['body'] , true);
 
-		return $res['data']['patternMessage'];
+		return $res['data']['patternMessage'] ?? null;
 	}
 
 	/**

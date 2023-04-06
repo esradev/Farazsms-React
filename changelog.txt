@@ -1,3 +1,7 @@
+Version 2.3.1 - Thursday, 6th Apr 2023
+- Add 2 new action type for Gravity Froms plugin integration. Send sms to user or admin actions as pattern messages.
+- Fix Bugs and performance stability.
+=======
 Version 2.2.0 - Thursday, 23rd Mar 2023
 - Improved send tracking code functionality, so now user can select <post_service_provider> and <post_date>.
 - Fix Bugs and performance stability.

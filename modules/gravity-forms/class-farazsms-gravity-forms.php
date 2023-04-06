@@ -61,29 +61,67 @@ class Farazsms_Gravity_Forms {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'farazsms_gravity_forms';
 
-		// Retrieve rows from the database table where action is "saveToPhonebook"
+		// Retrieve rows from the database table
 		$results = $wpdb->get_results(
-			"SELECT * FROM $table_name WHERE action_type = 'saveToPhonebook'"
+			"SELECT * FROM $table_name"
 		);
 
 		// Loop through the results and perform an action on each row
 		foreach ( $results as $row ) {
-			$phone_form_id  = $row->form_id;
+			$form_id  = $row->form_id;
 			$phone_field_id = $row->field_id;
+			$name_field_id = $row->name_field_id;
+			$content_field_id = $row->content_field_id;
 			$phonebook_id   = $row->phonebook_id;
+			$action = $row->action_type;
 
-			if ( $form['id'] == $phone_form_id ) {
+
+
+			if ( $form['id'] == $form_id ) {
 				$phone_number = rgar( $entry, $phone_field_id );
+				$name = rgar($entry, $name_field_id);
+				$content = rgar($entry, $content_field_id);
+				// Switch statement to handle different action types
+				switch ( $action ) {
+					case 'saveToPhonebook':
+						$list[0] = (object) [
+							'number'       => $phone_number,
+							'name'         => $name ?? '',
+							'phonebook_id' => (int) $phonebook_id
+						];
+						Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
+						break;
+					case 'sendSmsToUser':
+						$pattern = $row->user_pattern_code;
+						$input_data = [];
+						$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( $pattern );
+						if ( $patternMessage === null ) {
+							return;
+						}
+						if ( str_contains( $patternMessage, '%name%' ) ) {
+							$input_data['name'] = $name ?? '';
+						}
+						if ( str_contains( $patternMessage, '%content%' ) ) {
+							$input_data['content'] = $content ?? '';
+						}
 
-				if ( $row->action_type === 'saveToPhonebook' ) {// Check if the form ID matches the current form
-					// Get the phone number entered by the user
-
-					$list[0] = (object) [
-						'number'       => $phone_number,
-						'name'         => '',
-						'phonebook_id' => (int) $phonebook_id
-					];
-					Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
+						Farazsms_Ippanel::send_pattern( $pattern, $phone_number, $input_data );
+						break;
+					case 'sendSmsToAdmin':
+						$pattern = $row->admin_pattern_code;
+						$input_data = [];
+						$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( $pattern );
+						if ( $patternMessage === null ) {
+							return;
+						}
+						if ( str_contains( $patternMessage, '%name%' ) ) {
+							$input_data['name'] = $name ?? '';
+						}
+						if ( str_contains( $patternMessage, '%content%' ) ) {
+							$input_data['content'] = $content ?? '';
+						}
+						Farazsms_Ippanel::send_pattern( $pattern, Farazsms_Base::$admin_number, $input_data );
+						break;
 				}
 			}
 		}

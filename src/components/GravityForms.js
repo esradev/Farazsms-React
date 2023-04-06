@@ -67,10 +67,38 @@ function GravityForms(props) {
         onChange: "gf_fieldChange",
         name: "gf_field",
         type: "select",
-        label: __("Gravity Form fields:", "farazsms"),
+        label: __("Gravity Form phone number field:", "farazsms"),
         infoTitle: __("Info", "farazsms"),
         infoBody: __(
           "In this section, you must specify the mobile field, that you want to do the action on it.",
+          "farazsms"
+        ),
+        options: [],
+        noOptionsMessage: __("No options is available", "farazsms"),
+      },
+      gf_name_field: {
+        value: [],
+        onChange: "gf_name_fieldChange",
+        name: "gf_name_field",
+        type: "select",
+        label: __("Gravity Form name field:", "farazsms"),
+        infoTitle: __("Info", "farazsms"),
+        infoBody: __(
+          "In this section, you must specify the user name field, that you want save on phonebook or want to be on sms message. (use %name% variable in your pattern.)",
+          "farazsms"
+        ),
+        options: [],
+        noOptionsMessage: __("No options is available", "farazsms"),
+      },
+      gf_content_field: {
+        value: [],
+        onChange: "gf_content_fieldChange",
+        name: "gf_content_field",
+        type: "select",
+        label: __("Gravity Form content field:", "farazsms"),
+        infoTitle: __("Info", "farazsms"),
+        infoBody: __(
+          "In this section, you must specify the user content field, that you want to be on sms message. (use %conctent% variable in your pattern.)",
           "farazsms"
         ),
         options: [],
@@ -92,13 +120,29 @@ function GravityForms(props) {
             value: "saveToPhonebook",
             label: __("Save to phonebook", "farazsms"),
           },
-          // { value: "sendSmsToUser", label: __("Send sms to user", "farazsms") },
-          // {
-          //   value: "sendSmsToAdmin",
-          //   label: __("Send sms to admin", "farazsms"),
-          // },
+          { value: "sendSmsToUser", label: __("Send sms to user", "farazsms") },
+          {
+            value: "sendSmsToAdmin",
+            label: __("Send sms to admin", "farazsms"),
+          },
         ],
         noOptionsMessage: __("No options is available", "farazsms"),
+      },
+      user_pattern_code: {
+        value: "",
+        onChange: "user_pattern_codeChange",
+        name: "user_pattern_code",
+        type: "text",
+        label: __("User pattern code:", "farazsms"),
+        isDependencyUsed: false,
+      },
+      admin_pattern_code: {
+        value: "",
+        onChange: "admin_pattern_codeChange",
+        name: "admin_pattern_code",
+        type: "text",
+        label: __("Admin pattern code:", "farazsms"),
+        isDependencyUsed: false,
       },
     },
     gfSelectedFormId: "",
@@ -137,6 +181,22 @@ function GravityForms(props) {
           draft.inputs.gf_field.options = action.value;
         }
         return;
+      case "gf_name_fieldOptions":
+        if (
+          props.integratedPlugins.gravityForms.use &&
+          draft.inputs.gf_forms.options
+        ) {
+          draft.inputs.gf_name_field.options = action.value;
+        }
+        return;
+      case "gf_content_fieldOptions":
+        if (
+          props.integratedPlugins.gravityForms.use &&
+          draft.inputs.gf_forms.options
+        ) {
+          draft.inputs.gf_content_field.options = action.value;
+        }
+        return;
       case "titleChange":
         draft.inputs.title.value = action.value;
         return;
@@ -151,8 +211,37 @@ function GravityForms(props) {
       case "gf_fieldChange":
         draft.inputs.gf_field.value = action.value;
         return;
+      case "gf_name_fieldChange":
+        draft.inputs.gf_name_field.value = action.value;
+        return;
+      case "gf_content_fieldChange":
+        draft.inputs.gf_content_field.value = action.value;
+        return;
       case "gf_actionChange":
         draft.inputs.gf_action.value = action.value;
+        if (action.value.value === "saveToPhonebook") {
+          draft.inputs.admin_pattern_code.value = "";
+          draft.inputs.user_pattern_code.value = "";
+        }
+
+        if (action.value.value === "sendSmsToUser") {
+          draft.inputs.user_pattern_code.isDependencyUsed = true;
+          draft.inputs.admin_pattern_code.value = "";
+        } else {
+          draft.inputs.user_pattern_code.isDependencyUsed = false;
+        }
+        if (action.value.value === "sendSmsToAdmin") {
+          draft.inputs.admin_pattern_code.isDependencyUsed = true;
+          draft.inputs.user_pattern_code.value = "";
+        } else {
+          draft.inputs.admin_pattern_code.isDependencyUsed = false;
+        }
+        return;
+      case "user_pattern_codeChange":
+        draft.inputs.user_pattern_code.value = action.value;
+        return;
+      case "admin_pattern_codeChange":
+        draft.inputs.admin_pattern_code.value = action.value;
         return;
       case "getGravityFormsActions":
         draft.gravityFormsActions = action.value;
@@ -168,7 +257,12 @@ function GravityForms(props) {
         draft.inputs.gf_phonebook.value = [];
         draft.inputs.gf_forms.value = [];
         draft.inputs.gf_field.value = [];
+        draft.inputs.gf_name_field.value = [];
+        draft.inputs.gf_content_field.value = [];
         draft.inputs.gf_action.value = [];
+        draft.inputs.user_pattern_code.value = "";
+        draft.inputs.admin_pattern_code.value = "";
+
         return;
       case "saveRequestStarted":
         draft.isSaving = true;
@@ -191,14 +285,20 @@ function GravityForms(props) {
           "/farazsms/v1/add_gravity_forms_action_to_db",
           {
             title: state.inputs.title.value,
-            phonebook_id: state.inputs.gf_phonebook.value.value,
-            form_id: state.inputs.gf_forms.value.value,
-            field_id: state.inputs.gf_field.value.value,
             phonebook_label: state.inputs.gf_phonebook.value.label,
+            phonebook_id: state.inputs.gf_phonebook.value.value,
             form_label: state.inputs.gf_forms.value.label,
+            form_id: state.inputs.gf_forms.value.value,
             field_label: state.inputs.gf_field.value.label,
-            action_type: state.inputs.gf_action.value.value,
+            field_id: state.inputs.gf_field.value.value,
+            name_field_label: state.inputs.gf_name_field.value.label,
+            name_field_id: state.inputs.gf_name_field.value.value,
+            content_field_label: state.inputs.gf_content_field.value.label,
+            content_field_id: state.inputs.gf_content_field.value.value,
             action_label: state.inputs.gf_action.value.label,
+            action_type: state.inputs.gf_action.value.value,
+            user_pattern_code: state.inputs.user_pattern_code.value,
+            admin_pattern_code: state.inputs.admin_pattern_code.value,
           }
         );
         dispatch({ type: "saveRequestFinished" });
@@ -207,6 +307,7 @@ function GravityForms(props) {
           type: "updateCurrentActions",
           value: state.currentActions + 1,
         });
+        console.log(newAction);
       } catch (e) {
         console.log(e);
       }
@@ -263,6 +364,14 @@ function GravityForms(props) {
         );
         dispatch({
           type: "gf_fieldOptions",
+          value: gfFormsFieldsArrayObject,
+        });
+        dispatch({
+          type: "gf_name_fieldOptions",
+          value: gfFormsFieldsArrayObject,
+        });
+        dispatch({
+          type: "gf_content_fieldOptions",
           value: gfFormsFieldsArrayObject,
         });
       } catch (e) {
