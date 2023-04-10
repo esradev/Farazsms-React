@@ -75,7 +75,7 @@ function Woocommerce(props) {
         label: __("Message content:", "farazsms"),
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
-          "time %time% | store name %sitename% | product name %item% | product link %item_link%",
+          "time %time% | store name %sitename% | reciew page link %review_link%",
           "farazsms"
         ),
         isDependencyUsed: false,

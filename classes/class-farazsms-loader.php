@@ -105,6 +105,7 @@ class Farazsms_Loader {
 		// The class responsible for defining all actions for woocommerce.
 		if ( self::$woocommerce ) {
 			require_once FARAZSMS_MODULES_PATH . 'woocommerce/class-farazsms-woocommerce.php';
+			require_once FARAZSMS_MODULES_PATH . 'woocommerce/order-review/farazsms-order-review.php';
 		}
 
 		// The class responsible for defining all actions for edd.
