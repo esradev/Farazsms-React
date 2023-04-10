@@ -69,13 +69,13 @@ class Farazsms_Order_Review {
 		// Check if current page is the order review page
 		if ( is_page( 'order-review' ) ) {
 			// Enqueue your custom CSS file
-			wp_enqueue_style( 'farazsms-order-review-css', FARAZSMS_URL . 'assets/css/farazsms-order-review-page.css', [], 12, 'all' );
+			wp_enqueue_style( 'farazsms-order-review-css', FARAZSMS_URL . 'assets/css/farazsms-order-review-page.css', [], FARAZSMS_VERSION, 'all' );
 		}
 	}
 
 
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'farazsms-order-review-js', FARAZSMS_URL . 'assets/js/farazsms-order-review-page.js', [], 12, true );
+		wp_enqueue_script( 'farazsms-order-review-js', FARAZSMS_URL . 'assets/js/farazsms-order-review-page.js', [], FARAZSMS_VERSION, true );
 		wp_localize_script(
 			'farazsms-order-review-js',
 			'fsms_ajax_object',
@@ -154,10 +154,21 @@ class Farazsms_Order_Review {
 
 	public function schedule_review_reminder_sms( $order_id ) {
 
-		$order    = wc_get_order( $order_id );
-		$phone_number    = $order->get_billing_phone();
-		$data['review_link'] = 'https://example.com/review-page/?order_id=' . $order_id;
-		$this->send_timed_message( $phone_number, $data, $order->get_date_created() );
+		$order = wc_get_order( $order_id );
+		$phone_number = '';
+
+		if ( $order->get_billing_phone() ) {
+			$phone_number = $order->get_billing_phone();
+		} elseif ( $order->get_shipping_phone() ) {
+			$phone_number = $order->get_shipping_phone();
+		}
+
+		if ( ! empty( $phone_number ) ) {
+			$review_page = home_url( '/order-review/' );
+			$data['review_link'] = $review_page . '?order_id=' . $order_id;
+			$phone_number = $this->normalize_phone_number($phone_number);
+			$this->send_timed_message( $phone_number, $data, $order->get_date_created() );
+		}
 	}
 
 	public function send_timed_message( $phone_number, $data, $order_date ) {
@@ -181,29 +192,60 @@ class Farazsms_Order_Review {
 			$fsms_woo_poll_message
 		);
 
-		$date_to_send = date( 'Y-m-d H:i:s', strtotime( $order_date->date( 'Y-m-d H:i:s' ) . ' + ' . $fsms_woo_poll_time . ' days' ) );
+		// Input date/time string in WordPress default timezone
+		$date_to_send = date('Y-m-d H:i:s', strtotime($order_date->date('Y-m-d H:i:s') . ' + ' . $fsms_woo_poll_time . ' days'));
 
-		$body     = [
-			'uname'   => Farazsms_Base::$username,
-			'pass'    => Farazsms_Base::$password,
-			'from'    => '+98club',
-			'op'      => 'send',
-			'to'      => $phone_number,
-			'time'    => $date_to_send,
-			'message' => $message,
+		// Convert to DateTime object in WordPress default timezone
+		$datetime_wp = new DateTime($date_to_send, new DateTimeZone('UTC'));
+
+		// Convert to Tehran timezone
+		$datetime_tehran = clone $datetime_wp;
+		$datetime_tehran->setTimezone(new DateTimeZone('Asia/Tehran'));
+
+		// Format as ISO 8601 string for Tehran timezone
+		$time_tehran = $datetime_tehran->format('Y-m-d\TH:i:s.uO');
+
+		// Define the endpoint URL and request parameters
+		$url = 'https://api2.ippanel.com/api/v1/sms/send/webservice/single';
+		$params = [
+			'recipient' => [ $phone_number ],
+			'sender' => '+983000505',
+			'time' => $time_tehran,
+			'message' => $message
 		];
-		$response = wp_remote_post(
-			'http://ippanel.com/api/select',
-			[
-				'method'      => 'POST',
-				'headers'     => [ 'Content-Type' => 'application/json' ],
-				'data_format' => 'body',
-				'body'        => json_encode( $body ),
-			]
-		);
-		if ( is_wp_error( $response ) ) {
-			return false;
+		$headers = [
+			'Accept' => 'application/json',
+			'Apikey' => Farazsms_Base::$apiKey,
+			'Content-Type' => 'application/json'
+		];
+
+		// Make the wp_remote_post() request
+		$response = wp_remote_post($url, [
+			'headers' => $headers,
+			'body' => json_encode($params),
+		] );
+
+		// Check for errors and output the response data
+		if (is_wp_error($response)) {
+			echo 'Error: ' . $response->get_error_message();
+		} else {
+			$response_data = json_decode(wp_remote_retrieve_body($response));
 		}
+	}
+
+	public function normalize_phone_number( $phone_number ) {
+		// Check if the phone number is in the international format for Iran
+		if ( preg_match( '/^\+98\d{10}$/', $phone_number ) ) {
+			return $phone_number;
+		}
+
+		// Add the country code for Iran if it's not already present
+		if ( ! str_starts_with( $phone_number, '+98' ) ) {
+			$phone_number = '+98' . ltrim( $phone_number, '0' );
+		}
+
+		// Remove any remaining leading zeros
+		return ltrim( $phone_number, '0' );
 	}
 
 
