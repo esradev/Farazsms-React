@@ -228,6 +228,28 @@ class Farazsms_Base {
 
 		return $wpdb->get_results( "SELECT * FROM $table_name" );
 	}
+
+	/**
+	 * Normalize phone number to generate international iran phone
+	 *
+	 * @param $phone_number
+	 *
+	 * @return mixed|string
+	 */
+	public static function normalize_phone_number( $phone_number ) {
+		// Check if the phone number is in the international format for Iran
+		if ( preg_match( '/^\+98\d{10}$/', $phone_number ) ) {
+			return $phone_number;
+		}
+
+		// Add the country code for Iran if it's not already present
+		if ( ! str_starts_with( $phone_number, '+98' ) ) {
+			$phone_number = '+98' . ltrim( $phone_number, '0' );
+		}
+
+		// Remove any remaining leading zeros
+		return ltrim( $phone_number, '0' );
+	}
 }
 
 Farazsms_Base::get_instance();

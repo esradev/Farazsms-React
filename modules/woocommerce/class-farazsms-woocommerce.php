@@ -26,9 +26,6 @@ class Farazsms_Woocommerce {
 	private static $instance;
 
 	private static $woo_checkout_otp_pattern;
-	private static $woo_poll;
-	private static $woo_poll_time;
-	private static $woo_poll_msg;
 	private static $woo_tracking_pattern;
 	private static $woo_checkout_otp;
 	private static $woo_retention_order_no;
@@ -58,9 +55,6 @@ class Farazsms_Woocommerce {
 		if ( $woocommerce_options ) {
 			self::$woo_checkout_otp          = $woocommerce_options['woo_checkout_otp'];
 			self::$woo_checkout_otp_pattern  = $woocommerce_options['woo_checkout_otp_pattern'];
-			self::$woo_poll                  = $woocommerce_options['woo_poll'];
-			self::$woo_poll_time             = $woocommerce_options['woo_poll_time'];
-			self::$woo_poll_msg              = $woocommerce_options['woo_poll_msg'];
 			self::$woo_tracking_pattern      = $woocommerce_options['woo_tracking_pattern'];
 			self::$woo_retention_order_no    = $woocommerce_options['woo_retention_order_no'];
 			self::$woo_retention_order_month = $woocommerce_options['woo_retention_order_month'];
@@ -74,7 +68,6 @@ class Farazsms_Woocommerce {
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'woocommerce_thankyou', [ $this, 'woo_payment_finished' ] );
-		add_action( 'woocommerce_thankyou', [ $this, 'woo_send_timed_message' ] );
 		add_action( 'init', [$this, 'fsms_woo_retention_action' ]);
 		add_action( 'woocommerce_checkout_get_value', [ $this, 'fsms_pre_populate_checkout_fields' ], 10, 2 );
 		add_filter( 'woocommerce_billing_fields', [ $this, 'fsms_woocommerce_checkout_fields' ] );
@@ -403,57 +396,6 @@ class Farazsms_Woocommerce {
 	}
 
 	/**
-	 * Send timed message.
-	 */
-	public function send_timed_message( $phone, $data, $order_date ) {
-		$fsms_woo_poll         = self::$woo_poll;
-		$fsms_woo_poll_time    = self::$woo_poll_time;
-		$fsms_woo_poll_message = self::$woo_poll_msg;
-		if ( $fsms_woo_poll == 'false' || empty( $fsms_woo_poll_time ) || empty( $fsms_woo_poll_message ) ) {
-			return;
-		}
-		$message = str_replace(
-			[
-				'%time%',
-				'%item%',
-				'%sitename%',
-				'%item_link%',
-			],
-			[
-				$fsms_woo_poll_time,
-				$data['item'],
-				get_bloginfo( 'name' ),
-				$data['item_link'],
-			],
-			$fsms_woo_poll_message
-		);
-
-		$date_to_send = date( 'Y-m-d H:i:s', strtotime( $order_date->date( 'Y-m-d H:i:s' ) . ' + ' . $fsms_woo_poll_time . ' days' ) );
-
-		$body     = [
-			'uname'   => Farazsms_Base::$username,
-			'pass'    => Farazsms_Base::$password,
-			'from'    => '+98club',
-			'op'      => 'send',
-			'to'      => $phone,
-			'time'    => $date_to_send,
-			'message' => $message,
-		];
-		$response = wp_remote_post(
-			'http://ippanel.com/api/select',
-			[
-				'method'      => 'POST',
-				'headers'     => [ 'Content-Type' => 'application/json' ],
-				'data_format' => 'body',
-				'body'        => json_encode( $body ),
-			]
-		);
-		if ( is_wp_error( $response ) ) {
-			return false;
-		}
-	}
-
-	/**
 	 * Woocommerce payment finished.
 	 */
 	public function woo_payment_finished( $id ) {
@@ -468,29 +410,6 @@ class Farazsms_Woocommerce {
 		$this->fsms_delete_otp_code( $order );
 
 		return true;
-	}
-
-	/**
-	 *
-	 * Send timed message.
-	 *
-	 */
-	public function woo_send_timed_message( $order_id ) {
-
-		$order    = wc_get_order( $order_id );
-		$phone    = $order->get_billing_phone();
-		$products = [];
-		/*
-		 * TODO: need to fix this or have another approach
-		 */
-		foreach ( $order->get_items() as $item_id => $item ) {
-			$products[ $item->get_product_id() ] = $item->get_total();
-		}
-		$most_expensive_product_id = max( array_keys( $products ) );
-		$product                   = wc_get_product( $most_expensive_product_id );
-		$data['item']              = $product->get_title();
-		$data['item_link']         = get_permalink( $most_expensive_product_id );
-		$this->send_timed_message( $phone, $data, $order->get_date_created() );
 	}
 
 	/**

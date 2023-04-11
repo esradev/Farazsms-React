@@ -413,6 +413,35 @@ class Farazsms_Ippanel {
 
 		return false;
 	}
+
+	public static function send_timed_sms ($phone_number, $date, $message) {
+		// Define the endpoint URL and request parameters
+		$url = 'https://api2.ippanel.com/api/v1/sms/send/webservice/single';
+		$params = [
+			'recipient' => [ $phone_number ],
+			'sender' => '+983000505',
+			'time' => $date,
+			'message' => $message
+		];
+		$headers = [
+			'Accept' => 'application/json',
+			'Apikey' => Farazsms_Base::$apiKey,
+			'Content-Type' => 'application/json'
+		];
+
+		// Make the wp_remote_post() request
+		$response = wp_remote_post($url, [
+			'headers' => $headers,
+			'body' => json_encode($params),
+		] );
+
+		// Check for errors and output the response data
+		if (is_wp_error($response)) {
+			echo 'Error: ' . $response->get_error_message();
+		} else {
+			$response_data = json_decode(wp_remote_retrieve_body($response));
+		}
+	}
 }
 
 Farazsms_Ippanel::get_instance();

@@ -55,14 +55,17 @@ class Farazsms_Order_Review {
 			self::$woo_poll_msg              = $woocommerce_options['woo_poll_msg'];
 		}
 
-		add_action( 'wp_enqueue_scripts', [$this, 'enqueue_styles'] );
-		add_action( 'wp_enqueue_scripts', [$this, 'enqueue_scripts'] );
-		add_shortcode( 'farazsms_order_review_landing_page', [$this, 'order_review_page'] );
-		add_action('init', [$this, 'create_order_review_landing_page']);
-		add_action('wp_ajax_farazsms_submit_order_review', [$this, 'farazsms_submit_order_review']);
-		add_action('wp_ajax_nopriv_farazsms_submit_order_review', [$this, 'farazsms_submit_order_review']);
-		add_action( 'woocommerce_thankyou', [$this, 'schedule_review_reminder_sms'] );
-		add_action( 'woocommerce_order_status_completed', [$this, 'schedule_review_reminder_sms'] );
+		if (self::$woo_poll) {
+			add_action( 'wp_enqueue_scripts', [$this, 'enqueue_styles'] );
+			add_action( 'wp_enqueue_scripts', [$this, 'enqueue_scripts'] );
+			add_shortcode( 'farazsms_order_review_landing_page', [$this, 'order_review_page'] );
+			add_action('init', [$this, 'create_order_review_landing_page']);
+			add_action('wp_ajax_farazsms_submit_order_review', [$this, 'farazsms_submit_order_review']);
+			add_action('wp_ajax_nopriv_farazsms_submit_order_review', [$this, 'farazsms_submit_order_review']);
+			add_action( 'woocommerce_thankyou', [$this, 'schedule_review_reminder_sms'] );
+			add_action( 'woocommerce_order_status_completed', [$this, 'schedule_review_reminder_sms'] );
+		}
+
 	}
 
 	public function enqueue_styles() {
@@ -83,6 +86,7 @@ class Farazsms_Order_Review {
 		);
 	}
 
+
 	public function order_review_page( $data ) {
 		$data = shortcode_atts( [
 			'order_id' => '',
@@ -99,6 +103,11 @@ class Farazsms_Order_Review {
 		return $html;
 	}
 
+	/**
+	 * Create order review page with the shortcode.
+	 *
+	 * @return void
+	 */
 	public function create_order_review_landing_page() {
 		// Check if the custom landing page already exists
 		$custom_page = get_page_by_path('order-review');
@@ -166,7 +175,7 @@ class Farazsms_Order_Review {
 		if ( ! empty( $phone_number ) ) {
 			$review_page = home_url( '/order-review/' );
 			$data['review_link'] = $review_page . '?order_id=' . $order_id;
-			$phone_number = $this->normalize_phone_number($phone_number);
+			$phone_number = Farazsms_Base::normalize_phone_number($phone_number);
 			$this->send_timed_message( $phone_number, $data, $order->get_date_created() );
 		}
 	}
@@ -205,47 +214,7 @@ class Farazsms_Order_Review {
 		// Format as ISO 8601 string for Tehran timezone
 		$time_tehran = $datetime_tehran->format('Y-m-d\TH:i:s.uO');
 
-		// Define the endpoint URL and request parameters
-		$url = 'https://api2.ippanel.com/api/v1/sms/send/webservice/single';
-		$params = [
-			'recipient' => [ $phone_number ],
-			'sender' => '+983000505',
-			'time' => $time_tehran,
-			'message' => $message
-		];
-		$headers = [
-			'Accept' => 'application/json',
-			'Apikey' => Farazsms_Base::$apiKey,
-			'Content-Type' => 'application/json'
-		];
-
-		// Make the wp_remote_post() request
-		$response = wp_remote_post($url, [
-			'headers' => $headers,
-			'body' => json_encode($params),
-		] );
-
-		// Check for errors and output the response data
-		if (is_wp_error($response)) {
-			echo 'Error: ' . $response->get_error_message();
-		} else {
-			$response_data = json_decode(wp_remote_retrieve_body($response));
-		}
-	}
-
-	public function normalize_phone_number( $phone_number ) {
-		// Check if the phone number is in the international format for Iran
-		if ( preg_match( '/^\+98\d{10}$/', $phone_number ) ) {
-			return $phone_number;
-		}
-
-		// Add the country code for Iran if it's not already present
-		if ( ! str_starts_with( $phone_number, '+98' ) ) {
-			$phone_number = '+98' . ltrim( $phone_number, '0' );
-		}
-
-		// Remove any remaining leading zeros
-		return ltrim( $phone_number, '0' );
+		Farazsms_Ippanel::send_timed_sms($phone_number, $time_tehran, $message);
 	}
 
 
