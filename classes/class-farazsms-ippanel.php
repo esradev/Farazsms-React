@@ -53,36 +53,60 @@ class Farazsms_Ippanel {
 	 * @since 2.0.0
 	 */
 	public static function get_phonebooks() {
-		$args = [
-			'method'      => 'GET',
-			'timeout'     => 5,
-			'redirection' => 5,
-			'httpversion' => '1.0',
-			'headers'     => [
-				'Authorization' => Farazsms_Base::$apiKey,
-				'Content-Type'  => 'application/json'
-			],
+		// Try the first method: wp_remote_post
+		$url = 'https://ippanel.com/services.jspd';
+		$data = [
+			'uname' => Farazsms_Base::$username,
+			'pass' => Farazsms_Base::$password,
+			'op' => 'booklist'
 		];
-
-		$response = wp_remote_request( 'http://api.ippanel.com/api/v1/phonebook/phonebooks', $args );
-
-		if ( is_wp_error( $response ) ) {
-			return false;
+		$args = [
+			'body' => $data,
+			'timeout' => '5',
+			'redirection' => '5',
+			'httpversion' => '1.0',
+			'sslverify' => false, // Set to true if your server has a valid SSL certificate
+			'headers' => [
+				'Content-Type' => 'application/x-www-form-urlencoded'
+			]
+		];
+		$response = wp_remote_post( $url, $args );
+		if ( ! is_wp_error( $response ) ) {
+			$response_body = wp_remote_retrieve_body( $response );
+			$response_data = json_decode( $response_body );
+			$res_code = $response_data[0];
+			$res_data = json_decode($response_data[1], true);
+			return $res_data;
 		}
 
-		$response_code = wp_remote_retrieve_response_code( $response );
-		if ( $response_code != 200 ) {
-			return false;
+		if (is_wp_error($response)) {
+			// Try the second method: wp_remote_request
+			$args = [
+				'method'      => 'GET',
+				'timeout'     => 5,
+				'redirection' => 5,
+				'httpversion' => '1.0',
+				'headers'     => [
+					'Authorization' => Farazsms_Base::$apiKey,
+					'Content-Type'  => 'application/json'
+				],
+			];
+			$response = wp_remote_request( 'http://api.ippanel.com/api/v1/phonebook/phonebooks', $args );
+			if ( ! is_wp_error( $response ) ) {
+				$response_code = wp_remote_retrieve_response_code( $response );
+				if ( $response_code == 200 ) {
+					$response_body = wp_remote_retrieve_body( $response );
+					$response_data = json_decode( $response_body, true );
+					if ( $response_data ) {
+						return $response_data['data'];
+					}
+				}
+			}
 		}
-
-		$response_body = wp_remote_retrieve_body( $response );
-		$response_data = json_decode( $response_body, true );
-		if ( ! $response_data ) {
-			return false;
-		} else {
-			return $response_data;
-		}
+		// Both methods failed, return false
+		return false;
 	}
+
 
 	/**
 	 * Save to a phone to phonebook functions.

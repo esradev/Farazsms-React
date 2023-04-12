@@ -13,15 +13,13 @@ function usePhonebooks(dispatchNoPhonebooks, dispatchAllPhonebooks) {
         //farazsmsJsObject is declared on class-farazsms-settings.php under admin_enqueue_scripts function
         const phonebooks = await farazsmsJsObject.getPhonebooks;
         console.log(phonebooks);
-        if (phonebooks.data.length === 0) {
+        if (phonebooks.length === 0) {
           dispatchNoPhonebooks();
         } else {
-          const phonebooksArrayObject = phonebooks.data.map(
-            ({ id, title }) => ({
-              label: title,
-              value: id,
-            })
-          );
+          const phonebooksArrayObject = phonebooks.map(({ id, title }) => ({
+            label: title,
+            value: id,
+          }));
           dispatchAllPhonebooks(phonebooksArrayObject);
         }
       } catch (e) {

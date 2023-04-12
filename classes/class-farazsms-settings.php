@@ -118,6 +118,8 @@ class Farazsms_Settings {
 				'rootapiurl'        => esc_url_raw( rest_url() ),
 				'nonce'             => wp_create_nonce( 'wp_rest' ),
 				'wproules'          => wp_roles(),
+				'username'          => Farazsms_Base::$username,
+				'password'          => Farazsms_Base::$password,
 				'getPhonebooks'     => Farazsms_Ippanel::get_phonebooks(),
 				'getCredit'         => Farazsms_Ippanel::get_credit(),
 				'getActivePlugins'  => get_option( 'active_plugins' ),
