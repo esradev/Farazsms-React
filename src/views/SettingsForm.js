@@ -2,8 +2,11 @@ import React from "react";
 import FormInput from "./FormInput";
 import FormInputError from "./FormInputError";
 import SaveButton from "./SaveButton";
+import SelectPhonebook from "./SelectPhonebook";
 
 function SettingsForm({
+  dispatchNoPhonebooks,
+  dispatchAllPhonebooks,
   inputs,
   handleSubmit,
   dispatch,
@@ -22,30 +25,39 @@ function SettingsForm({
               input.type === "checkbox" ? "toggle-control" : "form-group"
             }
           >
-            <FormInput
-              isMulti={input.isMulti}
-              {...input}
-              onChange={
-                input.type === "select"
-                  ? (selectedOption) =>
-                      dispatch({
-                        type: input.onChange,
-                        value: selectedOption,
-                      })
-                  : (e) => {
-                      dispatch({
-                        type: input.onChange,
-                        value:
-                          input.type === "checkbox"
-                            ? e.target.checked
-                            : e.target.value,
-                      });
-                    }
-              }
-              onBlur={(e) =>
-                dispatch({ type: input.rules, value: e.target.value })
-              }
-            />
+            {input.type === "select_phonebook" ? (
+              <SelectPhonebook
+                options={input.options}
+                dispatchNoPhonebooks={dispatchNoPhonebooks}
+                dispatchAllPhonebooks={dispatchAllPhonebooks}
+              />
+            ) : (
+              <FormInput
+                isMulti={input.isMulti}
+                {...input}
+                onChange={
+                  input.type === "select"
+                    ? (selectedOption) =>
+                        dispatch({
+                          type: input.onChange,
+                          value: selectedOption,
+                        })
+                    : (e) => {
+                        dispatch({
+                          type: input.onChange,
+                          value:
+                            input.type === "checkbox"
+                              ? e.target.checked
+                              : e.target.value,
+                        });
+                      }
+                }
+                onBlur={(e) =>
+                  dispatch({ type: input.rules, value: e.target.value })
+                }
+              />
+            )}
+
             <FormInputError />
           </div>
         )

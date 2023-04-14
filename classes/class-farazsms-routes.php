@@ -327,6 +327,15 @@ class Farazsms_Routes {
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
+
+		//Register add_phonebook rest route
+		register_rest_route( $namespace, '/' . 'add_phonebook', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'add_phonebook' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
 	}
 
 	/**
@@ -961,6 +970,42 @@ class Farazsms_Routes {
 			return $fixed_phones;
 		}
 	}
+
+	/**
+	 * Add new phonebook
+	 *
+	 * @param $data
+	 *
+	 * @return bool
+	 */
+	public function add_phonebook($data) {
+		$label = $data['label'];
+
+		$url = 'http://api.ippanel.com/api/v1/phonebook/phonebooks';
+		$headers = [
+			'accept' => 'application/json',
+			'Authorization' => Farazsms_Base::$apiKey,
+			'Content-Type' => 'application/json'
+		];
+		$body = [
+			'title' => $label,
+		];
+		$args = [
+			'headers' => $headers,
+			'body' => json_encode($body),
+			'method' => 'POST'
+		];
+		$response = wp_remote_post($url, $args);
+		if (is_wp_error($response)) {
+			// handle error
+			return $response;
+		} else {
+			$response_body = json_decode(wp_remote_retrieve_body($response));
+			// handle response
+			return $response;
+		}
+	}
+
 
 
 	/**

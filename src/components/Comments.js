@@ -84,7 +84,7 @@ function Comments() {
         errorMessage: "",
         onChange: "comment_phonebookChange",
         name: "comment_phonebook",
-        type: "select",
+        type: "select_phonebook",
         label: __("Save the phone number in the phonebook?", "farazsms"),
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
@@ -285,8 +285,6 @@ function Comments() {
     });
   }
 
-  usePhonebooks(handleNoPhonebooks, handleAllPhonebooks);
-
   /**
    * Get options from DB rest routes
    *
@@ -316,6 +314,8 @@ function Comments() {
       <SectionHeader sectionName={state.sectionName} />
       <div>
         <SettingsForm
+          dispatchAllPhonebooks={handleAllPhonebooks}
+          dispatchNoPhonebooks={handleNoPhonebooks}
           sectionName={state.sectionName}
           inputs={state.inputs}
           handleSubmit={handleSubmit}
