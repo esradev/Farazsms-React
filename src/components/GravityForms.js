@@ -17,14 +17,13 @@ import SettingsForm from "../views/SettingsForm";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
-import usePhonebooks from "../hooks/usePhonebooks";
 
 function GravityForms(props) {
   const appDispatch = useContext(DispatchContext);
   // Init States
   const originalState = {
     notUsedPlugins: {
-      ...(!props.integratedPlugins.gravityForms.use && {
+      ...(!props.integratedPlugins?.gravityForms?.use && {
         gravityForms: {
           id: "gravityForms",
           name: "Gravity Forms",
@@ -43,7 +42,7 @@ function GravityForms(props) {
         value: [],
         onChange: "gf_phonebookChange",
         name: "gf_phonebook",
-        type: "select",
+        type: "select_phonebook",
         label: __("Select phonebook for Gravity Form:", "farazsms"),
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
@@ -163,19 +162,19 @@ function GravityForms(props) {
         draft.isFetching = false;
         return;
       case "phonebookOptions":
-        if (props.integratedPlugins.gravityForms.use) {
+        if (props.integratedPlugins?.gravityForms?.use) {
           draft.inputs.gf_phonebook.options = action.value;
         }
         draft.isFetching = false;
         return;
       case "gf_formsOptions":
-        if (props.integratedPlugins.gravityForms.use) {
+        if (props.integratedPlugins?.gravityForms?.use) {
           draft.inputs.gf_forms.options = action.value;
         }
         return;
       case "gf_fieldOptions":
         if (
-          props.integratedPlugins.gravityForms.use &&
+          props.integratedPlugins?.gravityForms?.use &&
           draft.inputs.gf_forms.options
         ) {
           draft.inputs.gf_field.options = action.value;
@@ -183,7 +182,7 @@ function GravityForms(props) {
         return;
       case "gf_name_fieldOptions":
         if (
-          props.integratedPlugins.gravityForms.use &&
+          props.integratedPlugins?.gravityForms?.use &&
           draft.inputs.gf_forms.options
         ) {
           draft.inputs.gf_name_field.options = action.value;
@@ -191,7 +190,7 @@ function GravityForms(props) {
         return;
       case "gf_content_fieldOptions":
         if (
-          props.integratedPlugins.gravityForms.use &&
+          props.integratedPlugins?.gravityForms?.use &&
           draft.inputs.gf_forms.options
         ) {
           draft.inputs.gf_content_field.options = action.value;
@@ -398,8 +397,6 @@ function GravityForms(props) {
     });
   }
 
-  usePhonebooks(handleNoPhonebooks, handleAllPhonebooks);
-
   /**
    * Get Gravity Forms actions list from DB
    */
@@ -474,13 +471,15 @@ function GravityForms(props) {
 
   if (state.isFetching) return <LoadingSpinner />;
 
-  if (props.integratedPlugins.gravityForms.use) {
+  if (props.integratedPlugins?.gravityForms?.use) {
     return (
       <>
         <SectionHeader sectionName={state.sectionName} />
         <div>
           <div className="container"></div>
           <SettingsForm
+            dispatchAllPhonebooks={handleAllPhonebooks}
+            dispatchNoPhonebooks={handleNoPhonebooks}
             sectionName={state.sectionName}
             inputs={state.inputs}
             handleSubmit={handleSubmit}

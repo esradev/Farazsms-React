@@ -51,7 +51,7 @@ function Phonebook(props) {
         value: [],
         onChange: "custom_phonebookChange",
         name: "custom_phonebook",
-        type: "select",
+        type: "select_phonebook",
         label: __("Select the custom phonebook:", "farazsms"),
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
@@ -70,7 +70,7 @@ function Phonebook(props) {
           value: [],
           onChange: "digits_phonebookChange",
           name: "digits_phonebook",
-          type: "select",
+          type: "select_phonebook",
           label: __("Select phonebook for Digits:", "farazsms"),
           options: [],
           noOptionsMessage: __("No options is available", "farazsms"),
@@ -81,7 +81,7 @@ function Phonebook(props) {
           value: [],
           onChange: "woo_phonebookChange",
           name: "woo_phonebook",
-          type: "select",
+          type: "select_phonebook",
           label: __("select a phonebook for WooCommerce:", "farazsms"),
           options: [],
           noOptionsMessage: __("No options is available", "farazsms"),
@@ -92,7 +92,7 @@ function Phonebook(props) {
           value: [],
           onChange: "bookly_phonebookChange",
           name: "bookly_phonebook",
-          type: "select",
+          type: "select_phonebook",
           label: __("Choosing a phonebook for Bookly:", "farazsms"),
           options: [],
           noOptionsMessage: __("No options is available", "farazsms"),
@@ -112,13 +112,13 @@ function Phonebook(props) {
         draft.inputs.custom_phonebook.value = action.value.custom_phonebook;
         draft.inputs.custom_phone_meta_keys.value =
           action.value.custom_phone_meta_keys;
-        if (props.integratedPlugins.digits.use) {
+        if (props.integratedPlugins?.digits?.use) {
           draft.inputs.digits_phonebook.value = action.value.digits_phonebook;
         }
-        if (props.integratedPlugins.woocommerce.use) {
+        if (props.integratedPlugins?.woocommerce?.use) {
           draft.inputs.woo_phonebook.value = action.value.woo_phonebook;
         }
-        if (props.integratedPlugins.bookly.use) {
+        if (props.integratedPlugins?.bookly?.use) {
           draft.inputs.bookly_phonebook.value = action.value.bookly_phonebook;
         }
         draft.isFetching = false;
@@ -129,13 +129,13 @@ function Phonebook(props) {
       case "all_phonebookOptions":
         draft.noPhonebooks = false;
         draft.inputs.custom_phonebook.options = action.value;
-        if (props.integratedPlugins.digits.use) {
+        if (props.integratedPlugins?.digits?.use) {
           draft.inputs.digits_phonebook.options = action.value;
         }
-        if (props.integratedPlugins.woocommerce.use) {
+        if (props.integratedPlugins?.woocommerce?.use) {
           draft.inputs.woo_phonebook.options = action.value;
         }
-        if (props.integratedPlugins.bookly.use) {
+        if (props.integratedPlugins?.bookly?.use) {
           draft.inputs.bookly_phonebook.options = action.value;
         }
         return;
@@ -239,8 +239,6 @@ function Phonebook(props) {
     });
   }
 
-  usePhonebooks(handleNoPhonebooks, handleAllPhonebooks);
-
   if (state.isFetching) return <LoadingSpinner />;
 
   return (
@@ -291,6 +289,8 @@ function Phonebook(props) {
           </div>
         ))}
         <SettingsForm
+          dispatchAllPhonebooks={handleAllPhonebooks}
+          dispatchNoPhonebooks={handleNoPhonebooks}
           sectionName={state.sectionName}
           inputs={state.inputs}
           handleSubmit={handleSubmit}

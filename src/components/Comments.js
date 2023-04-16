@@ -13,7 +13,6 @@ import DispatchContext from "../DispatchContext";
 import SettingsForm from "../views/SettingsForm";
 import SectionHeader from "../views/SectionHeader";
 import LoadingSpinner from "../views/LoadingSpinner";
-import usePhonebooks from "../hooks/usePhonebooks";
 import useFetchOptions from "../hooks/useFetchOptions";
 import useSaveOptions from "../hooks/useSaveOptions";
 

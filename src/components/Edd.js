@@ -14,7 +14,6 @@ import SettingsForm from "../views/SettingsForm";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
-import usePhonebooks from "../hooks/usePhonebooks";
 import useFetchOptions from "../hooks/useFetchOptions";
 import useSaveOptions from "../hooks/useSaveOptions";
 
@@ -33,7 +32,7 @@ function Edd(props) {
         errorMessage: "",
         onChange: "edd_phonebookChange",
         name: "edd_phonebook",
-        type: "select",
+        type: "select_phonebook",
         label: __("Save the phone number in the phonebook?", "farazsms"),
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
@@ -187,8 +186,6 @@ function Edd(props) {
     });
   }
 
-  usePhonebooks(handleNoPhonebooks, handleAllPhonebooks);
-
   /**
    * Get options from DB rest routes
    *
@@ -219,6 +216,8 @@ function Edd(props) {
         <SectionHeader sectionName={state.sectionName} />
         <div>
           <SettingsForm
+            dispatchAllPhonebooks={handleAllPhonebooks}
+            dispatchNoPhonebooks={handleNoPhonebooks}
             sectionName={state.sectionName}
             inputs={state.inputs}
             handleSubmit={handleSubmit}

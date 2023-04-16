@@ -3,38 +3,40 @@ import CreatableSelect from "react-select/creatable";
 import AxiosWp from "../function/AxiosWp";
 
 function SelectPhonebook({
+  value,
   options,
+  onChange,
   dispatchNoPhonebooks,
   dispatchAllPhonebooks,
 }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [value, setValue] = useState("");
-  const [count, setCount] = useState(0);
+  const [phonebookCount, setPhonebookCount] = useState(0); // <-- Add new state variable
 
   const addPhonebook = async (label) => {
-    const res = await AxiosWp.post("/farazsms/v1/add_phonebook", {
-      label,
-    });
+    setIsLoading(true);
+    const res = await AxiosWp.post("/farazsms/v1/add_phonebook", { label });
+    setIsLoading(false);
     console.log(res);
     if (res) {
-      setCount(count++);
+      const newPhonebook = JSON.parse(res.data.body).data;
+      const newOption = { value: newPhonebook.id, label: newPhonebook.title };
+      dispatchAllPhonebooks((prevOptions) => [...prevOptions, newOption]);
+      onChange(newOption); // <-- Set new phonebook as the selected option
+      setPhonebookCount((prevCount) => prevCount + 1); // <-- Update phonebook count state to force re-render
     }
   };
 
   const handleCreate = (inputValue) => {
     setIsLoading(true);
-    setTimeout(() => {
-      const newOption = addPhonebook(inputValue).then((res) =>
-        setIsLoading(false)
-      );
-    }, 1000);
+    addPhonebook(inputValue);
   };
 
   useEffect(() => {
     const getPhonebooks = async () => {
       const arr = [];
+
       const phonebooks = await farazsmsJsObject.getPhonebooks;
-      if (phonebooks.length === 0) {
+      if (!phonebooks || phonebooks.length === 0) {
         dispatchNoPhonebooks();
       } else {
         phonebooks.map((phonebook) => {
@@ -44,7 +46,7 @@ function SelectPhonebook({
       }
     };
     getPhonebooks();
-  }, [count]);
+  }, [phonebookCount]); // <-- Reload useEffect when phonebook count changes
 
   return (
     <CreatableSelect
@@ -52,7 +54,7 @@ function SelectPhonebook({
       isClearable
       isDisabled={isLoading}
       isLoading={isLoading}
-      onChange={(newValue) => setValue(newValue)}
+      onChange={onChange}
       onCreateOption={handleCreate}
       options={options}
       value={value}

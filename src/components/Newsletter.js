@@ -14,7 +14,6 @@ import DispatchContext from "../DispatchContext";
 import AxiosWp from "../function/AxiosWp";
 import SectionHeader from "../views/SectionHeader";
 import LoadingSpinner from "../views/LoadingSpinner";
-import usePhonebooks from "../hooks/usePhonebooks";
 import useFetchOptions from "../hooks/useFetchOptions";
 import useSaveOptions from "../hooks/useSaveOptions";
 import SettingsForm from "../views/SettingsForm";
@@ -34,7 +33,7 @@ function Newsletter() {
         errorMessage: "",
         onChange: "news_phonebookChange",
         name: "news_phonebook",
-        type: "select",
+        type: "select_phonebook",
         label: __("Select phone book for newsletter", "farazsms"),
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
@@ -318,8 +317,6 @@ function Newsletter() {
     });
   }
 
-  usePhonebooks(handleNoPhonebooks, handleAllPhonebooks);
-
   /**
    * Get options from DB rest routes
    *
@@ -421,6 +418,8 @@ function Newsletter() {
       <SectionHeader sectionName={state.sectionName} />
       <div>
         <SettingsForm
+          dispatchAllPhonebooks={handleAllPhonebooks}
+          dispatchNoPhonebooks={handleNoPhonebooks}
           sectionName={state.sectionName}
           inputs={state.inputs}
           handleSubmit={handleSubmit}

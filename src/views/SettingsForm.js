@@ -26,11 +26,35 @@ function SettingsForm({
             }
           >
             {input.type === "select_phonebook" ? (
-              <SelectPhonebook
-                options={input.options}
-                dispatchNoPhonebooks={dispatchNoPhonebooks}
-                dispatchAllPhonebooks={dispatchAllPhonebooks}
-              />
+              <>
+                <div className="formInput" key={input.id}>
+                  <label htmlFor={input.id} className="mb-1 form-control-label">
+                    {input.label}
+                    <SelectPhonebook
+                      value={input.value}
+                      options={input.options}
+                      onChange={(selectedOption) =>
+                        dispatch({
+                          type: input.onChange,
+                          value: selectedOption,
+                        })
+                      }
+                      dispatchNoPhonebooks={dispatchNoPhonebooks}
+                      dispatchAllPhonebooks={dispatchAllPhonebooks}
+                    />
+                  </label>
+                </div>
+                {input.infoTitle && (
+                  <div className="container">
+                    <div className="container card bg-info mb-3 p-0">
+                      <div className="card-body">
+                        <h5 className="card-title">{input.infoTitle}</h5>
+                        <h6 className="card-text h6">{input.infoBody}</h6>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </>
             ) : (
               <FormInput
                 isMulti={input.isMulti}
