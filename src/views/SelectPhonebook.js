@@ -3,6 +3,7 @@ import CreatableSelect from "react-select/creatable";
 import AxiosWp from "../function/AxiosWp";
 
 function SelectPhonebook({
+  isMulti,
   value,
   options,
   onChange,
@@ -50,6 +51,7 @@ function SelectPhonebook({
 
   return (
     <CreatableSelect
+      isMulti={isMulti}
       placeholder="Select a phonebook | Create a new phonebook by typing it's name"
       isClearable
       isDisabled={isLoading}

@@ -828,21 +828,21 @@ class Farazsms_Routes {
 		global $wpdb;
 
 		$data       = [
-			'title'              => $incomingData['title'] ?: '',
-			'phonebook_id'       => $incomingData['phonebook_id'] ?: '',
-			'form_id'            => $incomingData['form_id'] ?: '',
-			'field_id'           => $incomingData['field_id'] ?: '',
-			'name_field_id'      => $incomingData['name_field_id'] ?: '',
-			'content_field_id'   => $incomingData['content_field_id'] ?: '',
-			'phonebook_label'    => $incomingData['phonebook_label'] ?: '',
-			'form_label'         => $incomingData['form_label'] ?: '',
-			'field_label'        => $incomingData['field_label'] ?: '',
-			'name_field_label'   => $incomingData['name_field_label'] ?: '',
-			'content_field_label'=> $incomingData['content_field_label'] ?: '',
-			'action_type'        => $incomingData['action_type'] ?: '',
-			'action_label'       => $incomingData['action_label'] ?: '',
-			'user_pattern_code'  => $incomingData['user_pattern_code'] ?: '',
-			'admin_pattern_code' => $incomingData['admin_pattern_code'] ?: '',
+			'title'               => $incomingData['title'] ?: '',
+			'phonebook_id'        => $incomingData['phonebook_id'] ?: '',
+			'form_id'             => $incomingData['form_id'] ?: '',
+			'field_id'            => $incomingData['field_id'] ?: '',
+			'name_field_id'       => $incomingData['name_field_id'] ?: '',
+			'content_field_id'    => $incomingData['content_field_id'] ?: '',
+			'phonebook_label'     => $incomingData['phonebook_label'] ?: '',
+			'form_label'          => $incomingData['form_label'] ?: '',
+			'field_label'         => $incomingData['field_label'] ?: '',
+			'name_field_label'    => $incomingData['name_field_label'] ?: '',
+			'content_field_label' => $incomingData['content_field_label'] ?: '',
+			'action_type'         => $incomingData['action_type'] ?: '',
+			'action_label'        => $incomingData['action_label'] ?: '',
+			'user_pattern_code'   => $incomingData['user_pattern_code'] ?: '',
+			'admin_pattern_code'  => $incomingData['admin_pattern_code'] ?: '',
 		];
 		$table_name = $wpdb->prefix . 'farazsms_gravity_forms';
 
@@ -919,35 +919,40 @@ class Farazsms_Routes {
 	 * Send SMS to phonebooks or manually numbers.
 	 */
 
-	public static function send_sms( $send_sms ) {
-		$message             = $send_sms['message'];
-		$phonebooks          = $send_sms['phonebooks'];
-		$send_to_subscribers = $send_sms['send_to_subscribers'];
-		$sender              = $send_sms['send_fromnum_choice'];
-		$phones              = $send_sms['phones'];
+	public static function send_sms( $data ) {
+		$message             = $data['message'];
+		$phonebooks          = $data['phonebooks'];
+		$send_to_subscribers = $data['send_to_subscribers'];
+		$sender              = $data['send_fromnum_choice'];
+		$phones              = $data['phones'];
 		$fixed_phones        = [];
+		$phonebooks_ids      = [];
 
-		if ( ! strpos( $phones, ',' ) ) {
-			return 'uncorrectedFormat';
-		}
-		if ( $sender === '1' ) {
+		if ( $sender ) {
 			$sender = Farazsms_Base::$fromNum;
-		} else {
-			$sender = Farazsms_Base::$fromNumAdver;
 		}
-		$phones = explode( ',', $phones );
-		foreach ( $phones as $phone ) {
-			if ( Farazsms_Base::validate_mobile_number( $phone ) ) {
-				$fixed_phones[] = Farazsms_Base::validate_mobile_number( $phone );
+
+		if ( ! str_contains( $phones, ',' ) ) {
+			if ( Farazsms_Base::validate_mobile_number( $phones ) ) {
+				$fixed_phones[] = Farazsms_Base::validate_mobile_number( $phones );
+			}
+		} else {
+			$phones = explode( ',', $phones );
+			foreach ( $phones as $phone ) {
+				if ( Farazsms_Base::validate_mobile_number( $phone ) ) {
+					$fixed_phones[] = Farazsms_Base::validate_mobile_number( $phone );
+				}
 			}
 		}
-		if ( ! empty( $fixed_phones ) ) {
-			Farazsms_Ippanel::send_message( $fixed_phones, $message, $sender );
-		}
+
+		Farazsms_Ippanel::send_message($fixed_phones, $message, $sender);
+
 		foreach ( $phonebooks as $phonebook ) {
-			$phonebook_numbers = self::get_phonebook_numbers( $phonebook['value'] );
-			Farazsms_Ippanel::send_message( $phonebook_numbers, $message, $sender );
+			$phonebooks_ids[] =  $phonebook['value'];
 		}
+
+		Farazsms_Ippanel::send_sms_to_phonebooks($phonebooks_ids, $message,$sender);
+
 
 		if ( $send_to_subscribers ) {
 			$subscribers = Farazsms_Base::get_subscribers();
@@ -957,17 +962,16 @@ class Farazsms_Routes {
 			if ( str_contains( $message, '%name%' ) ) {
 				foreach ( $subscribers as $subscriber ) {
 					$message_fixed = str_replace( '%name%', $subscriber->name, $message );
-					Farazsms_Ippanel::send_message( [ $subscriber->phone ], $message_fixed, '+98club' );
+					Farazsms_Ippanel::send_message( [ $subscriber->phone ], $message_fixed, $sender );
 				}
 			} else {
 				$phones = [];
 				foreach ( $subscribers as $subscriber ) {
 					$phones[] = $subscriber->phone;
 				}
-				Farazsms_Ippanel::send_message( $phones, $message, '+98club' );
-			}
 
-			return $fixed_phones;
+				Farazsms_Ippanel::send_message( $phones, $message, $sender );
+			}
 		}
 	}
 
@@ -976,36 +980,32 @@ class Farazsms_Routes {
 	 *
 	 * @param $data
 	 *
-	 * @return bool
+	 * @return array|WP_Error
 	 */
-	public function add_phonebook($data) {
+	public function add_phonebook( $data ) {
 		$label = $data['label'];
 
-		$url = 'http://api.ippanel.com/api/v1/phonebook/phonebooks';
-		$headers = [
-			'accept' => 'application/json',
+		$url      = 'http://api.ippanel.com/api/v1/phonebook/phonebooks';
+		$headers  = [
+			'accept'        => 'application/json',
 			'Authorization' => Farazsms_Base::$apiKey,
-			'Content-Type' => 'application/json'
+			'Content-Type'  => 'application/json'
 		];
-		$body = [
+		$body     = [
 			'title' => $label,
 		];
-		$args = [
+		$args     = [
 			'headers' => $headers,
-			'body' => json_encode($body),
-			'method' => 'POST'
+			'body'    => json_encode( $body ),
+			'method'  => 'POST'
 		];
-		$response = wp_remote_post($url, $args);
-		if (is_wp_error($response)) {
-			// handle error
+		$response = wp_remote_post( $url, $args );
+		if ( is_wp_error( $response ) ) {
 			return $response;
 		} else {
-			$response_body = json_decode(wp_remote_retrieve_body($response));
-			// handle response
 			return $response;
 		}
 	}
-
 
 
 	/**

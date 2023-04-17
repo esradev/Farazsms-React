@@ -16,6 +16,7 @@ import SectionHeader from "../views/SectionHeader";
 import LoadingSpinner from "../views/LoadingSpinner";
 import AxiosWp from "../function/AxiosWp";
 import usePhonebooks from "../hooks/usePhonebooks";
+import SettingsForm from "../views/SettingsForm";
 
 function SendSms(props) {
   const appDispatch = useContext(DispatchContext);
@@ -85,7 +86,7 @@ function SendSms(props) {
         onChange: "phonebooksChange",
         rules: "phonebooksRules",
         name: "phonebooks",
-        type: "select",
+        type: "select_phonebook",
         label: __("Select phonebooks:", "farazsms"),
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
@@ -104,7 +105,7 @@ function SendSms(props) {
       case "cantFetching":
         draft.isFetching = false;
         return;
-      case "all_phonebooksOptions":
+      case "all_phonebookOptions":
         draft.noPhonebooks = false;
         draft.inputs.phonebooks.options = action.value;
         return;
@@ -201,17 +202,6 @@ function SendSms(props) {
                 ),
               },
             });
-          } else if (res.data === "uncorrectedFormat") {
-            appDispatch({
-              type: "flashMessage",
-              value: {
-                type: "error",
-                message: __(
-                  "Please enter manually numbers in the correct format. separate every number with an english comma.",
-                  "farazsms"
-                ),
-              },
-            });
           } else {
             appDispatch({
               type: "flashMessage",
@@ -249,8 +239,6 @@ function SendSms(props) {
     });
   }
 
-  usePhonebooks(handleNoPhonebooks, handleAllPhonebooks);
-
   if (state.isFetching) return <LoadingSpinner />;
 
   /**
@@ -263,55 +251,16 @@ function SendSms(props) {
     <div>
       <SectionHeader sectionName={state.sectionName} />
       <div>
-        <form onSubmit={handleSubmit}>
-          {Object.values(state.inputs).map((input) =>
-            input.isDependencyUsed === false ? (
-              <></>
-            ) : (
-              <div
-                key={input.name}
-                className={
-                  input.type === "checkbox" ? "toggle-control" : "form-group"
-                }
-              >
-                <FormInput
-                  isMulti={input.isMulti}
-                  {...input}
-                  value={input.value}
-                  checked={input.value}
-                  onChange={
-                    input.type === "select"
-                      ? (selectedOption) =>
-                          dispatch({
-                            type: input.onChange,
-                            value: selectedOption,
-                          })
-                      : (e) => {
-                          dispatch({
-                            type: input.onChange,
-                            value:
-                              input.type === "checkbox"
-                                ? e.target.checked
-                                : e.target.value,
-                          });
-                        }
-                  }
-                  onBlur={(e) =>
-                    dispatch({ type: input.rules, value: e.target.value })
-                  }
-                />
-                <FormInputError />
-              </div>
-            )
-          )}
-          <button
-            type="submit"
-            className="btn btn-primary mt-3"
-            disabled={state.isSaving}
-          >
-            {__("Send Sms", "farazsms")}
-          </button>{" "}
-        </form>
+        <SettingsForm
+          dispatchAllPhonebooks={handleAllPhonebooks}
+          dispatchNoPhonebooks={handleNoPhonebooks}
+          sectionName={state.sectionName}
+          inputs={state.inputs}
+          handleSubmit={handleSubmit}
+          dispatch={dispatch}
+          isSaving={state.isSaving}
+          buttonText={__("Send sms", "farazsms")}
+        />
       </div>
     </div>
   );

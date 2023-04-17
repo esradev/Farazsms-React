@@ -204,26 +204,30 @@ class Farazsms_Ippanel {
 		return $res['data']['patternMessage'] ?? null;
 	}
 
+
 	/**
-	 * Send message.
+	 * Send Message function.
 	 *
-	 * @since 2.0.0
+	 * @param $phones
+	 * @param $message
+	 * @param $sender
+	 *
+	 * @return array|mixed|WP_Error|null
 	 */
-	public static function send_message( $phones, $message, $sender = null ) {
-		if ( ! empty( $sender ) ) {
-			$fromnum = $sender;
-		} else {
-			$fromnum = Farazsms_Base::$fromNum;
+	public static function send_message( $phones ,$message, $sender = '') {
+
+		if ( ! $sender) {
+			$sender = Farazsms_Base::$fromNum;
 		}
 
 		$body     = [
+			'op'      => 'send',
 			'uname'   => Farazsms_Base::$username,
 			'pass'    => Farazsms_Base::$password,
-			'from'    => $fromnum,
-			'op'      => 'send',
+			'message' => $message,
+			'from'    => $sender,
 			'to'      => $phones,
 			'time'    => '',
-			'message' => $message,
 		];
 		$response = wp_remote_post(
 			'http://ippanel.com/api/select',
@@ -235,15 +239,48 @@ class Farazsms_Ippanel {
 			]
 		);
 		if ( is_wp_error( $response ) ) {
-			return false;
+			return $response;
 		}
 
 		$response = json_decode( $response['body'] );
 		if ( $response->status->code !== 0 ) {
-			return false;
+			return $response;
 		}
 
-		return true;
+		return $response;
+	}
+
+	public static function send_sms_to_phonebooks ($phonebooks_ids, $message ,$sender = '' ) {
+		if ( ! $sender) {
+			$sender = Farazsms_Base::$fromNum;
+		}
+
+		$url = 'https://ippanel.com/services.jspd';
+
+		$param = [
+			'uname' => Farazsms_Base::$username,
+			'pass' => Farazsms_Base::$password,
+			'from' => $sender,
+			'message' => $message,
+			'bookid' => json_encode($phonebooks_ids),
+			'op' => 'booksend'
+		];
+
+		$response = wp_remote_post( $url, [
+			'method' => 'POST',
+			'body' => $param
+		] );
+
+		if ( is_wp_error( $response ) ) {
+			$error_message = $response->get_error_message();
+			return "Something went wrong: $error_message";
+		} else {
+			$response_body = wp_remote_retrieve_body( $response );
+			$response_data = json_decode( $response_body );
+			$res_code = $response_data[0];
+			$res_data = $response_data[1];
+			return $res_data;
+		}
 	}
 
 	/**

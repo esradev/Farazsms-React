@@ -31,6 +31,7 @@ function SettingsForm({
                   <label htmlFor={input.id} className="mb-1 form-control-label">
                     {input.label}
                     <SelectPhonebook
+                      isMulti={input?.isMulti}
                       value={input.value}
                       options={input.options}
                       onChange={(selectedOption) =>
