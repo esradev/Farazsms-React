@@ -11,7 +11,7 @@ if ( isset( $_GET['order_id'] ) ) {
 	$items = $order ? $order->get_items() : [];
 } else {
 	$items = [];
-	echo '<h2>No order ID provided.</h2>';
+	echo '<h2>'. esc_html__( 'No order ID provided', 'farazsms' ) .'</h2>';
 }
 
 ?>
@@ -31,18 +31,18 @@ if ( isset( $_GET['order_id'] ) ) {
 					<div class="form-group">
 						<label for="fsms_order_review_rating_<?php echo $item_id; ?>" class="review-label">Rating</label>
 						<select id="fsms_order_review_rating_<?php echo $item_id; ?>" name="rating" class="form-control review-select fsms_order_review_rating" required>
-							<option value="">-- Select a rating --</option>
+							<option value=""><?php esc_html__('Select a rating', 'farazsms') ?></option>
 							<?php for ( $i = 1; $i <= 5; $i++ ) : ?>
 								<option value="<?php echo $i; ?>"><?php echo $i; ?></option>
 							<?php endfor; ?>
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="fsms_order_review_review_<?php echo $item_id; ?>" class="review-label">Review</label>
+						<label for="fsms_order_review_review_<?php echo $item_id; ?>" class="review-label"><?php esc_html__('Review', 'farazsms') ?></label>
 						<textarea id="fsms_order_review_review_<?php echo $item_id; ?>" name="review" class="form-control review-textarea fsms_order_review_review" rows="5" required></textarea>
 					</div>
 					<div id="fsms_order_review_message_<?php echo $item_id; ?>" class="fsms_order_review_message" style="display: none;"></div>
-					<button type="button" class="btn btn-primary review-submit" id="fsms_order_review_submit_button_<?php echo $item_id; ?>">Submit Review</button>
+					<button type="button" class="btn btn-primary review-submit" id="fsms_order_review_submit_button_<?php echo $item_id; ?>"><?php esc_html__('Submit Review', 'farazsms') ?></button>
 				</form>
 			</div>
 		<?php endforeach; ?>
