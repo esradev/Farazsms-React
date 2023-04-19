@@ -325,7 +325,7 @@ class Farazsms_Newsletter {
 	 */
 	public function fsms_product_published( $new_status, $old_status, $post ) {
 		// Use strict comparison operator and early return
-		if ( $new_status !== 'publish' || $new_status === $old_status ) {
+		if ( $new_status !== 'publish' || $old_status === 'publish' ) {
 			return;
 		}
 

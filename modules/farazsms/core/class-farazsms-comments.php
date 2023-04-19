@@ -147,27 +147,36 @@ class Farazsms_Comments {
 	 *
 	 * @param int $comment_ID ID of the comment being submitted.
 	 */
-	public function send_admin_sms_on_new_comment( int $comment_ID ) {
-		$comment               = get_comment( $comment_ID );
-		$data                  = $this->comments_farazsms_shortcode( $comment, $comment_ID );
-		$comment_author_mobile = get_comment_meta( $comment_ID, 'mobile', true ) ?? '';
-		$user_name             = $comment->comment_author;
-		$user                  = get_user_by( 'id', $comment->user_id );
-		if ( isset( $user ) && is_object( $user ) ) {
-			$is_admin = in_array( 'administrator', $user->roles );
-		} else {
-			$is_admin = false;
-		}
-		$admin_number = Farazsms_Base::$admin_number;
+	public function send_admin_or_author_sms_on_new_comment( int $comment_ID ) {
+		$comment = get_comment( $comment_ID );
+		$comment_post_type = get_post_type( $comment->comment_post_ID );
 
-		if ( self::$comment_phonebook_id ) {
-			$this->save_comment_mobile_to_phonebook( $comment_author_mobile, $user_name );
-		}
+		// Check if the comment is on a post
+		if ( $comment_post_type === 'post' ) {
+			$data = $this->comments_farazsms_shortcode( $comment, $comment_ID );
+			$comment_author_mobile = get_comment_meta( $comment_ID, 'mobile', true ) ?? '';
+			$user_name = $comment->comment_author;
+			$user = get_user_by( 'id', $comment->user_id );
 
-		if ( self::$notify_admin_for_comment && ! $is_admin && ! empty( $admin_number ) ) {
-			$this->send_comment_sms( $admin_number, self::$notify_admin_for_comment_pattern, $data );
-		}
+			if ( isset( $user ) && is_object( $user ) ) {
+				$is_admin = in_array( 'administrator', $user->roles );
+			} else {
+				$is_admin = false;
+			}
 
+			$admin_number = Farazsms_Base::$admin_number;
+
+			if ( self::$comment_phonebook_id ) {
+				$this->save_comment_mobile_to_phonebook( $comment_author_mobile, $user_name );
+			}
+
+			// Send SMS notification only to the admin or author
+			if ( self::$notify_admin_for_comment && ! $is_admin && ! empty( $admin_number ) ) {
+				$this->send_comment_sms( $admin_number, self::$notify_admin_for_comment_pattern, $data );
+			} elseif ( ! empty( $user ) && ! empty( $comment_author_mobile ) ) {
+				$this->send_comment_sms( $comment_author_mobile, self::$notify_user_for_comment_pattern, $data );
+			}
+		}
 	}
 
 
@@ -180,6 +189,14 @@ class Farazsms_Comments {
 	 */
 	public function send_author_sms_on_approved_comment( int $comment_ID ): void {
 		$comment = get_comment( $comment_ID );
+		if ( 'comment' !== get_comment_type( $comment ) ) {
+			return;
+		}
+
+		$post_id = $comment->comment_post_ID;
+		if ( 'post' !== get_post_type( $post_id ) ) {
+			return;
+		}
 
 		$comment_author_mobile        = get_comment_meta( $comment_ID, 'mobile', true ) ?? '';
 		$comment_parent_author_mobile = '';
