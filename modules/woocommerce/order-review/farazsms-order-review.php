@@ -126,10 +126,10 @@ class Farazsms_Order_Review {
 
 	public function farazsms_submit_order_review() {
 		// Retrieve form data
-		$product_id = $_POST['product_id'];
-		$user_name = $_POST['user_name'];
-		$user_email = $_POST['user_email'];
-		$rating = $_POST['rating'];
+		$product_id = absint($_POST['product_id']);
+		$user_name = sanitize_text_field($_POST['user_name']);
+		$user_email = sanitize_email($_POST['user_email']);
+		$rating = absint($_POST['rating']);
 		$review = sanitize_textarea_field($_POST['review']);
 
 		// Validate form data

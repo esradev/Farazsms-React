@@ -1,21 +1,45 @@
 # Copyright (C) 2023 farazsmsdeveloper, wpstormdev
-# This file is distributed under the same license as the FarazSMS plugin.
+# This file is distributed under the same license as the Farazsms plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: FarazSMS 2.1.0\n"
+"Project-Id-Version: Farazsms 2.4.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/farazsms\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-03-23T12:59:35+00:00\n"
+"POT-Creation-Date: 2023-04-19T05:13:14+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
 "X-Domain: farazsms\n"
 
 #. Plugin Name of the plugin
-msgid "FarazSMS"
+#: classes/class-farazsms-settings.php:148
+#: classes/class-farazsms-settings.php:149
+#: classes/class-farazsms-settings.php:161
+#: classes/class-farazsms-settings.php:172
+#: classes/class-farazsms-settings.php:183
+#: classes/class-farazsms-settings.php:194
+#: classes/class-farazsms-settings.php:205
+#: classes/class-farazsms-settings.php:216
+#: classes/class-farazsms-settings.php:227
+#: classes/class-farazsms-settings.php:238
+#: classes/class-farazsms-settings.php:249
+#: classes/class-farazsms-settings.php:260
+#: classes/class-farazsms-settings.php:271
+#: classes/class-farazsms-settings.php:282
+#: classes/class-farazsms-settings.php:293
+#: classes/class-farazsms-settings.php:304
+#: classes/class-farazsms-settings.php:340
+#: classes/class-farazsms-settings.php:370
+#: build/index.js:12249
+#: build/index.js:12816
+#: src/components/Footer.js:23
+#: src/components/Header.js:40
+#: build/index.js:10571
+#: build/index.js:11152
+msgid "Farazsms"
 msgstr ""
 
 #. Plugin URI of the plugin
@@ -30,190 +54,155 @@ msgstr ""
 msgid "farazsmsdeveloper, wpstormdev"
 msgstr ""
 
-#: classes/class-farazsms-ippanel.php:326
+#: classes/class-farazsms-ippanel.php:386
 msgid "Dear user, The charge for your SMS panel is less than 10 thousand tomans, and your sites SMS may not be sent soon and your site may be blocked. I will charge the SMS system as soon as possible. www.farazsms.com, +982171333036"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:149
-#: classes/class-farazsms-settings.php:150
 #: classes/class-farazsms-settings.php:162
-#: classes/class-farazsms-settings.php:173
-#: classes/class-farazsms-settings.php:184
-#: classes/class-farazsms-settings.php:195
-#: classes/class-farazsms-settings.php:206
-#: classes/class-farazsms-settings.php:217
-#: classes/class-farazsms-settings.php:228
-#: classes/class-farazsms-settings.php:239
-#: classes/class-farazsms-settings.php:250
-#: classes/class-farazsms-settings.php:261
-#: classes/class-farazsms-settings.php:272
-#: classes/class-farazsms-settings.php:283
-#: classes/class-farazsms-settings.php:294
-#: classes/class-farazsms-settings.php:305
-#: classes/class-farazsms-settings.php:316
-#: classes/class-farazsms-settings.php:353
-#: classes/class-farazsms-settings.php:383
-#: build/index.js:12238
-#: build/index.js:12712
-#: src/components/Footer.js:23
-#: src/components/Header.js:40
-#: build/index.js:10561
-#: build/index.js:11034
-msgid "Farazsms"
-msgstr ""
-
-#: classes/class-farazsms-settings.php:163
-#: build/index.js:16657
+#: build/index.js:16896
 #: src/views/SidebarItems.js:46
-#: build/index.js:14825
+#: build/index.js:15069
 msgid "Settings"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:174
-#: build/index.js:13114
-#: build/index.js:16662
+#: classes/class-farazsms-settings.php:173
+#: build/index.js:13218
+#: build/index.js:16901
 #: src/components/LoginNotify.js:114
 #: src/views/SidebarItems.js:52
-#: build/index.js:11421
-#: build/index.js:14831
+#: build/index.js:11539
+#: build/index.js:15075
 msgid "Login Notify"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:185
+#: classes/class-farazsms-settings.php:184
 #: modules/elementor/widgets/class-farazsms-newsletter-widget.php:128
-#: build/index.js:14093
-#: build/index.js:16667
+#: build/index.js:14235
+#: build/index.js:16906
 #: src/components/Phonebook.js:106
 #: src/views/SidebarItems.js:58
-#: build/index.js:12428
-#: build/index.js:14837
+#: build/index.js:12618
+#: build/index.js:15081
 msgid "Phonebook"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:196
-#: build/index.js:12368
-#: build/index.js:16672
-#: src/components/GravityForms.js:110
+#: classes/class-farazsms-settings.php:195
+#: build/index.js:12414
+#: build/index.js:16911
+#: src/components/GravityForms.js:153
 #: src/views/SidebarItems.js:64
-#: build/index.js:10680
-#: build/index.js:14843
+#: build/index.js:10733
+#: build/index.js:15087
 msgid "Gravity Forms"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:207
-#: build/index.js:15223
-#: build/index.js:16677
+#: classes/class-farazsms-settings.php:206
+#: build/index.js:15339
+#: build/index.js:16916
 #: src/components/Synchronization.js:56
 #: src/views/SidebarItems.js:70
-#: build/index.js:13597
-#: build/index.js:14849
+#: build/index.js:13736
+#: build/index.js:15093
 msgid "Synchronization"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:218
-#: build/index.js:11724
-#: build/index.js:16682
-#: src/components/Comments.js:145
+#: classes/class-farazsms-settings.php:217
+#: build/index.js:11735
+#: build/index.js:16921
+#: src/components/Comments.js:144
 #: src/views/SidebarItems.js:76
-#: build/index.js:10082
-#: build/index.js:14855
+#: build/index.js:10093
+#: build/index.js:15099
 msgid "Comments"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:229
-#: build/index.js:15544
+#: classes/class-farazsms-settings.php:228
+#: build/index.js:15660
 #: src/components/WooCommerce.js:101
-#: build/index.js:13958
+#: build/index.js:14097
 msgid "Woocommerce"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:240
-msgid "Elementor"
-msgstr ""
-
-#: classes/class-farazsms-settings.php:251
-#: build/index.js:12058
-#: build/index.js:16692
-#: src/components/Edd.js:89
+#: classes/class-farazsms-settings.php:239
+#: build/index.js:12068
+#: build/index.js:16931
+#: src/components/Edd.js:88
 #: src/views/SidebarItems.js:88
-#: build/index.js:10390
-#: build/index.js:14867
+#: build/index.js:10400
+#: build/index.js:15111
 msgid "Edd"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:262
-#: build/index.js:13685
-#: build/index.js:16697
-#: src/components/Newsletter.js:146
+#: classes/class-farazsms-settings.php:250
+#: build/index.js:13789
+#: build/index.js:16936
+#: src/components/Newsletter.js:147
 #: src/views/SidebarItems.js:94
-#: build/index.js:12007
-#: build/index.js:14873
+#: build/index.js:12126
+#: build/index.js:15117
 msgid "Newsletter"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:273
-#: build/index.js:16702
+#: classes/class-farazsms-settings.php:261
+#: build/index.js:16941
 #: src/views/SidebarItems.js:100
-#: build/index.js:14879
+#: build/index.js:15123
 msgid "Affiliate"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:284
-#: build/index.js:16707
+#: classes/class-farazsms-settings.php:272
+#: build/index.js:16946
 #: src/views/SidebarItems.js:106
-#: build/index.js:14885
+#: build/index.js:15129
 msgid "Membership"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:295
-#: classes/class-farazsms-settings.php:375
-#: modules/woocommerce/class-farazsms-woocommerce.php:237
-#: build/index.js:14386
-#: build/index.js:14547
-#: build/index.js:16712
-#: src/components/SendSms.js:99
-#: src/components/SendSms.js:312
+#: classes/class-farazsms-settings.php:283
+#: classes/class-farazsms-settings.php:362
+#: modules/woocommerce/class-farazsms-woocommerce.php:230
+#: build/index.js:14529
+#: build/index.js:16951
+#: src/components/SendSms.js:100
 #: src/views/SidebarItems.js:112
-#: build/index.js:12727
-#: build/index.js:12940
-#: build/index.js:14891
+#: build/index.js:12918
+#: build/index.js:15135
 msgid "Send Sms"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:306
-#: build/index.js:16717
+#: classes/class-farazsms-settings.php:294
+#: build/index.js:16956
 #: src/views/SidebarItems.js:118
-#: build/index.js:14897
+#: build/index.js:15141
 msgid "Support"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:317
-#: build/index.js:12785
-#: build/index.js:16722
+#: classes/class-farazsms-settings.php:305
+#: build/index.js:12889
+#: build/index.js:16961
 #: src/components/Integrations.js:25
 #: src/views/SidebarItems.js:124
-#: build/index.js:11094
-#: build/index.js:14903
+#: build/index.js:11212
+#: build/index.js:15147
 msgid "Integrations"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:366
+#: classes/class-farazsms-settings.php:353
 msgid "Account credit: "
 msgstr ""
 
-#: classes/class-farazsms-settings.php:366
+#: classes/class-farazsms-settings.php:353
 msgid " $IR_T"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:417
+#: classes/class-farazsms-settings.php:402
 msgid "Farazsms latest news"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:475
+#: classes/class-farazsms-settings.php:459
 msgid "Dear user, your panel will expire less than a month from now. To renew your SMS panel, contact Faraz SMS"
 msgstr ""
 
-#: classes/class-farazsms-settings.php:484
+#: classes/class-farazsms-settings.php:468
 msgid "Dear user, your panel will expire less than a week from now. To renew your SMS panel, contact Faraz SMS."
 msgstr ""
 
@@ -245,12 +234,12 @@ msgid "Farazsms Newsletter"
 msgstr ""
 
 #: modules/elementor/form-actions/class-farazsms-newsletter-action-after-submit.php:71
-#: build/index.js:14671
-#: build/index.js:14672
+#: build/index.js:14787
+#: build/index.js:14788
 #: src/components/Settings.js:96
 #: src/components/Settings.js:97
-#: build/index.js:13045
-#: build/index.js:13046
+#: build/index.js:13184
+#: build/index.js:13185
 msgid "Sender number"
 msgstr ""
 
@@ -368,9 +357,9 @@ msgstr ""
 
 #: modules/elementor/widgets/class-farazsms-newsletter-widget.php:139
 #: modules/elementor/widgets/class-farazsms-newsletter-widget.php:157
-#: build/index.js:11939
+#: build/index.js:11951
 #: src/components/ConfirmDialog.js:20
-#: build/index.js:10288
+#: build/index.js:10299
 msgid "Yes"
 msgstr ""
 
@@ -562,143 +551,170 @@ msgstr ""
 msgid "Please enter manual numbers in the correct format"
 msgstr ""
 
-#: modules/newsletter/class-farazsms-newsletter.php:431
+#: modules/newsletter/class-farazsms-newsletter.php:433
 msgid "Please select at least one phonebook or manual number or newsletter members"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:131
+#: modules/woocommerce/class-farazsms-woocommerce.php:124
 msgid "No tracking code data found for this order."
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:138
+#: modules/woocommerce/class-farazsms-woocommerce.php:131
 msgid "Multiple tracking codes found for this order:"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:142
-#: modules/woocommerce/class-farazsms-woocommerce.php:153
+#: modules/woocommerce/class-farazsms-woocommerce.php:135
+#: modules/woocommerce/class-farazsms-woocommerce.php:146
 msgid "Tracking Code: "
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:143
-#: modules/woocommerce/class-farazsms-woocommerce.php:156
+#: modules/woocommerce/class-farazsms-woocommerce.php:136
 msgid "Post Service Provider: "
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:144
-#: modules/woocommerce/class-farazsms-woocommerce.php:159
+#: modules/woocommerce/class-farazsms-woocommerce.php:137
+#: modules/woocommerce/class-farazsms-woocommerce.php:152
 msgid "Post Date: "
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:149
+#: modules/woocommerce/class-farazsms-woocommerce.php:142
 msgid "One tracking code found for this order:"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:174
+#: modules/woocommerce/class-farazsms-woocommerce.php:149
+msgid "..."
+msgstr ""
+
+#: modules/woocommerce/class-farazsms-woocommerce.php:167
 msgid "Already sent tracking code"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:191
+#: modules/woocommerce/class-farazsms-woocommerce.php:184
 msgid "Send tracking code"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:213
+#: modules/woocommerce/class-farazsms-woocommerce.php:206
 msgid "Tracking Code"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:214
+#: modules/woocommerce/class-farazsms-woocommerce.php:207
 msgid "Enter tracking code"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:218
+#: modules/woocommerce/class-farazsms-woocommerce.php:211
 msgid "Service Provider"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:222
+#: modules/woocommerce/class-farazsms-woocommerce.php:215
 msgid "Post Office"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:223
+#: modules/woocommerce/class-farazsms-woocommerce.php:216
 msgid "Tipaxco"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:226
+#: modules/woocommerce/class-farazsms-woocommerce.php:219
 msgid "Custom Provider"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:233
+#: modules/woocommerce/class-farazsms-woocommerce.php:226
 msgid "Date of Posting"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:273
+#: modules/woocommerce/class-farazsms-woocommerce.php:266
 msgid "Please enter the tracking code."
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:277
+#: modules/woocommerce/class-farazsms-woocommerce.php:270
 msgid "Please select a service provider."
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:281
+#: modules/woocommerce/class-farazsms-woocommerce.php:274
 msgid "Please select the date of posting."
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:287
+#: modules/woocommerce/class-farazsms-woocommerce.php:280
 msgid "Customer phone number not entered."
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:332
+#: modules/woocommerce/class-farazsms-woocommerce.php:325
 msgid "Pattern not entered to send tracking code"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:339
+#: modules/woocommerce/class-farazsms-woocommerce.php:332
 msgid "Probably your pattern has not been approved"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:553
-#: modules/woocommerce/class-farazsms-woocommerce.php:563
+#: modules/woocommerce/class-farazsms-woocommerce.php:472
+#: modules/woocommerce/class-farazsms-woocommerce.php:482
 msgid "Verification code"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:573
+#: modules/woocommerce/class-farazsms-woocommerce.php:492
 msgid "Send"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:594
+#: modules/woocommerce/class-farazsms-woocommerce.php:513
 msgid "Please confirm your phone number first"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:599
+#: modules/woocommerce/class-farazsms-woocommerce.php:518
 msgid "The verification code entered is not valid"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:609
+#: modules/woocommerce/class-farazsms-woocommerce.php:528
 msgid "Please enter phone number."
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:618
+#: modules/woocommerce/class-farazsms-woocommerce.php:537
 msgid "An error occurred"
 msgstr ""
 
-#: modules/woocommerce/class-farazsms-woocommerce.php:620
+#: modules/woocommerce/class-farazsms-woocommerce.php:539
 msgid "Verification code sent successfully"
 msgstr ""
 
-#: build/index.js:10819
+#: modules/woocommerce/order-review/farazsms-order-review-page.php:14
+msgid "No order ID provided"
+msgstr ""
+
+#: modules/woocommerce/order-review/farazsms-order-review-page.php:24
+msgid "Product name: "
+msgstr ""
+
+#: modules/woocommerce/order-review/farazsms-order-review-page.php:34
+msgid "Select a rating"
+msgstr ""
+
+#: modules/woocommerce/order-review/farazsms-order-review-page.php:41
+msgid "Review"
+msgstr ""
+
+#: modules/woocommerce/order-review/farazsms-order-review-page.php:45
+msgid "Submit Review"
+msgstr ""
+
+#: modules/woocommerce/order-review/farazsms-order-review.php:117
+msgid "Order Review"
+msgstr ""
+
+#: build/index.js:10832
 #: src/App.js:75
-#: build/index.js:9145
+#: build/index.js:9157
 msgid "Add action after elementor pro forms submitting."
 msgstr ""
 
-#: build/index.js:11010
-#: build/index.js:11022
-#: build/index.js:11034
-#: build/index.js:11046
-#: build/index.js:11058
-#: build/index.js:11070
-#: build/index.js:11082
-#: build/index.js:11094
-#: build/index.js:11106
-#: build/index.js:11118
-#: build/index.js:11130
+#: build/index.js:11023
+#: build/index.js:11035
+#: build/index.js:11047
+#: build/index.js:11059
+#: build/index.js:11071
+#: build/index.js:11083
+#: build/index.js:11095
+#: build/index.js:11107
+#: build/index.js:11119
+#: build/index.js:11131
+#: build/index.js:11143
 #: src/App.js:255
 #: src/App.js:270
 #: src/App.js:285
@@ -710,1136 +726,1256 @@ msgstr ""
 #: src/App.js:375
 #: src/App.js:390
 #: src/App.js:405
-#: build/index.js:9325
-#: build/index.js:9340
-#: build/index.js:9355
-#: build/index.js:9370
-#: build/index.js:9385
-#: build/index.js:9400
-#: build/index.js:9415
-#: build/index.js:9430
-#: build/index.js:9445
-#: build/index.js:9460
-#: build/index.js:9475
+#: build/index.js:9337
+#: build/index.js:9352
+#: build/index.js:9367
+#: build/index.js:9382
+#: build/index.js:9397
+#: build/index.js:9412
+#: build/index.js:9427
+#: build/index.js:9442
+#: build/index.js:9457
+#: build/index.js:9472
+#: build/index.js:9487
 msgid "First install & activate plugin."
 msgstr ""
 
-#: build/index.js:11273
-#: build/index.js:14051
+#: build/index.js:11286
+#: build/index.js:14193
 #: src/components/Aff.js:37
 #: src/components/Phonebook.js:64
-#: build/index.js:9601
-#: build/index.js:12386
+#: build/index.js:9613
+#: build/index.js:12576
 msgid "Select the mobile number custom field:"
 msgstr ""
 
-#: build/index.js:11275
-#: build/index.js:11675
-#: build/index.js:12011
-#: build/index.js:12316
-#: build/index.js:12327
-#: build/index.js:12338
-#: build/index.js:12359
-#: build/index.js:13095
-#: build/index.js:13591
-#: build/index.js:14044
-#: build/index.js:14053
-#: build/index.js:14063
-#: build/index.js:14074
-#: build/index.js:14085
-#: build/index.js:14344
-#: build/index.js:14378
+#: build/index.js:11288
+#: build/index.js:11686
+#: build/index.js:12021
+#: build/index.js:12325
+#: build/index.js:12336
+#: build/index.js:12347
+#: build/index.js:12358
+#: build/index.js:12369
+#: build/index.js:12389
+#: build/index.js:13199
+#: build/index.js:13695
+#: build/index.js:14186
+#: build/index.js:14195
+#: build/index.js:14205
+#: build/index.js:14216
+#: build/index.js:14227
+#: build/index.js:14487
+#: build/index.js:14521
 #: src/components/Aff.js:39
-#: src/components/Comments.js:90
-#: src/components/Edd.js:39
-#: src/components/GravityForms.js:49
-#: src/components/GravityForms.js:63
-#: src/components/GravityForms.js:77
-#: src/components/GravityForms.js:101
+#: src/components/Comments.js:89
+#: src/components/Edd.js:38
+#: src/components/GravityForms.js:48
+#: src/components/GravityForms.js:62
+#: src/components/GravityForms.js:76
+#: src/components/GravityForms.js:90
+#: src/components/GravityForms.js:104
+#: src/components/GravityForms.js:128
 #: src/components/LoginNotify.js:92
-#: src/components/Newsletter.js:40
+#: src/components/Newsletter.js:41
 #: src/components/Phonebook.js:57
 #: src/components/Phonebook.js:66
 #: src/components/Phonebook.js:76
 #: src/components/Phonebook.js:87
 #: src/components/Phonebook.js:98
-#: src/components/SendSms.js:54
-#: src/components/SendSms.js:91
-#: build/index.js:9603
-#: build/index.js:10027
-#: build/index.js:10340
-#: build/index.js:10619
-#: build/index.js:10633
-#: build/index.js:10647
-#: build/index.js:10671
-#: build/index.js:11399
-#: build/index.js:11901
-#: build/index.js:12379
-#: build/index.js:12388
-#: build/index.js:12398
-#: build/index.js:12409
-#: build/index.js:12420
-#: build/index.js:12682
-#: build/index.js:12719
+#: src/components/SendSms.js:55
+#: src/components/SendSms.js:92
+#: build/index.js:9615
+#: build/index.js:10038
+#: build/index.js:10350
+#: build/index.js:10628
+#: build/index.js:10642
+#: build/index.js:10656
+#: build/index.js:10670
+#: build/index.js:10684
+#: build/index.js:10708
+#: build/index.js:11517
+#: build/index.js:12020
+#: build/index.js:12569
+#: build/index.js:12578
+#: build/index.js:12588
+#: build/index.js:12599
+#: build/index.js:12610
+#: build/index.js:12873
+#: build/index.js:12910
 msgid "No options is available"
 msgstr ""
 
-#: build/index.js:11276
+#: build/index.js:11289
 #: src/components/Aff.js:40
-#: build/index.js:9604
+#: build/index.js:9616
 msgid "Users settings:"
 msgstr ""
 
-#: build/index.js:11285
+#: build/index.js:11298
 #: src/components/Aff.js:49
-#: build/index.js:9613
+#: build/index.js:9625
 msgid "Send sms to user on registration:"
 msgstr ""
 
-#: build/index.js:11294
-#: build/index.js:11349
+#: build/index.js:11307
+#: build/index.js:11362
 #: src/components/Aff.js:58
 #: src/components/Aff.js:119
-#: build/index.js:9622
-#: build/index.js:9683
+#: build/index.js:9634
+#: build/index.js:9695
 msgid "User registration SMS pattern code:"
 msgstr ""
 
-#: build/index.js:11303
+#: build/index.js:11316
 #: src/components/Aff.js:67
-#: build/index.js:9631
+#: build/index.js:9643
 msgid "Send sms to user on new referral:"
 msgstr ""
 
-#: build/index.js:11312
-#: build/index.js:11367
+#: build/index.js:11325
+#: build/index.js:11380
 #: src/components/Aff.js:76
 #: src/components/Aff.js:137
-#: build/index.js:9640
-#: build/index.js:9701
+#: build/index.js:9652
+#: build/index.js:9713
 msgid "New referral SMS pattern code:"
 msgstr ""
 
-#: build/index.js:11321
-#: build/index.js:11376
+#: build/index.js:11334
+#: build/index.js:11389
 #: src/components/Aff.js:85
 #: src/components/Aff.js:146
-#: build/index.js:9649
-#: build/index.js:9710
+#: build/index.js:9661
+#: build/index.js:9722
 msgid "Confirmation of the cooperation account in sales for user"
 msgstr ""
 
-#: build/index.js:11330
-#: build/index.js:11385
+#: build/index.js:11343
+#: build/index.js:11398
 #: src/components/Aff.js:97
 #: src/components/Aff.js:158
-#: build/index.js:9661
-#: build/index.js:9722
+#: build/index.js:9673
+#: build/index.js:9734
 msgid "Account confirmation pattern code for cooperation in sales"
 msgstr ""
 
-#: build/index.js:11339
+#: build/index.js:11352
 #: src/components/Aff.js:109
-#: build/index.js:9673
+#: build/index.js:9685
 msgid "Send sms to admin on registration:"
 msgstr ""
 
-#: build/index.js:11340
+#: build/index.js:11353
 #: src/components/Aff.js:110
-#: build/index.js:9674
+#: build/index.js:9686
 msgid "Admin settings:"
 msgstr ""
 
-#: build/index.js:11358
+#: build/index.js:11371
 #: src/components/Aff.js:128
-#: build/index.js:9692
+#: build/index.js:9704
 msgid "Send sms to admin on new referral:"
 msgstr ""
 
-#: build/index.js:11386
-#: build/index.js:11715
-#: build/index.js:12049
-#: build/index.js:13061
-#: build/index.js:13073
-#: build/index.js:13106
-#: build/index.js:13379
-#: build/index.js:13402
-#: build/index.js:13610
-#: build/index.js:13631
-#: build/index.js:13652
-#: build/index.js:13673
-#: build/index.js:14325
-#: build/index.js:15494
-#: build/index.js:15525
-#: build/index.js:15537
+#: build/index.js:11399
+#: build/index.js:11726
+#: build/index.js:12059
+#: build/index.js:13165
+#: build/index.js:13177
+#: build/index.js:13210
+#: build/index.js:13483
+#: build/index.js:13506
+#: build/index.js:13714
+#: build/index.js:13735
+#: build/index.js:13756
+#: build/index.js:13777
+#: build/index.js:14468
+#: build/index.js:15610
+#: build/index.js:15641
+#: build/index.js:15653
 #: src/components/Aff.js:162
-#: src/components/Comments.js:133
-#: src/components/Edd.js:77
+#: src/components/Comments.js:132
+#: src/components/Edd.js:76
 #: src/components/LoginNotify.js:55
 #: src/components/LoginNotify.js:67
 #: src/components/LoginNotify.js:103
 #: src/components/Membership.js:93
 #: src/components/Membership.js:120
-#: src/components/Newsletter.js:65
-#: src/components/Newsletter.js:86
-#: src/components/Newsletter.js:107
-#: src/components/Newsletter.js:131
-#: src/components/SendSms.js:35
+#: src/components/Newsletter.js:66
+#: src/components/Newsletter.js:87
+#: src/components/Newsletter.js:108
+#: src/components/Newsletter.js:132
+#: src/components/SendSms.js:36
 #: src/components/WooCommerce.js:45
 #: src/components/WooCommerce.js:76
 #: src/components/WooCommerce.js:91
-#: build/index.js:9726
-#: build/index.js:10070
-#: build/index.js:10378
-#: build/index.js:11362
-#: build/index.js:11374
-#: build/index.js:11410
-#: build/index.js:11695
-#: build/index.js:11722
-#: build/index.js:11926
-#: build/index.js:11947
-#: build/index.js:11968
-#: build/index.js:11992
-#: build/index.js:12663
-#: build/index.js:13902
-#: build/index.js:13933
-#: build/index.js:13948
+#: build/index.js:9738
+#: build/index.js:10081
+#: build/index.js:10388
+#: build/index.js:11480
+#: build/index.js:11492
+#: build/index.js:11528
+#: build/index.js:11813
+#: build/index.js:11840
+#: build/index.js:12045
+#: build/index.js:12066
+#: build/index.js:12087
+#: build/index.js:12111
+#: build/index.js:12854
+#: build/index.js:14041
+#: build/index.js:14072
+#: build/index.js:14087
 msgid "Usable variables:"
 msgstr ""
 
-#: build/index.js:11387
+#: build/index.js:11400
 #: src/components/Aff.js:163
-#: build/index.js:9727
+#: build/index.js:9739
 msgid "username %user_login% nickname %user_nickname% email %user_email% display name %display_name% mobile number %user_mobile% referral amount %amount%"
 msgstr ""
 
-#: build/index.js:11393
+#: build/index.js:11406
 #: src/components/Aff.js:172
-#: build/index.js:9736
+#: build/index.js:9748
 msgid "Affiliate wp plugin or Ultimate Affiliate Pro or Yith Woocommerce Affiliate"
 msgstr ""
 
-#: build/index.js:11627
-#: src/components/Comments.js:36
-#: build/index.js:9973
+#: build/index.js:11638
+#: src/components/Comments.js:35
+#: build/index.js:9984
 msgid "Remove email filed from comment form?"
 msgstr ""
 
-#: build/index.js:11636
-#: src/components/Comments.js:45
-#: build/index.js:9982
+#: build/index.js:11647
+#: src/components/Comments.js:44
+#: build/index.js:9993
 msgid "Remove website filed from comment form?"
 msgstr ""
 
-#: build/index.js:11645
-#: src/components/Comments.js:54
-#: build/index.js:9991
+#: build/index.js:11656
+#: src/components/Comments.js:53
+#: build/index.js:10002
 msgid "Remove cookies checkbox from comment form?"
 msgstr ""
 
-#: build/index.js:11654
-#: src/components/Comments.js:63
-#: build/index.js:10000
+#: build/index.js:11665
+#: src/components/Comments.js:62
+#: build/index.js:10011
 msgid "Add the mobile field to the comment submission form?"
 msgstr ""
 
-#: build/index.js:11663
-#: src/components/Comments.js:75
-#: build/index.js:10012
+#: build/index.js:11674
+#: src/components/Comments.js:74
+#: build/index.js:10023
 msgid "Is the mobile number field in comments mandatory?"
 msgstr ""
 
-#: build/index.js:11673
-#: build/index.js:12009
-#: src/components/Comments.js:88
-#: src/components/Edd.js:37
-#: build/index.js:10025
-#: build/index.js:10338
+#: build/index.js:11684
+#: build/index.js:12019
+#: src/components/Comments.js:87
+#: src/components/Edd.js:36
+#: build/index.js:10036
+#: build/index.js:10348
 msgid "Save the phone number in the phonebook?"
 msgstr ""
 
-#: build/index.js:11685
-#: src/components/Comments.js:100
-#: build/index.js:10037
+#: build/index.js:11696
+#: src/components/Comments.js:99
+#: build/index.js:10048
 msgid "Comment approved pattern code:"
 msgstr ""
 
-#: build/index.js:11695
-#: src/components/Comments.js:110
-#: build/index.js:10047
+#: build/index.js:11706
+#: src/components/Comments.js:109
+#: build/index.js:10058
 msgid "Comment response pattern code:"
 msgstr ""
 
-#: build/index.js:11705
-#: src/components/Comments.js:120
-#: build/index.js:10057
+#: build/index.js:11716
+#: src/components/Comments.js:119
+#: build/index.js:10068
 msgid "Send notification SMS to admin when a comment add to site?"
 msgstr ""
 
-#: build/index.js:11714
-#: src/components/Comments.js:132
-#: build/index.js:10069
+#: build/index.js:11725
+#: build/index.js:12404
+#: src/components/Comments.js:131
+#: src/components/GravityForms.js:143
+#: build/index.js:10080
+#: build/index.js:10723
 msgid "Admin pattern code:"
 msgstr ""
 
-#: build/index.js:11716
-#: src/components/Comments.js:134
-#: build/index.js:10071
+#: build/index.js:11727
+#: src/components/Comments.js:133
+#: build/index.js:10082
 msgid "Post title: %title% Comment authors name: %name% Comment authors email: %email% Comment link: %link% Comment text: %content%"
 msgstr ""
 
-#: build/index.js:12020
-#: src/components/Edd.js:48
-#: build/index.js:10349
+#: build/index.js:12030
+#: src/components/Edd.js:47
+#: build/index.js:10359
 msgid "Send sms to the user?"
 msgstr ""
 
-#: build/index.js:12029
-#: src/components/Edd.js:57
-#: build/index.js:10358
+#: build/index.js:12039
+#: src/components/Edd.js:56
+#: build/index.js:10368
 msgid "SMS pattern code for the user:"
 msgstr ""
 
-#: build/index.js:12039
-#: src/components/Edd.js:67
-#: build/index.js:10368
+#: build/index.js:12049
+#: src/components/Edd.js:66
+#: build/index.js:10378
 msgid "Send sms to the admin?"
 msgstr ""
 
-#: build/index.js:12048
-#: src/components/Edd.js:76
-#: build/index.js:10377
+#: build/index.js:12058
+#: src/components/Edd.js:75
+#: build/index.js:10387
 msgid "SMS pattern code for the admin:"
 msgstr ""
 
-#: build/index.js:12050
-#: src/components/Edd.js:78
-#: build/index.js:10379
+#: build/index.js:12060
+#: src/components/Edd.js:77
+#: build/index.js:10389
 msgid "mobile number: %phone% | Email: %email% | Name: %first_name% | Last name: %last_name% | Purchased products: %product% | Total amount (not including discount): %price% | Total discount amount: %discount% | Paid amount (including discount): %total_price% | Direct download link (not encrypted): %link% | Order number: %payment_id%"
 msgstr ""
 
-#: build/index.js:12228
+#: build/index.js:12239
 #: src/components/Footer.js:13
-#: build/index.js:10551
+#: build/index.js:10561
 msgid "About Us"
 msgstr ""
 
-#: build/index.js:12232
+#: build/index.js:12243
 #: src/components/Footer.js:17
-#: build/index.js:10555
+#: build/index.js:10565
 msgid "Terms"
 msgstr ""
 
-#: build/index.js:12234
+#: build/index.js:12245
 #: src/components/Footer.js:21
-#: build/index.js:10559
+#: build/index.js:10569
 msgid "Copyright"
 msgstr ""
 
-#: build/index.js:12234
+#: build/index.js:12245
 #: src/components/Footer.js:21
-#: build/index.js:10559
+#: build/index.js:10569
 msgid "2022"
 msgstr ""
 
-#: build/index.js:12238
+#: build/index.js:12249
 #: src/components/Footer.js:25
-#: build/index.js:10563
+#: build/index.js:10573
 msgid ". All rights reserved."
 msgstr ""
 
-#: build/index.js:12307
-#: src/components/GravityForms.js:40
-#: build/index.js:10610
+#: build/index.js:12316
+#: src/components/GravityForms.js:39
+#: build/index.js:10619
 msgid "Title:"
 msgstr ""
 
-#: build/index.js:12314
-#: src/components/GravityForms.js:47
-#: build/index.js:10617
+#: build/index.js:12323
+#: src/components/GravityForms.js:46
+#: build/index.js:10626
 msgid "Select phonebook for Gravity Form:"
 msgstr ""
 
-#: build/index.js:12323
-#: src/components/GravityForms.js:56
-#: build/index.js:10626
+#: build/index.js:12332
+#: src/components/GravityForms.js:55
+#: build/index.js:10635
 msgid "Gravity Form forms:"
 msgstr ""
 
-#: build/index.js:12324
-#: build/index.js:12335
-#: build/index.js:12346
-#: src/components/GravityForms.js:57
-#: src/components/GravityForms.js:71
-#: src/components/GravityForms.js:85
-#: build/index.js:10627
-#: build/index.js:10641
-#: build/index.js:10655
+#: build/index.js:12333
+#: build/index.js:12344
+#: build/index.js:12355
+#: build/index.js:12366
+#: build/index.js:12377
+#: src/components/GravityForms.js:56
+#: src/components/GravityForms.js:70
+#: src/components/GravityForms.js:84
+#: src/components/GravityForms.js:98
+#: src/components/GravityForms.js:112
+#: build/index.js:10636
+#: build/index.js:10650
+#: build/index.js:10664
+#: build/index.js:10678
+#: build/index.js:10692
 msgid "Info"
 msgstr ""
 
-#: build/index.js:12325
-#: src/components/GravityForms.js:58
-#: build/index.js:10628
+#: build/index.js:12334
+#: src/components/GravityForms.js:57
+#: build/index.js:10637
 msgid "In this section, you can specify the form you want to register in the Gravity Form phonebook"
 msgstr ""
 
-#: build/index.js:12334
-#: src/components/GravityForms.js:70
-#: build/index.js:10640
-msgid "Gravity Form fields:"
-msgstr ""
-
-#: build/index.js:12336
-#: src/components/GravityForms.js:72
-#: build/index.js:10642
-msgid "In this section, you must specify the mobile field, that you want to do the action on it."
+#: build/index.js:12343
+#: src/components/GravityForms.js:69
+#: build/index.js:10649
+msgid "Gravity Form phone number field:"
 msgstr ""
 
 #: build/index.js:12345
-#: src/components/GravityForms.js:84
-#: build/index.js:10654
+#: src/components/GravityForms.js:71
+#: build/index.js:10651
+msgid "In this section, you must specify the mobile field, that you want to do the action on it."
+msgstr ""
+
+#: build/index.js:12354
+#: src/components/GravityForms.js:83
+#: build/index.js:10663
+msgid "Gravity Form name field:"
+msgstr ""
+
+#: build/index.js:12356
+#: src/components/GravityForms.js:85
+#: build/index.js:10665
+msgid "In this section, you must specify the user name field, that you want save on phonebook or want to be on sms message. (use %name% variable in your pattern.)"
+msgstr ""
+
+#: build/index.js:12365
+#: src/components/GravityForms.js:97
+#: build/index.js:10677
+msgid "Gravity Form content field:"
+msgstr ""
+
+#: build/index.js:12367
+#: src/components/GravityForms.js:99
+#: build/index.js:10679
+msgid "In this section, you must specify the user content field, that you want to be on sms message. (use %conctent% variable in your pattern.)"
+msgstr ""
+
+#: build/index.js:12376
+#: src/components/GravityForms.js:111
+#: build/index.js:10691
 msgid "Gravity Form action:"
 msgstr ""
 
-#: build/index.js:12347
-#: src/components/GravityForms.js:86
-#: build/index.js:10656
+#: build/index.js:12378
+#: src/components/GravityForms.js:113
+#: build/index.js:10693
 msgid "In this section, you can specify the action you want to do with the value of the selected fields."
 msgstr ""
 
-#: build/index.js:12350
-#: src/components/GravityForms.js:93
-#: build/index.js:10663
+#: build/index.js:12381
+#: src/components/GravityForms.js:120
+#: build/index.js:10700
 msgid "Save to phonebook"
 msgstr ""
 
-#: build/index.js:12573
-#: src/components/GravityForms.js:327
-#: build/index.js:10897
+#: build/index.js:12384
+#: src/components/GravityForms.js:122
+#: build/index.js:10702
+msgid "Send sms to user"
+msgstr ""
+
+#: build/index.js:12387
+#: src/components/GravityForms.js:125
+#: build/index.js:10705
+msgid "Send sms to admin"
+msgstr ""
+
+#: build/index.js:12396
+#: src/components/GravityForms.js:135
+#: build/index.js:10715
+msgid "User pattern code:"
+msgstr ""
+
+#: build/index.js:12675
+#: src/components/GravityForms.js:433
+#: build/index.js:11013
 msgid "Do you want to delete that action?"
 msgstr ""
 
-#: build/index.js:12587
-#: src/components/GravityForms.js:346
-#: build/index.js:10916
+#: build/index.js:12689
+#: src/components/GravityForms.js:452
+#: build/index.js:11032
 msgid "Congrats. Action deleted successfully."
 msgstr ""
 
-#: build/index.js:12599
-#: src/components/GravityForms.js:359
-#: build/index.js:10929
+#: build/index.js:12701
+#: src/components/GravityForms.js:465
+#: build/index.js:11045
 msgid "Canceled. Action still there."
 msgstr ""
 
-#: build/index.js:12617
-#: src/components/GravityForms.js:380
-#: build/index.js:10950
+#: build/index.js:12721
+#: src/components/GravityForms.js:488
+#: build/index.js:11068
 msgid "Add Action"
 msgstr ""
 
-#: build/index.js:12719
+#: build/index.js:12823
 #: src/components/Header.js:46
-#: build/index.js:11040
+#: build/index.js:11158
 msgid "Official Website"
 msgstr ""
 
-#: build/index.js:12721
-#: build/index.js:15079
-#: build/index.js:15139
+#: build/index.js:12825
+#: build/index.js:15195
+#: build/index.js:15255
 #: src/components/Header.js:49
 #: src/components/Support.js:41
 #: src/components/Support.js:108
-#: build/index.js:11043
-#: build/index.js:13466
-#: build/index.js:13533
+#: build/index.js:11161
+#: build/index.js:13605
+#: build/index.js:13672
 msgid "Report Issues"
 msgstr ""
 
-#: build/index.js:12725
+#: build/index.js:12829
 #: src/components/Header.js:55
-#: build/index.js:11049
+#: build/index.js:11167
 msgid "Account credit: %s $IR_T"
 msgstr ""
 
-#: build/index.js:12837
-#: build/index.js:15919
+#: build/index.js:12941
+#: build/index.js:16036
 #: src/components/Integrations.js:74
 #: src/hooks/useSaveOptions.js:29
-#: build/index.js:11143
-#: build/index.js:14257
+#: build/index.js:11261
+#: build/index.js:14395
 msgid "Congrats. Form was updated successfully."
 msgstr ""
 
-#: build/index.js:12975
+#: build/index.js:13079
 #: src/components/Integrations.js:219
-#: build/index.js:11288
+#: build/index.js:11406
 msgid "Add some cool options for the "
 msgstr ""
 
-#: build/index.js:13041
+#: build/index.js:13145
 #: src/components/LoginNotify.js:35
-#: build/index.js:11342
+#: build/index.js:11460
 msgid "Send a welcome sms to the user?"
 msgstr ""
 
-#: build/index.js:13050
+#: build/index.js:13154
 #: src/components/LoginNotify.js:44
-#: build/index.js:11351
+#: build/index.js:11469
 msgid "Send welcome sms via pattern?"
 msgstr ""
 
-#: build/index.js:13060
+#: build/index.js:13164
 #: src/components/LoginNotify.js:54
-#: build/index.js:11361
+#: build/index.js:11479
 msgid "Welcome sms pattern code:"
 msgstr ""
 
-#: build/index.js:13062
-#: build/index.js:13074
+#: build/index.js:13166
+#: build/index.js:13178
 #: src/components/LoginNotify.js:56
 #: src/components/LoginNotify.js:68
-#: build/index.js:11363
-#: build/index.js:11375
+#: build/index.js:11481
+#: build/index.js:11493
 msgid "%display_name% and %username%"
 msgstr ""
 
-#: build/index.js:13072
+#: build/index.js:13176
 #: src/components/LoginNotify.js:66
-#: build/index.js:11373
+#: build/index.js:11491
 msgid "Welcome message:"
 msgstr ""
 
-#: build/index.js:13084
+#: build/index.js:13188
 #: src/components/LoginNotify.js:78
-#: build/index.js:11385
+#: build/index.js:11503
 msgid "Notify admin when a user from selected rule(s) Login to the site?"
 msgstr ""
 
-#: build/index.js:13093
+#: build/index.js:13197
 #: src/components/LoginNotify.js:90
-#: build/index.js:11397
+#: build/index.js:11515
 msgid "Select rule(s):"
 msgstr ""
 
-#: build/index.js:13105
+#: build/index.js:13209
 #: src/components/LoginNotify.js:102
-#: build/index.js:11409
+#: build/index.js:11527
 msgid "Notify admin pattern code:"
 msgstr ""
 
-#: build/index.js:13107
+#: build/index.js:13211
 #: src/components/LoginNotify.js:104
-#: build/index.js:11411
+#: build/index.js:11529
 msgid "username %user_login% and user name %display_name% and login date %date%"
 msgstr ""
 
-#: build/index.js:13350
+#: build/index.js:13454
 #: src/components/Membership.js:52
-#: build/index.js:11654
+#: build/index.js:11772
 msgid "Send the first SMS warning of membership expiration?"
 msgstr ""
 
-#: build/index.js:13351
+#: build/index.js:13455
 #: src/components/Membership.js:56
-#: build/index.js:11658
+#: build/index.js:11776
 msgid "Ultimate Membership PRO plugin settings:"
 msgstr ""
 
-#: build/index.js:13360
+#: build/index.js:13464
 #: src/components/Membership.js:68
-#: build/index.js:11670
+#: build/index.js:11788
 msgid "Send the second SMS warning of membership expiration?"
 msgstr ""
 
-#: build/index.js:13369
+#: build/index.js:13473
 #: src/components/Membership.js:80
-#: build/index.js:11682
+#: build/index.js:11800
 msgid "Send the third SMS warning of membership expiration?"
 msgstr ""
 
-#: build/index.js:13378
+#: build/index.js:13482
 #: src/components/Membership.js:92
-#: build/index.js:11694
+#: build/index.js:11812
 msgid "Membership expiration warning SMS text:"
 msgstr ""
 
-#: build/index.js:13380
+#: build/index.js:13484
 #: src/components/Membership.js:94
-#: build/index.js:11696
+#: build/index.js:11814
 msgid "username %name% | time remaining (to day) %time%"
 msgstr ""
 
-#: build/index.js:13391
+#: build/index.js:13495
 #: src/components/Membership.js:109
-#: build/index.js:11711
+#: build/index.js:11829
 msgid "Send sms membership expiration?"
 msgstr ""
 
-#: build/index.js:13392
+#: build/index.js:13496
 #: src/components/Membership.js:110
-#: build/index.js:11712
+#: build/index.js:11830
 msgid "Paid Membership PRO plugin settings:"
 msgstr ""
 
-#: build/index.js:13401
+#: build/index.js:13505
 #: src/components/Membership.js:119
-#: build/index.js:11721
+#: build/index.js:11839
 msgid "The text of the membership expiration SMS:"
 msgstr ""
 
-#: build/index.js:13403
+#: build/index.js:13507
 #: src/components/Membership.js:121
-#: build/index.js:11723
+#: build/index.js:11841
 msgid "username %display_name%"
 msgstr ""
 
-#: build/index.js:13410
+#: build/index.js:13514
 #: src/components/Membership.js:128
-#: build/index.js:11730
+#: build/index.js:11848
 msgid "Ultimate Membership Pro and Paid Memberships Pro"
 msgstr ""
 
-#: build/index.js:13589
-#: src/components/Newsletter.js:38
-#: build/index.js:11899
+#: build/index.js:13693
+#: src/components/Newsletter.js:39
+#: build/index.js:12018
 msgid "Select phone book for newsletter"
 msgstr ""
 
-#: build/index.js:13600
-#: src/components/Newsletter.js:49
-#: build/index.js:11910
+#: build/index.js:13704
+#: src/components/Newsletter.js:50
+#: build/index.js:12029
 msgid "Confirm subscription by sending verification code?"
 msgstr ""
 
-#: build/index.js:13609
-#: src/components/Newsletter.js:61
-#: build/index.js:11922
+#: build/index.js:13713
+#: src/components/Newsletter.js:62
+#: build/index.js:12041
 msgid "Newsletter membership verification pattern code:"
 msgstr ""
 
-#: build/index.js:13611
-#: src/components/Newsletter.js:66
-#: build/index.js:11927
+#: build/index.js:13715
+#: src/components/Newsletter.js:67
+#: build/index.js:12046
 msgid "%name% and confirmation code: %code%"
 msgstr ""
 
-#: build/index.js:13621
-#: src/components/Newsletter.js:76
-#: build/index.js:11937
+#: build/index.js:13725
+#: src/components/Newsletter.js:77
+#: build/index.js:12056
 msgid "Welcome SMS to subscriber of the newsletter?"
 msgstr ""
 
-#: build/index.js:13630
-#: src/components/Newsletter.js:85
-#: build/index.js:11946
+#: build/index.js:13734
+#: src/components/Newsletter.js:86
+#: build/index.js:12065
 msgid "Welcome SMS pattern code"
 msgstr ""
 
-#: build/index.js:13632
-#: src/components/Newsletter.js:87
-#: build/index.js:11948
+#: build/index.js:13736
+#: src/components/Newsletter.js:88
+#: build/index.js:12067
 msgid "%name%"
 msgstr ""
 
-#: build/index.js:13642
-#: src/components/Newsletter.js:97
-#: build/index.js:11958
+#: build/index.js:13746
+#: src/components/Newsletter.js:98
+#: build/index.js:12077
 msgid "Send new posts to newsletter members?"
 msgstr ""
 
-#: build/index.js:13651
-#: src/components/Newsletter.js:106
-#: build/index.js:11967
+#: build/index.js:13755
+#: src/components/Newsletter.js:107
+#: build/index.js:12086
 msgid "Message content for new post"
 msgstr ""
 
-#: build/index.js:13653
-#: src/components/Newsletter.js:108
-#: build/index.js:11969
+#: build/index.js:13757
+#: src/components/Newsletter.js:109
+#: build/index.js:12088
 msgid "the title of the article %title% and the address of the article %url%"
 msgstr ""
 
-#: build/index.js:13663
-#: src/components/Newsletter.js:121
-#: build/index.js:11982
+#: build/index.js:13767
+#: src/components/Newsletter.js:122
+#: build/index.js:12101
 msgid "Send new product to newsletter members?"
 msgstr ""
 
-#: build/index.js:13672
-#: src/components/Newsletter.js:130
-#: build/index.js:11991
+#: build/index.js:13776
+#: src/components/Newsletter.js:131
+#: build/index.js:12110
 msgid "Message content for new product"
 msgstr ""
 
-#: build/index.js:13674
-#: src/components/Newsletter.js:132
-#: build/index.js:11993
+#: build/index.js:13778
+#: src/components/Newsletter.js:133
+#: build/index.js:12112
 msgid "site title %site_title% product name %product_name% price %price% and product link %url%"
 msgstr ""
 
-#: build/index.js:13887
-#: src/components/Newsletter.js:373
-#: build/index.js:12234
+#: build/index.js:13968
+#: src/components/Newsletter.js:359
+#: build/index.js:12338
+msgid "Congrats. Subscribers synced successfully."
+msgstr ""
+
+#: build/index.js:14014
+#: src/components/Newsletter.js:406
+#: build/index.js:12385
 msgid "Do you want to delete that subscriber?"
 msgstr ""
 
-#: build/index.js:13901
-#: src/components/Newsletter.js:389
-#: build/index.js:12250
-msgid "Congrats. Subscriber deleted successfully."
+#: build/index.js:14020
+#: src/components/Newsletter.js:413
+#: build/index.js:12392
+msgid "subscriber deleted successfully."
 msgstr ""
 
-#: build/index.js:13913
-#: src/components/Newsletter.js:405
-#: build/index.js:12266
-msgid "Canceled. Subscriber still there."
+#: build/index.js:14027
+#: src/components/Newsletter.js:420
+#: build/index.js:12399
+msgid "Canceled. The subscriber still there."
 msgstr ""
 
-#: build/index.js:14042
+#: build/index.js:14041
+#: src/components/Newsletter.js:439
+#: build/index.js:12418
+msgid "Do you want to delete the selected subscribers?"
+msgstr ""
+
+#: build/index.js:14048
+#: src/components/Newsletter.js:448
+#: build/index.js:12427
+msgid "Selected subscribers deleted successfully."
+msgstr ""
+
+#: build/index.js:14055
+#: src/components/Newsletter.js:455
+#: build/index.js:12434
+msgid "Canceled. Subscribers still there."
+msgstr ""
+
+#: build/index.js:14078
+#: src/components/Newsletter.js:484
+#: build/index.js:12463
+msgid "Select"
+msgstr ""
+
+#: build/index.js:14078
+#: src/components/Newsletter.js:485
+#: build/index.js:12464
+msgid "Name"
+msgstr ""
+
+#: build/index.js:14078
+#: src/components/Newsletter.js:486
+#: build/index.js:12465
+msgid "Phone Number"
+msgstr ""
+
+#: build/index.js:14078
+#: build/index.js:14087
+#: src/components/Newsletter.js:487
+#: src/components/Newsletter.js:507
+#: build/index.js:12466
+#: build/index.js:12486
+msgid "Delete"
+msgstr ""
+
+#: build/index.js:14093
+#: src/components/Newsletter.js:520
+#: build/index.js:12499
+msgid "Delete Selected Subscribers"
+msgstr ""
+
+#: build/index.js:14096
+#: src/components/Newsletter.js:523
+#: build/index.js:12502
+msgid "Sync Subscribers"
+msgstr ""
+
+#: build/index.js:14184
 #: src/components/Phonebook.js:55
-#: build/index.js:12377
+#: build/index.js:12567
 msgid "Select the custom phonebook:"
 msgstr ""
 
-#: build/index.js:14061
+#: build/index.js:14203
 #: src/components/Phonebook.js:74
-#: build/index.js:12396
+#: build/index.js:12586
 msgid "Select phonebook for Digits:"
 msgstr ""
 
-#: build/index.js:14072
+#: build/index.js:14214
 #: src/components/Phonebook.js:85
-#: build/index.js:12407
+#: build/index.js:12597
 msgid "select a phonebook for WooCommerce:"
 msgstr ""
 
-#: build/index.js:14083
+#: build/index.js:14225
 #: src/components/Phonebook.js:96
-#: build/index.js:12418
+#: build/index.js:12608
 msgid "Choosing a phonebook for Bookly:"
 msgstr ""
 
-#: build/index.js:14234
-#: src/components/Phonebook.js:252
-#: build/index.js:12574
+#: build/index.js:14375
+#: src/components/Phonebook.js:250
+#: build/index.js:12762
 msgid "Special Offer:"
 msgstr ""
 
-#: build/index.js:14236
-#: src/components/Phonebook.js:254
-#: build/index.js:12576
+#: build/index.js:14377
+#: src/components/Phonebook.js:252
+#: build/index.js:12764
 msgid "If you have a physical store, use the mobile number storage device to collect your customers mobile numbers. Click on the link below to see the details"
 msgstr ""
 
-#: build/index.js:14240
-#: src/components/Phonebook.js:264
-#: build/index.js:12586
+#: build/index.js:14381
+#: src/components/Phonebook.js:262
+#: build/index.js:12774
 msgid "Buying a mobile number storage device"
 msgstr ""
 
-#: build/index.js:14248
-#: src/components/Phonebook.js:273
+#: build/index.js:14389
+#: src/components/Phonebook.js:271
 #: src/views/NoPhonebookError.js:21
-#: build/index.js:12595
+#: build/index.js:12783
 msgid "Warning:"
 msgstr ""
 
-#: build/index.js:14250
-#: src/components/Phonebook.js:275
-#: build/index.js:12597
+#: build/index.js:14391
+#: src/components/Phonebook.js:273
+#: build/index.js:12785
 msgid "You have not registered a phone book yet. Please create your phone book in the FarazSMS panel first."
 msgstr ""
 
-#: build/index.js:14323
-#: build/index.js:15076
-#: src/components/SendSms.js:33
+#: build/index.js:14466
+#: build/index.js:15192
+#: src/components/SendSms.js:34
 #: src/components/Support.js:38
-#: build/index.js:12661
-#: build/index.js:13463
+#: build/index.js:12852
+#: build/index.js:13602
 msgid "Message:"
 msgstr ""
 
-#: build/index.js:14326
-#: src/components/SendSms.js:36
-#: build/index.js:12664
+#: build/index.js:14469
+#: src/components/SendSms.js:37
+#: build/index.js:12855
 msgid "You can use %name% on message content if you want to send sms to subscribers."
 msgstr ""
 
-#: build/index.js:14336
-#: src/components/SendSms.js:49
-#: build/index.js:12677
+#: build/index.js:14479
+#: src/components/SendSms.js:50
+#: build/index.js:12868
 msgid "Select sender number:"
 msgstr ""
 
-#: build/index.js:14339
-#: src/components/SendSms.js:51
-#: build/index.js:12679
+#: build/index.js:14482
+#: src/components/SendSms.js:52
+#: build/index.js:12870
 msgid "Servicing number"
 msgstr ""
 
-#: build/index.js:14342
-#: src/components/SendSms.js:52
-#: build/index.js:12680
+#: build/index.js:14485
+#: src/components/SendSms.js:53
+#: build/index.js:12871
 msgid "Advertising number"
 msgstr ""
 
-#: build/index.js:14355
-#: src/components/SendSms.js:65
-#: build/index.js:12693
+#: build/index.js:14498
+#: src/components/SendSms.js:66
+#: build/index.js:12884
 msgid "Send to newsletter subscribers:"
 msgstr ""
 
-#: build/index.js:14365
-#: src/components/SendSms.js:75
-#: build/index.js:12703
+#: build/index.js:14508
+#: src/components/SendSms.js:76
+#: build/index.js:12894
 msgid "Enter numbers manually:"
 msgstr ""
 
-#: build/index.js:14366
-#: src/components/SendSms.js:76
-#: build/index.js:12704
+#: build/index.js:14509
+#: src/components/SendSms.js:77
+#: build/index.js:12895
 msgid "Separate numbers with English commas without any spaces."
 msgstr ""
 
-#: build/index.js:14376
-#: src/components/SendSms.js:89
-#: build/index.js:12717
+#: build/index.js:14519
+#: src/components/SendSms.js:90
+#: build/index.js:12908
 msgid "Select phonebooks:"
 msgstr ""
 
-#: build/index.js:14407
-#: src/components/SendSms.js:121
-#: build/index.js:12749
+#: build/index.js:14550
+#: src/components/SendSms.js:122
+#: build/index.js:12940
 msgid "You must provide a message."
 msgstr ""
 
-#: build/index.js:14448
-#: src/components/SendSms.js:178
-#: build/index.js:12806
+#: build/index.js:14591
+#: src/components/SendSms.js:179
+#: build/index.js:12997
 msgid "Please select at least one phonebook or enter manual number or chose send to newsletter subscribers."
 msgstr ""
 
-#: build/index.js:14465
-#: src/components/SendSms.js:198
-#: build/index.js:12826
+#: build/index.js:14608
+#: src/components/SendSms.js:199
+#: build/index.js:13017
 msgid "Sorry. No one is subscriber of newsletter yet."
 msgstr ""
 
-#: build/index.js:14473
+#: build/index.js:14615
 #: src/components/SendSms.js:209
-#: build/index.js:12837
-msgid "Please enter manually numbers in the correct format. separate every number with an english comma."
-msgstr ""
-
-#: build/index.js:14480
-#: src/components/SendSms.js:219
-#: build/index.js:12847
+#: build/index.js:13027
 msgid "Congrats. Message was sent successfully."
 msgstr ""
 
-#: build/index.js:14618
+#: build/index.js:14662
+#: src/components/SendSms.js:262
+#: build/index.js:13080
+msgid "Send sms"
+msgstr ""
+
+#: build/index.js:14734
 #: src/components/Settings.js:40
-#: build/index.js:12989
+#: build/index.js:13128
 msgid "API key"
 msgstr ""
 
-#: build/index.js:14619
+#: build/index.js:14735
 #: src/components/Settings.js:41
-#: build/index.js:12990
+#: build/index.js:13129
 msgid "Your API key:"
 msgstr ""
 
-#: build/index.js:14623
+#: build/index.js:14739
 #: src/components/Settings.js:45
-#: build/index.js:12994
+#: build/index.js:13133
 msgid "To get the access key in your farazsms panel, refer to the web service menu in the access keys section"
 msgstr ""
 
-#: build/index.js:14632
-#: build/index.js:14633
+#: build/index.js:14748
+#: build/index.js:14749
 #: src/components/Settings.js:57
 #: src/components/Settings.js:58
-#: build/index.js:13006
-#: build/index.js:13007
+#: build/index.js:13145
+#: build/index.js:13146
 msgid "Username"
 msgstr ""
 
-#: build/index.js:14645
-#: build/index.js:14646
+#: build/index.js:14761
+#: build/index.js:14762
 #: src/components/Settings.js:70
 #: src/components/Settings.js:71
-#: build/index.js:13019
-#: build/index.js:13020
+#: build/index.js:13158
+#: build/index.js:13159
 msgid "Password"
 msgstr ""
 
-#: build/index.js:14658
-#: build/index.js:14659
+#: build/index.js:14774
+#: build/index.js:14775
 #: src/components/Settings.js:83
 #: src/components/Settings.js:84
-#: build/index.js:13032
-#: build/index.js:13033
+#: build/index.js:13171
+#: build/index.js:13172
 msgid "Admin Number"
 msgstr ""
 
-#: build/index.js:14683
-#: build/index.js:14684
+#: build/index.js:14799
+#: build/index.js:14800
 #: src/components/Settings.js:108
 #: src/components/Settings.js:109
-#: build/index.js:13057
-#: build/index.js:13058
+#: build/index.js:13196
+#: build/index.js:13197
 msgid "Advertising sender number"
 msgstr ""
 
-#: build/index.js:14686
+#: build/index.js:14802
 #: src/components/Settings.js:111
-#: build/index.js:13060
+#: build/index.js:13199
 msgid "If you have Enamad, it is suggested that you purchase a dedicated 9000 line for sending web service SMS and sending SMS to customers. Send a support ticket for this."
 msgstr ""
 
-#: build/index.js:14692
+#: build/index.js:14808
 #: src/components/Settings.js:120
-#: build/index.js:13069
+#: build/index.js:13208
 msgid "General"
 msgstr ""
 
-#: build/index.js:14719
+#: build/index.js:14835
 #: src/components/Settings.js:149
-#: build/index.js:13098
+#: build/index.js:13237
 msgid "That apikey is not valid."
 msgstr ""
 
-#: build/index.js:14725
+#: build/index.js:14841
 #: src/components/Settings.js:158
-#: build/index.js:13107
+#: build/index.js:13246
 msgid "Please fill API key filed first"
 msgstr ""
 
-#: build/index.js:14738
+#: build/index.js:14854
 #: src/components/Settings.js:174
-#: build/index.js:13123
+#: build/index.js:13262
 msgid "That username is not valid."
 msgstr ""
 
-#: build/index.js:14744
+#: build/index.js:14860
 #: src/components/Settings.js:183
-#: build/index.js:13132
+#: build/index.js:13271
 msgid "That username is not access to the provided apikey."
 msgstr ""
 
-#: build/index.js:14758
+#: build/index.js:14874
 #: src/components/Settings.js:204
-#: build/index.js:13153
+#: build/index.js:13292
 msgid "You must provide a valid phone number for admin."
 msgstr ""
 
-#: build/index.js:14784
+#: build/index.js:14900
 #: src/components/Settings.js:240
-#: build/index.js:13189
+#: build/index.js:13328
 msgid "You must provide an API Key."
 msgstr ""
 
-#: build/index.js:14790
+#: build/index.js:14906
 #: src/components/Settings.js:249
-#: build/index.js:13198
+#: build/index.js:13337
 msgid "You must provide a Username."
 msgstr ""
 
-#: build/index.js:14796
+#: build/index.js:14912
 #: src/components/Settings.js:258
-#: build/index.js:13207
+#: build/index.js:13346
 msgid "You must provide a Password."
 msgstr ""
 
-#: build/index.js:14802
+#: build/index.js:14918
 #: src/components/Settings.js:267
-#: build/index.js:13216
+#: build/index.js:13355
 msgid "You must provide your admin number."
 msgstr ""
 
-#: build/index.js:14808
+#: build/index.js:14924
 #: src/components/Settings.js:276
-#: build/index.js:13225
+#: build/index.js:13364
 msgid "You must provide a service sender number."
 msgstr ""
 
-#: build/index.js:15067
+#: build/index.js:15183
 #: src/components/Support.js:29
-#: build/index.js:13454
+#: build/index.js:13593
 msgid "Subject:"
 msgstr ""
 
-#: build/index.js:15112
+#: build/index.js:15228
 #: src/components/Support.js:77
-#: build/index.js:13502
+#: build/index.js:13641
 msgid "Congrats. Report Issues Posted successfully."
 msgstr ""
 
-#: build/index.js:15277
+#: build/index.js:15393
 #: src/components/Synchronization.js:115
-#: build/index.js:13656
+#: build/index.js:13795
 msgid "Congrats. Woocommerce user(s) synced successfully."
 msgstr ""
 
-#: build/index.js:15284
-#: build/index.js:15326
-#: build/index.js:15369
+#: build/index.js:15400
+#: build/index.js:15442
+#: build/index.js:15485
 #: src/components/Synchronization.js:125
 #: src/components/Synchronization.js:178
 #: src/components/Synchronization.js:232
-#: build/index.js:13666
-#: build/index.js:13719
-#: build/index.js:13773
+#: build/index.js:13805
+#: build/index.js:13858
+#: build/index.js:13912
 msgid "Warning! please select a phonebook first, in phonebooks section."
 msgstr ""
 
-#: build/index.js:15292
-#: build/index.js:15334
-#: build/index.js:15377
+#: build/index.js:15408
+#: build/index.js:15450
+#: build/index.js:15493
 #: src/components/Synchronization.js:136
 #: src/components/Synchronization.js:189
 #: src/components/Synchronization.js:243
-#: build/index.js:13677
-#: build/index.js:13730
-#: build/index.js:13784
+#: build/index.js:13816
+#: build/index.js:13869
+#: build/index.js:13923
 msgid "Warning! an error occurred, please try again later."
 msgstr ""
 
-#: build/index.js:15319
+#: build/index.js:15435
 #: src/components/Synchronization.js:168
-#: build/index.js:13709
+#: build/index.js:13848
 msgid "Congrats. Digits user(s) synced successfully."
 msgstr ""
 
-#: build/index.js:15362
+#: build/index.js:15478
 #: src/components/Synchronization.js:222
-#: build/index.js:13763
+#: build/index.js:13902
 msgid "Congrats. Bookly user(s) synced successfully."
 msgstr ""
 
-#: build/index.js:15397
+#: build/index.js:15513
 #: src/components/Synchronization.js:268
-#: build/index.js:13809
+#: build/index.js:13948
 msgid "Synchronization bookley users with phonebook"
 msgstr ""
 
-#: build/index.js:15400
+#: build/index.js:15516
 #: src/components/Synchronization.js:271
-#: build/index.js:13812
+#: build/index.js:13951
 msgid "Bookley synchronization"
 msgstr ""
 
-#: build/index.js:15408
+#: build/index.js:15524
 #: src/components/Synchronization.js:283
-#: build/index.js:13824
+#: build/index.js:13963
 msgid "Synchronization woocommerce users with phonebook"
 msgstr ""
 
-#: build/index.js:15411
+#: build/index.js:15527
 #: src/components/Synchronization.js:289
-#: build/index.js:13830
+#: build/index.js:13969
 msgid "Woocommerce synchronization"
 msgstr ""
 
-#: build/index.js:15419
+#: build/index.js:15535
 #: src/components/Synchronization.js:301
-#: build/index.js:13842
+#: build/index.js:13981
 msgid "Synchronization digits users with phonebook"
 msgstr ""
 
-#: build/index.js:15422
+#: build/index.js:15538
 #: src/components/Synchronization.js:304
-#: build/index.js:13845
+#: build/index.js:13984
 msgid "Digits synchronization"
 msgstr ""
 
-#: build/index.js:15484
+#: build/index.js:15600
 #: src/components/WooCommerce.js:32
-#: build/index.js:13889
+#: build/index.js:14028
 msgid "Mobile number verification on the account checkout page?"
 msgstr ""
 
-#: build/index.js:15493
+#: build/index.js:15609
 #: src/components/WooCommerce.js:44
-#: build/index.js:13901
+#: build/index.js:14040
 msgid "Mobile number verification pattern code:"
 msgstr ""
 
-#: build/index.js:15495
+#: build/index.js:15611
 #: src/components/WooCommerce.js:46
-#: build/index.js:13903
+#: build/index.js:14042
 msgid "The verification code variable is %code%"
 msgstr ""
 
-#: build/index.js:15505
+#: build/index.js:15621
 #: src/components/WooCommerce.js:56
-#: build/index.js:13913
+#: build/index.js:14052
 msgid "Sending a timed survey SMS for WooCommerce?"
 msgstr ""
 
-#: build/index.js:15514
+#: build/index.js:15630
 #: src/components/WooCommerce.js:65
-#: build/index.js:13922
+#: build/index.js:14061
 msgid "Days of sending SMS after placing the order:"
 msgstr ""
 
-#: build/index.js:15524
+#: build/index.js:15640
 #: src/components/WooCommerce.js:75
-#: build/index.js:13932
+#: build/index.js:14071
 msgid "Message content:"
 msgstr ""
 
-#: build/index.js:15526
+#: build/index.js:15642
 #: src/components/WooCommerce.js:77
-#: build/index.js:13934
-msgid "time %time% | store name %sitename% | product name %item% | product link %item_link%"
+#: build/index.js:14073
+msgid "time %time% | store name %sitename% | reciew page link %review_link%"
 msgstr ""
 
-#: build/index.js:15536
+#: build/index.js:15652
 #: src/components/WooCommerce.js:90
-#: build/index.js:13947
+#: build/index.js:14086
 msgid "Pattern code to send tracking code:"
 msgstr ""
 
-#: build/index.js:15538
+#: build/index.js:15654
 #: src/components/WooCommerce.js:92
-#: build/index.js:13949
+#: build/index.js:14088
 msgid "tracking code %tracking_code% (required) | order number %order_id% | order status %order_status% | full name in billing address %billing_full_name% | full name in shipping address %shipping_full_name% | post service provider %post_service_provider% | post date %post_date%"
 msgstr ""
 
-#: build/index.js:16146
+#: build/index.js:16263
 #: src/views/FormInput.js:56
-#: build/index.js:14409
+#: build/index.js:14547
 msgid "Info "
 msgstr ""
 
-#: build/index.js:16419
+#: build/index.js:16536
 #: src/views/SaveButton.js:34
-#: build/index.js:14640
+#: build/index.js:14778
 msgid "Save Settings"
 msgstr ""
 
-#: build/index.js:16477
+#: build/index.js:16594
 #: src/views/SectionError.js:20
-#: build/index.js:14673
+#: build/index.js:14811
 msgid "Warning!"
 msgstr ""
 
-#: build/index.js:16481
+#: build/index.js:16598
 #: src/views/SectionError.js:23
-#: build/index.js:14676
+#: build/index.js:14814
 msgid "%s  Attention Needed:"
 msgstr ""
 
-#: build/index.js:16483
+#: build/index.js:16600
 #: src/views/SectionError.js:27
-#: build/index.js:14680
+#: build/index.js:14818
 msgid "You have not checked %s in Integrations section. Please go first there and check %s usage toggle, Then come bake here."
 msgstr ""
 
-#: build/index.js:16687
+#: build/index.js:16926
 #: src/views/SidebarItems.js:82
-#: build/index.js:14861
+#: build/index.js:15105
 msgid "WooCommerce"
 msgstr ""
