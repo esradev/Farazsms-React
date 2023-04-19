@@ -19,6 +19,8 @@ import useSaveOptions from "../hooks/useSaveOptions";
 import SettingsForm from "../views/SettingsForm";
 
 function Newsletter() {
+  const [selectedSubscribers, setSelectedSubscribers] = useState([]);
+  const isDeleteDisabled = selectedSubscribers.length === 0;
   const appDispatch = useContext(DispatchContext);
   /**
    *
@@ -369,7 +371,35 @@ function Newsletter() {
    * @returns {Promise<void>}
    */
   const { confirm } = useConfirm();
-  const [selectedSubscribers, setSelectedSubscribers] = useState([]);
+  const deleteSubscriber = async (subscriber_id) => {
+    try {
+      await AxiosWp.post("/farazsms/v1/delete_subscriber_from_db", {
+        subscriber_id: subscriber_id,
+      });
+      dispatch({
+        type: "updateCurrentSubscribers",
+        value: state.currentSubscribers - 1,
+      });
+      await handleSyncSubscribers();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const deleteSubscribers = async (subscribers_id) => {
+    try {
+      await AxiosWp.post("/farazsms/v1/delete_subscribers_from_db", {
+        subscriber_id: subscribers_id,
+      });
+      dispatch({
+        type: "updateCurrentSubscribers",
+        value: state.currentSubscribers - 1,
+      });
+      await handleSyncSubscribers();
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const deleteOneSubscriber = async (subscriber) => {
     const isConfirmed = await confirm(
@@ -410,9 +440,7 @@ function Newsletter() {
     );
 
     if (isConfirmed) {
-      for (const subscriber_id of selectedSubscribers) {
-        await deleteSubscriber(subscriber_id);
-      }
+      await deleteSubscribers(selectedSubscribers);
       setSelectedSubscribers([]);
       appDispatch({
         type: "flashMessage",
@@ -430,22 +458,6 @@ function Newsletter() {
       });
     }
   };
-
-  const deleteSubscriber = async (subscriber_id) => {
-    try {
-      await AxiosWp.post("/farazsms/v1/delete_subscriber_from_db", {
-        subscriber_id: subscriber_id,
-      });
-      dispatch({
-        type: "updateCurrentSubscribers",
-        value: state.currentSubscribers - 1,
-      });
-      await handleSyncSubscribers();
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  const isDeleteDisabled = selectedSubscribers.length === 0;
 
   if (state.isFetching) return <LoadingSpinner />;
 

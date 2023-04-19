@@ -283,6 +283,15 @@ class Farazsms_Routes {
 			]
 		] );
 
+		//Register delete_subscribers_from_db rest route
+		register_rest_route( $namespace, '/' . 'delete_subscribers_from_db', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'delete_subscribers_from_db' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
+
 		//Register add_gravity_forms_action_to_db rest route
 		register_rest_route( $namespace, '/' . 'add_gravity_forms_action_to_db', [
 			[
@@ -819,6 +828,20 @@ class Farazsms_Routes {
 		$table = $wpdb->prefix . 'farazsms_newsletter';
 
 		return json_decode( $wpdb->delete( $table, [ 'id' => $subscriber_id['subscriber_id'] ] ), true );
+	}
+
+	/**
+	 * Delete multiple subscribers.
+	 */
+	public static function delete_subscribers_from_db( $subscriber_ids ) {
+		global $wpdb;
+		$table = $wpdb->prefix . 'farazsms_newsletter';
+
+		$ids = implode( ',', array_map( 'intval', $subscriber_ids ) );
+
+		$sql = "DELETE FROM $table WHERE id IN ($ids)";
+
+		return $wpdb->query( $sql );
 	}
 
 	/**
