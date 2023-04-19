@@ -1,130 +1,91 @@
-/* ListContacts */
-
 .list-contacts {
-  padding-top: 60px;
-}
-
-.list-contacts-top {
-  position: fixed;
-  width: 100%;
-  top: 0;
-  border-bottom: 1px solid #d5d8df;
-  display: flex;
-}
-
-.search-contacts {
-  width: 100%;
-  padding: 20px 20px 20px 60px;
-  //background-image: url("");
-  background-repeat: no-repeat;
-  background-position: 20px center;
-  background-size: 1.2em;
-  font-size: 1.2em;
-  border: 0;
-  outline: none;
-}
-
-.add-contact {
-  display: block;
-  width: 73px;
-  background: white;
-  //background-image: url("");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 28px;
-  font-size: 0;
-}
-
-.showing-contacts {
-  text-align: center;
-  margin: 20px 0;
-}
-
-.showing-contacts button {
-  color: blue;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: inherit;
+  margin-top: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 .contact-list {
   width: 100%;
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
+  border-collapse: collapse;
+  font-size: 14px;
 }
 
-.contact-list-item {
-  padding: 20px;
-  background: white;
-  display: flex;
+.contact-list th,
+.contact-list td {
+  text-align: center;
+  padding: 10px;
 }
 
-@media (min-width: 600px) {
-  .contact-list-item {
-    margin: 20px;
-    border: 1px solid #d5d8df;
-    border-radius: 4px;
-  }
+.contact-list th {
+  background-color: #f7f7f7;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
-.contact-avatar {
-  width: 60px;
-  height: 60px;
-  margin-right: 20px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  border-radius: 50%;
-  flex-shrink: 0;
+.contact-list tr:nth-child(even) {
+  background-color: #f7f7f7;
 }
 
-.contact-details {
-  padding-left: 20px;
-  border-left: 1px solid #eee;
-
-  flex: 1;
-  overflow: hidden;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.contact-list tr:hover {
+  background-color: #eaeaea;
 }
 
-.contact-details p {
-  margin: 0;
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.contact-list-actions {
+  background-color: #ffffff;
+  border-top: 1px solid lightgray;
+  padding: 10px;
+  text-align: right;
 }
 
 .contact-delete {
-  align-self: center;
-  width: 32px;
-  height: 32px;
-  background-color: transparent;
-  background-image: url("./assets/icons/delete.svg");
-  background-size: 100% 100%;
-  border: 0;
-  color: darkred;
-  font-size: 0;
-  vertical-align: middle;
+  background-color: #dc3545;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 0px 10px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
   cursor: pointer;
-  outline: none;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.contact-edit {
-  align-self: center;
-  width: 32px;
-  height: 32px;
-  background-color: transparent;
-  background-image: url("./assets/icons/edit.svg");
-  background-size: 100% 100%;
-  border: 0;
-  color: dodgerblue;
-  font-size: 0;
-  vertical-align: middle;
-  cursor: pointer;
-  outline: none;
+.contact-delete:hover {
+  background-color: #e84848;
 }
+
+.contact-sync {
+  background-color: #28a745;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 0px 10px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  margin: 0px 10px;
+}
+
+.contact-sync:hover {
+  background-color: #1c6c00;
+}
+
+
+.contact-delete[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+

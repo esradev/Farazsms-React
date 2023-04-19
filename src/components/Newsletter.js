@@ -152,39 +152,25 @@ function Newsletter() {
         draft.inputs.news_phonebook.value = action.value.news_phonebook;
         draft.inputs.news_send_verify_via_pattern.value =
           action.value.news_send_verify_via_pattern;
-        if (action.value.news_send_verify_via_pattern === true) {
-          draft.inputs.news_send_verify_pattern.isDependencyUsed = true;
-        } else {
-          draft.inputs.news_send_verify_pattern.isDependencyUsed = false;
-        }
+        draft.inputs.news_send_verify_pattern.isDependencyUsed =
+          action.value.news_send_verify_via_pattern === true;
         draft.inputs.news_send_verify_pattern.value =
           action.value.news_send_verify_pattern;
 
         draft.inputs.news_welcome.value = action.value.news_welcome;
-        if (action.value.news_welcome === true) {
-          draft.inputs.news_welcome_pattern.isDependencyUsed = true;
-        } else {
-          draft.inputs.news_welcome_pattern.isDependencyUsed = false;
-        }
+        draft.inputs.news_welcome_pattern.isDependencyUsed =
+          action.value.news_welcome === true;
         draft.inputs.news_welcome_pattern.value =
           action.value.news_welcome_pattern;
         draft.inputs.news_post_notify.value = action.value.news_post_notify;
-        if (action.value.news_post_notify === true) {
-          draft.inputs.news_post_notify_msg.isDependencyUsed = true;
-        } else {
-          draft.inputs.news_post_notify_msg.isDependencyUsed = false;
-        }
+        draft.inputs.news_post_notify_msg.isDependencyUsed =
+          action.value.news_post_notify === true;
         draft.inputs.news_post_notify_msg.value =
           action.value.news_post_notify_msg;
         draft.inputs.news_product_notify.value =
           action.value.news_product_notify;
-        if (action.value.news_product_notify === true) {
-          draft.inputs.news_product_notify_msg.isDependencyUsed = true;
-        } else {
-          {
-            draft.inputs.news_product_notify_msg.isDependencyUsed = false;
-          }
-        }
+        draft.inputs.news_product_notify_msg.isDependencyUsed =
+          action.value.news_product_notify === true;
         draft.inputs.news_product_notify_msg.value =
           action.value.news_product_notify_msg;
 
@@ -207,11 +193,8 @@ function Newsletter() {
       case "news_send_verify_via_patternChange":
         draft.inputs.news_send_verify_via_pattern.hasErrors = false;
         draft.inputs.news_send_verify_via_pattern.value = action.value;
-        if (action.value === true) {
-          draft.inputs.news_send_verify_pattern.isDependencyUsed = true;
-        } else {
-          draft.inputs.news_send_verify_pattern.isDependencyUsed = false;
-        }
+        draft.inputs.news_send_verify_pattern.isDependencyUsed =
+          action.value === true;
         return;
 
       case "news_send_verify_patternChange":
@@ -222,11 +205,8 @@ function Newsletter() {
       case "news_welcomeChange":
         draft.inputs.news_welcome.hasErrors = false;
         draft.inputs.news_welcome.value = action.value;
-        if (action.value === true) {
-          draft.inputs.news_welcome_pattern.isDependencyUsed = true;
-        } else {
-          draft.inputs.news_welcome_pattern.isDependencyUsed = false;
-        }
+        draft.inputs.news_welcome_pattern.isDependencyUsed =
+          action.value === true;
         return;
 
       case "news_welcome_patternChange":
@@ -237,11 +217,8 @@ function Newsletter() {
       case "news_post_notifyChange":
         draft.inputs.news_post_notify.hasErrors = false;
         draft.inputs.news_post_notify.value = action.value;
-        if (action.value === true) {
-          draft.inputs.news_post_notify_msg.isDependencyUsed = true;
-        } else {
-          draft.inputs.news_post_notify_msg.isDependencyUsed = false;
-        }
+        draft.inputs.news_post_notify_msg.isDependencyUsed =
+          action.value === true;
         return;
 
       case "news_post_notify_msgChange":
@@ -252,11 +229,8 @@ function Newsletter() {
       case "news_product_notifyChange":
         draft.inputs.news_product_notify.hasErrors = false;
         draft.inputs.news_product_notify.value = action.value;
-        if (action.value === true) {
-          draft.inputs.news_product_notify_msg.isDependencyUsed = true;
-        } else {
-          draft.inputs.news_product_notify_msg.isDependencyUsed = false;
-        }
+        draft.inputs.news_product_notify_msg.isDependencyUsed =
+          action.value === true;
         return;
 
       case "news_product_notify_msgChange":
@@ -336,27 +310,58 @@ function Newsletter() {
   /**
    * Get subscribers list from DB
    */
+  async function fetchSubscribers() {
+    try {
+      const getSubscribers = await AxiosWp.get(
+        "/farazsms/v1/get_subscribers_from_db"
+      );
+      return JSON.parse(getSubscribers.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   useEffect(() => {
-    async function get_subscribers_from_db() {
+    async function first_load_subscribers() {
       try {
-        const getSubscribers = await AxiosWp.get(
-          "/farazsms/v1/get_subscribers_from_db"
-        );
+        const subscribers = await fetchSubscribers();
         dispatch({
           type: "getNewsletterSubscribers",
-          value: JSON.parse(getSubscribers.data),
+          value: subscribers,
         });
         dispatch({
           type: "updateCurrentSubscribers",
-          value: JSON.parse(getSubscribers.data),
+          value: subscribers,
         });
       } catch (e) {
         console.log(e);
       }
     }
+    first_load_subscribers();
+  }, []);
 
-    get_subscribers_from_db();
-  }, [[], state.currentSubscribers]);
+  const handleSyncSubscribers = async () => {
+    try {
+      const subscribers = await fetchSubscribers();
+      dispatch({
+        type: "getNewsletterSubscribers",
+        value: subscribers,
+      });
+      dispatch({
+        type: "updateCurrentSubscribers",
+        value: subscribers,
+      });
+      appDispatch({
+        type: "flashMessage",
+        value: {
+          message: __("Congrats. Subscribers synced successfully.", "farazsms"),
+        },
+      });
+      console.log(subscribers);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   /**
    * Delete Subscriber from DB.
@@ -364,55 +369,86 @@ function Newsletter() {
    * @returns {Promise<void>}
    */
   const { confirm } = useConfirm();
+  const [selectedSubscribers, setSelectedSubscribers] = useState([]);
 
-  const deleteSubscriber = async (subscriber) => {
+  const deleteOneSubscriber = async (subscriber) => {
     const isConfirmed = await confirm(
       __("Do you want to delete that subscriber?", "farazsms")
     );
-
     if (isConfirmed) {
-      async function deleteSubscriberFromDb() {
-        try {
-          await AxiosWp.post("/farazsms/v1/delete_subscriber_from_db", {
-            subscriber_id: subscriber.id,
-          });
-          dispatch({
-            type: "updateCurrentSubscribers",
-            value: state.currentSubscribers - 1,
-          });
-          appDispatch({
-            type: "flashMessage",
-            value: {
-              message: __(
-                "Congrats. Subscriber deleted successfully.",
-                "farazsms"
-              ),
-            },
-          });
-        } catch (e) {
-          console.log(e);
-        }
-      }
-
-      deleteSubscriberFromDb();
+      await deleteSubscriber(subscriber.id);
+      appDispatch({
+        type: "flashMessage",
+        value: {
+          message: __("subscriber deleted successfully.", "farazsms"),
+        },
+      });
     } else {
       appDispatch({
         type: "flashMessage",
         value: {
-          message: __("Canceled. Subscriber still there.", "farazsms"),
+          message: __("Canceled. The subscriber still there.", "farazsms"),
           type: "error",
         },
       });
     }
   };
 
+  const handleSelectSubscriber = (subscriber_id) => {
+    if (selectedSubscribers.includes(subscriber_id)) {
+      setSelectedSubscribers(
+        selectedSubscribers.filter((s) => s !== subscriber_id)
+      );
+    } else {
+      setSelectedSubscribers((prev) => [...prev, subscriber_id]);
+    }
+  };
+
+  const handleDeleteSelectedSubscribers = async () => {
+    const isConfirmed = await confirm(
+      __("Do you want to delete the selected subscribers?", "farazsms")
+    );
+
+    if (isConfirmed) {
+      for (const subscriber_id of selectedSubscribers) {
+        await deleteSubscriber(subscriber_id);
+      }
+      setSelectedSubscribers([]);
+      appDispatch({
+        type: "flashMessage",
+        value: {
+          message: __("Selected subscribers deleted successfully.", "farazsms"),
+        },
+      });
+    } else {
+      appDispatch({
+        type: "flashMessage",
+        value: {
+          message: __("Canceled. Subscribers still there.", "farazsms"),
+          type: "error",
+        },
+      });
+    }
+  };
+
+  const deleteSubscriber = async (subscriber_id) => {
+    try {
+      await AxiosWp.post("/farazsms/v1/delete_subscriber_from_db", {
+        subscriber_id: subscriber_id,
+      });
+      dispatch({
+        type: "updateCurrentSubscribers",
+        value: state.currentSubscribers - 1,
+      });
+      await handleSyncSubscribers();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const isDeleteDisabled = selectedSubscribers.length === 0;
+
   if (state.isFetching) return <LoadingSpinner />;
-  /**
-   * The settings form created by mapping over originalState as the main state.
-   * For every value on inputs rendered a SettingsFormInput.
-   *
-   * @since 2.0.0
-   */
+
   return (
     <div className="farazsms-newsletter-component">
       <SectionHeader sectionName={state.sectionName} />
@@ -430,26 +466,51 @@ function Newsletter() {
 
       {state.newsletterSubscribers && (
         <div className="list-contacts">
-          <ol className="contact-list">
-            {state.newsletterSubscribers.map((subscriber) => (
-              <li key={subscriber.id} className="contact-list-item">
-                <div className="contact-details">
-                  <p>{subscriber.name}</p>
-                </div>
-                <div className="contact-details">
-                  <p className="contact-details">{subscriber.phone}</p>
-                </div>
-                <button
-                  className="contact-delete"
-                  onClick={() => {
-                    deleteSubscriber(subscriber);
-                  }}
-                >
-                  Delete
-                </button>
-              </li>
-            ))}
-          </ol>
+          <table className="contact-list">
+            <thead>
+              <tr>
+                <th>{__("Select", "farazsms")}</th>
+                <th>{__("Name", "farazsms")}</th>
+                <th>{__("Phone Number", "farazsms")}</th>
+                <th>{__("Delete", "farazsms")}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {state?.newsletterSubscribers.map((subscriber, index) => (
+                <tr key={subscriber.id}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedSubscribers.includes(subscriber.id)}
+                      onChange={() => handleSelectSubscriber(subscriber.id)}
+                    />
+                  </td>
+                  <td>{subscriber.name}</td>
+                  <td>{subscriber.phone}</td>
+                  <td>
+                    <button
+                      className="contact-delete"
+                      onClick={() => deleteOneSubscriber(subscriber)}
+                    >
+                      {__("Delete", "farazsms")}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="contact-list-actions">
+            <button
+              className="contact-delete"
+              onClick={handleDeleteSelectedSubscribers}
+              disabled={isDeleteDisabled}
+            >
+              {__("Delete Selected Subscribers", "farazsms")}
+            </button>
+            <button className="contact-sync" onClick={handleSyncSubscribers}>
+              {__("Sync Subscribers", "farazsms")}
+            </button>
+          </div>
         </div>
       )}
     </div>

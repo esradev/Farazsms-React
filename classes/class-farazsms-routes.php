@@ -916,7 +916,10 @@ class Farazsms_Routes {
 	}
 
 	/**
-	 * Send SMS to phonebooks or manually numbers.
+	 * Sends SMS to specified phone numbers, phonebooks, and subscribers.
+	 *
+	 * @param array $data Array of input data for SMS sending
+	 * @return array Return 'noSubscribers' if there are no subscribers, otherwise returns null
 	 */
 
 	public static function send_sms( $data ) {
@@ -928,10 +931,14 @@ class Farazsms_Routes {
 		$fixed_phones        = [];
 		$phonebooks_ids      = [];
 
+		// initialize an array to collect responses
+		$responses = [];
+
 		if ( $sender ) {
 			$sender = Farazsms_Base::$fromNum;
 		}
 
+		// Send SMS to fixed phones
 		if ( ! str_contains( $phones, ',' ) ) {
 			if ( Farazsms_Base::validate_mobile_number( $phones ) ) {
 				$fixed_phones[] = Farazsms_Base::validate_mobile_number( $phones );
@@ -944,16 +951,16 @@ class Farazsms_Routes {
 				}
 			}
 		}
+		$sendToPhones_response = Farazsms_Ippanel::send_message($fixed_phones, $message, $sender);
 
-		Farazsms_Ippanel::send_message($fixed_phones, $message, $sender);
-
+		// Send SMS to phonebooks
 		foreach ( $phonebooks as $phonebook ) {
 			$phonebooks_ids[] =  $phonebook['value'];
 		}
+		$sendToPhonebooks_response = Farazsms_Ippanel::send_sms_to_phonebooks($phonebooks_ids, $message,$sender);
 
-		Farazsms_Ippanel::send_sms_to_phonebooks($phonebooks_ids, $message,$sender);
 
-
+		// Send SMS to subscribers
 		if ( $send_to_subscribers ) {
 			$subscribers = Farazsms_Base::get_subscribers();
 			if ( empty( $subscribers ) ) {
@@ -962,7 +969,7 @@ class Farazsms_Routes {
 			if ( str_contains( $message, '%name%' ) ) {
 				foreach ( $subscribers as $subscriber ) {
 					$message_fixed = str_replace( '%name%', $subscriber->name, $message );
-					Farazsms_Ippanel::send_message( [ $subscriber->phone ], $message_fixed, $sender );
+					$sendToSubscribers_response[] = Farazsms_Ippanel::send_message( [ $subscriber->phone ], $message_fixed, $sender );
 				}
 			} else {
 				$phones = [];
@@ -970,9 +977,15 @@ class Farazsms_Routes {
 					$phones[] = $subscriber->phone;
 				}
 
-				Farazsms_Ippanel::send_message( $phones, $message, $sender );
+				$sendToSubscribers_response[] = Farazsms_Ippanel::send_message( $phones, $message, $sender );
 			}
 		}
+
+		return [
+			'sendToPhones_response' => $sendToPhones_response,
+			'sendToPhonebooks_response' => $sendToPhonebooks_response,
+			'sendToSubscribers_response' => $sendToSubscribers_response ?? null,
+		];
 	}
 
 	/**
