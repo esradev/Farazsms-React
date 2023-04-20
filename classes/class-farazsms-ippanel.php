@@ -74,9 +74,8 @@ class Farazsms_Ippanel {
 		if ( ! is_wp_error( $response ) ) {
 			$response_body = wp_remote_retrieve_body( $response );
 			$response_data = json_decode( $response_body );
-			$res_code = $response_data[0];
-			$res_data = json_decode($response_data[1], true);
-			return $res_data;
+
+			return json_decode($response_data[1], true);
 		}
 
 		if (is_wp_error($response)) {
@@ -107,42 +106,6 @@ class Farazsms_Ippanel {
 		return false;
 	}
 
-
-	/**
-	 * Save to a phone to phonebook functions.
-	 *
-	 * @since 2.0.0
-	 */
-	public static function save_a_phone_to_phonebook( $phone, $phonebook_id ) {
-		$phone   = Farazsms_Base::fsms_tr_num( $phone );
-		$body    = [
-			'uname'       => Farazsms_Base::$username,
-			'pass'        => Farazsms_Base::$password,
-			'op'          => 'phoneBookAdd',
-			'phoneBookId' => $phonebook_id,
-			'number'      => $phone,
-		];
-
-		$args = [
-			'body'        => json_encode( $body ),
-			'headers'     => [ 'Content-Type' => 'application/json' ],
-			'method'      => 'POST',
-			'data_format' => 'body',
-		];
-		$response = wp_remote_post( 'http://ippanel.com/api/select', $args );
-
-		if ( is_wp_error( $response ) ) {
-			return false;
-		}
-
-		$res = json_decode( wp_remote_retrieve_body( $response ), true );
-//		if ( $res->status->code !== 0 ) {
-//			return false;
-//		}
-
-		return true;
-	}
-
 	/**
 	 * Save list of phones to phonebook
 	 *
@@ -168,8 +131,8 @@ class Farazsms_Ippanel {
 		if ( is_wp_error( $response ) ) {
 			return false;
 		}
-		$res = json_decode( wp_remote_retrieve_body( $response ), true );
-		return $res;
+
+		return json_decode( wp_remote_retrieve_body( $response ), true );
 	}
 
 	/**
@@ -242,12 +205,7 @@ class Farazsms_Ippanel {
 			return $response;
 		}
 
-		$response = json_decode( $response['body'] );
-		if ( $response->status->code !== 0 ) {
-			return $response;
-		}
-
-		return $response;
+		return json_decode( $response['body'] );
 	}
 
 	public static function send_sms_to_phonebooks ($phonebooks_ids, $message ,$sender = '' ) {
@@ -277,55 +235,10 @@ class Farazsms_Ippanel {
 		} else {
 			$response_body = wp_remote_retrieve_body( $response );
 			$response_data = json_decode( $response_body );
-			$res_code = $response_data[0];
-			$res_data = $response_data[1];
-			return $res_data;
+
+			return $response_data[1];
 		}
 	}
-
-	/**
-	 * Send Webservice Single.
-	 *
-	 * @param array $recipient
-	 * @param $sender
-	 * @param $message
-	 *
-	 * @return bool
-	 * @since 2.0.0
-	 *
-	 */
-	public static function send_webservice_single( array $recipient, $sender, $message ) {
-		if ( empty( $sender ) ) {
-			$sender = Farazsms_Base::$fromNum;
-		}
-
-		$body = [
-			'recipient' => $recipient,
-			'sender'    => $sender,
-			'message'   => $message
-		];
-
-		$args = [
-			'method'      => 'POST',
-			'headers'     => [
-				'accept'        => 'application/json',
-				'Authorization' => Farazsms_Base::$apiKey,
-				'Content-Type'  => 'application/json'
-			],
-			'body'        => json_encode( $body ),
-			'data_format' => 'body',
-		];
-
-		$response = wp_remote_post( 'http://api.ippanel.com/api/v1/sms/send/webservice/single', $args );
-
-		if ( is_wp_error( $response ) ) {
-			return false;
-		} else {
-			$res = json_decode( wp_remote_retrieve_body( $response ) );
-			return true;
-		}
-	}
-
 
 	/**
 	 * Get credit.
@@ -442,9 +355,6 @@ class Farazsms_Ippanel {
 		}
 
 		$response = json_decode( $response['body'] , true );
-//		if ( $response['status']['code'] !== 0 ) {
-//			return false;
-//		}
 
 		return true;
 	}
@@ -475,6 +385,15 @@ class Farazsms_Ippanel {
 		return false;
 	}
 
+	/**
+	 * Send timed sms
+	 *
+	 * @param $phone_number
+	 * @param $date
+	 * @param $message
+	 *
+	 * @return array|WP_Error
+	 */
 	public static function send_timed_sms ($phone_number, $date, $message) {
 		// Define the endpoint URL and request parameters
 		$url = 'https://api2.ippanel.com/api/v1/sms/send/webservice/single';
@@ -496,12 +415,7 @@ class Farazsms_Ippanel {
 			'body' => json_encode($params),
 		] );
 
-		// Check for errors and output the response data
-		if (is_wp_error($response)) {
-			echo 'Error: ' . $response->get_error_message();
-		} else {
-			$response_data = json_decode(wp_remote_retrieve_body($response));
-		}
+		return json_decode($response , true);
 	}
 }
 

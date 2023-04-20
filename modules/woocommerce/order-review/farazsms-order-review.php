@@ -114,7 +114,7 @@ class Farazsms_Order_Review {
 		if (! $custom_page) {
 			// Create a new page with the slug 'order-review'
 			$page = [
-				'post_title'    => __('Order Review', 'farazsms'),
+				'post_title'    => esc_html__('Order Review', 'farazsms'),
 				'post_name'     => 'order-review',
 				'post_status'   => 'publish',
 				'post_type'     => 'page',

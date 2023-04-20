@@ -381,10 +381,10 @@ class Farazsms_Settings {
 	 */
 	public function settings_link( $links ) {
 		// Add settings link
-		$settings_link = '<a href="' . FARAZSMS_SETTINGS_LINK . '">Settings</a>';
+		$settings_link = '<a href="' . FARAZSMS_SETTINGS_LINK . '">' . esc_html__('Settings', 'farazsms') .'</a>';
 
 		// Add document link
-		$doc_link = '<a href="' . FARAZSMS_WEB_MAIN_DOC . '" target="_blank" rel="noopener noreferrer">Docs</a>';
+		$doc_link = '<a href="' . FARAZSMS_WEB_MAIN_DOC . '" target="_blank" rel="noopener noreferrer">' . esc_html__('Docs', 'farazsms') . '</a>';
 		array_push( $links, $settings_link, $doc_link );
 
 		return $links;

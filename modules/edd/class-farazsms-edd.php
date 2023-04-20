@@ -61,7 +61,7 @@ class Farazsms_Edd {
 
 		add_action( 'edd_payment_view_details', [ $this, 'fsms_edd_view_order_details' ], 10, 1 );
 		add_action( 'edd_purchase_form_user_info_fields', [ $this, 'fsms_show_mobile_field_checkout_field' ] );
-		add_action( 'edd_built_order', [ $this, 'fsms_store_mobile_meta' ], 10, 2 );
+		add_action( 'edd_built_order', [ $this, 'fsms_store_mobile_meta' ], 10, 1 );
 		add_action( 'edd_checkout_error_checks', [ $this, 'fsms_validate_mobile_field' ], 10, 2 );
 		add_action( 'edd_complete_purchase', [ $this, 'fsms_edd_complete_purchase_action' ], 10, 3 );
 	}
@@ -76,8 +76,8 @@ class Farazsms_Edd {
         <div class="column-container">
 
             <div class="column">
-                <strong><?php esc_attr_e( 'Phone number', 'farazsms' ) . ': ' ?></strong>
-				<?php echo $phone; ?>
+                <strong><?php esc_html_e( 'Phone number: ', 'farazsms' ); ?></strong>
+				<?php echo esc_html($phone); ?>
             </div>
 
         </div>
@@ -88,7 +88,7 @@ class Farazsms_Edd {
 	/**
 	 * Store mobile meta.
 	 */
-	public function fsms_store_mobile_meta( $order_id, $order_data ) {
+	public function fsms_store_mobile_meta( $order_id ) {
 		if ( 0 !== did_action( 'edd_pre_process_purchase' ) ) {
 			$phone = isset( $_POST['edd_phone'] ) ? sanitize_text_field( $_POST['edd_phone'] ) : '';
 			edd_add_order_meta( $order_id, 'phone', $phone );
@@ -182,9 +182,9 @@ class Farazsms_Edd {
 	public function fsms_show_mobile_field_checkout_field() {
 		?>
         <p id="edd-phone-wrap">
-            <label class="edd-label" for="edd-phone"><?php esc_attr_e( 'Phone number', 'farazsms' ) ?></label>
+            <label class="edd-label" for="edd-phone"><?php esc_html_e( 'Phone number', 'farazsms' ) ?></label>
             <span class="edd-description">
-                <?php esc_attr_e( 'We use this to send order information.', 'farazsms' ) ?>
+                <?php esc_html_e( 'We use this to send order information.', 'farazsms' ) ?>
             </span>
             <input class="edd-input" type="text" name="edd_phone" id="edd-phone"
                    placeholder="<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>"/>

@@ -118,23 +118,23 @@ class Farazsms_Comments {
 			$mobile_filed .= ' <span class="required">*</span>';
 			$required     = 'required="required"';
 		}
-		$mobile_filed .= '<input class="uk-input uk-width-large uk-display-block" type="text" name="mobile" id="mobile" placeholder=" ' . __( 'Like: 09300410381', 'farazsms' ) . '" /></p>';
+		$mobile_filed .= '<input class="uk-input uk-width-large uk-display-block" type="text" name="mobile" id="mobile" placeholder=" ' . esc_attr__( 'Like: 09300410381', 'farazsms' ) . '" /></p>';
 
-		echo $mobile_filed;
+		echo wp_kses_post( $mobile_filed );
 	}
 
 	// Save mobile field.
 	public function save_mobile_field( $comment_id ) {
 		if ( isset( $_POST['mobile'] ) ) {
-			$mobile = Farazsms_Base::validate_mobile_number( esc_attr( $_POST['mobile'] ) );
+			$mobile = Farazsms_Base::validate_mobile_number(  sanitize_text_field($_POST['mobile']) );
 			add_comment_meta( $comment_id, 'mobile', $mobile );
 		}
-		$this->send_admin_sms_on_new_comment( $comment_id );
+		$this->send_admin_or_author_sms_on_new_comment( $comment_id );
 	}
 
 	// Verify comment input
 	public function verify_comment_input( $comment_data ) {
-		if ( empty( $comment_data['comment_parent'] ) && self::$required_mobile_field === true && empty( $_POST['mobile'] ) ) {
+		if ( empty( $comment_data['comment_parent'] ) && self::$required_mobile_field === true && empty( sanitize_text_field($_POST['mobile']) ) ) {
 			wp_die( esc_html__( 'Error: Mobile number is required.', 'farazsms' ) );
 		}
 
@@ -173,8 +173,6 @@ class Farazsms_Comments {
 			// Send SMS notification only to the admin or author
 			if ( self::$notify_admin_for_comment && ! $is_admin && ! empty( $admin_number ) ) {
 				$this->send_comment_sms( $admin_number, self::$notify_admin_for_comment_pattern, $data );
-			} elseif ( ! empty( $user ) && ! empty( $comment_author_mobile ) ) {
-				$this->send_comment_sms( $comment_author_mobile, self::$notify_user_for_comment_pattern, $data );
 			}
 		}
 	}

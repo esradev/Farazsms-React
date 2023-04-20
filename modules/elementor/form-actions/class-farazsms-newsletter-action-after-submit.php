@@ -268,14 +268,14 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base {
 		}
 
 		$from         = $settings['sms_sender_number'];
-		$to           = $record->replace_setting_shortcodes( $settings['sms_recipient'] );
+		$phone           = $record->replace_setting_shortcodes( $settings['sms_recipient'] );
 		$farazpattern = $settings['sms_pattern_code'];
 		$phonebook    = $settings['phonebook'];
 		$content      = $settings['sms_content'];
 
 		if ( $settings['sms_add_to_phonebook'] == 'yes' ) {
 			$list[0] = (object) [
-				'number'       => $to,
+				'number'       => $phone,
 				'name'         => '',
 				'phonebook_id' => (int) $phonebook
 			];
@@ -302,16 +302,16 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base {
 				}
 			}
 
-			Farazsms_Ippanel::send_pattern( $farazpattern, $to, $input_data );
+			Farazsms_Ippanel::send_pattern( $farazpattern, $phone, $input_data );
 		}
 
 		// Send to visitor with webService
 		if ( $settings['sms_to_visitor'] == 'yes' && $settings['sms_send_type'] == 'webservice' ) {
 			if ( str_contains( trim( $content ), '[field' ) ) {
 				$content_value = $record->replace_setting_shortcodes( $settings['sms_content'] );
-				Farazsms_Ippanel::send_message( [ $to ], $content_value );
+				Farazsms_Ippanel::send_message( [ $phone ], $content_value );
 			} else {
-				Farazsms_Ippanel::send_message( [ $to ], $content );
+				Farazsms_Ippanel::send_message( [ $phone ], $content );
 			}
 		}
 

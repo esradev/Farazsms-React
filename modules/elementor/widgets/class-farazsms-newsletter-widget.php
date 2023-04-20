@@ -125,7 +125,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'phonebook',
 			[
-				'label'   => __( 'Phonebook', 'farazsms' ),
+				'label'   => esc_html__( 'Phonebook', 'farazsms' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => '0',
 				'options' => $phonebook_options,
@@ -134,7 +134,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 
 		$this->add_control(
 			'send_verify_code', [
-				'label'        => __( 'Send Verify Code?', 'farazsms' ),
+				'label'        => esc_html__( 'Send Verify Code?', 'farazsms' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Yes', 'farazsms' ),
 				'label_off'    => esc_html__( 'No', 'farazsms' ),
@@ -145,14 +145,14 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 
 		$this->add_control(
 			'verify_code_pattern', [
-				'label' => __( 'Verify Code Pattern', 'farazsms' ),
+				'label' => esc_html__( 'Verify Code Pattern', 'farazsms' ),
 				'type'  => Controls_Manager::TEXT,
 			]
 		);
 
 		$this->add_control(
 			'send_welcome_msg', [
-				'label'        => __( 'Send Welcome Message?', 'farazsms' ),
+				'label'        => esc_html__( 'Send Welcome Message?', 'farazsms' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_on'     => esc_html__( 'Yes', 'farazsms' ),
 				'label_off'    => esc_html__( 'No', 'farazsms' ),
@@ -163,7 +163,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 
 		$this->add_control(
 			'welcome_msg_pattern', [
-				'label' => __( 'Welcome Message Pattern', 'farazsms' ),
+				'label' => esc_html__( 'Welcome Message Pattern', 'farazsms' ),
 				'type'  => Controls_Manager::TEXT,
 			]
 		);
@@ -173,7 +173,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'fsms_newsletter_section',
 			[
-				'label' => __( 'Farazsms Newsletter Form', 'farazsms' ),
+				'label' => esc_html__( 'Farazsms Newsletter Form', 'farazsms' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -181,7 +181,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'form_title',
 			[
-				'label' => __( 'Form Title', 'farazsms' ),
+				'label' => esc_html__( 'Form Title', 'farazsms' ),
 				'type'  => Controls_Manager::TEXT,
 			]
 		);
@@ -189,25 +189,25 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'name_placeholder',
 			[
-				'label'   => __( 'Name Field Placeholder', 'farazsms' ),
+				'label'   => esc_html__( 'Name Field Placeholder', 'farazsms' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => __( 'Like: Ghafary', 'farazsms' ),
+				'default' => esc_html__( 'Like: Ghafary', 'farazsms' ),
 			]
 		);
 
 		$this->add_control(
 			'phone_placeholder',
 			[
-				'label'   => __( 'Phone Field Placeholder', 'farazsms' ),
+				'label'   => esc_html__( 'Phone Field Placeholder', 'farazsms' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => __( 'Like: 09300410381', 'farazsms' ),
+				'default' => esc_html__( 'Like: 09300410381', 'farazsms' ),
 			]
 		);
 
 		$this->add_control(
 			'fsms_newsletter_background_color',
 			[
-				'label'     => __( 'Form Background Color', 'farazsms' ),
+				'label'     => esc_html__( 'Form Background Color', 'farazsms' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} #fsms_newsletter' => 'background-color: {{VALUE}};',
@@ -219,7 +219,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'fsms_newsletter_border_radius',
 			[
-				'label'      => __( 'Form Border Radius', 'farazsms' ),
+				'label'      => esc_html__( 'Form Border Radius', 'farazsms' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em' ],
 				'selectors'  => [
@@ -238,19 +238,19 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'fsms_newsletter_form_alignment',
 			[
-				'label'     => __( 'Form Alignment', 'farazsms' ),
+				'label'     => esc_html__( 'Form Alignment', 'farazsms' ),
 				'type'      => Controls_Manager::CHOOSE,
 				'options'   => [
 					'left'   => [
-						'title' => __( 'Left', 'farazsms' ),
+						'title' => esc_html__( 'Left', 'farazsms' ),
 						'icon'  => 'eicon-text-align-left',
 					],
 					'center' => [
-						'title' => __( 'Center', 'farazsms' ),
+						'title' => esc_html__( 'Center', 'farazsms' ),
 						'icon'  => 'eicon-text-align-center',
 					],
 					'right'  => [
-						'title' => __( 'Right', 'farazsms' ),
+						'title' => esc_html__( 'Right', 'farazsms' ),
 						'icon'  => 'eicon-text-align-right',
 					],
 				],
@@ -264,7 +264,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'fsms_newsletter_form_margin',
 			[
-				'label'      => __( 'Form Margin', 'farazsms' ),
+				'label'      => esc_html__( 'Form Margin', 'farazsms' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
@@ -282,7 +282,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'fsms_newsletter_form_padding',
 			[
-				'label'      => __( 'Form Padding', 'farazsms' ),
+				'label'      => esc_html__( 'Form Padding', 'farazsms' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
@@ -301,7 +301,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_responsive_control(
 			'fsms_newsletter_input_width',
 			[
-				'label'      => __( 'Input Width', 'farazsms' ),
+				'label'      => esc_html__( 'Input Width', 'farazsms' ),
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', '%', 'em' ],
 				'range'      => [
@@ -331,7 +331,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'fsms_newsletter_input_margin',
 			[
-				'label'      => __( 'Input Margin', 'farazsms' ),
+				'label'      => esc_html__( 'Input Margin', 'farazsms' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
@@ -349,7 +349,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'fsms_newsletter_input_padding',
 			[
-				'label'      => __( 'Input Padding', 'farazsms' ),
+				'label'      => esc_html__( 'Input Padding', 'farazsms' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
@@ -367,11 +367,11 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'fsms_newsletter_input_direction',
 			[
-				'label'     => __( 'Input Text Direction', 'farazsms' ),
+				'label'     => esc_html__( 'Input Text Direction', 'farazsms' ),
 				'type'      => Controls_Manager::SELECT,
 				'options'   => [
-					'rtl' => __( 'Right to Left', 'farazsms' ),
-					'ltr' => __( 'Left to Right', 'farazsms' ),
+					'rtl' => esc_html__( 'Right to Left', 'farazsms' ),
+					'ltr' => esc_html__( 'Left to Right', 'farazsms' ),
 				],
 				'default'   => 'rtl',
 				'selectors' => [
@@ -383,7 +383,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'fsms_newsletter_text_border_radius',
 			[
-				'label'      => __( 'Text Border Radius', 'farazsms' ),
+				'label'      => esc_html__( 'Text Border Radius', 'farazsms' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', 'em', '%' ],
 				'selectors'  => [
@@ -402,7 +402,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'fsms_newsletter_text_background_color',
 			[
-				'label'     => __( 'Text Background Color', 'farazsms' ),
+				'label'     => esc_html__( 'Text Background Color', 'farazsms' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .fsms_newsletter_text' => 'background-color: {{VALUE}};',
@@ -414,7 +414,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'fsms_newsletter_text_font_size',
 			[
-				'label'      => __( 'Text Font Size', 'farazsms' ),
+				'label'      => esc_html__( 'Text Font Size', 'farazsms' ),
 				'type'       => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', 'em' ],
 				'range'      => [
@@ -440,7 +440,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'fsms_newsletter_text_color',
 			[
-				'label'     => __( 'Text Color', 'farazsms' ),
+				'label'     => esc_html__( 'Text Color', 'farazsms' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .fsms_newsletter_text' => 'color: {{VALUE}};',
@@ -456,7 +456,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'submit_button_section',
 			[
-				'label' => __( 'Submit Button', 'farazsms' ),
+				'label' => esc_html__( 'Submit Button', 'farazsms' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -465,16 +465,16 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'submit_button_text',
 			[
-				'label'   => __( 'Button Text', 'farazsms' ),
+				'label'   => esc_html__( 'Button Text', 'farazsms' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => __( 'Submit', 'farazsms' ),
+				'default' => esc_html__( 'Submit', 'farazsms' ),
 			]
 		);
 
 		$this->add_control(
 			'submit_button_color',
 			[
-				'label'     => __( 'Button Background Color', 'farazsms' ),
+				'label'     => esc_html__( 'Button Background Color', 'farazsms' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .submit-button' => 'background-color: {{VALUE}};',
@@ -486,7 +486,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'submit_button_text_color',
 			[
-				'label'     => __( 'Button Text Color', 'farazsms' ),
+				'label'     => esc_html__( 'Button Text Color', 'farazsms' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .submit-button' => 'color: {{VALUE}};',
@@ -498,7 +498,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'submit_button_margin',
 			[
-				'label'      => __( 'Margin', 'farazsms' ),
+				'label'      => esc_html__( 'Margin', 'farazsms' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
@@ -510,7 +510,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'submit_button_padding',
 			[
-				'label'      => __( 'Padding', 'farazsms' ),
+				'label'      => esc_html__( 'Padding', 'farazsms' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
@@ -524,7 +524,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'submit_code_button_section',
 			[
-				'label' => __( 'Submit Code Button', 'farazsms' ),
+				'label' => esc_html__( 'Submit Code Button', 'farazsms' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -532,16 +532,16 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'submit_code_button_text',
 			[
-				'label'   => __( 'Button Text', 'farazsms' ),
+				'label'   => esc_html__( 'Button Text', 'farazsms' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => __( 'Submit Code', 'farazsms' ),
+				'default' => esc_html__( 'Submit Code', 'farazsms' ),
 			]
 		);
 
 		$this->add_control(
 			'submit_code_button_color',
 			[
-				'label'     => __( 'Button Background Color', 'farazsms' ),
+				'label'     => esc_html__( 'Button Background Color', 'farazsms' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .submit-code-button' => 'background-color: {{VALUE}};',
@@ -553,7 +553,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'submit_code_button_text_color',
 			[
-				'label'     => __( 'Button Text Color', 'farazsms' ),
+				'label'     => esc_html__( 'Button Text Color', 'farazsms' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .submit-code-button' => 'color: {{VALUE}};',
@@ -564,7 +564,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'submit_code_button_margin',
 			[
-				'label'      => __( 'Margin', 'farazsms' ),
+				'label'      => esc_html__( 'Margin', 'farazsms' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
@@ -576,7 +576,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'submit_code_button_padding',
 			[
-				'label'      => __( 'Padding', 'farazsms' ),
+				'label'      => esc_html__( 'Padding', 'farazsms' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
@@ -591,7 +591,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->start_controls_section(
 			'resent_code_button_section',
 			[
-				'label' => __( 'Resent Code Button', 'farazsms' ),
+				'label' => esc_html__( 'Resent Code Button', 'farazsms' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -599,16 +599,16 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'resent_code_button_text',
 			[
-				'label'   => __( 'Button Text', 'farazsms' ),
+				'label'   => esc_html__( 'Button Text', 'farazsms' ),
 				'type'    => Controls_Manager::TEXT,
-				'default' => __( 'Resent Code', 'farazsms' ),
+				'default' => esc_html__( 'Resent Code', 'farazsms' ),
 			]
 		);
 
 		$this->add_control(
 			'resent_code_button_color',
 			[
-				'label'     => __( 'Button Background Color', 'farazsms' ),
+				'label'     => esc_html__( 'Button Background Color', 'farazsms' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .resent-code-button' => 'background-color: {{VALUE}};',
@@ -620,7 +620,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'resent_code_button_text_color',
 			[
-				'label'     => __( 'Button Text Color', 'farazsms' ),
+				'label'     => esc_html__( 'Button Text Color', 'farazsms' ),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .resent-code-button' => 'color: {{VALUE}};',
@@ -631,7 +631,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'resent_code_button_margin',
 			[
-				'label'      => __( 'Margin', 'farazsms' ),
+				'label'      => esc_html__( 'Margin', 'farazsms' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
@@ -643,7 +643,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$this->add_control(
 			'resent_code_button_padding',
 			[
-				'label'      => __( 'Padding', 'farazsms' ),
+				'label'      => esc_html__( 'Padding', 'farazsms' ),
 				'type'       => Controls_Manager::DIMENSIONS,
 				'size_units' => [ 'px', '%', 'em' ],
 				'selectors'  => [
@@ -666,7 +666,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
                 <input id="fsms_newsletter_phonebook_id" type="hidden" name="phonebook_id"
                        value="<?php echo esc_attr( $settings['phonebook'] ); ?>">
                 <input id="fsms_newsletter_send_verify_code" type="hidden"
-                       value="<?php echo $settings['send_verify_code'] ?>">
+                       value="<?php echo esc_attr($settings['send_verify_code'] ); ?>">
                 <input id="fsms_newsletter_verify_code_pattern" type="hidden" name="verify_code_pattern"
                        value="<?php echo esc_attr( $settings['verify_code_pattern'] ); ?>">
                 <input id="fsms_newsletter_send_welcome_msg" type="hidden" name="send_welcome_msg"
@@ -684,7 +684,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
                 </div>
                 <div class="fsms_newsletter_input b" style="display: none;">
                     <input id="fsms_newsletter_verify_code" type="text" class="fsms_newsletter_text"
-                           placeholder="کد تایید">
+                           placeholder="<?php echo esc_attr__( 'Verification code', 'farazsms' ); ?>">
                 </div>
 
             </form>
@@ -692,18 +692,18 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
             </div>
             <div class="fsms_newsletter_submit">
                 <button id="fsms_newsletter_submit_button" class="submit-button"
-                        style="color:<?php echo $settings['submit_button_text_color']; ?>;background-color:<?php echo $settings['submit_button_color']; ?>;margin:<?php echo $settings['submit_button_margin']; ?>;padding:<?php echo $settings['submit_button_padding']; ?>;">
-                    <span><?php echo esc_attr( $settings['submit_button_text'] ); ?></span>
+                        style="color:<?php echo esc_attr($settings['submit_button_text_color'] ); ?>;background-color:<?php echo esc_attr($settings['submit_button_color']); ?>;margin:<?php echo esc_attr($settings['submit_button_margin']); ?>;padding:<?php echo esc_attr($settings['submit_button_padding']); ?>;">
+                    <span><?php echo esc_html( $settings['submit_button_text'] ); ?></span>
                 </button>
             </div>
             <div id="fsms_newsletter_completion" class="fsms_newsletter_submit" style="display: none;">
                 <button id="fsms_newsletter_submit_code" class="submit-code-button"
-                        style="color:<?php echo $settings['submit_code_button_text_color']; ?>;background-color:<?php echo $settings['submit_code_button_color']; ?>;margin:<?php echo $settings['submit_code_button_margin']; ?>;padding:<?php echo $settings['submit_code_button_padding']; ?>;">
-                    <span><?php echo esc_attr( $settings['submit_code_button_text'] ); ?></span>
+                        style="color:<?php echo esc_attr($settings['submit_code_button_text_color']); ?>;background-color:<?php echo esc_attr($settings['submit_code_button_color']); ?>;margin:<?php echo esc_attr($settings['submit_code_button_margin']); ?>;padding:<?php echo esc_attr($settings['submit_code_button_padding']); ?>;">
+                    <span><?php echo esc_html( $settings['submit_code_button_text'] ); ?></span>
                 </button>
                 <button id="fsms_newsletter_resend_code" class="resent-code-button"
-                        style="color:<?php echo $settings['resent_code_button_text_color']; ?>;background-color:<?php echo $settings['resent_code_button_color']; ?>;margin:<?php echo $settings['resent_code_button_margin']; ?>;padding:<?php echo $settings['resent_code_button_padding']; ?>;">
-                    <span><?php echo esc_attr( $settings['resent_code_button_text'] ); ?></span>
+                        style="color:<?php echo esc_attr($settings['resent_code_button_text_color']); ?>;background-color:<?php echo esc_attr($settings['resent_code_button_color']); ?>;margin:<?php echo esc_attr($settings['resent_code_button_margin']); ?>;padding:<?php echo esc_attr($settings['resent_code_button_padding']); ?>;">
+                    <span><?php echo esc_html( $settings['resent_code_button_text'] ); ?></span>
                 </button>
             </div>
         </div>

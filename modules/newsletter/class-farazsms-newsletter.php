@@ -76,52 +76,8 @@ class Farazsms_Newsletter {
 			'fsms_newsletter_send_verification_code'
 		] );
 
-		add_action( 'wp_ajax_fsms_add_phone_to_newsletter', [ $this, 'fsms_add_phone_to_newsletter' ] );
-		add_action( 'wp_ajax_nopriv_fsms_add_phone_to_newsletter', [ $this, 'fsms_add_phone_to_newsletter' ] );
-
 		add_action( 'publish_post', [ $this, 'fsms_publish_post_notification' ] );
 		add_action( 'transition_post_status', [ $this, 'fsms_product_published' ], 10, 3 );
-
-		add_action( 'wp_ajax_fsms_send_message_to_subscribers', [ $this, 'fsms_send_message_to_subscribers' ] );
-		add_action( 'wp_ajax_nopriv_fsms_send_message_to_subscribers', [ $this, 'fsms_send_message_to_subscribers' ] );
-
-		add_action( 'wp_ajax_fsms_send_message_to_phonebooks', [ $this, 'ajax_send_message_to_phonebooks' ] );
-		add_action( 'wp_ajax_nopriv_fsms_send_message_to_phonebooks', [ $this, 'ajax_send_message_to_phonebooks' ] );
-
-	}
-
-	/**
-	 * Send message to subscribers of newsletter.
-	 *
-	 * @since 1.0.0
-	 */
-	public function fsms_send_message_to_subscribers() {
-
-		$message     = ( $_POST['message'] ?? '' );
-		$subscribers = self::get_subscribers();
-		if ( ! Farazsms_Base::$apiKey ) {
-			wp_send_json_error( __( 'Please enter the api key first in the Settings tab.', 'farazsms' ) );
-		}
-
-		if ( empty( $subscribers ) ) {
-			wp_send_json_error( __( 'No one is a subscriber of the newsletter yet', 'farazsms' ) );
-		}
-
-		if ( str_contains( $message, '%name%' ) ) {
-			foreach ( $subscribers as $subscriber ) {
-				$message_fixed = str_replace( '%name%', $subscriber->name, $message );
-				Farazsms_Ippanel::send_message( [ $subscriber->phone ], $message_fixed, '+98club' );
-			}
-		} else {
-			$phones = [];
-			foreach ( $subscribers as $subscriber ) {
-				$phones[] = $subscriber->phone;
-			}
-
-			Farazsms_Ippanel::send_message( $phones, $message, '+98club' );
-		}
-
-		wp_send_json_success();
 	}
 
 	/**
@@ -134,24 +90,24 @@ class Farazsms_Newsletter {
 		return '<div id="fsms_newsletter">
                   <form id="fsms_newsletter_form">
                     <div class="fsms_newsletter_input a">
-                      <input id="fsms_newsletter_name" type="text" class="fsms_newsletter_text" placeholder="نام و نام خانوادگی">
+                      <input id="fsms_newsletter_name" type="text" class="fsms_newsletter_text" placeholder="' . esc_attr_e('First & Last name', 'farazsms') . '">
                     </div>
                     <div class="fsms_newsletter_input a">
-                      <input id="fsms_newsletter_mobile" type="text" class="fsms_newsletter_text" placeholder="شماره موبایل">
+                      <input id="fsms_newsletter_mobile" type="text" class="fsms_newsletter_text" placeholder="' . esc_attr_e('Phone number', 'farazsms') . '">
                     </div>
                     <div class="fsms_newsletter_input b" style="display: none;">
-                      <input id="fsms_newsletter_verify_code" type="text" class="fsms_newsletter_text" placeholder="کد تایید">
+                      <input id="fsms_newsletter_verify_code" type="text" class="fsms_newsletter_text" placeholder="' . esc_attr_e('Verification code', 'farazsms') . '">
                     </div>
-                    <input id="newsletter_send_ver_code" type="hidden" value="' . self::$news_send_verify_via_pattern . '">
+                    <input id="newsletter_send_ver_code" type="hidden" value="' . esc_attr(self::$news_send_verify_via_pattern) . '">
                   </form>
                     <div id="fsms_newsletter_message" style="display: none;">
                     </div>
                     <div class="fsms_newsletter_submit">
-                      <button id="fsms_newsletter_submit_button" class="fsms_newsletter_button"><span class="button__text">اشتراک</span></button>
+                      <button id="fsms_newsletter_submit_button" class="fsms_newsletter_button"><span class="button__text">' . esc_html_e('Join', 'farazsms') . '</span></button>
                     </div>
                     <div id="fsms_newsletter_completion" class="fsms_newsletter_submit" style="display: none;">
-                      <button id="fsms_newsletter_submit_code" class="fsms_newsletter_button"><span class="button__text">ارسال کد</span></button>
-                      <button id="fsms_newsletter_resend_code" class="fsms_newsletter_button"><span class="button__text">ارسال مجدد کد</span></button>
+                      <button id="fsms_newsletter_submit_code" class="fsms_newsletter_button"><span class="button__text">' . esc_html_e('Send code', 'farazsms') . '</span></button>
+                      <button id="fsms_newsletter_resend_code" class="fsms_newsletter_button"><span class="button__text">' . esc_html_e('Send code again', 'farazsms') . '</span></button>
                     </div>
                 </div>';
 	}
@@ -160,13 +116,14 @@ class Farazsms_Newsletter {
 	 * Newsletter send verification code
 	 */
 	public function fsms_newsletter_send_verification_code() {
-		$mobile              = $_POST['mobile'];
-		$name                = $_POST['name'];
-		$phonebook_id        = $_POST['phonebook_id'] ?? self::$news_phonebook_id;
-		$send_verify_code    = $_POST['send_verify_code'] ?? self::$news_send_verify_via_pattern;
-		$verify_code_pattern = $_POST['verify_code_pattern'] ?? self::$news_send_verify_pattern;
-		$send_welcome_msg    = $_POST['send_welcome_msg'] ?? self::$news_welcome;
-		$welcome_msg_pattern = $_POST['welcome_msg_pattern'] ?? self::$news_welcome_pattern;
+		$mobile              = sanitize_text_field( $_POST['mobile'] );
+		$name                = sanitize_text_field( $_POST['name'] );
+		$phonebook_id        = isset( $_POST['phonebook_id'] ) ? absint( $_POST['phonebook_id'] ) : self::$news_phonebook_id;
+		$send_verify_code    = isset( $_POST['send_verify_code'] ) ? sanitize_text_field( $_POST['send_verify_code'] ) : self::$news_send_verify_via_pattern;
+		$verify_code_pattern = isset( $_POST['verify_code_pattern'] ) ? sanitize_text_field( $_POST['verify_code_pattern'] ) : self::$news_send_verify_pattern;
+		$send_welcome_msg    = isset( $_POST['send_welcome_msg'] ) ? sanitize_text_field( $_POST['send_welcome_msg'] ) : self::$news_welcome;
+		$welcome_msg_pattern = isset( $_POST['welcome_msg_pattern'] ) ? sanitize_text_field( $_POST['welcome_msg_pattern'] ) : self::$news_welcome_pattern;
+
 
 
 		if ( self::check_if_phone_already_exist( $mobile ) ) {
@@ -240,42 +197,6 @@ class Farazsms_Newsletter {
 		$table_name = $wpdb->prefix . 'farazsms_newsletter';
 
 		return $wpdb->insert( $table_name, $data );
-	}
-
-	/**
-	 * Add phone to newsletter.
-	 */
-	public function fsms_add_phone_to_newsletter() {
-		$code                = $_POST['code'];
-		$name                = $_POST['name'];
-		$mobile              = $_POST['mobile'];
-		$phonebook_id        = $_POST['phonebook_id'] ?? self::$news_phonebook_id;
-		$send_welcome_msg    = $_POST['send_welcome_msg'] ?? self::$news_welcome;
-		$welcome_msg_pattern = $_POST['welcome_msg_pattern'] ?? self::$news_welcome_pattern;
-
-		$is_valid = self::check_if_code_is_valid( $mobile, $code );
-		if ( $is_valid ) {
-			$data = [
-				'phone'      => $mobile,
-				'name'       => $name,
-				'phone_book' => $phonebook_id,
-			];
-			self::save_subscriber_to_db( $data );
-
-			$list[0] = (object) [
-				'number'       => $mobile,
-				'name'         => $name,
-				'phonebook_id' => (int) $phonebook_id
-			];
-			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
-			if ( $send_welcome_msg !== 'no' ) {
-				self::send_newsletter_welcome_message( $mobile, $name, $welcome_msg_pattern );
-			}
-			wp_send_json_success();
-
-		} else {
-			wp_send_json_error();
-		}
 	}
 
 	/**
@@ -400,81 +321,6 @@ class Farazsms_Newsletter {
 	}
 
 	/**
-	 * Send SMS to phonebooks.
-	 *
-	 * @since 1.0.0
-	 */
-	public function ajax_send_message_to_phonebooks() {
-		$message = sanitize_text_field( $_POST['message'] ?? '' );
-		$phonebooks = array_map( 'absint', ( $_POST['phonebooks'] ?? [] ) );
-		$send_to_subscribers = sanitize_text_field( $_POST['send_to_subscribers'] ?? '' );
-		$send_formnum_choice = sanitize_text_field( $_POST['send_formnum_choice'] ?? '' );
-
-		if ( $send_formnum_choice == '2' && ! strpos( $_POST['phones'], ',' ) ) {
-			wp_send_json_error( __( 'Please enter manual numbers in the correct format', 'farazsms' ) );
-		}
-
-		if ( $send_formnum_choice == '1' ) {
-			$send_formnum_choice = Farazsms_Base::$fromNum;
-		} else {
-			$send_formnum_choice = Farazsms_Base::$fromNumAdver;
-		}
-
-		$phones = array_map( 'sanitize_text_field', explode( ',', ( $_POST['phones'] ?? '' ) ) );
-		$fixed_phones = [];
-
-		foreach ( $phones as $phone ) {
-			if ( preg_match( '/^\+?\d{10,}$/', $phone ) ) {
-				$fixed_phones[] = $phone;
-			}
-		}
-
-		if ( empty( $phonebooks ) && empty( $fixed_phones ) && $send_to_subscribers == 'false' ) {
-			wp_send_json_error( __( 'Please select at least one phonebook or manual number or newsletter members', 'farazsms' ) );
-			wp_die();
-		}
-
-		if ( ! empty( $fixed_phones ) ) {
-			Farazsms_Ippanel::send_message( $fixed_phones, $message, $send_formnum_choice );
-		}
-
-		foreach ( $phonebooks as $phonebook ) {
-			$phonebook_numbers = self::get_phonebook_numbers( $phonebook );
-			Farazsms_Ippanel::send_message( $phonebook_numbers, $message, $send_formnum_choice );
-		}
-
-		wp_send_json_success();
-	}
-
-	/**
-	 * Get phonebook numbers.
-	 */
-	public function get_phonebook_numbers( $phoneBookID ) {
-		$body     = [
-			'uname'        => Farazsms_Base::$username,
-			'pass'         => Farazsms_Base::$password,
-			'op'           => 'booknumberlist',
-			'phonebook_id' => $phoneBookID,
-		];
-		$response = wp_remote_post(
-			'http://ippanel.com/api/select',
-			[
-				'method'      => 'POST',
-				'headers'     => [ 'Content-Type' => 'application/json' ],
-				'data_format' => 'body',
-				'body'        => json_encode( $body ),
-			]
-		);
-		$response = json_decode( $response['body'] );
-
-		if ( in_array( '105', $response ) ) {
-			return false;
-		}
-
-		return $response;
-	}
-
-	/**
 	 * Check if code is valid.
 	 */
 	public static function check_if_code_is_valid( $phone, $code ) {
@@ -488,6 +334,43 @@ class Farazsms_Newsletter {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Add phone to newsletter.
+	 */
+	public function fsms_add_phone_to_newsletter() {
+		$code                = sanitize_text_field($_POST['code'] );
+		$mobile              = sanitize_text_field( $_POST['mobile'] );
+		$name                = sanitize_text_field( $_POST['name'] );
+		$phonebook_id        = isset( $_POST['phonebook_id'] ) ? absint( $_POST['phonebook_id'] ) : self::$news_phonebook_id;
+		$send_welcome_msg    = isset( $_POST['send_welcome_msg'] ) ? sanitize_text_field( $_POST['send_welcome_msg'] ) : self::$news_welcome;
+		$welcome_msg_pattern = isset( $_POST['welcome_msg_pattern'] ) ? sanitize_text_field( $_POST['welcome_msg_pattern'] ) : self::$news_welcome_pattern;
+
+
+		$is_valid = self::check_if_code_is_valid( $mobile, $code );
+		if ( $is_valid ) {
+			$data = [
+				'phone'      => $mobile,
+				'name'       => $name,
+				'phone_book' => $phonebook_id,
+			];
+			self::save_subscriber_to_db( $data );
+
+			$list[0] = (object) [
+				'number'       => $mobile,
+				'name'         => $name,
+				'phonebook_id' => (int) $phonebook_id
+			];
+			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
+			if ( $send_welcome_msg !== 'no' ) {
+				self::send_newsletter_welcome_message( $mobile, $name, $welcome_msg_pattern );
+			}
+			wp_send_json_success();
+
+		} else {
+			wp_send_json_error();
+		}
 	}
 }
 

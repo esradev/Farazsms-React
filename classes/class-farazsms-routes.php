@@ -692,7 +692,6 @@ class Farazsms_Routes {
 				$list[] = (object) [
 					'number'       => $number,
 					'name'         => $name,
-//					'options'      => (object) [ '100' => 'value' ],
 					'phonebook_id' => (int) Farazsms_Base::$woo_phonebook_id
 				];
 			}
@@ -710,7 +709,6 @@ class Farazsms_Routes {
 			return 'noPhonebook';
 		} else {
 			$users = get_users( [ 'fields' => 'ID' ] );
-
 
 			$list = [];
 			foreach ( $users as $userid ) {
@@ -767,25 +765,32 @@ class Farazsms_Routes {
 	/**
 	 * Validate apikey.
 	 *
-	 * @param $apikey
+	 * @param $data
 	 *
 	 * @return mixed|null
 	 * @since 2.0.0
 	 */
-	public function validate_apikey( $apikey ) {
+	public function validate_apikey( $data ) {
 
-		$handler = curl_init( 'http://rest.ippanel.com/v1/user' );
-		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'GET' );
-		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
-			'Authorization: AccessKey ' . $apikey['apikey'],
-			'Content-Type:application/json'
-		] );
+		$url = 'http://rest.ippanel.com/v1/user';
+		$args = [
+			'method'      => 'GET',
+			'headers'     => [
+				'Authorization' => 'AccessKey ' . $data['apikey'],
+				'Content-Type'  => 'application/json',
+			],
+		];
 
-		$res = curl_exec( $handler );
+		$response = wp_remote_post( $url, $args );
 
-		return json_decode( $res, true );
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+		return json_decode( $body, true );
 	}
+
 
 	/**
 	 * Get phonebook numbers.
@@ -797,18 +802,30 @@ class Farazsms_Routes {
 	 */
 	public static function get_phonebook_numbers( $phonebook_id ) {
 
-		$handler = curl_init( 'http://api.ippanel.com/api/v1/phonebook/numbers?phonebook=' . $phonebook_id['phonebook_id'] . '&page=1&per_page=10' );
-		curl_setopt( $handler, CURLOPT_CUSTOMREQUEST, 'GET' );
-		curl_setopt( $handler, CURLOPT_RETURNTRANSFER, true );
-		curl_setopt( $handler, CURLOPT_HTTPHEADER, [
-			'Authorization: ' . Farazsms_Base::$apiKey,
-			'Content-Type:application/json'
-		] );
+		$url = 'http://api.ippanel.com/api/v1/phonebook/numbers';
+		$args = [
+			'method'      => 'GET',
+			'headers'     => [
+				'Authorization' => Farazsms_Base::$apiKey,
+				'Content-Type'  => 'application/json',
+			],
+			'body'        => [
+				'phonebook' => $phonebook_id['phonebook_id'],
+				'page'      => 1,
+				'per_page'  => 10,
+			],
+		];
 
-		$res = curl_exec( $handler );
+		$response = wp_remote_post( add_query_arg( $args, $url ) );
 
-		return json_decode( $res, true );
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+		$body = wp_remote_retrieve_body( $response );
+		return json_decode( $body, true );
 	}
+
 
 	/**
 	 * Get subscribers.
@@ -942,7 +959,8 @@ class Farazsms_Routes {
 	 * Sends SMS to specified phone numbers, phonebooks, and subscribers.
 	 *
 	 * @param array $data Array of input data for SMS sending
-	 * @return array Return 'noSubscribers' if there are no subscribers, otherwise returns null
+	 *
+	 * @return array || string
 	 */
 
 	public static function send_sms( $data ) {

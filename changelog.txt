@@ -1,3 +1,6 @@
+Version 2.5.1 - Thursday, 20th Apr 2023
+- Fix Bugs and performance stability.
+=======
 Version 2.5.0 - Wednesday, 19th Apr 2023
 - Added new functionality that send the customer a link for review all products of him order.
 - Added new functionality for delete and sync subscribers in newsletter section.

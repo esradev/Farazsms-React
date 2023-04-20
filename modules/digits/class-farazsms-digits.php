@@ -43,8 +43,8 @@ class Farazsms_Digits {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_filter( 'update_user_metadata', [ $this, 'monitor_update_user_metadata' ], 499, 4 );
-		add_action( 'profile_update', [ $this, 'fsms_user_profile_updated' ], 99, 2 );
+		add_filter( 'update_user_metadata', [ $this, 'monitor_update_user_metadata' ], 99, 4 );
+		add_action( 'profile_update', [ $this, 'fsms_user_profile_updated' ], 99, 1 );
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Farazsms_Digits {
 	/**
 	 * User profile updated.
 	 */
-	public function fsms_user_profile_updated( $user_id, $old_user_data ) {
+	public function fsms_user_profile_updated( $user_id ) {
 		$digits_phone = get_user_meta( $user_id, 'digits_phone', true );
 		if ( empty( $digits_phone ) ) {
 			return;

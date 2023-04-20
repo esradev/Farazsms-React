@@ -92,25 +92,25 @@ class Farazsms_Aff {
 	/**
 	 * AFF-WP register user.
 	 */
-	public function fsms_affwp_register_user( $affiliate_id, $status, $args ) {
+	public function fsms_affwp_register_user( $affiliate_id, $status, $data ) {
 		$user_id     = affwp_get_affiliate_user_id( $affiliate_id );
 		$user        = get_user_by( 'id', $user_id );
-		$user_mobile = $_POST['affs-user-mobile'] ?? '';
+		$user_mobile = isset( $_POST['affs-user-mobile'] ) ? sanitize_text_field( $_POST['affs-user-mobile'] ) : '';
 		update_user_meta( $user->ID, 'affs_mobile', $user_mobile );
-		$args['user_mobile'] = $user_mobile;
-		if ( ! isset( $args['user_nicename'] ) ) {
-			$args['user_nicename'] = $user->nickname;
+		$data['user_mobile'] = $user_mobile;
+		if ( ! isset( $data['user_nicename'] ) ) {
+			$data['user_nicename'] = $user->nickname;
 		}
 
 		if ( self::$aff_user_register == 'true' ) {
 			if ( ! empty( self::$aff_user_register_pattern ) ) {
-				$this->affs_send_sms( $user_mobile, self::$aff_user_register_pattern, $args );
+				$this->affs_send_sms( $user_mobile, self::$aff_user_register_pattern, $data );
 			}
 		}
 		if ( self::$aff_admin_user_register == 'true' ) {
 			$admin_mobile = Farazsms_Base::$admin_number;
 			if ( ! empty( self::$aff_admin_user_register_pattern ) && ! empty( $admin_mobile ) ) {
-				$this->affs_send_sms( $admin_mobile, self::$aff_admin_user_register_pattern, $args );
+				$this->affs_send_sms( $admin_mobile, self::$aff_admin_user_register_pattern, $data );
 			}
 		}
 	}
@@ -118,32 +118,32 @@ class Farazsms_Aff {
 	/**
 	 * AFFS send sms.
 	 */
-	public function affs_send_sms( $phone, $user_register_pattern, $args ) {
-		$input_data     = [];
+	public function affs_send_sms( $phone, $user_register_pattern, $data ) {
+		$data     = [];
 		$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( $user_register_pattern );
 		if ( str_contains( $patternMessage, '%user_login%' ) ) {
-			$input_data['user_login'] = $args['user_login'];
+			$data['user_login'] = $data['user_login'];
 		}
 		if ( str_contains( $patternMessage, '%user_nicename%' ) ) {
-			$input_data['user_nicename'] = $args['user_nicename'];
+			$data['user_nicename'] = $data['user_nicename'];
 		}
 		if ( str_contains( $patternMessage, '%user_email%' ) ) {
-			$input_data['user_email'] = $args['user_email'];
+			$data['user_email'] = $data['user_email'];
 		}
 		if ( str_contains( $patternMessage, '%display_name%' ) ) {
-			$input_data['display_name'] = $args['display_name'];
+			$data['display_name'] = $data['display_name'];
 		}
 		if ( str_contains( $patternMessage, '%user_mobile%' ) ) {
-			$input_data['user_mobile'] = $args['user_mobile'];
+			$data['user_mobile'] = $data['user_mobile'];
 		}
 		if ( str_contains( $patternMessage, '%amount%' ) ) {
-			$input_data['amount'] = $args['amount'];
+			$data['amount'] = $data['amount'];
 		}
 		if ( str_contains( $patternMessage, '%amount%' ) ) {
-			$input_data['amount'] = $args['amount'];
+			$data['amount'] = $data['amount'];
 		}
 
-		return Farazsms_Ippanel::send_pattern( $user_register_pattern, $phone, $input_data );
+		return Farazsms_Ippanel::send_pattern( $user_register_pattern, $phone, $data );
 	}
 
 	/**
@@ -165,20 +165,20 @@ class Farazsms_Aff {
 			}
 		}
 
-		$args['user_mobile'] = $mobile;
+		$data['user_mobile'] = $mobile;
 
-		if ( ! isset( $args['user_nicename'] ) ) {
-			$args['user_nicename'] = $user->nickname;
+		if ( ! isset( $data['user_nicename'] ) ) {
+			$data['user_nicename'] = $user->nickname;
 		}
 		if ( self::$aff_user_register === true ) {
 			if ( ! empty( self::$aff_user_register_pattern ) ) {
-				$this->affs_send_sms( $mobile, self::$aff_user_register_pattern, $args );
+				$this->affs_send_sms( $mobile, self::$aff_user_register_pattern, $data );
 			}
 		}
 		if ( self::$aff_admin_user_register === true ) {
 			$admin_mobile = Farazsms_Base::$admin_number;
 			if ( ! empty( self::$aff_admin_user_register_pattern ) && ! empty( $admin_mobile ) ) {
-				$this->affs_send_sms( $admin_mobile, self::$aff_admin_user_register_pattern, $args );
+				$this->affs_send_sms( $admin_mobile, self::$aff_admin_user_register_pattern, $data );
 			}
 		}
 	}
@@ -200,20 +200,20 @@ class Farazsms_Aff {
 			}
 		}
 
-		$args['user_mobile'] = $mobile;
+		$data['user_mobile'] = $mobile;
 
-		if ( ! isset( $args['user_nicename'] ) ) {
-			$args['user_nicename'] = $user->nickname;
+		if ( ! isset( $data['user_nicename'] ) ) {
+			$data['user_nicename'] = $user->nickname;
 		}
 		if ( self::$aff_user_register ) {
 			if ( ! empty( self::$aff_user_register_pattern ) ) {
-				$this->affs_send_sms( $mobile, self::$aff_user_register_pattern, $args );
+				$this->affs_send_sms( $mobile, self::$aff_user_register_pattern, $data );
 			}
 		}
 		if ( self::$aff_admin_user_register ) {
 			$admin_mobile = Farazsms_Base::$admin_number;
 			if ( ! empty( self::$aff_admin_user_register_pattern ) && ! empty( $admin_mobile ) ) {
-				$this->affs_send_sms( $admin_mobile, self::$aff_admin_user_register_pattern, $args );
+				$this->affs_send_sms( $admin_mobile, self::$aff_admin_user_register_pattern, $data );
 			}
 		}
 	}
@@ -372,10 +372,10 @@ class Farazsms_Aff {
 		}
 		?>
         <p>
-            <label for="affs-user-mobile"><?php esc_attr_e( 'Phone number', 'farazsms' ) ?></label>
-            <input id="affs-user-mobile" type="text" name="affs-user-mobile"
+	        <label for="affs-user-mobile"><?php esc_html_e( 'Phone number', 'farazsms' ) ?></label>
+	        <input id="affs-user-mobile" type="text" name="affs-user-mobile"
                    title="<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>" required
-                   value="<?php echo $mobile ?? ''; ?>"/>
+                   value="<?php echo esc_attr( $mobile ?? '' ); ?>"/>
         </p>
 		<?php
 	}
@@ -387,7 +387,7 @@ class Farazsms_Aff {
 		?>
         <tr class="form-row form-required">
             <th scope="row">
-                <label for="affs-user-mobile"><?php esc_attr_e( 'Phone number', 'farazsms' ) ?></label>
+                <label for="affs-user-mobile"><?php esc_html_e( 'Phone number', 'farazsms' ) ?></label>
             </th>
             <td>
                 <input id="affs-user-mobile" type="text" name="affs-user-mobile"
@@ -405,12 +405,12 @@ class Farazsms_Aff {
 		?>
         <tr class="form-row form-required">
             <th scope="row">
-                <label for="affs-user-mobile"><?php esc_attr_e( 'Phone number', 'farazsms' ) ?></label>
+                <label for="affs-user-mobile"><?php esc_html_e( 'Phone number', 'farazsms' ) ?></label>
             </th>
             <td>
                 <input id="affs-user-mobile" type="text" name="affs-user-mobile"
                        title="<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>"
-                       value="<?php echo get_user_meta( $affiliate->user_id, 'affs_mobile' )[0] ?? ''; ?>"/>
+                       value="<?php echo esc_attr(get_user_meta( $affiliate->user_id, 'affs_mobile' )[0] ?? ''); ?>"/>
             </td>
         </tr>
 		<?php

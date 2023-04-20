@@ -203,32 +203,32 @@ class Farazsms_Woocommerce {
 	 */
 	public function add_order_tracking_box( $post ) {
 		echo '<div id="fsms-tracking-code-container">';
-		echo '<label for="fsms-tracking-code-input">' . __( 'Tracking Code', 'farazsms' ) . '</label>';
-		echo '<div id="fsms-tracking-code-input"><input type="text" name="tracking_code" id="fsms_tracking_code" placeholder="' . __( 'Enter tracking code', 'farazsms' ) . '"/></div>';
+		echo '<label for="fsms-tracking-code-input">' . esc_html__( 'Tracking Code', 'farazsms' ) . '</label>';
+		echo '<div id="fsms-tracking-code-input"><input type="text" name="tracking_code" id="fsms_tracking_code" placeholder="' . esc_attr__( 'Enter tracking code', 'farazsms' ) . '"/></div>';
 
 		// Select input for selecting the service provider
 		echo '<div id="fsms-tracking-code-provider">';
-		echo '<label for="fsms_post_service_provider">' . __( 'Service Provider', 'farazsms' ) . '</label>';
+		echo '<label for="fsms_post_service_provider">' . esc_html__( 'Service Provider', 'farazsms' ) . '</label>';
 		echo '<select name="post_service_provider" id="fsms_post_service_provider">';
 
 		// Default options
-		echo '<option value="post_office">' . __( 'Post Office', 'farazsms' ) . '</option>';
-		echo '<option value="tipaxco">' . __( 'Tipaxco', 'farazsms' ) . '</option>';
+		echo '<option value="post_office">' . esc_html__( 'Post Office', 'farazsms' ) . '</option>';
+		echo '<option value="tipaxco">' . esc_html__( 'Tipaxco', 'farazsms' ) . '</option>';
 
 		// Option for custom provider name
-		echo '<option value="custom_provider">' . __( 'Custom Provider', 'farazsms' ) . '</option>';
+		echo '<option value="custom_provider">' . esc_html__( 'Custom Provider', 'farazsms' ) . '</option>';
 
 		echo '</select>';
 		echo '</div>';
 
 		// Date picker for selecting the date of posting
 		echo '<div id="fsms-tracking-code-date">';
-		echo '<label for="fsms_post_date">' . __( 'Date of Posting', 'farazsms' ) . '</label>';
+		echo '<label for="fsms_post_date">' . esc_html__( 'Date of Posting', 'farazsms' ) . '</label>';
 		echo '<input type="date" name="post_date" id="fsms_post_date" />';
 		echo '</div>';
 
-		echo '<div id="fsms-tracking-code-button"><div class="fsms_button" id="send_tracking_code_button"><span class="button__text">' . __( 'Send Sms', 'farazsms' ) . '</span></div></div>';
-		echo '<input type="hidden" id="fsms-tracking-code-order_id" value="' . $post->ID . '">';
+		echo '<div id="fsms-tracking-code-button"><div class="fsms_button" id="send_tracking_code_button"><span class="button__text">' . esc_html__( 'Send Sms', 'farazsms' ) . '</span></div></div>';
+		echo '<input type="hidden" id="fsms-tracking-code-order_id" value="' . esc_attr($post->ID) . '">';
 		echo '<div id="send_tracking_code_response" style="display: none;"></div>';
 		echo '</div>';
 
@@ -257,10 +257,10 @@ class Farazsms_Woocommerce {
 	}
 
 	public function send_tracking_code_sms() {
-		$tracking_code         = ( $_POST['tracking_code'] ?? '' );
-		$post_service_provider = ( $_POST['post_service_provider'] ?? '' );
-		$post_date             = ( $_POST['post_date'] ?? '' );
-		$order_id              = ( $_POST['order_id'] ?? '' );
+		$tracking_code         = sanitize_text_field( $_POST['tracking_code'] ?? '' );
+		$post_service_provider = sanitize_text_field( $_POST['post_service_provider'] ?? '' );
+		$post_date             = sanitize_text_field( $_POST['post_date'] ?? '' );
+		$order_id              = absint( $_POST['order_id'] ?? '' );
 		try {
 			if ( empty( $tracking_code ) ) {
 				throw new Exception( __( 'Please enter the tracking code.', 'farazsms' ) );
@@ -401,12 +401,21 @@ class Farazsms_Woocommerce {
 	public function woo_payment_finished( $id ) {
 		$order = wc_get_order( $id );
 		$phone = $order->get_billing_phone();
+		$billing_first_name = $order->get_billing_first_name();
+		$billing_last_name = $order->get_billing_last_name();
+		$user_full_name = $billing_first_name . ' ' . $billing_last_name;
 
 		if ( empty( $phone ) ) {
 			return;
 		}
 
-		Farazsms_Ippanel::save_a_phone_to_phonebook( $phone, Farazsms_Base::$woo_phonebook_id );
+		$list[0] = (object) [
+			'number'       => $phone,
+			'name'         => $user_full_name ?? '',
+			'phonebook_id' => (int) Farazsms_Base::$woo_phonebook_id
+		];
+		Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
+
 		$this->fsms_delete_otp_code( $order );
 
 		return true;
@@ -509,21 +518,23 @@ class Farazsms_Woocommerce {
 			return;
 		}
 
-		if ( ! $_POST['billing_phone_otp'] ) {
+		$billing_phone_otp = isset( $_POST['billing_phone_otp'] ) ? sanitize_text_field(  $_POST['billing_phone_otp'] ) : '';
+		if ( empty( $billing_phone_otp ) ) {
 			wc_add_notice( __( 'Please confirm your phone number first', 'farazsms' ), 'error' );
 		}
-		$otp      = $_POST['billing_phone_otp'];
-		$is_valid = $this->check_if_code_is_valid_for_woo( $_POST['billing_phone'], $otp );
+		$billing_phone = isset( $_POST['billing_phone'] ) ? sanitize_text_field(  $_POST['billing_phone'] ) : '';
+		$is_valid = $this->check_if_code_is_valid_for_woo( $billing_phone, $billing_phone_otp );
 		if ( ! $is_valid ) {
 			wc_add_notice( __( 'The verification code entered is not valid', 'farazsms' ), 'error' );
 		}
 	}
 
+
 	/**
 	 * Send OTP Code.
 	 */
 	public function fsms_send_otp_code() {
-		$mobile = $_POST['mobile'];
+		$mobile = sanitize_text_field($_POST['mobile']);
 		if ( ! isset( $mobile ) ) {
 			wp_send_json_error( __( 'Please enter phone number.', 'farazsms' ) );
 		}

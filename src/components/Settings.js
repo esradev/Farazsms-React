@@ -342,6 +342,7 @@ function Settings() {
             "/farazsms/v1/validate_apikey",
             { apikey: state.inputs.apikey.value }
           );
+          console.log(validateApikey);
           if (validateApikey.data.status === "OK") {
             dispatch({
               type: "ippanelUsername",
