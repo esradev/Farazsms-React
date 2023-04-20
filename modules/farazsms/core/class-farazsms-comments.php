@@ -99,7 +99,7 @@ class Farazsms_Comments {
 
 			case 'mobile' :
 			{
-				echo get_comment_meta( $comment_ID, 'mobile', true );
+				echo esc_html(get_comment_meta( $comment_ID, 'mobile', true ));
 				break;
 			}
 		endswitch;
