@@ -53,7 +53,7 @@ class Farazsms_Newsletter {
 	 * Constructor
 	 */
 	public function __construct() {
-		add_shortcode( 'farazsms', [ $this, 'farazsms_newsletter' ] );
+		add_shortcode( 'farazsms-newsletter', [ $this, 'farazsms_newsletter' ] );
 		$newsletter_options = json_decode( get_option( 'farazsms_newsletter_options' ), true );
 		if ( $newsletter_options ) {
 			self::$news_phonebook_id            = $newsletter_options['news_phonebook']['value'] ?? '';
@@ -76,38 +76,38 @@ class Farazsms_Newsletter {
 			'fsms_newsletter_send_verification_code'
 		] );
 
-		add_action( 'publish_post', [ $this, 'fsms_publish_post_notification' ] );
+		add_action( 'wp_insert_post', [ $this, 'fsms_publish_post_notification' ], 10, 2 );
 		add_action( 'transition_post_status', [ $this, 'fsms_product_published' ], 10, 3 );
 	}
 
 	/**
 	 * Farazsms newsletter.
 	 */
-	public function farazsms_newsletter( $atts = [] ) {
+	public function farazsms_newsletter() {
 		wp_enqueue_style( 'farazsms-newsletter' );
 		wp_enqueue_script( 'farazsms-newsletter' );
 
 		return '<div id="fsms_newsletter">
                   <form id="fsms_newsletter_form">
                     <div class="fsms_newsletter_input a">
-                      <input id="fsms_newsletter_name" type="text" class="fsms_newsletter_text" placeholder="' . esc_attr_e('First & Last name', 'farazsms') . '">
+                      <input id="fsms_newsletter_name" type="text" class="fsms_newsletter_text" placeholder="' . esc_attr__('First & Last name', 'farazsms') . '">
                     </div>
                     <div class="fsms_newsletter_input a">
-                      <input id="fsms_newsletter_mobile" type="text" class="fsms_newsletter_text" placeholder="' . esc_attr_e('Phone number', 'farazsms') . '">
+                      <input id="fsms_newsletter_mobile" type="text" class="fsms_newsletter_text" placeholder="' . esc_attr__('Phone number', 'farazsms') . '">
                     </div>
                     <div class="fsms_newsletter_input b" style="display: none;">
-                      <input id="fsms_newsletter_verify_code" type="text" class="fsms_newsletter_text" placeholder="' . esc_attr_e('Verification code', 'farazsms') . '">
+                      <input id="fsms_newsletter_verify_code" type="text" class="fsms_newsletter_text" placeholder="' . esc_attr__('Verification code', 'farazsms') . '">
                     </div>
                     <input id="newsletter_send_ver_code" type="hidden" value="' . esc_attr(self::$news_send_verify_via_pattern) . '">
                   </form>
                     <div id="fsms_newsletter_message" style="display: none;">
                     </div>
                     <div class="fsms_newsletter_submit">
-                      <button id="fsms_newsletter_submit_button" class="fsms_newsletter_button"><span class="button__text">' . esc_html_e('Join', 'farazsms') . '</span></button>
+                      <button id="fsms_newsletter_submit_button" class="fsms_newsletter_button"><span class="button__text">' . esc_html__('Join', 'farazsms') . '</span></button>
                     </div>
                     <div id="fsms_newsletter_completion" class="fsms_newsletter_submit" style="display: none;">
-                      <button id="fsms_newsletter_submit_code" class="fsms_newsletter_button"><span class="button__text">' . esc_html_e('Send code', 'farazsms') . '</span></button>
-                      <button id="fsms_newsletter_resend_code" class="fsms_newsletter_button"><span class="button__text">' . esc_html_e('Send code again', 'farazsms') . '</span></button>
+                      <button id="fsms_newsletter_submit_code" class="fsms_newsletter_button"><span class="button__text">' . esc_html__('Send code', 'farazsms') . '</span></button>
+                      <button id="fsms_newsletter_resend_code" class="fsms_newsletter_button"><span class="button__text">' . esc_html__('Send code again', 'farazsms') . '</span></button>
                     </div>
                 </div>';
 	}
@@ -202,12 +202,13 @@ class Farazsms_Newsletter {
 	/**
 	 * Sends notification to subscribers when a new post is published.
 	 *
-	 * @param int $post_id The ID of the post being published.
+	 * @param int     $post_id The ID of the post being published.
+	 * @param WP_Post $post    The post object.
 	 */
-	public function fsms_publish_post_notification( int $post_id ) {
+	public function fsms_publish_post_notification( int $post_id, WP_Post $post ) {
 
-		// Check if the post is published.
-		if ( get_post_status( $post_id ) !== 'publish' ) {
+		// Check if the post is newly published.
+		if ( $post->post_status !== 'publish' || $post->post_date !== $post->post_modified ) {
 			return;
 		}
 
@@ -229,9 +230,6 @@ class Farazsms_Newsletter {
 
 		// Send notification message to all subscribers.
 		Farazsms_Ippanel::send_message( $phones, $notification_message );
-
-		// Remove this function from the 'publish_post' hook to avoid duplicate notifications.
-		remove_action( 'publish_post', 'fsms_publish_post_notification', 10 );
 	}
 
 

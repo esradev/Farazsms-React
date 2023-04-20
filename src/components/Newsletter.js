@@ -39,6 +39,11 @@ function Newsletter() {
         label: __("Select phone book for newsletter", "farazsms"),
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
+        infoTitle: __("Shortcode:", "farazsms"),
+        infoBody: __(
+          "Use [farazsms-newsletter] as shortcode to display the newsletter form in your site.",
+          "farazsms"
+        ),
       },
       news_send_verify_via_pattern: {
         value: "",

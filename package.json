@@ -1,6 +1,6 @@
 {
   "name": "farazsms",
-  "version": "2.3.1",
+  "version": "2.5.2",
   "description": "By using the Farazsms plugin, you can professionally equip your site with a powerful SMS tool for information and marketing. Saving customers numbers in the phone book, sending welcome SMS, sending reply SMS to comments, etc. are part of the features of this powerful SMS plugin.",
   "main": "index.js",
   "scripts": {
