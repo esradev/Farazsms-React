@@ -8,20 +8,15 @@ import AxiosWp from "../function/AxiosWp";
  */
 function useFetchOptions(endpoint, dispatch) {
   useEffect(() => {
-    async function getOptions() {
-      try {
-        const response = await AxiosWp.get(endpoint);
-        if (response.data) {
-          const optionsJson = JSON.parse(response.data);
-          dispatch({ type: "fetchComplete", value: optionsJson });
-        }
-      } catch (e) {
+    AxiosWp.get(endpoint)
+      .then((res) => {
+        const optionsJson = JSON.parse(res.data);
+        console.log(optionsJson);
+        dispatch({ type: "fetchComplete", value: optionsJson });
+      })
+      .catch((err) => {
         dispatch({ type: "cantFetching" });
-        console.log(e);
-      }
-    }
-
-    getOptions();
+      });
   }, []);
 }
 

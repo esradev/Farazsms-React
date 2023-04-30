@@ -91,3 +91,17 @@ Accompany us on this path by providing your comments and suggestions.
 Here are few thoughts behind making it available for free:
 - It is our way of saying thank you to the community and helping shop owners to boost their profits.
 - And quite honestly, we want you to try one of our products for free. And when you see how helpful it is, it should get you excited to buy other products from us in the future
+
+== Screenshots ==
+
+1. Main settings.
+2. Login notify settings.
+3. Phonebooks settings.
+4. Gravity Forms settings.
+5. Sync settings.
+6. Comments settings.
+7. Woocommerce settings.
+8. Newsletter settings.
+9. Send Sms settings.
+10. Support settings.
+11. Integrations settings.

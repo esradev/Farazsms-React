@@ -158,11 +158,13 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base {
 		$phonebook_options = [];
 
 		// Get phonebooks from your plugin
-		$phonebooks = Farazsms_Ippanel::get_phonebooks()['data'];
+		$phonebooks = Farazsms_Ippanel::get_phonebooks();
 
 		// Loop through phonebooks and add as select options
-		foreach ( $phonebooks as $phonebook ) {
-			$phonebook_options[ $phonebook['id'] ] = $phonebook['title'];
+		if ( is_array( $phonebooks ) ) {
+			foreach ( $phonebooks as $phonebook ) {
+				$phonebook_options[ $phonebook['id'] ] = $phonebook['title'];
+			}
 		}
 
 		$widget->add_control(
@@ -268,7 +270,7 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base {
 		}
 
 		$from         = $settings['sms_sender_number'];
-		$phone           = $record->replace_setting_shortcodes( $settings['sms_recipient'] );
+		$phone        = $record->replace_setting_shortcodes( $settings['sms_recipient'] );
 		$farazpattern = $settings['sms_pattern_code'];
 		$phonebook    = $settings['phonebook'];
 		$content      = $settings['sms_content'];

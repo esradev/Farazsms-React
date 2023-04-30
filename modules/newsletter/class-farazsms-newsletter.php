@@ -207,6 +207,11 @@ class Farazsms_Newsletter {
 	 */
 	public function fsms_publish_post_notification( int $post_id, WP_Post $post ) {
 
+		// Check if the post is a post type.
+		if ( 'post' !== $post->post_type ) {
+			return;
+		}
+
 		// Check if the post is newly published.
 		if ( $post->post_status !== 'publish' || $post->post_date !== $post->post_modified ) {
 			return;
