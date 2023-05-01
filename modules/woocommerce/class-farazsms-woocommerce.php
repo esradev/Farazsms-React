@@ -61,12 +61,12 @@ class Farazsms_Woocommerce {
 			self::$woo_retention_msg         = $woocommerce_options['woo_retention_msg'];
 		}
 
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'add_meta_boxes', [ $this, 'add_tracking_code_meta_box' ] );
 		add_action( 'add_meta_boxes', [ $this, 'tracking_code_order_postbox' ] );
 		add_action( 'wp_ajax_fsms_send_tracking_code_sms', [ $this, 'send_tracking_code_sms' ] );
 		add_action( 'wp_ajax_nopriv_fsms_send_tracking_code_sms', [ $this, 'send_tracking_code_sms' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'woocommerce_thankyou', [ $this, 'woo_payment_finished' ] );
 		add_action( 'init', [$this, 'fsms_woo_retention_action' ]);
 		add_action( 'woocommerce_checkout_get_value', [ $this, 'fsms_pre_populate_checkout_fields' ], 10, 2 );
@@ -224,7 +224,7 @@ class Farazsms_Woocommerce {
 		// Date picker for selecting the date of posting
 		echo '<div id="fsms-tracking-code-date">';
 		echo '<label for="fsms_post_date">' . esc_html__( 'Date of Posting', 'farazsms' ) . '</label>';
-		echo '<input type="date" name="post_date" id="fsms_post_date" />';
+		echo '<div id="post-persian-date"></div>';
 		echo '</div>';
 
 		echo '<div id="fsms-tracking-code-button"><div class="fsms_button" id="send_tracking_code_button"><span class="button__text">' . esc_html__( 'Send Sms', 'farazsms' ) . '</span></div></div>';
@@ -234,6 +234,10 @@ class Farazsms_Woocommerce {
 
 		?>
         <script>
+          ReactDOM.render(
+              <App />,
+            document.getElementById('react-multi-date-picker')
+          );
           // Handle custom provider input
           const select = document.querySelector('#fsms_post_service_provider')
           const input = document.createElement('input')

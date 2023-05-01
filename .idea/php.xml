@@ -31,6 +31,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/finder" />
       <path value="$PROJECT_DIR$/vendor/wp-cli/wp-cli" />
       <path value="$PROJECT_DIR$/vendor/wp-cli/mustangostang-spyc" />
+      <path value="$PROJECT_DIR$/vendor/ippanel/php-rest-sdk" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">

@@ -96,6 +96,8 @@ class Farazsms_Settings {
 	 * @since 1.0.0
 	 */
 	public function admin_enqueue_scripts( $hook ) {
+		wp_enqueue_script('react-multi-date-picker', FARAZSMS_URL.'assets/js/react-multi-date-picker.js', ['wp-element'], FARAZSMS_VERSION, true);
+
 		wp_enqueue_script(
 			'farazsms-script',
 			FARAZSMS_URL . 'build/index.js',
