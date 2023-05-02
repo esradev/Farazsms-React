@@ -4,7 +4,7 @@
   let fsms_tracking_code = $("#fsms_tracking_code");
   let fsms_post_service_provider = $("#fsms_post_service_provider");
   let fsms_post_service_custom = $("#fsms_custom_provider");
-  let fsms_post_date = $("#fsms_post_date");
+  let fsms_post_date = $("#farazsms-tracking-date-field-value");
   let send_tracking_code_response = $("#send_tracking_code_response");
   let fsms_tracking_code_order_id = $("#fsms-tracking-code-order_id");
 

@@ -5,8 +5,7 @@ import React, { useState, useEffect, useContext } from "react";
 import FarazsmsLogo from "../assets/images/farazsms-logo.jpg";
 import { AiOutlineBell } from "react-icons/ai";
 import { BiSupport } from "react-icons/bi";
-// Used as const not import, for Loco translate plugin compatibility.
-const { __, sprintf } = wp.i18n;
+import { __ } from "@wordpress/i18n";
 
 function Header() {
   const [credit, setCredit] = useState(0);

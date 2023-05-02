@@ -9,8 +9,7 @@ import Button from "react-bootstrap/Button";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import { CSSTransition } from "react-transition-group";
-// Used as const not import, for Loco translate plugin compatibility.
-const __ = wp.i18n.__;
+import { __ } from "@wordpress/i18n";
 
 const animatedComponents = makeAnimated();
 

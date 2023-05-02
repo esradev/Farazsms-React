@@ -4,8 +4,7 @@
 import React from "react";
 // import "../styles/save-button.scss";
 
-// Used as const not import, for Loco translate plugin compatibility.
-const __ = wp.i18n.__;
+import { __ } from "@wordpress/i18n";
 
 /**
  * This component power the settings component.

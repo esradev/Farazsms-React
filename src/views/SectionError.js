@@ -2,8 +2,7 @@
  * Import remote dependencies.
  */
 import React from "react";
-// Used as const not import, for Loco translate plugin compatibility.
-const { __, sprintf } = wp.i18n;
+import { __ } from "@wordpress/i18n";
 
 /**
  * This component power the settings component.

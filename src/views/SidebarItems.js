@@ -2,8 +2,8 @@
  * Import remote dependencies.
  */
 import React from "react";
-// Used as const not import, for Loco translate plugin compatibility.
-const __ = wp.i18n.__;
+import { __ } from "@wordpress/i18n";
+
 import {
   AiOutlineNotification,
   AiOutlinePhone,

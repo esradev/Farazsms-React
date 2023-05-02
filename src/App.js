@@ -5,7 +5,7 @@ import React, { useState, useReducer, useEffect } from "react";
 import { useImmerReducer } from "use-immer";
 import { HashRouter, Route, Routes } from "react-router-dom";
 
-const __ = wp.i18n.__;
+import { __ } from "@wordpress/i18n";
 
 /**
  * Import local dependencies

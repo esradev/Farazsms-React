@@ -5,7 +5,7 @@
 import React from "react";
 import { createPortal } from "react-dom";
 import useConfirm from "../hooks/useConfirm";
-const __ = wp.i18n.__;
+import { __ } from "@wordpress/i18n";
 
 const ConfirmDialog = () => {
   const { onConfirm, onCancel, confirmState } = useConfirm();

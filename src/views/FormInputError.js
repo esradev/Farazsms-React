@@ -1,10 +1,9 @@
 /**
  * Import remote dependencies.
  */
-import React from 'react'
-import { CSSTransition } from 'react-transition-group'
-// Used as const not import, for Loco translate plugin compatibility.
-const __ = wp.i18n.__
+import React from "react";
+import { CSSTransition } from "react-transition-group";
+import { __ } from "@wordpress/i18n";
 
 /**
  * This component power the settings component.
@@ -13,7 +12,7 @@ const __ = wp.i18n.__
  */
 
 const FormInputError = (props) => {
-  const { errorMessage, hasErrors, ...inputProps } = props
+  const { errorMessage, hasErrors, ...inputProps } = props;
 
   return (
     <CSSTransition
@@ -26,7 +25,7 @@ const FormInputError = (props) => {
         {errorMessage}
       </div>
     </CSSTransition>
-  )
-}
+  );
+};
 
-export default FormInputError
+export default FormInputError;

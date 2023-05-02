@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import AxiosWp from "../function/AxiosWp";
 
-const __ = wp.i18n.__;
+import { __ } from "@wordpress/i18n";
 
 function useSaveAffOptions(endpoint, state, dispatch, appDispatch) {
   useEffect(() => {
