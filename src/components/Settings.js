@@ -194,11 +194,7 @@ function Settings() {
         draft.inputs.admin_number.value = action.value;
         return;
       case "admin_numberAfterDelay":
-        if (
-          !/^(0|0098|\+98)9(0[1-5]|[1 3]\d|2[0-2]|98)\d{7}$/.test(
-            draft.inputs.admin_number.value
-          )
-        ) {
+        if (!/^(\+98|0)?9\d{9}$/.test(draft.inputs.admin_number.value)) {
           draft.inputs.admin_number.hasErrors = true;
           draft.inputs.admin_number.errorMessage = __(
             "You must provide a valid phone number for admin.",
