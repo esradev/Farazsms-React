@@ -77,8 +77,8 @@ class Farazsms_Comments {
 		add_filter( 'comment_form_default_fields', [ $this, 'disable_comment_fields' ], 99, 1 );
 
 		// Hook into WordPress comment hooks to trigger sending SMS notifications
-		add_action( 'wp_insert_comment', [ $this, 'send_admin_sms_on_new_comment' ], 10, 2 );
-		add_action( 'wp_set_comment_status', [ $this, 'send_author_sms_on_approved_comment' ], 10, 1 );
+		add_action( 'comment_unapproved_to_approved', [ $this, 'send_author_sms_on_comment_approved' ] );
+//        add_action( 'edit_comment', [ $this, 'send_author_sms_on_comment_edit' ], 10, 2 );
 	}
 
 	/**
@@ -99,7 +99,7 @@ class Farazsms_Comments {
 
 			case 'mobile' :
 			{
-				echo esc_html(get_comment_meta( $comment_ID, 'mobile', true ));
+				echo esc_html( get_comment_meta( $comment_ID, 'mobile', true ) );
 				break;
 			}
 		endswitch;
@@ -112,29 +112,52 @@ class Farazsms_Comments {
 		if ( ! self::$add_mobile_field === true ) {
 			return;
 		}
+		$allowed_tags = [
+			'input' => [
+				'class'       => [],
+				'type'        => [],
+				'name'        => [],
+				'id'          => [],
+				'placeholder' => [],
+				'required'    => [],
+			],
+			'p'     => [
+				'class' => [],
+			],
+			'span'  => [
+				'class' => [],
+			],
+		];
 
-		$mobile_filed = '<p class="comment-form-phone uk-margin-top">';
+		$mobile_filed = '<p class="comment-form-phone uk-margin-top"><label for="mobile">' . esc_html__( 'Mobile', 'farazsms' );
 		if ( self::$required_mobile_field === true ) {
-			$mobile_filed .= ' <span class="required">*</span>';
+			$mobile_filed .= ' <span class="required">*</span></label>';
 			$required     = 'required="required"';
 		}
 		$mobile_filed .= '<input class="uk-input uk-width-large uk-display-block" type="text" name="mobile" id="mobile" placeholder=" ' . esc_attr__( 'Like: 09300410381', 'farazsms' ) . '" /></p>';
 
-		echo wp_kses_post( $mobile_filed );
+
+		echo wp_kses( $mobile_filed, $allowed_tags );
 	}
 
 	// Save mobile field.
 	public function save_mobile_field( $comment_id ) {
 		if ( isset( $_POST['mobile'] ) ) {
-			$mobile = Farazsms_Base::validate_mobile_number(  sanitize_text_field($_POST['mobile']) );
+			$mobile = Farazsms_Base::validate_mobile_number( sanitize_text_field( $_POST['mobile'] ) );
 			add_comment_meta( $comment_id, 'mobile', $mobile );
 		}
-		$this->send_admin_or_author_sms_on_new_comment( $comment_id );
+		self::send_admin_sms_on_new_comment( $comment_id );
+		$comment = get_comment( $comment_id );
+		if ( $comment->comment_approved == 1 ) {
+			$comment = get_comment( $comment_id );
+			self::send_author_sms_on_comment_approved( $comment );
+		}
+
 	}
 
 	// Verify comment input
 	public function verify_comment_input( $comment_data ) {
-		if ( empty( $comment_data['comment_parent'] ) && self::$required_mobile_field === true && empty( sanitize_text_field($_POST['mobile']) ) ) {
+		if ( empty( $comment_data['comment_parent'] ) && self::$required_mobile_field === true && empty( sanitize_text_field( $_POST['mobile'] ) ) ) {
 			wp_die( esc_html__( 'Error: Mobile number is required.', 'farazsms' ) );
 		}
 
@@ -147,16 +170,16 @@ class Farazsms_Comments {
 	 *
 	 * @param int $comment_ID ID of the comment being submitted.
 	 */
-	public function send_admin_or_author_sms_on_new_comment( int $comment_ID ) {
-		$comment = get_comment( $comment_ID );
+	public function send_admin_sms_on_new_comment( int $comment_ID ) {
+		$comment           = get_comment( $comment_ID );
 		$comment_post_type = get_post_type( $comment->comment_post_ID );
 
 		// Check if the comment is on a post
 		if ( $comment_post_type === 'post' ) {
-			$data = $this->comments_farazsms_shortcode( $comment, $comment_ID );
+			$data                  = self::comments_farazsms_shortcode( $comment );
 			$comment_author_mobile = get_comment_meta( $comment_ID, 'mobile', true ) ?? '';
-			$user_name = $comment->comment_author;
-			$user = get_user_by( 'id', $comment->user_id );
+			$user_name             = $comment->comment_author;
+			$user                  = get_user_by( 'id', $comment->user_id );
 
 			if ( isset( $user ) && is_object( $user ) ) {
 				$is_admin = in_array( 'administrator', $user->roles );
@@ -167,55 +190,47 @@ class Farazsms_Comments {
 			$admin_number = Farazsms_Base::$admin_number;
 
 			if ( self::$comment_phonebook_id ) {
-				$this->save_comment_mobile_to_phonebook( $comment_author_mobile, $user_name );
+				self::save_comment_mobile_to_phonebook( $comment_author_mobile, $user_name );
 			}
 
-			// Send SMS notification only to the admin or author
-			if ( self::$notify_admin_for_comment && ! $is_admin && ! empty( $admin_number ) ) {
-				$this->send_comment_sms( $admin_number, self::$notify_admin_for_comment_pattern, $data );
+			// Send SMS notification only to the admin
+			if ( ! $is_admin && ! empty( $admin_number && self::$notify_admin_for_comment ) ) {
+				self::send_comment_sms( $admin_number, self::$notify_admin_for_comment_pattern, $data );
 			}
 		}
 	}
 
 
 	/**
-	 * Sends an SMS notification to the author of a comment when their comment is approved, and they provided a mobile number.
+	 * Send SMS to author of comment when comment is approved.
+	 * Send SMS to author of parent comment if there is an approved reply comment.
 	 *
-	 * @param int $comment_ID
+	 * @param $comment
 	 *
 	 * @return void
 	 */
-	public function send_author_sms_on_approved_comment( int $comment_ID ): void {
-		$comment = get_comment( $comment_ID );
-		if ( 'comment' !== get_comment_type( $comment ) ) {
-			return;
-		}
-
-		$post_id = $comment->comment_post_ID;
-		if ( 'post' !== get_post_type( $post_id ) ) {
-			return;
-		}
-
-		$comment_author_mobile        = get_comment_meta( $comment_ID, 'mobile', true ) ?? '';
-		$comment_parent_author_mobile = '';
+	public function send_author_sms_on_comment_approved( $comment ) {
+		$comment_author_mobile        = get_comment_meta( $comment->comment_ID, 'mobile', true ) ?? '';
 		$comment_parent               = $comment->comment_parent;
+		$comment_parent_author_mobile = '';
 
-		if ( $comment_parent !== '0' ) {
+		if ( $comment_parent != 0 ) {
 			$comment_parent_author_mobile = get_comment_meta( $comment_parent, 'mobile', true ) ?? '';
 		}
 
-		if ( wp_get_comment_status( $comment_ID ) !== 'approved' ) {
+		if ( empty( $comment_author_mobile ) && empty( $comment_parent_author_mobile ) ) {
 			return;
 		}
 
-		$data = $this->comments_farazsms_shortcode( $comment, $comment_ID );
+		$data = self::comments_farazsms_shortcode( $comment );
 
-		if ( ! empty( $comment_author_mobile ) ) {
-			$this->send_comment_sms( $comment_author_mobile, self::$comment_pattern, $data );
+		if ( ! empty( $comment_author_mobile ) && ! empty( self::$comment_pattern ) ) {
+			self::send_comment_sms( '093004010381', self::$comment_pattern, $data );
 		}
 
-		if ( ! empty( $comment_parent_author_mobile ) ) {
-			$this->send_comment_sms( $comment_parent_author_mobile, self::$comment_reply_pattern, $data );
+		if ( ! empty( $comment_parent_author_mobile ) && ! empty( self::$comment_reply_pattern ) ) {
+			$reply_data = self::comments_farazsms_shortcode( $comment );
+			self::send_comment_sms( '09155772051', self::$comment_reply_pattern, $reply_data );
 		}
 	}
 
@@ -274,7 +289,7 @@ class Farazsms_Comments {
 	/**
 	 * Comments farazsms shortcode.
 	 */
-	public function comments_farazsms_shortcode( $comment, $comment_id ) {
+	public function comments_farazsms_shortcode( $comment ) {
 		$post = get_post( $comment->comment_post_ID );
 
 		return [
