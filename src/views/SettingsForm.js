@@ -58,6 +58,7 @@ function SettingsForm({
               </>
             ) : (
               <FormInput
+                disabaledOptions={input?.disabaledOptions}
                 isMulti={input.isMulti}
                 {...input}
                 onChange={

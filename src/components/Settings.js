@@ -12,7 +12,6 @@ import { __ } from "@wordpress/i18n";
 import AxiosWp from "../function/AxiosWp";
 import DispatchContext from "../DispatchContext";
 import SectionHeader from "../views/SectionHeader";
-import FormInput from "../views/FormInput";
 import FormInputError from "../views/FormInputError";
 import SaveButton from "../views/SaveButton";
 import LoadingSpinner from "../views/LoadingSpinner";
@@ -106,6 +105,7 @@ function Settings() {
         name: "from_number_adver",
         type: "select",
         options: [],
+        disabaledOptions: ["+983000505", "+985000125475"],
         noOptionsMessage: __("No options is available", "farazsms"),
         label: __("Advertising sender number", "farazsms"),
         rules: "from_number_adverRules",
@@ -419,10 +419,14 @@ function Settings() {
           lines.push(line);
         }
         console.log(lines);
-        const rolesArrayObject = lines.map((line) => ({
-          value: line.number,
-          label: line.number,
-        }));
+        const rolesArrayObject = lines
+          .filter(
+            (line) => line.number !== "+98resend" && line.number !== "+98voice"
+          )
+          .map((line) => ({
+            value: line.number,
+            label: line.number,
+          }));
         dispatch({
           type: "from_number_linesOptions",
           value: rolesArrayObject,

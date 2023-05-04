@@ -972,12 +972,14 @@ class Farazsms_Routes {
 		$fixed_phones        = [];
 		$phonebooks_ids      = [];
 
+		if ($sender === '1' ) {
+			$sender = Farazsms_Base::$fromNum;
+		} else {
+			$sender = Farazsms_Base::$fromNumAdver;
+		}
+
 		// initialize an array to collect responses
 		$responses = [];
-
-		if ( $sender ) {
-			$sender = Farazsms_Base::$fromNum;
-		}
 
 		// Send SMS to fixed phones
 		if ( ! str_contains( $phones, ',' ) ) {

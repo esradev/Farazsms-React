@@ -37,8 +37,16 @@ const FormInput = (props) => {
     groupTitle,
     hasErrors,
     isMulti,
+    disabaledOptions,
     ...inputProps
   } = props;
+
+  const isOptionDisabled = (option) => {
+    // Check if option value is in the disabledValues array
+    if (disabaledOptions) {
+      return disabaledOptions.includes(option.value);
+    }
+  };
 
   return (
     <>
@@ -97,6 +105,7 @@ const FormInput = (props) => {
           )}
           {type === "select" && (
             <Select
+              isOptionDisabled={isOptionDisabled}
               isMulti={isMulti}
               value={value}
               placeholder="Select..."

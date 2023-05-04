@@ -9,7 +9,6 @@ import { __ } from "@wordpress/i18n";
  * Import local dependencies
  */
 import DispatchContext from "../DispatchContext";
-import FormInput from "../views/FormInput";
 import FormInputError from "../views/FormInputError";
 import SectionHeader from "../views/SectionHeader";
 import LoadingSpinner from "../views/LoadingSpinner";
