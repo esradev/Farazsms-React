@@ -86,7 +86,7 @@ class Farazsms_Activator {
 		//TODO: This part of code convert $options['from_number'] to be an array.
 
 		// Retrieve the options
-		$options = get_option('farazsms_settings_options');
+		$options = json_decode( get_option('farazsms_settings_options'), true );
 
 		// Check if the options need to be updated
 		if (isset($options['from_number']) && is_string($options['from_number'])) {
@@ -102,8 +102,8 @@ class Farazsms_Activator {
 				'label' => $options['from_number_adver']
 			];
 		}
-
+		$options_json = wp_json_encode( $options );
 		// Save the updated options
-		update_option('farazsms_settings_options', $options);
+		update_option('farazsms_settings_options', $options_json);
 	}
 }
