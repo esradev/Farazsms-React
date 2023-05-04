@@ -156,6 +156,10 @@ class Farazsms_Order_Review {
 		// Add the rating to the comment
 		update_comment_meta( $comment_id, 'rating', $rating );
 
+		// Set the comment as unapproved
+		wp_set_comment_status( $comment_id, 'hold' );
+
+
 		// Send a success response
 		wp_send_json_success('Review posted successfully');
 

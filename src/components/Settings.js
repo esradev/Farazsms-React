@@ -94,7 +94,6 @@ function Settings() {
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
         label: __("Sender number", "farazsms"),
-        required: true,
         rules: "from_numberRules",
       },
       from_number_adver: {
