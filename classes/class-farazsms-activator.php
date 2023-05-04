@@ -80,6 +80,9 @@ class Farazsms_Activator {
 		// This option added for redirect after activation
 		add_option( 'farazsms_do_activation_redirect', true );
 
+	}
+
+	public static function modify_option(){
 		//TODO: This part of code convert $options['from_number'] to be an array.
 
 		// Retrieve the options
