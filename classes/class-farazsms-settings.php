@@ -126,6 +126,7 @@ class Farazsms_Settings {
 				'password'          => Farazsms_Base::$password,
 				'getPhonebooks'     => Farazsms_Ippanel::get_phonebooks(),
 				'getCredit'         => Farazsms_Ippanel::get_credit(),
+				'getLines'          => Farazsms_Ippanel::get_lines(),
 				'getActivePlugins'  => get_option( 'active_plugins' ),
 				'isDigitsInstalled' => function_exists( 'digit_ready' ),
 				'settingsUrl'       => FARAZSMS_SETTINGS_LINK,

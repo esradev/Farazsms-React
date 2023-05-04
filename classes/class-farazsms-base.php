@@ -72,8 +72,8 @@ class Farazsms_Base {
 			self::$password     = $credentials_option['password'];
 			self::$admin_number = $credentials_option['admin_number'];
 			self::$apiKey       = $credentials_option['apikey'];
-			self::$fromNum      = $credentials_option['from_number'];
-			self::$fromNumAdver = $credentials_option['from_number_adver'];
+			self::$fromNum      = $credentials_option['from_number']['value'] ?? '3000505';
+			self::$fromNumAdver = $credentials_option['from_number_adver']['value'] ?? '+98club';
 		}
 
 		$login_notify_options = json_decode( get_option( 'farazsms_login_notify_options' ), true );

@@ -79,5 +79,28 @@ class Farazsms_Activator {
 
 		// This option added for redirect after activation
 		add_option( 'farazsms_do_activation_redirect', true );
+
+		//TODO: This part of code convert $options['from_number'] to be an array.
+
+		// Retrieve the options
+		$options = get_option('farazsms_settings_options');
+
+		// Check if the options need to be updated
+		if (isset($options['from_number']) && is_string($options['from_number'])) {
+			$options['from_number'] = [
+				'value' => $options['from_number'],
+				'label' => $options['from_number']
+			];
+		}
+
+		if (isset($options['from_number_adver']) && is_string($options['from_number_adver'])) {
+			$options['from_number_adver'] = [
+				'value' => $options['from_number_adver'],
+				'label' => $options['from_number_adver']
+			];
+		}
+
+		// Save the updated options
+		update_option('farazsms_settings_options', $options);
 	}
 }

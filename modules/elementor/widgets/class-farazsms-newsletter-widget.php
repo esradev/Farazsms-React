@@ -117,7 +117,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$phonebooks = Farazsms_Ippanel::get_phonebooks();
 
 		if ( is_array( $phonebooks ) ) {
-			foreach ( $phonebooks['data'] as $phonebook ) {
+			foreach ( $phonebooks as $phonebook ) {
 				$phonebook_options[ $phonebook['id'] ] = $phonebook['title'];
 			}
 		}

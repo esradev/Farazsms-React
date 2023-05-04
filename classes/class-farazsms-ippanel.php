@@ -419,6 +419,38 @@ class Farazsms_Ippanel {
 
 		return json_decode($response , true);
 	}
+
+	/**
+	 * Get lines.
+	 *
+	 * @return false
+	 * @since 2.5.3
+	 */
+	public static function get_lines() {
+		$body     = [
+			'uname' => Farazsms_Base::$username,
+			'pass'  => Farazsms_Base::$password,
+			'op'    => 'lines',
+		];
+		$response = wp_remote_post(
+			'http://ippanel.com/api/select',
+			[
+				'method'      => 'POST',
+				'headers'     => [ 'Content-Type' => 'application/json' ],
+				'data_format' => 'body',
+				'body'        => json_encode( $body ),
+			]
+		);
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+
+		$decoded_response = json_decode($response['body'], true);
+
+		// Use json_decode again to decode the JSON string in the first element of the array
+		return json_decode($decoded_response[1], true);
+	}
 }
 
 Farazsms_Ippanel::get_instance();

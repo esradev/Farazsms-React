@@ -16,7 +16,6 @@ import FormInputError from "../views/FormInputError";
 import SectionHeader from "../views/SectionHeader";
 import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
-import usePhonebooks from "../hooks/usePhonebooks";
 import useFetchOptions from "../hooks/useFetchOptions";
 import useSaveOptions from "../hooks/useSaveOptions";
 import SettingsForm from "../views/SettingsForm";

@@ -14,7 +14,6 @@ import FormInputError from "../views/FormInputError";
 import SectionHeader from "../views/SectionHeader";
 import LoadingSpinner from "../views/LoadingSpinner";
 import AxiosWp from "../function/AxiosWp";
-import usePhonebooks from "../hooks/usePhonebooks";
 import SettingsForm from "../views/SettingsForm";
 
 function SendSms(props) {

@@ -91,8 +91,9 @@ function Settings() {
         errorMessage: "",
         onChange: "from_numberChange",
         name: "from_number",
-        type: "text",
-        placeholder: __("Sender number", "farazsms"),
+        type: "select",
+        options: [],
+        noOptionsMessage: __("No options is available", "farazsms"),
         label: __("Sender number", "farazsms"),
         required: true,
         rules: "from_numberRules",
@@ -103,14 +104,15 @@ function Settings() {
         errorMessage: "",
         onChange: "from_number_adverChange",
         name: "from_number_adver",
-        type: "text",
-        placeholder: __("Advertising sender number", "farazsms"),
+        type: "select",
+        options: [],
+        noOptionsMessage: __("No options is available", "farazsms"),
         label: __("Advertising sender number", "farazsms"),
         rules: "from_number_adverRules",
-        tooltip: __(
+        /*tooltip: __(
           "If you have Enamad, it is suggested that you purchase a dedicated 9000 line for sending web service SMS and sending SMS to customers. Send a support ticket for this.",
           "farazsms"
-        ),
+        ),*/
       },
     },
     isFetching: true,
@@ -211,7 +213,10 @@ function Settings() {
         draft.inputs.from_number_adver.hasErrors = false;
         draft.inputs.from_number_adver.value = action.value;
         return;
-
+      case "from_number_linesOptions":
+        draft.inputs.from_number.options = action.value;
+        draft.inputs.from_number_adver.options = action.value;
+        return;
       case "submitOptions":
         if (
           !draft.inputs.apikey.hasErrors &&
@@ -261,15 +266,6 @@ function Settings() {
           draft.inputs.admin_number.hasErrors = true;
           draft.inputs.admin_number.errorMessage = __(
             "You must provide your admin number.",
-            "farazsms"
-          );
-        }
-        return;
-      case "from_numberRules":
-        if (!action.value.trim()) {
-          draft.inputs.from_number.hasErrors = true;
-          draft.inputs.from_number.errorMessage = __(
-            "You must provide a service sender number.",
             "farazsms"
           );
         }
@@ -407,6 +403,36 @@ function Settings() {
       return () => clearTimeout(delay);
     }
   }, [state.inputs.admin_number.value]);
+
+  /**
+   * Get lines from IPPanel API
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function getLines() {
+      try {
+        const response = await farazsmsJsObject.getLines;
+        const lines = [];
+        for (const item of response) {
+          const line = JSON.parse(item);
+          lines.push(line);
+        }
+        console.log(lines);
+        const rolesArrayObject = lines.map((line) => ({
+          value: line.number,
+          label: line.number,
+        }));
+        dispatch({
+          type: "from_number_linesOptions",
+          value: rolesArrayObject,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getLines();
+  }, []);
 
   if (state.isFetching) return <LoadingSpinner />;
 

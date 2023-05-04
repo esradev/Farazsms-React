@@ -60,18 +60,22 @@ class Farazsms_Digits {
 			return $check;
 		}
 
-		if ( empty( Farazsms_Base::$custom_phonebook_id ) ) {
-			return $check;
-		}
 		$user_info = get_userdata( $object_id );
 		$list      = [];
 
-		$list[0] = (object) [
-			'number'       => $phone,
-			'name'         => $user_info->display_name ?? '',
-			'phonebook_id' => (int) Farazsms_Base::$custom_phonebook_id
-		];
-		Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
+		if ( ! empty( Farazsms_Base::$custom_phonebook_id ) ) {
+			$list[0] = (object) [
+				'number'       => $phone,
+				'name'         => $user_info->display_name ?? '',
+				'phonebook_id' => (int) Farazsms_Base::$custom_phonebook_id
+			];
+			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
+		}
+
+		$already_sent_one = get_user_meta( $object_id, 'sent_welcome_message', true );
+		if ( ! empty( $already_sent_one ) && $already_sent_one == '1' ) {
+			return $check;
+		}
 
 		Farazsms_Base::send_welcome_message( $phone, $object_id );
 
