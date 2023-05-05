@@ -58,7 +58,7 @@ function App() {
         plugin: "woocommerce/woocommerce",
         hasErrors: false,
         errorMessage: "",
-        info: "",
+        info: "You can send tracking codes and do much more on woocommerce settings.",
         checkCount: 0,
       },
       elementorPro: {
@@ -73,7 +73,7 @@ function App() {
         hasErrors: false,
         errorMessage: "",
         info: __(
-          "Add action after elementor pro forms submitting.",
+          "Add action after elementor pro forms submitting, for save to phonebook and send sms to user or admin. Also we have a cool newsletter widget form.",
           "farazsms"
         ),
         checkCount: 0,
@@ -131,7 +131,7 @@ function App() {
         plugin: "gravityforms/gravityforms",
         hasErrors: false,
         errorMessage: "",
-        info: "",
+        info: "To use settings for Gravity Forms you must enable the REST API, by checking the Enable checkbox in forms > settings > REST API > Enable.",
         checkCount: 0,
       },
       indeedMembershipPro: {
