@@ -3,6 +3,7 @@
  */
 import React from "react";
 import { __ } from "@wordpress/i18n";
+import { sprintf } from "sprintf-js";
 
 /**
  * This component power the settings component.
@@ -27,6 +28,7 @@ const SectionError = (props) => {
                 "You have not checked %s in Integrations section. Please go first there and check %s usage toggle, Then come bake here.",
                 "farazsms"
               ),
+              sectionName,
               sectionName
             )}
           </p>

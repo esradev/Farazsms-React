@@ -112,7 +112,10 @@ function Phonebook(props) {
         if (props.integratedPlugins?.digits?.use) {
           draft.inputs.digits_phonebook.value = action.value.digits_phonebook;
         }
-        if (props.integratedPlugins?.woocommerce?.use) {
+        if (
+          props.integratedPlugins?.woocommerce?.use &&
+          draft.inputs.woo_phonebook
+        ) {
           draft.inputs.woo_phonebook.value = action.value.woo_phonebook;
         }
         if (props.integratedPlugins?.bookly?.use) {
@@ -129,7 +132,10 @@ function Phonebook(props) {
         if (props.integratedPlugins?.digits?.use) {
           draft.inputs.digits_phonebook.options = action.value;
         }
-        if (props.integratedPlugins?.woocommerce?.use) {
+        if (
+          props.integratedPlugins?.woocommerce?.use &&
+          draft.inputs.woo_phonebook
+        ) {
           draft.inputs.woo_phonebook.options = action.value;
         }
         if (props.integratedPlugins?.bookly?.use) {
