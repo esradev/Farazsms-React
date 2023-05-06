@@ -80,7 +80,7 @@ function Settings() {
         ),
       },
       select_roles: {
-        value: "",
+        value: [],
         hasErrors: false,
         errorMessage: "",
         onChange: "select_rolesChange",
@@ -90,6 +90,7 @@ function Settings() {
         options: [],
         noOptionsMessage: __("No options is available", "farazsms"),
         isDependencyUsed: false,
+        isMulti: "isMulti",
       },
       admin_login_notify_pattern: {
         value: "",

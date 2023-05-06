@@ -49,7 +49,6 @@ class Farazsms_Login_Notify {
 	public function __construct() {
 		$login_notify_options = json_decode( get_option( 'farazsms_login_notify_options' ), true );
 		if ( $login_notify_options ) {
-
 			self::$admin_login_notify         = $login_notify_options['admin_login_notify'];
 			self::$admin_login_notify_pattern = $login_notify_options['admin_login_notify_pattern'];
 			self::$select_roles               = $login_notify_options['select_roles'];
@@ -99,8 +98,23 @@ class Farazsms_Login_Notify {
 		$data['date']         = date_i18n( 'H:i:s d-m-Y' );
 		$data['user_login']   = $user->user_login;
 		$data['display_name'] = $user->display_name;
+		// Retrieve all roles of the logged-in user
+		$user_roles = $user->roles;
 
-		self::send_admins_login_notification_to_superadmin( self::$admin_login_notify_pattern, $data );
+		// Check if any of the user's roles match the selected roles
+		$select_roles = json_decode(self::$select_roles, true); // Convert the JSON string to an associative array
+		$selected_role_values = array_column($select_roles, 'value'); // Get an array of role values
+
+		foreach ($user_roles as $user_role) {
+			if (in_array($user_role, $selected_role_values)) {
+				// Current user's role matches one of the selected roles, proceed with sending the notification
+				$data['date'] = date_i18n('H:i:s d-m-Y');
+				$data['user_login'] = $user->user_login;
+				$data['display_name'] = $user->display_name;
+				self::send_admins_login_notification_to_superadmin(self::$admin_login_notify_pattern, $data);
+				break; // Exit the loop if a match is found
+			}
+		}
 	}
 
 	/**
