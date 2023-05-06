@@ -269,7 +269,7 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base {
 			$fields[ $id ] = $field['value'];
 		}
 
-		$from         = $settings['sms_sender_number'];
+		$sender         = $settings['sms_sender_number'];
 		$phone        = $record->replace_setting_shortcodes( $settings['sms_recipient'] );
 		$farazpattern = $settings['sms_pattern_code'];
 		$phonebook    = $settings['phonebook'];
@@ -311,9 +311,9 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base {
 		if ( $settings['sms_to_visitor'] == 'yes' && $settings['sms_send_type'] == 'webservice' ) {
 			if ( str_contains( trim( $content ), '[field' ) ) {
 				$content_value = $record->replace_setting_shortcodes( $settings['sms_content'] );
-				Farazsms_Ippanel::send_message( [ $phone ], $content_value );
+				Farazsms_Ippanel::send_message( [ $phone ], $content_value, $sender );
 			} else {
-				Farazsms_Ippanel::send_message( [ $phone ], $content );
+				Farazsms_Ippanel::send_message( [ $phone ], $content, $sender );
 			}
 		}
 
@@ -350,9 +350,9 @@ class Farazsms_Newsletter_Action_After_Submit extends Action_Base {
 		if ( $settings['sms_to_admin'] == 'yes' && $settings['sms_admin_method'] == 'webservice' ) {
 			if ( str_contains( trim( $admin_content ), '[field' ) ) {
 				$admin_content_value = $record->replace_setting_shortcodes( $settings['sms_admin_content'] );
-				Farazsms_Ippanel::send_message( $admins_numbers, $admin_content_value );
+				Farazsms_Ippanel::send_message( $admins_numbers, $admin_content_value, $sender );
 			} else {
-				Farazsms_Ippanel::send_message( $admins_numbers, $admin_content );
+				Farazsms_Ippanel::send_message( $admins_numbers, $admin_content, $sender );
 			}
 		}
 	}

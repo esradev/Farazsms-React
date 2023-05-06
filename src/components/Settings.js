@@ -409,33 +409,35 @@ function Settings() {
    * @since 2.0.0
    */
   useEffect(() => {
-    async function getLines() {
-      try {
-        const response = await farazsmsJsObject.getLines;
-        const lines = [];
-        for (const item of response) {
-          const line = JSON.parse(item);
-          lines.push(line);
+    if (state.inputs.username.value && state.inputs.password.value) {
+      async function getLines() {
+        try {
+          const response = await AxiosWp.post("/farazsms/v1/get_lines", {
+            username: state.inputs.username.value,
+            password: state.inputs.password.value,
+          });
+          let rolesArrayObject = response["data"]
+            .filter(
+              (line) =>
+                line.number !== "+98resend" && line.number !== "+98voice"
+            )
+            .map((line) => ({
+              value: line.number,
+              label: line.number,
+            }));
+          console.log(rolesArrayObject);
+          dispatch({
+            type: "from_number_linesOptions",
+            value: rolesArrayObject,
+          });
+        } catch (e) {
+          console.log(e);
         }
-        console.log(lines);
-        const rolesArrayObject = lines
-          .filter(
-            (line) => line.number !== "+98resend" && line.number !== "+98voice"
-          )
-          .map((line) => ({
-            value: line.number,
-            label: line.number,
-          }));
-        dispatch({
-          type: "from_number_linesOptions",
-          value: rolesArrayObject,
-        });
-      } catch (e) {
-        console.log(e);
       }
+
+      getLines();
     }
-    getLines();
-  }, []);
+  }, [state.inputs.username.value, state.inputs.password.value]);
 
   if (state.isFetching) return <LoadingSpinner />;
 

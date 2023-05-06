@@ -126,7 +126,6 @@ class Farazsms_Settings {
 				'password'          => Farazsms_Base::$password,
 				'getPhonebooks'     => Farazsms_Ippanel::get_phonebooks(),
 				'getCredit'         => Farazsms_Ippanel::get_credit(),
-				'getLines'          => Farazsms_Ippanel::get_lines(),
 				'getActivePlugins'  => get_option( 'active_plugins' ),
 				'isDigitsInstalled' => function_exists( 'digit_ready' ),
 				'settingsUrl'       => FARAZSMS_SETTINGS_LINK,
@@ -461,7 +460,7 @@ class Farazsms_Settings {
 			if ( $already_sent === '1' ) {
 				return;
 			}
-			$message = __( 'Dear user, your panel will expire less than a month from now. To renew your SMS panel, contact Faraz SMS', 'farazsms' );
+			$message = __( 'Dear user, your panel will expire less than a month from now. To renew your SMS panel, contact Farazsms', 'farazsms' );
 			Farazsms_Ippanel::send_message( [ Farazsms_Base::$admin_number ], $message, '+98club' );
 			update_option( 'sent_low_remaining_days_30', '1' );
 		} elseif ( $daysleft > 1 && $daysleft < 7 ) {
@@ -470,7 +469,7 @@ class Farazsms_Settings {
 				return;
 			}
 
-			$message = __( 'Dear user, your panel will expire less than a week from now. To renew your SMS panel, contact Faraz SMS.', 'farazsms' );
+			$message = __( 'Dear user, your panel will expire less than a week from now. To renew your SMS panel, contact Farazsms.', 'farazsms' );
 			Farazsms_Ippanel::send_message( [ Farazsms_Base::$admin_number ], $message, '+98club' );
 			update_option( 'sent_low_remaining_days_7', '1' );
 		}

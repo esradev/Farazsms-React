@@ -37,6 +37,7 @@ function SelectPhonebook({
       const arr = [];
 
       const phonebooks = await farazsmsJsObject.getPhonebooks;
+      console.log(phonebooks);
       if (!phonebooks || phonebooks.length === 0) {
         dispatchNoPhonebooks();
       } else {

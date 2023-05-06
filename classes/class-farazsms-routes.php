@@ -345,6 +345,15 @@ class Farazsms_Routes {
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
+
+		//Register get_lines rest route
+		register_rest_route( $namespace, '/' . 'get_lines', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_lines' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
 	}
 
 	/**
@@ -1061,6 +1070,47 @@ class Farazsms_Routes {
 		} else {
 			return $response;
 		}
+	}
+
+	/**
+	 * Get lines.
+	 *
+	 * @return array
+	 * @since 2.5.3
+	 */
+	public static function get_lines($auth = [] ) {
+
+		$body     = [
+			'uname' => $auth['username'] ?? Farazsms_Base::$username,
+			'pass'  => $auth['password'] ?? Farazsms_Base::$password,
+			'op'    => 'lines',
+		];
+		$response = wp_remote_post(
+			'http://ippanel.com/api/select',
+			[
+				'method'      => 'POST',
+				'headers'     => [ 'Content-Type' => 'application/json' ],
+				'data_format' => 'body',
+				'body'        => json_encode( $body ),
+			]
+		);
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+		$decoded_response = json_decode($response['body'], true);
+
+		// Use json_decode again to decode the JSON string in the first element of the array
+		$response = json_decode($decoded_response[1], true);
+
+		$convertedArray = [];
+
+		foreach ($response as $jsonString) {
+			$decodedObject = (object) json_decode($jsonString, true);
+			$convertedArray[] = $decodedObject;
+		}
+
+		return $convertedArray;
 	}
 
 
