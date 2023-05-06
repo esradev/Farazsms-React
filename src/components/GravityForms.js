@@ -36,6 +36,11 @@ function GravityForms(props) {
         name: "title",
         type: "text",
         label: __("Title:", "farazsms"),
+        infoTitle: __("Info", "farazsms"),
+        infoBody: __(
+          "To use settings for Gravity Forms you must enable the REST API, by checking the Enable checkbox in forms > settings > REST API > Enable.",
+          "farazsms"
+        ),
       },
       gf_phonebook: {
         value: [],

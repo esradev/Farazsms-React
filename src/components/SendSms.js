@@ -256,7 +256,7 @@ function SendSms(props) {
           handleSubmit={handleSubmit}
           dispatch={dispatch}
           isSaving={state.isSaving}
-          buttonText={__("Send sms", "farazsms")}
+          buttonText={__("Send Sms", "farazsms")}
         />
       </div>
     </div>
