@@ -59,7 +59,7 @@ class Farazsms_Order_Review {
 			add_action( 'wp_enqueue_scripts', [$this, 'enqueue_styles'] );
 			add_action( 'wp_enqueue_scripts', [$this, 'enqueue_scripts'] );
 			add_shortcode( 'farazsms_order_review_landing_page', [$this, 'order_review_page'] );
-			add_action('init', [$this, 'create_order_review_landing_page']);
+			add_action('init', [$this, 'create_order_review_landing_page'], 99, 0);
 			add_action('wp_ajax_farazsms_submit_order_review', [$this, 'farazsms_submit_order_review']);
 			add_action('wp_ajax_nopriv_farazsms_submit_order_review', [$this, 'farazsms_submit_order_review']);
 			add_action( 'woocommerce_thankyou', [$this, 'schedule_review_reminder_sms'] );
