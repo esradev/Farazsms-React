@@ -15,6 +15,7 @@ class Farazsms_Activator {
 		$verify_code_table_name    = $wpdb->prefix . 'farazsms_vcode';
 		$gravity_forms_table_name  = $wpdb->prefix . 'farazsms_gravity_forms';
 		$tracking_codes_table_name = $wpdb->prefix . 'farazsms_tracking_codes';
+		$woocommerce_orders_table_name = $wpdb->prefix . 'farazsms_woocommerce_orders';
 
 		$newsletter                = "CREATE TABLE IF NOT EXISTS `$newsletter_table_name` (
 					 `id` int(10) NOT NULL AUTO_INCREMENT,
@@ -60,11 +61,26 @@ class Farazsms_Activator {
              PRIMARY KEY  (id)
 		) $collate";
 
+		$woocommerce_orders = "CREATE TABLE IF NOT EXISTS `$woocommerce_orders_table_name` (
+					 `id` int(10) NOT NULL AUTO_INCREMENT,
+					 `title` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+					 `phonebook` json DEFAULT NULL,
+					 `order_type` json DEFAULT NULL,
+					 `order_status` json DEFAULT NULL,
+					 `action` json DEFAULT NULL,
+					 `customer_data` json DEFAULT NULL,
+					 `vendor_data` json DEFAULT NULL,
+					 `admin_data` json DEFAULT NULL,
+					 `time` tinytext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+					 PRIMARY KEY (`id`)
+					) $collate";
+
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $newsletter );
 		dbDelta( $verify_code );
 		dbDelta( $gravity_forms );
 		dbDelta( $tracking_codes );
+		dbDelta( $woocommerce_orders );
 
 		// Use ALTER TABLE to add new columns if they don't already exist on gravity forms table
 		// TODO: Can be removed latter.

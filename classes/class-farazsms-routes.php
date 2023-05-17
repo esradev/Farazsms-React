@@ -354,6 +354,33 @@ class Farazsms_Routes {
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
+
+		//Register add_woocommerce_order_action_to_db rest route
+		register_rest_route( $namespace, '/' . 'add_woocommerce_order_action_to_db', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'add_woocommerce_order_action_to_db' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
+
+		//Register get_woocommerce_order_action_from_db rest route
+		register_rest_route( $namespace, '/' . 'get_woocommerce_order_action_from_db', [
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_woocommerce_order_action_from_db' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
+
+		//Register delete_woocommerce_order_action_from_db rest route
+		register_rest_route( $namespace, '/' . 'delete_woocommerce_order_action_from_db', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'delete_woocommerce_order_action_from_db' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
 	}
 
 	/**
@@ -781,10 +808,10 @@ class Farazsms_Routes {
 	 */
 	public function validate_apikey( $data ) {
 
-		$url = 'http://rest.ippanel.com/v1/user';
+		$url  = 'http://rest.ippanel.com/v1/user';
 		$args = [
-			'method'      => 'GET',
-			'headers'     => [
+			'method'  => 'GET',
+			'headers' => [
 				'Authorization' => 'AccessKey ' . $data['apikey'],
 				'Content-Type'  => 'application/json',
 			],
@@ -797,6 +824,7 @@ class Farazsms_Routes {
 		}
 
 		$body = wp_remote_retrieve_body( $response );
+
 		return json_decode( $body, true );
 	}
 
@@ -811,14 +839,14 @@ class Farazsms_Routes {
 	 */
 	public static function get_phonebook_numbers( $phonebook_id ) {
 
-		$url = 'http://api.ippanel.com/api/v1/phonebook/numbers';
+		$url  = 'http://api.ippanel.com/api/v1/phonebook/numbers';
 		$args = [
-			'method'      => 'GET',
-			'headers'     => [
+			'method'  => 'GET',
+			'headers' => [
 				'Authorization' => Farazsms_Base::$apiKey,
 				'Content-Type'  => 'application/json',
 			],
-			'body'        => [
+			'body'    => [
 				'phonebook' => $phonebook_id['phonebook_id'],
 				'page'      => 1,
 				'per_page'  => 10,
@@ -832,6 +860,7 @@ class Farazsms_Routes {
 		}
 
 		$body = wp_remote_retrieve_body( $response );
+
 		return json_decode( $body, true );
 	}
 
@@ -981,7 +1010,7 @@ class Farazsms_Routes {
 		$fixed_phones        = [];
 		$phonebooks_ids      = [];
 
-		if ($sender === '1' ) {
+		if ( $sender === '1' ) {
 			$sender = Farazsms_Base::$fromNum;
 		} else {
 			$sender = Farazsms_Base::$fromNumAdver;
@@ -1003,13 +1032,13 @@ class Farazsms_Routes {
 				}
 			}
 		}
-		$sendToPhones_response = Farazsms_Ippanel::send_message($fixed_phones, $message, $sender);
+		$sendToPhones_response = Farazsms_Ippanel::send_message( $fixed_phones, $message, $sender );
 
 		// Send SMS to phonebooks
 		foreach ( $phonebooks as $phonebook ) {
-			$phonebooks_ids[] =  $phonebook['value'];
+			$phonebooks_ids[] = $phonebook['value'];
 		}
-		$sendToPhonebooks_response = Farazsms_Ippanel::send_sms_to_phonebooks($phonebooks_ids, $message,$sender);
+		$sendToPhonebooks_response = Farazsms_Ippanel::send_sms_to_phonebooks( $phonebooks_ids, $message, $sender );
 
 
 		// Send SMS to subscribers
@@ -1020,7 +1049,7 @@ class Farazsms_Routes {
 			}
 			if ( str_contains( $message, '%name%' ) ) {
 				foreach ( $subscribers as $subscriber ) {
-					$message_fixed = str_replace( '%name%', $subscriber->name, $message );
+					$message_fixed                = str_replace( '%name%', $subscriber->name, $message );
 					$sendToSubscribers_response[] = Farazsms_Ippanel::send_message( [ $subscriber->phone ], $message_fixed, $sender );
 				}
 			} else {
@@ -1034,8 +1063,8 @@ class Farazsms_Routes {
 		}
 
 		return [
-			'sendToPhones_response' => $sendToPhones_response,
-			'sendToPhonebooks_response' => $sendToPhonebooks_response,
+			'sendToPhones_response'      => $sendToPhones_response,
+			'sendToPhonebooks_response'  => $sendToPhonebooks_response,
 			'sendToSubscribers_response' => $sendToSubscribers_response ?? null,
 		];
 	}
@@ -1078,7 +1107,7 @@ class Farazsms_Routes {
 	 * @return array
 	 * @since 2.5.3
 	 */
-	public static function get_lines($auth = [] ) {
+	public static function get_lines( $auth = [] ) {
 
 		$body     = [
 			'uname' => $auth['username'] ?? Farazsms_Base::$username,
@@ -1098,19 +1127,52 @@ class Farazsms_Routes {
 			return false;
 		}
 
-		$decoded_response = json_decode($response['body'], true);
+		$decoded_response = json_decode( $response['body'], true );
 
 		// Use json_decode again to decode the JSON string in the first element of the array
-		$response = json_decode($decoded_response[1], true);
+		$response = json_decode( $decoded_response[1], true );
 
 		$convertedArray = [];
 
-		foreach ($response as $jsonString) {
-			$decodedObject = (object) json_decode($jsonString, true);
+		foreach ( $response as $jsonString ) {
+			$decodedObject    = (object) json_decode( $jsonString, true );
 			$convertedArray[] = $decodedObject;
 		}
 
 		return $convertedArray;
+	}
+
+	public static function add_woocommerce_order_action_to_db( $incomingData ) {
+		global $wpdb;
+
+		$data       = [
+			'title'         => $incomingData['title'] ?: '',
+			'phonebook'     => $incomingData['phonebook'] ?: '',
+			'order_type'    => $incomingData['order_type'] ?: '',
+			'order_status'  => $incomingData['order_status'] ?: '',
+			'action'        => $incomingData['action'] ?: '',
+			'customer_data' => $incomingData['customer_data'] ?: '',
+			'vendor_data'   => $incomingData['vendor_data'] ?: '',
+			'admin_data'    => $incomingData['admin_data'] ?: '',
+			'time'          => $incomingData['time'] ?: '',
+		];
+		$table_name = $wpdb->prefix . 'farazsms_woocommerce_orders';
+
+		return $wpdb->insert( $table_name, $data );
+	}
+
+	public static function get_woocommerce_order_action_from_db() {
+		global $wpdb;
+		$table_name = $wpdb->prefix . 'farazsms_woocommerce_orders';
+
+		return json_encode( $wpdb->get_results( "SELECT * FROM $table_name" ), true );
+	}
+
+	public static function delete_woocommerce_order_action_from_db( $data ) {
+		global $wpdb;
+		$table = $wpdb->prefix . 'farazsms_woocommerce_orders';
+
+		return json_decode( $wpdb->delete( $table, [ 'id' => $data['order_sms_id'] ] ), true );
 	}
 
 
