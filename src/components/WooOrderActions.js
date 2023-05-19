@@ -520,7 +520,7 @@ function WooOrderActions(props) {
    * Get WooCommerce order actions list from DB
    */
   useEffect(() => {
-    async function get_woocommerce_order_action_from_db() {
+    async function get_woocommerce_order_actions_from_db() {
       try {
         const res = await AxiosWp.get(
           "/farazsms/v1/get_woocommerce_order_actions_from_db"
@@ -552,7 +552,7 @@ function WooOrderActions(props) {
       }
     }
 
-    get_woocommerce_order_action_from_db();
+    get_woocommerce_order_actions_from_db();
   }, [state.checkAction]);
 
   const handleSyncActions = async () => {

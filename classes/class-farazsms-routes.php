@@ -310,6 +310,15 @@ class Farazsms_Routes {
 			]
 		] );
 
+		//Register delete_gravity_forms_action_from_db rest route
+		register_rest_route( $namespace, '/' . 'delete_gravity_forms_action_from_db', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'delete_gravity_forms_action_from_db' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
+
 		//Register delete_gravity_forms_actions_from_db rest route
 		register_rest_route( $namespace, '/' . 'delete_gravity_forms_actions_from_db', [
 			[
@@ -947,11 +956,22 @@ class Farazsms_Routes {
 		return json_encode( $wpdb->get_results( "SELECT * FROM $table_name" ), true );
 	}
 
-	public static function delete_gravity_forms_actions_from_db( $action_id ) {
+	public static function delete_gravity_forms_action_from_db( $action_id ) {
 		global $wpdb;
 		$table = $wpdb->prefix . 'farazsms_gravity_forms';
 
 		return json_decode( $wpdb->delete( $table, [ 'id' => $action_id['action_id'] ] ), true );
+	}
+
+	public static function delete_gravity_forms_actions_from_db( $data ) {
+		global $wpdb;
+		$table = $wpdb->prefix . 'farazsms_gravity_forms';
+
+		$ids = implode( ',', array_map( 'intval', $data['actions_ids'] ) );
+
+		$sql = "DELETE FROM $table WHERE id IN ($ids)";
+
+		return $wpdb->query( $sql );
 	}
 
 	/**
@@ -1153,10 +1173,10 @@ class Farazsms_Routes {
 		global $wpdb;
 
 		$data       = [
-			'title'         => $incomingData['title'] ?: '',
-			'order_type'    => json_encode($incomingData['order_type']) ?: '',
-			'order_status'  => json_encode($incomingData['order_status']) ?: '',
-			'action'        => json_encode($incomingData['action']) ?: '',
+			'title'        => $incomingData['title'] ?: '',
+			'order_type'   => json_encode( $incomingData['order_type'] ) ?: '',
+			'order_status' => json_encode( $incomingData['order_status'] ) ?: '',
+			'action'       => json_encode( $incomingData['action'] ) ?: '',
 		];
 		$table_name = $wpdb->prefix . 'farazsms_woocommerce_order_actions';
 

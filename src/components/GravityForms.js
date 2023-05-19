@@ -18,6 +18,8 @@ import SectionError from "../views/SectionError";
 import LoadingSpinner from "../views/LoadingSpinner";
 
 function GravityForms(props) {
+  const [selectedActions, setSelectedActions] = useState([]);
+  const isDeleteDisabled = selectedActions.length === 0;
   const appDispatch = useContext(DispatchContext);
   // Init States
   const originalState = {
@@ -150,7 +152,7 @@ function GravityForms(props) {
     },
     gfSelectedFormId: "",
     gravityFormsActions: "",
-    getActionsAgain: false,
+    checkActions: false,
     isFetching: false,
     isSaving: false,
     sendCount: 0,
@@ -249,9 +251,11 @@ function GravityForms(props) {
       case "getGravityFormsActions":
         draft.gravityFormsActions = action.value;
         return;
-      case "updateGetActionsAgain":
-        draft.getActionsAgain = action.value;
+      case "checkActions":
+        draft.checkActions = true;
         return;
+      case "dontCheckActions":
+        draft.checkActions = false;
       case "formId":
         draft.sendCount++;
         return;
@@ -306,12 +310,22 @@ function GravityForms(props) {
         );
         dispatch({ type: "saveRequestFinished" });
         dispatch({ type: "clearForm" });
-        dispatch({
-          type: "updateGetActionsAgain",
-          value: true,
+        dispatch({ type: "checkActions" });
+        appDispatch({
+          type: "flashMessage",
+          value: {
+            message: __("Action added successfully.", "farazsms"),
+          },
         });
         console.log(newAction);
       } catch (e) {
+        appDispatch({
+          type: "flashMessage",
+          value: {
+            type: "error",
+            message: __("There is an error. Try later.", "farazsms"),
+          },
+        });
         console.log(e);
       }
     }
@@ -415,17 +429,28 @@ function GravityForms(props) {
           type: "getGravityFormsActions",
           value: JSON.parse(getActions.data),
         });
-        dispatch({
-          type: "updateGetActionsAgain",
-          value: false,
-        });
+        dispatch({ type: "dontCheckActions" });
       } catch (e) {
         console.log(e);
       }
     }
 
     get_gravity_forms_actions_from_db();
-  }, []);
+  }, [state.checkActions]);
+
+  const handleSyncActions = async () => {
+    try {
+      dispatch({ type: "checkActions" });
+      appDispatch({
+        type: "flashMessage",
+        value: {
+          message: __("Congrats. Actions synced successfully.", "farazsms"),
+        },
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   /**
    * Delete Gravity Forms action from DB.
@@ -442,7 +467,7 @@ function GravityForms(props) {
       async function deleteActionFromDb() {
         try {
           await AxiosWp.post(
-            "/farazsms/v1/delete_gravity_forms_actions_from_db",
+            "/farazsms/v1/delete_gravity_forms_action_from_db",
             {
               action_id: action.id,
             }
@@ -468,6 +493,54 @@ function GravityForms(props) {
         type: "flashMessage",
         value: {
           message: __("Canceled. Action still there.", "farazsms"),
+          type: "error",
+        },
+      });
+    }
+  };
+
+  const deleteActions = async (actions_ids) => {
+    try {
+      const res = await AxiosWp.post(
+        "/farazsms/v1/delete_gravity_forms_actions_from_db",
+        {
+          actions_ids: actions_ids,
+        }
+      );
+      console.log(res);
+      dispatch({ type: "checkActions" });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const handleSelectAction = (action_id) => {
+    if (selectedActions.includes(action_id)) {
+      setSelectedActions(selectedActions.filter((s) => s !== action_id));
+    } else {
+      setSelectedActions((prev) => [...prev, action_id]);
+    }
+  };
+
+  const handleDeleteSelectedActions = async () => {
+    const isConfirmed = await confirm(
+      __("Do you want to delete the selected actions?", "farazsms")
+    );
+
+    if (isConfirmed) {
+      await deleteActions(selectedActions);
+      setSelectedActions([]);
+      appDispatch({
+        type: "flashMessage",
+        value: {
+          message: __("Selected Actions deleted successfully.", "farazsms"),
+        },
+      });
+    } else {
+      appDispatch({
+        type: "flashMessage",
+        value: {
+          message: __("Canceled. Actions still there.", "farazsms"),
           type: "error",
         },
       });
@@ -513,8 +586,8 @@ function GravityForms(props) {
                     <td>
                       <input
                         type="checkbox"
-                        // checked={selectedSubscribers.includes(action.id)}
-                        // onChange={() => handleSelectSubscriber(action.id)}
+                        checked={selectedActions.includes(action.id)}
+                        onChange={() => handleSelectAction(action.id)}
                       />
                     </td>
                     <td>{action.title}</td>
@@ -538,15 +611,12 @@ function GravityForms(props) {
             <div className="contact-list-actions">
               <button
                 className="contact-delete"
-                // onClick={handleDeleteSelectedSubscribers}
-                // disabled={isDeleteDisabled}
+                onClick={handleDeleteSelectedActions}
+                disabled={isDeleteDisabled}
               >
                 {__("Delete Selected Actions", "farazsms")}
               </button>
-              <button
-                className="contact-sync"
-                // onClick={handleSyncSubscribers}
-              >
+              <button className="contact-sync" onClick={handleSyncActions}>
                 {__("Sync Actions", "farazsms")}
               </button>
             </div>
