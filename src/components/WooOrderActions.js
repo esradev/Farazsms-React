@@ -201,7 +201,7 @@ function WooOrderActions(props) {
         options: [
           {
             value: "save_customer_mobile_to_phonebook",
-            label: __("Save user number to phonebook", "farazsms"),
+            label: __("Save customer mobile to phonebook", "farazsms"),
           },
           {
             value: "send_sms_to_admin",
@@ -216,6 +216,15 @@ function WooOrderActions(props) {
             label: __("Send SMS to vendor", "farazsms"),
           },
         ],
+      },
+      mobile_meta_key: {
+        value: "",
+        onChange: "mobile_meta_keyChange",
+        name: "mobile_meta_key",
+        type: "select",
+        label: __("Select meta key for vendor or customer mobile.", "farazsms"),
+        options: [],
+        isDependencyUsed: false,
       },
       woo_order_phonebook: {
         value: [],
@@ -360,6 +369,10 @@ function WooOrderActions(props) {
       case "order_turnChange":
         draft.inputs.order_turn.value = action.value;
         return;
+      case "fetchWoocommerceProducts":
+        draft.inputs.included_products.options = action.value;
+        draft.inputs.excluded_products.options = action.value;
+        return;
       case "included_productsChange":
         draft.inputs.included_products.value = action.value;
         return;
@@ -372,14 +385,30 @@ function WooOrderActions(props) {
       case "actionChange":
         draft.inputs.action.value = action.value;
         if (action.value.value === "save_customer_mobile_to_phonebook") {
+          draft.inputs.mobile_meta_key.isDependencyUsed = true;
           draft.inputs.woo_order_phonebook.isDependencyUsed = true;
           draft.inputs.action_time.isDependencyUsed = false;
           draft.inputs.sms_pattern.isDependencyUsed = false;
           draft.inputs.sms_message.isDependencyUsed = false;
+        } else if (action.value.value === "send_sms_to_customer") {
+          draft.inputs.mobile_meta_key.isDependencyUsed = true;
+          draft.inputs.woo_order_phonebook.isDependencyUsed = false;
+          draft.inputs.action_time.isDependencyUsed = true;
+        } else if (action.value.value === "send_sms_to_vendor") {
+          draft.inputs.mobile_meta_key.isDependencyUsed = true;
+          draft.inputs.woo_order_phonebook.isDependencyUsed = false;
+          draft.inputs.action_time.isDependencyUsed = true;
         } else {
+          draft.inputs.mobile_meta_key.isDependencyUsed = false;
           draft.inputs.woo_order_phonebook.isDependencyUsed = false;
           draft.inputs.action_time.isDependencyUsed = true;
         }
+        return;
+      case "mobile_meta_keyOptions":
+        draft.inputs.mobile_meta_key.options = action.value;
+        return;
+      case "mobile_meta_keyChange":
+        draft.inputs.mobile_meta_key.value = action.value;
         return;
       case "woo_order_phonebookChange":
         draft.inputs.woo_order_phonebook.value = action.value;
@@ -475,6 +504,7 @@ function WooOrderActions(props) {
             action: {
               type: state.inputs.action.value,
               phonebook: state.inputs.woo_order_phonebook.value ?? "",
+              mobile_meta_key: state.inputs.mobile_meta_key.value ?? "",
               sms_pattern: state.inputs.sms_pattern.value ?? "",
               sms_message: state.inputs.sms_message.value ?? "",
               action_time: state.inputs.action_time.value ?? "",
@@ -501,6 +531,33 @@ function WooOrderActions(props) {
   }
 
   /**
+   * Get usermeta keys from DB rest routes
+   *
+   * @since 2.0.0
+   */
+  useEffect(() => {
+    async function getUsermeta() {
+      try {
+        const getUsermeta = await AxiosWp.get("/farazsms/v1/usermeta", {});
+        const usermetaArrayObject = Object.keys(getUsermeta.data).map(
+          (key) => ({
+            value: getUsermeta.data[key].meta_key,
+            label: getUsermeta.data[key].meta_key,
+          })
+        );
+        dispatch({
+          type: "mobile_meta_keyOptions",
+          value: usermetaArrayObject,
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    getUsermeta();
+  }, []);
+
+  /**
    * Get phonebooks.
    *
    * @since 2.0.0
@@ -515,6 +572,40 @@ function WooOrderActions(props) {
       value: phonebooksArrayObject,
     });
   }
+
+  useEffect(() => {
+    async function getWoocommerceProducts() {
+      try {
+        let page = 1;
+        let allProducts = [];
+
+        while (true) {
+          const res = await AxiosWp.get(
+            `/wc/v3/products?per_page=100&page=${page}`
+          );
+          const products = res.data;
+
+          if (products.length === 0) {
+            break; // Exit the loop if no more products are returned
+          }
+          allProducts = allProducts.concat(products);
+          page++;
+        }
+
+        const productArray = allProducts.map((product) => ({
+          value: product.id,
+          label: product.name,
+        }));
+
+        console.log(productArray);
+        dispatch({ type: "fetchWoocommerceProducts", value: productArray });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    getWoocommerceProducts();
+  }, []);
 
   /**
    * Get WooCommerce order actions list from DB

@@ -30,7 +30,7 @@ import LoginNotify from "../components/LoginNotify";
 import Phonebook from "../components/Phonebook";
 import Synchronization from "../components/Synchronization";
 import Comments from "../components/Comments";
-import WooCommerce from "../components/WooCommerce";
+import Woocommerce from "../components/Woocommerce";
 import WooOrderActions from "../components/WooOrderActions";
 import Edd from "../components/Edd";
 import Newsletter from "../components/Newsletter";
@@ -80,7 +80,7 @@ const SidebarItems = [
   },
   {
     path: "/woocommerce",
-    element: WooCommerce,
+    element: Woocommerce,
     name: __("WooCommerce", "farazsms"),
     icon: <AiOutlineShoppingCart />,
   },
