@@ -3,6 +3,7 @@ const BrowserSyncPlugin = require("browser-sync-webpack-plugin");
 
 module.exports = {
   ...defaultConfig,
+  mode: "development",
   plugins: [
     ...defaultConfig.plugins,
     new BrowserSyncPlugin({

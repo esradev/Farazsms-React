@@ -381,6 +381,16 @@ class Farazsms_Routes {
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
+
+		//Register delete_woocommerce_order_actions_from_db rest route
+		register_rest_route( $namespace, '/' . 'delete_woocommerce_order_actions_from_db', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'delete_woocommerce_order_actions_from_db' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
+
 	}
 
 	/**
@@ -888,11 +898,11 @@ class Farazsms_Routes {
 	/**
 	 * Delete multiple subscribers.
 	 */
-	public static function delete_subscribers_from_db( $subscriber_ids ) {
+	public static function delete_subscribers_from_db( $data ) {
 		global $wpdb;
 		$table = $wpdb->prefix . 'farazsms_newsletter';
 
-		$ids = implode( ',', array_map( 'intval', $subscriber_ids ) );
+		$ids = implode( ',', array_map( 'intval', $data['subscribers_ids'] ) );
 
 		$sql = "DELETE FROM $table WHERE id IN ($ids)";
 
@@ -937,9 +947,6 @@ class Farazsms_Routes {
 		return json_encode( $wpdb->get_results( "SELECT * FROM $table_name" ), true );
 	}
 
-	/**
-	 * Delete subscriber.
-	 */
 	public static function delete_gravity_forms_actions_from_db( $action_id ) {
 		global $wpdb;
 		$table = $wpdb->prefix . 'farazsms_gravity_forms';
@@ -1147,32 +1154,38 @@ class Farazsms_Routes {
 
 		$data       = [
 			'title'         => $incomingData['title'] ?: '',
-			'phonebook'     => $incomingData['phonebook'] ?: '',
-			'order_type'    => $incomingData['order_type'] ?: '',
-			'order_status'  => $incomingData['order_status'] ?: '',
-			'action'        => $incomingData['action'] ?: '',
-			'customer_data' => $incomingData['customer_data'] ?: '',
-			'vendor_data'   => $incomingData['vendor_data'] ?: '',
-			'admin_data'    => $incomingData['admin_data'] ?: '',
-			'time'          => $incomingData['time'] ?: '',
+			'order_type'    => json_encode($incomingData['order_type']) ?: '',
+			'order_status'  => json_encode($incomingData['order_status']) ?: '',
+			'action'        => json_encode($incomingData['action']) ?: '',
 		];
-		$table_name = $wpdb->prefix . 'farazsms_woocommerce_orders';
+		$table_name = $wpdb->prefix . 'farazsms_woocommerce_order_actions';
 
 		return $wpdb->insert( $table_name, $data );
 	}
 
 	public static function get_woocommerce_order_actions_from_db() {
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'farazsms_woocommerce_orders';
+		$table_name = $wpdb->prefix . 'farazsms_woocommerce_order_actions';
 
 		return json_encode( $wpdb->get_results( "SELECT * FROM $table_name" ), true );
 	}
 
 	public static function delete_woocommerce_order_action_from_db( $data ) {
 		global $wpdb;
-		$table = $wpdb->prefix . 'farazsms_woocommerce_orders';
+		$table = $wpdb->prefix . 'farazsms_woocommerce_order_actions';
 
-		return json_decode( $wpdb->delete( $table, [ 'id' => $data['order_sms_id'] ] ), true );
+		return json_decode( $wpdb->delete( $table, [ 'id' => $data['action_id'] ] ), true );
+	}
+
+	public static function delete_woocommerce_order_actions_from_db( $data ) {
+		global $wpdb;
+		$table = $wpdb->prefix . 'farazsms_woocommerce_order_actions';
+
+		$ids = implode( ',', array_map( 'intval', $data['actions_ids'] ) );
+
+		$sql = "DELETE FROM $table WHERE id IN ($ids)";
+
+		return $wpdb->query( $sql );
 	}
 
 

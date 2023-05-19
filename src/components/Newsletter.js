@@ -390,11 +390,15 @@ function Newsletter() {
     }
   };
 
-  const deleteSubscribers = async (subscribers_id) => {
+  const deleteSubscribers = async (subscribers_ids) => {
     try {
-      await AxiosWp.post("/farazsms/v1/delete_subscribers_from_db", {
-        subscriber_id: subscribers_id,
-      });
+      const res = await AxiosWp.post(
+        "/farazsms/v1/delete_subscribers_from_db",
+        {
+          subscribers_ids: subscribers_ids,
+        }
+      );
+      console.log(res);
       dispatch({
         type: "updateCurrentSubscribers",
         value: state.currentSubscribers - 1,
