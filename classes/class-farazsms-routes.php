@@ -364,11 +364,11 @@ class Farazsms_Routes {
 			]
 		] );
 
-		//Register get_woocommerce_order_action_from_db rest route
-		register_rest_route( $namespace, '/' . 'get_woocommerce_order_action_from_db', [
+		//Register get_woocommerce_order_actions_from_db rest route
+		register_rest_route( $namespace, '/' . 'get_woocommerce_order_actions_from_db', [
 			[
 				'methods'             => 'GET',
-				'callback'            => [ $this, 'get_woocommerce_order_action_from_db' ],
+				'callback'            => [ $this, 'get_woocommerce_order_actions_from_db' ],
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
@@ -1161,7 +1161,7 @@ class Farazsms_Routes {
 		return $wpdb->insert( $table_name, $data );
 	}
 
-	public static function get_woocommerce_order_action_from_db() {
+	public static function get_woocommerce_order_actions_from_db() {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'farazsms_woocommerce_orders';
 

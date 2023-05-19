@@ -205,13 +205,6 @@ function Woocommerce(props) {
 
   if (state.isFetching) return <LoadingSpinner />;
 
-  /**
-   * The settings form created by mapping over originalState as the main state.
-   * For every value on inputs rendered a SettingsFormInput.
-   *
-   * @since 2.0.0
-   */
-
   if (props.integratedPlugins.woocommerce.use) {
     return (
       <div>

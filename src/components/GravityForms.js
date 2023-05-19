@@ -150,7 +150,7 @@ function GravityForms(props) {
     },
     gfSelectedFormId: "",
     gravityFormsActions: "",
-    currentActions: 0,
+    getActionsAgain: false,
     isFetching: false,
     isSaving: false,
     sendCount: 0,
@@ -249,8 +249,8 @@ function GravityForms(props) {
       case "getGravityFormsActions":
         draft.gravityFormsActions = action.value;
         return;
-      case "updateCurrentActions":
-        draft.currentActions = action.value;
+      case "updateGetActionsAgain":
+        draft.getActionsAgain = action.value;
         return;
       case "formId":
         draft.sendCount++;
@@ -307,8 +307,8 @@ function GravityForms(props) {
         dispatch({ type: "saveRequestFinished" });
         dispatch({ type: "clearForm" });
         dispatch({
-          type: "updateCurrentActions",
-          value: state.currentActions + 1,
+          type: "updateGetActionsAgain",
+          value: true,
         });
         console.log(newAction);
       } catch (e) {
@@ -410,13 +410,14 @@ function GravityForms(props) {
         const getActions = await AxiosWp.get(
           "/farazsms/v1/get_gravity_forms_actions_from_db"
         );
+        console.log(getActions);
         dispatch({
           type: "getGravityFormsActions",
           value: JSON.parse(getActions.data),
         });
         dispatch({
-          type: "updateCurrentActions",
-          value: JSON.parse(getActions.data),
+          type: "updateGetActionsAgain",
+          value: false,
         });
       } catch (e) {
         console.log(e);
@@ -424,11 +425,11 @@ function GravityForms(props) {
     }
 
     get_gravity_forms_actions_from_db();
-  }, [[], state.currentActions]);
+  }, []);
 
   /**
    * Delete Gravity Forms action from DB.
-   * @param subscriber
+   * @param action
    * @returns {Promise<void>}
    */
   const { confirm } = useConfirm();
@@ -447,8 +448,8 @@ function GravityForms(props) {
             }
           );
           dispatch({
-            type: "updateCurrentActions",
-            value: state.currentActions - 1,
+            type: "updateGetActionsAgain",
+            value: true,
           });
           appDispatch({
             type: "flashMessage",
@@ -494,35 +495,61 @@ function GravityForms(props) {
         </div>
         {state.gravityFormsActions && (
           <div className="list-contacts">
-            <ol className="contact-list">
-              {state.gravityFormsActions.map((action) => (
-                <li key={action.id} className="contact-list-item">
-                  <div className="contact-details">
-                    <p>{action.title}</p>
-                  </div>
-                  <div className="contact-details">
-                    <p>{action.phonebook_label}</p>
-                  </div>
-                  <div className="contact-details">
-                    <p>{action.form_label}</p>
-                  </div>
-                  <div className="contact-details">
-                    <p>{action.field_label}</p>
-                  </div>
-                  <div className="contact-details">
-                    <p>{action.action_label}</p>
-                  </div>
-                  <button
-                    className="contact-delete"
-                    onClick={() => {
-                      deleteAction(action);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </li>
-              ))}
-            </ol>
+            <table className="contact-list">
+              <thead>
+                <tr>
+                  <th>{__("Select", "farazsms")}</th>
+                  <th>{__("Title", "farazsms")}</th>
+                  <th>{__("Phonebook label", "farazsms")}</th>
+                  <th>{__("Form label", "farazsms")}</th>
+                  <th>{__("Field label", "farazsms")}</th>
+                  <th>{__("Action type", "farazsms")}</th>
+                  <th>{__("Delete", "farazsms")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {state?.gravityFormsActions.map((action, index) => (
+                  <tr key={action.id}>
+                    <td>
+                      <input
+                        type="checkbox"
+                        // checked={selectedSubscribers.includes(action.id)}
+                        // onChange={() => handleSelectSubscriber(action.id)}
+                      />
+                    </td>
+                    <td>{action.title}</td>
+                    <td>{action.phonebook_label}</td>
+                    <td>{action.form_label}</td>
+                    <td>{action.field_label}</td>
+                    <td>{action.action_label}</td>
+
+                    <td>
+                      <button
+                        className="contact-delete"
+                        onClick={() => deleteAction(action)}
+                      >
+                        {__("Delete", "farazsms")}
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div className="contact-list-actions">
+              <button
+                className="contact-delete"
+                // onClick={handleDeleteSelectedSubscribers}
+                // disabled={isDeleteDisabled}
+              >
+                {__("Delete Selected Actions", "farazsms")}
+              </button>
+              <button
+                className="contact-sync"
+                // onClick={handleSyncSubscribers}
+              >
+                {__("Sync Actions", "farazsms")}
+              </button>
+            </div>
           </div>
         )}
       </>

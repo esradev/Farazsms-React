@@ -17,6 +17,7 @@ import {
   AiOutlineUserSwitch,
   AiOutlineUnorderedList,
   AiOutlineSend,
+  AiOutlineShopping,
 } from "react-icons/ai";
 import { TbAffiliate } from "react-icons/tb";
 import { BiSupport } from "react-icons/bi";
@@ -30,6 +31,7 @@ import Phonebook from "../components/Phonebook";
 import Synchronization from "../components/Synchronization";
 import Comments from "../components/Comments";
 import WooCommerce from "../components/WooCommerce";
+import WooOrderActions from "../components/WooOrderActions";
 import Edd from "../components/Edd";
 import Newsletter from "../components/Newsletter";
 import Aff from "../components/Aff";
@@ -81,6 +83,12 @@ const SidebarItems = [
     element: WooCommerce,
     name: __("WooCommerce", "farazsms"),
     icon: <AiOutlineShoppingCart />,
+  },
+  {
+    path: "/woocommerce_order_actions",
+    element: WooOrderActions,
+    name: __("WooCommerce order actions", "farazsms"),
+    icon: <AiOutlineShopping />,
   },
   {
     path: "/edd",
