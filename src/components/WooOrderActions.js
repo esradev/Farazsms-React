@@ -162,7 +162,7 @@ function WooOrderActions(props) {
             label: __("Completed", "farazsms"),
           },
           {
-            value: "on-hold",
+            value: "on_hold",
             label: __("On-Hold", "farazsms"),
           },
           {
@@ -174,16 +174,12 @@ function WooOrderActions(props) {
             label: __("Refunded", "farazsms"),
           },
           {
-            value: "partially_refunded",
-            label: __("Partially Refunded", "farazsms"),
+            value: "authentication_required",
+            label: __("Authentication required", "farazsms"),
           },
           {
-            value: "pending",
-            label: __("Pending", "farazsms"),
-          },
-          {
-            value: "archived",
-            label: __("Archived", "farazsms"),
+            value: "checkout_draft ",
+            label: __("Checkout draft", "farazsms"),
           },
         ],
       },

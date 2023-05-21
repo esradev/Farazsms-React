@@ -121,15 +121,18 @@ function Settings() {
     ippanelUsername: "",
   };
 
+  const [state, dispatch] = useImmerReducer(ourReduser, originalState);
+
   function ourReduser(draft, action) {
     switch (action.type) {
       case "fetchComplete":
-        draft.inputs.apikey.value = action.value.apikey;
-        draft.inputs.username.value = action.value.username;
-        draft.inputs.password.value = action.value.password;
-        draft.inputs.admin_number.value = action.value.admin_number;
-        draft.inputs.from_number.value = action.value.from_number;
-        draft.inputs.from_number_adver.value = action.value.from_number_adver;
+        draft.inputs.apikey.value = action.value?.apikey || "";
+        draft.inputs.username.value = action.value?.username || "";
+        draft.inputs.password.value = action.value?.password || "";
+        draft.inputs.admin_number.value = action.value?.admin_number || "";
+        draft.inputs.from_number.value = action.value?.from_number || "";
+        draft.inputs.from_number_adver.value =
+          action.value?.from_number_adver || "";
 
         draft.isFetching = false;
         return;
@@ -274,8 +277,6 @@ function Settings() {
         return;
     }
   }
-
-  const [state, dispatch] = useImmerReducer(ourReduser, originalState);
 
   /**
    * HandelSubmit

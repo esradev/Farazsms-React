@@ -5,7 +5,7 @@
  * Plugin Name: Farazsms
  * Plugin URI: https://farazsms.com/farazsms-wordpress-plugin/
  * Description: By using the Farazsms plugin, you can professionally equip your site with a powerful SMS tool for information and marketing. Saving customers numbers in the phone book, sending welcome SMS, sending reply SMS to comments, etc. are part of the features of this powerful SMS plugin.
- * Version: 2.6.0
+ * Version: 2.6.2
  * Requires at least: 5.8
  * Requires PHP: 7.2
  * Author: farazsmsdeveloper
@@ -78,7 +78,7 @@ class Farazsms
 		 *
 		 * @since 2.0.0
 		 */
-		define('FARAZSMS_VERSION', '2.6.0');
+		define('FARAZSMS_VERSION', '2.6.2');
 		define('FARAZSMS_FILE', __FILE__);
 		define('FARAZSMS_PATH', plugin_dir_path(FARAZSMS_FILE));
 		define('FARAZSMS_BASE', plugin_basename(FARAZSMS_FILE));

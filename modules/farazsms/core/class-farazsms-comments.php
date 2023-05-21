@@ -225,12 +225,12 @@ class Farazsms_Comments {
 		$data = self::comments_farazsms_shortcode( $comment );
 
 		if ( ! empty( $comment_author_mobile ) && ! empty( self::$comment_pattern ) ) {
-			self::send_comment_sms( '093004010381', self::$comment_pattern, $data );
+			self::send_comment_sms( $comment_author_mobile, self::$comment_pattern, $data );
 		}
 
 		if ( ! empty( $comment_parent_author_mobile ) && ! empty( self::$comment_reply_pattern ) ) {
 			$reply_data = self::comments_farazsms_shortcode( $comment );
-			self::send_comment_sms( '09155772051', self::$comment_reply_pattern, $reply_data );
+			self::send_comment_sms( $comment_parent_author_mobile, self::$comment_reply_pattern, $reply_data );
 		}
 	}
 
