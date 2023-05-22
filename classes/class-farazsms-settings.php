@@ -349,7 +349,7 @@ class Farazsms_Settings {
 			]
 		);
 		$credit = Farazsms_Ippanel::get_credit();
-		if ( $credit ) {
+		if ( is_numeric($credit) ) {
 			$wp_admin_bar->add_menu(
 				[
 					'parent' => 'farazsms',

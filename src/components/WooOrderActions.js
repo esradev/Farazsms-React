@@ -467,6 +467,7 @@ function WooOrderActions(props) {
         draft.inputs.order_status.value = "";
         draft.inputs.action.value = "";
         draft.inputs.woo_order_phonebook.value = "";
+        draft.inputs.mobile_meta_key.value = "";
         draft.inputs.action_time.value = "";
         draft.inputs.time.value = "";
         draft.inputs.sms_pattern.value = "";

@@ -84,12 +84,12 @@ const SidebarItems = [
     name: __("WooCommerce", "farazsms"),
     icon: <AiOutlineShoppingCart />,
   },
-  // {
-  //   path: "/woocommerce_order_actions",
-  //   element: WooOrderActions,
-  //   name: __("WooCommerce order actions", "farazsms"),
-  //   icon: <AiOutlineShopping />,
-  // },
+  {
+    path: "/woocommerce_order_actions",
+    element: WooOrderActions,
+    name: __("WooCommerce order actions", "farazsms"),
+    icon: <AiOutlineShopping />,
+  },
   {
     path: "/edd",
     element: Edd,
