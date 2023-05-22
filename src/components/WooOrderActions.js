@@ -146,8 +146,8 @@ function WooOrderActions(props) {
         ),
         options: [
           {
-            value: "pending_payment",
-            label: __("Pending Payment", "farazsms"),
+            value: "pending",
+            label: __("Pending", "farazsms"),
           },
           {
             value: "failed",
@@ -172,14 +172,6 @@ function WooOrderActions(props) {
           {
             value: "refunded",
             label: __("Refunded", "farazsms"),
-          },
-          {
-            value: "authentication_required",
-            label: __("Authentication required", "farazsms"),
-          },
-          {
-            value: "checkout_draft ",
-            label: __("Checkout draft", "farazsms"),
           },
         ],
       },

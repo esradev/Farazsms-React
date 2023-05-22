@@ -144,7 +144,7 @@ class Farazsms_Newsletter {
 				'phonebook_id' => (int) $phonebook_id
 			];
 			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
-			if ( $send_welcome_msg !== 'no' ) {
+			if ( $send_welcome_msg === true ) {
 				self::send_newsletter_welcome_message( $mobile, $name, $welcome_msg_pattern );
 			}
 		} else {
