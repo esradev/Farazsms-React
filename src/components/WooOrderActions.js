@@ -60,12 +60,25 @@ function WooOrderActions(props) {
             label: __("X orders", "farazsms"),
           },
           {
-            value: "orders_that_include",
-            label: __("Orders that include:", "farazsms"),
+            value: "only_include",
+            label: __(
+              "The order should only include the selected product(s)",
+              "farazsms"
+            ),
           },
           {
-            value: "orders_that_not_include",
-            label: __("Orders that not include:", "farazsms"),
+            value: "include",
+            label: __(
+              "The order includes the selected product(s) and can contain other products.",
+              "farazsms"
+            ),
+          },
+          {
+            value: "not_include",
+            label: __(
+              "The order does not include any of the selected product(s)",
+              "farazsms"
+            ),
           },
         ],
       },
