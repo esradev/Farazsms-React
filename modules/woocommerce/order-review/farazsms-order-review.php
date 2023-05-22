@@ -62,7 +62,6 @@ class Farazsms_Order_Review {
 			add_action('init', [$this, 'create_order_review_landing_page'], 99, 0);
 			add_action('wp_ajax_farazsms_submit_order_review', [$this, 'farazsms_submit_order_review']);
 			add_action('wp_ajax_nopriv_farazsms_submit_order_review', [$this, 'farazsms_submit_order_review']);
-//			add_action( 'woocommerce_thankyou', [$this, 'schedule_review_reminder_sms'] );
 			add_action( 'woocommerce_order_status_completed', [$this, 'schedule_review_reminder_sms'] );
 		}
 

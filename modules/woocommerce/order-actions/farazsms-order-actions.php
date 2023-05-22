@@ -44,13 +44,13 @@ class Farazsms_Order_Actions {
 	 */
 	public function __construct() {
 		// Hook functions for order status changes
-		add_action( 'woocommerce_order_status_pending', [ $this, 'farazsms_fetch_pending_order_actions' ], 99,1 );
-		add_action( 'woocommerce_order_status_failed', [ $this, 'farazsms_fetch_failed_order_actions' ], 99,1 );
-		add_action( 'woocommerce_order_status_processing', [ $this, 'farazsms_fetch_processing_order_actions' ], 99,1 );
-		add_action( 'woocommerce_order_status_completed', [ $this, 'farazsms_fetch_completed_order_actions' ], 99,1 );
-		add_action( 'woocommerce_order_status_on-hold', [ $this, 'farazsms_fetch_on_hold_order_actions' ], 99,1 );
-		add_action( 'woocommerce_order_status_cancelled', [ $this, 'farazsms_fetch_cancelled_order_actions' ], 99,1 );
-		add_action( 'woocommerce_order_status_refunded', [ $this, 'farazsms_fetch_refunded_order_actions' ], 99,1 );
+		add_action( 'woocommerce_order_status_pending', [ $this, 'farazsms_fetch_pending_order_actions' ] );
+		add_action( 'woocommerce_order_status_failed', [ $this, 'farazsms_fetch_failed_order_actions' ] );
+		add_action( 'woocommerce_order_status_processing', [ $this, 'farazsms_fetch_processing_order_actions' ] );
+		add_action( 'woocommerce_order_status_completed', [ $this, 'farazsms_fetch_completed_order_actions' ] );
+		add_action( 'woocommerce_order_status_on-hold', [ $this, 'farazsms_fetch_on_hold_order_actions' ] );
+		add_action( 'woocommerce_order_status_cancelled', [ $this, 'farazsms_fetch_cancelled_order_actions' ] );
+		add_action( 'woocommerce_order_status_refunded', [ $this, 'farazsms_fetch_refunded_order_actions' ] );
 	}
 
 	// Pending payment order status
@@ -68,8 +68,11 @@ class Farazsms_Order_Actions {
 			$order_type = $order_action['order_type'];
 
 			if(self::is_order_match_order_type($order, $order_type)) {
-				// Perform necessary actions for each order action
-				// Example: Send SMS, process data, etc.
+				// Check if the action type is 'save_customer_mobile_to_phonebook'
+				if ($order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook') {
+					// Perform necessary actions for saving phone to phonebook
+					self::save_customer_phone_to_phonebook($order, $order_action);
+				}
 			}
 		}
 	}
@@ -90,8 +93,11 @@ class Farazsms_Order_Actions {
 			$order_type = $order_action['order_type'];
 
 			if(self::is_order_match_order_type($order, $order_type)) {
-				// Perform necessary actions for each order action
-				// Example: Send SMS, process data, etc.
+				// Check if the action type is 'save_customer_mobile_to_phonebook'
+				if ($order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook') {
+					// Perform necessary actions for saving phone to phonebook
+					self::save_customer_phone_to_phonebook($order, $order_action);
+				}
 			}
 		}
 	}
@@ -111,8 +117,11 @@ class Farazsms_Order_Actions {
 			$order_type = $order_action['order_type'];
 
 			if(self::is_order_match_order_type($order, $order_type)) {
-				// Perform necessary actions for each order action
-				// Example: Send SMS, process data, etc.
+				// Check if the action type is 'save_customer_mobile_to_phonebook'
+				if ($order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook') {
+					// Perform necessary actions for saving phone to phonebook
+					self::save_customer_phone_to_phonebook($order, $order_action);
+				}
 			}
 		}
 	}
@@ -132,8 +141,11 @@ class Farazsms_Order_Actions {
 			$order_type = $order_action['order_type'];
 
 			if(self::is_order_match_order_type($order, $order_type)) {
-				// Perform necessary actions for each order action
-				// Example: Send SMS, process data, etc.
+				// Check if the action type is 'save_customer_mobile_to_phonebook'
+				if ($order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook') {
+					// Perform necessary actions for saving phone to phonebook
+					self::save_customer_phone_to_phonebook($order, $order_action);
+				}
 			}
 		}
 	}
@@ -153,8 +165,11 @@ class Farazsms_Order_Actions {
 			$order_type = $order_action['order_type'];
 
 			if(self::is_order_match_order_type($order, $order_type)) {
-				// Perform necessary actions for each order action
-				// Example: Send SMS, process data, etc.
+				// Check if the action type is 'save_customer_mobile_to_phonebook'
+				if ($order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook') {
+					// Perform necessary actions for saving phone to phonebook
+					self::save_customer_phone_to_phonebook($order, $order_action);
+				}
 			}
 		}
 	}
@@ -174,8 +189,11 @@ class Farazsms_Order_Actions {
 			$order_type = $order_action['order_type'];
 
 			if(self::is_order_match_order_type($order, $order_type)) {
-				// Perform necessary actions for each order action
-				// Example: Send SMS, process data, etc.
+				// Check if the action type is 'save_customer_mobile_to_phonebook'
+				if ($order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook') {
+					// Perform necessary actions for saving phone to phonebook
+					self::save_customer_phone_to_phonebook($order, $order_action);
+				}
 			}
 		}
 	}
@@ -195,8 +213,11 @@ class Farazsms_Order_Actions {
 			$order_type = $order_action['order_type'];
 
 			if(self::is_order_match_order_type($order, $order_type)) {
-				// Perform necessary actions for each order action
-				// Example: Send SMS, process data, etc.
+				// Check if the action type is 'save_customer_mobile_to_phonebook'
+				if ($order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook') {
+					// Perform necessary actions for saving phone to phonebook
+					self::save_customer_phone_to_phonebook($order, $order_action);
+				}
 			}
 		}
 	}
@@ -298,6 +319,21 @@ class Farazsms_Order_Actions {
 		return true; // All criteria match the order
 	}
 
+	public static function save_customer_phone_to_phonebook($order, $order_action) {
+		$phone = $order->get_billing_phone();
+		$billing_first_name = $order->get_billing_first_name();
+		$billing_last_name = $order->get_billing_last_name();
+		$user_full_name = $billing_first_name . ' ' . $billing_last_name;
+
+		$list = [];
+		$list[0] = (object) [
+			'number'       => $phone,
+			'name'         => $user_full_name ?? '',
+			'phonebook_id' => (int) $order_action['action']['phonebook']['value']
+		];
+
+		Farazsms_Ippanel::save_list_of_phones_to_phonebook($list);
+	}
 
 }
 
