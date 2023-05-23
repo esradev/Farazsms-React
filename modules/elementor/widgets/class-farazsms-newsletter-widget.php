@@ -661,12 +661,12 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
 		$settings = $this->get_settings_for_display();
 		?>
         <div id="fsms_newsletter">
-            <h3><?php echo esc_attr( $settings['form_title'] ); ?></h3>
+            <h3><?php echo esc_html( $settings['form_title'] ); ?></h3>
             <form id="fsms_newsletter_form">
                 <input id="fsms_newsletter_phonebook_id" type="hidden" name="phonebook_id"
                        value="<?php echo esc_attr( $settings['phonebook'] ); ?>">
-                <input id="fsms_newsletter_send_verify_code" type="hidden"
-                       value="<?php echo esc_attr($settings['send_verify_code'] ); ?>">
+                <input id="fsms_newsletter_send_verify_code" type="hidden" name="send_verify_code"
+                       value="<?php echo esc_attr($settings['send_verify_code']); ?>">
                 <input id="fsms_newsletter_verify_code_pattern" type="hidden" name="verify_code_pattern"
                        value="<?php echo esc_attr( $settings['verify_code_pattern'] ); ?>">
                 <input id="fsms_newsletter_send_welcome_msg" type="hidden" name="send_welcome_msg"
@@ -711,7 +711,6 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
         <script>
           jQuery(document).ready(function ($) {
             'use strict'
-            let newsletter_send_ver_code = $('#newsletter_send_ver_code')
             let submit_div = $('.fsms_newsletter_submit')
             let submit_button = $('#fsms_newsletter_submit_button')
             let submit_code = $('#fsms_newsletter_submit_code')
@@ -758,7 +757,7 @@ class Farazsms_Newsletter_Widget extends Widget_Base {
               $.post('<?php echo admin_url( 'admin-ajax.php' ); ?>', data, function (response) {
                 submit_button.removeClass('fsms_button--loading')
                 if (response.success) {
-                  if (newsletter_send_ver_code.val() === false) {
+                  if (send_verify_code.val() !== 'yes') {
                     newsletter_message.removeClass('success error')
                     newsletter_message.hide()
                     newsletter_message.empty()
