@@ -4,7 +4,7 @@
  * Farazsms order actions.
  *
  * @package Farazsms
- * @since 2.0.0
+ * @since 2.7.0
  */
 
 // Exit if accessed directly.
@@ -21,7 +21,7 @@ class Farazsms_Order_Actions {
 	 *
 	 * @access private
 	 * @var object Class object.
-	 * @since 2.0.0
+	 * @since 2.7.0
 	 */
 	private static $instance;
 
@@ -29,7 +29,7 @@ class Farazsms_Order_Actions {
 	 * Initiator
 	 *
 	 * @return object Initialized object of class.
-	 * @since 2.0.0
+	 * @since 2.7.0
 	 */
 	public static function get_instance() {
 		if ( ! isset( self::$instance ) ) {
@@ -44,180 +44,37 @@ class Farazsms_Order_Actions {
 	 */
 	public function __construct() {
 		// Hook functions for order status changes
-		add_action( 'woocommerce_order_status_pending', [ $this, 'farazsms_fetch_pending_order_actions' ] );
-		add_action( 'woocommerce_order_status_failed', [ $this, 'farazsms_fetch_failed_order_actions' ] );
-		add_action( 'woocommerce_order_status_processing', [ $this, 'farazsms_fetch_processing_order_actions' ] );
-		add_action( 'woocommerce_order_status_completed', [ $this, 'farazsms_fetch_completed_order_actions' ] );
-		add_action( 'woocommerce_order_status_on-hold', [ $this, 'farazsms_fetch_on_hold_order_actions' ] );
-		add_action( 'woocommerce_order_status_cancelled', [ $this, 'farazsms_fetch_cancelled_order_actions' ] );
-		add_action( 'woocommerce_order_status_refunded', [ $this, 'farazsms_fetch_refunded_order_actions' ] );
-	}
+		$order_statuses = [
+			'pending',
+			'failed',
+			'processing',
+			'completed',
+			'on-hold',
+			'cancelled',
+			'refunded',
+		];
 
-	// Pending payment order status
-	public function farazsms_fetch_pending_order_actions( $order_id ) {
-		// Fetch rows with order_status set to 'pending' from the database table
-		$order_actions = self::fetch_order_actions_by_status( 'pending' );
-
-		//Get the WooCommerce order object
-		$order = wc_get_order( $order_id );
-
-		// Process the fetched order actions
-		foreach ( $order_actions as $order_action ) {
-
-			//Get the order_type
-			$order_type = $order_action['order_type'];
-
-			if(self::is_order_match_order_type($order, $order_type)) {
-				// Check if the action type is 'save_customer_mobile_to_phonebook'
-				if ($order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook') {
-					// Perform necessary actions for saving phone to phonebook
-					self::save_customer_phone_to_phonebook($order, $order_action);
-				}
-			}
+		foreach ( $order_statuses as $status ) {
+			add_action( 'woocommerce_order_status_' . $status, [ $this, 'farazsms_fetch_order_actions' ] );
 		}
 	}
 
-	// Failed order status
-	public function farazsms_fetch_failed_order_actions( $order_id ) {
-		// Fetch rows with order_status set to 'failed' from the database table
-		$order_actions = self::fetch_order_actions_by_status( 'failed' );
+	public function farazsms_fetch_order_actions( $order_id ) {
+		$status = str_replace( 'woocommerce_order_status_', '', current_filter() );
 
-		//Get the WooCommerce order object
-		$order = wc_get_order( $order_id );
+		// Fetch rows with the current order status from the database table
+		$order_actions = self::fetch_order_actions_by_status( $status );
 
-
-		// Process the fetched order actions
-		foreach ( $order_actions as $order_action ) {
-
-			//Get the order_type
-			$order_type = $order_action['order_type'];
-
-			if(self::is_order_match_order_type($order, $order_type)) {
-				// Check if the action type is 'save_customer_mobile_to_phonebook'
-				if ($order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook') {
-					// Perform necessary actions for saving phone to phonebook
-					self::save_customer_phone_to_phonebook($order, $order_action);
-				}
-			}
-		}
-	}
-
-	// Processing order status
-	public function farazsms_fetch_processing_order_actions( $order_id ) {
-		// Fetch rows with order_status set to 'processing' from the database table
-		$order_actions = self::fetch_order_actions_by_status( 'processing' );
-
-		//Get the WooCommerce order object
+		// Get the WooCommerce order object
 		$order = wc_get_order( $order_id );
 
 		// Process the fetched order actions
 		foreach ( $order_actions as $order_action ) {
-
-			//Get the order_type
 			$order_type = $order_action['order_type'];
 
-			if(self::is_order_match_order_type($order, $order_type)) {
-				// Check if the action type is 'save_customer_mobile_to_phonebook'
-				if ($order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook') {
-					// Perform necessary actions for saving phone to phonebook
-					self::save_customer_phone_to_phonebook($order, $order_action);
-				}
-			}
-		}
-	}
-
-	// Completed order status
-	public function farazsms_fetch_completed_order_actions( $order_id ) {
-		// Fetch rows with order_status set to 'completed' from the database table
-		$order_actions = self::fetch_order_actions_by_status( 'completed' );
-
-		//Get the WooCommerce order object
-		$order = wc_get_order( $order_id );
-
-		// Process the fetched order actions
-		foreach ( $order_actions as $order_action ) {
-
-			//Get the order_type
-			$order_type = $order_action['order_type'];
-
-			if(self::is_order_match_order_type($order, $order_type)) {
-				// Check if the action type is 'save_customer_mobile_to_phonebook'
-				if ($order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook') {
-					// Perform necessary actions for saving phone to phonebook
-					self::save_customer_phone_to_phonebook($order, $order_action);
-				}
-			}
-		}
-	}
-
-	// On-hold order status
-	public function farazsms_fetch_on_hold_order_actions( $order_id ) {
-		// Fetch rows with order_status set to 'on-hold' from the database table
-		$order_actions = self::fetch_order_actions_by_status( 'on-hold' );
-
-		//Get the WooCommerce order object
-		$order = wc_get_order( $order_id );
-
-		// Process the fetched order actions
-		foreach ( $order_actions as $order_action ) {
-
-			//Get the order_type
-			$order_type = $order_action['order_type'];
-
-			if(self::is_order_match_order_type($order, $order_type)) {
-				// Check if the action type is 'save_customer_mobile_to_phonebook'
-				if ($order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook') {
-					// Perform necessary actions for saving phone to phonebook
-					self::save_customer_phone_to_phonebook($order, $order_action);
-				}
-			}
-		}
-	}
-
-	// Cancelled order status
-	public function farazsms_fetch_cancelled_order_actions( $order_id ) {
-		// Fetch rows with order_status set to 'cancelled' from the database table
-		$order_actions = self::fetch_order_actions_by_status( 'cancelled' );
-
-		//Get the WooCommerce order object
-		$order = wc_get_order( $order_id );
-
-		// Process the fetched order actions
-		foreach ( $order_actions as $order_action ) {
-
-			//Get the order_type
-			$order_type = $order_action['order_type'];
-
-			if(self::is_order_match_order_type($order, $order_type)) {
-				// Check if the action type is 'save_customer_mobile_to_phonebook'
-				if ($order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook') {
-					// Perform necessary actions for saving phone to phonebook
-					self::save_customer_phone_to_phonebook($order, $order_action);
-				}
-			}
-		}
-	}
-
-	// Refunded order status
-	public function farazsms_fetch_refunded_order_actions( $order_id ) {
-		// Fetch rows with order_status set to 'refunded' from the database table
-		$order_actions = self::fetch_order_actions_by_status( 'refunded' );
-
-		//Get the WooCommerce order object
-		$order = wc_get_order( $order_id );
-
-		// Process the fetched order actions
-		foreach ( $order_actions as $order_action ) {
-
-			//Get the order_type
-			$order_type = $order_action['order_type'];
-
-			if(self::is_order_match_order_type($order, $order_type)) {
-				// Check if the action type is 'save_customer_mobile_to_phonebook'
-				if ($order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook') {
-					// Perform necessary actions for saving phone to phonebook
-					self::save_customer_phone_to_phonebook($order, $order_action);
-				}
+			if ( self::is_order_match_order_type( $order, $order_type ) && $order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook' ) {
+				// Perform necessary actions for saving phone to phonebook
+				self::save_customer_phone_to_phonebook( $order, $order_action );
 			}
 		}
 	}

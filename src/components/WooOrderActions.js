@@ -175,7 +175,7 @@ function WooOrderActions(props) {
             label: __("Completed", "farazsms"),
           },
           {
-            value: "on_hold",
+            value: "on-hold",
             label: __("On-Hold", "farazsms"),
           },
           {

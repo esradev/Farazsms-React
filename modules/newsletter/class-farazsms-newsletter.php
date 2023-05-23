@@ -296,14 +296,14 @@ class Farazsms_Newsletter {
 	 */
 	public static function send_newsletter_welcome_message( $phone, $name, $welcome_msg_pattern ) {
 
-		if ( empty( $phone ) || empty( $name ) || empty( $welcome_msg_pattern ) ) {
+		if ( empty( $phone ) || empty( $welcome_msg_pattern ) ) {
 			return;
 		}
 		$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( $welcome_msg_pattern );
 		$input_data     = [];
 		$phone          = Farazsms_Base::fsms_tr_num( $phone );
 		if ( str_contains( $patternMessage, '%name%' ) ) {
-			$input_data['name'] = strval( $name );
+			$input_data['name'] = strval( $name ) ?: 'دوست عزیز';
 		}
 
 		return Farazsms_Ippanel::send_pattern( $welcome_msg_pattern, $phone, $input_data );
@@ -337,43 +337,6 @@ class Farazsms_Newsletter {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Add phone to newsletter.
-	 */
-	public function fsms_add_phone_to_newsletter() {
-		$code                = sanitize_text_field($_POST['code'] );
-		$mobile              = sanitize_text_field( $_POST['mobile'] );
-		$name                = sanitize_text_field( $_POST['name'] );
-		$phonebook_id        = isset( $_POST['phonebook_id'] ) ? absint( $_POST['phonebook_id'] ) : self::$news_phonebook_id;
-		$send_welcome_msg    = isset( $_POST['send_welcome_msg'] ) ? sanitize_text_field( $_POST['send_welcome_msg'] ) : self::$news_welcome;
-		$welcome_msg_pattern = isset( $_POST['welcome_msg_pattern'] ) ? sanitize_text_field( $_POST['welcome_msg_pattern'] ) : self::$news_welcome_pattern;
-
-
-		$is_valid = self::check_if_code_is_valid( $mobile, $code );
-		if ( $is_valid ) {
-			$data = [
-				'phone'      => $mobile,
-				'name'       => $name,
-				'phone_book' => $phonebook_id,
-			];
-			self::save_subscriber_to_db( $data );
-
-			$list[0] = (object) [
-				'number'       => $mobile,
-				'name'         => $name,
-				'phonebook_id' => (int) $phonebook_id
-			];
-			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
-			if ( $send_welcome_msg !== 'no' ) {
-				self::send_newsletter_welcome_message( $mobile, $name, $welcome_msg_pattern );
-			}
-			wp_send_json_success();
-
-		} else {
-			wp_send_json_error();
-		}
 	}
 }
 

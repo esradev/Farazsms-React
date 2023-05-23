@@ -90,6 +90,7 @@ function App() {
         check: "digitsCheck",
         inactive: "digitsInactive",
         plugin: "digits/digit",
+        alt_plugin: "digits_ippanel/digits_ippanel",
         hasErrors: false,
         errorMessage: "",
         info: "",

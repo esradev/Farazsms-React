@@ -100,7 +100,8 @@ function Integrations(props) {
               const getPlugins = await AxiosWp.get("/wp/v2/plugins", {});
               if (getPlugins.data) {
                 const findPlugin = getPlugins.data.find(
-                  (element) => element.plugin === plugin.plugin
+                  (element) =>
+                    element.plugin === plugin.plugin || plugin?.alt_plugin
                 );
                 if (findPlugin) {
                   if (findPlugin.status === "inactive") {
@@ -134,10 +135,10 @@ function Integrations(props) {
         async function deactivatePlugin() {
           try {
             const getPlugins = await AxiosWp.get("/wp/v2/plugins", {});
-            console.log(getPlugins);
             if (getPlugins.data) {
               const findPlugin = getPlugins.data.find(
-                (element) => element.plugin === plugin.plugin
+                (element) =>
+                  element.plugin === plugin.plugin || plugin?.alt_plugin
               );
               if (findPlugin) {
                 if (findPlugin.status === "inactive") {
