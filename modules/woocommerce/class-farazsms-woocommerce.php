@@ -474,7 +474,7 @@ class Farazsms_Woocommerce {
 							$last_order->get_formatted_billing_full_name(),
 							$last_order->get_formatted_shipping_full_name(),
 						], $retention_message );
-						Farazsms_Ippanel::send_message( [ $last_order->get_billing_phone() ], $message );
+						Farazsms_Ippanel::send_message( [ $last_order->get_billing_phone() ], $message , Farazsms_Base::$fromNum);
 						update_post_meta( $last_order->get_id(), 'sent_retention_message', '1' );
 					}
 				}

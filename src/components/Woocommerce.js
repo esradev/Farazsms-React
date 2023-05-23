@@ -52,7 +52,10 @@ function Woocommerce(props) {
         onChange: "woo_pollChange",
         name: "woo_poll",
         type: "checkbox",
-        label: __("Sending a timed survey SMS for WooCommerce?", "farazsms"),
+        label: __(
+          "Sending a timed survey SMS for completed WooCommerce orders?",
+          "farazsms"
+        ),
       },
       woo_poll_time: {
         value: "",
@@ -74,7 +77,7 @@ function Woocommerce(props) {
         label: __("Message content:", "farazsms"),
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
-          "time %time% | store name %sitename% | reciew page link %review_link%",
+          "time %items% | store name %customer_name% | reciew page link %review_link% (required)",
           "farazsms"
         ),
         isDependencyUsed: false,

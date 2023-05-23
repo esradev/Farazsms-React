@@ -234,7 +234,7 @@ class Farazsms_Newsletter {
 		$phones      = wp_list_pluck( $subscribers, 'phone' );
 
 		// Send notification message to all subscribers.
-		Farazsms_Ippanel::send_message( $phones, $notification_message );
+		Farazsms_Ippanel::send_message( $phones, $notification_message, Farazsms_Base::$fromNum );
 	}
 
 
@@ -278,7 +278,7 @@ class Farazsms_Newsletter {
 		$subscribers = self::get_subscribers();
 		$phones      = wp_list_pluck( $subscribers, 'phone' );
 
-		Farazsms_Ippanel::send_message( $phones, $message_template );
+		Farazsms_Ippanel::send_message( $phones, $message_template, Farazsms_Base::$fromNum );
 	}
 
 	/**

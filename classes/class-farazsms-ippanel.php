@@ -179,11 +179,7 @@ class Farazsms_Ippanel {
 	 *
 	 * @return array|mixed|WP_Error|null
 	 */
-	public static function send_message( $phones ,$message, $sender = '') {
-
-		if ( ! $sender) {
-			$sender = Farazsms_Base::$fromNum;
-		}
+	public static function send_message( $phones ,$message, $sender) {
 
 		$body     = [
 			'op'      => 'send',
@@ -210,10 +206,7 @@ class Farazsms_Ippanel {
 		return json_decode( $response['body'] );
 	}
 
-	public static function send_sms_to_phonebooks ($phonebooks_ids, $message ,$sender = '' ) {
-		if ( ! $sender) {
-			$sender = Farazsms_Base::$fromNum;
-		}
+	public static function send_sms_to_phonebooks ($phonebooks_ids, $message ,$sender ) {
 
 		$url = 'https://ippanel.com/services.jspd';
 
