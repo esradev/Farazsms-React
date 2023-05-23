@@ -89,7 +89,7 @@ function App() {
         onChange: "digitsChange",
         check: "digitsCheck",
         inactive: "digitsInactive",
-        plugin: "digits/digits",
+        plugin: "digits/digit",
         hasErrors: false,
         errorMessage: "",
         info: "",
