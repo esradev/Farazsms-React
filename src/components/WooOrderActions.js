@@ -285,7 +285,7 @@ function WooOrderActions(props) {
         isDependencyUsed: false,
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
-          "%customer_name% | %vendor_name% | %order_id% | %total_price% | %products%",
+          "%customer_name% | %order_id% | %total_price%",
           "farazsms"
         ),
       },
@@ -298,7 +298,7 @@ function WooOrderActions(props) {
         isDependencyUsed: false,
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
-          "%customer_name% | %vendor_name% | %order_id% | %total_price% | %products%",
+          "%customer_name% | %order_id% | %total_price%",
           "farazsms"
         ),
       },

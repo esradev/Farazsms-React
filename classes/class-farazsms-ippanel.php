@@ -410,7 +410,7 @@ class Farazsms_Ippanel {
 			'body' => json_encode($params),
 		] );
 
-		return json_decode($response , true);
+		return $response;
 	}
 
 }
