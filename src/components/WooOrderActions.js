@@ -212,10 +212,6 @@ function WooOrderActions(props) {
             value: "send_sms_to_customer",
             label: __("Send SMS to customer", "farazsms"),
           },
-          {
-            value: "send_sms_to_vendor",
-            label: __("Send SMS to vendor", "farazsms"),
-          },
         ],
       },
       mobile_meta_key: {
@@ -223,7 +219,7 @@ function WooOrderActions(props) {
         onChange: "mobile_meta_keyChange",
         name: "mobile_meta_key",
         type: "select",
-        label: __("Select meta key for vendor or customer mobile.", "farazsms"),
+        label: __("Select meta key for customer mobile.", "farazsms"),
         options: [],
         isDependencyUsed: false,
       },

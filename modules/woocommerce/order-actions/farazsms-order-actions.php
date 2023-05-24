@@ -84,17 +84,6 @@ class Farazsms_Order_Actions {
 			$customer_number = get_post_meta( $order->get_customer_id(), $order_action['action']['mobile_meta_key']['value'], true );
 			$customer_name   = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
 
-			// Get vendor numbers
-			$vendor_numbers = [];
-			$items          = $order->get_items();
-			foreach ( $items as $item ) {
-				$vendor_id     = get_post_field( 'post_author', $item->get_product_id() );
-				$vendor_number = get_user_meta( $vendor_id, $order_action['action']['mobile_meta_key']['value'], true );
-				if ( $vendor_number ) {
-					$vendor_numbers[] = $vendor_number;
-				}
-			}
-
 			// Init $input_data
 			$input_data = [];
 			$variables = [
@@ -116,9 +105,9 @@ class Farazsms_Order_Actions {
 			];
 
 			// Fill $input_data using $message or $patternMessage
-			if ($message) {
+			if (is_string($message)) {
 				$input_data = Farazsms_Base::extract_dynamic_data($message, $variables);
-			} elseif ($patternMessage) {
+			} elseif (is_string($patternMessage)) {
 				$input_data = Farazsms_Base::extract_dynamic_data($patternMessage, $variables);
 			}
 
@@ -128,13 +117,11 @@ class Farazsms_Order_Actions {
 
 
 			if ( self::is_order_match_order_type( $order, $order_type ) ) {
-
 				// Check if the action type is 'save_customer_mobile_to_phonebook'
 				if ( $order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook' ) {
 					// Perform necessary actions for saving phone to phonebook
 					self::save_customer_phone_to_phonebook( $order, $order_action );
 				}
-
 				if ($order_action['action']['type']['value'] === 'send_sms_to_admin') {
 					if ( $action_time === 'immediately' ) {
 						// Perform necessary actions for sending pattern immediately
@@ -144,7 +131,6 @@ class Farazsms_Order_Actions {
 						Farazsms_Ippanel::send_timed_sms( Farazsms_Base::$admin_number, $time_to_send, $message );
 					}
 				}
-
 				if ( $order_action['action']['type']['value'] === 'send_sms_to_customer' ) {
 					if ( $action_time === 'immediately' ) {
 						// Perform necessary actions for sending pattern immediately
@@ -154,19 +140,6 @@ class Farazsms_Order_Actions {
 						Farazsms_Ippanel::send_timed_sms( $customer_number, $time_to_send, $message );
 					}
 				}
-
-				/*if ($order_action['action']['type']['value'] === 'send_sms_to_vendor') {
-					if ( $action_time === 'immediately' ) {
-						// Perform necessary actions for sending pattern immediately
-						Farazsms_Ippanel::send_pattern( $pattern, $vendor_numbers, $input_data );
-					} else {
-						// Perform necessary actions for sending timed SMS to vendors
-						foreach ( $vendor_numbers as $vendor_number ) {
-							Farazsms_Ippanel::send_timed_sms( $vendor_number, $time_to_send, $message );
-						}
-					}
-				}*/
-
 			}
 		}
 	}
@@ -261,7 +234,7 @@ class Farazsms_Order_Actions {
 			}
 		}
 
-		return false; // All criteria match the order
+		return true; // All criteria match the order
 	}
 
 	public static function save_customer_phone_to_phonebook( $order, $order_action ) {
