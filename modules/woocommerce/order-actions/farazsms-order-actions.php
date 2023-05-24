@@ -64,23 +64,25 @@ class Farazsms_Order_Actions {
 
 		// Fetch rows with the current order status from the database table
 		$order_actions = self::fetch_order_actions_by_status( $status );
-
-		// Get the WooCommerce order object
+		//Get the WooCommerce order object
 		$order = wc_get_order( $order_id );
 
 		// Process the fetched order actions
 		foreach ( $order_actions as $order_action ) {
-			$order_type       = $order_action['order_type'];
+			$total_price = $order->get_total();
+
+			//Get the order_type
+			$order_type       = $order_action['order_type']['type']['value'];
 			$action_type      = $order_action['action']['type']['value'];
 			$action_time      = $order_action['action']['action_time'];
 			$action_time_days = $order_action['action']['time'];
 			$message          = $order_action['action']['sms_message'];
 			$pattern          = $order_action['action']['sms_pattern'];
+			$patternMessage   = Farazsms_Ippanel::get_registered_pattern_variables( $pattern );
 
-			// Get customer number
+			// Get customer data
 			$customer_number = get_post_meta( $order->get_customer_id(), $order_action['action']['mobile_meta_key']['value'], true );
 			$customer_name   = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
-
 
 			// Get vendor numbers
 			$vendor_numbers = [];
@@ -93,96 +95,78 @@ class Farazsms_Order_Actions {
 				}
 			}
 
-			$order_id    = $order->get_id();
-			$total_price = $order->get_total();
-
-			//Get pattern content and set their data.
+			// Init $input_data
 			$input_data = [];
+			$variables = [
+				[
+					'key' => 'customer_name',
+					'placeholder' => '%customer_name%',
+					'value' => $customer_name
+				],
+				[
+					'key' => 'order_id',
+					'placeholder' => '%order_id%',
+					'value' => $order_id
+				],
+				[
+					'key' => 'total_price',
+					'placeholder' => '%total_price%',
+					'value' => $total_price
+				]
+			];
 
-			$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( $pattern );
-
-			if ( $patternMessage === null ) {
-				throw new Exception( __( 'Probably your pattern has not been approved', 'farazsms' ) );
-			}
-
-			if ( str_contains( $patternMessage, '%order_id%' ) ) {
-				$input_data['order_id'] = strval( $order_id );
-			}
-			if ( str_contains( $patternMessage, '%customer_name%' ) ) {
-				$input_data['customer_name'] = strval( $customer_name );
-			}
-			if ( str_contains( $patternMessage, '%total_price%' ) ) {
-				$input_data['total_price'] = strval( $total_price );
-			}
-
-
-			// Check if specific strings are present in the message and perform corresponding actions
-			if ( str_contains( $message, '%order_id%' ) ) {
-				$input_data['order_id'] = strval( $order_id );
-			}
-			if ( str_contains( $message, '%customer_name%' ) ) {
-				$input_data['customer_name'] = strval( $customer_name );
-			}
-			if ( str_contains( $message, '%total_price%' ) ) {
-				$input_data['total_price'] = strval( $total_price );
+			// Fill $input_data using $message or $patternMessage
+			if ($message) {
+				$input_data = Farazsms_Base::extract_dynamic_data($message, $variables);
+			} elseif ($patternMessage) {
+				$input_data = Farazsms_Base::extract_dynamic_data($patternMessage, $variables);
 			}
 
 			// Get the order date
-			$order_date = $order->get_date_created();
+			$order_date   = $order->get_date_created();
+			$time_to_send = Farazsms_Base::calculate_scheduled_date( $order_date, $action_time_days );
 
-			// Convert the order date to the desired timezone (e.g., Tehran)
-			$order_date_tehran = clone $order_date;
-			$order_date_tehran->setTimezone( new DateTimeZone( 'Asia/Tehran' ) );
-
-			// Calculate the scheduled date for sending the SMS
-			$scheduled_date = $order_date_tehran->modify( '+' . intval( $action_time_days ) . ' days' );
-
-			// Format the scheduled date as an ISO 8601 string for Tehran timezone
-			$time_tehran = $scheduled_date->format( 'Y-m-d\TH:i:s.uO' );
 
 			if ( self::is_order_match_order_type( $order, $order_type ) ) {
-				switch ( $action_type ) {
-					case 'save_customer_mobile_to_phonebook':
-						// Perform necessary actions for saving phone to phonebook
-						self::save_customer_phone_to_phonebook( $order, $order_action );
-						break;
 
-					case 'send_sms_to_admin':
-						if ( $action_time === 'immediately' ) {
-							// Perform necessary actions for sending pattern immediately
-							Farazsms_Ippanel::send_pattern( $pattern, Farazsms_Base::$admin_number, $input_data );
-						} else {
-							// Perform necessary actions for sending timed SMS to admin
-							Farazsms_Ippanel::send_timed_sms( Farazsms_Base::$admin_number, $time_tehran, $message );
-						}
-						break;
-
-					case 'send_sms_to_customer':
-						if ( $action_time === 'immediately' ) {
-							// Perform necessary actions for sending pattern immediately
-							Farazsms_Ippanel::send_pattern( $pattern, $customer_number, $input_data );
-						} else {
-							// Perform necessary actions for sending timed SMS to customer
-							Farazsms_Ippanel::send_timed_sms( $customer_number, $time_tehran, $message );
-						}
-						break;
-
-					case 'send_sms_to_vendor':
-						if ( $action_time === 'immediately' ) {
-							// Perform necessary actions for sending pattern immediately
-							Farazsms_Ippanel::send_pattern( $pattern, $vendor_numbers, $input_data );
-						} else {
-							// Perform necessary actions for sending timed SMS to vendors
-							foreach ( $vendor_numbers as $vendor_number ) {
-								Farazsms_Ippanel::send_timed_sms( $vendor_number, $time_tehran, $message );
-							}
-						}
-						break;
-
-					default:
-						// Action type not recognized
-						break;
+				// Check if the action type is 'save_customer_mobile_to_phonebook'
+				if ( $order_action['action']['type']['value'] === 'save_customer_mobile_to_phonebook' ) {
+					// Perform necessary actions for saving phone to phonebook
+					self::save_customer_phone_to_phonebook( $order, $order_action );
 				}
+
+				if ($order_action['action']['type']['value'] === 'send_sms_to_admin') {
+					if ( $action_time === 'immediately' ) {
+						// Perform necessary actions for sending pattern immediately
+						Farazsms_Ippanel::send_pattern( $pattern, Farazsms_Base::$admin_number, $input_data );
+					} else {
+						// Perform necessary actions for sending timed SMS to admin
+						Farazsms_Ippanel::send_timed_sms( Farazsms_Base::$admin_number, $time_to_send, $message );
+					}
+				}
+
+				if ( $order_action['action']['type']['value'] === 'send_sms_to_customer' ) {
+					if ( $action_time === 'immediately' ) {
+						// Perform necessary actions for sending pattern immediately
+						Farazsms_Ippanel::send_pattern( $pattern, $customer_number, $input_data );
+					} else {
+						// Perform necessary actions for sending timed SMS to customer
+						Farazsms_Ippanel::send_timed_sms( $customer_number, $time_to_send, $message );
+					}
+				}
+
+				/*if ($order_action['action']['type']['value'] === 'send_sms_to_vendor') {
+					if ( $action_time === 'immediately' ) {
+						// Perform necessary actions for sending pattern immediately
+						Farazsms_Ippanel::send_pattern( $pattern, $vendor_numbers, $input_data );
+					} else {
+						// Perform necessary actions for sending timed SMS to vendors
+						foreach ( $vendor_numbers as $vendor_number ) {
+							Farazsms_Ippanel::send_timed_sms( $vendor_number, $time_to_send, $message );
+						}
+					}
+				}*/
+
 			}
 		}
 	}
@@ -215,13 +199,8 @@ class Farazsms_Order_Actions {
 	}
 
 	public static function is_order_match_order_type( $order, $order_type ) {
-
-		// Extract the order type value
-		$order_type_value = $order_type['type']['value'] ?? null;
-
-
 		// Check if the order type is "all_orders"
-		if ( $order_type_value === 'all_orders' ) {
+		if ( $order_type === 'all_orders' ) {
 			return true; // Match all orders
 		}
 
@@ -262,11 +241,11 @@ class Farazsms_Order_Actions {
 				return in_array( $item->get_product_id(), $product_ids );
 			} );
 
-			if ( $order_type_value === 'only_include' && count( $found_products ) !== count( $order_items ) ) {
+			if ( $order_type === 'only_include' && count( $found_products ) !== count( $order_items ) ) {
 				return false; // Order contains other products besides the included products
 			}
 
-			if ( $order_type_value === 'include' && empty( $found_products ) ) {
+			if ( $order_type === 'include' && empty( $found_products ) ) {
 				return false; // No included products found in the order
 			}
 		}
@@ -282,7 +261,7 @@ class Farazsms_Order_Actions {
 			}
 		}
 
-		return true; // All criteria match the order
+		return false; // All criteria match the order
 	}
 
 	public static function save_customer_phone_to_phonebook( $order, $order_action ) {

@@ -250,6 +250,39 @@ class Farazsms_Base {
 		// Remove any remaining leading zeros
 		return ltrim( $phone_number, '0' );
 	}
+
+	public static function calculate_scheduled_date($date, $days) {
+		// Create a DateTime object based on the given date
+		$scheduled_date = new DateTime($date);
+
+		// Modify the scheduled date by adding the specified number of days
+		$scheduled_date->modify('+' . intval($days) . ' days');
+
+		// Return the formatted scheduled date
+		return $scheduled_date->format('Y-m-d\TH:i:s.uO');
+	}
+
+	/**
+	 * Extracts dynamic data from a message.
+	 *
+	 * @param string $message The message.
+	 * @param array  $variables      An array of variables to check for in the pattern.
+	 *                               Each variable should be an associative array with the keys 'key', 'placeholder', and 'value'.
+	 *
+	 * @return array An array containing the dynamic data.
+	 */
+	public static function extract_dynamic_data( string $message, array $variables) {
+		$data = [];
+
+		foreach ($variables as $variable) {
+			if (str_contains($message, $variable['placeholder'])) {
+				$data[$variable['key']] = strval($variable['value']);
+			}
+		}
+
+		return $data;
+	}
+
 }
 
 Farazsms_Base::get_instance();
