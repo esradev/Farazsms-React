@@ -143,11 +143,9 @@ class Farazsms_Ippanel {
 	 * @since 2.0.0
 	 */
 	public static function get_registered_pattern_variables( $patternCode ) {
-		$uname = Farazsms_Base::$username;
-		$pass  = Farazsms_Base::$password;
 		$body  = [
-			'uname'       => $uname,
-			'pass'        => $pass,
+			'uname'       => Farazsms_Base::$username,
+			'pass'        => Farazsms_Base::$password,
 			'op'          => 'patternInfo',
 			'patternCode' => $patternCode,
 		];

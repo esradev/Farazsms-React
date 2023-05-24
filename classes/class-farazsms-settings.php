@@ -237,6 +237,17 @@ class Farazsms_Settings {
 				'admin_page',
 			]
 		);
+        add_submenu_page(
+			FARAZSMS_SLUG,
+			__( 'Farazsms', 'farazsms' ),
+	        __( 'WooCommerce Order SMS', 'farazsms' ),
+			'manage_options',
+			FARAZSMS_SLUG . '#/woocommerce_order_actions',
+			[
+				$this,
+				'admin_page',
+			]
+		);
 		add_submenu_page(
 			FARAZSMS_SLUG,
 			__( 'Farazsms', 'farazsms' ),
