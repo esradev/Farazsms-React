@@ -1,4 +1,4 @@
-=== Farazsms ===
+=== افزونه پیامک حرفه ای فراز اس ام اس ===
 Contributors: farazsmsdeveloper
 Tags: Mobile Verification, order notification, order sms, sms plugin, woocommerce sms integration, digits sms, gravity form sms, bookly sms
 Requires at least: 5.8
@@ -8,110 +8,148 @@ Stable tag: 2.6.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-You can use Farazsms plugin to power up your site with automatic tool for send SMS and save numbers on phonebooks.
+شما می توانید با استفاده از افزونه فراز اس ام اس، سایت خود را با ابزاری خودکار برای ارسال پیامک و ذخیره شماره در دفترچه تلفن، تقویت کنید.
 
 == Description ==
 
-**#1 Best SMS plugin for Woocommerce, EDD, Bookly, Gravity Forms, Affiliate and Membership pluins.**
-â˜…â˜…â˜…â˜…â˜…<br>
+**#1 بهترین افزونه پیامکی برای ادغام با افزونه های Woocommerce، EDD، Bookly، Gravity Forms، Affiliate و Membership.**
+<br>
 
-Farazsms plugin is programmed based on the latest sms marketing methods with the guidance of marketing professors in Iran and around the world. This plugin adds customer club to your site and sends special sms messages to your site users at different times.
-you have the possibility of saving the mobile number of site users with Farazsms plugin into your IPPanel system phonebooks.
+افزونه فراز اس ام اس بر اساس جدیدترین متدهای بازاریابی پیامکی با راهنمایی اساتید بازاریابی در ایران و جهان برنامه ریزی شده است. این افزونه باشگاه مشتریان را به سایت شما اضافه می کند و پیامک های ویژه ای را در زمان های مختلف برای کاربران سایت شما ارسال می کند.
+شما این امکان را دارید که شماره موبایل کاربران سایت را با افزونه فراز اس ام اس در دفترچه تلفن سامانه پیامکی خود ذخیره کنید.
 
-The Farazsms plugin has the ability to store and provide you with the numbers of all the people who have been active on your site.
+افزونه فراز اس ام اس این قابلیت را دارد که تمامی افرادی که در سایت شما فعال بوده اند را ذخیره و در اختیار شما قرار دهد.
 
-## Farazsms mane Features ## 
-* Add a field to WordPress comments to collect user phone number and save it in a phonebook.
-* Send SMS to users when they comment is approved.
-* Send SMS to admin on new comment submitted.
-* Send SMS to users when there comment is replyed by others.
-* Add a form to collect users phone numbers for make your SMS Newsletter.
-* Send Verification code for subscribing in the SMS Newsletter.
-* Save mobile number of Subscribers in the Newsletter to a phonebook.
-* Send automatic SMS to Subscribers in new post or product published.
-* Send marketing or servicing SMS to Subscribers of the Newsletter or numbers in phonebooks or manual numbers.
-* Send welcome SMS to Subscribers.
-* Send welcome SMS to user when they login.
-* Send Login Notification to admin based on user roles.
+## قابلیت های عمومی فراز اس ام اس ##
+* برای جمع آوری شماره تلفن کاربر و ذخیره آن در دفترچه تلفن، یک فیلد به بخش کامنت گذاری وردپرس اضافه کنید.
+* ارسال اس ام اس برای کاربران پس از تایید کامنت.
+* ارسال پیامک به مدیر در کامنت جدید ارسال شده.
+* ارسال اس ام اس به کاربران زمانی که نظر توسط دیگران پاسخ داده می شود.
+* فرمی برای جمع آوری شماره تلفن کاربران برای ساختن خبرنامه پیامکی خود اضافه کنید.
+* ارسال کد تایید برای عضویت در خبرنامه پیامکی.
+* تعداد تلفن همراه مشترکین در خبرنامه را در دفترچه تلفن ذخیره کنید.
+* ارسال پیامک خودکار برای مشترکین در پست جدید یا محصول منتشر شده.
+* ارسال پیامک بازاریابی یا خدمات برای مشترکین خبرنامه یا شماره های دفترچه تلفن یا شماره های دستی.
+* برای مشترکین پیامک خوشامدگویی ارسال کنید.
+* ارسال اس ام اس خوش آمدگویی به کاربر هنگام ورود.
+* ارسال اعلان ورود به مدیر بر اساس نقش های کاربر.
 
-## Farazsms plugin and plugins Integration ##
-Farazsms plugin can Integrate with several plugins to autoamte SMS sending. they listed below:
-* WooCommerce
-* Edd 
+## افزونه فراز اس ام اس و ادغا با سائر افزونه ها ##
+افزونه Farazsms می تواند با چندین افزونه برای خودکارسازی ارسال پیامک ادغام شود. آنها در زیر لیست کردند:
+* ووکامرس
+* Edd
 * Digits
-* Elementor Free and Pro
+* Elementor Free و Pro
 * Gravity Forms
 * Bookly
-* Affiliate WP
-* Yith WooCommerce Affiliate
+* WP Affiliate
+* Affiliate Yith WooCommerce
 * Ultimate Affiliate Pro
 * Paid Membership Pro
-* Ultimate Membership pro
+* Ultimate Membership Pro
 
-## Features for WooCommerce ##
-* Send a SMS with link of review page to customer after every completed order.
-* Send SMS with details about Tracking Code to customers in order page.
-* Verify customers mobile numbers in checkout page.
-* Sync customers mobile numbers with a phonebook.
-* Comming Soon: Send automatic SMS to admin or user after order status changed.
-* Comming Soon: Send Timed SMS after order status changed based on every product.
+## ویژگی های WooCommerce ##
+* پس از هر سفارش تکمیل شده، یک پیامک با لینک صفحه نظرسنجی برای مشتری ارسال کنید.
+* ارسال پیامک با جزئیات مربوط به کد رهگیری برای مشتریان در صفحه سفارش.
+* شماره موبایل مشتریان را در صفحه پرداخت تأیید کنید.
+* شماره تلفن همراه مشتریان را با دفترچه تلفن همگام کنید.
+* ارسال پیامک خودکار به مدیر یا کاربر پس از تغییر وضعیت سفارش.
+* پس از تغییر وضعیت سفارش بر اساس هر محصول، پیامک های زماندار ارسال کنید.
 
-## Features for EDD ##
-* Sync customers mobile numbers with a phonebook.
-* Verify customers mobile numbers in checkout page.
+## ویژگی های EDD ##
+* شماره تلفن همراه مشتریان را با دفترچه تلفن همگام کنید.
+* شماره موبایل مشتریان را در صفحه پرداخت تأیید کنید.
 
-## Features for Digits ##
-* Save all users mobile numbers in a phonebook.
-* Sync Digits mobile numers with a phonebook.
+## ویژگی های Digits ##
+* شماره موبایل همه کاربران را در دفترچه تلفن ذخیره کنید.
+* تلفن همراه های ثبت شده با افزونه Digits را با دفترچه تلفن همگام سازی کنید.
 
-## Features for Elementor Free and Pro ##
-* Send SMS to admin or user or save the phone number in a phonebook by adding an action after submit form inside default Elementor Pro forms.
-* A custom widget to use as Newsletter form to save users numbers in a phonebook.
+## ویژگی های Elementor Free و Pro ##
+* برای مدیر یا کاربر پیامک ارسال کنید یا شماره تلفن را در دفترچه تلفن با افزودن یک اقدام پس از ارسال فرم در فرم های پیش فرض Elementor Pro ذخیره کنید.
+* ویجت سفارشی برای استفاده به عنوان فرم خبرنامه برای ذخیره شماره کاربران در دفترچه تلفن.
 
-## Features for Gravity Forms ## 
-* Send SMS to admin or user or save the phone number in a phonebook by adding an action after submit any form. 
-* Comming Soon: Send Timed SMS after from status changed based on every form.
+## ویژگی های Gravity Forms ##
+* پس از ارسال هر فرم، برای مدیر یا کاربر پیامک ارسال کنید یا شماره تلفن را در دفترچه تلفن ذخیره کنید.
+* به زودی: ارسال پیامک زماندار پس از تغییر وضعیت بر اساس هر فرم.
 
-## Features for Bookly ##
-* Sync all bookly users mobile numbers with a phonebook.
+## ویژگی های Bookly ##
+* همگام سازی تمام شماره های موبایل کاربران افزونه Bookly با دفترچه تلفن.
 
-## Features for Affiliate plugins ##
-* Verify user register as an Affiliate 
-* Send SMS to user or admin in new referral.
-* Send SMS about new user register to user or admin.
+## ویژگی های افزونه های Affiliate ##
+* ثبت نام کاربر را به عنوان یک بازاریاب تأیید کنید
+* ارسال پیامک به کاربر یا مدیر در ارجاع جدید.
+* ارسال پیامک در مورد ثبت نام کاربر جدید به کاربر یا مدیر.
 
-## Features for Membership plugins ## 
-* Send first three SMS to users about expire there membership time.
+## ویژگی های افزونه های Membership ##
+* ارسال سه پیامک برای کاربران در مورد انقضای زمان عضویت وجود دارد.
 
 
-You can communicate with all these people who are currently or in the past in some way active on the site through sms and inform them at different times.
-Creating a sense of intimacy and establishing a continuous relationship with site users
-By purchasing an advertising sms panel and using the Farazsms plugin, you can establish a continuous relationship with your site\'s customers and create a sense of intimacy in them.
-Th Farazsms plugin helps to communicate with customers and convert them into regular customers.
-Also, if you need a special feature that is not implemented in the plugin and can meet the needs of many sites, let us know so that we can address your request in the next updates of the plugin.
-Always be in touch with your customers by purchasing sms panel and using Farazsms plugin
+شما می توانید با تمامی این افرادی که در حال حاضر یا در گذشته به نوعی در سایت فعال هستند از طریق پیامک ارتباط برقرار کرده و در زمان های مختلف به آنها اطلاع دهید.
+ایجاد حس صمیمیت و برقراری ارتباط مستمر با کاربران سایت
+با خرید پنل پیامک تبلیغاتی و استفاده از افزونه فراز اس ام اس می توانید ارتباط مستمری با مشتریان سایت خود برقرار کرده و حس صمیمیت را در آنها ایجاد کنید.
+افزونه Farazsms به برقراری ارتباط با مشتریان و تبدیل آنها به مشتریان عادی کمک می کند.
+همچنین اگر به قابلیت خاصی نیاز دارید که در افزونه پیاده سازی نشده و بتواند نیاز بسیاری از سایت ها را برطرف کند به ما اطلاع دهید تا در آپدیت های بعدی افزونه به درخواست شما رسیدگی کنیم.
+با خرید پنل اس ام اس و استفاده از افزونه فرازمس همیشه با مشتریان خود در ارتباط باشید
 
-## About Farazsms ##
-You can send advertising SMS and equip your website or software with a powerful SMS tool in Farazsms.
-* SMS panel with a service line without the need for a promissory note, to pass the telecommunication blacklist.
-* Bank of mobile numbers by province, city, region, jobs, age and gender and BTS.
-* SMS system with Android SMS sending application.
-* Service SMS panel compatible with valid SMS plugins.
-* SMS system without annual renewal (Life Time).
-* Special support for Farazsms plugin.
-**<a href="https://farazsms.com/farazsms-wordpress-plugin/" target="_blank">Learn more about Farazsms</a>**
+## درباره فراز اس ام اس ##
+می توانید پیامک های تبلیغاتی ارسال کنید و وب سایت یا نرم افزار خود را به ابزار قدرتمند پیامک در فراز اس ام اس مجهز کنید.
+* پنل پیامکی با خط خدماتی بدون نیاز به سفته برای عبور از لیست سیاه مخابرات.
+* بانک شماره موبایل بر اساس استان، شهر، منطقه، شغل، سن و جنسیت و BTS.
+* سامانه پیامک با اپلیکیشن ارسال پیامک اندروید.
+* پنل پیام کوتاه سرویس سازگار با افزونه های SMS معتبر.
+* سامانه پیامکی بدون تمدید سالانه (مادام العمر).
+* پشتیبانی ویژه از افزونه فراز اس ام اس.
 
-== Installation ==
-1- Upload `farazsms.zip` to the `/wp-content/plugins/` directory
-2- Activate the plugin through the \'Plugins\' menu in WordPress
+**<a href="https://farazsms.com/" target="_blank">در مورد فراز اس ام اس بیشتر بدانید.</a>**
 
-== Frequently Asked Questions ==
-= Why This Awesome Plugin Is Free? =
-It is our way of saying thank you to the community and helping shop owners to boost their profits. And quite honestly, we want you to try one of our products for free. And when you see how helpful it is, it should get you excited to buy other products from us in the future
-= Is this plugin with all these features will slow down my site? =
-Not at all. You can simply enable or disabel any features you want or don't want to use.
-= How I can report bugs? = 
-You can just use the support section inside the farazsms plugin settings and send us the details about the bug that you find.
+== نصب و راه اندازی ==
+1- farazsms.zip را در پوشه /wp-content/plugins/ آپلود کنید.
+2- افزونه را از طریق منوی \'Plugins\' در وردپرس فعال کنید
+
+== سوالات متداول ==
+= چرا این افزونه عالی رایگان است؟ =
+این روشی است که از جامعه وردپرس تشکر می کنیم و به صاحبان کسب و کار ها کمک می کنیم تا سود خود را افزایش دهند. و کاملا صادقانه، ما از شما می خواهیم یکی از محصولات ما را به صورت رایگان امتحان کنید. و وقتی می بینید که چقدر مفید است، باید در آینده شما را برای خرید محصولات دیگر از ما هیجان زده کند
+= آیا این افزونه با این همه ویژگی باعث کندی سایت من می شود؟ =
+اصلا. شما به سادگی می توانید هر ویژگی را که می خواهید یا نمی خواهید استفاده کنید، فعال یا غیرفعال کنید.
+= چگونه می توانم اشکالات را گزارش کنم؟ =
+فقط می توانید از بخش پشتیبانی در تنظیمات افزونه Farazsms استفاده کنید و جزئیات مربوط به باگی را که پیدا کردید برای ما ارسال کنید.
+
+== Changelog ==
+= 2.7.0 =
+- قالبیت جدید بسیار جذاب ارسال پیامک ووکامرس. در این قابلیت می توانید برای هر نوع سفارش در هر وضعیتی پیامک های هدفمند ارسال کنید.
+ - ارسال پیامک نظرسنجی سفارش فقط در صورتی که وضعیت سفارش «تکمیل شده» باشد.
+ - قابلیت اضافه کردن متغیر های items , customer_name به متن پیامک نظرسنجی سفارش موفق.
+- رفع مشکل ذخیره نشدن شماره موبایل در دفترچه تلفن، در اکشن بعد از ثبت فرم المنتور پرو، و در ویجت اختصاصی خبرنامه برای المنتور
+- رفع مشکل کار نکردن گزینه (آیا کد تأیید ارسال شود؟) در ویجیت اختصاصی خبرنامه برای المنتور
+- حذف متا باکس ارسال کد رهگیری و کد رهگیری های ارسال شده، از سفارش هایی که وضعیت آن ها تکمیل شده نیست.
+- حل مشکل عدم شناسائی پلاگین دیجیتس ارائه شده توسط شرکت راست چین، در بخش ادغام ها.
+- رفع مشکل ارسال نشدن پیام خوش آمدگویی به اعضای خبرنامه در صورتی که نام آنها ثبت نشده باشد.
+- رفع اشکالات و ثبات عملکرد.
+= 2.6.1 =
+- رفع برخی مشکلات گزارش شده.
+= 2.6.0 =
+- رفع اشکالات و ثبات عملکرد.
+= 2.5.2 =
+- رفع اشکالات و ثبات عملکرد.
+= 2.5.1 =
+- رفع اشکالات و ثبات عملکرد.
+= 2.5.0 =
+- اضافه شدن قابلیت های جدید که برای مشتری یک لینک برای بررسی تمام محصولات سفارش او ارسال می کند.
+- اضافه شدن قابلیت جدید برای حذف و همگام سازی مشترکین در بخش خبرنامه.
+- رفع اشکالات و ثبات عملکرد.
+= 2.3.1 =
+- اضافه کردن 2 نوع اقدام جدید برای ادغام افزونه Gravity Froms. ارسال اس ام اس به عملکرد کاربر یا مدیر به عنوان پیام الگو.
+- رفع اشکالات و ثبات عملکرد.
+= 2.2.0 =
+- بهبود عملکرد ارسال کد رهگیری، اکنون کاربر می تواند سرویس خدمات دهنده پست و تاریخ ارسال را انتخاب کند.
+- رفع اشکالات و ثبات عملکرد.
+= 2.1.0 =
+- ویجت خبرنامه فراز اس ام اس را برای Elementor اضافه کنید
+- اضافه کردن عملگر پس از ارسال فرم برای افزونه Gravity Forms.
+- رفع اشکالات و ثبات عملکرد.
+= 2.0.0 =
+- رفع اشکالات و ثبات عملکرد.
+- بین المللی سازی نسخه جدید افزونه فراز اس ام اس.
 
 == Screenshots ==
 
