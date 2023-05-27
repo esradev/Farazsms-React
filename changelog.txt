@@ -1,3 +1,13 @@
+Version 2.7.0 - Saturday, 27th May 2023
+- Very attractive new WooCommerce SMS sending format. In this feature, you can send targeted SMS for any type of order in any situation.
+- Send an order survey SMS only if the order status is "completed".
+- The ability to add variables items, customer_name to the SMS text of the successful order survey.
+- Fixed the problem of not saving the mobile number in the phone book, in the action after registering the Elementor Pro form, and in the special newsletter widget for Elementor
+- Fixed the problem of the option not working (Send a verification code?) in the special newsletter widget for Elementor
+- Removing the tracking code sending meta box and tracking codes sent, from orders whose status is not completed.
+- Solving the problem of not recognizing the Digits plugin provided by Rast China, in the integrations section.
+- Fixed the problem of not sending the welcome message to the members of the newsletter if their names are not registered.
+=======
 Version 2.6.0 - Thursday, 4th May 2023
 - Fix Bugs and performance stability.
 =======
