@@ -102,7 +102,9 @@ class Farazsms_Edd {
 
 		$payment_meta = edd_get_payment_meta( $payment_id, '_edd_payment_meta', false );
 		$mobile       = edd_get_order_meta( $payment_id, 'phone', true );
-		$name         = $payment_meta['user_info']['first_name'];
+		$first_name   = $payment_meta['user_info']['first_name'] ?? '';
+        $last_name    = $payment_meta['user_info']['last_name'] ?? '';
+        $full_name    = $first_name . ' ' . $last_name;
 		$data         = $this->get_edd_order_data( $payment_meta, $payment_id );
 		if ( self::$edd_send_to_user ) {
 			$this->send_edd_sms( $mobile, self::$edd_user_pattern, $data );
@@ -112,9 +114,10 @@ class Farazsms_Edd {
 		}
 
 		if ( self::$edd_phonebook_id ) {
+			$list    = [];
 			$list[0] = (object) [
 				'number'       => $mobile,
-				'name'         => $name,
+				'name'         => $full_name ?? '',
 				'phonebook_id' => (int) self::$edd_phonebook_id
 			];
 			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
