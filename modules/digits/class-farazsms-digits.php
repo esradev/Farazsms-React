@@ -43,16 +43,37 @@ class Farazsms_Digits {
 	 * Constructor
 	 */
 	public function __construct() {
+//		add_action( 'user_register', [$this, 'save_phone_number_to_phonebook'], 10, 1 );
 		add_filter( 'update_user_metadata', [ $this, 'monitor_update_user_metadata' ], 99, 4 );
 		add_action( 'profile_update', [ $this, 'fsms_user_profile_updated' ], 99, 1 );
 	}
+
+	/*public function save_phone_number_to_phonebook( $user_id ) {
+		$custom_phone_meta_key_id = Farazsms_Base::$custom_phone_meta_keys_id;
+		$phone = get_user_meta( $user_id, $custom_phone_meta_key_id, true );
+
+		// If the meta key exists and contains a valid phone number
+		if ( $phone ) {
+			$phonebook_id = Farazsms_Base::$custom_phonebook_id;
+
+			$list = [
+				(object) [
+					'number'       => $phone,
+					'name'         => '',
+					'phonebook_id' => (int) $phonebook_id
+				]
+			];
+
+			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
+		}
+	}*/
 
 	/**
 	 * Monitor update user metadata.
 	 */
 	public function monitor_update_user_metadata( $check, $object_id, $meta_key, $meta_value ) {
-		$selected_meta_keys = Farazsms_Base::$custom_phone_meta_keys_id ?? '';
-		if ( $meta_key === $selected_meta_keys ) {
+		$selected_meta_key = Farazsms_Base::$custom_phone_meta_keys_id;
+		if ( $meta_key !== $selected_meta_key ) {
 			return $check;
 		}
 		$phone = Farazsms_Base::validate_mobile_number( $meta_value );

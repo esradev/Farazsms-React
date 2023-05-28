@@ -1,3 +1,6 @@
+Version 2.7.1 - Sunday, 28th May 2023
+- Fixed showing included and excluded product.
+=======
 Version 2.7.0 - Saturday, 27th May 2023
 - Very attractive new WooCommerce SMS sending format. In this feature, you can send targeted SMS for any type of order in any situation.
 - Send an order survey SMS only if the order status is "completed".

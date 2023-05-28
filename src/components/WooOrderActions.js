@@ -131,6 +131,21 @@ function WooOrderActions(props) {
         isDependencyUsed: false,
         isMulti: "isMulti",
       },
+      only_included_products: {
+        value: [],
+        onChange: "only_included_productsChange",
+        name: "only_included_products",
+        type: "select",
+        label: __("Included Products:", "farazsms"),
+        infoTitle: __("Info", "farazsms"),
+        infoBody: __(
+          "In this section, you must specify Included Products, that you want to do the action on any order that has them.",
+          "farazsms"
+        ),
+        option: [],
+        isDependencyUsed: false,
+        isMulti: "isMulti",
+      },
       excluded_products: {
         value: [],
         onChange: "excluded_productsChange",
@@ -323,6 +338,7 @@ function WooOrderActions(props) {
           draft.inputs.maximum_order_total.isDependencyUsed = false;
           draft.inputs.order_turn.isDependencyUsed = false;
           draft.inputs.included_products.isDependencyUsed = false;
+          draft.inputs.only_included_products.isDependencyUsed = false;
           draft.inputs.excluded_products.isDependencyUsed = false;
         }
         if (action.value.value === "orders_more_than") {
@@ -330,31 +346,43 @@ function WooOrderActions(props) {
           draft.inputs.maximum_order_total.isDependencyUsed = false;
           draft.inputs.order_turn.isDependencyUsed = false;
           draft.inputs.included_products.isDependencyUsed = false;
+          draft.inputs.only_included_products.isDependencyUsed = false;
           draft.inputs.excluded_products.isDependencyUsed = false;
         } else if (action.value.value === "orders_less_than") {
           draft.inputs.minimum_order_total.isDependencyUsed = false;
           draft.inputs.maximum_order_total.isDependencyUsed = true;
           draft.inputs.order_turn.isDependencyUsed = false;
           draft.inputs.included_products.isDependencyUsed = false;
+          draft.inputs.only_included_products.isDependencyUsed = false;
           draft.inputs.excluded_products.isDependencyUsed = false;
         } else if (action.value.value === "x_orders") {
           draft.inputs.minimum_order_total.isDependencyUsed = false;
           draft.inputs.maximum_order_total.isDependencyUsed = false;
           draft.inputs.order_turn.isDependencyUsed = true;
           draft.inputs.included_products.isDependencyUsed = false;
+          draft.inputs.only_included_products.isDependencyUsed = false;
           draft.inputs.excluded_products.isDependencyUsed = false;
-        } else if (action.value.value === "orders_that_include") {
+        } else if (action.value.value === "include") {
           draft.inputs.minimum_order_total.isDependencyUsed = false;
           draft.inputs.maximum_order_total.isDependencyUsed = false;
           draft.inputs.order_turn.isDependencyUsed = false;
           draft.inputs.included_products.isDependencyUsed = true;
+          draft.inputs.only_included_products.isDependencyUsed = false;
           draft.inputs.excluded_products.isDependencyUsed = false;
-        } else if (action.value.value === "orders_that_not_include") {
+        } else if (action.value.value === "not_include") {
           draft.inputs.minimum_order_total.isDependencyUsed = false;
           draft.inputs.maximum_order_total.isDependencyUsed = false;
           draft.inputs.order_turn.isDependencyUsed = false;
           draft.inputs.included_products.isDependencyUsed = false;
+          draft.inputs.only_included_products.isDependencyUsed = false;
           draft.inputs.excluded_products.isDependencyUsed = true;
+        } else if (action.value.value === "only_include") {
+          draft.inputs.minimum_order_total.isDependencyUsed = false;
+          draft.inputs.maximum_order_total.isDependencyUsed = false;
+          draft.inputs.order_turn.isDependencyUsed = false;
+          draft.inputs.included_products.isDependencyUsed = false;
+          draft.inputs.only_included_products.isDependencyUsed = true;
+          draft.inputs.excluded_products.isDependencyUsed = false;
         }
         return;
       case "minimum_order_totalChange":
@@ -368,9 +396,13 @@ function WooOrderActions(props) {
         return;
       case "fetchWoocommerceProducts":
         draft.inputs.included_products.options = action.value;
+        draft.inputs.only_included_products.options = action.value;
         draft.inputs.excluded_products.options = action.value;
         return;
       case "included_productsChange":
+        draft.inputs.included_products.value = action.value;
+        return;
+      case "only_included_productsChange":
         draft.inputs.included_products.value = action.value;
         return;
       case "excluded_productsChange":
@@ -459,6 +491,7 @@ function WooOrderActions(props) {
         draft.inputs.maximum_order_total.value = "";
         draft.inputs.order_turn.value = "";
         draft.inputs.included_products.value = "";
+        draft.inputs.only_included_products.value = "";
         draft.inputs.excluded_products.value = "";
         draft.inputs.order_status.value = "";
         draft.inputs.action.value = "";

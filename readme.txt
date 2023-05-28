@@ -4,7 +4,7 @@ Tags: Mobile Verification, order notification, order sms, sms plugin, woocommerc
 Requires at least: 5.8
 Tested up to: 6.2
 Requires PHP: 7.2
-Stable tag: 2.7.0
+Stable tag: 2.7.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -115,6 +115,8 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 فقط می توانید از بخش پشتیبانی در تنظیمات افزونه Farazsms استفاده کنید و جزئیات مربوط به باگی را که پیدا کردید برای ما ارسال کنید.
 
 == Changelog ==
+= 2.7.1 =
+- حل مشکل انتخاب محصولات در بخش جدید پیامک سفارش ووکامرس
 = 2.7.0 =
 - قالبیت جدید بسیار جذاب ارسال پیامک ووکامرس. در این قابلیت می توانید برای هر نوع سفارش در هر وضعیتی پیامک های هدفمند ارسال کنید.
 - ارسال پیامک نظرسنجی سفارش فقط در صورتی که وضعیت سفارش «تکمیل شده» باشد.
