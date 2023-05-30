@@ -67,7 +67,7 @@ class Farazsms_Woocommerce {
 		add_action( 'wp_ajax_fsms_send_tracking_code_sms', [ $this, 'send_tracking_code_sms' ] );
 		add_action( 'wp_ajax_nopriv_fsms_send_tracking_code_sms', [ $this, 'send_tracking_code_sms' ] );
 		add_action( 'woocommerce_thankyou', [ $this, 'woo_payment_finished' ] );
-		add_action( 'init', [$this, 'fsms_woo_retention_action' ]);
+		add_action( 'init', [ $this, 'fsms_woo_retention_action' ] );
 		add_action( 'woocommerce_checkout_get_value', [ $this, 'fsms_pre_populate_checkout_fields' ], 10, 2 );
 		add_filter( 'woocommerce_billing_fields', [ $this, 'fsms_woocommerce_checkout_fields' ] );
 		add_action( 'woocommerce_checkout_process', [ $this, 'fsms_woocommerce_checkout_process' ] );
@@ -131,7 +131,7 @@ class Farazsms_Woocommerce {
 
 			foreach ( $tracking_code_data as $data ) {
 				// Convert the date format to your desired format
-				$formatted_date = date('Y/m/d', strtotime($data->post_date));
+				$formatted_date = date( 'Y/m/d', strtotime( $data->post_date ) );
 				echo '<ul>';
 				echo '<li><strong>' . esc_html__( 'Tracking Code: ', 'farazsms' ) . '</strong>' . esc_html( $data->tracking_code ) . '</li>';
 				echo '<li><strong>' . esc_html__( 'Post Service Provider: ', 'farazsms' ) . '</strong> ' . esc_html( $data->post_service_provider ) . '</li>';
@@ -142,19 +142,19 @@ class Farazsms_Woocommerce {
 		} else {
 			echo '<p>' . esc_html__( 'One tracking code found for this order:', 'farazsms' ) . '</p>';
 			// Convert the date format to your desired format
-			$formatted_date = date('Y/m/d', strtotime($tracking_code_data[0]->post_date));
+			$formatted_date = date( 'Y/m/d', strtotime( $tracking_code_data[0]->post_date ) );
 			?>
-			<div class="already-sent-tracking-code">
-				<p>
-					<strong><?php echo esc_html__( 'Tracking Code: ', 'farazsms' ) ?></strong> <?php echo esc_html( $tracking_code_data[0]->tracking_code ); ?>
-				</p>
-				<p>
-					<strong><?php echo esc_html__( 'Post Service Provider: ', 'farazsms' ) ?></strong> <?php echo esc_html( $tracking_code_data[0]->post_service_provider ); ?>
-				</p>
-				<p>
-					<strong><?php echo esc_html__( 'Post Date: ', 'farazsms' ) ?></strong> <?php echo esc_html( $formatted_date ); ?>
-				</p>
-			</div>
+            <div class="already-sent-tracking-code">
+                <p>
+                    <strong><?php echo esc_html__( 'Tracking Code: ', 'farazsms' ) ?></strong> <?php echo esc_html( $tracking_code_data[0]->tracking_code ); ?>
+                </p>
+                <p>
+                    <strong><?php echo esc_html__( 'Post Service Provider: ', 'farazsms' ) ?></strong> <?php echo esc_html( $tracking_code_data[0]->post_service_provider ); ?>
+                </p>
+                <p>
+                    <strong><?php echo esc_html__( 'Post Date: ', 'farazsms' ) ?></strong> <?php echo esc_html( $formatted_date ); ?>
+                </p>
+            </div>
 			<?php
 		}
 	}
@@ -165,20 +165,14 @@ class Farazsms_Woocommerce {
 	 * @return void
 	 */
 	public function add_tracking_code_meta_box() {
-		// Get the current order
-		$order = wc_get_order();
-
-		// Check if the order status is "completed"
-		if ( $order && $order->get_status() === 'completed' ) {
-			add_meta_box(
-				'fsms-already-sent-tracking-codes',
-				__( 'Already sent tracking code', 'farazsms' ),
-				[ $this, 'already_sent_tracking_codes' ],
-				'shop_order',
-				'side',
-				'default'
-			);
-		}
+		add_meta_box(
+			'fsms-already-sent-tracking-codes',
+			__( 'Already sent tracking code', 'farazsms' ),
+			[ $this, 'already_sent_tracking_codes' ],
+			'shop_order',
+			'side',
+			'default'
+		);
 	}
 
 
@@ -188,24 +182,17 @@ class Farazsms_Woocommerce {
 	 * @since 1.0.0
 	 */
 	public function tracking_code_order_postbox() {
-		// Get the current order
-		$order = wc_get_order();
-
-		// Check if the order status is "completed"
-		if ( $order && $order->get_status() === 'completed' ) {
-			add_meta_box(
-				'fsms-tracking_send_sms',
-				__( 'Send tracking code', 'farazsms' ),
-				[
-					$this,
-					'add_order_tracking_box',
-				],
-				'shop_order',
-				'side',
-				'core'
-			);
-		}
-
+		add_meta_box(
+			'fsms-tracking_send_sms',
+			__( 'Send tracking code', 'farazsms' ),
+			[
+				$this,
+				'add_order_tracking_box',
+			],
+			'shop_order',
+			'side',
+			'core'
+		);
 	}
 
 
@@ -244,7 +231,7 @@ class Farazsms_Woocommerce {
 		echo '</div>';
 
 		echo '<div id="fsms-tracking-code-button"><div class="fsms_button" id="send_tracking_code_button"><span class="button__text">' . esc_html__( 'Send Sms', 'farazsms' ) . '</span></div></div>';
-		echo '<input type="hidden" id="fsms-tracking-code-order_id" value="' . esc_attr($post->ID) . '">';
+		echo '<input type="hidden" id="fsms-tracking-code-order_id" value="' . esc_attr( $post->ID ) . '">';
 		echo '<div id="send_tracking_code_response" style="display: none;"></div>';
 		echo '</div>';
 
@@ -306,13 +293,24 @@ class Farazsms_Woocommerce {
 			$this->send_tracking_code( $phone, $tracking_code, $order_data );
 
 			// Convert post_date to date format to save on the DB
-			$date_str = str_replace(['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'], ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'], $post_date);
-			$date_parts = explode('/', $date_str); // explode the string by "/"
-			$year = $date_parts[0];
-			$month = $date_parts[1];
-			$day = $date_parts[2];
-			$jalali_date = new DateTime("$year-$month-$day", new DateTimeZone('Asia/Tehran')); // create a DateTime object with the Jalali date
-			$gregorian_date = $jalali_date->format('Y-m-d'); // format the date in the Gregorian calendar as 'YYYY-MM-DD'
+			$date_str       = str_replace( [ '۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹' ], [
+				'0',
+				'1',
+				'2',
+				'3',
+				'4',
+				'5',
+				'6',
+				'7',
+				'8',
+				'9'
+			], $post_date );
+			$date_parts     = explode( '/', $date_str ); // explode the string by "/"
+			$year           = $date_parts[0];
+			$month          = $date_parts[1];
+			$day            = $date_parts[2];
+			$jalali_date    = new DateTime( "$year-$month-$day", new DateTimeZone( 'Asia/Tehran' ) ); // create a DateTime object with the Jalali date
+			$gregorian_date = $jalali_date->format( 'Y-m-d' ); // format the date in the Gregorian calendar as 'YYYY-MM-DD'
 
 			// Insert tracking code data into database
 			global $wpdb;
@@ -424,11 +422,11 @@ class Farazsms_Woocommerce {
 	 * Woocommerce payment finished.
 	 */
 	public function woo_payment_finished( $id ) {
-		$order = wc_get_order( $id );
-		$phone = $order->get_billing_phone();
+		$order              = wc_get_order( $id );
+		$phone              = $order->get_billing_phone();
 		$billing_first_name = $order->get_billing_first_name();
-		$billing_last_name = $order->get_billing_last_name();
-		$user_full_name = $billing_first_name . ' ' . $billing_last_name;
+		$billing_last_name  = $order->get_billing_last_name();
+		$user_full_name     = $billing_first_name . ' ' . $billing_last_name;
 
 		if ( empty( $phone ) ) {
 			return;
@@ -486,7 +484,7 @@ class Farazsms_Woocommerce {
 							$last_order->get_formatted_billing_full_name(),
 							$last_order->get_formatted_shipping_full_name(),
 						], $retention_message );
-						Farazsms_Ippanel::send_message( [ $last_order->get_billing_phone() ], $message , Farazsms_Base::$fromNum);
+						Farazsms_Ippanel::send_message( [ $last_order->get_billing_phone() ], $message, Farazsms_Base::$fromNum );
 						update_post_meta( $last_order->get_id(), 'sent_retention_message', '1' );
 					}
 				}
@@ -543,12 +541,12 @@ class Farazsms_Woocommerce {
 			return;
 		}
 
-		$billing_phone_otp = isset( $_POST['billing_phone_otp'] ) ? sanitize_text_field(  $_POST['billing_phone_otp'] ) : '';
+		$billing_phone_otp = isset( $_POST['billing_phone_otp'] ) ? sanitize_text_field( $_POST['billing_phone_otp'] ) : '';
 		if ( empty( $billing_phone_otp ) ) {
 			wc_add_notice( __( 'Please confirm your phone number first', 'farazsms' ), 'error' );
 		}
-		$billing_phone = isset( $_POST['billing_phone'] ) ? sanitize_text_field(  $_POST['billing_phone'] ) : '';
-		$is_valid = $this->check_if_code_is_valid_for_woo( $billing_phone, $billing_phone_otp );
+		$billing_phone = isset( $_POST['billing_phone'] ) ? sanitize_text_field( $_POST['billing_phone'] ) : '';
+		$is_valid      = $this->check_if_code_is_valid_for_woo( $billing_phone, $billing_phone_otp );
 		if ( ! $is_valid ) {
 			wc_add_notice( __( 'The verification code entered is not valid', 'farazsms' ), 'error' );
 		}
@@ -559,7 +557,7 @@ class Farazsms_Woocommerce {
 	 * Send OTP Code.
 	 */
 	public function fsms_send_otp_code() {
-		$mobile = sanitize_text_field($_POST['mobile']);
+		$mobile = sanitize_text_field( $_POST['mobile'] );
 		if ( ! isset( $mobile ) ) {
 			wp_send_json_error( __( 'Please enter phone number.', 'farazsms' ) );
 		}
