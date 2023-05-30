@@ -101,7 +101,8 @@ function Integrations(props) {
               if (getPlugins.data) {
                 const findPlugin = getPlugins.data.find(
                   (element) =>
-                    element.plugin === plugin.plugin || plugin?.alt_plugin
+                    element.plugin === plugin.plugin ||
+                    element.plugin === plugin?.alt_plugin
                 );
                 if (findPlugin) {
                   if (findPlugin.status === "inactive") {
@@ -138,7 +139,8 @@ function Integrations(props) {
             if (getPlugins.data) {
               const findPlugin = getPlugins.data.find(
                 (element) =>
-                  element.plugin === plugin.plugin || plugin?.alt_plugin
+                  element.plugin === plugin.plugin ||
+                  element.plugin === plugin?.alt_plugin
               );
               if (findPlugin) {
                 if (findPlugin.status === "inactive") {

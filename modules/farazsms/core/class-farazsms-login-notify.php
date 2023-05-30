@@ -56,6 +56,7 @@ class Farazsms_Login_Notify {
 
 		add_action( 'wp_login', [ $this, 'fsms_admin_login_action' ], 98, 2 );
 		add_action( 'wp_login', [ $this, 'fsms_admin_roles_login_action' ], 99,2 );
+		add_filter( 'update_user_metadata', [ $this, 'monitor_update_user_metadata' ], 99, 4 );
 
 	}
 
@@ -133,6 +134,41 @@ class Farazsms_Login_Notify {
 		}
 
 		return Farazsms_Ippanel::send_pattern( $pattern, Farazsms_Base::$admin_number, $input_data );
+	}
+
+	/**
+	 * Monitor update user metadata.
+	 */
+	public function monitor_update_user_metadata( $check, $object_id, $meta_key, $meta_value ) {
+		$selected_meta_key = Farazsms_Base::$custom_phone_meta_keys_id;
+		if ( $meta_key !== $selected_meta_key ) {
+			return $check;
+		}
+		$phone = Farazsms_Base::validate_mobile_number( $meta_value );
+		if ( ! $phone ) {
+			return $check;
+		}
+
+		$user_info = get_userdata( $object_id );
+		$list      = [];
+
+		if ( ! empty( Farazsms_Base::$custom_phonebook_id ) ) {
+			$list[0] = (object) [
+				'number'       => $phone,
+				'name'         => $user_info->display_name ?? '',
+				'phonebook_id' => (int) Farazsms_Base::$custom_phonebook_id
+			];
+			Farazsms_Ippanel::save_list_of_phones_to_phonebook( $list );
+		}
+
+		$already_sent_one = get_user_meta( $object_id, 'sent_welcome_message', true );
+		if ( ! empty( $already_sent_one ) && $already_sent_one == '1' ) {
+			return $check;
+		}
+
+		Farazsms_Base::send_welcome_message( $phone, $object_id );
+
+		return $check;
 	}
 }
 
