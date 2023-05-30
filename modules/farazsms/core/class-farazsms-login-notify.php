@@ -54,8 +54,8 @@ class Farazsms_Login_Notify {
 			self::$select_roles               = $login_notify_options['select_roles'];
 		}
 
-		add_action( 'wp_login', [ $this, 'fsms_admin_login_action' ], 10, 2 );
-		add_action( 'wp_login', [ $this, 'fsms_admin_roles_login_action' ], 11, 2 );
+		add_action( 'wp_login', [ $this, 'fsms_admin_login_action' ], 98, 2 );
+		add_action( 'wp_login', [ $this, 'fsms_admin_roles_login_action' ], 99,2 );
 
 	}
 
@@ -102,8 +102,7 @@ class Farazsms_Login_Notify {
 		$user_roles = $user->roles;
 
 		// Check if any of the user's roles match the selected roles
-		$select_roles = json_decode(self::$select_roles, true); // Convert the JSON string to an associative array
-		$selected_role_values = array_column($select_roles, 'value'); // Get an array of role values
+		$selected_role_values = array_column(self::$select_roles, 'value'); // Get an array of role values
 
 		foreach ($user_roles as $user_role) {
 			if (in_array($user_role, $selected_role_values)) {

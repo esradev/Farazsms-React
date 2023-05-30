@@ -102,7 +102,7 @@ function Settings() {
         label: __("Notify admin pattern code:", "farazsms"),
         infoTitle: __("Usable variables:", "farazsms"),
         infoBody: __(
-          "username %user_login% and user name %display_name% and login date %date%",
+          "username %user_login% and user display name %display_name% and login date %date%",
           "farazsms"
         ),
         isDependencyUsed: false,
