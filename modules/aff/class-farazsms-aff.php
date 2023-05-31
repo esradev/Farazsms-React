@@ -75,7 +75,7 @@ class Farazsms_Aff {
 			self::$aff_admin_user_on_approval_pattern = $aff_options['aff_admin_user_on_approval_pattern'];
 		}
 
-        // WP Affiliate
+		// WP Affiliate
 		add_action( 'affwp_register_user', [ $this, 'fsms_affwp_register_user', ], 10, 3 );
 		add_action( 'affwp_set_affiliate_status', [ $this, 'fsms_affwp_set_affiliate_status', ], 10, 3 );
 		add_action( 'affwp_referral_accepted', [ $this, 'fsms_affwp_referral_accepted', ], 10, 2 );
@@ -83,19 +83,24 @@ class Farazsms_Aff {
 		add_action( 'affwp_new_affiliate_end', [ $this, 'fsms_affwp_new_affiliate_end' ] );
 		add_action( 'affwp_edit_affiliate_end', [ $this, 'fsms_affwp_edit_affiliate_end' ] );
 
-        // Yith WooCommerce Affiliate
-		add_action( 'yith_wcaf_new_affiliate', [ $this, 'fsms_yith_wcaf_register_user' ] );
+		// Yith WooCommerce Affiliate
+		add_action( 'yith_wcaf_new_affiliate', [ $this, 'fsms_yith_wcaf_register_mobile_field' ] );
 		add_action( 'yith_wcaf_affiliate_enabled', [ $this, 'fsms_yith_wcaf_set_affiliate_status' ] );
-		add_action('yith_wcaf_register_form', [$this, 'fsms_yith_wcaf_add_mobile_field']);
-		add_action('yith_wcaf_settings_form_after_payment_email', [$this, 'fsms_yith_wcaf_add_mobile_field_on_settings']);
-		add_action('yith_wcaf_new_affiliate', [$this, 'fsms_yith_wcaf_register_mobile_field']);
-		add_action('yith_wcaf_save_affiliate_settings', [$this, 'fsms_yith_wcaf_register_mobile_field_settings'], 10, 2);
+		add_action( 'yith_wcaf_register_form', [ $this, 'fsms_yith_wcaf_add_mobile_field' ] );
+		add_action( 'yith_wcaf_settings_form_after_payment_email', [
+			$this,
+			'fsms_yith_wcaf_add_mobile_field_on_settings'
+		] );
+		add_action( 'yith_wcaf_save_affiliate_settings', [
+			$this,
+			'fsms_yith_wcaf_register_mobile_field_settings'
+		], 10, 2 );
 
 	}
 
 	/**
-     * Affiliate Send SMS
-     *
+	 * Affiliate Send SMS
+	 *
 	 * @param $phone
 	 * @param $pattern
 	 * @param $incoming_data
@@ -103,7 +108,7 @@ class Farazsms_Aff {
 	 * @return bool
 	 */
 	public function affs_send_sms( $phone, $pattern, $incoming_data ) {
-		$data     = [];
+		$data           = [];
 		$patternMessage = Farazsms_Ippanel::get_registered_pattern_variables( $pattern );
 		if ( str_contains( $patternMessage, '%user_login%' ) ) {
 			$data['user_login'] = $incoming_data['user_login'];
@@ -123,12 +128,13 @@ class Farazsms_Aff {
 		if ( str_contains( $patternMessage, '%amount%' ) ) {
 			$data['amount'] = $incoming_data['amount'];
 		}
+
 		return Farazsms_Ippanel::send_pattern( $pattern, $phone, $data );
 	}
 
 	/**
-     * WP Affiliate Send SMS on affiliate register.
-     *
+	 * WP Affiliate Send SMS on affiliate register.
+	 *
 	 * @param $affiliate_id
 	 * @param $status
 	 * @param $data
@@ -158,7 +164,7 @@ class Farazsms_Aff {
 	}
 
 	/**
-     * WP Affiliate Send SMS on affiliate approval.
+	 * WP Affiliate Send SMS on affiliate approval.
 	 *
 	 * @param int $affiliate_id
 	 * @param string $status
@@ -166,7 +172,7 @@ class Farazsms_Aff {
 	 *
 	 * @return void
 	 */
-	public function fsms_affwp_set_affiliate_status(  $affiliate_id = 0, $status = '', $old_status = '' ) {
+	public function fsms_affwp_set_affiliate_status( $affiliate_id = 0, $status = '', $old_status = '' ) {
 		if ( doing_action( 'affwp_add_affiliate' ) ) {
 			return;
 		}
@@ -194,17 +200,17 @@ class Farazsms_Aff {
 			$mobile = '0' . $mobile;
 		}
 		$data['user_mobile'] = $mobile;
-		if ( self::$aff_user_on_approval && ! empty( $user ) && ! empty($mobile) ) {
-				$this->affs_send_sms( $mobile, self::$aff_user_on_approval_pattern, $data );
+		if ( self::$aff_user_on_approval && ! empty( $user ) && ! empty( $mobile ) ) {
+			$this->affs_send_sms( $mobile, self::$aff_user_on_approval_pattern, $data );
 		}
 		if ( self::$aff_admin_user_on_approval && ! empty( self::$aff_admin_user_on_approval_pattern ) && ! empty( Farazsms_Base::$admin_number ) ) {
-				$this->affs_send_sms( Farazsms_Base::$admin_number, self::$aff_admin_user_on_approval_pattern, $data );
+			$this->affs_send_sms( Farazsms_Base::$admin_number, self::$aff_admin_user_on_approval_pattern, $data );
 		}
 	}
 
 	/**
-     * WP Affiliate Send SMS on affiliate referral.
-     *
+	 * WP Affiliate Send SMS on affiliate referral.
+	 *
 	 * @param $affiliate_id
 	 * @param $referral
 	 *
@@ -230,17 +236,17 @@ class Farazsms_Aff {
 		}
 		$data['user_mobile'] = $mobile;
 		$data['amount']      = $referral['amount'];
-		if ( self::$aff_user_new_ref && ! empty( self::$aff_user_new_ref_pattern) && ! empty($mobile) ) {
-				$this->affs_send_sms( $mobile, self::$aff_user_new_ref_pattern, $data );
+		if ( self::$aff_user_new_ref && ! empty( self::$aff_user_new_ref_pattern ) && ! empty( $mobile ) ) {
+			$this->affs_send_sms( $mobile, self::$aff_user_new_ref_pattern, $data );
 		}
 		if ( self::$aff_admin_user_new_ref && ! empty( self::$aff_admin_user_new_ref_pattern ) && ! empty( Farazsms_Base::$admin_number ) ) {
-				$this->affs_send_sms( Farazsms_Base::$admin_number, self::$aff_admin_user_new_ref_pattern, $data );
+			$this->affs_send_sms( Farazsms_Base::$admin_number, self::$aff_admin_user_new_ref_pattern, $data );
 		}
 	}
 
 	/**
-     * WP Affiliate register fields.
-     *
+	 * WP Affiliate register fields.
+	 *
 	 * @return void
 	 */
 	public function fsms_affwp_register_fields_before_tos() {
@@ -255,8 +261,8 @@ class Farazsms_Aff {
 		}
 		?>
         <p>
-	        <label for="farazsms_affiliate_phone"><?php esc_html_e( 'Phone number', 'farazsms' ) ?></label>
-	        <input id="farazsms_affiliate_phone" type="text" name="farazsms_affiliate_phone"
+            <label for="farazsms_affiliate_phone"><?php esc_html_e( 'Phone number', 'farazsms' ) ?></label>
+            <input id="farazsms_affiliate_phone" type="text" name="farazsms_affiliate_phone"
                    title="<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>" required
                    value="<?php echo esc_attr( $mobile ?? '' ); ?>"/>
         </p>
@@ -264,8 +270,8 @@ class Farazsms_Aff {
 	}
 
 	/**
-     * WP Affiliate on new affiliate end.
-     *
+	 * WP Affiliate on new affiliate end.
+	 *
 	 * @return void
 	 */
 	public function fsms_affwp_new_affiliate_end() {
@@ -284,7 +290,8 @@ class Farazsms_Aff {
 	}
 
 	/**
-     * WP Affiliate on edit affiliate end.
+	 * WP Affiliate on edit affiliate end.
+	 *
 	 * @param $affiliate
 	 *
 	 * @return void
@@ -298,101 +305,89 @@ class Farazsms_Aff {
             <td>
                 <input id="farazsms_affiliate_phone" type="text" name="farazsms_affiliate_phone"
                        title="<?php esc_attr_e( 'Phone number', 'farazsms' ) ?>"
-                       value="<?php echo esc_attr(get_user_meta( $affiliate->user_id, 'farazsms_affiliate_phone' )[0] ?? ''); ?>"/>
+                       value="<?php echo esc_attr( get_user_meta( $affiliate->user_id, 'farazsms_affiliate_phone' )[0] ?? '' ); ?>"/>
             </td>
         </tr>
 		<?php
 	}
 
 	/**
-     * Yith WooCommerce Affiliate Send SMS on affiliate register.
-     *
+	 *  Yith WooCommerce Affiliate register mobile field,
+	 *  And send SMS on affiliate register.
+	 *
 	 * @param $id
 	 *
 	 * @return void
 	 */
-	public function fsms_yith_wcaf_register_user( $id ) {
-		$affiliate = YITH_WCAF_Affiliates()->get_affiliate_by_id($id);
-		$user           = get_user_by( 'id', $affiliate['user_id'] );
+	public function fsms_yith_wcaf_register_mobile_field( $id ) {
+		$affiliate = YITH_WCAF_Affiliates()->get_affiliate_by_id( $id );
 
-		$mobile = isset( $_POST['affs-user-mobile'] ) ? sanitize_text_field( $_POST['affs-user-mobile'] ) : '';
-		update_user_meta( $user->ID, 'farazsms_affiliate_phone', $mobile );
+		if ( isset( $_POST['farazsms_affiliate_phone'] ) ) {
+			update_user_meta( $affiliate['user_id'], 'farazsms_affiliate_phone', sanitize_text_field( $_POST['farazsms_affiliate_phone'] ) );
+		}
+		$user      = get_user_by( 'id', $affiliate['user_id'] );
+		$mobile = sanitize_text_field( $_POST['farazsms_affiliate_phone'] );
 
 		if ( empty( $mobile ) && ! empty( self::$aff_user_mobile_field ) ) {
 			$mobile = get_user_meta( $user->ID, self::$aff_user_mobile_field, true );
 		}
-		$data['user_mobile'] = $mobile;
+		$data['user_mobile']   = $mobile;
 		$data['user_login']    = $user->user_login;
 		$data['user_nicename'] = $user->nickname;
 		$data['user_email']    = $user->user_email;
 		$data['display_name']  = $user->display_name;
-//		$data['amount']      = $referral['amount'];
 
-		if ( self::$aff_user_register && ! empty( self::$aff_user_register_pattern ) ) {
-				$this->affs_send_sms( $mobile, self::$aff_user_register_pattern, $data );
+		if ( self::$aff_user_register && ! empty( self::$aff_user_register_pattern ) && ! empty($mobile) ) {
+			$this->affs_send_sms( $mobile, self::$aff_user_register_pattern, $data );
 		}
 		if ( self::$aff_admin_user_register && ! empty( self::$aff_admin_user_register_pattern ) && ! empty( Farazsms_Base::$admin_number ) ) {
-				$this->affs_send_sms( Farazsms_Base::$admin_number, self::$aff_admin_user_register_pattern, $data );
+			$this->affs_send_sms( Farazsms_Base::$admin_number, self::$aff_admin_user_register_pattern, $data );
 		}
 	}
 
 	/**
-     * Yith WooCommerce Affiliate Send SMS on affiliate approval.
-     *
+	 * Yith WooCommerce Affiliate Send SMS on affiliate approval.
+	 *
 	 * @param $id
 	 *
 	 * @return void
 	 */
 	public function fsms_yith_wcaf_set_affiliate_status( $id ) {
-		$affiliate = YITH_WCAF_Affiliates()->get_affiliate_by_id($id);
+		$affiliate = YITH_WCAF_Affiliates()->get_affiliate_by_id( $id );
 
 		$user                  = get_user_by( 'id', $affiliate['user_id'] );
 		$data['user_login']    = $user->user_login;
 		$data['user_nicename'] = $user->nickname;
 		$data['user_email']    = $user->user_email;
 		$data['display_name']  = $user->display_name;
-		$mobile                = get_user_meta( $id, 'farazsms_affiliate_phone' )[0] ?? '';
-		if ( $mobile == '' ) {
-			$mobile = get_user_meta( $id, 'digits_phone_no' )[0] ?? '';
-		}
-		if ( $mobile == '' ) {
-			$mobile = get_user_meta( $id, 'wupp_mobile' )[0] ?? '';
-		}
+		$mobile                = get_user_meta( $user->ID, 'farazsms_affiliate_phone' )[0] ?? '';
 		if ( empty( $mobile ) && ! empty( self::$aff_user_mobile_field ) ) {
 			$mobile = get_user_meta( $id, self::$aff_user_mobile_field, true );
-		}
-		if ( empty( $mobile ) ) {
-			return;
 		}
 		if ( str_starts_with( $mobile, '9' ) ) {
 			$mobile = '0' . $mobile;
 		}
 		$data['user_mobile'] = $mobile;
-		if ( self::$aff_user_on_approval ) {
-			if ( ! empty( $user ) ) {
+		if ( self::$aff_user_on_approval && ! empty( $user ) && ! empty($mobile) ) {
 				$this->affs_send_sms( $mobile, self::$aff_user_on_approval_pattern, $data );
-			}
 		}
-		if ( self::$aff_admin_user_on_approval ) {
-			if ( ! empty( self::$aff_admin_user_on_approval_pattern ) && ! empty( Farazsms_Base::$admin_number ) ) {
+		if ( self::$aff_admin_user_on_approval && ! empty( self::$aff_admin_user_on_approval_pattern ) && ! empty( Farazsms_Base::$admin_number ) ) {
 				$this->affs_send_sms( Farazsms_Base::$admin_number, self::$aff_admin_user_on_approval_pattern, $data );
-			}
 		}
 	}
 
 	/**
-     * Yith WooCommerce Affiliate add mobile field to registration form.
-     *
+	 * Yith WooCommerce Affiliate add mobile field to registration form.
+	 *
 	 * @return void
 	 */
-	public function fsms_yith_wcaf_add_mobile_field()
-	{
-		$farazsms_affiliate_phone = !empty($_POST['farazsms_affiliate_phone']) ? $_POST['farazsms_affiliate_phone'] : '';
+	public function fsms_yith_wcaf_add_mobile_field() {
+		$farazsms_affiliate_phone = ! empty( $_POST['farazsms_affiliate_phone'] ) ? $_POST['farazsms_affiliate_phone'] : '';
 
 		$fields = "
         <p class='form-row form-row-wide'>
-            <label for='farazsms_affiliate_phone'>" . __('Phone:', 'farazsms') . " <span class='required'>*</span></label>
-            <input type='text' class='input-text' name='farazsms_affiliate_phone' id='farazsms_affiliate_phone' value='$farazsms_affiliate_phone' required placeholder='" . __('Enter your phone number', 'farazsms') . "' />
+            <label for='farazsms_affiliate_phone'>" . __( 'Phone:', 'farazsms' ) . " <span class='required'>*</span></label>
+            <input type='text' class='input-text' name='farazsms_affiliate_phone' id='farazsms_affiliate_phone' value='$farazsms_affiliate_phone' required placeholder='" . __( 'Enter your phone number', 'farazsms' ) . "' />
         </p>
     ";
 		echo $fields;
@@ -403,17 +398,16 @@ class Farazsms_Aff {
 	 *
 	 * @return void
 	 */
-	public function fsms_yith_wcaf_add_mobile_field_on_settings()
-	{
+	public function fsms_yith_wcaf_add_mobile_field_on_settings() {
 		$user = get_current_user_id();
 
-		if ($user) {
-			$farazsms_affiliate_phone = get_user_meta($user, 'farazsms_affiliate_phone', true);
+		if ( $user ) {
+			$farazsms_affiliate_phone = get_user_meta( $user, 'farazsms_affiliate_phone', true );
 
 			$fields = "
             <p class='form-row form-row-wide'>
-                <label for='farazsms_affiliate_phone'>" . __('Phone:', 'farazsms') . "</label>
-                <input type='text' class='input-text' name='farazsms_affiliate_phone' id='farazsms_affiliate_phone' value='$farazsms_affiliate_phone' required placeholder='" . __('Enter your phone number', 'farazsms') . "' />
+                <label for='farazsms_affiliate_phone'>" . __( 'Phone:', 'farazsms' ) . "</label>
+                <input type='text' class='input-text' name='farazsms_affiliate_phone' id='farazsms_affiliate_phone' value='$farazsms_affiliate_phone' required placeholder='" . __( 'Enter your phone number', 'farazsms' ) . "' />
             </p>
         ";
 			echo $fields;
@@ -421,32 +415,16 @@ class Farazsms_Aff {
 	}
 
 	/**
-     *  Yith WooCommerce Affiliate register mobile field.
-     *
-	 * @param $id
+	 *  Yith WooCommerce Affiliate register mobile field on settings.
 	 *
-	 * @return void
-	 */
-	public function fsms_yith_wcaf_register_mobile_field($id)
-	{
-		$affiliate = YITH_WCAF_Affiliates()->get_affiliate_by_id($id);
-
-		if (isset($_POST['farazsms_affiliate_phone'])) {
-			update_user_meta($affiliate['user_id'], 'farazsms_affiliate_phone', sanitize_text_field($_POST['farazsms_affiliate_phone']));
-		}
-	}
-
-	/**
-     *  Yith WooCommerce Affiliate register mobile field on settings.
 	 * @param $change
 	 * @param $id
 	 *
 	 * @return void
 	 */
-	public function fsms_yith_wcaf_register_mobile_field_settings($change, $id)
-	{
-		if (isset($_POST['farazsms_affiliate_phone'])) {
-			update_user_meta($id, 'farazsms_affiliate_phone', sanitize_text_field($_POST['farazsms_affiliate_phone']));
+	public function fsms_yith_wcaf_register_mobile_field_settings( $change, $id ) {
+		if ( isset( $_POST['farazsms_affiliate_phone'] ) ) {
+			update_user_meta( $id, 'farazsms_affiliate_phone', sanitize_text_field( $_POST['farazsms_affiliate_phone'] ) );
 		}
 	}
 
