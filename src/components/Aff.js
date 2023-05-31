@@ -82,7 +82,7 @@ function Aff(props) {
         name: "aff_user_on_approval",
         type: "checkbox",
         label: __(
-          "Confirmation of the cooperation account in sales for user",
+          "Approval of the cooperation account in sales for user",
           "farazsms"
         ),
       },
@@ -94,7 +94,7 @@ function Aff(props) {
         name: "aff_user_on_approval_pattern",
         type: "text",
         label: __(
-          "Account confirmation pattern code for cooperation in sales",
+          "Account approval pattern code for cooperation in sales",
           "farazsms"
         ),
       },
@@ -143,7 +143,7 @@ function Aff(props) {
         name: "aff_admin_user_on_approval",
         type: "checkbox",
         label: __(
-          "Confirmation of the cooperation account in sales for user",
+          "Approval of the cooperation account in sales for user",
           "farazsms"
         ),
       },
@@ -155,7 +155,7 @@ function Aff(props) {
         name: "aff_admin_user_on_approval_pattern",
         type: "text",
         label: __(
-          "Account confirmation pattern code for cooperation in sales",
+          "Account approval pattern code for cooperation in sales",
           "farazsms"
         ),
         infoTitle: __("Usable variables:", "farazsms"),
