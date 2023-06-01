@@ -106,9 +106,6 @@ class Farazsms_Aff {
 		add_action( 'uap_register_form_before_submit_button', [ $this, 'farazsms_uap_add_phone_field' ] );
 		add_action( 'uap_save_affiliate_action', [ $this, 'farazsms_uap_save_phone_metadata' ], 10, 2 );
         add_action('uap_public_action_save_referral', [$this, 'farazsms_uap_send_sms_on_new_referral'],10 , 1);
-//		add_filter( 'uap_settings_fields', [ $this, 'farazsms_uap_add_phone_field_settings' ] );
-//        add_action('uap_update_user_settings', 'farazsms_uap_update_phone_metadata', 10, 2);
-
 	}
 
 	/**
@@ -562,39 +559,6 @@ class Farazsms_Aff {
 		    $this->affs_send_sms( Farazsms_Base::$admin_number, self::$aff_admin_user_new_ref_pattern, $data );
 	    }
     }
-
-	/**
-	 * @param $settings
-	 *
-	 * @return mixed
-	 */
-	public function farazsms_uap_add_phone_field_settings( $settings ) {
-		$phone_field = [
-			'label'       => 'Phone',
-			'name'        => 'farazsms_affiliate_phone',
-			'type'        => 'text',
-			'section'     => 'uap_general_section',
-			'value'       => '',
-			'description' => 'Enter your phone number.',
-		];
-
-		$settings[] = $phone_field;
-
-		return $settings;
-	}
-
-	/**
-	 * @param $user_id
-	 * @param $data
-	 *
-	 * @return void
-	 */
-	public function farazsms_uap_update_phone_metadata( $user_id, $data ) {
-		if ( isset( $data['farazsms_affiliate_phone'] ) ) {
-			$phone = sanitize_text_field( $data['farazsms_affiliate_phone'] );
-			update_user_meta( $user_id, 'farazsms_affiliate_phone', $phone );
-		}
-	}
 
 }
 
