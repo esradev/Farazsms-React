@@ -86,7 +86,7 @@ class Farazsms_Aff {
 		// Yith WooCommerce Affiliate
 		add_action( 'yith_wcaf_new_affiliate', [ $this, 'fsms_yith_wcaf_register_mobile_field' ] );
 		add_action( 'yith_wcaf_affiliate_enabled', [ $this, 'fsms_yith_wcaf_set_affiliate_status' ] );
-		add_action( 'yith_wcaf_new_commission', [ $this, 'fsms_yith_wcaf_send_new_commission_sms' ], 10, 2 );
+		add_action( 'yith_wcaf_commission_status_pending-payment', [ $this, 'fsms_yith_wcaf_send_new_commission_sms' ], 10, 1 );
 
 		add_action( 'yith_wcaf_register_form', [ $this, 'fsms_yith_wcaf_add_mobile_field' ] );
 		add_action( 'yith_wcaf_settings_form_after_payment_email', [
@@ -385,8 +385,9 @@ class Farazsms_Aff {
 		}
 	}
 
-	public function fsms_yith_wcaf_send_new_commission_sms( $commission_id, $commission ) {
-		$affiliate = YITH_WCAF_Affiliates()->get_affiliate_by_id( $commission['affiliate_id']);
+	public function fsms_yith_wcaf_send_new_commission_sms( $commission_id) {
+        $commission = yith_wcaf_get_commission($commission_id);
+		$affiliate = yith_wcaf_get_affiliate( $commission['affiliate_id']);
 		$user    = get_user_by( 'id', $affiliate['user_id'] );
 
 		$data['user_login']    = $user->user_login;
