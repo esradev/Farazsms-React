@@ -1898,14 +1898,13 @@ msgid "username %name% | time remaining (to day) %time%"
 msgstr "نام کاربری %name% | زمان باقی مانده (تا روز) %time%"
 
 #: build/index.js:13276 src/components/LoginNotify.js:104 build/index.js:11618
-#, fuzzy
 #| msgid ""
 #| "username %user_login% and user name %display_name% and login date %date%"
 msgid ""
 "username %user_login% and user display name %display_name% and login date "
 "%date%"
 msgstr ""
-"نام کاربری %user_login% و نام کاربری %display_name% و تاریخ ورود %date%"
+"نام کاربری %user_login% و نام نمایشی کاربر %display_name% و تاریخ ورود %date%"
 
 #: build/index.js:11404 src/components/Aff.js:162 build/index.js:9745
 #| msgid ""

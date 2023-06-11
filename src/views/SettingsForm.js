@@ -96,9 +96,13 @@ function SettingsForm({
         )}
         <SaveButton isSaving={isSaving} buttonText={buttonText} />
       </form>
-      <button className="cancel_submit_action" onClick={handelCancel}>
-        {cancelButtonText}
-      </button>
+      {cancelButtonText ? (
+        <button className="cancel_submit_action" onClick={handelCancel}>
+          {cancelButtonText}
+        </button>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
