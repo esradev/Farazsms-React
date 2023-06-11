@@ -1,3 +1,8 @@
+Version 2.7.3 - Sunday, 11th June 2023
+- Added edit functionality to WooCommerce order actions.
+- Fixed some reported bugs
+- Improved some translations.
+=======
 Version 2.7.2 - Thursday, 1th June 2023
 - Fixing the problem of the SMS section of marketing plugins not working properly
 - Fixed the problem of not recognizing some Digits plugin versions

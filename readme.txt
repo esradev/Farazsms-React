@@ -2,9 +2,9 @@
 Contributors: farazsmsdeveloper
 Tags: Mobile Verification, order notification, order sms, sms plugin, woocommerce sms integration, digits sms, gravity form sms, bookly sms
 Requires at least: 5.8
-Tested up to: 6.2
-Requires PHP: 7.2
-Stable tag: 2.7.2
+Tested up to: 6.2.2
+Requires PHP: 7.4
+Stable tag: 2.7.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -115,6 +115,9 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 فقط می توانید از بخش پشتیبانی در تنظیمات افزونه Farazsms استفاده کنید و جزئیات مربوط به باگی را که پیدا کردید برای ما ارسال کنید.
 
 == Changelog ==
+= 2.7.3=
+- اضافه کردن قابلیت ویرایش عملگرهای سفارشات ووکامرس
+- رفع برخی از مشکلات گزارش شده
 = 2.7.2 =
 - رفع مشکل عدم کارکرد درست بخش پیامک افزونه های بازاریابی
 - رفع مشکل عدم شناسائی برخی از نسخه های پلاگین دیجیتس
