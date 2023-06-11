@@ -57,6 +57,25 @@
 .contact-delete:hover {
   background-color: #e84848;
 }
+.contact-edit {
+  background-color: #0077ec;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin: 0px 10px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.contact-edit:hover {
+  background-color: #004081;
+}
 
 .contact-sync {
   background-color: #28a745;

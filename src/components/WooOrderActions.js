@@ -136,10 +136,10 @@ function WooOrderActions(props) {
         onChange: "only_included_productsChange",
         name: "only_included_products",
         type: "select",
-        label: __("Included Products:", "farazsms"),
+        label: __("Only Included Products:", "farazsms"),
         infoTitle: __("Info", "farazsms"),
         infoBody: __(
-          "In this section, you must specify Included Products, that you want to do the action on any order that has them.",
+          "In this section, you must specify Included Products, that you want to do the action on any order that only has them.",
           "farazsms"
         ),
         option: [],
@@ -319,6 +319,8 @@ function WooOrderActions(props) {
     checkAction: false,
     isFetching: false,
     isSaving: false,
+    editAction: false,
+    edited_action_id: 0,
     sendCount: 0,
     sectionName: __("WooCommerce Order SMS", "farazsms"),
   };
@@ -403,7 +405,7 @@ function WooOrderActions(props) {
         draft.inputs.included_products.value = action.value;
         return;
       case "only_included_productsChange":
-        draft.inputs.included_products.value = action.value;
+        draft.inputs.only_included_products.value = action.value;
         return;
       case "excluded_productsChange":
         draft.inputs.excluded_products.value = action.value;
@@ -416,19 +418,13 @@ function WooOrderActions(props) {
         if (action.value.value === "save_customer_mobile_to_phonebook") {
           draft.inputs.mobile_meta_key.isDependencyUsed = true;
           draft.inputs.woo_order_phonebook.isDependencyUsed = true;
+          draft.inputs.action_time.value = "";
           draft.inputs.action_time.isDependencyUsed = false;
           draft.inputs.sms_pattern.isDependencyUsed = false;
           draft.inputs.sms_message.isDependencyUsed = false;
-        } else if (action.value.value === "send_sms_to_customer") {
-          draft.inputs.mobile_meta_key.isDependencyUsed = true;
-          draft.inputs.woo_order_phonebook.isDependencyUsed = false;
-          draft.inputs.action_time.isDependencyUsed = true;
-        } else if (action.value.value === "send_sms_to_vendor") {
-          draft.inputs.mobile_meta_key.isDependencyUsed = true;
-          draft.inputs.woo_order_phonebook.isDependencyUsed = false;
-          draft.inputs.action_time.isDependencyUsed = true;
+          draft.inputs.time.isDependencyUsed = false;
         } else {
-          draft.inputs.mobile_meta_key.isDependencyUsed = false;
+          draft.inputs.mobile_meta_key.isDependencyUsed = true;
           draft.inputs.woo_order_phonebook.isDependencyUsed = false;
           draft.inputs.action_time.isDependencyUsed = true;
         }
@@ -457,10 +453,14 @@ function WooOrderActions(props) {
           draft.inputs.time.isDependencyUsed = false;
           draft.inputs.sms_pattern.isDependencyUsed = true;
           draft.inputs.sms_message.isDependencyUsed = false;
-        } else {
+        } else if (action.value.value === "timed") {
           draft.inputs.time.isDependencyUsed = true;
           draft.inputs.sms_pattern.isDependencyUsed = false;
           draft.inputs.sms_message.isDependencyUsed = true;
+        } else {
+          draft.inputs.time.isDependencyUsed = false;
+          draft.inputs.sms_pattern.isDependencyUsed = false;
+          draft.inputs.sms_message.isDependencyUsed = false;
         }
         return;
       case "timeChange":
@@ -484,6 +484,40 @@ function WooOrderActions(props) {
       case "dontCheckActions":
         draft.checkAction = false;
         return;
+      case "edit_action":
+        draft.editAction = true;
+        return;
+      case "edited_action_id":
+        draft.edited_action_id = action.value;
+        return;
+      case "cancel_edit_action":
+        draft.editAction = false;
+        return;
+      case "fill_form_with_edited_data":
+        draft.inputs.title.value = action.value?.title;
+        draft.inputs.order_type.value = action.value?.order_type?.type;
+        draft.inputs.minimum_order_total.value =
+          action.value?.order_type?.minimum_order_total;
+        draft.inputs.maximum_order_total.value =
+          action.value?.order_type?.maximum_order_total;
+        draft.inputs.order_turn.value = action.value?.order_type?.order_turn;
+        draft.inputs.included_products.value =
+          action.value?.order_type?.included_products;
+        draft.inputs.only_included_products.value =
+          action.value?.order_type?.only_included_products;
+        draft.inputs.excluded_products.value =
+          action.value?.order_type?.excluded_products;
+        draft.inputs.order_status.value = action.value?.order_status;
+        draft.inputs.action.value = action.value?.action?.type;
+        draft.inputs.woo_order_phonebook.value =
+          action.value?.action?.phonebook;
+        draft.inputs.mobile_meta_key.value =
+          action.value?.action?.mobile_meta_key;
+        draft.inputs.action_time.value = action.value?.action?.action_time;
+        draft.inputs.time.value = action.value?.action?.time;
+        draft.inputs.sms_pattern.value = action.value?.action?.sms_pattern;
+        draft.inputs.sms_message.value = action.value?.action?.sms_message;
+        return;
       case "clearForm":
         draft.inputs.title.value = "";
         draft.inputs.order_type.value = "";
@@ -501,6 +535,19 @@ function WooOrderActions(props) {
         draft.inputs.time.value = "";
         draft.inputs.sms_pattern.value = "";
         draft.inputs.sms_message.value = "";
+        draft.inputs.minimum_order_total.isDependencyUsed = false;
+        draft.inputs.maximum_order_total.isDependencyUsed = false;
+        draft.inputs.order_turn.isDependencyUsed = false;
+        draft.inputs.included_products.isDependencyUsed = false;
+        draft.inputs.only_included_products.isDependencyUsed = false;
+        draft.inputs.excluded_products.isDependencyUsed = false;
+        draft.inputs.time.isDependencyUsed = false;
+        draft.inputs.mobile_meta_key.isDependencyUsed = false;
+        draft.inputs.woo_order_phonebook.isDependencyUsed = false;
+        draft.inputs.action_time.isDependencyUsed = false;
+        draft.inputs.sms_pattern.isDependencyUsed = false;
+        draft.inputs.sms_message.isDependencyUsed = false;
+        draft.inputs.time.isDependencyUsed = false;
         return;
       case "saveRequestStarted":
         draft.isSaving = true;
@@ -529,6 +576,8 @@ function WooOrderActions(props) {
               maximum_order_total: state.inputs.maximum_order_total.value ?? "",
               order_turn: state.inputs.order_turn.value ?? "",
               included_products: state.inputs.included_products.value ?? "",
+              only_included_products:
+                state.inputs.only_included_products.value ?? "",
               excluded_products: state.inputs.excluded_products.value ?? "",
             },
             order_status: state.inputs.order_status.value,
@@ -559,6 +608,57 @@ function WooOrderActions(props) {
     }
 
     add_woocommerce_order_action_to_db();
+  }
+
+  function handleEdit(e) {
+    e.preventDefault();
+    dispatch({ type: "saveRequestStarted" });
+    async function edit_woocommerce_order_action_on_db() {
+      try {
+        const updatedAction = await AxiosWp.post(
+          "/farazsms/v1/edit_woocommerce_order_action_on_db",
+          {
+            action_id: state.edited_action_id,
+            title: state.inputs.title.value,
+            order_type: {
+              type: state.inputs.order_type.value,
+              minimum_order_total: state.inputs.minimum_order_total.value ?? "",
+              maximum_order_total: state.inputs.maximum_order_total.value ?? "",
+              order_turn: state.inputs.order_turn.value ?? "",
+              included_products: state.inputs.included_products.value ?? "",
+              only_included_products:
+                state.inputs.only_included_products.value ?? "",
+              excluded_products: state.inputs.excluded_products.value ?? "",
+            },
+            order_status: state.inputs.order_status.value,
+            action: {
+              type: state.inputs.action.value,
+              phonebook: state.inputs.woo_order_phonebook.value ?? "",
+              mobile_meta_key: state.inputs.mobile_meta_key.value ?? "",
+              sms_pattern: state.inputs.sms_pattern.value ?? "",
+              sms_message: state.inputs.sms_message.value ?? "",
+              action_time: state.inputs.action_time.value ?? "",
+              time: state.inputs.time.value ?? "",
+            },
+          }
+        );
+        dispatch({ type: "saveRequestFinished" });
+        dispatch({ type: "clearForm" });
+        dispatch({ type: "checkActions" });
+        appDispatch({
+          type: "flashMessage",
+          value: {
+            message: __("Action Updated successfully.", "farazsms"),
+          },
+        });
+        console.log(updatedAction);
+        dispatch({ type: "cancel_edit_action" });
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    edit_woocommerce_order_action_on_db();
   }
 
   /**
@@ -748,6 +848,43 @@ function WooOrderActions(props) {
     }
   };
 
+  const editAction = async (action_id) => {
+    dispatch({ type: "edited_action_id", value: action_id });
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    try {
+      const res = await AxiosWp.post(
+        "/farazsms/v1/get_woocommerce_order_action_from_db_to_edit",
+        {
+          action_id: action_id,
+        }
+      );
+
+      const data = res.data;
+      // Parse nested objects
+      data.order_type = JSON.parse(data.order_type);
+      data.order_status = JSON.parse(data.order_status);
+
+      data.action = JSON.parse(data.action);
+      dispatch({ type: "order_typeChange", value: data.order_type.type });
+      dispatch({ type: "actionChange", value: data.action.type });
+      dispatch({ type: "action_timeChange", value: data.action.action_time });
+      dispatch({ type: "fill_form_with_edited_data", value: data });
+      dispatch({ type: "edit_action" });
+      appDispatch({
+        type: "flashMessage",
+        value: {
+          message: __("You now can edit your action.", "farazsms"),
+          type: "warning",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSelectAction = (action_id) => {
     if (selectedActions.includes(action_id)) {
       setSelectedActions(selectedActions.filter((s) => s !== action_id));
@@ -781,6 +918,22 @@ function WooOrderActions(props) {
     }
   };
 
+  const handelCancel = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    dispatch({ type: "clearForm" });
+    dispatch({ type: "cancel_edit_action" });
+    appDispatch({
+      type: "flashMessage",
+      value: {
+        message: __("The form was reset.", "farazsms"),
+        type: "warning",
+      },
+    });
+  };
+
   if (state.isFetching) return <LoadingSpinner />;
 
   if (props.integratedPlugins?.woocommerce?.use) {
@@ -794,10 +947,16 @@ function WooOrderActions(props) {
             dispatchNoPhonebooks={handleNoPhonebooks}
             sectionName={state.sectionName}
             inputs={state.inputs}
-            handleSubmit={handleSubmit}
+            handleSubmit={state.editAction ? handleEdit : handleSubmit}
             dispatch={dispatch}
             isSaving={state.isSaving}
-            buttonText={__("Add Action", "farazsms")}
+            buttonText={
+              state.editAction
+                ? __("Edit Action", "farazsms")
+                : __("Add Action", "farazsms")
+            }
+            cancelButtonText={__("Cancel", "farazsms")}
+            handelCancel={handelCancel}
           />
         </div>
         {state.wooOrderActions && (
@@ -810,6 +969,7 @@ function WooOrderActions(props) {
                   <th>{__("On Order status", "farazsms")}</th>
                   <th>{__("Action type", "farazsms")}</th>
                   <th>{__("Delete", "farazsms")}</th>
+                  <th>{__("Edit", "farazsms")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -831,6 +991,14 @@ function WooOrderActions(props) {
                         onClick={() => deleteAction(action)}
                       >
                         {__("Delete", "farazsms")}
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        className="contact-edit"
+                        onClick={() => editAction(action.id)}
+                      >
+                        {__("Edit", "farazsms")}
                       </button>
                     </td>
                   </tr>

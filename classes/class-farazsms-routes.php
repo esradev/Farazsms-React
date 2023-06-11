@@ -373,6 +373,15 @@ class Farazsms_Routes {
 			]
 		] );
 
+		//Register edit_woocommerce_order_action_on_db rest route
+		register_rest_route( $namespace, '/' . 'edit_woocommerce_order_action_on_db', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'edit_woocommerce_order_action_on_db' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
+
 		//Register get_woocommerce_order_actions_from_db rest route
 		register_rest_route( $namespace, '/' . 'get_woocommerce_order_actions_from_db', [
 			[
@@ -396,6 +405,15 @@ class Farazsms_Routes {
 			[
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'delete_woocommerce_order_actions_from_db' ],
+				'permission_callback' => [ $this, 'permissions_check' ],
+			]
+		] );
+
+		//Register get_woocommerce_order_action_from_db_to_edit rest route
+		register_rest_route( $namespace, '/' . 'get_woocommerce_order_action_from_db_to_edit', [
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_woocommerce_order_action_from_db_to_edit' ],
 				'permission_callback' => [ $this, 'permissions_check' ],
 			]
 		] );
@@ -1183,6 +1201,30 @@ class Farazsms_Routes {
 		return $wpdb->insert( $table_name, $data );
 	}
 
+	public static function edit_woocommerce_order_action_on_db( $incomingData ) {
+		global $wpdb;
+
+		$action_id = intval($incomingData['action_id']);
+
+		$data = [
+			'title'        => $incomingData['title'] ?: '',
+			'order_type'   => json_encode( $incomingData['order_type'] ) ?: '',
+			'order_status' => json_encode( $incomingData['order_status'] ) ?: '',
+			'action'       => json_encode( $incomingData['action'] ) ?: '',
+		];
+
+		$table_name = $wpdb->prefix . 'farazsms_woocommerce_order_actions';
+
+		$result = $wpdb->update(
+			$table_name,
+			$data,
+			[ 'id' => $action_id ]
+		);
+
+		return $result;
+	}
+
+
 	public static function get_woocommerce_order_actions_from_db() {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'farazsms_woocommerce_order_actions';
@@ -1207,6 +1249,19 @@ class Farazsms_Routes {
 
 		return $wpdb->query( $sql );
 	}
+
+	public static function get_woocommerce_order_action_from_db_to_edit( $data ) {
+		global $wpdb;
+
+		$table_name = $wpdb->prefix . 'farazsms_woocommerce_order_actions';
+
+		$query = $wpdb->prepare( "SELECT * FROM $table_name WHERE id = %d", $data['action_id'] );
+
+		$result = $wpdb->get_row( $query );
+
+		return $result;
+	}
+
 
 
 	/**

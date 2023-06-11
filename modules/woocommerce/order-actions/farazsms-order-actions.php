@@ -215,7 +215,7 @@ class Farazsms_Order_Actions {
 		}
 
 		// Check the included products criteria
-		$included_products = $order_type['included_products'] ?? null;
+		$included_products = $order_type['included_products'] ?? $order_type['only_included_products'] ??null;
 
 		if ( $included_products !== null ) {
 			$product_ids = array_map( function ( $product ) {

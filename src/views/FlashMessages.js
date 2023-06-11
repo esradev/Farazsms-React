@@ -14,6 +14,8 @@ function FlashMessages(props) {
               "alert text-center floating-alert shadow-sm " +
               (props.flashMessages.type === "error"
                 ? "alert-danger"
+                : props.flashMessages.type === "warning"
+                ? "alert-warning"
                 : "alert-success")
             }
           >
